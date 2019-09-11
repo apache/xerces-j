@@ -16,6 +16,7 @@
  */
 package org.apache.html.dom;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLIFrameElement;
 
 /**
@@ -148,6 +149,12 @@ public class HTMLIFrameElementImpl
     public void setWidth( String width )
     {
         setAttribute( "width", width );
+    }
+    
+    
+    // added, so that xerces can be built with JDK 9 & above
+    public Document getContentDocument() {
+        return null;
     }
 
     

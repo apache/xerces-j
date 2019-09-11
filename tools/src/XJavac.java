@@ -46,15 +46,17 @@ public class XJavac extends Javac {
      * @exception BuildException if the compilation has problems.
      */
     public void execute() throws BuildException {
-        if(isJDK14OrHigher()) {
+        Properties props = null;
+        try {
+            props = System.getProperties();
+        } catch (Exception e) {
+            throw new BuildException("unable to determine java vendor because could not access system properties!");
+        }
+        String currBCP = (String)props.get("sun.boot.class.path");      // this property is absent / null with JDK 9 & above
+        
+        if(isJDK14OrHigher() && !(currBCP == null)) {
             // maybe the right one; check vendor:
-            // by checking system properties:
-            Properties props = null;
-            try {
-                props = System.getProperties();
-            } catch (Exception e) {
-                throw new BuildException("unable to determine java vendor because could not access system properties!");
-            }
+            // by checking system properties:            
             // this is supposed to be provided by all JVM's from time immemorial
             String vendor = ((String)props.get("java.vendor")).toUpperCase(Locale.ENGLISH);
             if (vendor.indexOf("IBM") >= 0) {
@@ -76,8 +78,7 @@ public class XJavac extends Javac {
                 // we must use the classpath
                 Path bcp = createBootclasspath();
                 Path clPath = getClasspath();
-                bcp.append(clPath);
-                String currBCP = (String)props.get("sun.boot.class.path");
+                bcp.append(clPath);                
                 Path currBCPath = new Path(null); 
                 currBCPath.createPathElement().setPath(currBCP);
                 bcp.append(currBCPath);

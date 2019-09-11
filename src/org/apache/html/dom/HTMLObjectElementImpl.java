@@ -16,6 +16,7 @@
  */
 package org.apache.html.dom;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLObjectElement;
 
 /**
@@ -239,6 +240,11 @@ public class HTMLObjectElementImpl
         setAttribute( "width", width );
     }
 
+    
+    // added, so that xerces can be built with JDK 9 & above
+    public Document getContentDocument() {
+        return null;
+    }
     
     
     /**

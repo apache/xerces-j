@@ -16,6 +16,7 @@
  */
 package org.apache.html.dom;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLFrameElement;
 
 /**
@@ -125,6 +126,12 @@ public class HTMLFrameElementImpl
     public void setSrc( String src )
     {
         setAttribute( "src", src );
+    }
+    
+    
+    // added, so that xerces can be built with JDK 9 & above
+    public Document getContentDocument() {
+        return null;
     }
 
     

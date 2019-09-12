@@ -129,7 +129,7 @@ public class HTMLFrameElementImpl
     }
     
     
-    // added, so that xerces can be built with JDK 9 & above
+    // method added, so that xerces can be built with JDK 9 & above
     public Document getContentDocument() {
         return null;
     }

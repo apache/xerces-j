@@ -18,7 +18,7 @@
 package org.apache.xerces.util;
 
 /**
- * This class is an unsynchronized hash table primary used for String
+ * This class is an unsynchronized hash table primarily used for String
  * to Object mapping.
  * <p>
  * The hash code uses the same algorithm as SymbolTable class.

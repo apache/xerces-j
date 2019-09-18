@@ -1912,7 +1912,7 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
         if(annotation == null)
             return;
         // it isn't very likely that there will be more than one annotation
-        // in a complexType decl.  This saves us fromhaving to push/pop
+        // in a complexType decl. This saves us from having to push/pop
         // one more object from the fGlobalStore, and that's bound
         // to be a savings for most applications
         if(fAnnotations == null) {
@@ -1929,10 +1929,7 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
         if (assertion == null) {
             return;
         }
-        // it isn't very likely that there will be more than one annotation
-        // in a complexType decl.  This saves us fromhaving to push/pop
-        // one more object from the fGlobalStore, and that's bound
-        // to be a savings for most applications
+        
         if (fAssertions == null) {
             fAssertions = new XSAssertImpl[1];
         }

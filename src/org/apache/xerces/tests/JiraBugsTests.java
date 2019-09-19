@@ -438,5 +438,48 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		   assertTrue(false);
 		}
 	}
+	
+	public void testJira_1674_3() {
+		String xmlfile = fDataDir+"/jira_bugs/1674_3.xml";
+		String schemapath = fDataDir+"/jira_bugs/1674_2.xsd";		
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testJira_1674_4() {
+		String xmlfile = fDataDir+"/jira_bugs/1674_4.xml";	
+		String schemapath = fDataDir+"/jira_bugs/1674_2.xsd";	
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 3);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-maxInclusive-valid: Value '1003' is not facet-valid with respect to maxInclusive '1000' for type 'y_INT'");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-type.3.1.3: The value '1003' of element 'y' is not valid");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-assertion: Assertion evaluation ('y mod 2 = 0') for element 'X' on schema type 'Y2' did not succeed");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
 		
 }

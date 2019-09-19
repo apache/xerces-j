@@ -417,5 +417,26 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		   assertTrue(false);
 		}
 	}
+	
+	public void testJira_1674_2() {
+		String xmlfile = fDataDir+"/jira_bugs/1674_2.xml";	
+		String schemapath = fDataDir+"/jira_bugs/1674_1.xsd";	
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-assertion: Assertion evaluation ('y mod 2 = 0') for element 'X' on schema type 'Y2' did not succeed");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
 		
 }

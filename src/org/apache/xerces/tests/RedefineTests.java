@@ -149,5 +149,26 @@ public class RedefineTests extends XercesAbstractTestCase {
 		   assertTrue(false);
 		}
 	}
+	
+	public void testXSRedefine7() {
+		String xmlfile = fDataDir+"/redefine/main_1.xml";
+		String schemapath = fDataDir+"/redefine/main_3.xsd";		
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-assertion: Assertion evaluation ('ns0:y mod 2 = 0') for element 'x' on schema type 'T1' did not succeed. XPST0081 : Unknown prefix: ns0");
+            expectedMsgList.add(mesgFragments);           
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
 
 }

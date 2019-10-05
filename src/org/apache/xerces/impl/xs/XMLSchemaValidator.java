@@ -96,6 +96,7 @@ import org.xml.sax.SAXNotSupportedException;
  * @author Elena Litani IBM
  * @author Andy Clark IBM
  * @author Neeraj Bajaj, Sun Microsystems, inc.
+ * @author Mukul Gandhi IBM
  * @version $Id$
  */
 public class XMLSchemaValidator extends XMLSchemaValidatorBase implements XMLComponent, XMLDocumentFilter, RevalidationHandler {

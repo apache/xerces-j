@@ -779,12 +779,9 @@ public class XMLSchemaValidatorBase implements XSElementDeclHelper, FieldActivat
     //this is the function where logic of retrieving grammar is written , parser first tries to get the grammar from
     //the local pool, if not in local pool, it gives chance to application to be able to retrieve the grammar, then it
     //tries to parse the grammar using location hints from the give namespace.
-    SchemaGrammar findSchemaGrammar(
-        short contextType,
-        String namespace,
-        QName enclosingElement,
-        QName triggeringComponent,
-        XMLAttributes attributes) {
+    SchemaGrammar findSchemaGrammar(short contextType, String namespace,
+                                    QName enclosingElement, QName triggeringComponent,
+                                    XMLAttributes attributes) {
         SchemaGrammar grammar = null;
         //get the grammar from local pool...
         grammar = fGrammarBucket.getGrammar(namespace);
@@ -873,7 +870,7 @@ public class XMLSchemaValidatorBase implements XSElementDeclHelper, FieldActivat
 
         return grammar;
 
-    } //findSchemaGrammar
+    } // findSchemaGrammar
     
     private boolean hasSchemaComponent(SchemaGrammar grammar, short contextType, QName triggeringComponent) {
         if (grammar != null && triggeringComponent != null) {

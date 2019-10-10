@@ -41,8 +41,8 @@ import org.apache.xerces.impl.xs.XSWildcardDecl;
 import org.apache.xerces.impl.xs.assertion.Test;
 import org.apache.xerces.impl.xs.assertion.XSAssertImpl;
 import org.apache.xerces.impl.xs.util.XInt;
-import org.apache.xerces.impl.xs.util.XSObjectListImpl;
 import org.apache.xerces.impl.xs.util.XS11TypeHelper;
+import org.apache.xerces.impl.xs.util.XSObjectListImpl;
 import org.apache.xerces.util.DOMUtil;
 import org.apache.xerces.util.XMLChar;
 import org.apache.xerces.util.XMLSymbols;
@@ -79,7 +79,7 @@ import org.w3c.dom.Element;
  * @version $Id$
  */
 
-class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
+class XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
     
     // size of stack to hold globals:
     private final static int GLOBAL_NUM = 13;
@@ -799,8 +799,7 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
                             schemaDoc,grammar,fComplexTypeDecl);
                     if (node != null) {
                         if (isAssert(node)) {
-                            traverseAsserts(node, schemaDoc, grammar,
-                                    fComplexTypeDecl);
+                            traverseAsserts(node, schemaDoc, grammar, fComplexTypeDecl);
                         } else {
                             // either XML Schema 1.0 or a non assert element
                             fAttrChecker.returnAttrArray(simpleContentAttrValues, schemaDoc);
@@ -812,8 +811,7 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
                         }
                     }
                 } else if (isAssert(attrOrAssertNode)) {
-                    traverseAsserts(attrOrAssertNode, schemaDoc, grammar,
-                            fComplexTypeDecl);
+                    traverseAsserts(attrOrAssertNode, schemaDoc, grammar, fComplexTypeDecl);
                 } else  {
                     fAttrChecker.returnAttrArray(simpleContentAttrValues, schemaDoc);
                     fAttrChecker.returnAttrArray(derivationTypeAttrValues, schemaDoc);
@@ -858,8 +856,7 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
 
                     if (node != null) {
                         if (isAssert(node)) {
-                            traverseAsserts(node, schemaDoc, grammar,
-                                            fComplexTypeDecl);
+                            traverseAsserts(node, schemaDoc, grammar, fComplexTypeDecl);
                         } else {
                             // a non assert element after attributes is an error
                             fAttrChecker.returnAttrArray(simpleContentAttrValues, schemaDoc);
@@ -872,8 +869,7 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
                     }
                 }
                 else if (isAssert(attrOrAssertNode)) {
-                    traverseAsserts(attrOrAssertNode, schemaDoc, grammar,
-                            fComplexTypeDecl);
+                    traverseAsserts(attrOrAssertNode, schemaDoc, grammar, fComplexTypeDecl);
                 }
                 else {
                     fAttrChecker.returnAttrArray(simpleContentAttrValues, schemaDoc);
@@ -1647,8 +1643,7 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
 
                 if (node != null) {
                     if (isAssert(node)) {
-                        traverseAsserts(node, schemaDoc, grammar,
-                                fComplexTypeDecl);
+                        traverseAsserts(node, schemaDoc, grammar, fComplexTypeDecl);
                     } else {
                         // a non assert element after attributes is an error
                         throw new ComplexTypeRecoverableError(
@@ -1659,8 +1654,7 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
                 }
             }
             else if (isAssert(attrOrAssertNode)) {
-                traverseAsserts(attrOrAssertNode, schemaDoc, grammar,
-                        fComplexTypeDecl);
+                traverseAsserts(attrOrAssertNode, schemaDoc, grammar, fComplexTypeDecl);
             }
             else {
                 throw new ComplexTypeRecoverableError("s4s-elt-invalid-content.1",
@@ -1738,8 +1732,8 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
             Test testExpr = new Test(testStr, schemaDoc.fNamespaceSupport, assertImpl);
             String xpathDefaultNamespace = getXPathDefaultNamespaceForAssert(assertElement, schemaDoc, attrValues);
             assertImpl.setTest(testExpr, assertElement);
-            assertImpl.setXPathDefaultNamespace(xpathDefaultNamespace);
-            assertImpl.setXPath2NamespaceContext(new SchemaNamespaceSupport(schemaDoc.fNamespaceSupport));
+            assertImpl.setXPathDefaultNamespace(xpathDefaultNamespace);            
+            assertImpl.setXPath2NamespaceContext(new SchemaNamespaceSupport(schemaDoc.fNamespaceSupport));            
             String assertMessage = XMLChar.trim(assertElement.getAttributeNS(SchemaSymbols.URI_XERCES_EXTENSIONS, SchemaSymbols.ATT_ASSERT_MESSAGE));
             if (!"".equals(assertMessage)) {
                assertImpl.setMessage(assertMessage);

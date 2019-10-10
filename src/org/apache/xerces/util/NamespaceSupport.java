@@ -181,6 +181,36 @@ public class NamespaceSupport implements NamespaceContext {
         return true;
 
     } // declarePrefix(String,String):boolean
+    
+    public boolean deletePrefix(String prefix) {
+        // ignore "xml" and "xmlns" prefixes
+        if (prefix == XMLSymbols.PREFIX_XML || prefix == XMLSymbols.PREFIX_XMLNS) {
+            return false;
+        }
+                
+        boolean prefixFound = false;
+        String[] nsCopy = new String[fNamespaceSize];
+        int nsCopyIdx = 0;
+        // search for prefix in current context
+        for (int i = 0; i < fNamespaceSize; i += 2) {
+            if (fNamespace[i] == prefix) {
+                prefixFound = true;
+            }
+            else {
+                nsCopy[nsCopyIdx++] = fNamespace[i];
+                nsCopy[nsCopyIdx++] = fNamespace[i + 1];
+            }
+        }
+        
+        if (prefixFound) {
+            fNamespaceSize -= 2;
+            fNamespace = nsCopy;
+            return true;
+        }
+        
+        return false;
+        
+    } // deletePrefix(String):boolean
 
 	/**
 	 * @see org.apache.xerces.xni.NamespaceContext#getURI(String)

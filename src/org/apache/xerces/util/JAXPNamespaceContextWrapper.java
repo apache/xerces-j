@@ -127,6 +127,10 @@ public final class JAXPNamespaceContextWrapper implements NamespaceContext {
     public boolean declarePrefix(String prefix, String uri) {
         return true;
     }
+    
+    public boolean deletePrefix(String prefix) {
+        return true;
+    }
 
     public int getDeclaredPrefixCount() {
         return (fPrefixes != null) ? fPrefixes.size() : 0;

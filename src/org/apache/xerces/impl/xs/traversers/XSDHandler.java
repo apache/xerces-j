@@ -324,7 +324,7 @@ public class XSDHandler {
     // Records which nodes are hidden when the input is a DOMInputSource.
     Hashtable fHiddenNodes = null;
 
-    // Conditional inclustion
+    // Conditional inclusion
     private static final String XSD_VERSION_1_0 = "1.0";
     private static final String XSD_VERSION_1_1 = "1.1";
 
@@ -569,9 +569,8 @@ public class XSDHandler {
      * @return the SchemaGrammar
      * @throws IOException
      */
-    public SchemaGrammar parseSchema(XMLInputSource is, XSDDescription desc,
-            Hashtable locationPairs)
-    throws IOException {
+    public SchemaGrammar parseSchema(XMLInputSource is, XSDDescription desc, 
+                                     Hashtable locationPairs) throws IOException {
         fLocationPairs = locationPairs;
         fSchemaParser.resetNodePool();   
         SchemaGrammar grammar = null;
@@ -1004,8 +1003,8 @@ public class XSDHandler {
         
         Element newSchemaRoot = null;
         for (Element child = DOMUtil.getFirstChildElement(rootNode);
-        child != null;
-        child = DOMUtil.getNextSiblingElement(child)) {
+                     child != null;
+                     child = DOMUtil.getNextSiblingElement(child)) {
             String schemaNamespace=null;
             String schemaHint=null;
             String localName = DOMUtil.getLocalName(child);

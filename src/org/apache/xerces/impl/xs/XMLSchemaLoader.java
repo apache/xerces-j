@@ -632,9 +632,8 @@ XSLoader, DOMConfiguration {
      * @throws IOException
      * @throws XNIException
      */
-    SchemaGrammar loadSchema(XSDDescription desc,
-            XMLInputSource source,
-            Hashtable locationPairs) throws IOException, XNIException {
+    SchemaGrammar loadSchema(XSDDescription desc, XMLInputSource source,
+                             Hashtable locationPairs) throws IOException, XNIException {
         
         // this should only be done once per invocation of this object;
         // unless application alters JAXPSource in the mean time.
@@ -644,7 +643,7 @@ XSLoader, DOMConfiguration {
         SchemaGrammar grammar = fSchemaHandler.parseSchema(source, desc, locationPairs);
         
         return grammar;
-    } // loadSchema(XSDDescription, XMLInputSource):  SchemaGrammar
+    } // loadSchema(XSDDescription, XMLInputSource, Hashtable):  SchemaGrammar
     
     /** 
      * This method tries to resolve location of the given schema.

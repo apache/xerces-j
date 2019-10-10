@@ -537,6 +537,10 @@ final class DOMValidatorHelper implements ValidatorHelper, EntityState {
         public boolean declarePrefix(String prefix, String uri) {
             return fNamespaceContext.declarePrefix(prefix, uri);
         }
+        
+        public boolean deletePrefix(String prefix) {
+            return fNamespaceContext.deletePrefix(prefix);
+        }
 
         public String getURI(String prefix) {
             String uri = fNamespaceContext.getURI(prefix);

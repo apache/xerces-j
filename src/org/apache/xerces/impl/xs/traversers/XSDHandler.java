@@ -1848,22 +1848,21 @@ public class XSDHandler {
     }
 
     // since it is forbidden for traversers to talk to each other
-    // directly (except wen a traverser encounters a local declaration),
+    // directly (except when a traverser encounters a local declaration),
     // this provides a generic means for a traverser to call
     // for the traversal of some declaration.  An XSDocumentInfo is
     // required because the XSDocumentInfo that the traverser is traversing
     // may bear no relation to the one the handler is operating on.
     // This method will:
-    // 1.  See if a global definition matching declToTraverse exists;
+    // 1. see if a global definition matching declToTraverse exists.
     // 2. if so, determine if there is a path from currSchema to the
     // schema document where declToTraverse lives (i.e., do a lookup
-    // in DependencyMap);
+    // in DependencyMap).
     // 3. depending on declType (which will be relevant to step 1 as
     // well), call the appropriate traverser with the appropriate
     // XSDocumentInfo object.
-    // This method returns whatever the traverser it called returned;
-    // this will be an Object of some kind
-    // that lives in the Grammar.
+    // This method returns whatever the traverser it called returned.
+    // This will be an Object of some kind that lives in the Grammar.
     protected Object getGlobalDecl(XSDocumentInfo currSchema,
             int declType,
             QName declToTraverse,

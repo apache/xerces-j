@@ -1732,7 +1732,7 @@ class XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
             Test testExpr = new Test(testStr, schemaDoc.fNamespaceSupport, assertImpl);
             String xpathDefaultNamespace = getXPathDefaultNamespaceForAssert(assertElement, schemaDoc, attrValues);
             assertImpl.setTest(testExpr, assertElement);
-            assertImpl.setXPathDefaultNamespace(xpathDefaultNamespace);            
+            assertImpl.setXPathDefaultNamespace(xpathDefaultNamespace);
             assertImpl.setXPath2NamespaceContext(new SchemaNamespaceSupport(schemaDoc.fNamespaceSupport));            
             String assertMessage = XMLChar.trim(assertElement.getAttributeNS(SchemaSymbols.URI_XERCES_EXTENSIONS, SchemaSymbols.ATT_ASSERT_MESSAGE));
             if (!"".equals(assertMessage)) {

@@ -481,5 +481,42 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		   assertTrue(false);
 		}
 	}
+	
+	public void testJira_1674_5() {
+		String xmlfile = fDataDir+"/jira_bugs/1674_5.xml";
+		String schemapath = fDataDir+"/jira_bugs/1674_5.xsd";		
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testJira_1674_6() {
+		String xmlfile = fDataDir+"/jira_bugs/1674_5.xml";	
+		String schemapath = fDataDir+"/jira_bugs/1674_6.xsd";	
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-assertion: Assertion evaluation ('ns0:y mod 2 = 0') for element 'X' on schema type 'Y2' did not succeed. XPST0081 : Unknown prefix: ns0");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
 		
 }

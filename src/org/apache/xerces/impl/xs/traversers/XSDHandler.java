@@ -393,6 +393,10 @@ public class XSDHandler {
     // schema documents are represented by XSDocumentInfo objects.
     private Hashtable fOverrideDependencyMap = new Hashtable();
     
+    // map between a schema document, and DOM nodes corresponding to xs:override
+    // that are present in the schema.
+    private Hashtable fOverrideDependencyMapNsNormalization = new Hashtable();
+    
     // map between <redefine> elements and the namespace support
     private Hashtable fRedefine2NSSupport = new Hashtable();
     
@@ -999,6 +1003,7 @@ public class XSDHandler {
         fDoc2XSDocumentMap.put(schemaRoot, currSchemaInfo);
         Vector dependencies = new Vector();
         Vector overrideDependencies = new Vector();
+        Vector overrideDependenciesNsNormalization = new Vector();
         Element rootNode = schemaRoot;
         
         Element newSchemaRoot = null;
@@ -1275,7 +1280,8 @@ public class XSDHandler {
             }
             if (fSchemaVersion == Constants.SCHEMA_VERSION_1_1 && localName.equals(SchemaSymbols.ELT_OVERRIDE) && newSchemaInfo != null) {
                 // record this override dependency
-                overrideDependencies.addElement(newSchemaInfo);  
+                overrideDependencies.addElement(newSchemaInfo);
+                overrideDependenciesNsNormalization.addElement(child);
             }
             if (newSchemaRoot != null) {
                 if (newSchemaInfo != null)
@@ -1286,8 +1292,11 @@ public class XSDHandler {
         
         if (fSchemaVersion == Constants.SCHEMA_VERSION_1_1) {
            fOverrideDependencyMap.put(currSchemaInfo, overrideDependencies);
+           fOverrideDependencyMapNsNormalization.put(currSchemaInfo, overrideDependenciesNsNormalization);
         }
+        
         fDependencyMap.put(currSchemaInfo, dependencies);
+        
         return currSchemaInfo;
     } // end constructTrees
     
@@ -4010,7 +4019,7 @@ public class XSDHandler {
      * Find if the current schema document is overridden by another schema document. If yes, then
      * return the overriding schema document.
      */
-    private XSDocumentInfo getOverridingSchemaDocument(XSDocumentInfo currSchema) {
+    XSDocumentInfo getOverridingSchemaDocument(XSDocumentInfo currSchema) {
         
         XSDocumentInfo schemaDoc = null;
         
@@ -4027,6 +4036,28 @@ public class XSDHandler {
         return schemaDoc;
         
     } // getOverridingSchemaDocument
+    
+    /*
+     * For a given schema document object (the 'currSchema' argument), this method finds
+     * the DOM reference element for xs:override, that has overriden the given schema.
+     */
+    Element getOverridingXSElement(XSDocumentInfo currSchema) {
+        
+        Enumeration overridingSchemas = fOverrideDependencyMap.keys();
+        while (overridingSchemas.hasMoreElements()) {
+            XSDocumentInfo overridingSchema = (XSDocumentInfo)overridingSchemas.nextElement();
+            Vector overridenSchemas = (Vector)fOverrideDependencyMap.get(overridingSchema);
+            Vector overridingElems = (Vector)fOverrideDependencyMapNsNormalization.get(overridingSchema);
+            for (int idx = 0; idx < overridenSchemas.size(); idx++) {
+                if (currSchema.equals(overridenSchemas.get(idx))) {
+                    return (Element)overridingElems.get(idx);
+                }
+            }
+        }
+        
+        return null;
+        
+    } // getOverridingXSElement
 
     private boolean removeParticle(XSModelGroupImpl group, XSParticleDecl particle) {
         XSParticleDecl member;

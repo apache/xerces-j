@@ -16,6 +16,7 @@
  */
 package org.apache.xerces.impl.xs.traversers;
 
+import java.util.Enumeration;
 import java.util.Vector;
 
 import org.apache.xerces.impl.Constants;
@@ -1732,8 +1733,9 @@ class XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
             Test testExpr = new Test(testStr, schemaDoc.fNamespaceSupport, assertImpl);
             String xpathDefaultNamespace = getXPathDefaultNamespaceForAssert(assertElement, schemaDoc, attrValues);
             assertImpl.setTest(testExpr, assertElement);
-            assertImpl.setXPathDefaultNamespace(xpathDefaultNamespace);
-            assertImpl.setXPath2NamespaceContext(new SchemaNamespaceSupport(schemaDoc.fNamespaceSupport));            
+            assertImpl.setXPathDefaultNamespace(xpathDefaultNamespace);            
+            SchemaNamespaceSupport schemaNamespaceSupport = normalizeNsContextForAssertInOverride(schemaDoc, assertElement);
+            assertImpl.setXPath2NamespaceContext(schemaNamespaceSupport);            
             String assertMessage = XMLChar.trim(assertElement.getAttributeNS(SchemaSymbols.URI_XERCES_EXTENSIONS, SchemaSymbols.ATT_ASSERT_MESSAGE));
             if (!"".equals(assertMessage)) {
                assertImpl.setMessage(assertMessage);
@@ -1761,8 +1763,113 @@ class XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
 
         fAttrChecker.returnAttrArray(attrValues, schemaDoc);
         
-    } // traverseAsserts
+    } // traverseAsserts    
     
+    /*
+     * For the case when xs:assert is present as descendant of xs:override, restoring part of namespace context
+     * that is modified due to xs:override transformation. 
+     */
+    private SchemaNamespaceSupport normalizeNsContextForAssertInOverride(XSDocumentInfo schemaDoc, Element assertElement) {
+        
+        SchemaNamespaceSupport schemaNamespaceSupport = new SchemaNamespaceSupport(schemaDoc.fNamespaceSupport);
+        XSDocumentInfo overridingSchemaDoc = fSchemaHandler.getOverridingSchemaDocument(schemaDoc);
+        Enumeration allPrefixes = null;
+        
+        if (overridingSchemaDoc != null) {            
+            allPrefixes = schemaNamespaceSupport.getAllPrefixes();
+            while (allPrefixes.hasMoreElements()) {
+                String prefix = (String)allPrefixes.nextElement();
+                if (isNsDeclOnSchemaElementOfOverridenSchema(prefix, assertElement)) {
+                    schemaNamespaceSupport.deletePrefix(prefix);
+                }
+            }
+            
+            Element overridingXsElem = fSchemaHandler.getOverridingXSElement(schemaDoc);
+            Attr[] attrNodes = DOMUtil.getAttrs(overridingXsElem);
+            for (int idx = 0; idx < attrNodes.length; idx++) {
+                Attr attr = attrNodes[idx];
+                String attrName = attr.getName();
+                int indexOfColonInAttrName = attrName.indexOf(':');
+                if (indexOfColonInAttrName != -1) {
+                    String nsPrefix = attrName.substring(indexOfColonInAttrName + 1);
+                    String nsUri = attr.getValue();
+                    schemaNamespaceSupport.declarePrefix(nsPrefix, nsUri);
+                }
+            }
+            
+            allPrefixes = overridingSchemaDoc.fNamespaceSupport.getAllPrefixes();
+            while (allPrefixes.hasMoreElements()) {
+                String prefix = (String)allPrefixes.nextElement();
+                if (!(prefix == XMLSymbols.PREFIX_XML || prefix == XMLSymbols.PREFIX_XMLNS || isNsDeclOnComplexTypeTree(prefix, assertElement))) {
+                    schemaNamespaceSupport.declarePrefix(prefix, overridingSchemaDoc.fNamespaceSupport.getURI(prefix));
+                }
+            }
+        }
+        
+        return schemaNamespaceSupport;
+        
+    } // normalizeNsContextForAssertInOverride
+    
+    /*
+     * During xs:assert evaluations that are descendant of xs:override, this method finds whether a given namespace prefix
+     * is declared on xs:schema element of the overridden schema.
+     */
+    private boolean isNsDeclOnSchemaElementOfOverridenSchema(String prefix, Element assertElement) {
+        
+        boolean isNamespaceDeclOnSchemaElement = false;
+        
+        Element docElement = DOMUtil.getRoot(DOMUtil.getDocument(assertElement));
+        Attr[] attrNodes = DOMUtil.getAttrs(docElement);
+        for (int idx = 0; idx < attrNodes.length; idx++) {
+            Attr attr = attrNodes[idx];
+            String attrName = attr.getName();
+            int indexOfColonInAttrName = attrName.indexOf(':');
+            if (indexOfColonInAttrName != -1) {
+                String nsPrefix = attrName.substring(indexOfColonInAttrName + 1);
+                if (nsPrefix.equals(prefix)) {
+                    isNamespaceDeclOnSchemaElement = true;
+                    break;
+                }
+            }
+        }
+        
+        return isNamespaceDeclOnSchemaElement;
+        
+    } // isNsDeclOnSchemaElementOfOverridenSchema
+    
+    /*
+     * During xs:assert evaluations that are descendant of xs:override, this method finds whether a given namespace prefix 
+     * is declared on XSD schema elements that are ancestors of xs:assert under evaluation, upto an XSD element that is child 
+     * of xs:schema element.
+     */
+    private boolean isNsDeclOnComplexTypeTree(String prefix, Element elem) {
+        
+        boolean isNsDeclOnComplexTypeTree = false;
+        
+        Attr[] attrNodes = DOMUtil.getAttrs(elem);
+        for (int idx = 0; idx < attrNodes.length; idx++) {
+            Attr attr = attrNodes[idx];
+            String attrName = attr.getName();
+            int indexOfColonInAttrName = attrName.indexOf(':');
+            if (indexOfColonInAttrName != -1) {
+                String nsPrefix = attrName.substring(indexOfColonInAttrName + 1);
+                if (nsPrefix.equals(prefix)) {
+                    isNsDeclOnComplexTypeTree = true;
+                    break;
+                }
+            }
+        }
+        
+        if (!isNsDeclOnComplexTypeTree) {
+            Element parentElem = DOMUtil.getParent(elem);             
+            if (parentElem != DOMUtil.getRoot(DOMUtil.getDocument(parentElem))) {
+                isNsDeclOnComplexTypeTree = isNsDeclOnComplexTypeTree(prefix, parentElem); 
+            }
+        }
+        
+        return isNsDeclOnComplexTypeTree;
+        
+    } // isNsDeclOnComplexTypeTree
     
     /*
      * Get effective value of 'xpathDefaultNamespace' for assert.

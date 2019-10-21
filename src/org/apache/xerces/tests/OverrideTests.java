@@ -204,5 +204,45 @@ public class OverrideTests extends XercesAbstractTestCase {
 		   assertTrue(false);
 		}
 	}
+	
+	public void testXSOverride8() {
+		String xmlfile = fDataDir+"/override/ov_1_valid.xml";
+		String schemapath = fDataDir+"/override/ov_1.xsd";		
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testXSOverride9() {
+		String xmlfile = fDataDir+"/override/ov_1_invalid.xml";
+		String schemapath = fDataDir+"/override/ov_1.xsd";			
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 2);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-assertion: Assertion evaluation ('y mod 2 = 0') for element 'x1' on schema type 'CT1' did not succeed");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-assertion: Assertion evaluation ('y mod 2 != 0') for element 'x2' on schema type 'CT2' did not succeed");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
 
 }

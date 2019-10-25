@@ -19,12 +19,11 @@
 <s1 title='&ParserNameLong; Readme'>
   <s2 title='&ParserNameLong; &ParserVersion; Release'>
     <p>
-      Welcome to the future! Xerces2 is the next generation of
-      high performance, fully compliant XML parsers in the Apache
-      Xerces family. This new version of Xerces introduces the
-      Xerces Native Interface (XNI), a complete framework for
-      building parser components and configurations that is
-      extremely modular and easy to program. 
+      Welcome to the home of Xerces Java. Xerces2 provides high performance, 
+      fully compliant XML parsers in the Apache Xerces family. This new version 
+      of Xerces continues to build upon the Xerces Native Interface (XNI), a 
+      complete framework for building parser components and configurations that 
+      is extremely modular and easy to program. 
     </p>
     <p>
       The Apache Xerces2 parser is the reference implementation 

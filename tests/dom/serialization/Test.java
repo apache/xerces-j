@@ -45,7 +45,7 @@ public class Test {
     public static void main(String args[]) {
 
         if (args.length != 2) {
-            System.out.println("Usage: serialize.Test input.xml output.xml");
+            System.out.println("Usage: dom.serialization.Test input.xml output.xml");
             System.exit(1);
         }
 

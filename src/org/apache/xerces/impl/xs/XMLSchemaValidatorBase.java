@@ -310,6 +310,7 @@ public class XMLSchemaValidatorBase implements XSElementDeclHelper, FieldActivat
         null,
         null,
         null,
+        null,
         null
     };
 

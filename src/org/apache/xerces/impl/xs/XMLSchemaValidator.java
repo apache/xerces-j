@@ -4248,7 +4248,7 @@ public class XMLSchemaValidator
             if (fKeyValueStore == null) {
                 // report error
                 String code = "KeyRefOutOfScope";
-                String value = fIdentityConstraint.toString();
+                String value = fIdentityConstraint.getName();
                 reportSchemaError(code, new Object[] { value });
                 return;
             }

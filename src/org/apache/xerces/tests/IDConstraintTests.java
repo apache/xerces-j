@@ -64,7 +64,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
             // test expected error messages
             List expectedMsgList = new ArrayList();
             FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [a2] declared for identity constraint \"key_a\" of element \"X\"");
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [a2] found for identity constraint \"key_a\" of element \"X\"");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));
 		} catch(Exception ex) {
@@ -101,7 +101,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
             // test expected error messages
             List expectedMsgList = new ArrayList();
             FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [a2] declared for identity constraint \"key_a\" of element \"X\"");
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [a2] found for identity constraint \"key_a\" of element \"X\"");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));
 		} catch(Exception ex) {
@@ -138,7 +138,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
             // test expected error messages
             List expectedMsgList = new ArrayList();
             FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [a2] declared for identity constraint \"key_a\" of element \"X\"");
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [a2] found for identity constraint \"key_a\" of element \"X\"");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));
 		} catch(Exception ex) {
@@ -175,7 +175,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
             // test expected error messages
             List expectedMsgList = new ArrayList();
             FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [a2] declared for identity constraint \"key_a\" of element \"X\"");
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [a2] found for identity constraint \"key_a\" of element \"X\"");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));
 		} catch(Exception ex) {
@@ -286,7 +286,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
             // test expected error messages
             List expectedMsgList = new ArrayList();
             FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [a2] declared for identity constraint \"key_a\" of element \"X\"");
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [a2] found for identity constraint \"key_a\" of element \"X\"");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));
 		} catch(Exception ex) {

@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 /**
@@ -329,6 +330,190 @@ public class IDConstraintTests extends XercesAbstractTestCase {
             List expectedMsgList = new ArrayList();
             FailureMesgFragments mesgFragments = new FailureMesgFragments();
             mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'keyref' with value '1' not found for identity constraint of element 'personnel'");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint17() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/idc_1_valid_1.xml";
+		String schemapath = fDataDir+"/idconstraints/idc_1.xsd";	
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);            
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint18() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/idc_1_invalid_1.xml";
+		String schemapath = fDataDir+"/idconstraints/idc_1.xsd";	
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 3);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [nffg1] found for identity constraint \"nffgName_key\" of element \"root\"");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 3);
+            // test expected error messages
+            expectedMsgList = new ArrayList();
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [nffg1] found for identity constraint \"nffgName_key\" of element \"root\"");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint19() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/idc_1_invalid_2.xml";
+		String schemapath = fDataDir+"/idconstraints/idc_1.xsd";	
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 3);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node1] found for identity constraint \"nodeName_key\" of element \"nffg\"");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 3);
+            // test expected error messages
+            expectedMsgList = new ArrayList();
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node1] found for identity constraint \"nodeName_key\" of element \"nffg\"");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint20() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/idc_1_invalid_3.xml";
+		String schemapath = fDataDir+"/idconstraints/idc_1.xsd";	
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 4);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node1] found for identity constraint \"nodeName_key\" of element \"nffg\"");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node2] found for identity constraint \"nodeName_key\" of element \"nffg\"");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 4);
+            // test expected error messages
+            expectedMsgList = new ArrayList();
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node1] found for identity constraint \"nodeName_key\" of element \"nffg\"");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node2] found for identity constraint \"nodeName_key\" of element \"nffg\"");
+            expectedMsgList.add(mesgFragments);
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));
 		} catch(Exception ex) {

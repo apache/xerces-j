@@ -43,6 +43,7 @@ public class OverrideTests extends XercesAbstractTestCase {
 		String xmlfile = fDataDir+"/override/test1.xml";
 		String schemapath = fDataDir+"/override/test1.xsd";		
 		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);

@@ -75,6 +75,7 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 		System.setProperty("javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema/v1.1", SCHEMA_11_FACTORY);
 		fDataDir = System.getProperty("org.apache.xerces.tests.dataDir");
 		fSchemaFactory = SchemaFactory.newInstance(SCHEMA_11_LANGUAGE);
+		fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		fSchemaFactory.setFeature(CTA_FULL_XPATH, true);
 		failureList = new ArrayList();
 		warningList = new ArrayList(); 
@@ -86,6 +87,7 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 		failureList = null;
 		warningList = null;
 		checkOnlyWarnings = false;
+		fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, false);
 		fSchemaFactory.setFeature(CTA_FULL_XPATH, false);
 	}
 	

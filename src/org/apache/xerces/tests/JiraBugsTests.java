@@ -184,6 +184,7 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		String xmlfile = fDataDir+"/jira_bugs/3.xml";	
 		String schemapath = fDataDir+"/jira_bugs/3.xsd";	
 		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);
@@ -207,6 +208,7 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		String xmlfile = fDataDir+"/jira_bugs/3_1.xml";	
 		String schemapath = fDataDir+"/jira_bugs/3_1.xsd";	
 		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);
@@ -254,6 +256,7 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		String xmlfile = fDataDir+"/jira_bugs/ag.xml";	
 		String schemapath = fDataDir+"/jira_bugs/ag3.xsd";	
 		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);
@@ -298,6 +301,7 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		String xmlfile = fDataDir+"/jira_bugs/gr.xml";	
 		String schemapath = fDataDir+"/jira_bugs/gr3.xsd";	
 		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);

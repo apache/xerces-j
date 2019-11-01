@@ -117,6 +117,7 @@ public class TargetNamespaceTests extends XercesAbstractTestCase {
             // test 'b'
             // run validation in XSD 1.0 mode
     		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+    		fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
     		s = fSchemaFactory.newSchema(new StreamSource(schemapath));
     		v = s.newValidator();
 		    v.setErrorHandler(this);

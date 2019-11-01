@@ -344,6 +344,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
 		String xmlfile = fDataDir+"/idconstraints/idc_1_valid_1.xml";
 		String schemapath = fDataDir+"/idconstraints/idc_1.xsd";	
 		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);
@@ -372,6 +373,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
 		String xmlfile = fDataDir+"/idconstraints/idc_1_invalid_1.xml";
 		String schemapath = fDataDir+"/idconstraints/idc_1.xsd";	
 		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);
@@ -422,6 +424,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
 		String xmlfile = fDataDir+"/idconstraints/idc_1_invalid_2.xml";
 		String schemapath = fDataDir+"/idconstraints/idc_1.xsd";	
 		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);
@@ -472,6 +475,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
 		String xmlfile = fDataDir+"/idconstraints/idc_1_invalid_3.xml";
 		String schemapath = fDataDir+"/idconstraints/idc_1.xsd";	
 		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);

@@ -57,7 +57,8 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 	}
 
 	protected void setUp() throws Exception {		
-		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);		
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		failureList = new ArrayList();
 		warningList = new ArrayList(); 
 	}

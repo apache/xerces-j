@@ -26,8 +26,6 @@ import javax.xml.validation.SchemaFactory;
 
 import junit.framework.TestCase;
 
-import org.apache.xerces.xs.ElementPSVI;
-import org.apache.xerces.xs.XSSimpleTypeDefinition;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -87,8 +85,7 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 		fWarningSysId = exception.getSystemId();
 		fErrorMessage = exception.getMessage();
 		warningList.add(new Warning(fWarningSysId, fErrorMessage));
-	}
-	
+	}	
 	
 	/*
 	 * Are error messages generated during the validation episode, as specified in the test case.
@@ -103,8 +100,7 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 			}
 		}		
 		return isErrorMesgsOk;		
-	} // areErrorMessagesConsistent
-	
+	} // areErrorMessagesConsistent	
 	
 	/*
 	 * Checks fragments of one error/failure message.
@@ -150,18 +146,7 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 		return areMesgFragsOk;
 		
 	} // areMesgFragmentsOk
-	
-	
-	protected String getMemberTypePsviInfo(ElementPSVI elmPsviInfo) {		
-		String memTypeStr = null;
-		XSSimpleTypeDefinition memType = elmPsviInfo.getMemberTypeDefinition();
-    	if (memType != null) {
-    		memTypeStr = memType.getName();
-    	}    	
-    	return memTypeStr;    	
-	} // getMemberTypePsviInfo
-	
-	
+		
 	class XercesFailure {
 	   String systemId;
 	   String failureMessage;
@@ -194,4 +179,4 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 		}		
 	}
 	
-}
+} // XercesAbstractTestCase

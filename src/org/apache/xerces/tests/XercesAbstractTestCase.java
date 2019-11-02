@@ -107,8 +107,7 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 		fWarningSysId = exception.getSystemId();
 		fErrorMessage = exception.getMessage();
 		warningList.add(new Warning(fWarningSysId, fErrorMessage));
-	}
-	
+	}	
 	
 	/*
 	 * Are error messages generated during the validation episode, as specified in the test case.
@@ -123,8 +122,7 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 			}
 		}		
 		return isErrorMesgsOk;		
-	} // areErrorMessagesConsistent
-	
+	} // areErrorMessagesConsistent	
 	
 	/*
 	 * Checks fragments of one error/failure message.
@@ -169,8 +167,7 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 
 		return areMesgFragsOk;
 		
-	} // areMesgFragmentsOk
-	
+	} // areMesgFragmentsOk	
 	
 	protected String getMemberTypePsviInfo(ElementPSVI elmPsviInfo) {		
 		String memTypeStr = null;
@@ -179,8 +176,7 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
     		memTypeStr = memType.getName();
     	}    	
     	return memTypeStr;    	
-	} // getMemberTypePsviInfo
-	
+	} // getMemberTypePsviInfo	
 	
 	class XercesFailure {
 	   String systemId;
@@ -244,4 +240,4 @@ public class XercesAbstractTestCase extends TestCase implements ErrorHandler {
 		return psviElement.getTypeAlternative();
 	}
 	
-}
+} // XercesAbstractTestCase

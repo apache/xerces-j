@@ -21,6 +21,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
 
+import org.xml.sax.SAXParseException;
+
 /**
  * @xerces.internal
  * 
@@ -140,10 +142,11 @@ public class OpenContentTests extends XercesAbstractTestCase {
             assertNull(fErrSysId);
             assertNull(fFatErrSysId);
 		} catch(Exception ex) {
-		   ex.printStackTrace();
-		   // schema is incorrect. an exception indicates, that this test 
-		   // has 'passed'.
-		   assertTrue(true);
+		   // schema is incorrect. an exception indicates, that this test has 'passed'.
+		   assertEquals(ex instanceof SAXParseException, true);		   
+		   assertEquals("src-ct11.3: Complex Type Definition Representation Error for type 'BookPublication'. "
+		   		        + "If <openContent> is present and has mode = none, then there must not be an <any> among "
+		   		        + "the [children] of <openContent>.", ex.getMessage());
 		}
 	}
 	

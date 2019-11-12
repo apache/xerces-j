@@ -25,6 +25,8 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.xml.sax.SAXParseException;
+
 /**
  * @xerces.internal
  * 
@@ -1004,6 +1006,62 @@ public class IDConstraintTests extends XercesAbstractTestCase {
             expectedMsgList = new ArrayList();
             mesgFragments = new FailureMesgFragments();
             mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.1.a: Element \"root\" has no value for the key \"key_1\"");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint35() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/idc_ref_attr_valid_1.xml";
+		String schemapath = fDataDir+"/idconstraints/idc_ref_attr_1.xsd";	
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   // schema is incorrect. an exception indicates, that this test has 'passed'.
+		   assertEquals(ex instanceof SAXParseException, true);		   
+		   assertEquals("s4s-att-not-allowed: Attribute 'ref' cannot appear in element 'key'.", ex.getMessage());
+		}
+	}
+	
+	public void testIDConstraint36() {
+		String xmlfile = fDataDir+"/idconstraints/idc_ref_attr_valid_1.xml";
+		String schemapath = fDataDir+"/idconstraints/idc_ref_attr_1.xsd";	
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint37() {		
+		String xmlfile = fDataDir+"/idconstraints/idc_ref_attr_invalid_1.xml";
+		String schemapath = fDataDir+"/idconstraints/idc_ref_attr_1.xsd";			
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [2] found for identity constraint \"a_key\" of element \"Y\"");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));
 		} catch(Exception ex) {

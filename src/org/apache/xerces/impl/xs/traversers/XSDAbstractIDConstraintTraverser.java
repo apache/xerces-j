@@ -208,13 +208,14 @@ class XSDAbstractIDConstraintTraverser extends XSDAbstractTraverser {
         // General Attribute Checking
         Object[] attrValues = fAttrChecker.checkAttributes(icElem, false, schemaDoc);        
         QName referredIcQName = (QName)attrValues[XSAttributeChecker.ATTIDX_REF];
-        
-        IdentityConstraint referredIc = (IdentityConstraint)fSchemaHandler.getGlobalDecl(schemaDoc, XSDHandler.IDENTITYCONSTRAINT_TYPE, referredIcQName, icElem);
-        // TODO: If the referredIc had a problem such as the refer attribute did not resolve to a unique/key, 
-        //       the referredIc will not have been built but it will be hidden.
-        //       When we try to get its declaration, it will display Internal error.
-        //       Same thing happens when a keyref has refer attribute which is its own name.  But the internal error would be correct.
-        
+        IdentityConstraint referredIc = null;
+        if (referredIcQName != null) {
+            referredIc = (IdentityConstraint)fSchemaHandler.getGlobalDecl(schemaDoc, XSDHandler.IDENTITYCONSTRAINT_TYPE, referredIcQName, icElem);
+            // TODO: If the referredIc had a problem such as the refer attribute did not resolve to a unique/key, 
+            //       the referredIc will not have been built but it will be hidden.
+            //       When we try to get its declaration, it will display Internal error.
+            //       Same thing happens when a keyref has refer attribute which is its own name.  But the internal error would be correct.
+        }
         if (referredIc == null) {
             fAttrChecker.returnAttrArray(attrValues, schemaDoc);
             return;

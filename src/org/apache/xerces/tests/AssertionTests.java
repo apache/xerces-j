@@ -2376,10 +2376,10 @@ public class AssertionTests extends XercesAbstractTestCase {
             // test expected warning messages
             List expectedMsgList = new ArrayList();
             FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-xpath.3.13.4.2b: An assert XPath expression such as ('/X') containing / or //, on the schema type 'TYP1', cannot yield a valid result (since an assert tree is rooted at a parentless element).");
+            mesgFragments.setMessageFragment("cvc-xpath.3.13.4.2b: An assert XPath expression such as ('/X') starting with / or // is not acceptable, on the schema type 'TYP1' (since an assert XPath tree is rooted at a parentless element).");
             expectedMsgList.add(mesgFragments);
             mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-xpath.3.13.4.2b: An assert XPath expression such as ('X[//Y]') containing / or //, on the schema type 'TYP1', cannot yield a valid result (since an assert tree is rooted at a parentless element).");
+            mesgFragments.setMessageFragment("cvc-xpath.3.13.4.2b: An assert XPath expression such as ('X[//Y]') starting with / or // is not acceptable, on the schema type 'TYP1' (since an assert XPath tree is rooted at a parentless element).");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));            
 		} catch(Exception ex) {

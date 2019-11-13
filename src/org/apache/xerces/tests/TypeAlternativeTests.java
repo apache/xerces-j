@@ -255,7 +255,7 @@ public class TypeAlternativeTests extends XercesAbstractTestCase {
             // test expected warning messages
             List expectedMsgList = new ArrayList();
             FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("c-cta-xpath-b: The CTA XPath expression such as ('/E1') containing / or //, while in 'cta-full' mode, cannot yield a valid result (since a CTA tree is rooted at a parentless element).");
+            mesgFragments.setMessageFragment("c-cta-xpath-b: The CTA XPath expression such as ('/E1') starting with / or // is not acceptable, while in 'cta-full' mode (since a CTA XPath tree is rooted at a parentless element).");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));            
 		} catch(Exception ex) {

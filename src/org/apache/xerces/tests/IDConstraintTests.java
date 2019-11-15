@@ -1069,6 +1069,74 @@ public class IDConstraintTests extends XercesAbstractTestCase {
 		   assertTrue(false);
 		}
 	}
+	
+	public void testIDConstraint38() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/idc_6_valid_1.xml";
+		String schemapath = fDataDir+"/idconstraints/idc_6.xsd";	
+		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);            
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint39() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/idc_6_invalid_1.xml";
+		String schemapath = fDataDir+"/idconstraints/idc_6.xsd";	
+		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [7] found for identity constraint \"key_1\" of element \"X\"");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            expectedMsgList = new ArrayList();
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [7] found for identity constraint \"key_1\" of element \"X\"");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
 
 }
 

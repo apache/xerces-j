@@ -148,11 +148,10 @@
   </s2>
   
   <s2 title='Changes from Previous Release'>
-
     <p>
-      The &ParserNameLong; &ParserVersion; expands on its experimental support for XML Schema 1.1
-      by providing fully compliant XML Schema 1.1 implementation. It fixes several bugs which
-      were present in the previous release and also includes a few other minor enhancements.
+      The &ParserNameLong; &ParserVersion; is a bug fix release, and is largely compatible with
+      the previous release in terms of broad functionality offered. It fixes few bugs which were 
+      present in the previous release and also includes a few other minor enhancements.
     </p>
     <p>
       For a more complete list of changes, refer to the 

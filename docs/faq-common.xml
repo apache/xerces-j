@@ -17,7 +17,7 @@
 -->
 <!DOCTYPE faqs SYSTEM 'dtd/faqs.dtd'>
 <faqs title='Common Problems FAQs'>
- <faq title='Parsing HTML Generated an Error.'>
+ <faq title='Parsing HTML Generated an Error'>
   <q>
    I tried to use &ParserName; to parse an HTML file and it
    generated an error. What did I do wrong?

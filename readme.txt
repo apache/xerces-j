@@ -22,11 +22,11 @@ Configuration notes: Minimum JRE needed to run these tests is 1.5. These unit te
 to the "src" folder, that contain the XML and XSD documents needed for the unit tests. Before invoking this unit test 
 suite, the following argument needs to be provided to the Java VM,
 -Dorg.apache.xerces.tests.dataDir=<path to data directory>
-relative to which the unit tests would retrieve XML and XSD documents.
+(The unit tests, retrieve XML and XSD documents relative to this directory location)
 
 The class "AllXercesXSD11Tests" is the entry point of this unit test suite.
 
 Acknowledgements:
-Many of the XSD 1.1 unit tests in this branch, were contributed by Roger L. Costello (costello@mitre.org), and have 
-been included here with the permission from author. Roger's contributions of useful XSD 1.1 examples to this test 
+Many of the XSD 1.1 unit tests in this SVN branch, were contributed by Roger L. Costello (costello@mitre.org), and have 
+been included here with Roger's permission. Roger's contributions of useful XSD 1.1 examples to this test 
 suite is highly appreciated. Roger has been an active contributor to the XML Schema standards work.

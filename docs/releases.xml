@@ -25,7 +25,13 @@
       and also includes a few other minor enhancements.      
     </p>
    </desc>
-   <changes>     
+   <changes>
+     <add>
+       <note>
+      	  Continued design guidance for Xerces-J implementation.	
+       </note>
+       <submitter name='Michael Glavassevich, Sandy Gao'/>
+     </add>     
      <update>
        <note>
       	  For certain cases, while doing XML Schema 1.1 assert validations, error messages appeared
@@ -48,7 +54,7 @@
         <note>
       	   Xerces-J was previously not building from sources when Java 9+ was used. This release fixes this.
      	</note>
-     	<submitter name='Thomas Pasch, Mukul Gandhi'/>
+     	<submitter name='Thomas Pasch, Mukul Gandhi, Michael Glavassevich'/>
      </fix>
      <fix>
         <note>

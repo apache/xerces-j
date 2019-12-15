@@ -77,6 +77,23 @@ v.validate(instanceDocument);
 	Schema grammar.</p>
       
     </a>
+  </faq>
+  <faq title="Using Entities and CDATA Sections">
+    <q>How does the XML Schema processor treat entities and CDATA sections?</q>
+    <a> 
+      <p>According to the XML Infoset the infoset items contributing to the 
+	<jump href='http://www.w3.org/TR/xml-infoset/#infoitem.character'>[character
+	  information item]</jump> are: characters in the document, whether literally, as
+	a character reference, or within a CDATA section, or within Entity
+	Reference. The XML Schema specification 
+	"requires as a precondition for assessment
+	an information set as defined in [XML-Infoset]" 
+	<jump href='http://www.w3.org/TR/xmlschema-1/#infoset'>(Appendix D)</jump> and thus Xerces might attempt to normalize data in an entity
+	reference or CDATA section.  To preserve character data within entity references and 
+	CDATA sections, 
+	turn off http://apache.org/xml/features/validation/schema/normalized-value feature.
+      </p>
+    </a>
   </faq>  
   <faq title="XPath 2.0 support for XML Schema 1.1 validation">
   	<q>How an XPath 2.0 engine is used for XML Schema 1.1 assertions and CTAs?</q>
@@ -102,24 +119,7 @@ v.validate(instanceDocument);
   	      of the XPath 2.0 processor).
   	   </p>
   	</a>
-  </faq>
-  <faq title="Using Entities and CDATA Sections">
-    <q>How does the XML Schema processor treat entities and CDATA sections?</q>
-    <a> 
-      <p>According to the XML Infoset the infoset items contributing to the 
-	<jump href='http://www.w3.org/TR/xml-infoset/#infoitem.character'>[character
-	  information item]</jump> are: characters in the document, whether literally, as
-	a character reference, or within a CDATA section, or within Entity
-	Reference. The XML Schema specification 
-	"requires as a precondition for assessment
-	an information set as defined in [XML-Infoset]" 
-	<jump href='http://www.w3.org/TR/xmlschema-1/#infoset'>(Appendix D)</jump> and thus Xerces might attempt to normalize data in an entity
-	reference or CDATA section.  To preserve character data within entity references and 
-	CDATA sections, 
-	turn off http://apache.org/xml/features/validation/schema/normalized-value feature.
-      </p>
-    </a>
-  </faq>
+  </faq>  
   <faq title="User defined error messages, for XML Schema 1.1 assertion failures">
      <q>How to specify a user defined error message, when an XML Schema 1.1 assertion returns a 'false' result?</q>
      <a>

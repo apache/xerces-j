@@ -42,7 +42,7 @@
      </update>       
      <fix>
         <note>
-      	   As described in XSD 1.1 REC in the section, "3.2.3 Constraints on XML Representations of 
+      	   As described in 'XSD 1.1 structures' REC in the section, "3.2.3 Constraints on XML Representations of 
       	   Attribute Declarations (Schema Representation Constraint: Attribute Declaration 
       	   Representation)", '5 If fixed and use are both present, use must not have the actual value 
       	   prohibited'. This is newly introduced in XSD 1.1. Fixed a runtime validation issue for this 

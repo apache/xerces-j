@@ -437,5 +437,74 @@ public class IDConstraintTests extends XercesAbstractTestCase {
            assertTrue(false);
         }
     }
+    
+    public void testIDConstraint21() {
+        String xmlfile = "tests/idc/valid_1_1515.xml";
+        String schemapath = "tests/idc/sch_1515.xsd";    
+        try {
+            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+            v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+        } catch(Exception ex) {
+           ex.printStackTrace();
+           assertTrue(false);
+        }
+    }
+    
+    public void testIDConstraint22() {
+        String xmlfile = "tests/idc/valid_2_1515.xml";
+        String schemapath = "tests/idc/sch_1515.xsd";    
+        try {
+            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+            v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+        } catch(Exception ex) {
+           ex.printStackTrace();
+           assertTrue(false);
+        }
+    }
+    
+    public void testIDConstraint23() {        
+        String xmlfile = "tests/idc/invalid_1_1515.xml";
+        String schemapath = "tests/idc/sch_1515.xsd";   
+        try {
+            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+            v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("Identity Constraint error: the keyref identity constraint \"keyref\" refers to a key or unique that is out of scope");
+            expectedMsgList.add(mesgFragments);            
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
+        } catch(Exception ex) {
+           ex.printStackTrace();
+           assertTrue(false);
+        }
+    }
+    
+    public void testIDConstraint24() {
+        String xmlfile = "tests/idc/jira_1585.xml";
+        String schemapath = "tests/idc/jira_1585.xsd";    
+        try {
+            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+            v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+        } catch(Exception ex) {
+           ex.printStackTrace();
+           assertTrue(false);
+        }
+    }
 
 }

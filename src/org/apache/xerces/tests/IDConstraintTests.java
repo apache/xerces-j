@@ -299,27 +299,35 @@ public class IDConstraintTests extends XercesAbstractTestCase {
 	}
 	
 	public void testIDConstraint15() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
 		String xmlfile = fDataDir+"/idconstraints/jira_1585.xml";
-		String schemapath = fDataDir+"/idconstraints/jira_1585.xsd";			
+		String schemapath = fDataDir+"/idconstraints/jira_1585.xsd";	
 		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
 		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);
             v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("the keyref identity constraint \"newKeyref\" refers to a key or unique that is out of scope");
-            expectedMsgList.add(mesgFragments);
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);            
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
 		} catch(Exception ex) {
 		   ex.printStackTrace();
 		   assertTrue(false);
 		}
 	}
 	
-	public void testIDConstraint16() {
+	/*public void testIDConstraint16() {
 		String xmlfile = fDataDir+"/idconstraints/jira_1594.xml";
 		String schemapath = fDataDir+"/idconstraints/jira_1594.xsd";			
 		try {
@@ -338,7 +346,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
 		   ex.printStackTrace();
 		   assertTrue(false);
 		}
-	}
+	}*/
 	
 	public void testIDConstraint17() {
 		// run validation in XSD 1.0 mode
@@ -1130,6 +1138,103 @@ public class IDConstraintTests extends XercesAbstractTestCase {
             expectedMsgList = new ArrayList();
             mesgFragments = new FailureMesgFragments();
             mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [7] found for identity constraint \"key_1\" of element \"X\"");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint40() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/valid_1_1515.xml";
+		String schemapath = fDataDir+"/idconstraints/sch_1515.xsd";	
+		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);            
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint41() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/valid_2_1515.xml";
+		String schemapath = fDataDir+"/idconstraints/sch_1515.xsd";	
+		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);            
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint42() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/invalid_1_1515.xml";
+		String schemapath = fDataDir+"/idconstraints/sch_1515.xsd";	
+		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("Identity Constraint error: the keyref identity constraint \"keyref\" refers to a key or unique that is out of scope");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            expectedMsgList = new ArrayList();
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("Identity Constraint error: the keyref identity constraint \"keyref\" refers to a key or unique that is out of scope");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));
 		} catch(Exception ex) {

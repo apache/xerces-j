@@ -111,28 +111,6 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		}
 	}
 	
-	public void testJira_1585_1() {
-		String xmlfile = fDataDir+"/jira_bugs/1585_1.xml";	
-		String schemapath = fDataDir+"/jira_bugs/1585_1.xsd";	
-		try {
-		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-		    v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("Identity Constraint error:");
-            mesgFragments.setMessageFragment("the keyref identity constraint \"newKeyref\" refers to a key or unique that is out of scope");
-            expectedMsgList.add(mesgFragments);
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));
-		} catch(Exception ex) {
-		   ex.printStackTrace();
-		   assertTrue(false);
-		}
-	}
-	
 	public void testJira_1584_1() {
 		String xmlfile = fDataDir+"/jira_bugs/3.xml";	
 		String schemapath = fDataDir+"/jira_bugs/3.xsd";	

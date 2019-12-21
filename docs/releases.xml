@@ -25,45 +25,54 @@
       and also includes a few other minor enhancements.      
     </p>
    </desc>
-   <changes>
-     <add>
+   <changes>                
+     <fix>
+        <note>
+      	   Implemented XML Schema IDC constraints fix for the issue, "Incomplete keyrefs should not need keys"
+      	   for both XML Schema 1.0 and 1.1 implementations.
+     	</note>
+     	<submitter name='Sandy Gao'/>
+     </fix>
+     <fix>
+        <note>
+      	   When XML Schema 1.1 validations are done, where xs:assert are contained within xs:override, the XPath
+      	   expressions within xs:assert can't see XML namespace bindings specified at certain locations in schema
+      	   documents. This release fixes this.
+     	</note>
+     	<submitter name='Mukul Gandhi, Patrick Gratz'/>
+     </fix>
+     <fix>
+        <note>
+      	   When XML Schema 1.1 validations are done, when the schema document is specified via xsi:schemaLocation 
+      	   attribute in the XML document, when full XPath 2.0 is used with CTA, for certain use cases
+      	   validation was not occurring correctly. This release fixes this.
+     	</note>
+     	<submitter name='Mukul Gandhi, Yitzhak Khabinsky'/>
+     </fix>
+     <fix>
        <note>
-      	  Continued design guidance for Xerces-J implementation.	
-       </note>
-       <submitter name='Michael Glavassevich, Sandy Gao'/>
-     </add>     
-     <update>
-       <note>
-      	  For certain cases, while doing XML Schema 1.1 assert validations, error messages appeared
+      	  For certain cases, while doing XML Schema 1.1 xs:assert validations, error messages appeared
       	  like following 'FOAR0001 - Division by zero'. Modified such error messages, to now contain
       	  the character ':' instead of '-' (since, the character '-' can be confused with a negation symbol).	
        </note>
        <submitter name='Mukul Gandhi'/>
-     </update>       
+     </fix>           
      <fix>
         <note>
-      	   As described in 'XSD 1.1 structures' REC in the section, "3.2.3 Constraints on XML Representations of 
+      	   The 'XSD 1.1 structures' REC in the section, "3.2.3 Constraints on XML Representations of 
       	   Attribute Declarations (Schema Representation Constraint: Attribute Declaration 
-      	   Representation)", '5 If fixed and use are both present, use must not have the actual value 
-      	   prohibited'. This is newly introduced in XSD 1.1. Fixed a runtime validation issue for this 
+      	   Representation)" mentions, '5 If fixed and use are both present, use must not have the actual value 
+      	   prohibited'. This functionality is newly introduced in XSD 1.1. Fixed a runtime validation issue for this 
       	   XSD clause, when XSD 1.1 implementation is invoked in XSD 1.0 mode.
      	</note>
      	<submitter name='Mukul Gandhi'/>
-     </fix>
+     </fix>     
      <fix>
         <note>
       	   Xerces-J was previously not building from sources when Java 9+ was used. This release fixes this.
      	</note>
-     	<submitter name='Thomas Pasch, Mukul Gandhi, Michael Glavassevich'/>
-     </fix>
-     <fix>
-        <note>
-      	   While doing XML Schema 1.1 validation, when the schema document is specified via xsi:schemaLocation 
-      	   attribute in the XML document, when full XPath 2.0 was used with CTA, for certain use cases
-      	   validation was not occurring correctly. This release fixes this.
-     	</note>
-     	<submitter name='Yitzhak Khabinsky, Mukul Gandhi'/>
-     </fix>
+     	<submitter name='Mukul Gandhi, Michael Glavassevich, Thomas Pasch'/>
+     </fix>     
      <fix>
         <note>
       	   XML Schema 1.1 has introduced a 'ref' attribute on xs:key, xs:unique and xs:keyref. When certain such
@@ -74,12 +83,10 @@
      </fix>
      <fix>
         <note>
-      	   When XML Schema 1.1 validations are done, where xs:assert are contained within xs:override, the XPath
-      	   expressions within xs:assert can't see XML namespace bindings specified at certain locations in schema
-      	   documents. This release fixes this.
+      	   Fixed minor bugs and made various improvements.
      	</note>
-     	<submitter name='Patrick Gratz, Mukul Gandhi'/>
-     </fix>               
+     	<submitter name='Michael Glavassevich, Mukul Gandhi, Octavian Nadolu'/>
+     </fix>                        
    </changes>
   </release>
   <release version='&ParserName; 2.12.0'>

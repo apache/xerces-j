@@ -28,10 +28,10 @@
    <changes>                
      <fix>
         <note>
-      	   Implemented XML Schema IDC constraints fix for the issue, "Incomplete keyrefs should not need keys"
-      	   for both XML Schema 1.0 and 1.1 implementations.
+      	   Implemented few fixes for XML Schema identity constraints, within Xerces's XML Schema 1.0 and 1.1
+      	   validators. 
      	</note>
-     	<submitter name='Sandy Gao'/>
+     	<submitter name='Sandy Gao, Mukul Gandhi'/>
      </fix>
      <fix>
         <note>
@@ -59,11 +59,11 @@
      </fix>           
      <fix>
         <note>
-      	   The 'XSD 1.1 structures' REC in the section, "3.2.3 Constraints on XML Representations of 
+      	   The 'XML Schema 1.1 structures' REC in the section, "3.2.3 Constraints on XML Representations of 
       	   Attribute Declarations (Schema Representation Constraint: Attribute Declaration 
       	   Representation)" mentions, '5 If fixed and use are both present, use must not have the actual value 
-      	   prohibited'. This functionality is newly introduced in XSD 1.1. Fixed a runtime validation issue for this 
-      	   XSD clause, when XSD 1.1 implementation is invoked in XSD 1.0 mode.
+      	   prohibited'. This functionality is newly introduced in XML Schema 1.1. Fixed a runtime validation issue 
+      	   for this XSD clause, when XSD 1.1 implementation is invoked in XSD 1.0 mode.
      	</note>
      	<submitter name='Mukul Gandhi'/>
      </fix>     
@@ -75,9 +75,9 @@
      </fix>     
      <fix>
         <note>
-      	   XML Schema 1.1 has introduced a 'ref' attribute on xs:key, xs:unique and xs:keyref. When certain such
-      	   schema documents were processed by Xerces-J's XSD 1.1 implementation in XSD 1.0 mode, 
-      	   java.lang.NullPointerException was produced. This release fixes this.
+      	   XML Schema 1.1 has introduced the attribute 'ref' on xs:key, xs:unique and xs:keyref. When certain such
+      	   schema documents were processed by Xerces-J's XSD 1.1 implementation in XSD 1.0 mode, a 
+      	   java.lang.NullPointerException was displayed to the user. This release fixes this.
      	</note>
      	<submitter name='Mukul Gandhi'/>
      </fix>

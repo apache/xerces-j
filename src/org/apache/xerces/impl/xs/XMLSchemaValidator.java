@@ -2005,7 +2005,7 @@ public class XMLSchemaValidator extends XMLSchemaValidatorBase implements XMLCom
                             fValueStoreCache.getValueStoreFor(id, selMatcher.getInitialDepth());
                         // nothing to do if nothing matched, or if not all
                         // fields are present.
-                        if (values != null && values.fValuesCount == values.fFieldCount)
+                        if (values != null && values.fHasValue)
                             values.endDocumentFragment();                                               
                     }
                 }

@@ -506,5 +506,63 @@ public class IDConstraintTests extends XercesAbstractTestCase {
            assertTrue(false);
         }
     }
+    
+    public void testIDConstraint25() {        
+        String xmlfile = "tests/idc/jira_1594.xml";
+        String schemapath = "tests/idc/jira_1594.xsd";   
+        try {
+            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+            v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'keyref' with value '1' not found for identity constraint of element 'personnel'");
+            expectedMsgList.add(mesgFragments);            
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
+        } catch(Exception ex) {
+           ex.printStackTrace();
+           assertTrue(false);
+        }
+    }
+    
+    public void testIDConstraint26() {
+        String xmlfile = "tests/idc/jira_1714_valid.xml";
+        String schemapath = "tests/idc/jira_1714.xsd";    
+        try {
+            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+            v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+        } catch(Exception ex) {
+           ex.printStackTrace();
+           assertTrue(false);
+        }
+    }
+    
+    public void testIDConstraint27() {        
+        String xmlfile = "tests/idc/jira_1714_invalid.xml";
+        String schemapath = "tests/idc/jira_1714.xsd";   
+        try {
+            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+            v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'Collectiontype_defined' with value 'object1' not found for identity constraint of element 'Root'");
+            expectedMsgList.add(mesgFragments);            
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
+        } catch(Exception ex) {
+           ex.printStackTrace();
+           assertTrue(false);
+        }
+    }
 
 }

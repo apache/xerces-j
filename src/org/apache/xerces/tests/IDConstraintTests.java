@@ -327,7 +327,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
 		}
 	}
 	
-	/*public void testIDConstraint16() {
+	public void testIDConstraint16() {
 		String xmlfile = fDataDir+"/idconstraints/jira_1594.xml";
 		String schemapath = fDataDir+"/idconstraints/jira_1594.xsd";			
 		try {
@@ -346,7 +346,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
 		   ex.printStackTrace();
 		   assertTrue(false);
 		}
-	}*/
+	}
 	
 	public void testIDConstraint17() {
 		// run validation in XSD 1.0 mode
@@ -1242,6 +1242,73 @@ public class IDConstraintTests extends XercesAbstractTestCase {
 		   assertTrue(false);
 		}
 	}
+	
+	public void testIDConstraint43() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/jira_1714_valid.xml";
+		String schemapath = fDataDir+"/idconstraints/jira_1714.xsd";	
+		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);            
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testIDConstraint44() {
+		// run validation in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String xmlfile = fDataDir+"/idconstraints/jira_1714_invalid.xml";
+		String schemapath = fDataDir+"/idconstraints/jira_1714.xsd";	
+		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'Collectiontype_defined' with value 'object1' not found for identity constraint of element 'Root'");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            
+            // run validation again with same input files, now in XSD 1.1 mode
+            tearDown();
+            setUp();
+            s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 1);
+            // test expected error messages
+            expectedMsgList = new ArrayList();
+            mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'Collectiontype_defined' with value 'object1' not found for identity constraint of element 'Root'");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
 
 }
-

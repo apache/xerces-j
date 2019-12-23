@@ -500,5 +500,28 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		   assertTrue(false);
 		}
 	}
+	
+	public void testJira_1698_1() {
+		// process the schema document in XSD 1.0 mode
+		fSchemaFactory = SchemaFactory.newInstance(DEFAULT_SCHEMA_LANGUAGE);
+		String schemapath = fDataDir+"/jira_bugs/1698_1.xsd";	
+		try {
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));		    
+		} catch(Exception ex) {		   
+		   assertTrue(false);
+		}
+		
+		try {
+			// process the same, schema document in XSD 1.1 mode
+			fSchemaFactory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);			
+            tearDown();
+            setUp();
+            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+		} catch(Exception ex) {		   
+		   // test expected error messages
+           assertEquals("src-attribute.5: The property 'fixed' is present in attribute 'att1', so the value of 'use' must not be 'prohibited'.", ex.getMessage());
+		}
+	}
 		
 }

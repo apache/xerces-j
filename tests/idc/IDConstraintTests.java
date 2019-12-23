@@ -440,7 +440,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
     
     public void testIDConstraint21() {
         String xmlfile = "tests/idc/valid_1_1515.xml";
-        String schemapath = "tests/idc/sch_1515.xsd";    
+        String schemapath = "tests/idc/jira_1515.xsd";    
         try {
             Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
@@ -456,7 +456,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
     
     public void testIDConstraint22() {
         String xmlfile = "tests/idc/valid_2_1515.xml";
-        String schemapath = "tests/idc/sch_1515.xsd";    
+        String schemapath = "tests/idc/jira_1515.xsd";    
         try {
             Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();
@@ -472,7 +472,7 @@ public class IDConstraintTests extends XercesAbstractTestCase {
     
     public void testIDConstraint23() {        
         String xmlfile = "tests/idc/invalid_1_1515.xml";
-        String schemapath = "tests/idc/sch_1515.xsd";   
+        String schemapath = "tests/idc/jira_1515.xsd";   
         try {
             Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
             Validator v = s.newValidator();

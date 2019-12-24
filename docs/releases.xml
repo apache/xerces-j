@@ -86,7 +86,14 @@
       	   Fixed minor bugs and made various improvements.
      	</note>
      	<submitter name='Michael Glavassevich, Mukul Gandhi, Octavian Nadolu'/>
-     </fix>                        
+     </fix>
+     <add>
+        <note>
+           Added many new tests to the regression since the previous Xerces release, for Xerces's
+           XML Schema 1.0 and 1.1 implementations.
+     	</note>
+     	<submitter name='Mukul Gandhi'/>
+     </add>                        
    </changes>
   </release>
   <release version='&ParserName; 2.12.0'>

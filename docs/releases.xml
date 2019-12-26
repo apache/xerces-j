@@ -77,7 +77,8 @@
         <note>
       	   XML Schema 1.1 has introduced the attribute 'ref' on xs:key, xs:unique and xs:keyref. When certain such
       	   schema documents were processed by Xerces-J's XSD 1.1 implementation in XSD 1.0 mode, a 
-      	   java.lang.NullPointerException was displayed to the user. This release fixes this.
+      	   java.lang.NullPointerException was displayed to the user when the schema document is processed with Xerces 
+      	   sample jaxp.SourceValidator. This release fixes this.
      	</note>
      	<submitter name='Mukul Gandhi'/>
      </fix>

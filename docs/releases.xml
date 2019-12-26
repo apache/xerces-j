@@ -80,7 +80,7 @@
       	   java.lang.NullPointerException was displayed to the user when the schema document is processed with Xerces 
       	   sample jaxp.SourceValidator. This release fixes this.
      	</note>
-     	<submitter name='Mukul Gandhi'/>
+     	<submitter name='Michael Glavassevich, Mukul Gandhi'/>
      </fix>
      <fix>
         <note>

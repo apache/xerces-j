@@ -69,7 +69,8 @@
      </fix>     
      <fix>
         <note>
-      	   Xerces-J was previously not building from sources when Java 9+ was used. This release fixes this.
+      	   Xerces-J was previously not building from sources when Java 9+ was used. This release fixes this. Xerces-J's
+      	   build configuration, now supports the builds using Java versions up to 11.
      	</note>
      	<submitter name='Mukul Gandhi, Michael Glavassevich, Thomas Pasch'/>
      </fix>     

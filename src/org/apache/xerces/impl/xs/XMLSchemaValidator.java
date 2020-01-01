@@ -2442,7 +2442,7 @@ public class XMLSchemaValidator
                             fValueStoreCache.getValueStoreFor(id, selMatcher.getInitialDepth());
                         // nothing to do if nothing matched, or if not all
                         // fields are present.
-                        if (values != null && values.fValuesCount == values.fFieldCount)
+                        if (values != null && values.fHasValue)
                             values.endDocumentFragment();
                     }
                 }
@@ -3714,6 +3714,7 @@ public class XMLSchemaValidator
 
         /** Current data value count. */
         protected int fValuesCount;
+        protected boolean fHasValue = false;
 
         /** global data */
         public final Vector fValues = new Vector();
@@ -3881,6 +3882,7 @@ public class XMLSchemaValidator
             } 
             else {
                 fValuesCount++;
+                fHasValue = true;
             }
             fLocalValues[i] = actualValue;
             fLocalValueTypes[i] = valueType;

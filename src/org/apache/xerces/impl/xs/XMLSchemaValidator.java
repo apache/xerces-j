@@ -2003,13 +2003,10 @@ public class XMLSchemaValidator extends XMLSchemaValidatorBase implements XMLCom
                             && id.getCategory() == IdentityConstraint.IC_KEYREF) {
                         ValueStoreBase values =
                             fValueStoreCache.getValueStoreFor(id, selMatcher.getInitialDepth());
-                        if (values != null) {    
-                            values.endDocumentFragment();   // nothing to do if nothing matched                                         
-                            /*if (values.fValuesCount != values.fFieldCount) {
-                                // report error if not all fields are present
-                                reportSchemaError("KeyRefNotEnoughValues", new Object[] { element.rawname, values.getIdentityConstraint().getName() }); 
-                            } */
-                        }                                               
+                        // nothing to do if nothing matched, or if not all
+                        // fields are present.
+                        if (values != null && values.fHasValue)
+                            values.endDocumentFragment();                                               
                     }
                 }
             }

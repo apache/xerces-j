@@ -1072,6 +1072,7 @@ public class XMLSchemaValidatorBase implements XSElementDeclHelper, FieldActivat
 
         /** Current data value count. */
         protected int fValuesCount;
+        protected boolean fHasValue = false;
 
         /** global data */
         public final Vector fValues = new Vector();
@@ -1241,6 +1242,7 @@ public class XMLSchemaValidatorBase implements XSElementDeclHelper, FieldActivat
             } 
             else {
                 fValuesCount++;
+                fHasValue = true;
             }
             fLocalValues[i] = actualValue;
             fLocalValueTypes[i] = valueType;

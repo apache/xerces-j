@@ -34,8 +34,8 @@
     </p>
     <p>
       Xerces2 provides fully conforming XML Schema 1.0 and 1.1 processors. An experimental implementation of the 
-	  <jump href='http://www.w3.org/TR/2010/CR-xmlschema-ref-20100119/'>XML Schema Definition
-	  Language (XSD): Component Designators</jump> (SCD) Candidate Recommendation (January 2010)	  
+	  "<jump href='http://www.w3.org/TR/2010/CR-xmlschema-ref-20100119/'>XML Schema Definition
+	  Language (XSD): Component Designators</jump> (SCD) Candidate Recommendation (January 2010)"	  
 	  is also provided for evaluation. For more information, refer to the <link idref='xml-schema'>
 	  XML Schema</link> page.
     </p>

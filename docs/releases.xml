@@ -51,19 +51,19 @@
      </fix>
      <fix>
        <note>
-      	  For certain cases, while doing XML Schema 1.1 xs:assert validations, error messages appeared
-      	  like following 'FOAR0001 - Division by zero'. Modified such error messages, to now contain
-      	  the character ':' instead of '-' (since, the character '-' can be confused with a negation symbol).	
+      	  When XML Schema 1.1 documents having xs:assert are used for XML document validation, for certain use cases 
+      	  error messages appeared like following 'FOAR0001 - Division by zero'. Modified such error messages, to now 
+      	  contain the character ':' instead of '-' (since, the character '-' may be confused with a negation symbol).	
        </note>
        <submitter name='Mukul Gandhi'/>
      </fix>           
      <fix>
         <note>
-      	   The 'XML Schema 1.1 structures' REC in the section, "3.2.3 Constraints on XML Representations of 
-      	   Attribute Declarations (Schema Representation Constraint: Attribute Declaration 
-      	   Representation)" mentions, '5 If fixed and use are both present, use must not have the actual value 
-      	   prohibited'. This functionality is newly introduced in XML Schema 1.1. Fixed a runtime validation issue 
-      	   for this XSD clause, when XSD 1.1 implementation is invoked in XSD 1.0 mode.
+      	   The 'XML Schema 1.1 structures' Recommendation in the section, "3.2.3 Constraints on XML Representations 
+      	   of Attribute Declarations (Schema Representation Constraint: Attribute Declaration Representation)" 
+      	   mentions, '5 If fixed and use are both present, use must not have the actual value prohibited'. This 
+      	   functionality is newly introduced in XML Schema 1.1. Fixed a runtime validation issue for this XSD clause, 
+      	   when XSD 1.1 implementation is invoked in XSD 1.0 mode.
      	</note>
      	<submitter name='Mukul Gandhi'/>
      </fix>     
@@ -86,7 +86,7 @@
         <note>
       	   Fixed minor bugs and made various improvements.
      	</note>
-     	<submitter name='Michael Glavassevich, Mukul Gandhi, Octavian Nadolu'/>
+     	<submitter name='Mukul Gandhi, Michael Glavassevich, Octavian Nadolu'/>
      </fix>
      <add>
         <note>

@@ -668,19 +668,25 @@ public class SourceValidator implements ErrorHandler {
         
         System.err.println();
         System.err.println("defaults:");
-        System.err.println("  Schema language:                 " + DEFAULT_SCHEMA_LANGUAGE);
-        System.err.println("  Repetition:                      " + DEFAULT_REPETITION);
-        System.err.println("  Validation source:               " + DEFAULT_VALIDATION_SOURCE);
-        System.err.print("  Schema full checking:            ");
+        System.err.println("  Schema language:                    " + DEFAULT_SCHEMA_LANGUAGE);
+        System.err.println("  Repetition:                         " + DEFAULT_REPETITION);
+        System.err.println("  Validation source:                  " + DEFAULT_VALIDATION_SOURCE);
+        System.err.print("  Schema full checking:               ");
         System.err.println(DEFAULT_SCHEMA_FULL_CHECKING ? "on" : "off");
-        System.err.print("  Honour all schema locations:     ");
+        System.err.print("  Honour all schema locations:        ");
         System.err.println(DEFAULT_HONOUR_ALL_SCHEMA_LOCATIONS ? "on" : "off");
-        System.err.print("  Validate annotations:            ");
+        System.err.print("  Validate annotations:               ");
         System.err.println(DEFAULT_VALIDATE_ANNOTATIONS ? "on" : "off");
-        System.err.print("  Generate synthetic annotations:  ");
+        System.err.print("  Generate synthetic annotations:     ");
         System.err.println(DEFAULT_GENERATE_SYNTHETIC_ANNOTATIONS ? "on" : "off");
-        System.err.print("  Memory:                          ");
+        System.err.print("  Memory:                             ");
         System.err.println(DEFAULT_MEMORY_USAGE ? "on" : "off");
+        System.err.print("  XSD 1.1 [-xsd11 option]:            ");
+        System.err.println("off");
+        System.err.print("  CTA XPath 2.0:                      ");
+        System.err.println(DEFAULT_XS11_CTA_XPATH_FULL_CHECKING ? "on" : "off");
+        System.err.print("  Assert comments and PI processing:  ");
+        System.err.println(DEFAULT_XS11_ASSERT_COMMENT_PI_CHECKING ? "on" : "off");
         
         System.err.println();
         System.err.println("notes:");

@@ -40,7 +40,7 @@
       XNI entity resolver, the (<code>org.xml.sax.EntityResolver</code>) SAX entity resolver 
       and the (<code>org.w3c.dom.ls.LSResourceResolver</code>) DOM resource resolver
       interfaces. In <code>XMLCatalogResolver</code> the resolveEntity methods only query the 
-      catalog for a mapping of the given identifier. These methods may be overrided if
+      catalog for a mapping of the given identifier. These methods may be overridden if
       other behaviour is required.
      </p>
      <p>

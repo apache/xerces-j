@@ -75,7 +75,10 @@ v.validate(instanceDocument);
 &lt;/document&gt;</source>
       <p>Review the sample file, 'data/personal.xsd' for an example of an XML 
 	Schema grammar.</p>
-      
+    As an example showcase, we've deployed an XML Schema validator service on a public web site at 
+    <jump href="http://18.220.66.208:8080/xmlvalidation/">Online XML Schema validator service</jump>
+    for the community. This online XML Schema validator service uses Xerces-J as back-end, 
+    and supports both 1.0 and 1.1 versions of the XML Schema language.
     </a>
   </faq>
   <faq title="Using Entities and CDATA Sections">
@@ -94,7 +97,7 @@ v.validate(instanceDocument);
 	turn off http://apache.org/xml/features/validation/schema/normalized-value feature.
       </p>
     </a>
-  </faq>  
+  </faq>
   <faq title="XPath 2.0 support for XML Schema 1.1 validation">
   	<q>How an XPath 2.0 engine is used for XML Schema 1.1 assertions and CTAs?</q>
   	<a>
@@ -119,7 +122,7 @@ v.validate(instanceDocument);
   	      of the XPath 2.0 processor).
   	   </p>
   	</a>
-  </faq>  
+  </faq>
   <faq title="User defined error messages, for XML Schema 1.1 assertion failures">
      <q>How to specify a user defined error message, when an XML Schema 1.1 assertion returns a 'false' result?</q>
      <a>

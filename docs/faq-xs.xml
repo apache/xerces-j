@@ -75,7 +75,10 @@ v.validate(instanceDocument);
 &lt;/document&gt;</source>
       <p>Review the sample file, 'data/personal.xsd' for an example of an XML 
 	Schema grammar.</p>
-      
+    As an example showcase, we've deployed an XML Schema validator service on a public web site at 
+    <jump href="http://18.220.66.208:8080/xmlvalidation/">Online XML Schema validator service</jump>
+    for the community. This online XML Schema validator service uses Xerces-J as back-end, 
+    and supports both 1.0 and 1.1 versions of the XML Schema language.
     </a>
   </faq>
   <faq title="Using Entities and CDATA Sections">

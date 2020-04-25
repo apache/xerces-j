@@ -77,7 +77,7 @@ v.validate(instanceDocument);
 	Schema grammar.</p>
     As an example showcase, we've deployed an XML Schema validator service on a public web site at 
     <jump href="http://18.220.66.208:8080/xmlvalidation/">Online XML Schema validator service</jump>
-    for the community. This online XML Schema validator service uses Xerces-J as back-end, 
+    for the community. This online XML Schema validator service uses Xerces-J as backend, 
     and supports both 1.0 and 1.1 versions of the XML Schema language.
     </a>
   </faq>

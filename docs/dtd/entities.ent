@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- upper case versions of names and versions -->
-<!ENTITY ParserNameLong 'Xerces2 Java Parser'>
+<!ENTITY ParserNameLong 'Xerces2 Java XML Parser'>
 <!ENTITY ParserName 'Xerces-J'>
 <!ENTITY ParserVersion '@@VERSION@@'>
 

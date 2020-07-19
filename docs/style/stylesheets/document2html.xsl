@@ -31,8 +31,19 @@
               <img width="29" height="60" src="resources/right.gif" hspace="0" vspace="0" border="0"/></td>
           </tr>
           <tr>
-            <td width="456" height="35" valign="top" align="left" colspan="4" bgcolor="#0086b2">
-              <img src="graphics/{$id}-header.jpg" width="456" height="35" hspace="0" vspace="0" border="0" alt="{s1/@title}"/></td>
+            <xsl:choose>
+               <xsl:when test="$id = 'index'">
+                  <!-- revisit : get the value 'Xerces2 Java XML Parser' from file entities.ent --> 
+                  <td align="center" bgcolor="#0086b2" colspan="4" height="35" valign="middle" width="456">
+                    <font color="#f8fefd" face="arial,helvetica,sanserif" size="+2">Xerces2 Java XML Parser Readme</font>
+                  </td>
+               </xsl:when>
+               <xsl:otherwise>
+                  <td width="456" height="35" valign="top" align="left" colspan="4" bgcolor="#0086b2">
+                    <img src="graphics/{$id}-header.jpg" width="456" height="35" hspace="0" vspace="0" border="0" alt="{s1/@title}"/>
+                  </td>
+               </xsl:otherwise>
+            </xsl:choose>
           </tr>
           <tr>
             <td width="168" height="20" valign="top" align="left">

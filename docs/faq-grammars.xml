@@ -35,7 +35,7 @@
         <code>org.apache.xerces.xni.grammars.Grammar</code>
         interface; simply differentiates objects that are Xerces
         grammars from other objects, as well as providing a means
-        to get at the location information (<code>XMLGrammarDescription</code>) for the grammar represented..</li>
+        to get at the location information (<code>XMLGrammarDescription</code>) for the grammar represented.</li>
         <li><code>XMLGrammarDescription</code>:  defined by the
         <code>org.apache.xerces.xni.grammars.XMLGrammarDescription</code>
         interface, holds some basic location information common to all grammars.
@@ -184,11 +184,11 @@
         are instances of
         <code>org.apache.xerces.impl.dtd.XMLDTDDescription</code>.</li>
         <li>If their publicId or expandedSystemId fields are
-        non-null they must be identical;</li>
+        non-null they must be identical.</li>
         <li>If one of the descriptions has a root element
         defined, it must be the same as the root element defined
         in the other description, or be in the list of global
-        elements stored in that description;</li>
+        elements stored in that description.</li>
         <li>If neither has a root element defined, then they must
         share at least one global element declaration in
         common.</li>
@@ -369,15 +369,15 @@ DocumentBuilder builder = // JAXP factory invocation
         <link idref="api" anchor="xml-schema-api-documentation">API</link> docs for
         the <code>org.apache.xerces.xs</code>
         package.  Assuming you have produced a Grammar object from an XML Schema
-        document by some means, to turn that object
+        document by some means. To turn that object
         into an object usable in this API, do the following:
     </p>
     <ol>
         <li>
-            Cast the Grammar object to <code>org.apache.xerces.xni.grammars.XSGrammar</code>;
+            Cast the Grammar object to <code>org.apache.xerces.xni.grammars.XSGrammar</code>.
         </li>
         <li>
-            Call the <code>toXSModel()</code> method on the casted object;
+            Call the <code>toXSModel()</code> method on the casted object.
         </li>
         <li>
             Use the methods in the <code>org.apache.xerces.xs.XSModel</code>

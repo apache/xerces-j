@@ -137,6 +137,13 @@
     (XSD): Component Designators</jump> (SCD) Candidate Recommendation (January 2010)
       </li>   
     </ul>
+    From the above mentioned features, the last two mentioned (i.e XML Schema 1.1 and SCD implementations), 
+    are not available within the Xerces2 Java download packages 'Xerces2 Java 2.12.1 - tar.gz' and 
+    'Xerces2 Java 2.12.1 - zip'. Whereas, all the other mentioned features above (i.e except last two), are 
+    available both within XML Schema 1.1 ('Xerces2 Java 2.12.1 (XML Schema 1.1) - tar.gz' / 'Xerces2 Java 2.12.1 (XML Schema 1.1) - zip') 
+    and the other ('Xerces2 Java 2.12.1 - tar.gz' / 'Xerces2 Java 2.12.1 - zip') download package. Please
+    visit the page <jump href='http://xerces.apache.org/mirrors.cgi'>Xerces downloads</jump>, to download the
+    Xerces2 Java package that is needed.  
   </s2>
   
   <s2 title='Backwards compatibility'>

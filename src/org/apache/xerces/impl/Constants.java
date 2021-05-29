@@ -500,7 +500,7 @@ public final class Constants {
     public final static short TYPE_AND_FACET_AVAILABILITY = 2;
     public final static short TYPE_AND_FACET_UNAVAILABILITY = 3;
     
-    // Constants to support PsychoPath XPath engine uses
+    // Constants to support Eclipse XPath 2.0 engine uses
     public final static String XPATH2_NAMESPACE_CONTEXT = "XPATH2_NS_CONTEXT";
     public final static String IS_CTA_EVALUATOR = "CTA-EVALUATOR";
     

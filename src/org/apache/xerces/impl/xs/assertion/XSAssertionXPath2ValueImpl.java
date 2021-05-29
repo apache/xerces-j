@@ -45,7 +45,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * This class defines a set of methods to work with XPath 2.0 dynamic context 
- * variable "$value", that is needed for assertions evaluation.
+ * variable "$value", that is needed for XSD assertions evaluation.
  * 
  * @xerces.internal
  * 
@@ -96,7 +96,9 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
 
             if (textChildCount == effectiveChildNodeCount) {
                 // the DOM tree we are inspecting has simple content. therefore we can find the desired string value.
-                if ((pElemPSVI.getTypeDefinition()).derivedFrom(SchemaSymbols.URI_SCHEMAFORSCHEMA, SchemaSymbols.ATTVAL_STRING, XSConstants.DERIVATION_RESTRICTION)) {
+                if ((pElemPSVI.getTypeDefinition()).derivedFrom(SchemaSymbols.URI_SCHEMAFORSCHEMA, 
+                                                                SchemaSymbols.ATTVAL_STRING, 
+                                                                XSConstants.DERIVATION_RESTRICTION)) {
                     // if element's schema type is derived by restriction from xs:string, white-space normalization is not needed for the
                     // string value for context variable $value.
                     strValueOf$value = textValueContents.toString();  
@@ -114,17 +116,20 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
     
 
     /*
-     * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context. This method delegates
-     * to other methods of interface XSAssertionXPath2Value to carry some of it's tasks.
+     * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context. 
+     * This method delegates to other methods of interface XSAssertionXPath2Value to carry some of it's tasks.
      */
-    public void setXDMTypedValueOf$value(Element rootNodeOfAssertTree, String value, XSSimpleTypeDefinition listOrUnionType, XSTypeDefinition attrType, boolean isTypeDerivedFromList, DynamicContext xpath2DynamicContext) throws Exception {
+    public void setXDMTypedValueOf$value(Element rootNodeOfAssertTree, String value, XSSimpleTypeDefinition listOrUnionType, 
+                                         XSTypeDefinition attrType, boolean isTypeDerivedFromList, 
+                                         DynamicContext xpath2DynamicContext) throws Exception {
         
         // dummy schema short code initializer
         short xsdTypecode = -100;
         
         if (listOrUnionType != null) {
             if (isTypeDerivedFromList || listOrUnionType.getVariety() == XSSimpleTypeDefinition.VARIETY_LIST) {
-                // $value is a sequence of atomic values (with type annotation xs:anyAtomicType*). tokenize the list value by a sequence of white spaces.
+                // $value is a sequence of atomic values (with type annotation xs:anyAtomicType*).
+                // tokenize the list value by a sequence of white spaces.
                 StringTokenizer listStrTokens = new StringTokenizer(value, " \n\t\r");
                 List xdmItemList = new ArrayList();
                 while (listStrTokens.hasMoreTokens()) {
@@ -136,7 +141,8 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
                        xdmItemList.add(SchemaTypeValueFactory.newSchemaTypeValue(listOrUnionType.getBuiltInKind(), itemValue));
                     }
                 }
-                xpath2DynamicContext.set_variable(new org.eclipse.wst.xml.xpath2.processor.internal.types.QName("value"), XS11TypeHelper.getXPath2ResultSequence(xdmItemList));                
+                xpath2DynamicContext.set_variable(new org.eclipse.wst.xml.xpath2.processor.internal.types.QName("value"), 
+                                                  XS11TypeHelper.getXPath2ResultSequence(xdmItemList));                
             }
             else {
                xsdTypecode = getXercesXSDTypeCodeFor$value(listOrUnionType);
@@ -157,7 +163,8 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
               }
               else if (typeDef instanceof XSComplexTypeDefinition && ((XSComplexTypeDefinition) typeDef).getSimpleType() == null) {
                   // set xpath context variable $value to an empty sequence
-                  xpath2DynamicContext.set_variable(new org.eclipse.wst.xml.xpath2.processor.internal.types.QName("value"), XS11TypeHelper.getXPath2ResultSequence(new ArrayList())); 
+                  xpath2DynamicContext.set_variable(new org.eclipse.wst.xml.xpath2.processor.internal.types.QName("value"), 
+                                                    XS11TypeHelper.getXPath2ResultSequence(new ArrayList())); 
               }
               else {
                   xsdTypecode = getXercesXSDTypeCodeFor$value(typeDef);
@@ -170,18 +177,23 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
     
     
     /*
-     * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context, when the value is for simpleType variety atomic. 
+     * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context, 
+     * when the value is for simpleType variety atomic. 
      */
     public void setXDMTypedValueOf$valueForSTVarietyAtomic(String value, short xsdTypecode, DynamicContext xpath2DynamicContext) {
-        AnyType psychoPathType = SchemaTypeValueFactory.newSchemaTypeValue(xsdTypecode, value);
-        xpath2DynamicContext.set_variable(new org.eclipse.wst.xml.xpath2.processor.internal.types.QName("value"), (AnyAtomicType) psychoPathType);
+        AnyType eclipsePathType = SchemaTypeValueFactory.newSchemaTypeValue(xsdTypecode, value);
+        xpath2DynamicContext.set_variable(new org.eclipse.wst.xml.xpath2.processor.internal.types.QName("value"), 
+                                          (AnyAtomicType) eclipsePathType);
     } // setXDMTypedValueOf$valueForSTVarietyAtomic
     
     
     /*
-     * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context, when the value is for simpleType variety list. 
+     * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context, 
+     * when the value is for simpleType variety list. 
      */
-    public void setXDMTypedValueOf$valueForSTVarietyList(Element rootNodeOfAssertTree, String listStrValue, XSSimpleTypeDefinition itemType, boolean isTypeDerivedFromList, DynamicContext xpath2DynamicContext) throws Exception {
+    public void setXDMTypedValueOf$valueForSTVarietyList(Element rootNodeOfAssertTree, String listStrValue, 
+                                                         XSSimpleTypeDefinition itemType, boolean isTypeDerivedFromList, 
+                                                         DynamicContext xpath2DynamicContext) throws Exception {
         
        if (itemType.getVariety() == XSSimpleTypeDefinition.VARIETY_UNION) {
            // itemType of xs:list has variety 'union'
@@ -194,7 +206,8 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
                XSSimpleTypeDefinition listItemTypeForUnion = getActualXDMItemTypeForSTVarietyUnion(memberTypes, itemValue);
                xdmItemList.add(SchemaTypeValueFactory.newSchemaTypeValue(listItemTypeForUnion.getBuiltInKind(), itemValue));
            }
-           xpath2DynamicContext.set_variable(new org.eclipse.wst.xml.xpath2.processor.internal.types.QName("value"), XS11TypeHelper.getXPath2ResultSequence(xdmItemList));
+           xpath2DynamicContext.set_variable(new org.eclipse.wst.xml.xpath2.processor.internal.types.QName("value"), 
+                                             XS11TypeHelper.getXPath2ResultSequence(xdmItemList));
        } 
        else {
           setXDMTypedValueOf$value(rootNodeOfAssertTree, listStrValue, itemType, null, isTypeDerivedFromList, xpath2DynamicContext); 
@@ -204,16 +217,20 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
         
     
     /*
-     * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context, when the value is for simpleType with variety union. 
+     * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context, 
+     * when the value is for simpleType with variety union. 
      */
-    public void setXDMTypedValueOf$valueForSTVarietyUnion(String value, XSObjectList memberTypes, DynamicContext xpath2DynamicContext) throws Exception {        
+    public void setXDMTypedValueOf$valueForSTVarietyUnion(String value, XSObjectList memberTypes, 
+                                                          DynamicContext xpath2DynamicContext) throws Exception {        
         // check member types of union in order to find that which member type can successfully validate the string value
         // first, and set the type annotation of XPath2 context variable $value with this member type definition.
         for (int memTypeIdx = 0; memTypeIdx < memberTypes.getLength(); memTypeIdx++) {
             XSSimpleType simpleTypeDv = (XSSimpleType) memberTypes.item(memTypeIdx);
             if (XS11TypeHelper.isStrValueValidForASimpleType(value, simpleTypeDv, Constants.SCHEMA_VERSION_1_1)) {
               if (simpleTypeDv.getVariety() == XSSimpleTypeDefinition.VARIETY_LIST) {
-                  setXDMTypedValueOf$valueForSTVarietyList(fRootNodeOfAssertTree, value, simpleTypeDv, ((XSSimpleTypeDefinition)simpleTypeDv.getBaseType()).getVariety() == XSSimpleTypeDefinition.VARIETY_LIST, xpath2DynamicContext);
+                  setXDMTypedValueOf$valueForSTVarietyList(fRootNodeOfAssertTree, value, simpleTypeDv, 
+                                                           ((XSSimpleTypeDefinition)simpleTypeDv.getBaseType()).getVariety() == XSSimpleTypeDefinition.VARIETY_LIST, 
+                                                           xpath2DynamicContext);
               }
               else {
                   setXDMTypedValueOf$valueForSTVarietyAtomic(value, getXercesXSDTypeCodeFor$value(simpleTypeDv), xpath2DynamicContext);
@@ -225,16 +242,19 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
     
     
     /*
-     * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context, if element has a complex type with simple content. 
+     * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context, 
+     * if element has a complex type with simple content. 
      */
-    protected void setXDMValueOf$valueForCTWithSimpleContent(String value, XSComplexTypeDefinition typeDef, DynamicContext xpath2DynamicContext) throws Exception {
+    protected void setXDMValueOf$valueForCTWithSimpleContent(String value, XSComplexTypeDefinition typeDef, 
+                                                             DynamicContext xpath2DynamicContext) throws Exception {
         
         XSComplexTypeDefinition cmplxTypeDef = (XSComplexTypeDefinition)typeDef;
         XSSimpleTypeDefinition complexTypeSimplContentType = cmplxTypeDef.getSimpleType();
         if (complexTypeSimplContentType.getVariety() == XSSimpleTypeDefinition.VARIETY_LIST) {
             // simple content type has variety xs:list
             XSSimpleTypeDefinition listItemType = complexTypeSimplContentType.getItemType();
-            // $value is a sequence of atomic values (with type annotation xs:anyAtomicType*). tokenize the list value by a sequence of white spaces.
+            // $value is a sequence of atomic values (with type annotation xs:anyAtomicType*). 
+            // tokenize the list value by a sequence of white spaces.
             StringTokenizer values = new StringTokenizer(value, " \n\t\r");
             List xdmItemList = new ArrayList();
             if (listItemType.getVariety() == XSSimpleTypeDefinition.VARIETY_UNION) {
@@ -255,13 +275,16 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
             }
 
             // assign an XPath2 sequence to xpath context variable $value
-            xpath2DynamicContext.set_variable(new org.eclipse.wst.xml.xpath2.processor.internal.types.QName("value"), XS11TypeHelper.getXPath2ResultSequence(xdmItemList));
+            xpath2DynamicContext.set_variable(new org.eclipse.wst.xml.xpath2.processor.internal.types.QName("value"), 
+                                              XS11TypeHelper.getXPath2ResultSequence(xdmItemList));
         }
         else if (complexTypeSimplContentType.getVariety() == XSSimpleTypeDefinition.VARIETY_UNION) {
             // simple content type has variety xs:union
             XSSimpleTypeDefinition simpleContentTypeForUnion = getActualXDMItemTypeForSTVarietyUnion(complexTypeSimplContentType.getMemberTypes(), value);
             if (simpleContentTypeForUnion.getVariety() == XSSimpleTypeDefinition.VARIETY_LIST) {
-                setXDMTypedValueOf$valueForSTVarietyList(fRootNodeOfAssertTree, value, simpleContentTypeForUnion, ((XSSimpleTypeDefinition)simpleContentTypeForUnion.getBaseType()).getVariety() == XSSimpleTypeDefinition.VARIETY_LIST, xpath2DynamicContext);
+                setXDMTypedValueOf$valueForSTVarietyList(fRootNodeOfAssertTree, value, simpleContentTypeForUnion, 
+                                                         ((XSSimpleTypeDefinition)simpleContentTypeForUnion.getBaseType()).getVariety() == XSSimpleTypeDefinition.VARIETY_LIST, 
+                                                         xpath2DynamicContext);
             }
             else {
                 setXDMTypedValueOf$valueForSTVarietyAtomic(value, getXercesXSDTypeCodeFor$value(simpleContentTypeForUnion), xpath2DynamicContext);
@@ -276,8 +299,8 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
     
     
     /* 
-     * Find the built-in Xerces schema 'type code' for XPath2 variable $value. This function recursively searches the XML schema type hierarchy navigating
-     * up the base types, to find the needed built-in type.
+     * Find the built-in Xerces schema 'type code' for XPath2 variable $value. This function recursively searches the XML schema 
+     * type hierarchy navigating up the base types, to find the needed built-in type.
      */
     private short getXercesXSDTypeCodeFor$value(XSTypeDefinition elementType) {
 
@@ -286,7 +309,8 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
 
             boolean isxsd11Type = false;
 
-            // the below 'if else' clauses are written to process few special cases handling few of schema types within PsychoPath XPath engine
+            // the following 'if else' clauses are written to process few special cases, 
+            // handling few of schema types within Eclipse XPath engine
             final String elementTypeName = elementType.getName();
             if ("dayTimeDuration".equals(elementTypeName)) {
                 typeCode = PsychoPathXPathTypeHelper.DAYTIMEDURATION_DT;
@@ -313,7 +337,8 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
 
         XSSimpleTypeDefinition xdmItemType = null;
         
-        // iterate the member types of union in order, to find that which schema type can successfully validate an atomic value first
+        // iterate the member types of union in order, to find that which schema type can successfully 
+        // validate an atomic value first
         final int memberTypesLength = memberTypes.getLength();
         for (int memTypeIdx = 0; memTypeIdx < memberTypesLength; memTypeIdx++) {
            XSSimpleType memSimpleType = (XSSimpleType) memberTypes.item(memTypeIdx);

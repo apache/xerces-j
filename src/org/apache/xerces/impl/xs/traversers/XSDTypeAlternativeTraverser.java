@@ -24,7 +24,7 @@ import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.dv.XSSimpleType;
 import org.apache.xerces.impl.xpath.XPath20;
 import org.apache.xerces.impl.xpath.XPathException;
-import org.apache.xerces.impl.xs.AbstractPsychoPathXPath2Impl;
+import org.apache.xerces.impl.xs.AbstractXPath2EngineImpl;
 import org.apache.xerces.impl.xs.SchemaGrammar;
 import org.apache.xerces.impl.xs.SchemaSymbols;
 import org.apache.xerces.impl.xs.XSAnnotationImpl;
@@ -180,7 +180,8 @@ class XSDTypeAlternativeTraverser extends XSDAbstractTraverser {
             if (!fSchemaHandler.fXSConstraints.checkTypeDerivationOk(alternativeType, element.fType, block)) {
                 reportSchemaError(
                         "e-props-correct.7",
-                        new Object[] {element.getName(), XS11TypeHelper.getSchemaTypeName(alternativeType), XS11TypeHelper.getSchemaTypeName(element.fType)},
+                        new Object[] {element.getName(), XS11TypeHelper.getSchemaTypeName(alternativeType), 
+                                      XS11TypeHelper.getSchemaTypeName(element.fType)},
                         altElement);
                 // fall back to element declaration's type
                 alternativeType = element.fType;
@@ -188,9 +189,9 @@ class XSDTypeAlternativeTraverser extends XSDAbstractTraverser {
         }
 
         // not expecting any more children
-        if (childNode != null) {
-            //reportSchemaError("s4s-elt-must-match.1", new Object[] { "type alternative", "(annotation?, (simpleType|complexType)?)", childNode.getLocalName() }, altElement);
-            reportSchemaError("s4s-elt-must-match.1", new Object[]{"type alternative", "(annotation?, (simpleType | complexType)?)", DOMUtil.getLocalName(childNode)}, childNode);
+        if (childNode != null) {            
+            reportSchemaError("s4s-elt-must-match.1", new Object[]{"type alternative", "(annotation?, (simpleType | complexType)?)", 
+                                                                   DOMUtil.getLocalName(childNode)}, childNode);
         }
 
         // create type alternative component
@@ -201,19 +202,22 @@ class XSDTypeAlternativeTraverser extends XSDAbstractTraverser {
             Test testExpr = null;
             try {
                 if (fIsFullXPathModeForCTA) {
-                    // if full XPath 2.0 support is enabled for CTA, use PsychoPath XPath 2.0 engine for XPath evaluation
+                    // if full XPath 2.0 support is enabled for CTA, use Eclipse XPath 2.0 engine for XPath evaluation
                     XPathParser xpp = new JFlexCupParser();
                     XPath xp = xpp.parse("boolean(" + testStr + ")", true);
-                    Map psychoPathParams = new HashMap();
-                    psychoPathParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, schemaDoc.fNamespaceSupport);
-                    AbstractPsychoPathXPath2Impl abstractPsychoPathInst = new AbstractPsychoPathXPath2Impl();
-                    StaticChecker name_check = new StaticNameResolver(abstractPsychoPathInst.initXPath2DynamicContext(null, null, psychoPathParams));
+                    Map eclipseXpathParams = new HashMap();
+                    eclipseXpathParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, schemaDoc.fNamespaceSupport);
+                    AbstractXPath2EngineImpl abstractXpathEngineImpl = new AbstractXPath2EngineImpl();
+                    StaticChecker name_check = new StaticNameResolver(abstractXpathEngineImpl.initXPath2DynamicContext(null, null, 
+                                                                                                                  eclipseXpathParams));
                     name_check.check(xp);
                     testExpr = new Test(xp, testStr, typeAlternative, schemaDoc.fNamespaceSupport);
                 }
                 else {
                     // if XPath subset is enabled for CTA (this is also the default option), use Xerces native XPath parser for CTA
-                    testExpr = new Test(new XPath20(testStr, fSymbolTable, new NamespaceSupport(schemaDoc.fNamespaceSupport)), typeAlternative, new NamespaceSupport(schemaDoc.fNamespaceSupport));
+                    testExpr = new Test(new XPath20(testStr, fSymbolTable, new NamespaceSupport(schemaDoc.fNamespaceSupport)), 
+                                                                                                typeAlternative, 
+                                                                                                new NamespaceSupport(schemaDoc.fNamespaceSupport));
                 }
             }
             catch (XPathException e) {

@@ -65,7 +65,7 @@ public class XSDAssertionValidator {
     // assertion processor object reference
     XMLAssertHandler fAssertionProcessor = null;
     
-    // variable to track if attributes on current element, have assertions.
+    // variable to track if attributes on current element, have assertions
     boolean fAttributesHaveAsserts = false;
     
     
@@ -348,8 +348,9 @@ public class XSDAssertionValidator {
         }
         
         if (assertProcessorProp == null || assertProcessorProp.length() == 0) {
-            // if assertion processor is not specified via a system property, initialize it to the "PsychoPath XPath 2.0" processor.
-            fAssertionProcessor = new XMLAssertPsychopathXPath2Impl(assertParams);
+            // if assertion processor is not specified via a system property, 
+            // initialize it to an "Eclipse XPath 2.0" processor.
+            fAssertionProcessor = new XMLAssertXPath2EngineImpl(assertParams);
         } 
         else {
             try {
@@ -384,8 +385,10 @@ public class XSDAssertionValidator {
             AttributePSVImpl attrPsvi = (AttributePSVImpl)attrAugs.getItem(Constants.ATTRIBUTE_PSVI);            
             XSSimpleTypeDefinition attrSimpleType = (XSSimpleTypeDefinition) attrPsvi.getTypeDefinition();
             List isAssertProcessingNeededForSTUnionAttrs = fXmlSchemaValidator.getIsAssertProcessingNeededForSTUnionAttrs();
-            if (attrSimpleType != null && attrSimpleType.getVariety() == XSSimpleTypeDefinition.VARIETY_UNION && ((XSSimpleType) attrSimpleType.getBaseType()).getVariety() != XSSimpleTypeDefinition.VARIETY_UNION) {
-                if (XS11TypeHelper.isAtomicStrValueValidForSTUnion(attrSimpleType.getMemberTypes(), attrsImpl.getValue(attrIdx), attrPsvi.fValue, Constants.SCHEMA_VERSION_1_1)) {
+            if (attrSimpleType != null && attrSimpleType.getVariety() == XSSimpleTypeDefinition.VARIETY_UNION && 
+                ((XSSimpleType) attrSimpleType.getBaseType()).getVariety() != XSSimpleTypeDefinition.VARIETY_UNION) {
+                if (XS11TypeHelper.isAtomicStrValueValidForSTUnion(attrSimpleType.getMemberTypes(), attrsImpl.getValue(attrIdx), 
+                                                                   attrPsvi.fValue, Constants.SCHEMA_VERSION_1_1)) {
                     isAssertProcessingNeededForSTUnionAttrs.add(Boolean.valueOf(false));  
                 }
                 else {
@@ -403,8 +406,10 @@ public class XSDAssertionValidator {
      * Extra checks for assertion evaluations for simpleType definitions with variety union, for an element.
      */
     void extraCheckForSTUnionAssertsElem(XSSimpleType simpleTypeDv, String content, ValidatedInfo validatedInfo) {
-        if (simpleTypeDv.getVariety() == XSSimpleTypeDefinition.VARIETY_UNION && ((XSSimpleType) simpleTypeDv.getBaseType()).getVariety() != XSSimpleTypeDefinition.VARIETY_UNION) {
-            if (XS11TypeHelper.isAtomicStrValueValidForSTUnion(simpleTypeDv.getMemberTypes(), content, validatedInfo, Constants.SCHEMA_VERSION_1_1)) {
+        if (simpleTypeDv.getVariety() == XSSimpleTypeDefinition.VARIETY_UNION && 
+            ((XSSimpleType) simpleTypeDv.getBaseType()).getVariety() != XSSimpleTypeDefinition.VARIETY_UNION) {
+            if (XS11TypeHelper.isAtomicStrValueValidForSTUnion(simpleTypeDv.getMemberTypes(), content, 
+                                                               validatedInfo, Constants.SCHEMA_VERSION_1_1)) {
                 fXmlSchemaValidator.setIsAssertProcessingNeededForSTUnionElem(false);
             }
         }

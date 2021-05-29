@@ -99,10 +99,12 @@ public class XS11TypeHelper {
     
     
     /*
-     * Determine if a string value is valid with respect to any of the simpleType -> union's member types which are in XML Schema namespace.
-     * If this method returns a boolean 'true', then the value is valid with respect to entire union schema component. 
+     * Determine if a string value is valid with respect to any of the simpleType -> union's member types which 
+     * are in XML Schema namespace. If this method returns a boolean 'true', then the value is valid with respect 
+     * to entire union schema component. 
      */
-    public static boolean isAtomicStrValueValidForSTUnion(XSObjectList memberTypes, String content, ValidatedInfo validatedInfo, short schemaVersion) {
+    public static boolean isAtomicStrValueValidForSTUnion(XSObjectList memberTypes, String content, 
+                                                          ValidatedInfo validatedInfo, short schemaVersion) {
         
         boolean isValueValid = false;
         
@@ -110,7 +112,8 @@ public class XS11TypeHelper {
         // to the 1st available type in union's member type collection, is sufficient to achieve the objective of this method.
         for (int memTypeIdx = 0; memTypeIdx < memberTypes.getLength(); memTypeIdx++) {
             XSSimpleType simpleTypeDv = (XSSimpleType) memberTypes.item(memTypeIdx);
-            if (SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(simpleTypeDv.getNamespace()) && XS11TypeHelper.isStrValueValidForASimpleType(content, simpleTypeDv, schemaVersion)) {
+            if (SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(simpleTypeDv.getNamespace()) && 
+                                                         XS11TypeHelper.isStrValueValidForASimpleType(content, simpleTypeDv, schemaVersion)) {
                 isValueValid = true;
                 validatedInfo.memberType = simpleTypeDv; 
                 break;  
@@ -123,7 +126,8 @@ public class XS11TypeHelper {
     
     
     /*
-     * Determine if a string value is valid with a given simpleType definition. Using Xerces API 'XSSimpleType.validate' for this need.
+     * Determine if a string value is valid with a given simpleType definition. 
+     * Using Xerces API 'XSSimpleType.validate' for this need.
      */
     public static boolean isStrValueValidForASimpleType(String value, XSSimpleType simplType, short schemaVersion) {
         
@@ -148,7 +152,8 @@ public class XS11TypeHelper {
     
     
     /*
-     * Validate a QName value (check lexical form for correctness, and if the prefix is declared), and report errors if there are any.
+     * Validate a QName value (check lexical form for correctness, and whether the prefix is declared), 
+     * and report any possible errors.
      */
     public static void validateQNameValue(String qNameStr, NamespaceContext namespaceContext, XMLErrorReporter errorReporter) {
         
@@ -158,13 +163,15 @@ public class XS11TypeHelper {
         
         // both prefix (if any) and localpart of QName, must be valid NCName
         if ((prefix.length() > 0 && !XMLChar.isValidNCName(prefix)) || !XMLChar.isValidNCName(localpart)) {
-            errorReporter.reportError(XSMessageFormatter.SCHEMA_DOMAIN, "cvc-datatype-valid.1.2.1", new Object[] {qNameStr, "QName"}, XMLErrorReporter.SEVERITY_ERROR);
+            errorReporter.reportError(XSMessageFormatter.SCHEMA_DOMAIN, "cvc-datatype-valid.1.2.1", 
+                                      new Object[] {qNameStr, "QName"}, XMLErrorReporter.SEVERITY_ERROR);
         }
 
         // try to resolve QName prefix to a namespace URI, and report an error if resolution fails.
         String uri = namespaceContext.getURI(prefix.intern());
         if (prefix.length() > 0 && uri == null) {
-            errorReporter.reportError(XSMessageFormatter.SCHEMA_DOMAIN, "UndeclaredPrefix", new Object[] {qNameStr, prefix}, XMLErrorReporter.SEVERITY_ERROR);
+            errorReporter.reportError(XSMessageFormatter.SCHEMA_DOMAIN, "UndeclaredPrefix", 
+                                      new Object[] {qNameStr, prefix}, XMLErrorReporter.SEVERITY_ERROR);
         }
         
     } // validateQNameValue
@@ -290,7 +297,8 @@ public class XS11TypeHelper {
     public static boolean isSpecialSimpleType(XSSimpleType simpleType) {        
         boolean isSpecialSimpleType = false;
         String typeName = simpleType.getName(); 
-        if (Constants.NS_XMLSCHEMA.equals(simpleType.getNamespace()) && (SchemaSymbols.ATTVAL_ANYATOMICTYPE.equals(typeName) || SchemaSymbols.ATTVAL_ANYSIMPLETYPE.equals(typeName))) {
+        if (Constants.NS_XMLSCHEMA.equals(simpleType.getNamespace()) && (SchemaSymbols.ATTVAL_ANYATOMICTYPE.equals(typeName) || 
+                                                                         SchemaSymbols.ATTVAL_ANYSIMPLETYPE.equals(typeName))) {
             isSpecialSimpleType = true; 
         }        
         return isSpecialSimpleType;        
@@ -298,7 +306,7 @@ public class XS11TypeHelper {
     
     
     /*
-     * Construct an PsychoPath XPath2 "result sequence" given a list of XDM items as input.
+     * Construct an Eclipse XPath2 "result sequence" given a list of XDM items as input.
      */
     public static ResultSequence getXPath2ResultSequence(List xdmItems) {
         
@@ -314,7 +322,7 @@ public class XS11TypeHelper {
     
     
     /*
-     * Check if two type tables can be compared.
+     * Check if two type tables can be compared, for the purpose of XSD CTA evaluation.
      */
     public static boolean isTypeTablesComparable(XSTypeAlternativeImpl[] typeTable1, XSTypeAlternativeImpl[] typeTable2) {
        boolean typeTablesComparable = true;

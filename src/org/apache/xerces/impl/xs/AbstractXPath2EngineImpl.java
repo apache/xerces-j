@@ -52,31 +52,31 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * A class providing common services for XPath expression evaluation, with 
- * "PsychoPath XPath 2.0" engine (https://wiki.eclipse.org/PsychoPathXPathProcessor).
+ * A class providing common services for XPath expression evaluation, using
+ * "Eclipse XPath 2.0" engine (https://www.eclipse.org/webtools).
  * 
  * @xerces.internal
  * 
  * @author Mukul Gandhi, IBM
  * @version $Id$
  */
-public class AbstractPsychoPathXPath2Impl {
+public class AbstractXPath2EngineImpl {
     
     private DynamicContext fXpath2DynamicContext = null;
     private Document fDomDoc = null;
     
     
     /*
-     * Initialize the PsychoPath engine XPath 2.0 dynamic context. This also initializes the XPath engine's static
-     * context, since dynamic context is inherited from the static context.
+     * Initialize the XPath 2.0 engine's dynamic context. This also initializes the XPath engine's static
+     * context as well, since dynamic context is inherited from the static context.
      */
-    public DynamicContext initXPath2DynamicContext(XSModel schema, Document document, Map psychoPathParams) {
+    public DynamicContext initXPath2DynamicContext(XSModel schema, Document document, Map xpathEngineParams) {
         
         fXpath2DynamicContext = new DefaultDynamicContext(schema, document);        
         
-        // populate the 'PsychoPath XPath 2' static context, with namespace bindings derived from the XML Schema document
-        NamespaceSupport xpath2NamespaceContext = (NamespaceSupport) psychoPathParams.get(Constants.XPATH2_NAMESPACE_CONTEXT);
-        Boolean isCtaEvaluator = (Boolean)psychoPathParams.get(Constants.IS_CTA_EVALUATOR);
+        // populate the "XPath 2 engine" static context, with namespace bindings derived from the XML Schema document
+        NamespaceSupport xpath2NamespaceContext = (NamespaceSupport) xpathEngineParams.get(Constants.XPATH2_NAMESPACE_CONTEXT);
+        Boolean isCtaEvaluator = (Boolean)xpathEngineParams.get(Constants.IS_CTA_EVALUATOR);
         if (isCtaEvaluator != null && isCtaEvaluator.booleanValue()) {
            // check if the call to this method came from CTA evaluator. needs special treatment for handling namespace context.
            String[] namespaceBindingInfo = xpath2NamespaceContext.getNamespaceBindingInfo();
@@ -112,7 +112,7 @@ public class AbstractPsychoPathXPath2Impl {
     
     
     /*
-     * Evaluate XPath expression with PsychoPath XPath2 engine.
+     * Evaluate XPath expression using the XPath2 engine.
      */
     protected boolean evaluateXPathExpr(XPath xpathObject, Element contextNode) throws Exception {
         
@@ -203,4 +203,4 @@ public class AbstractPsychoPathXPath2Impl {
          return uri;
      } // getURIXS11CTA
     
-} // class AbstractPsychoPathXPath2Impl
+} // class AbstractXPath2EngineImpl

@@ -60,12 +60,11 @@ import org.w3c.dom.Element;
 
 /**
  * A class implementing an XPath interface for XML Schema 1.1 "assertions" evaluation. This class interfaces with 
- * the "PsychoPath XPath 2.0" engine (https://wiki.eclipse.org/PsychoPathXPathProcessor) for XPath expression 
- * evaluations for XSD assertions.
+ * the "XPath 2.0" engine (https://www.eclipse.org/webtools) for XPath expression evaluations for XSD assertions.
  * 
- * An instance of this class constructs Xerces PSVI enabled DOM trees (which are in-memory XDM 
- * representation for PsychoPath XPath 2.0 engine) from XNI event calls. XSD assertions 
- * are evaluated on these PSVI XDM instances in a bottom up fashion.
+ * An instance of this class constructs Xerces PSVI enabled DOM trees (which are in-memory XDM representation for 
+ * XPath 2.0 engine) from XNI event calls. XSD assertions are evaluated on these PSVI XDM instances in a bottom 
+ * up fashion.
  * 
  * @xerces.internal
  * 
@@ -74,18 +73,18 @@ import org.w3c.dom.Element;
  * 
  * @version $Id$
  */
-public class XMLAssertPsychopathXPath2Impl extends XMLAssertAdapter {
+public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
 
     // class fields declarations
 
-    // XSModel instance representing the schema information needed by PsychoPath XPath 2.0 engine 
+    // XSModel instance representing the schema information needed by XPath 2.0 engine 
     private XSModel fSchemaXSmodel = null;
     
     // XPath 2.0 dynamic context reference
     private DynamicContext fXpath2DynamicContext;
     
-    // reference to the PsychoPath XPath evaluator
-    private AbstractPsychoPathXPath2Impl fAbstrPsychopathImpl = null;
+    // reference to the Eclipse XPath evaluator
+    private AbstractXPath2EngineImpl fAbstrXpathEngineImpl = null;
     
     // the DOM root of assertions tree
     private Document fAssertDocument = null;
@@ -102,7 +101,7 @@ public class XMLAssertPsychopathXPath2Impl extends XMLAssertAdapter {
     // XMLSchemaValidator reference. set from the XMLSchemaValidator object itself.
     private XMLSchemaValidator fXmlSchemaValidator = null;
     
-    // parameters to pass to PsychoPath XPath engine (for e.g, the XML namespace bindings)
+    // parameters to pass to XPath engine (for e.g, the XML namespace bindings)
     private Map fAssertParams = null;
     
     // failed assertions for an "element information item"
@@ -115,7 +114,7 @@ public class XMLAssertPsychopathXPath2Impl extends XMLAssertAdapter {
     /*
      * Class constructor.
      */
-    public XMLAssertPsychopathXPath2Impl(Map assertParams) {        
+    public XMLAssertXPath2EngineImpl(Map assertParams) {        
         // initializing the class variables
         this.fAssertDocument = new PSVIDocumentImpl();        
         this.fAssertRootStack = new Stack();
@@ -125,12 +124,12 @@ public class XMLAssertPsychopathXPath2Impl extends XMLAssertAdapter {
     
 
     /*
-     * Initialize the PsychoPath XPath processor.
+     * Initialize the Eclipse XPath processor.
      */
     private void initXPathProcessor() throws Exception {        
         fXmlSchemaValidator = (XMLSchemaValidator) getProperty("http://apache.org/xml/properties/assert/validator");        
-        fAbstrPsychopathImpl = new AbstractPsychoPathXPath2Impl();
-        fXpath2DynamicContext = fAbstrPsychopathImpl.initXPath2DynamicContext(fSchemaXSmodel, fAssertDocument, fAssertParams);        
+        fAbstrXpathEngineImpl = new AbstractXPath2EngineImpl();
+        fXpath2DynamicContext = fAbstrXpathEngineImpl.initXPath2DynamicContext(fSchemaXSmodel, fAssertDocument, fAssertParams);        
     } // initXPathProcessor
     
 
@@ -577,11 +576,11 @@ public class XMLAssertPsychopathXPath2Impl extends XMLAssertAdapter {
             
             boolean result;            
             if (value == null || xPathContextExists == true) {
-                result = fAbstrPsychopathImpl.evaluateXPathExpr(xpathObject, fCurrentAssertDomNode);  
+                result = fAbstrXpathEngineImpl.evaluateXPathExpr(xpathObject, fCurrentAssertDomNode);  
             } 
             else {
                 // XPath context is "undefined"
-                result = fAbstrPsychopathImpl.evaluateXPathExpr(xpathObject, null); 
+                result = fAbstrXpathEngineImpl.evaluateXPathExpr(xpathObject, null); 
             }
             
             if (!result) {
@@ -833,4 +832,4 @@ public class XMLAssertPsychopathXPath2Impl extends XMLAssertAdapter {
         return ((XSSimpleType) simpleTypeDefn.getBaseType()).getVariety() == XSSimpleType.VARIETY_UNION;
     }
     
-} // class XMLAssertPsychopathXPath2Impl
+} // class XMLAssertXPath2EngineImpl

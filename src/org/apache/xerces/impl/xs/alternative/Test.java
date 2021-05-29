@@ -29,7 +29,7 @@ import org.apache.xerces.dom.PSVIDocumentImpl;
 import org.apache.xerces.dom.PSVIElementNSImpl;
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.xpath.XPath20;
-import org.apache.xerces.impl.xs.AbstractPsychoPathXPath2Impl;
+import org.apache.xerces.impl.xs.AbstractXPath2EngineImpl;
 import org.apache.xerces.impl.xs.SchemaSymbols;
 import org.apache.xerces.util.NamespaceSupport;
 import org.apache.xerces.xni.NamespaceContext;
@@ -49,7 +49,7 @@ import org.w3c.dom.Element;
  * @author Mukul Gandhi IBM
  * @version $Id$
  */
-public class Test extends AbstractPsychoPathXPath2Impl {
+public class Test extends AbstractXPath2EngineImpl {
 
 	/** The type alternative to which the test belongs */
     protected final XSTypeAlternativeImpl fTypeAlternative;
@@ -57,11 +57,11 @@ public class Test extends AbstractPsychoPathXPath2Impl {
     /** String representation of the XPath */
     protected final String fExpression;
 
-    /** XPath 2.0 expression. Xerces-J native XPath 2.0 subset. */
+    /** Xerces-J native XPath 2.0 subset expression object. */
     protected final XPath20 fXPath;
     
-    /** XPath 2.0 expression. PsychoPath XPath 2.0 expression object. */
-    protected final XPath fXPathPsychoPath;
+    /** XPath 2.0 expression. Eclipse XPath 2.0 expression object. */
+    protected final XPath fEclipseXPathImpl;
         
     /** XPath 2.0 namespace context. Derived from XSDocumentInfo in XSD traversers. */
     protected final NamespaceSupport fXPath2NamespaceContext;
@@ -70,18 +70,18 @@ public class Test extends AbstractPsychoPathXPath2Impl {
     public Test(XPath20 xpath, XSTypeAlternativeImpl typeAlternative, NamespaceSupport namespaceContext) {
         fXPath = xpath;
         fExpression = xpath == null ? "" : xpath.getXPathStrValue();
-        fXPathPsychoPath = null;
+        fEclipseXPathImpl = null;
         fTypeAlternative = typeAlternative;
         fXPath2NamespaceContext = namespaceContext;
     }
     
     /*
-     * Constructs a "test" for type alternatives. An overloaded constructor, for PsychoPath XPath processor.
+     * Constructs a "test" for type alternatives. An overloaded constructor, for Eclipse XPath processor.
      */
     public Test(XPath xpath, String expression, XSTypeAlternativeImpl typeAlternative, NamespaceSupport namespaceContext) {
         fXPath = null;
         fExpression = expression == null ? "" : expression;
-        fXPathPsychoPath = xpath;
+        fEclipseXPathImpl = xpath;
         fTypeAlternative = typeAlternative;
         fXPath2NamespaceContext = namespaceContext;
     }
@@ -95,16 +95,16 @@ public class Test extends AbstractPsychoPathXPath2Impl {
     }
 	
     /*
-     * Returns the test XPath expression object. Return the native Xerces XPath object or the PsychoPath XPath object, 
-     * whichever is available. 
+     * Returns the test XPath expression object. Return the native Xerces XPath object or the 
+     * Eclipse XPath object, whichever is available. 
      */
     public Object getXPath() {
         Object xpath = null;
         
         if (fXPath != null) {
             xpath = fXPath;    
-        } else if (fXPathPsychoPath != null) {
-            xpath = fXPathPsychoPath;    
+        } else if (fEclipseXPathImpl != null) {
+            xpath = fEclipseXPathImpl;    
         }
         
         return xpath;
@@ -114,8 +114,8 @@ public class Test extends AbstractPsychoPathXPath2Impl {
     public boolean evaluateTest(QName element, XMLAttributes attributes, NamespaceContext instanceNamespaceContext, String expandedSystemId) {        
         if (fXPath != null) {
             return fXPath.evaluateTest(element, attributes);
-        } else if (fXPathPsychoPath != null) {
-            return evaluateTestWithPsychoPathXPathEngine(element, attributes, instanceNamespaceContext, expandedSystemId);  
+        } else if (fEclipseXPathImpl != null) {
+            return evaluateTestWithEclipseXPathEngine(element, attributes, instanceNamespaceContext, expandedSystemId);  
         }
         else {
             return false;
@@ -127,15 +127,18 @@ public class Test extends AbstractPsychoPathXPath2Impl {
     }
     
     /*
-     * Evaluate the XPath "test" expression on an XDM instance, for CTA evaluation. Uses PsychoPath XPath 2.0 engine for the evaluation. 
+     * Evaluate the XPath "test" expression on an XDM instance, for CTA evaluation.
+     * Uses Eclipse XPath 2.0 engine for the evaluation. 
      */
-    private boolean evaluateTestWithPsychoPathXPathEngine(QName element, XMLAttributes attributes, NamespaceContext instanceNamespaceContext, String expandedSystemId) {
+    private boolean evaluateTestWithEclipseXPathEngine(QName element, XMLAttributes attributes, 
+                                                       NamespaceContext instanceNamespaceContext, 
+                                                       String expandedSystemId) {
         
         boolean evaluationResult = false;
 
         try { 
             // an untyped PSVI DOM tree (consisting only of the top most element node and it's attributes) is constructed,
-            // to provide to PsychoPath XPath engine for evaluation.
+            // to provide to XPath engine for evaluation.
             Document document = new PSVIDocumentImpl();
             document.setDocumentURI(expandedSystemId); // an approximation (the URI of the parent document) of the document URI for this <alternative>, document tree
             Element elem = new PSVIElementNSImpl((CoreDocumentImpl) document, element.uri, element.rawname);            
@@ -158,16 +161,16 @@ public class Test extends AbstractPsychoPathXPath2Impl {
             
             document.appendChild(elem);
 
-            // construct parameter values for psychopath xpath processor
-            Map psychoPathParams = new HashMap();
-            psychoPathParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, fXPath2NamespaceContext);
-            psychoPathParams.put(Constants.IS_CTA_EVALUATOR, Boolean.TRUE);
-            DynamicContext xpath2DynamicContext = initXPath2DynamicContext(null, document, psychoPathParams);
+            // construct parameter values for eclipse xpath processor
+            Map eclipseXpathParams = new HashMap();
+            eclipseXpathParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, fXPath2NamespaceContext);
+            eclipseXpathParams.put(Constants.IS_CTA_EVALUATOR, Boolean.TRUE);
+            DynamicContext xpath2DynamicContext = initXPath2DynamicContext(null, document, eclipseXpathParams);
             xpath2DynamicContext.set_base_uri(fTypeAlternative.getBaseURI()); // set base-uri property in XPath2 static context, to the URI of XSD document
             if (fTypeAlternative.fXPathDefaultNamespace != null) {
                 addNamespaceBindingToXPath2DynamicContext(null, fTypeAlternative.fXPathDefaultNamespace);
             }
-            evaluationResult = evaluateXPathExpr(fXPathPsychoPath, elem);
+            evaluationResult = evaluateXPathExpr(fEclipseXPathImpl, elem);
         } 
         catch(Exception ex) {
             evaluationResult = false;  
@@ -175,6 +178,6 @@ public class Test extends AbstractPsychoPathXPath2Impl {
 
         return evaluationResult;
        
-    } // evaluateTestWithPsychoPathXPathEngine
+    } // evaluateTestWithEclipseXPathEngine
     
 }

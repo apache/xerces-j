@@ -90,6 +90,12 @@ public class SourceValidator implements ErrorHandler {
     /** XSD 1.1 CTA full XPath 2.0 checking feature id (http://apache.org/xml/features/validation/cta-full-xpath-checking). */
     protected static final String XS11_CTA_FULL_XPATH_CHECKING_ID = "http://apache.org/xml/features/validation/cta-full-xpath-checking";
     
+    /** SAX namespace prefixes feature id (http://xml.org/sax/features/namespace-prefixes). */
+    protected static final String SAX_NAMESPACE_PREFIXES_FEATURE_ID = "http://xml.org/sax/features/namespace-prefixes";
+    
+    /** SAX namespace xmlns URIs feature id (http://xml.org/sax/features/xmlns-uris). */
+    protected static final String SAX_XMLNS_URIS_FEATURE_ID = "http://xml.org/sax/features/xmlns-uris";
+    
     /** XSD 1.1 assert comments and PI checking feature id (http://apache.org/xml/features/validation/assert-comments-and-pi-checking). */
     protected static final String XS11_ASSERT_COMMENT_PI_CHECKING_ID = "http://apache.org/xml/features/validation/assert-comments-and-pi-checking";
     
@@ -123,6 +129,12 @@ public class SourceValidator implements ErrorHandler {
     
     /** Default generate synthetic schema annotations (false). */
     protected static final boolean DEFAULT_GENERATE_SYNTHETIC_ANNOTATIONS = false;
+    
+    /** Default sax namespace prefixes (true). */
+    protected static final boolean DEFAULT_SAX_NAMESPACE_PREFIXES = true;
+    
+    /** Default sax xmlns uris (true). */
+    protected static final boolean DEFAULT_SAX_XMLNS_URIS = true;
     
     /** Default XSD 1.1 CTA full XPath 2.0 checking (false). */
     protected static final boolean DEFAULT_XS11_CTA_XPATH_FULL_CHECKING = false;
@@ -321,6 +333,8 @@ public class SourceValidator implements ErrorHandler {
         boolean honourAllSchemaLocations = DEFAULT_HONOUR_ALL_SCHEMA_LOCATIONS;
         boolean validateAnnotations = DEFAULT_VALIDATE_ANNOTATIONS;
         boolean generateSyntheticAnnotations = DEFAULT_GENERATE_SYNTHETIC_ANNOTATIONS;
+        boolean saxNamespacePrefixes = DEFAULT_SAX_NAMESPACE_PREFIXES;
+        boolean saxXmlnsUris = DEFAULT_SAX_XMLNS_URIS;
         boolean xs11CtaFullxpathchecking = DEFAULT_XS11_CTA_XPATH_FULL_CHECKING;
         boolean xs11AssertCommentsAndPIchecking = DEFAULT_XS11_ASSERT_COMMENT_PI_CHECKING;
         boolean memoryUsage = DEFAULT_MEMORY_USAGE;
@@ -575,7 +589,9 @@ public class SourceValidator implements ErrorHandler {
                 if (validationSource.equals("sax")) {
                     // SAXSource
                     XMLReader reader = XMLReaderFactory.createXMLReader();
-                    reader.setErrorHandler(sourceValidator);
+                    reader.setFeature(SAX_NAMESPACE_PREFIXES_FEATURE_ID, saxNamespacePrefixes);
+                    reader.setFeature(SAX_XMLNS_URIS_FEATURE_ID, saxXmlnsUris);
+                    reader.setErrorHandler(sourceValidator);                    
                     for (int j = 0; j < length; ++j) {
                         String systemId = (String) instances.elementAt(j);
                         SAXSource source = new SAXSource(reader, new InputSource(systemId));

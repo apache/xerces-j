@@ -34,7 +34,7 @@ import org.apache.xerces.xs.XSObjectList;
 import org.apache.xerces.xs.XSSimpleTypeDefinition;
 import org.apache.xerces.xs.XSTypeDefinition;
 import org.eclipse.wst.xml.xpath2.processor.DynamicContext;
-import org.eclipse.wst.xml.xpath2.processor.PsychoPathXPathTypeHelper;
+import org.eclipse.wst.xml.xpath2.processor.XPath20TypeHelper;
 import org.eclipse.wst.xml.xpath2.processor.internal.types.AnyAtomicType;
 import org.eclipse.wst.xml.xpath2.processor.internal.types.AnyType;
 import org.eclipse.wst.xml.xpath2.processor.internal.types.SchemaTypeValueFactory;
@@ -123,7 +123,7 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
                                          XSTypeDefinition attrType, boolean isTypeDerivedFromList, 
                                          DynamicContext xpath2DynamicContext) throws Exception {
         
-        // dummy schema short code initializer
+        // xsd type short code initializer
         short xsdTypecode = -100;
         
         if (listOrUnionType != null) {
@@ -299,13 +299,14 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
     
     
     /* 
-     * Find the built-in Xerces schema 'type code' for XPath2 variable $value. This function recursively searches the XML schema 
-     * type hierarchy navigating up the base types, to find the needed built-in type.
+     * Find the built-in Xerces schema 'type code' for XPath2 variable $value. This function 
+     * recursively searches the XML schema type hierarchy navigating up the base types, to 
+     * find the needed built-in type.
      */
     private short getXercesXSDTypeCodeFor$value(XSTypeDefinition elementType) {
 
         if (Constants.NS_XMLSCHEMA.equals(elementType.getNamespace())) {
-            short typeCode = -100; // dummy initializer
+            short typeCode = -100;  // xsd type short code initializer
 
             boolean isxsd11Type = false;
 
@@ -313,11 +314,11 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
             // handling few of schema types within Eclipse XPath engine
             final String elementTypeName = elementType.getName();
             if ("dayTimeDuration".equals(elementTypeName)) {
-                typeCode = PsychoPathXPathTypeHelper.DAYTIMEDURATION_DT;
+                typeCode = XPath20TypeHelper.DAYTIMEDURATION_DT;
                 isxsd11Type = true;
             }
             else if ("yearMonthDuration".equals(elementTypeName)) {
-                typeCode = PsychoPathXPathTypeHelper.YEARMONTHDURATION_DT;
+                typeCode = XPath20TypeHelper.YEARMONTHDURATION_DT;
                 isxsd11Type = true;
             }
 

@@ -119,11 +119,12 @@ public class AbstractXPath2EngineImpl {
         StaticChecker sc = new StaticNameResolver(fXpath2DynamicContext);
         sc.check(xpathObject);       
         Evaluator xpath2Evaluator = null;
-        if (contextNode != null) {            
-            xpath2Evaluator = new DefaultEvaluator(fXpath2DynamicContext, fDomDoc, fDomDoc.getDocumentElement()); // for assertions and CTA, root node of XDM tree is the initial context element           
-            // change focus to the top most element
+        if (contextNode != null) {
+            // for assertions and CTA, root node of XDM tree is the initial context element
+            xpath2Evaluator = new DefaultEvaluator(fXpath2DynamicContext, fDomDoc, fDomDoc.getDocumentElement());           
+            // change evaluation focus to the top most element
             ResultSequence contextNodeResultSet = ResultSequenceFactory.create_new();
-            contextNodeResultSet.add(new ElementType(contextNode, fXpath2DynamicContext.node_position(contextNode)));           
+            contextNodeResultSet.add(new ElementType(contextNode));           
             fXpath2DynamicContext.set_focus(new Focus(contextNodeResultSet));
         }
         else {           

@@ -104,22 +104,22 @@ v.validate(instanceDocument);
   	<q>How an XPath 2.0 engine is used for XML Schema 1.1 assertions and CTAs?</q>
   	<a>
   	   <p>XML Schema 1.1 assertions and CTAs require an XPath processor during evaluation. For XSD 1.1 assertions,
-  	   full <jump href="http://www.w3.org/TR/xpath20/">XPath 2.0</jump> support is required. For XSD 1.1 CTAs the XSD schema engines can
+  	   full <jump href="http://www.w3.org/TR/xpath20">XPath 2.0</jump> support is required. For XSD 1.1 CTAs the XSD schema engines can
   	   provide full XPath 2.0 support, or they can implement a <jump href="http://www.w3.org/TR/xmlschema11-1/#coss-ta">smaller XPath subset</jump>
-  	   as defined by the XSD 1.1 language. For CTAs Xerces uses the XSD 1.1 CTA XPath subset language by default, but can be made to use the full XPath 2.0 support by
-  	   setting the value of Xerces feature <code>http://apache.org/xml/features/validation/cta-full-xpath-checking</code> to 'true'.
+  	   as defined by the XSD 1.1 language. For CTAs Xerces uses the XSD 1.1 CTA XPath subset language by default, but can be made to use the 
+  	   full XPath 2.0 support by setting the value of Xerces feature <code>http://apache.org/xml/features/validation/cta-full-xpath-checking</code> to 'true'.
   	   The native CTA XPath processor in Xerces-J was written for efficiency, so you will likely get better performance if your
   	   XPath expressions fall within the minimum subset defined by the XML Schema 1.1 specification. For full XPath 2.0 evaluation
-  	   (for XSD 1.1 assertions, and optionally for CTAs), Xerces-J uses the <jump href="http://wiki.eclipse.org/PsychoPathXPathProcessor">Eclipse/PsychoPath XPath 2.0 engine</jump>.
-  	   Xerces-J does bundle along a PsychoPath XPath 2.0 jar (which requires JDK 1.4 or later).
+  	   (for XSD 1.1 assertions, and optionally for CTAs), Xerces-J uses an <jump href="https://www.eclipse.org/webtools">XPath 2.0 engine</jump>.
+  	   Xerces-J does bundle along an XPath 2.0 engine jar for these features (that requires JDK 1.4 or later).
   	   </p>
   	   <p>
   	      We would like to acknowledge, work of following people for the XPath 2.0 support that comes with Xerces's
   	      XML Schema 1.1 processor: Andrea Bittau (responsible for the original design and implementation, of XPath 2.0
   	      processor that's been used by Xerces. Andrea donated his XPath 2.0 processor to the Eclipse Foundation, that
-  	      Xerces uses.), Dave Carver (Dave helped to set up software infrastructure at Eclipse Foundation's Web Tools Platform project,
+  	      Xerces uses), Dave Carver (Dave helped to set up software infrastructure at Eclipse Foundation's Web Tools Platform project,
   	      for testing the XPath 2.0 processor as per W3C XPath 2.0 test suite. He also helped to improve compliance of
-  	      XPath 2.0 processor, to the W3C XPath 2.0 test suite by providing numerous bug fixes and implementation.),
+  	      XPath 2.0 processor, to the W3C XPath 2.0 test suite by providing numerous bug fixes and implementation),
   	      Jesper Steen Moeller (Jesper as an Eclipse's Web Tools Platform committer, helped to improve the implementation
   	      of the XPath 2.0 processor).
   	   </p>

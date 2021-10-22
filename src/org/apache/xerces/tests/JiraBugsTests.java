@@ -219,7 +219,7 @@ public class JiraBugsTests extends XercesAbstractTestCase {
             // test expected error messages
             List expectedMsgList = new ArrayList();
             FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("Attribute 'id' must appear on element 'el'");
+            mesgFragments.setMessageFragment("Attribute 'id' belonging to namespace 'tns', must appear on element 'el'");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));
 		} catch(Exception ex) {
@@ -243,7 +243,7 @@ public class JiraBugsTests extends XercesAbstractTestCase {
             // test expected error messages
             List expectedMsgList = new ArrayList();
             FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("Attribute 'id' must appear on element 'el'");
+            mesgFragments.setMessageFragment("Attribute 'id' belonging to namespace 'tns', must appear on element 'el'");
             expectedMsgList.add(mesgFragments);
             assertTrue(areErrorMessagesConsistent(expectedMsgList));
 		} catch(Exception ex) {

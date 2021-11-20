@@ -302,12 +302,12 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
         if (assertions instanceof XSObjectList) {
             // assertions from a "complex type" definition
             ElementPSVImpl modifiedRootNodePsvi = savePsviInfoWithUntypingOfAssertRoot(elemPsvi, true);
-            evaluateAssertionsFromAComplexType(element, assertions, value, augs);
+            evaluateAssertionsFromComplexType(element, assertions, value, augs);
             restorePsviInfoForXPathContext(modifiedRootNodePsvi);
         }
         else if (assertions instanceof Vector) {            
             // assertions from a "simple type" definition
-            evaluateAssertionsFromASimpleType(element, assertions, value, augs);            
+            evaluateAssertionsFromSimpleType(element, assertions, value, augs);            
         }
          
     } // processAllAssertionsOnElement
@@ -340,9 +340,9 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
 
     
     /*
-     * Evaluate assertions on a "simple type" on elements.
+     * Evaluate assertions from a "simple type" definition, on elements.
      */
-    private void evaluateAssertionsFromASimpleType(QName element, List assertions, String value, Augmentations augs) throws Exception {  
+    private void evaluateAssertionsFromSimpleType(QName element, List assertions, String value, Augmentations augs) throws Exception {  
               
         XSSimpleTypeDefinition simpleTypeDefn = (XSSimpleTypeDefinition) ((ElementPSVI) augs.getItem(Constants.ELEMENT_PSVI)).getTypeDefinition();
         boolean isTypeDerivedFromList = isTypeDerivedFromSTList(simpleTypeDefn);
@@ -363,7 +363,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
             evaluateAssertsFromItemTypeOfSTList(element, simpleTypeDefn.getItemType(), value); 
         }
         
-    } // evaluateAssertionsFromASimpleType
+    } // evaluateAssertionsFromSimpleType
     
     
     /*
@@ -500,9 +500,9 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     
     
     /*
-     * Evaluate assertions on a "complex type".
+     * Evaluate assertions from a "complex type" definition.
      */
-    private void evaluateAssertionsFromAComplexType(QName element, List assertions, String value, Augmentations augs) throws Exception {
+    private void evaluateAssertionsFromComplexType(QName element, List assertions, String value, Augmentations augs) throws Exception {
         
         ElementPSVI elemPsvi = (ElementPSVI) augs.getItem(Constants.ELEMENT_PSVI);
         
@@ -561,7 +561,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
             }            
         }       
         
-    } // evaluateAssertionsFromAComplexType
+    } // evaluateAssertionsFromComplexType
     
     
     /*

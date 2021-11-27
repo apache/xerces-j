@@ -523,5 +523,53 @@ public class JiraBugsTests extends XercesAbstractTestCase {
            assertEquals("src-attribute.5: The property 'fixed' is present in attribute 'att1', so the value of 'use' must not be 'prohibited'.", ex.getMessage());
 		}
 	}
+	
+	public void testJira_1732_1() {
+		String xmlfile = fDataDir+"/jira_bugs/1732_fn_matches.xml";
+		String schemapath = fDataDir+"/jira_bugs/1732_fn_matches.xsd";		
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testJira_1732_2() {
+		String xmlfile = fDataDir+"/jira_bugs/1732_fn_replace.xml";
+		String schemapath = fDataDir+"/jira_bugs/1732_fn_replace.xsd";		
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testJira_1732_3() {
+		String xmlfile = fDataDir+"/jira_bugs/1732_fn_tokenize.xml";
+		String schemapath = fDataDir+"/jira_bugs/1732_fn_tokenize.xsd";		
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
 		
 }

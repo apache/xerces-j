@@ -2826,4 +2826,50 @@ public class AssertionTests extends XercesAbstractTestCase {
 		}
 	}
 	
+	public void testAssert159() {
+		String xmlfile = fDataDir+"/assertions/regex_valid_1.xml";
+		String schemapath = fDataDir+"/assertions/regex_1.xsd";		
+		try {
+			Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testAssert160() {
+		String xmlfile = fDataDir+"/assertions/regex_invalid_1.xml";
+		String schemapath = fDataDir+"/assertions/regex_1.xsd";		
+		try {
+			Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 2);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testAssert161() {
+		String xmlfile = fDataDir+"/assertions/regex_valid_1.xml";
+		String schemapath = fDataDir+"/assertions/regex_2.xsd";		
+		try {
+			Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 2);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
 }

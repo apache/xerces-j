@@ -2872,4 +2872,19 @@ public class AssertionTests extends XercesAbstractTestCase {
 		}
 	}
 	
+	public void testAssert162() {
+		String xmlfile = fDataDir+"/assertions/regex_invalid_2.xml";
+		String schemapath = fDataDir+"/assertions/regex_3.xsd";		
+		try {
+			Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertTrue(failureList.size() == 5);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
 }

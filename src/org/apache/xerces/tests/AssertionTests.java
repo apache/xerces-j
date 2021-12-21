@@ -2887,4 +2887,20 @@ public class AssertionTests extends XercesAbstractTestCase {
 		}
 	}
 	
+	public void testAssert163() {
+		String xmlfile = fDataDir+"/assertions/unicode/regex_valid_1.xml";
+		String schemapath = fDataDir+"/assertions/unicode/regex_test_1.xsd";		
+		try {
+			Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
 }

@@ -84,7 +84,7 @@ jar xf &ParserName;-tools.&parserversion;.zip</source>
    <tr>
     <td>serializer.jar</td>
     <td>Jar file containing the Apache Xalan serializer. Currently
-    the serializer included in Xalan 2.7.1 is distributed with &ParserName;.</td>
+    the serializer included in Xalan 2.7.2 is distributed with &ParserName;.</td>
    </tr>
    <tr>
     <td>xercesImpl.jar</td>
@@ -260,7 +260,7 @@ jar xf &ParserName;-tools.&parserversion;.zip</source>
    <tr>
     <td>serializer.jar</td>
     <td>Jar file containing the Apache Xalan serializer. Currently
-    the serializer included in Xalan 2.7.1 is distributed with &ParserName;.</td>
+    the serializer included in Xalan 2.7.2 is distributed with &ParserName;.</td>
    </tr>
    <tr>
     <td>serializer.LICENSE.txt</td>
@@ -281,16 +281,16 @@ jar xf &ParserName;-tools.&parserversion;.zip</source>
    </tr>
    <tr>
     <td>xalan.jar</td>
-    <td>Jar file containing Apache Xalan 2.7.1 (required by
+    <td>Jar file containing Apache Xalan 2.7.2 (required by
     the Apache Stylebook for building the Xerces-J documentation)</td>
    </tr>
    <tr>
     <td>xalan.LICENSE.txt</td>
-    <td>License for Apache Xalan 2.7.1</td>
+    <td>License for Apache Xalan 2.7.2</td>
    </tr>
    <tr>
     <td>xalan.NOTICE.txt</td>
-    <td>NOTICE file for Apache Xalan 2.7.1</td>
+    <td>NOTICE file for Apache Xalan 2.7.2</td>
    </tr>
    <tr>
     <td>xercesImpl.jar</td>

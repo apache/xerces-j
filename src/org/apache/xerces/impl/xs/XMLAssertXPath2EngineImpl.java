@@ -110,6 +110,14 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     // state to save the <assert> root type information, of the current assertion evaluation 
     private XSTypeDefinition fAssertRootTypeDef = null;
     
+    // for some cases, consecutive calls to method 'characters(XMLString text)' of this 
+    // class may be received. we need to, concatenate the character buffers of such consecutive 
+    // method calls, and create only one XDM text node for these consecutive calls. the 
+    // following two variables handle that.
+    private boolean fIsTextNodeCall = false;
+    
+    private StringBuffer fTextNodeStrBuff = new StringBuffer();
+    
     
     /*
      * Class constructor.
@@ -140,6 +148,15 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
      *       org.apache.xerces.xni.Augmentations)
      */
     public void startElement(QName element, XMLAttributes attributes, Augmentations augs) throws Exception {
+        
+        if (fIsTextNodeCall) {
+            if (fCurrentAssertDomNode != null) {                
+                // add a child text node to the assertions, DOM tree
+                fCurrentAssertDomNode.appendChild(fAssertDocument.createTextNode(fTextNodeStrBuff.toString()));                
+            }
+            fIsTextNodeCall = false;
+            fTextNodeStrBuff = new StringBuffer();
+        }
         
         if (fCurrentAssertDomNode == null) {
             fCurrentAssertDomNode = new PSVIElementNSImpl((CoreDocumentImpl) fAssertDocument, element.uri, element.rawname);
@@ -220,12 +237,19 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
      */
     public void endElement(QName element, Augmentations augs) throws Exception {
         
-        if (fCurrentAssertDomNode != null) {            
+        if (fCurrentAssertDomNode != null) {
+            if (fIsTextNodeCall) {                                
+               // add a child text node to the assertions, DOM tree
+               fCurrentAssertDomNode.appendChild(fAssertDocument.createTextNode(fTextNodeStrBuff.toString()));
+               fIsTextNodeCall = false;
+               fTextNodeStrBuff = new StringBuffer();                
+            }
+            
             // set PSVI information on the element
             ElementPSVI elemPSVI = (ElementPSVI) augs.getItem(Constants.ELEMENT_PSVI);
             ((PSVIElementNSImpl) fCurrentAssertDomNode).setPSVI(elemPSVI);
             
-            // handling default values of elements (adding them as 'text' node in the assertion XDM tree)
+            // handling default values of elements (adding them as 'text' node within the assertion XDM tree)
             XSElementDecl elemDecl = (XSElementDecl) elemPSVI.getElementDeclaration();
             if (elemDecl != null && elemDecl.fDefault != null && !fCurrentAssertDomNode.hasChildNodes()) {
                 fCurrentAssertDomNode.appendChild(fAssertDocument.createTextNode(elemDecl.fDefault.normalizedValue));
@@ -256,9 +280,16 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     /* (non-Javadoc)
      * @see org.apache.xerces.impl.xs.assertion.XMLAssertAdapter#comment(org.apache.xerces.xni.XMLString)
      */
-    public void comment(XMLString text) {
-        // add a comment node to the assertions, DOM tree
+    public void comment(XMLString text) {        
         if (fCurrentAssertDomNode != null) {
+            if (fIsTextNodeCall) {                                
+                // add a child text node to the assertions, DOM tree
+                fCurrentAssertDomNode.appendChild(fAssertDocument.createTextNode(fTextNodeStrBuff.toString()));
+                fIsTextNodeCall = false;
+                fTextNodeStrBuff = new StringBuffer();                
+            }
+            
+            // add a comment node to the assertions, DOM tree
             fCurrentAssertDomNode.appendChild(fAssertDocument.createComment(new String(text.ch, text.offset, text.length)));
         } 
     } // comment
@@ -267,9 +298,16 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     /* (non-Javadoc)
      * @see org.apache.xerces.impl.xs.assertion.XMLAssertAdapter#processingInstruction(java.lang.String, org.apache.xerces.xni.XMLString)
      */
-    public void processingInstruction(String target, XMLString data) {
-        // add a PI node to the assertions, DOM tree
+    public void processingInstruction(String target, XMLString data) {        
         if (fCurrentAssertDomNode != null) {
+            if (fIsTextNodeCall) {                                
+               // add a child text node to the assertions, DOM tree
+               fCurrentAssertDomNode.appendChild(fAssertDocument.createTextNode(fTextNodeStrBuff.toString()));
+               fIsTextNodeCall = false;
+               fTextNodeStrBuff = new StringBuffer();                
+            }
+            
+            // add a PI node to the assertions, DOM tree
             fCurrentAssertDomNode.appendChild(fAssertDocument.createProcessingInstruction(target, new String(data.ch, data.offset, data.length)));
         } 
     } // processingInstruction
@@ -680,9 +718,9 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
      *      (org.apache.xerces.xni.XMLString)
      */
     public void characters(XMLString text) {        
-        // add a child text node to the assertions, DOM tree
         if (fCurrentAssertDomNode != null) {
-            fCurrentAssertDomNode.appendChild(fAssertDocument.createTextNode(new String(text.ch, text.offset, text.length)));
+            fIsTextNodeCall = true;
+            fTextNodeStrBuff.append(new String(text.ch, text.offset, text.length));
         }        
     }
     

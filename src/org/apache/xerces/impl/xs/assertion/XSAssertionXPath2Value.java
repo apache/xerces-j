@@ -37,7 +37,7 @@ public interface XSAssertionXPath2Value {
     /*
      * Determine "string value" of XPath 2.0 context variable $value.
      */
-    public String computeStringValueOf$value(Element rootNodeOfAssertTree, ElementPSVI pElemPSVI) throws DOMException;
+    public String getStringValueOf$value(Element rootNodeOfAssertTree, ElementPSVI pElemPSVI) throws DOMException;
     
     /*
      * Given a string value, this method sets an XPath 2.0 typed value for variable "$value" in XPath dynamic context. This method may

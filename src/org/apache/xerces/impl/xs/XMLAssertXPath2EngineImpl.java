@@ -324,8 +324,8 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     
 
     /*
-     * Method to evaluate all of XML Schema 1.1 assertions for an element tree. This is the root method which evaluates
-     * all XML Schema assertions in an XML instance validation episode.
+     * Method to evaluate all relevant XML Schema 1.1 assertions, for an XML document instance 
+     * element tree.
      */
     private void processAllAssertionsOnElement(QName element, List assertions, Augmentations augs) throws Exception {
         
@@ -334,7 +334,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
 
         // determine "string value" of XPath2 context variable $value
         ElementPSVI elemPsvi = (ElementPSVI) augs.getItem(Constants.ELEMENT_PSVI);
-        String value = computeStringValueOf$value(fCurrentAssertDomNode, elemPsvi);
+        String value = getStringValueOf$value(fCurrentAssertDomNode, elemPsvi);
 
         // evaluate assertions
         if (assertions instanceof XSObjectList) {

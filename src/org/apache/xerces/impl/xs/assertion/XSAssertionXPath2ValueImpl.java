@@ -44,7 +44,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * This class defines a set of methods to work with XPath 2.0 dynamic context 
+ * This class defines methods to work with XPath 2.0 dynamic context 
  * variable "$value", that is needed for XSD assertions evaluation.
  * 
  * @xerces.internal
@@ -61,7 +61,7 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
     /*
      * Determine "string value" of XPath 2.0 context variable $value.
      */
-    public String computeStringValueOf$value(Element rootNodeOfAssertTree, ElementPSVI pElemPSVI) throws DOMException {
+    public String getStringValueOf$value(Element rootNodeOfAssertTree, ElementPSVI pElemPSVI) throws DOMException {
         String strValueOf$value = "";
         
         XSTypeDefinition typeDef = pElemPSVI.getTypeDefinition();
@@ -79,7 +79,7 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
             StringBuffer textValueContents = new StringBuffer();
             final int childListLength = childNodeList.getLength();
             int textChildCount = 0;
-            // we are only interested in text & element nodes. store count of them in this variable.
+            // we're only interested in text and element nodes here. store count of them in this variable.
             int effectiveChildNodeCount = 0;
             for (int childNodeIndex = 0; childNodeIndex < childListLength; childNodeIndex++) {
                 Node node = childNodeList.item(childNodeIndex);
@@ -95,7 +95,7 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
             }
 
             if (textChildCount == effectiveChildNodeCount) {
-                // the DOM tree we are inspecting has simple content. therefore we can find the desired string value.
+                // the DOM tree we're working with just now has simple content. therefore we can find the desired string value.
                 if ((pElemPSVI.getTypeDefinition()).derivedFrom(SchemaSymbols.URI_SCHEMAFORSCHEMA, 
                                                                 SchemaSymbols.ATTVAL_STRING, 
                                                                 XSConstants.DERIVATION_RESTRICTION)) {
@@ -112,7 +112,7 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
         
         return strValueOf$value;
         
-    } // computeStringValueOf$value
+    } // getStringValueOf$value
     
 
     /*

@@ -1,0 +1,72 @@
+<?xml version='1.0'?>
+<ts:testSuite xmlns:ts="http://www.w3.org/XML/2004/xml-schema-test-suite/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://www.w3.org/XML/2004/xml-schema-test-suite/ AnnotatedTSSchema.xsd" name="TS_2006" releaseDate="2007-06-15" schemaVersion="W3C XML Schema 1.0 2nd edition">
+ <ts:annotation>
+  <ts:documentation>The entire contents of this directory and all its
+sub-directories are &#169; copyright World Wide Web Consortium 2006, 2007, and
+are made available under the terms of the W3C DOCUMENT NOTICE AND LICENSE,
+available online at
+http://www.w3.org/Consortium/Legal/copyright-documents-19990405.html.</ts:documentation>
+  <ts:documentation>The first testSet was contributed by NIST in 2004.  It was
+published in the previous release of the suite, and is included here
+unchanged.</ts:documentation>
+  <ts:documentation>The second testSet is an updated and extended version of
+one originally contributed by Sun in 2004.</ts:documentation>
+ <ts:documentation>The next twelve testSets were all contributed by Sun in
+2006.</ts:documentation>
+  <ts:documentation>The next 17 testSets were contributed by Microsoft in
+2006. They supersede and significantly extend the Microsoft contribution
+of 2004.</ts:documentation>
+  <ts:documentation>A further test set was contributed by Boeing in 2007.</ts:documentation>
+  <ts:documentation>The XSD 1.1 tests in the saxonMeta and saxonData directories were submitted
+by Saxonica Limited during 2010.</ts:documentation>
+  <ts:documentation>The XSD 1.1 tests in the ibmMeta and ibmData directories were submitted
+by IBM during 2010.</ts:documentation>
+ </ts:annotation>
+  
+
+ <ts:testSetRef xlink:href="ibm/ibmMeta/allGroup.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/anyAttribute.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/assertion.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/conditionalInclusion.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/constraintsOnAttribute.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/cyclicRedefineIncludeImportOverride.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/date.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/dateTimeStamp.testSet"/>  
+ <ts:testSetRef xlink:href="ibm/ibmMeta/dayTimeDuration.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/defaultAttributesApply.testSet"/>  
+ <ts:testSetRef xlink:href="ibm/ibmMeta/defaultFixed.testSet"/>        
+ <ts:testSetRef xlink:href="ibm/ibmMeta/double.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/edcWildcard.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/explicitTimezone.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/float.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/gYearMonth.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/gYear.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/gMonthDay.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/gDay.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/gMonth.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/idIDREF.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/identityConstraint.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/list.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/openContent.testSet"/>
+ <!--<ts:testSetRef xlink:href="ibm/ibmMeta/precisionDecimal.testSet"/> -->
+ <ts:testSetRef xlink:href="ibm/ibmMeta/regularExpression.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/restrictionOfComplexTypes.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/rf_whiteSpace.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/substitutionGroup.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/time.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/typeAlternatives.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/union.testSet"/> 
+ <ts:testSetRef xlink:href="ibm/ibmMeta/UnitsLength.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/unsignedInteger.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/wildcard.testSet"/> 
+ <ts:testSetRef xlink:href="ibm/ibmMeta/xml11Support.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/xpathDefaultNSonKeyKeyRefUnique.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/xsImportReference.testSet"/> 
+ <ts:testSetRef xlink:href="ibm/ibmMeta/yearMonthDuration.testSet"/>
+
+ <ts:testSetRef xlink:href="ibm/ibmMeta/Assert.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/TargetNamespace.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/TypeAlternativesMixed.testSet"/>
+ <ts:testSetRef xlink:href="ibm/ibmMeta/VC.testSet"/>
+
+</ts:testSuite>

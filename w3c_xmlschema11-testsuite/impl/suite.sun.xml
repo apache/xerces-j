@@ -1,0 +1,19 @@
+<?xml version='1.0'?>
+<ts:testSuite xmlns:ts="http://www.w3.org/XML/2004/xml-schema-test-suite/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://www.w3.org/XML/2004/xml-schema-test-suite/ http://www.w3.org/XML/2004/xml-schema-test-suite/AnnotatedTSSchema.xsd" name="schema11_ts" releaseDate="2009-12-18" schemaVersion="W3C XML Schema 1.1">
+   <ts:annotation>
+      <ts:documentation>W3C XML Schema 1.1 Test Suite</ts:documentation>
+   </ts:annotation>
+   <ts:testSetRef xlink:href="sun/sunMeta/suntest.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/AGroupDef.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/AttrDecl.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/AttrUse.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/CType.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/ElemDecl.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/IdConstrDefs.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/MGroup.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/MGroupDef.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/Notation.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/SType.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/Schema.testSet"/>
+   <ts:testSetRef xlink:href="sun/sunMeta/Wildcard.testSet"/>
+</ts:testSuite>

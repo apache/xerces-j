@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -582,6 +583,22 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		    Schema s = fSchemaFactory.newSchema(new File(schemapath));
             Validator v = s.newValidator();
 		    v.setErrorHandler(this);
+            v.validate(new DOMSource(getDomDocument(xmlfile)));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testJira_1726_2() {
+		String xmlfile = fDataDir+"/jira_bugs/1726_1.xml";
+		String schemapath = fDataDir+"/jira_bugs/1726_1.xsd";		
+		try {
+		    Schema s = fSchemaFactory.newSchema(new File(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
             v.validate(new SAXSource(new InputSource(new 
             		                           java.io.FileInputStream(xmlfile))));
             assertNull(fErrSysId);
@@ -592,7 +609,7 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		}
 	}
 	
-	public void testJira_1726_2() {
+	public void testJira_1726_3() {
 		String xmlfile = fDataDir+"/jira_bugs/1726_1.xml";
 		String schemapath = fDataDir+"/jira_bugs/1726_1.xsd";		
 		try {

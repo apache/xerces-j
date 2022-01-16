@@ -1,5 +1,12 @@
 @echo off
 
+REM set these variables for local environment
+
+SET JAVA_HOME=e:/jdk1.7.0_65
+
+SET XERCES_BUILD=e:/eclipseWorkspace/xercesj/xerces-java-xml-schema-1.1-dev/build
+SET XALAN_HOME=e:/xalan-j_2_7_2
+
 echo ##### Running W3C XML Schema 1.1 test suite, on Apache Xerces XSD 1.1 processor #####
 echo.
 

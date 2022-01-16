@@ -39,7 +39,7 @@
 		  </head>
 		  <body>	  
 			 <h3><u>Apache Xerces XML Schema 1.1 test suite results</u></h3>			 
-			 <h3><a href="{$vendorUrl}"><xsl:value-of select="$vendorId" /></a> tests</h3>
+			 <h3><a href="{$vendorUrl}"><xsl:value-of select="$vendorId" /></a> XML Schema 1.1 tests</h3>
 			 <p>Report generated on : <xsl:value-of select="java:format($dateFormatter, $currentDate)" /></p>
 			 <xsl:variable name="testSuiteResults">
                             <xsl:apply-templates select="ts:testSetRef/@xlink:href" mode="testSet" />

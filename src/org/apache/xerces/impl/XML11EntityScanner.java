@@ -108,9 +108,11 @@ public class XML11EntityScanner
                 load(1, false);
             }
             if (c == '\r' && external) {
-                int cc = fCurrentEntity.ch[fCurrentEntity.position++];
-                if (cc != '\n' && cc != 0x85) {
-                    fCurrentEntity.position--;
+                if (fCurrentEntity.position < fCurrentEntity.count) {
+                    int cc = fCurrentEntity.ch[fCurrentEntity.position++];
+                    if (cc != '\n' && cc != 0x85) {
+                        fCurrentEntity.position--;
+                    }
                 }
             }
             c = '\n';

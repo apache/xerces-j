@@ -257,8 +257,10 @@ public class XMLEntityScanner implements XMLLocator {
                 load(1, false);
             }
             if (c == '\r' && external) {
-                if (fCurrentEntity.ch[fCurrentEntity.position++] != '\n') {
-                    fCurrentEntity.position--;
+                if (fCurrentEntity.position < fCurrentEntity.count) {
+                    if (fCurrentEntity.ch[fCurrentEntity.position++] != '\n') {
+                        fCurrentEntity.position--;
+                    }
                 }
                 c = '\n';
             }

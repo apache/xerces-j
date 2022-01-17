@@ -970,7 +970,7 @@ public class XML11EntityScanner
                 c = fCurrentEntity.ch[fCurrentEntity.position++];
                 // In internal entities control characters are allowed to appear unescaped.
                 if ((c == quote && !fCurrentEntity.literal)
-                    || c == '%' || !XML11Char.isXML11InternalEntityContent(c)) {
+                    || c == '%' || !(XML11Char.isXML11InternalEntityContent(c) || c == '\r' )) {
                     fCurrentEntity.position--;
                     break;
                 }

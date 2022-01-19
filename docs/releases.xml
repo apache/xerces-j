@@ -18,6 +18,74 @@
 <!-- $Id$ -->
 <!DOCTYPE releases SYSTEM 'dtd/releases.dtd'>
 <releases>
+  <release version='&ParserName; 2.12.2'>
+   <desc>
+    <p>
+      This release is a bug fix release. It fixes few bugs which were present in Xerces-J 2.12.1 
+      and also includes a few other minor enhancements.      
+    </p>
+   </desc>
+   <changes>                     
+     <fix>
+        <note>
+      	   Implemented a fix, that solves rarely occurring XML parsing performance issue.
+     	</note>
+     	<submitter name='Michael Glavassevich'/>
+     </fix>     
+     <fix>
+        <note>
+      	   Improved compliance, of XML Schema 1.1 XPath 2.0 regex implementation.
+     	</note>
+     	<submitter name='Mukul Gandhi'/>
+     </fix>
+     <fix>
+        <note>
+      	   XML Schema validation error message improvements, when XML attributes are validated.
+     	</note>
+     	<submitter name='Mukul Gandhi'/>
+     </fix>
+     <fix>
+       <note>
+      	  Improved the JAXP SourceValidator sample, related to XML Schema 1.1 assertion evaluations 
+      	  on list types.	
+       </note>
+       <submitter name='Mukul Gandhi'/>
+     </fix>           
+     <fix>
+        <note>
+      	   Solved an XML Schema implementation issue, where combination of restrictions 'length' 
+      	   and 'minLength' was leading to error.
+     	</note>
+     	<submitter name='Mukul Gandhi'/>
+     </fix>     
+     <fix>
+        <note>
+      	   Made minor, improvements to few XML Schema 1.1 validation error messages.
+     	</note>
+     	<submitter name='Mukul Gandhi'/>
+     </fix>     
+     <fix>
+        <note>
+      	   Fixed a rarely occurring issue during XML Schema 1.1 xs:assert evaluation, where adjacent text 
+      	   values within XML instance document, were resulting in more than one adjacent XPath 2.0 text 
+      	   nodes.
+     	</note>
+     	<submitter name='John Morris, Mukul Gandhi'/>
+     </fix>
+     <add>
+        <note>
+      	   Upgraded XalanJ dependency required by XercesJ, to version 2.7.2 from 2.7.1.
+     	</note>
+     	<submitter name='XercesJ team'/>
+     </add>
+     <add>
+        <note>
+      	   Upgraded the minimum, Java requirement to use XercesJ to Java version 1.7.
+     	</note>
+     	<submitter name='XercesJ team'/>
+     </add>                       
+   </changes>
+  </release>
   <release version='&ParserName; 2.12.1'>
    <desc>
     <p>

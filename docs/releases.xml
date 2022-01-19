@@ -74,13 +74,21 @@
      </fix>
      <add>
         <note>
-      	   Upgraded XalanJ dependency required by XercesJ, to version 2.7.2 from 2.7.1.
+      	   Upgraded the minimum, Java requirement to use XercesJ to Java version 1.7.
      	</note>
      	<submitter name='XercesJ team'/>
      </add>
      <add>
         <note>
-      	   Upgraded the minimum, Java requirement to use XercesJ to Java version 1.7.
+      	   Upgraded XalanJ serializer dependency to version 2.7.2 from 2.7.1, which is 
+      	   required by XercesJ.
+     	</note>
+     	<submitter name='XercesJ team'/>
+     </add>
+     <add>
+        <note>
+      	   Re-built, "XML Commons External" and "XML Commons Resolver" codebases 
+      	   (which are dependencies for XercesJ) using Java 1.7.
      	</note>
      	<submitter name='XercesJ team'/>
      </add>                       

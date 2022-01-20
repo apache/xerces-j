@@ -34,7 +34,8 @@
      </fix>     
      <fix>
         <note>
-      	   Improved compliance, of XML Schema 1.1 XPath 2.0 regex implementation.
+      	   Improved compliance, of XPath 2.0 processor's regex implementation (that's used 
+      	   within XML Schema 1.1 implementation).
      	</note>
      	<submitter name='Mukul Gandhi'/>
      </fix>
@@ -70,7 +71,7 @@
       	   values within XML instance document, were resulting in more than one adjacent XPath 2.0 text 
       	   nodes.
      	</note>
-     	<submitter name='John Morris, Mukul Gandhi'/>
+     	<submitter name='Mukul Gandhi, John Morris'/>
      </fix>
      <add>
         <note>

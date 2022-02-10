@@ -26,4 +26,8 @@ echo Running Boeing XML Schema 1.0 tests
 echo.
 call run-suite-boeing.bat
 
+echo Generating overall XML Schema 1.0 test suite results
+echo.
+call generate-overall-results.bat
+
 echo All the tests have been run successfully. The reports are available within the folder ../reports.

@@ -10,9 +10,10 @@
 				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				xmlns:ts="http://www.w3.org/XML/2004/xml-schema-test-suite/"
 				xmlns:java="http://xml.apache.org/xalan/java"
+				xmlns:redirect="http://xml.apache.org/xalan/redirect"
 				xmlns:exslt="http://exslt.org/common"				
 				exclude-result-prefixes="xlink xsi ts java exslt"
-                version="1.0">
+				extension-element-prefixes="redirect" version="1.0">
        
 	<xsl:output method="html"/>
 	
@@ -61,6 +62,13 @@
 				   <td align="center"><xsl:value-of select="$testsPassed" /></td>
 				   <td align="center"><xsl:value-of select="format-number(($testsPassed * 100) div $totalTests, '##.##')" /></td>
 				</tr>
+				<redirect:write select="concat('../reports/', $vendorId, '_xsd11_testsuite_results.xml')">
+                                   <result vendorId="{$vendorId}">
+				      <totalTests><xsl:value-of select="$totalTests" /></totalTests>
+				      <testsPassed><xsl:value-of select="$testsPassed" /></testsPassed>
+				      <successPerct><xsl:value-of select="format-number(($testsPassed * 100) div $totalTests, '##.##')" /></successPerct>
+				   </result>
+                                </redirect:write>
 			 </table>
 			 <br/>
 			 <h3><font color="green">Detailed tests status :</font></h3>

@@ -26,7 +26,8 @@
       <html>
         <head>
           <style>
-	    td  { text-align: center; }
+	    td { text-align: center; padding: 5px;}
+	    a { text-decoration: none; }
           </style>
           <title>Xmlschema11TestSuiteReports</title>
         </head>
@@ -39,42 +40,49 @@
               <td><b>Total tests</b></td>
               <td><b>Tests passed</b></td>
               <td><b>Success %</b></td>
+              <td><b>Detailed reports</b></td>
            </tr>
            <tr>
              <td>IBM</td>
              <td><xsl:value-of select="$result1Doc/result/totalTests"/></td>
              <td><xsl:value-of select="$result1Doc/result/testsPassed"/></td>
              <td><xsl:value-of select="$result1Doc/result/successPerct"/></td>
+             <td><a href="ibm_xsd11_testsuite_results.html" target="_blank">&lt;link&gt;</a></td>
            </tr>
            <tr>
 	     <td>Saxonica</td>
 	     <td><xsl:value-of select="$result2Doc/result/totalTests"/></td>
 	     <td><xsl:value-of select="$result2Doc/result/testsPassed"/></td>
 	     <td><xsl:value-of select="$result2Doc/result/successPerct"/></td>
+	     <td><a href="saxon_xsd11_testsuite_results.html" target="_blank">&lt;link&gt;</a></td>
            </tr>
            <tr>
 	     <td>Oracle</td>
 	     <td><xsl:value-of select="$result3Doc/result/totalTests"/></td>
 	     <td><xsl:value-of select="$result3Doc/result/testsPassed"/></td>
 	     <td><xsl:value-of select="$result3Doc/result/successPerct"/></td>
+	     <td><a href="oracle_xsd11_testsuite_results.html" target="_blank">&lt;link&gt;</a></td>
            </tr>
            <tr>
 	     <td>Microsoft</td>
 	     <td><xsl:value-of select="$result4Doc/result/totalTests"/></td>
 	     <td><xsl:value-of select="$result4Doc/result/testsPassed"/></td>
 	     <td><xsl:value-of select="$result4Doc/result/successPerct"/></td>
+	     <td><a href="ms_xsd11_testsuite_results.html" target="_blank">&lt;link&gt;</a></td>
            </tr>
            <tr>
 	     <td>Sun Microsystems</td>
 	     <td><xsl:value-of select="$result5Doc/result/totalTests"/></td>
 	     <td><xsl:value-of select="$result5Doc/result/testsPassed"/></td>
 	     <td><xsl:value-of select="$result5Doc/result/successPerct"/></td>
+	     <td><a href="sun_xsd11_testsuite_results.html" target="_blank">&lt;link&gt;</a></td>
            </tr>
            <tr>
 	     <td>WG</td>
 	     <td><xsl:value-of select="$result6Doc/result/totalTests"/></td>
 	     <td><xsl:value-of select="$result6Doc/result/testsPassed"/></td>
 	     <td><xsl:value-of select="$result6Doc/result/successPerct"/></td>
+	     <td><a href="xmlschema_wg_xsd11_testsuite_results.html" target="_blank">&lt;link&gt;</a></td>
            </tr>
         </table>
         <br/>

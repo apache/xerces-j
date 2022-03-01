@@ -37,7 +37,13 @@
         Please read this document before using this package.
         </p>
     </s2>
-
+    <s2 title="Xerces-J's compliance to W3C XML Schema test suite">
+      <p>Following are Xerces-J's compliance reports for the <jump href="https://www.w3.org/XML/Schema">W3C XML Schema</jump> test suite:</p>
+      <ul>
+        <li><jump href='https://svn.apache.org/repos/asf/xerces/java/branches/xml-schema-1.0-tests/w3c_xmlschema10-testsuite/reports/overall_xsd10_testsuite_results.html'>Xerces-J W3C XML Schema 1.0 test suite results</jump></li>
+        <li><jump href='https://svn.apache.org/repos/asf/xerces/java/branches/xml-schema-1.1-tests/w3c_xmlschema11-testsuite/reports/overall_xsd11_testsuite_results.html'>Xerces-J W3C XML Schema 1.1 test suite results</jump></li>
+      </ul>
+    </s2>
 <s2 title="XML Schema Programmer's Guide">
 <p>This section provides the following topics:</p>
 

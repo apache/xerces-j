@@ -128,7 +128,7 @@
             Javadoc for javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING for
             more details.
             </li>
-            <li> The JAXP class javax.xml.validation.Schema is defined to be thread 
+            <!-- <li> The JAXP class javax.xml.validation.Schema is defined to be thread 
             safe. That is, applications are encouraged to share javax.xml.validation.Schema objects 
             across multiple threads. Some Xerces users have reported that, while doing XML Schema 1.1 
             validation javax.xml.validation.Schema is seen to be not thread safe. This problem was 
@@ -136,7 +136,7 @@
             XSD documents. But there are also, various cases observed while using XSD 1.1 
             construct &lt;assert&gt;, when thread safety of javax.xml.validation.Schema is 
             seen to be working correctly.
-            </li>
+            </li>-->
         </ul>
     </s2>
     <s2 title="Other Notes">

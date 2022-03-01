@@ -26,14 +26,13 @@
         <jump href="http://www.w3.org/TR/XMLSchema-2">XML Schema:  Datatypes</jump>.        
         The XML Schema 1.1 Language is available in two parts:
         <jump href='http://www.w3.org/TR/xmlschema11-1/'>Structures</jump> and
-        <jump href='http://www.w3.org/TR/xmlschema11-2/'>Datatypes</jump>.
-        The XML Schema 1.1 features supported by this release are listed below.
-        In this document we also discuss our interpretation of the
+        <jump href='http://www.w3.org/TR/xmlschema11-2/'>Datatypes</jump>.        
+        In this document we discuss our interpretation of the
         specifications where it seems to us particularly likely that
         others might arrive at a different interpretation.
         We consider this implementation to be complete except for the
-        limitations cited below. The implementation has been
-        extensively tested and known problem areas are set out below.
+        limitations cited within this document. The implementation has been
+        extensively tested and known problem areas are set out within this document.
         Please read this document before using this package.
         </p>
     </s2>

@@ -978,7 +978,7 @@ public class XSAttributeChecker {
 
         // for element "simpleType" - global
         attrList = Container.getContainer(3);
-        // final = (#all | List of (list | union | restriction))
+        // final = (#all | List of (list | union | restriction | extension))
         attrList.put(SchemaSymbols.ATT_FINAL, allAttrs[ATT_FINAL1_N]);
         // id = ID
         attrList.put(SchemaSymbols.ATT_ID, allAttrs[ATT_ID_N]);
@@ -1819,7 +1819,7 @@ public class XSAttributeChecker {
             retValue = fXIntPool.getXInt(choice);
             break;
         case DT_FINAL1:
-            // final = (#all | List of (list | union | restriction))
+            // final = (#all | List of (list | union | restriction | extension))
             choice = 0;
             if (value.equals (SchemaSymbols.ATTVAL_POUNDALL)) {
                 //choice = SchemaSymbols.RESTRICTION|SchemaSymbols.LIST|
@@ -1846,8 +1846,11 @@ public class XSAttributeChecker {
                     else if (token.equals (SchemaSymbols.ATTVAL_RESTRICTION)) {
                         choice |= XSConstants.DERIVATION_RESTRICTION;
                     }
+                    else if (token.equals (SchemaSymbols.ATTVAL_EXTENSION)) {
+                        choice |= XSConstants.DERIVATION_EXTENSION;
+                    }
                     else {
-                        throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.3", new Object[]{value, "(#all | List of (list | union | restriction))"});
+                        throw new InvalidDatatypeValueException("cvc-datatype-valid.1.2.3", new Object[]{value, "(#all | List of (list | union | restriction | extension))"});
                     }
                 }
             }

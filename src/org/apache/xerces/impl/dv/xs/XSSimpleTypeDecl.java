@@ -19,7 +19,9 @@ package org.apache.xerces.impl.dv.xs;
 
 import java.math.BigInteger;
 import java.util.AbstractList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -33,6 +35,8 @@ import org.apache.xerces.impl.dv.XSFacets;
 import org.apache.xerces.impl.dv.XSSimpleType;
 import org.apache.xerces.impl.xpath.regex.RegularExpression;
 import org.apache.xerces.impl.xs.SchemaSymbols;
+import org.apache.xerces.impl.xs.XMLAssertXPath2EngineImpl;
+import org.apache.xerces.impl.xs.assertion.XSAssertImpl;
 import org.apache.xerces.impl.xs.util.ObjectListImpl;
 import org.apache.xerces.impl.xs.util.ShortListImpl;
 import org.apache.xerces.impl.xs.util.StringListImpl;
@@ -40,6 +44,7 @@ import org.apache.xerces.impl.xs.util.XSObjectListImpl;
 import org.apache.xerces.util.XML11Char;
 import org.apache.xerces.util.XMLChar;
 import org.apache.xerces.xni.NamespaceContext;
+import org.apache.xerces.xni.QName;
 import org.apache.xerces.xs.ShortList;
 import org.apache.xerces.xs.StringList;
 import org.apache.xerces.xs.XSAnnotation;
@@ -931,6 +936,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
                 ValidationContextImpl ctx = new ValidationContextImpl(context);
                 enumerationAnnotations = facets.enumAnnotations;
                 fEnumerationSize = 0;
+                
                 for (int i = 0; i < size; i++) {
                     if (enumNSDecls != null)
                         ctx.setNSContext((NamespaceContext)enumNSDecls.elementAt(i));
@@ -942,6 +948,43 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
                         reportError("enumeration-valid-restriction", new Object[]{enumVals.elementAt(i), this.getBaseType().getName()});
                     }
                 }
+                
+                if (fAssertion != null && fAssertion.size() > 0) {
+                    // added for XML Schema 1.1
+                    String enumVal = null;
+                    try {
+                        Map assertProcessorParams = new HashMap();
+                        assertProcessorParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, ((XSAssertImpl)fAssertion.get(0)).
+                                                                                                 getXPath2NamespaceContext());                        
+                        XMLAssertXPath2EngineImpl fAssertionProcessor = new XMLAssertXPath2EngineImpl(assertProcessorParams);
+                        fAssertionProcessor.initXPathProcessor();
+                        QName elemQname = new QName(null, "enumeration", "enumeration", Constants.NS_XMLSCHEMA);
+                        QName attrQname = new QName(null, "value", "value", null);
+                        boolean isTypeDerivedFromList = ((XSSimpleType) this.getBaseType().getBaseType()).
+                                                                                       getVariety() == XSSimpleType.VARIETY_LIST;
+                        boolean isTypeDerivedFromUnion = ((XSSimpleType) this.getBaseType().getBaseType()).
+                                                                                       getVariety() == XSSimpleType.VARIETY_UNION;
+                        for (int idx = 0; idx < fAssertion.size(); idx++) {
+                           XSAssertImpl assertImpl = (XSAssertImpl)fAssertion.get(idx);                       
+                           for (int i = 0; i < size; i++) {
+                              enumVal = (String)enumVals.elementAt(i);                          
+                              Boolean isAssertSucceeded = fAssertionProcessor.evaluateOneAssertionFromSimpleType(elemQname, enumVal, null, 
+                                                                                   (XSSimpleTypeDefinition)this.getBaseType(), isTypeDerivedFromList, 
+                                                                                    isTypeDerivedFromUnion, assertImpl, true, attrQname, true);
+                              if (isAssertSucceeded.booleanValue() == false) { 
+                                 throw new InvalidDatatypeFacetException(null, null);
+                              }
+                           }
+                        }
+                    }
+                    catch (InvalidDatatypeFacetException ex) {
+                       reportError("enumeration-valid-restriction", new Object[]{enumVal, this.getBaseType().getName()});    
+                    }
+                    catch (Exception ex) {
+                      // NO OP    
+                    }
+                }
+                
                 fFacetsDefined |= FACET_ENUMERATION;
                 if ((fixedFacet & FACET_ENUMERATION) != 0)
                     fFixedFacet |= FACET_ENUMERATION;

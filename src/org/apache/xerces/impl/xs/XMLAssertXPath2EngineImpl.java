@@ -134,7 +134,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     /*
      * Initialize the Eclipse XPath processor.
      */
-    private void initXPathProcessor() throws Exception {        
+    public void initXPathProcessor() throws Exception {        
         fXmlSchemaValidator = (XMLSchemaValidator) getProperty("http://apache.org/xml/properties/assert/validator");        
         fAbstrXpathEngineImpl = new AbstractXPath2EngineImpl();
         fXpath2DynamicContext = fAbstrXpathEngineImpl.initXPath2DynamicContext(fSchemaXSmodel, fAssertDocument, fAssertParams);        
@@ -216,7 +216,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
                     for (int assertIdx = 0; assertIdx < attrAssertList.size(); assertIdx++) {
                         XSAssertImpl assertImpl = (XSAssertImpl)attrAssertList.get(assertIdx);
                         assertImpl.setAttrName(attrQname.localpart);
-                        evaluateOneAssertionFromSimpleType(element, attrValue, attrAugs, attrSimpleType, isTypeDerivedFromList, isTypeDerivedFromUnion, assertImpl, true, attrQname);
+                        evaluateOneAssertionFromSimpleType(element, attrValue, attrAugs, attrSimpleType, isTypeDerivedFromList, isTypeDerivedFromUnion, assertImpl, true, attrQname, false);
                         // evaluate assertions on itemType of xs:list
                         XSSimpleTypeDefinition attrItemType = attrSimpleType.getItemType();
                         if (isTypeDerivedFromList && attrItemType != null) {
@@ -393,7 +393,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
             if (xPathDefaultNamespace != null) {
                 fXpath2DynamicContext.add_namespace(null, xPathDefaultNamespace);  
             }
-            evaluateOneAssertionFromSimpleType(element, value, augs, simpleTypeDefn, isTypeDerivedFromList, isTypeDerivedFromUnion, assertImpl, false, null);
+            evaluateOneAssertionFromSimpleType(element, value, augs, simpleTypeDefn, isTypeDerivedFromList, isTypeDerivedFromUnion, assertImpl, false, null, false);
         }
         
         // evaluate assertions on itemType of xs:list
@@ -407,8 +407,10 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     /*
      * Evaluate one assertion instance for a simpleType (this assertion could be from an attribute, simpleType on element or a complexType with simple content).
      */
-    private void evaluateOneAssertionFromSimpleType(QName element, String value, Augmentations augs, XSSimpleTypeDefinition simpleTypeDefn, boolean isTypeDerivedFromList, boolean isTypeDerivedFromUnion,
-                                                    XSAssertImpl assertImpl, boolean isAttribute, QName attrQname) throws Exception {
+    public Boolean evaluateOneAssertionFromSimpleType(QName element, String value, Augmentations augs, XSSimpleTypeDefinition simpleTypeDefn, boolean isTypeDerivedFromList, boolean isTypeDerivedFromUnion,
+                                                    XSAssertImpl assertImpl, boolean isAttribute, QName attrQname, boolean isAssertEvaluationFromSchema) throws Exception {
+        
+        Boolean isAssertSucceeded = Boolean.TRUE; 
         
         if (simpleTypeDefn.getVariety() == XSSimpleTypeDefinition.VARIETY_ATOMIC) {
             // evaluating assertions for "simpleType -> restriction" (not derived by union)
@@ -420,25 +422,42 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
             }
             AssertionError assertError = evaluateOneAssertion(element, assertImpl, value, false, false);
             if (assertError != null) {
-                reportAssertionsError(assertError);    
+                if (isAssertEvaluationFromSchema) {
+                   isAssertSucceeded = Boolean.FALSE;  
+                }
+                else {
+                   reportAssertionsError(assertError); 
+                }
             }                         
         }
         else if (simpleTypeDefn.getVariety() == XSSimpleTypeDefinition.VARIETY_LIST) {
             // evaluating assertions for "simpleType -> list"                    
-            evaluateAssertionOnSTListValue(element, value, assertImpl, false, simpleTypeDefn.getItemType(), isTypeDerivedFromList); 
+            isAssertSucceeded = evaluateAssertionOnSTListValue(element, value, assertImpl, false, simpleTypeDefn.getItemType(), isTypeDerivedFromList, isAssertEvaluationFromSchema); 
         }
         else if (!isAttribute && ((Boolean)augs.getItem(XSAssertConstants.isAssertProcNeededForUnionElem)).booleanValue()) {
             // evaluating assertions for "simpleType -> union" for an element             
-            if (!evaluateAssertionOnSTUnion(element, simpleTypeDefn, isTypeDerivedFromUnion, assertImpl, value, augs)) { 
-                fXmlSchemaValidator.reportSchemaError("cvc-type.3.1.3", new Object[] {element.rawname, value});
+            if (!evaluateAssertionOnSTUnion(element, simpleTypeDefn, isTypeDerivedFromUnion, assertImpl, value, augs)) {
+                if (isAssertEvaluationFromSchema) {
+                   isAssertSucceeded = Boolean.FALSE;  
+                }
+                else {
+                   fXmlSchemaValidator.reportSchemaError("cvc-type.3.1.3", new Object[] {element.rawname, value});
+                }
             }
         }
         else if (isAttribute && ((Boolean)augs.getItem(XSAssertConstants.isAssertProcNeededForUnionAttr)).booleanValue()) {
             // evaluating assertions for "simpleType -> union" for an attribute            
-            if (!evaluateAssertionOnSTUnion(element, simpleTypeDefn, isTypeDerivedFromUnion, assertImpl, value, augs)) { 
-                fXmlSchemaValidator.reportSchemaError("cvc-attribute.3", new Object[] {element.rawname, attrQname.localpart, value, ((XSSimpleTypeDecl)simpleTypeDefn).getTypeName()});
+            if (!evaluateAssertionOnSTUnion(element, simpleTypeDefn, isTypeDerivedFromUnion, assertImpl, value, augs)) {
+                if (isAssertEvaluationFromSchema) {
+                   isAssertSucceeded = Boolean.FALSE;  
+                }
+                else {
+                   fXmlSchemaValidator.reportSchemaError("cvc-attribute.3", new Object[] {element.rawname, attrQname.localpart, value, ((XSSimpleTypeDecl)simpleTypeDefn).getTypeName()});
+                }
             } 
         }
+        
+        return isAssertSucceeded;
         
     } // evaluateOneAssertionFromSimpleType
     
@@ -471,8 +490,10 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     /*
      * Evaluate assertion on a simpleType xs:list value.
      */
-    private void evaluateAssertionOnSTListValue(QName element, String listStrValue, XSAssertImpl assertImpl, boolean xpathContextExists,
-                                                XSSimpleTypeDefinition itemType, boolean isTypeDerivedFromList) throws Exception {
+    private Boolean evaluateAssertionOnSTListValue(QName element, String listStrValue, XSAssertImpl assertImpl, boolean xpathContextExists,
+                                                XSSimpleTypeDefinition itemType, boolean isTypeDerivedFromList, boolean isAssertEvaluationFromSchema) throws Exception {
+        
+        Boolean isAssertSucceeded = Boolean.TRUE;
         
         AssertionError assertError = null;
         
@@ -480,8 +501,13 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
             setXDMTypedValueOf$valueForSTVarietyList(fCurrentAssertDomNode, listStrValue, itemType, isTypeDerivedFromList, fXpath2DynamicContext);
             assertError = evaluateOneAssertion(element, assertImpl, listStrValue, xpathContextExists, true);
             if (assertError != null) {
-                assertError.setIsTypeDerivedFromList(isTypeDerivedFromList);
-                reportAssertionsError(assertError);    
+                if (isAssertEvaluationFromSchema) {
+                   isAssertSucceeded = Boolean.FALSE; 
+                }
+                else {
+                   assertError.setIsTypeDerivedFromList(isTypeDerivedFromList);
+                   reportAssertionsError(assertError);
+                }
             }            
         }
         else {
@@ -493,10 +519,17 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
                 setXDMTypedValueOf$valueForSTVarietyList(fCurrentAssertDomNode, listItemStrValue, itemType, isTypeDerivedFromList, fXpath2DynamicContext);                        
                 assertError = evaluateOneAssertion(element, assertImpl, listItemStrValue, xpathContextExists, true);
                 if (assertError != null) {
-                    reportAssertionsError(assertError);    
+                    if (isAssertEvaluationFromSchema) {
+                       isAssertSucceeded = Boolean.FALSE; 
+                    }
+                    else {
+                       reportAssertionsError(assertError);
+                    }
                 }
             }
         }
+        
+        return isAssertSucceeded;
         
     } // evaluateAssertionOnSTListValue
     
@@ -587,7 +620,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
                 boolean isTypeDerivedFromList = isTypeDerivedFromSTList(simpleTypeDefn);
                 boolean isTypeDerivedFromUnion = isTypeDerivedFromSTUnion(simpleTypeDefn);
                 restorePsviInfoForXPathContext(elemPsvi);
-                evaluateOneAssertionFromSimpleType(element, value, augs, simpleTypeDefn, isTypeDerivedFromList, isTypeDerivedFromUnion, assertImpl, false, null);
+                evaluateOneAssertionFromSimpleType(element, value, augs, simpleTypeDefn, isTypeDerivedFromList, isTypeDerivedFromUnion, assertImpl, false, null, false);
                 savePsviInfoWithUntypingOfAssertRoot(elemPsvi, true);
                 // evaluate assertions on itemType of xs:list
                 XSSimpleTypeDefinition listItemType = simpleTypeDefn.getItemType();

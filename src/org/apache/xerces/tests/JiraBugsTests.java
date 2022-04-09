@@ -624,5 +624,16 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		   assertTrue(false);
 		}
 	}
+	
+	public void testJira_1743_1() {
+		String schemapath = fDataDir+"/jira_bugs/1743_1.xsd";	
+		try {
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+		    assertTrue(failureList.size() == 1);
+		} catch(Exception ex) {
+		   assertEquals(ex.getMessage(), "enumeration-valid-restriction: Enumeration value"
+		   		                        + " 'a' is not in the value space of the base type, Color.");
+		}
+	}
 		
 }

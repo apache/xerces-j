@@ -41,6 +41,7 @@ import org.apache.xerces.impl.xs.util.ObjectListImpl;
 import org.apache.xerces.impl.xs.util.ShortListImpl;
 import org.apache.xerces.impl.xs.util.StringListImpl;
 import org.apache.xerces.impl.xs.util.XSObjectListImpl;
+import org.apache.xerces.util.NamespaceSupport;
 import org.apache.xerces.util.XML11Char;
 import org.apache.xerces.util.XMLChar;
 import org.apache.xerces.xni.NamespaceContext;
@@ -825,6 +826,8 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
     void applyFacets(XSFacets facets, int presentFacet, int fixedFacet, short patternType, ValidationContext context)
     throws InvalidDatatypeFacetException {
         
+        boolean isXsd11 = context.getTypeValidatorHelper().isXMLSchema11();
+        
         // if the object is immutable, should not apply facets...
         if(fIsImmutable) return;
         ValidatedInfo tempInfo = new ValidatedInfo();
@@ -949,39 +952,50 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
                     }
                 }
                 
-                if (fAssertion != null && fAssertion.size() > 0) {
+                if (isXsd11) {
                     // added for XML Schema 1.1
                     String enumVal = null;
                     try {
-                        Map assertProcessorParams = new HashMap();
-                        assertProcessorParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, ((XSAssertImpl)fAssertion.get(0)).
-                                                                                                 getXPath2NamespaceContext());                        
+                        boolean isTypeDerivedFromList = ((XSSimpleType) this.getBaseType()).
+                                                                                    getVariety() == XSSimpleType.VARIETY_LIST;
+                        boolean isTypeDerivedFromUnion = ((XSSimpleType) this.getBaseType()).
+                                                                                    getVariety() == XSSimpleType.VARIETY_UNION;
+                        Map assertProcessorParams = new HashMap();                        
+                        assertProcessorParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, new NamespaceSupport());
                         XMLAssertXPath2EngineImpl fAssertionProcessor = new XMLAssertXPath2EngineImpl(assertProcessorParams);
                         fAssertionProcessor.initXPathProcessor();
+                        
                         QName elemQname = new QName(null, "enumeration", "enumeration", Constants.NS_XMLSCHEMA);
                         QName attrQname = new QName(null, "value", "value", null);
-                        boolean isTypeDerivedFromList = ((XSSimpleType) this.getBaseType().getBaseType()).
-                                                                                       getVariety() == XSSimpleType.VARIETY_LIST;
-                        boolean isTypeDerivedFromUnion = ((XSSimpleType) this.getBaseType().getBaseType()).
-                                                                                       getVariety() == XSSimpleType.VARIETY_UNION;
-                        for (int idx = 0; idx < fAssertion.size(); idx++) {
-                           XSAssertImpl assertImpl = (XSAssertImpl)fAssertion.get(idx);                       
-                           for (int i = 0; i < size; i++) {
-                              enumVal = (String)enumVals.elementAt(i);                          
-                              Boolean isAssertSucceeded = fAssertionProcessor.evaluateOneAssertionFromSimpleType(elemQname, enumVal, null, 
-                                                                                   (XSSimpleTypeDefinition)this.getBaseType(), isTypeDerivedFromList, 
-                                                                                    isTypeDerivedFromUnion, assertImpl, true, attrQname, true);
-                              if (isAssertSucceeded.booleanValue() == false) { 
-                                 throw new InvalidDatatypeFacetException(null, null);
-                              }
+                        
+                        for (int i = 0; i < size; i++) {
+                           enumVal = (String)enumVals.elementAt(i);
+                           if (fAssertion != null && fAssertion.size() > 0) {                                                                                          
+                               for (int idx = 0; idx < fAssertion.size(); idx++) {
+                                  XSAssertImpl assertImpl = (XSAssertImpl)fAssertion.get(idx);
+                                  Boolean isAssertSucceeded = fAssertionProcessor.evaluateOneAssertionFromSimpleType(elemQname, enumVal, null, 
+                                                                                           (XSSimpleTypeDefinition)this.getBaseType(), isTypeDerivedFromList, 
+                                                                                            isTypeDerivedFromUnion, assertImpl, true, attrQname, true);
+                                  if (isAssertSucceeded.booleanValue() == false) { 
+                                     throw new InvalidDatatypeFacetException(null, null);
+                                  }
+                               }
                            }
-                        }
+                           
+                           if (isTypeDerivedFromList) {
+                               Boolean isAssertSucceeded = fAssertionProcessor.evaluateAssertsFromItemTypeOfSTList(elemQname, 
+                                                                                  ((XSSimpleTypeDefinition)this.getBaseType()).getItemType(), enumVal, true);
+                               if (isAssertSucceeded.booleanValue() == false) { 
+                                 throw new InvalidDatatypeFacetException(null, null);
+                               }
+                           }
+                        }                                                
                     }
                     catch (InvalidDatatypeFacetException ex) {
                        reportError("enumeration-valid-restriction", new Object[]{enumVal, this.getBaseType().getName()});    
                     }
                     catch (Exception ex) {
-                      // NO OP    
+                       // NO OP   
                     }
                 }
                 

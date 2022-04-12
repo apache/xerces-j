@@ -220,7 +220,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
                         // evaluate assertions on itemType of xs:list
                         XSSimpleTypeDefinition attrItemType = attrSimpleType.getItemType();
                         if (isTypeDerivedFromList && attrItemType != null) {
-                            evaluateAssertsFromItemTypeOfSTList(element, attrItemType, attrValue);
+                            evaluateAssertsFromItemTypeOfSTList(element, attrItemType, attrValue, false);
                         }
                     }                
                 }
@@ -398,7 +398,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
         
         // evaluate assertions on itemType of xs:list
         if (isTypeDerivedFromList && simpleTypeDefn.getItemType() != null) {
-            evaluateAssertsFromItemTypeOfSTList(element, simpleTypeDefn.getItemType(), value); 
+            evaluateAssertsFromItemTypeOfSTList(element, simpleTypeDefn.getItemType(), value, false); 
         }
         
     } // evaluateAssertionsFromSimpleType
@@ -408,7 +408,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
      * Evaluate one assertion instance for a simpleType (this assertion could be from an attribute, simpleType on element or a complexType with simple content).
      */
     public Boolean evaluateOneAssertionFromSimpleType(QName element, String value, Augmentations augs, XSSimpleTypeDefinition simpleTypeDefn, boolean isTypeDerivedFromList, boolean isTypeDerivedFromUnion,
-                                                    XSAssertImpl assertImpl, boolean isAttribute, QName attrQname, boolean isAssertEvaluationFromSchema) throws Exception {
+                                                      XSAssertImpl assertImpl, boolean isAttribute, QName attrQname, boolean isAssertEvaluationFromSchema) throws Exception {
         
         Boolean isAssertSucceeded = Boolean.TRUE; 
         
@@ -465,9 +465,13 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     /*
      * Evaluate assertions from itemType with variety 'atomic' on a simpleType->list.
      */
-    private void evaluateAssertsFromItemTypeOfSTList(QName element, XSSimpleTypeDefinition listItemType, String value) throws Exception {
+    public Boolean evaluateAssertsFromItemTypeOfSTList(QName element, XSSimpleTypeDefinition listItemType, String value, 
+                                                       boolean isAssertEvaluationFromSchema) throws Exception {
+        
+        Boolean isAssertSucceeded = Boolean.TRUE;
         
         Vector itemTypeAsserts = XS11TypeHelper.getAssertsFromSimpleType(listItemType);
+        
         if (listItemType.getVariety() ==  XSSimpleTypeDefinition.VARIETY_ATOMIC && itemTypeAsserts.size() > 0) {
             for (int assertIdx = 0; assertIdx < itemTypeAsserts.size(); assertIdx++) {
                 XSAssertImpl itemTypeAssert = (XSAssertImpl) itemTypeAsserts.get(assertIdx);
@@ -477,12 +481,19 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
                     setXDMTypedValueOf$valueForSTVarietyList(fCurrentAssertDomNode, listItemStrValue, listItemType, false, fXpath2DynamicContext);                        
                     AssertionError assertError = evaluateOneAssertion(element, itemTypeAssert, listItemStrValue, false, true);                        
                     if (assertError != null) {
-                        assertError.setIsTypeDerivedFromList(false);
-                        reportAssertionsError(assertError);    
+                       if (isAssertEvaluationFromSchema) {
+                          isAssertSucceeded = Boolean.FALSE;  
+                       }
+                       else {
+                          assertError.setIsTypeDerivedFromList(false);
+                          reportAssertionsError(assertError);
+                       }
                     }
                 }
             }
         }
+        
+        return isAssertSucceeded;
         
     } // evaluateAssertsFromItemTypeOfSTList
     
@@ -491,7 +502,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
      * Evaluate assertion on a simpleType xs:list value.
      */
     private Boolean evaluateAssertionOnSTListValue(QName element, String listStrValue, XSAssertImpl assertImpl, boolean xpathContextExists,
-                                                XSSimpleTypeDefinition itemType, boolean isTypeDerivedFromList, boolean isAssertEvaluationFromSchema) throws Exception {
+                                                   XSSimpleTypeDefinition itemType, boolean isTypeDerivedFromList, boolean isAssertEvaluationFromSchema) throws Exception {
         
         Boolean isAssertSucceeded = Boolean.TRUE;
         
@@ -626,7 +637,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
                 XSSimpleTypeDefinition listItemType = simpleTypeDefn.getItemType();
                 if (isTypeDerivedFromList && listItemType != null) {
                     restorePsviInfoForXPathContext(elemPsvi);
-                    evaluateAssertsFromItemTypeOfSTList(element, listItemType, value);
+                    evaluateAssertsFromItemTypeOfSTList(element, listItemType, value, false);
                     savePsviInfoWithUntypingOfAssertRoot(elemPsvi, true);;
                 }
             }            

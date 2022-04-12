@@ -66,6 +66,7 @@ import org.w3c.dom.ls.LSParser;
 import org.w3c.dom.ls.LSParserFilter;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.w3c.dom.traversal.NodeFilter;
+import org.xml.sax.SAXException;
 
 /**
  * This is Xerces DOM Builder class. It uses the abstract DOM

@@ -628,11 +628,44 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 	public void testJira_1743_1() {
 		String schemapath = fDataDir+"/jira_bugs/1743_1.xsd";	
 		try {
-		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));		    
 		    assertTrue(failureList.size() == 1);
+		    // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("enumeration-valid-restriction: Enumeration value 'a' is not in "
+            		                          + "the value space of the base type, Color");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            fErrSysId.endsWith("1743_1.xsd");
 		} catch(Exception ex) {
-		   assertEquals(ex.getMessage(), "enumeration-valid-restriction: Enumeration value"
-		   		                        + " 'a' is not in the value space of the base type, Color.");
+			ex.printStackTrace();
+			assertTrue(false);           		   		                       
+		}
+	}
+	
+	public void testJira_1743_2() {
+		String xmlfile = fDataDir+"/jira_bugs/1743_2.xml";
+		String schemapath = fDataDir+"/jira_bugs/1743_2.xsd";		
+		try {
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new File(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new DOMSource(getDomDocument(xmlfile)));
+            assertTrue(failureList.size() == 1);
+		    // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("enumeration-valid-restriction: Enumeration value '2 3' is not "
+            		                         + "in the value space of the base type, ST1");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            fErrSysId.endsWith("1743_2.xsd");
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);
 		}
 	}
 		

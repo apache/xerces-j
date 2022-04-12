@@ -25,6 +25,8 @@ import org.apache.xerces.impl.xs.XSMessageFormatter;
 import org.apache.xerces.util.SecurityManager;
 import org.apache.xerces.xni.parser.XMLComponentManager;
 import org.apache.xerces.xni.parser.XMLConfigurationException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 
 /**
  *

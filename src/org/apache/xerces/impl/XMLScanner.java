@@ -31,6 +31,7 @@ import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLComponent;
 import org.apache.xerces.xni.parser.XMLComponentManager;
 import org.apache.xerces.xni.parser.XMLConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  * This class is responsible for holding scanning methods common to

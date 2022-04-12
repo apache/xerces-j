@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xerces.util.NamespaceSupport;
-import org.apache.xerces.xni.NamespaceContext;
-import org.apache.xerces.xni.QName;
 import org.apache.xerces.util.XML11Char;
 //import org.apache.xml.serializer.utils.XML11Char;
+import org.apache.xerces.xni.NamespaceContext;
+import org.apache.xerces.xni.QName;
 
 /**
  * This class handles the parsing of relative/incomplete SCDs/SCPs

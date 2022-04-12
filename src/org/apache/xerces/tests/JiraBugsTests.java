@@ -668,5 +668,25 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 			assertTrue(false);
 		}
 	}
+	
+	public void testJira_1743_3() {
+		String schemapath = fDataDir+"/jira_bugs/1743_3.xsd";	
+		try {
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));		    
+		    assertTrue(failureList.size() == 1);
+		    // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("enumeration-valid-restriction: Enumeration value '2 7 4' "
+            		                          + "is not in the value space of the base type, ListType1");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            fErrSysId.endsWith("1743_3.xsd");
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);           		   		                       
+		}
+	}
 		
 }

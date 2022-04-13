@@ -688,5 +688,58 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 			assertTrue(false);           		   		                       
 		}
 	}
+	
+	public void testJira_1743_4() {
+		String schemapath = fDataDir+"/jira_bugs/1743_4.xsd";	
+		try {
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));		    
+		    assertTrue(failureList.size() == 1);
+		    // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("enumeration-valid-restriction: Enumeration value '2021-04-09' is not "
+            		                         + "in the value space of the base type, UnionType1");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            fErrSysId.endsWith("1743_4.xsd");
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);           		   		                       
+		}
+	}
+	
+	public void testJira_1743_5() {
+		String schemapath = fDataDir+"/jira_bugs/1743_5.xsd";	
+		try {
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));		    
+		    assertTrue(failureList.size() == 1);
+		    // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("enumeration-valid-restriction: Enumeration value '3d' is not "
+            		                         + "in the value space of the base type, UnionType1");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+            fErrSysId.endsWith("1743_5.xsd");
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);           		   		                       
+		}
+	}
+	
+	public void testJira_1743_6() {
+		String schemapath = fDataDir+"/jira_bugs/1743_6.xsd";	
+		try {
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));		    
+		    assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);           		   		                       
+		}
+	}
 		
 }

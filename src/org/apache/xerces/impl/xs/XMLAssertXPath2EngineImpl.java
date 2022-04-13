@@ -703,11 +703,14 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
 
         for (int memberTypeIdx = 0; memberTypeIdx < memberTypes.getLength(); memberTypeIdx++) {
             XSSimpleTypeDefinition memType = (XSSimpleTypeDefinition) memberTypes.item(memberTypeIdx);            
-            if (!SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(memType.getNamespace()) && !XS11TypeHelper.simpleTypeHasAsserts(memType) && XS11TypeHelper.isStrValueValidForASimpleType(value, (XSSimpleType)memType, Constants.SCHEMA_VERSION_1_1)) {
+            if (!SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(memType.getNamespace()) && !XS11TypeHelper.simpleTypeHasAsserts(memType) 
+                                                            && XS11TypeHelper.isStrValueValidForASimpleType(value, (XSSimpleType)memType, 
+                                                                    Constants.SCHEMA_VERSION_1_1)) {
                isValidationFailedForUnion = false;
                break;
             }
-            else if (SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(memType.getNamespace()) && XS11TypeHelper.isStrValueValidForASimpleType(value, (XSSimpleType)memType, Constants.SCHEMA_VERSION_1_1)) {
+            else if (SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(memType.getNamespace()) && XS11TypeHelper.isStrValueValidForASimpleType(value, 
+                                                                    (XSSimpleType)memType, Constants.SCHEMA_VERSION_1_1)) {
                isValidationFailedForUnion = false;
                break;
             }
@@ -732,7 +735,8 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
                         }
                       }
                       if (assertsSucceeded == assertFacets.size()) {
-                         // all assertions on a 'union' member type have evaluated to 'true', therefore validation with union has succeeded wrt assertions.
+                         // all assertions on a 'union' member type have evaluated to 'true', therefore 
+                         // validation with union has succeeded wrt assertions.
                          if (!isAssertEvaluationFromSchema) {
                              // update memberType PSVI property
                              ItemPSVI elemPSVI = (ItemPSVI)augs.getItem(Constants.ELEMENT_PSVI);

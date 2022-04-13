@@ -554,7 +554,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
         
         XSObjectList memberTypes = simpleTypeDefn.getMemberTypes();
         if (memberTypes != null && memberTypes.getLength() > 0 && !isTypeDerivedFromUnion) {            
-            if (isValidationFailedForSTUnion(memberTypes, element, value, augs)) { 
+            if (isValidationFailedForSTUnion(memberTypes, element, value, augs, false)) { 
                 isValueValid = false;
                 if (assertImpl.getAttrName() == null) {
                     // assertion evaluation was for an element
@@ -696,59 +696,63 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     /*
      * Determine if an validation episode must fail due to assertions evaluation for "simpleType -> union" member types.
      */
-    private boolean isValidationFailedForSTUnion(XSObjectList memberTypes, QName element, String value, Augmentations augs) {
+    public boolean isValidationFailedForSTUnion(XSObjectList memberTypes, QName element, String value, Augmentations augs, 
+                                                boolean isAssertEvaluationFromSchema) {
         
         boolean isValidationFailedForUnion = true;
 
         for (int memberTypeIdx = 0; memberTypeIdx < memberTypes.getLength(); memberTypeIdx++) {
-            XSSimpleTypeDefinition memType = (XSSimpleTypeDefinition) memberTypes.item(memberTypeIdx);
-            if (!SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(memType.getNamespace())) {
-                // only look for member types in non XSD namespace
-                if (!XS11TypeHelper.simpleTypeHasAsserts(memType) && XS11TypeHelper.isStrValueValidForASimpleType(value, (XSSimpleType)memType, Constants.SCHEMA_VERSION_1_1)) {
-                    isValidationFailedForUnion = false;
-                    break;
-                }
-                else {
-                    XSObjectList memberTypeFacets = memType.getMultiValueFacets();
-                    for (int memberTypeFacetIdx = 0; memberTypeFacetIdx < memberTypeFacets.getLength(); memberTypeFacetIdx++) {
-                        XSMultiValueFacet facet = (XSMultiValueFacet) memberTypeFacets.item(memberTypeFacetIdx);
-                        if (facet.getFacetKind() == XSSimpleTypeDefinition.FACET_ASSERT) {
-                            Vector assertFacets = facet.getAsserts();
-                            int assertsSucceeded = 0;
-                            for (Iterator iter = assertFacets.iterator(); iter.hasNext(); ) {
-                                XSAssertImpl assertImpl = (XSAssertImpl) iter.next();
-                                try {
-                                    setXDMTypedValueOf$value(fCurrentAssertDomNode, value, memType, null, false, fXpath2DynamicContext);
-                                    AssertionError assertError = evaluateOneAssertion(element, assertImpl, value, false, false);
-                                    if (assertError == null) {
-                                        assertsSucceeded++;  
-                                    }
-                                }
-                                catch(Exception ex) {
-                                   // do nothing for now. REVISIT...
-                                }
-                            }
-                            if (assertsSucceeded == assertFacets.size()) {
-                                // all assertions on a 'union' member type have evaluated to 'true', therefore validation with union has succeeded wrt assertions.
-                                // update memberType PSVI property
-                                ItemPSVI elemPSVI = (ItemPSVI)augs.getItem(Constants.ELEMENT_PSVI);
-                                ItemPSVI attrPSVI = (ItemPSVI)augs.getItem(Constants.ATTRIBUTE_PSVI);
-                                if (elemPSVI != null) {
-                                    ((ElementPSVImpl) elemPSVI).fValue.memberType = (XSSimpleType) memType;
-                                }
-                                else {
-                                    ((AttributePSVImpl) attrPSVI).fValue.memberType = (XSSimpleType) memType;
-                                }
-                                isValidationFailedForUnion = false;
-                                break; 
-                            }
-                        }
-                    }
-                    if (!isValidationFailedForUnion) {
-                        break;  
-                    }
-                }
+            XSSimpleTypeDefinition memType = (XSSimpleTypeDefinition) memberTypes.item(memberTypeIdx);            
+            if (!SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(memType.getNamespace()) && !XS11TypeHelper.simpleTypeHasAsserts(memType) && XS11TypeHelper.isStrValueValidForASimpleType(value, (XSSimpleType)memType, Constants.SCHEMA_VERSION_1_1)) {
+               isValidationFailedForUnion = false;
+               break;
             }
+            else if (SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(memType.getNamespace()) && XS11TypeHelper.isStrValueValidForASimpleType(value, (XSSimpleType)memType, Constants.SCHEMA_VERSION_1_1)) {
+               isValidationFailedForUnion = false;
+               break;
+            }
+            else if (!SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(memType.getNamespace())) {
+               XSObjectList memberTypeFacets = memType.getMultiValueFacets();
+               for (int memberTypeFacetIdx = 0; memberTypeFacetIdx < memberTypeFacets.getLength(); memberTypeFacetIdx++) {
+                  XSMultiValueFacet facet = (XSMultiValueFacet) memberTypeFacets.item(memberTypeFacetIdx);
+                  if (facet.getFacetKind() == XSSimpleTypeDefinition.FACET_ASSERT) {
+                     Vector assertFacets = facet.getAsserts();
+                     int assertsSucceeded = 0;
+                     for (Iterator iter = assertFacets.iterator(); iter.hasNext(); ) {
+                        XSAssertImpl assertImpl = (XSAssertImpl) iter.next();
+                        try {
+                          setXDMTypedValueOf$value(fCurrentAssertDomNode, value, memType, null, false, fXpath2DynamicContext);
+                          AssertionError assertError = evaluateOneAssertion(element, assertImpl, value, false, false);
+                          if (assertError == null) {
+                             assertsSucceeded++;  
+                          }
+                        }
+                        catch(Exception ex) {
+                           // NO OP
+                        }
+                      }
+                      if (assertsSucceeded == assertFacets.size()) {
+                         // all assertions on a 'union' member type have evaluated to 'true', therefore validation with union has succeeded wrt assertions.
+                         if (!isAssertEvaluationFromSchema) {
+                             // update memberType PSVI property
+                             ItemPSVI elemPSVI = (ItemPSVI)augs.getItem(Constants.ELEMENT_PSVI);
+                             ItemPSVI attrPSVI = (ItemPSVI)augs.getItem(Constants.ATTRIBUTE_PSVI);
+                             if (elemPSVI != null) {
+                                 ((ElementPSVImpl) elemPSVI).fValue.memberType = (XSSimpleType) memType;
+                             }
+                             else {
+                                 ((AttributePSVImpl) attrPSVI).fValue.memberType = (XSSimpleType) memType;
+                             }
+                         }
+                         isValidationFailedForUnion = false;
+                         break; 
+                      }
+                   }
+                }
+                if (!isValidationFailedForUnion) {
+                   break;  
+                }
+             }
         }
 
         return isValidationFailedForUnion;

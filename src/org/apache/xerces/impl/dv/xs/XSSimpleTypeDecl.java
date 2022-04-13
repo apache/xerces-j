@@ -970,7 +970,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
                         
                         for (int i = 0; i < size; i++) {
                            enumVal = (String)enumVals.elementAt(i);
-                           if (fAssertion != null && fAssertion.size() > 0) {                                                                                          
+                           if (fAssertion != null) {                                                                                          
                                for (int idx = 0; idx < fAssertion.size(); idx++) {
                                   XSAssertImpl assertImpl = (XSAssertImpl)fAssertion.get(idx);
                                   Boolean isAssertSucceeded = fAssertionProcessor.evaluateOneAssertionFromSimpleType(elemQname, enumVal, null, 
@@ -987,6 +987,14 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
                                                                                   ((XSSimpleTypeDefinition)this.getBaseType()).getItemType(), enumVal, true);
                                if (isAssertSucceeded.booleanValue() == false) { 
                                  throw new InvalidDatatypeFacetException(null, null);
+                               }
+                           }
+                           
+                           if (isTypeDerivedFromUnion) {
+                               boolean isValidationFailedForUnion = fAssertionProcessor.isValidationFailedForSTUnion(((XSSimpleTypeDefinition)this.getBaseType()).
+                                                                                                          getMemberTypes(), elemQname, enumVal, null, true);
+                               if (isValidationFailedForUnion) {
+                                   throw new InvalidDatatypeFacetException(null, null);  
                                }
                            }
                         }                                                

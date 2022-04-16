@@ -27,6 +27,7 @@ import java.util.Vector;
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.dv.ValidatedInfo;
 import org.apache.xerces.impl.dv.XSSimpleType;
+import org.apache.xerces.impl.dv.xs.XSSimpleTypeDecl;
 import org.apache.xerces.impl.xs.assertion.XMLAssertHandler;
 import org.apache.xerces.impl.xs.assertion.XSAssert;
 import org.apache.xerces.impl.xs.assertion.XSAssertConstants;
@@ -99,20 +100,41 @@ public class XSDAssertionValidator {
         
         // instantiate the assertions processor
         if (assertionList != null && fAssertionProcessor == null) {
-            // construct parameter values for the assertion processor
-            NamespaceSupport xpathNamespaceContext = null;
-            if (assertionList instanceof XSObjectList) {
-                xpathNamespaceContext = ((XSAssertImpl)((XSObjectList) assertionList).item(0)).getXPath2NamespaceContext();    
+           constructAssertProcessor(assertionList);
+        }
+        
+        // handling, assertions on, simpleType with variety list whose itemType is union.
+        // only supporting, when all the union member types are with variety atomic.
+        int unionTypeNoOfMembers = 0;
+        int noOfUnionAtomicTypes = 0;
+        if (assertionList == null && fAssertionProcessor == null) {
+            XSTypeDefinition typeDefn = fXmlSchemaValidator.fCurrentPSVI.getTypeDefinition();
+            if (typeDefn != null && typeDefn.getTypeCategory() == XSTypeDefinition.SIMPLE_TYPE) {
+               XSSimpleTypeDefinition xsSimpleTypeDefn = (XSSimpleTypeDefinition)typeDefn;
+               if (xsSimpleTypeDefn.getVariety() == XSSimpleTypeDefinition.VARIETY_LIST) {
+                   XSSimpleTypeDefinition xsItemTypeDefn = xsSimpleTypeDefn.getItemType();
+                   if (xsItemTypeDefn.getVariety() == XSSimpleTypeDefinition.VARIETY_UNION) {
+                       XSObjectList memberTypes = xsItemTypeDefn.getMemberTypes();
+                       unionTypeNoOfMembers = memberTypes.getLength(); 
+                       assertionList = new Vector();
+                       for (int idx = 0; idx < memberTypes.getLength(); idx++) {                           
+                           XSSimpleTypeDefinition memberType = (XSSimpleTypeDefinition)
+                                                                               memberTypes.get(idx);
+                           if (memberType.getVariety() == XSSimpleTypeDefinition.VARIETY_ATOMIC) {
+                              noOfUnionAtomicTypes++;
+                              XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)memberType;                              
+                              assertionList.add(xsSimpleTypeDecl);  // add the simpleType definition itself, to list                              
+                           }
+                       }
+                   }
+               }
             }
-            else {
-                Vector assertVector = (Vector) assertionList;
-                xpathNamespaceContext = ((XSAssertImpl)assertVector.get(0)).getXPath2NamespaceContext();
-            }
-
-            Map assertProcessorParams = new HashMap();
-            assertProcessorParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, xpathNamespaceContext);
-            // initialize the assertions processor
-            initializeAssertProcessor(assertProcessorParams);
+        }
+        
+        // instantiate the assertions processor
+        if (unionTypeNoOfMembers > 0 && unionTypeNoOfMembers == noOfUnionAtomicTypes && 
+                                           assertionList != null && fAssertionProcessor == null) {
+           constructAssertProcessor(assertionList);
         }
        
         // invoke the assertions processor method
@@ -126,6 +148,36 @@ public class XSDAssertionValidator {
         }
         
     } // handleStartElement
+
+    // construct and initialize, an assert processor
+    private void constructAssertProcessor(List assertionList) {
+        // construct parameter values for the assertion processor
+        NamespaceSupport xpathNamespaceContext = null;
+        if (assertionList instanceof XSObjectList) {
+            xpathNamespaceContext = ((XSAssertImpl)((XSObjectList) assertionList).item(0)).getXPath2NamespaceContext();    
+        }
+        else {
+            Vector assertVector = (Vector) assertionList;
+            if (assertVector.get(0) instanceof XSAssertImpl) {
+               xpathNamespaceContext = ((XSAssertImpl)assertVector.get(0)).getXPath2NamespaceContext();
+            }
+            else {
+               XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)assertVector.get(0);
+               if (xsSimpleTypeDecl.getAssertions() != null && xsSimpleTypeDecl.getAssertions().size() > 0) {
+                  xpathNamespaceContext = ((XSAssertImpl)(xsSimpleTypeDecl.getAssertions()).get(0)).
+                                                                              getXPath2NamespaceContext();
+               }
+            }
+        }
+
+        Map assertProcessorParams = new HashMap();
+        if (xpathNamespaceContext == null) {
+            xpathNamespaceContext = new NamespaceSupport();     
+        }
+        assertProcessorParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, xpathNamespaceContext);
+        // initialize the assertions processor
+        initializeAssertProcessor(assertProcessorParams);
+    } // constructAssertProcessor
     
     
     /*

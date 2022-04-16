@@ -303,7 +303,7 @@ public class XSAssertionXPath2ValueImpl implements XSAssertionXPath2Value {
      * recursively searches the XML schema type hierarchy navigating up the base types, to 
      * find the needed built-in type.
      */
-    private short getXercesXSDTypeCodeFor$value(XSTypeDefinition elementType) {
+    public short getXercesXSDTypeCodeFor$value(XSTypeDefinition elementType) {
 
         if (Constants.NS_XMLSCHEMA.equals(elementType.getNamespace())) {
             short typeCode = -100;  // xsd type short code initializer

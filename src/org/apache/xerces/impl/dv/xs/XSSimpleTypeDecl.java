@@ -3887,5 +3887,10 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         }
         sb.append(']');
     }
+    
+    public Vector getAssertions() {
+       return fAssertion;    
+    }
+    
 } // class XSSimpleTypeDecl
 

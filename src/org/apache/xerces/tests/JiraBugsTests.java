@@ -741,5 +741,44 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 			assertTrue(false);           		   		                       
 		}
 	}
+	
+	public void testJira_1744_1() {
+		String xmlfile = fDataDir+"/jira_bugs/1744_1.xml";
+		String schemapath = fDataDir+"/jira_bugs/1744_1.xsd";		
+		try {
+		    Schema s = fSchemaFactory.newSchema(new File(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new StreamSource(xmlfile));
+            assertNull(fErrSysId);
+            assertNull(fFatErrSysId);
+		} catch(Exception ex) {
+		   ex.printStackTrace();
+		   assertTrue(false);
+		}
+	}
+	
+	public void testJira_1744_2() {
+		String xmlfile = fDataDir+"/jira_bugs/1744_2.xml";
+		String schemapath = fDataDir+"/jira_bugs/1744_1.xsd";		
+		try {
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new File(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new DOMSource(getDomDocument(xmlfile)));
+            assertTrue(failureList.size() == 1);
+		    // test expected error messages
+            List expectedMsgList = new ArrayList();
+            FailureMesgFragments mesgFragments = new FailureMesgFragments();
+            mesgFragments.setMessageFragment("cvc-datatype-valid.4.1.4: The value '3 2012-08-07' of element 'X' is not valid "
+            		                          + "with the required simple type. Value '3' is not valid with any member of union type 'INT_AND_DATE'");
+            expectedMsgList.add(mesgFragments);
+            assertTrue(areErrorMessagesConsistent(expectedMsgList));
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);
+		}
+	}
 		
 }

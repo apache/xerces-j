@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <xs:element name="X">
+       <xs:simpleType>
+          <xs:list itemType="INT_AND_DATE"/>
+       </xs:simpleType>
+    </xs:element>
+    
+    <xs:simpleType name="INT_AND_DATE">
+       <xs:union memberTypes="INT_TYPE xs:date"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="INT_TYPE">
+       <xs:restriction base="xs:integer">
+         <xs:assertion test="$value mod 2 = 0"/>
+       </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

@@ -390,39 +390,43 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
            while (listStrTokens.hasMoreTokens()) {
               String listItemStrValue = listStrTokens.nextToken();
               // iterate over all the member types of union
-              boolean isListItemValidWithXSNsType = false;
+              boolean isValidationForListItemSuccessful = false;
               for (int idx = 0; idx < assertions.size(); idx++) {
-                  XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)assertions.get(idx);
-                  if (SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(xsSimpleTypeDecl.getNamespace()) && 
-                                                         XS11TypeHelper.isStrValueValidForASimpleType(listItemStrValue, 
-                                                                                                      xsSimpleTypeDecl, Constants.SCHEMA_VERSION_1_1)) {
-                     isListItemValidWithXSNsType = true; 
-                     break; 
-                  }   
-              }
-              if (!isListItemValidWithXSNsType) {
-                  for (int idx = 0; idx < assertions.size(); idx++) {
-                      XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)assertions.get(idx);
-                      if (!SchemaSymbols.URI_SCHEMAFORSCHEMA.equals(xsSimpleTypeDecl.getNamespace()) && 
-                                                         XS11TypeHelper.isStrValueValidForASimpleType(listItemStrValue, 
-                                                                                                      xsSimpleTypeDecl, Constants.SCHEMA_VERSION_1_1)) {
-                          Vector assertVector = xsSimpleTypeDecl.getAssertions();
-                          if (assertVector != null) {
-                              for (int idx1 = 0; idx1 < assertVector.size(); idx1++) {
-                                  setXDMTypedValueOf$valueForSTVarietyAtomic(listItemStrValue, getXercesXSDTypeCodeFor$value((XSTypeDefinition)xsSimpleTypeDecl), 
-                                                                             fXpath2DynamicContext);                        
-                                  AssertionError assertError = evaluateOneAssertion(element, (XSAssertImpl)assertVector.get(idx1), listItemStrValue, false, true);
-                                  if (assertError != null) {                                 
-                                     XSSimpleTypeDefinition simpleTypeDefn = (XSSimpleTypeDefinition) ((ElementPSVI) 
-                                                                                               augs.getItem(Constants.ELEMENT_PSVI)).getTypeDefinition(); 
-                                     fXmlSchemaValidator.reportSchemaError("cvc-datatype-valid.4.1.4", new Object[] {value, element.rawname, 
-                                                                             listItemStrValue, XS11TypeHelper.getSchemaTypeName((XSTypeDefinition)
-                                                                                                                            simpleTypeDefn.getItemType())});
-                                  } 
-                              }
-                          }
-                      }  
+                  XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)assertions.get(idx);                  
+                  if (XS11TypeHelper.isStrValueValidForASimpleType(listItemStrValue, xsSimpleTypeDecl, Constants.SCHEMA_VERSION_1_1)) {
+                      Vector assertVector = xsSimpleTypeDecl.getAssertions();
+                      if (assertVector != null) {
+                         int noOfAsserts = assertVector.size();
+                         int noOfAssertSuccesses = 0;
+                         for (int idx1 = 0; idx1 < assertVector.size(); idx1++) {
+                             setXDMTypedValueOf$valueForSTVarietyAtomic(listItemStrValue, getXercesXSDTypeCodeFor$value((XSTypeDefinition)xsSimpleTypeDecl), 
+                                                                                                           fXpath2DynamicContext);
+                             AssertionError assertError = evaluateOneAssertion(element, (XSAssertImpl)assertVector.get(idx1), listItemStrValue, false, true);
+                             if (assertError == null) {
+                                noOfAssertSuccesses++;
+                             }
+                         }
+                         if (noOfAsserts == noOfAssertSuccesses) {
+                            isValidationForListItemSuccessful = true;
+                            break;
+                         }
+                      }
+                      else {
+                         isValidationForListItemSuccessful = true;  
+                      }
                   }
+                  
+                  if (isValidationForListItemSuccessful) {                      
+                     break;
+                  }
+              }
+              
+              if (!isValidationForListItemSuccessful) {
+                  XSSimpleTypeDefinition simpleTypeDefn = (XSSimpleTypeDefinition)((ElementPSVI) 
+                                                                                     augs.getItem(Constants.ELEMENT_PSVI)).getTypeDefinition(); 
+                  fXmlSchemaValidator.reportSchemaError("cvc-datatype-valid.4.1.4", new Object[] {value, element.rawname, 
+                                                                                          listItemStrValue, XS11TypeHelper.getSchemaTypeName(
+                                                                                          (XSTypeDefinition) simpleTypeDefn.getItemType())}); 
               }
            }
         }

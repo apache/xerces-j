@@ -389,7 +389,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
            StringTokenizer listStrTokens = new StringTokenizer(value, " \n\t\r");
            while (listStrTokens.hasMoreTokens()) {
               String listItemStrValue = listStrTokens.nextToken();
-              // iterate over all the members types of union
+              // iterate over all the member types of union
               boolean isListItemValidWithXSNsType = false;
               for (int idx = 0; idx < assertions.size(); idx++) {
                   XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)assertions.get(idx);

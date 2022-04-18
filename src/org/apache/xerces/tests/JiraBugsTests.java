@@ -836,5 +836,37 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 			assertTrue(false);
 		}
 	}
+	
+	public void testJira_1744_6() {
+		String xmlfile = fDataDir+"/jira_bugs/1744_5.xml";
+		String schemapath = fDataDir+"/jira_bugs/1744_5.xsd";		
+		try {
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new File(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new DOMSource(getDomDocument(xmlfile)));
+            assertTrue(failureList.size() == 3);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	public void testJira_1744_7() {
+		String xmlfile = fDataDir+"/jira_bugs/1744_6.xml";
+		String schemapath = fDataDir+"/jira_bugs/1744_6.xsd";		
+		try {
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new File(schemapath));
+            Validator v = s.newValidator();
+		    v.setErrorHandler(this);
+            v.validate(new DOMSource(getDomDocument(xmlfile)));
+            assertTrue(failureList.size() == 3);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);
+		}
+	}
 		
 }

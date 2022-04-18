@@ -146,6 +146,13 @@ public class XSDAssertionValidator {
             fAttributesHaveAsserts = false;
             fAssertionProcessor.startElement(element, attributes, assertAugs);
         }
+        else {
+            constructAssertProcessor(null);
+            if (fAssertionProcessor != null) {
+               fAssertionProcessor.startElement(element, attributes, null);
+               fAssertionProcessor = null;
+            }
+        }
         
     } // handleStartElement
 
@@ -153,20 +160,22 @@ public class XSDAssertionValidator {
     private void constructAssertProcessor(List assertionList) {
         // construct parameter values for the assertion processor
         NamespaceSupport xpathNamespaceContext = null;
-        if (assertionList instanceof XSObjectList) {
-            xpathNamespaceContext = ((XSAssertImpl)((XSObjectList) assertionList).item(0)).getXPath2NamespaceContext();    
-        }
-        else {
-            Vector assertVector = (Vector) assertionList;
-            if (assertVector.get(0) instanceof XSAssertImpl) {
-               xpathNamespaceContext = ((XSAssertImpl)assertVector.get(0)).getXPath2NamespaceContext();
+        if (assertionList != null) {
+            if (assertionList instanceof XSObjectList) {
+                xpathNamespaceContext = ((XSAssertImpl)((XSObjectList) assertionList).item(0)).getXPath2NamespaceContext();    
             }
             else {
-               XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)assertVector.get(0);
-               if (xsSimpleTypeDecl.getAssertions() != null && xsSimpleTypeDecl.getAssertions().size() > 0) {
-                  xpathNamespaceContext = ((XSAssertImpl)(xsSimpleTypeDecl.getAssertions()).get(0)).
-                                                                              getXPath2NamespaceContext();
-               }
+                Vector assertVector = (Vector) assertionList;
+                if (assertVector.get(0) instanceof XSAssertImpl) {
+                   xpathNamespaceContext = ((XSAssertImpl)assertVector.get(0)).getXPath2NamespaceContext();
+                }
+                else {
+                   XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)assertVector.get(0);
+                   if (xsSimpleTypeDecl.getAssertions() != null && xsSimpleTypeDecl.getAssertions().size() > 0) {
+                      xpathNamespaceContext = ((XSAssertImpl)(xsSimpleTypeDecl.getAssertions()).get(0)).
+                                                                                  getXPath2NamespaceContext();
+                   }
+                }
             }
         }
 

@@ -179,18 +179,99 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
             fCurrentAssertDomNode.setAttributeNode(attrNode);
         }
 
-        // if we have assertions applicable to this element, store the element reference and the assertions on it on the runtime stacks
-        List assertionList = (List) augs.getItem(XSAssertConstants.assertList);
-        if (assertionList != null) {
-            fAssertRootStack.push(fCurrentAssertDomNode);
-            fAssertListStack.push(assertionList);
-            initXPathProcessor();
+        if (augs != null) {
+            // if we have assertions applicable to this element, store the element reference and the assertions 
+            // on it on the runtime stacks
+            List assertionList = (List) augs.getItem(XSAssertConstants.assertList);
+            if (assertionList != null) {
+                fAssertRootStack.push(fCurrentAssertDomNode);
+                fAssertListStack.push(assertionList);
+                initXPathProcessor();
+            }
+    
+            // evaluate assertions from attributes. evaluation of assertions on attributes in startElement call, 
+            // helps us setting the PSVI results for attributes appropriately.
+            if (((Boolean)augs.getItem(XSAssertConstants.isAttrHaveAsserts)).booleanValue()) {
+                evaluateAssertsFromAttributes(element, attributes);
+            }
         }
-
-        // evaluate assertions from attributes. evaluation of assertions on attributes in startElement call, helps us setting the PSVI results
-        // for attributes appropriately.
-        if (((Boolean)augs.getItem(XSAssertConstants.isAttrHaveAsserts)).booleanValue()) {
-            evaluateAssertsFromAttributes(element, attributes);
+        else {
+            // handling, assertions on attribute simpleType definition, with variety list whose itemType is union
+            for (int attrIdx = 0; attrIdx < attributes.getLength(); attrIdx++) {
+                QName attrQname = new QName();
+                attributes.getName(attrIdx, attrQname);            
+                String attrValue = attributes.getValue(attrIdx);
+                Augmentations attrAugs = attributes.getAugmentations(attrIdx);
+                AttributePSVImpl attrPsvi = (AttributePSVImpl)attrAugs.getItem(Constants.ATTRIBUTE_PSVI);
+                if (attrPsvi != null) {
+                    XSSimpleTypeDefinition attrSimpleType = (XSSimpleTypeDefinition) attrPsvi.getTypeDefinition();
+                    if (attrSimpleType != null) {                                           
+                       if (attrSimpleType.getVariety() == XSSimpleTypeDefinition.VARIETY_LIST) {
+                          XSSimpleTypeDefinition xsItemTypeDefn = attrSimpleType.getItemType();
+                          if (xsItemTypeDefn.getVariety() == XSSimpleTypeDefinition.VARIETY_UNION) {
+                             XSObjectList memberTypes = xsItemTypeDefn.getMemberTypes();
+                             int unionTypeNoOfMembers = memberTypes.getLength(); 
+                             int noOfUnionAtomicTypes = 0;
+                             List memberTypeList = new Vector();
+                             for (int idx = 0; idx < memberTypes.getLength(); idx++) {                           
+                                XSSimpleTypeDefinition memberType = (XSSimpleTypeDefinition)memberTypes.get(idx);
+                                if (memberType.getVariety() == XSSimpleTypeDefinition.VARIETY_ATOMIC) {
+                                   noOfUnionAtomicTypes++;
+                                   XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)memberType;
+                                   memberTypeList.add(xsSimpleTypeDecl);
+                                }
+                             }
+                             if (unionTypeNoOfMembers == noOfUnionAtomicTypes) {
+                                 // tokenize the list value by a sequence of white spaces
+                                 StringTokenizer listStrTokens = new StringTokenizer(attrValue, " \n\t\r");
+                                 while (listStrTokens.hasMoreTokens()) {
+                                    String listItemStrValue = listStrTokens.nextToken();
+                                    // iterate over all the member types of union
+                                    boolean isValidationForListItemSuccessful = false;
+                                    for (int idx = 0; idx < memberTypeList.size(); idx++) {
+                                        XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)memberTypeList.get(idx);                  
+                                        if (XS11TypeHelper.isStrValueValidForASimpleType(listItemStrValue, xsSimpleTypeDecl, Constants.SCHEMA_VERSION_1_1)) {
+                                            Vector assertVector = xsSimpleTypeDecl.getAssertions();
+                                            if (assertVector != null) {
+                                               int noOfAsserts = assertVector.size();
+                                               int noOfAssertSuccesses = 0;
+                                               for (int idx1 = 0; idx1 < assertVector.size(); idx1++) {
+                                                   fAssertParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, ((XSAssertImpl)assertVector.get(idx1)).getXPath2NamespaceContext());
+                                                   initXPathProcessor();
+                                                   setXDMTypedValueOf$valueForSTVarietyAtomic(listItemStrValue, getXercesXSDTypeCodeFor$value((XSTypeDefinition)xsSimpleTypeDecl), 
+                                                                                                                                 fXpath2DynamicContext);                                               
+                                                   AssertionError assertError = evaluateOneAssertion(element, (XSAssertImpl)assertVector.get(idx1), listItemStrValue, false, true);
+                                                   if (assertError == null) {
+                                                      noOfAssertSuccesses++;
+                                                   }
+                                               }
+                                               if (noOfAsserts == noOfAssertSuccesses) {
+                                                  isValidationForListItemSuccessful = true;
+                                                  break;
+                                               }
+                                            }
+                                            else {
+                                               isValidationForListItemSuccessful = true;  
+                                            }
+                                        }
+                                        
+                                        if (isValidationForListItemSuccessful) {                      
+                                           break;
+                                        }
+                                    }
+                                    
+                                    if (!isValidationForListItemSuccessful) {                                     
+                                        fXmlSchemaValidator.reportSchemaError("cvc-datatype-valid_attr.4.1.4", new Object[] {attrValue, element.rawname, attrQname.rawname, 
+                                                                                                                             listItemStrValue, XS11TypeHelper.getSchemaTypeName(
+                                                                                                                             (XSTypeDefinition) attrSimpleType.getItemType())}); 
+                                    }
+                                 } 
+                             }
+                          }
+                       }                                        
+                    }
+                }
+            }
         }
         
     } // startElement
@@ -216,7 +297,8 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
                     for (int assertIdx = 0; assertIdx < attrAssertList.size(); assertIdx++) {
                         XSAssertImpl assertImpl = (XSAssertImpl)attrAssertList.get(assertIdx);
                         assertImpl.setAttrName(attrQname.localpart);
-                        evaluateOneAssertionFromSimpleType(element, attrValue, attrAugs, attrSimpleType, isTypeDerivedFromList, isTypeDerivedFromUnion, assertImpl, true, attrQname, false);
+                        evaluateOneAssertionFromSimpleType(element, attrValue, attrAugs, attrSimpleType, isTypeDerivedFromList, 
+                                                           isTypeDerivedFromUnion, assertImpl, true, attrQname, false);
                         // evaluate assertions on itemType of xs:list
                         XSSimpleTypeDefinition attrItemType = attrSimpleType.getItemType();
                         if (isTypeDerivedFromList && attrItemType != null) {
@@ -229,7 +311,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
         
     } // evaluateAssertsFromAttributes
     
-
+    
     /*
      * (non-Javadoc)
      * @see org.apache.xerces.xni.parser.XMLAssertAdapter#endElement(org.apache.xerces.xni.QName, 

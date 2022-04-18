@@ -107,7 +107,7 @@ public class XSDAssertionValidator {
         // only supporting, when all the union member types are with variety atomic.
         int unionTypeNoOfMembers = 0;
         int noOfUnionAtomicTypes = 0;
-        if (assertionList == null && fAssertionProcessor == null) {
+        if (assertionList == null) {
             XSTypeDefinition typeDefn = fXmlSchemaValidator.fCurrentPSVI.getTypeDefinition();
             if (typeDefn != null && typeDefn.getTypeCategory() == XSTypeDefinition.SIMPLE_TYPE) {
                XSSimpleTypeDefinition xsSimpleTypeDefn = (XSSimpleTypeDefinition)typeDefn;

@@ -742,6 +742,32 @@ public class JiraBugsTests extends XercesAbstractTestCase {
 		}
 	}
 	
+	public void testJira_1743_7() {
+		String schemapath = fDataDir+"/jira_bugs/1743_7.xsd";	
+		try {
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));		    
+		    assertTrue(failureList.size() == 2);		    
+            fErrSysId.endsWith("1743_7.xsd");
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);           		   		                       
+		}
+	}
+	
+	public void testJira_1743_8() {
+		String schemapath = fDataDir+"/jira_bugs/1743_8.xsd";	
+		try {
+			fSchemaFactory.setErrorHandler(this);
+		    Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));		    
+		    assertTrue(failureList.size() == 2);		    
+            fErrSysId.endsWith("1743_8.xsd");
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			assertTrue(false);           		   		                       
+		}
+	}
+	
 	public void testJira_1744_1() {
 		String xmlfile = fDataDir+"/jira_bugs/1744_1.xml";
 		String schemapath = fDataDir+"/jira_bugs/1744_1.xsd";		

@@ -781,7 +781,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     /*
      * Method to evaluate an assertion. Returns the evaluation error details in an AssertionError object.
      */
-    private AssertionError evaluateOneAssertion(QName element, XSAssertImpl assertImpl, String value, boolean xPathContextExists, boolean isList) {
+    public AssertionError evaluateOneAssertion(QName element, XSAssertImpl assertImpl, String value, boolean xPathContextExists, boolean isList) {
         
         AssertionError assertionError = null;
         
@@ -908,6 +908,9 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
         }        
     }
     
+    public DynamicContext getDynamicContext() {
+        return fXpath2DynamicContext; 
+    }    
     
     /*
      * Method to report assertions error messages.
@@ -982,7 +985,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     /*
      * Class to store "assertion evaluation" error details.
      */
-    final class AssertionError {
+    public final class AssertionError {
         
         // instance variables        
         private final String errorCode;

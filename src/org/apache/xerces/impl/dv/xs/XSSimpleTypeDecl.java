@@ -20,6 +20,7 @@ package org.apache.xerces.impl.dv.xs;
 import java.math.BigInteger;
 import java.util.AbstractList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -36,10 +37,12 @@ import org.apache.xerces.impl.dv.XSSimpleType;
 import org.apache.xerces.impl.xpath.regex.RegularExpression;
 import org.apache.xerces.impl.xs.SchemaSymbols;
 import org.apache.xerces.impl.xs.XMLAssertXPath2EngineImpl;
+import org.apache.xerces.impl.xs.XMLAssertXPath2EngineImpl.AssertionError;
 import org.apache.xerces.impl.xs.assertion.XSAssertImpl;
 import org.apache.xerces.impl.xs.util.ObjectListImpl;
 import org.apache.xerces.impl.xs.util.ShortListImpl;
 import org.apache.xerces.impl.xs.util.StringListImpl;
+import org.apache.xerces.impl.xs.util.XS11TypeHelper;
 import org.apache.xerces.impl.xs.util.XSObjectListImpl;
 import org.apache.xerces.util.NamespaceSupport;
 import org.apache.xerces.util.XML11Char;
@@ -995,6 +998,68 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
                                                                                                           getMemberTypes(), elemQname, enumVal, null, true);
                                if (isValidationFailedForUnion) {
                                    throw new InvalidDatatypeFacetException(null, null);  
+                               }
+                           }
+                           
+                           // handling, assertions when the base simpleType definition, has variety list whose itemType is union
+                           if (((XSSimpleTypeDefinition)this.getBaseType()).getVariety() == XSSimpleTypeDefinition.VARIETY_LIST) {
+                               XSSimpleTypeDefinition xsItemTypeDefn = ((XSSimpleTypeDefinition)this.getBaseType()).getItemType();
+                               if (xsItemTypeDefn.getVariety() == XSSimpleTypeDefinition.VARIETY_UNION) {
+                                   XSObjectList memberTypes = xsItemTypeDefn.getMemberTypes();
+                                   int unionTypeNoOfMembers = memberTypes.getLength(); 
+                                   int noOfUnionAtomicTypes = 0;
+                                   List memberTypeList = new Vector();
+                                   for (int idx = 0; idx < memberTypes.getLength(); idx++) {                           
+                                      XSSimpleTypeDefinition memberType = (XSSimpleTypeDefinition)memberTypes.get(idx);
+                                      if (memberType.getVariety() == XSSimpleTypeDefinition.VARIETY_ATOMIC) {
+                                         noOfUnionAtomicTypes++;
+                                         XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)memberType;
+                                         memberTypeList.add(xsSimpleTypeDecl);
+                                      }
+                                   }
+                                   
+                                   if (unionTypeNoOfMembers == noOfUnionAtomicTypes) {
+                                       // tokenize the list value by a sequence of white spaces
+                                       StringTokenizer listStrTokens = new StringTokenizer(enumVal, " \n\t\r");
+                                       while (listStrTokens.hasMoreTokens()) {
+                                          String listItemStrValue = listStrTokens.nextToken();
+                                          // iterate over all the member types of union
+                                          boolean isValidationForListItemSuccessful = false;
+                                          for (int idx = 0; idx < memberTypeList.size(); idx++) {
+                                              XSSimpleTypeDecl xsSimpleTypeDecl = (XSSimpleTypeDecl)memberTypeList.get(idx);                  
+                                              if (XS11TypeHelper.isStrValueValidForASimpleType(listItemStrValue, xsSimpleTypeDecl, Constants.SCHEMA_VERSION_1_1)) {
+                                                  Vector assertVector = xsSimpleTypeDecl.getAssertions();
+                                                  if (assertVector != null) {
+                                                     int noOfAsserts = assertVector.size();
+                                                     int noOfAssertSuccesses = 0;
+                                                     for (int idx1 = 0; idx1 < assertVector.size(); idx1++) {                                                         
+                                                         fAssertionProcessor.setXDMTypedValueOf$valueForSTVarietyAtomic(listItemStrValue, fAssertionProcessor.getXercesXSDTypeCodeFor$value((XSTypeDefinition)xsSimpleTypeDecl), 
+                                                                                                                        fAssertionProcessor.getDynamicContext());                                               
+                                                         AssertionError assertError = fAssertionProcessor.evaluateOneAssertion(elemQname, (XSAssertImpl)assertVector.get(idx1), listItemStrValue, false, true);
+                                                         if (assertError == null) {
+                                                            noOfAssertSuccesses++;
+                                                         }
+                                                     }
+                                                     if (noOfAsserts == noOfAssertSuccesses) {
+                                                        isValidationForListItemSuccessful = true;
+                                                        break;
+                                                     }
+                                                  }
+                                                  else {
+                                                     isValidationForListItemSuccessful = true;  
+                                                  }
+                                              }
+                                              
+                                              if (isValidationForListItemSuccessful) {                      
+                                                 break;
+                                              }
+                                          }
+                                          
+                                          if (!isValidationForListItemSuccessful) {                                     
+                                             throw new InvalidDatatypeFacetException(null, null); 
+                                          }
+                                       } 
+                                   }
                                }
                            }
                         }                                                

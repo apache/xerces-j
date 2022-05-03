@@ -139,12 +139,12 @@
     From the above mentioned features, all the features mentioned except the last two (i.e XML Schema 1.1 and SCD 
     implementations), are available with both the following Xerces2 Java packages:
     <ul>
-       <li>Xerces2 Java 2.12.2 - tar.gz / Xerces2 Java 2.12.2 - zip</li>
-       <li>Xerces2 Java 2.12.2 (XML Schema 1.1) - tar.gz / Xerces2 Java 2.12.2 (XML Schema 1.1) - zip</li>
+       <li>Xerces2 Java 2.12.3 - tar.gz / Xerces2 Java 2.12.3 - zip</li>
+       <li>Xerces2 Java 2.12.3 (XML Schema 1.1) - tar.gz / Xerces2 Java 2.12.3 (XML Schema 1.1) - zip</li>
     </ul>
     Whereas, the feature implementations for 'XML Schema 1.1' and 'XML Schema Definition Language (XSD): 
-    Component Designators (SCD)', are available only within the Xerces2 Java package 'Xerces2 Java 2.12.2 
-    (XML Schema 1.1) - tar.gz / Xerces2 Java 2.12.2 (XML Schema 1.1) - zip'. Please visit the page 
+    Component Designators (SCD)', are available only within the Xerces2 Java package 'Xerces2 Java 2.12.3 
+    (XML Schema 1.1) - tar.gz / Xerces2 Java 2.12.3 (XML Schema 1.1) - zip'. Please visit the page 
     <jump href='http://xerces.apache.org/mirrors.cgi'>Xerces downloads</jump>, to download the Xerces2 
     Java package that is needed.  
   </s2>

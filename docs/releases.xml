@@ -18,6 +18,50 @@
 <!-- $Id$ -->
 <!DOCTYPE releases SYSTEM 'dtd/releases.dtd'>
 <releases>
+  <release version='&ParserName; 2.12.3'>
+   <desc>
+    <p>
+      This release is a bug fix release. It fixes few bugs which were present in Xerces-J 2.12.2 
+      and also includes a few other minor enhancements.      
+    </p>
+   </desc>
+   <changes>                     
+     <fix>
+        <note>
+      	   Removed the interface org.w3c.dom.html.HTMLDOMImplementation from Xerces-J codebase, 
+      	   since its present within Java 1.7+.
+     	</note>
+     	<submitter name='XercesJ team'/>
+     </fix>
+     <fix>
+        <note>
+      	   Improved few error messages, while using Xerces-J XML parser.
+     	</note>
+     	<submitter name='XercesJ team'/>
+     </fix>     
+     <fix>
+        <note>
+      	   XSD simpleType definition's 'final' attribute can have value 'extension'. Prior to this
+      	   release, Xerces-J didn't implement that.
+     	</note>
+     	<submitter name='Mukul Gandhi'/>
+     </fix>
+     <fix>
+        <note>
+      	   Prior to this release, with XML Schema 1.1 implementation, assertions on simpleType with 
+      	   variety list whose itemType is union, did not evaluate.
+     	</note>
+     	<submitter name='Mukul Gandhi'/>
+     </fix>
+     <fix>
+        <note>
+      	   With XML Schema 1.1, simpleType enumeration values must satisfy base type assertions, by 
+      	   only analyzing an XSD schema. Prior to this release, Xerces-J didn't implement that.
+     	</note>
+     	<submitter name='Sandy Gao, Mukul Gandhi'/>
+     </fix>                                         
+   </changes>
+  </release>
   <release version='&ParserName; 2.12.2'>
    <desc>
     <p>

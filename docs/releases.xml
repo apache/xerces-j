@@ -25,17 +25,17 @@
       and also includes a few other minor enhancements.      
     </p>
    </desc>
-   <changes>                     
+   <changes>                          
+     <fix>
+        <note>
+      	   Improved few error messages, while using Xerces-J XML parser.
+     	</note>
+     	<submitter name='Michael Glavassevich'/>
+     </fix>
      <fix>
         <note>
       	   Removed the interface org.w3c.dom.html.HTMLDOMImplementation from Xerces-J codebase, 
       	   since its present within Java 1.7+.
-     	</note>
-     	<submitter name='XercesJ team'/>
-     </fix>
-     <fix>
-        <note>
-      	   Improved few error messages, while using Xerces-J XML parser.
      	</note>
      	<submitter name='XercesJ team'/>
      </fix>     

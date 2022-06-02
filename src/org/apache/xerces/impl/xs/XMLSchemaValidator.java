@@ -3428,10 +3428,11 @@ public class XMLSchemaValidator
         // 3.1 If the type definition is a simple type definition, then all of the following must be true:
         if (fCurrentType.getTypeCategory() == XSTypeDefinition.SIMPLE_TYPE) {
             // 3.1.2 The element information item must have no element information item [children].
-            if (fSubElement)
-                reportSchemaError("cvc-type.3.1.2", new Object[] { element.rawname });
-            // 3.1.3 If clause 3.2 of Element Locally Valid (Element) (3.3.4) did not apply, then the normalized value must be valid with respect to the type definition as defined by String Valid (3.14.4).
-            if (!fNil) {
+            if (fSubElement) {
+                reportSchemaError("cvc-type.3.1.2", new Object[] { element.rawname, XS10TypeHelper.getSchemaTypeName(fCurrentType) });
+            }            
+            else if (!fNil) {
+                // 3.1.3 If clause 3.2 of Element Locally Valid (Element) (3.3.4) did not apply, then the normalized value must be valid with respect to the type definition as defined by String Valid (3.14.4).
                 XSSimpleType dv = (XSSimpleType) fCurrentType;
                 try {
                     if (!fNormalizeData || fUnionType) {

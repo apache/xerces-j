@@ -760,12 +760,7 @@ public class XMLSchemaValidator extends XMLSchemaValidatorBase implements XMLCom
      *
      * @param componentManager The component manager.
      *
-     * @throws SAXException Thrown by component on finitialization error.
-     *                      For example, if a feature or property is
-     *                      required for the operation of the component, the
-     *                      component manager may throw a
-     *                      SAXNotRecognizedException or a
-     *                      SAXNotSupportedException.
+     * @throws XMLConfigurationException
      */
     public void reset(XMLComponentManager componentManager) throws XMLConfigurationException {
 
@@ -799,27 +794,26 @@ public class XMLSchemaValidator extends XMLSchemaValidatorBase implements XMLCom
 
         // get error reporter
         fXSIErrorReporter.reset((XMLErrorReporter) componentManager.getProperty(ERROR_REPORTER));
-
-        boolean parser_settings;
+        
         try {
-            parser_settings = componentManager.getFeature(PARSER_SETTINGS);
+            boolean parser_settings = componentManager.getFeature(PARSER_SETTINGS);
+            
+            if (!parser_settings) {
+                // parser settings feature is not supported                
+                
+                fValidationManager.addValidationState(fValidationState);
+                // the node limit on the SecurityManager may have changed so need to refresh
+                nodeFactory.reset();
+                // Re-parse external schema location properties
+                XMLSchemaLoader.processExternalHints(
+                                           fExternalSchemas,
+                                           fExternalNoNamespaceSchema,
+                                           fLocationPairs,
+                                           fXSIErrorReporter.fErrorReporter);
+            }
         }
         catch (XMLConfigurationException e){
-            parser_settings = true;
-        }
-
-        if (!parser_settings) {
-            // parser settings have not been changed
-            fValidationManager.addValidationState(fValidationState);
-            // the node limit on the SecurityManager may have changed so need to refresh.
-            nodeFactory.reset();
-            // Re-parse external schema location properties.
-            XMLSchemaLoader.processExternalHints(
-                fExternalSchemas,
-                fExternalNoNamespaceSchema,
-                fLocationPairs,
-                fXSIErrorReporter.fErrorReporter);
-            return;
+           // NO OP
         }
         
         // pass the component manager to the factory..

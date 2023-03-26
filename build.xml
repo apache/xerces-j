@@ -82,7 +82,7 @@ Authors:
     <echo message= "---------------- ${parser.Name} ${parser.Version} [${year}] ---------------"/>
     <!-- changed made to synchronize with a patch from Sam Ruby (<rubys@apache.org>) to Xerces1
     <property name="build.compiler" value="classic"/> -->
-    <property name="debug" value="off"/>
+    <property name="debug" value="on"/>  <!-- make this 'off' during releases -->
     <property name="debuglevel" value="lines,source"/>
     <property name="optimize" value="on"/>
     <property name="deprecation" value="off"/>

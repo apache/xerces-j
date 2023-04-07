@@ -62,7 +62,7 @@
      </fix>
      <fix>
         <note>
-      	   Fixed an XML Schema 1.1 <assert/> evaluation issue, that involved the use of Xerces-J bundled
+      	   Fixed an XML Schema 1.1 &lt;assert&gt; evaluation issue, that involved the use of Xerces-J bundled
       	   Java ICU (International Components for Unicode) library. To fix this issue, the Java ICU
       	   library has been upgraded with this version of Xerces-J. 
      	</note>

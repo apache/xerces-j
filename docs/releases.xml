@@ -41,8 +41,12 @@
      </fix>     
      <fix>
         <note>
-      	   XML Schema simpleType definition's 'final' attribute can have value 'extension'. Prior to this
-      	   release, Xerces-J didn't implement that.
+      	   XML Schema simpleType definition's 'final' attribute can have value 'extension'. Please see,
+      	   "XML Schema 1.0 structures specification" section "3.14.2 (non-normative) XML Representation of 
+      	   Simple Type Definition Schema Components" -> Simple Type Definition Schema Component -> {final}, 
+      	   and "XML Schema 1.1 structures specification" section "3.16.2 XML Representation of Simple Type 
+      	   Definition Schema Components" -> 3.16.2.1 Common mapping rules for Simple Type Definitions -> 
+      	   {final}. Prior to this release, Xerces-J didn't implement that.
      	</note>
      	<submitter name='Mukul Gandhi'/>
      </fix>

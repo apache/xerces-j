@@ -30,18 +30,18 @@
         <note>
       	   Improved few error messages, while using Xerces-J XML parser.
      	</note>
-     	<submitter name='Michael Glavassevich'/>
+     	<submitter name='Michael Glavassevich, Mukul Gandhi'/>
      </fix>
      <fix>
         <note>
-      	   Removed the interface org.w3c.dom.html.HTMLDOMImplementation from Xerces-J codebase, 
-      	   since its present within Java 1.7+.
+      	   Removed the Java interface org.w3c.dom.html.HTMLDOMImplementation from Xerces-J codebase, 
+      	   since its present within Java versions 1.7 and above.
      	</note>
      	<submitter name='XercesJ team'/>
      </fix>     
      <fix>
         <note>
-      	   XSD simpleType definition's 'final' attribute can have value 'extension'. Prior to this
+      	   XML Schema simpleType definition's 'final' attribute can have value 'extension'. Prior to this
       	   release, Xerces-J didn't implement that.
      	</note>
      	<submitter name='Mukul Gandhi'/>
@@ -59,7 +59,23 @@
       	   only analyzing an XSD schema. Prior to this release, Xerces-J didn't implement that.
      	</note>
      	<submitter name='Sandy Gao, Mukul Gandhi'/>
-     </fix>                                         
+     </fix>
+     <fix>
+        <note>
+      	   Fixed an XML Schema 1.1 <assert/> evaluation issue, that involved the use of Xerces-J bundled
+      	   Java ICU (International Components for Unicode) library. To fix this issue, the Java ICU
+      	   library has been upgraded with this version of Xerces-J. 
+     	</note>
+     	<submitter name='Mukul Gandhi, Yitzhak Khabinsky, Ivan Pedruzzi'/>
+     </fix>
+     <fix>
+        <note>
+      	   When using XML Schema validator, with xs:ID as a schema type within an XML Schema document, when
+      	   we reuse the Java SAXParser object, the XML Schema validation episodes except the first one
+      	   result with XML Schema validation failure outcomes. This Xerces-J release, fixes this issue. 
+     	</note>
+     	<submitter name='Radu Coravu, Mukul Gandhi'/>
+     </fix>                                           
    </changes>
   </release>
   <release version='&ParserName; 2.12.2'>

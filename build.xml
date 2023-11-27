@@ -69,7 +69,7 @@ Authors:
     <property name='jar.resolver' value='resolver.jar'/>
     <property name='jar.serializer' value='serializer.jar'/>
     <property name='jar.charnormalizer' value='icu4j.jar'/>
-    <property name='jar.psychopath' value='org.eclipse.wst.xml.xpath2.processor_1.2.1.jar'/>
+    <property name='jar.xpath2' value='org.eclipse.wst.xml.xpath2.processor_1.2.1.jar'/>
     <property name='jar.cup' value='cupv10k-runtime.jar'/>
     <property name='jar.junit' value='junit.jar'/>
     <property name='jar.ant' value='ant.jar'/>
@@ -296,7 +296,7 @@ Authors:
            destdir="${build.dest}"
            source="${javac.source}"
            target="${javac.target}"
-           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${tools.dir}/${jar.charnormalizer}:${tools.dir}/${jar.psychopath}:${tools.dir}/${jar.cup}"
+           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${tools.dir}/${jar.charnormalizer}:${tools.dir}/${jar.xpath2}:${tools.dir}/${jar.cup}"
            debug="${debug}"
            debuglevel="${debuglevel}"
            deprecation="${deprecation}"
@@ -512,7 +512,7 @@ Authors:
                            org.apache.xerces.xpointer'
       locale='en_US'
       sourcepath='${build.src}' destdir='${build.dir}/docs/javadocs/xerces2'
-      classpath='${tools.dir}/${jar.psychopath}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}'
+      classpath='${tools.dir}/${jar.xpath2}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}'
       author='true' version='true'
       windowtitle='Xerces2 Implementation' 
       doctitle='Xerces2 Implementation'
@@ -525,7 +525,7 @@ Authors:
                            org.apache.xml.serialize.*'
       locale='en_US'
       sourcepath='${build.src}' destdir='${build.dir}/docs/javadocs/other'
-      classpath='${tools.dir}/${jar.psychopath}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}'
+      classpath='${tools.dir}/${jar.xpath2}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}'
       author='true' version='true'
       windowtitle='Other Classes' doctitle='Other Classes'
       bottom='${copyright}'
@@ -715,8 +715,8 @@ Authors:
     <copy file="${tools.dir}/${jar.serializer}" tofile="${distbin.dir}/${jar.serializer}"/>
     <!-- include the ICU4J character normalizer -->
     <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${distbin.dir}/${jar.charnormalizer}"/>
-    <!-- include the PsychoPath XPath 2.0 processor -->
-    <copy file="${tools.dir}/${jar.psychopath}" tofile="${distbin.dir}/${jar.psychopath}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${distbin.dir}/${jar.xpath2}"/>
     <!-- include the Java Cup Runtime -->
     <copy file="${tools.dir}/${jar.cup}" tofile="${distbin.dir}/${jar.cup}"/>
 
@@ -747,8 +747,8 @@ Authors:
     <copy file="${tools.dir}/${jar.serializer}" tofile="${distbin.dir}/${jar.serializer}"/>
     <!-- include the ICU4J character normalizer -->
     <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${distbin.dir}/${jar.charnormalizer}"/>
-    <!-- include the PsychoPath XPath 2.0 processor -->
-    <copy file="${tools.dir}/${jar.psychopath}" tofile="${distbin.dir}/${jar.psychopath}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${distbin.dir}/${jar.xpath2}"/>
     <!-- include the Java Cup Runtime -->
     <copy file="${tools.dir}/${jar.cup}" tofile="${distbin.dir}/${jar.cup}"/>
 
@@ -958,8 +958,8 @@ Authors:
     <copy file="${tools.dir}/${jar.serializer}" tofile="${build.dir}/${jar.serializer}"/>
     <!-- include the ICU4J character normalizer -->
     <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${build.dir}/${jar.charnormalizer}"/>
-    <!-- include the PsychoPath XPath 2.0 processor -->
-    <copy file="${tools.dir}/${jar.psychopath}" tofile="${build.dir}/${jar.psychopath}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${build.dir}/${jar.xpath2}"/>
     <!-- include the Java Cup Runtime -->
     <copy file="${tools.dir}/${jar.cup}" tofile="${build.dir}/${jar.cup}"/>
   </target>
@@ -976,8 +976,8 @@ Authors:
     <copy file="${tools.dir}/${jar.serializer}" tofile="${build.dir}/${jar.serializer}"/>
     <!-- include the ICU4J character normalizer -->
     <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${build.dir}/${jar.charnormalizer}"/>
-    <!-- include the PsychoPath XPath 2.0 processor -->
-    <copy file="${tools.dir}/${jar.psychopath}" tofile="${build.dir}/${jar.psychopath}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${build.dir}/${jar.xpath2}"/>
     <!-- include the Java Cup Runtime -->
     <copy file="${tools.dir}/${jar.cup}" tofile="${build.dir}/${jar.cup}"/>
   </target>
@@ -1491,7 +1491,7 @@ Authors:
                destdir="${build.dest}"
                source="${javac.source}"
                target="${javac.target}"
-               classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"
+	       classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${tools.dir}/${jar.xpath2}"
                debug="${debug}"
                debuglevel="${debuglevel}"
                deprecation="${deprecation}"

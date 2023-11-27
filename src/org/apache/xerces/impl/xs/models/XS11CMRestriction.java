@@ -490,8 +490,8 @@ public final class XS11CMRestriction implements XSElementDeclHelper {
             return false;
         }
 
-        // 4.5 S's declared {type definition} is ·validly substitutable as
-        // a restriction· for G's declared {type definition}.
+        // 4.5 S's declared {type definition} is validly substitutable as
+        // a restriction for G's declared {type definition}.
         if (!xsc.checkTypeDerivationOk(ed.fType, eb.fType,
                 (short)(XSConstants.DERIVATION_EXTENSION|XSConstants.DERIVATION_LIST|XSConstants.DERIVATION_UNION))) {
             return false;

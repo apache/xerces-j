@@ -38,16 +38,24 @@ Authors:
   <property name="tests.dir" value="./tests"/>
   <property name="tools.dir" value="./tools"/>
 
-  <!-- enable compilation under JDK 1.4 and above -->
+  <!-- enable compilation under JDK 1.4 and above. -->
+  <!--
+	Although, the Java component org.apache.xerces.util.XJavac
+	is designed to support Java 1.4+ (and that's ok for Java 1.7+ 
+	as well), starting with XercesJ v 2.12.2, XercesJ builds 
+	produce Java binaries that can run on Java 1.7+.
+	Please see the definitions of Ant build properties javac.source
+	and javac.target further below. 
+  -->
   <taskdef name="xjavac" classname="org.apache.xerces.util.XJavac">
     <classpath>
       <pathelement location="${tools.dir}/bin/xjavac.jar"/>
     </classpath>
   </taskdef>
 
-  <!-- Allow properties following these statements to be overridden -->
-  <!-- Note that all of these don't have to exist.  They've just been defined
-       incase they are used. -->
+  <!-- Allow properties following these statements to be overridden. -->
+  <!-- Note that all of these don't have to exist. They've just been
+       defined in case they are used. -->
   <property file="build.properties"/>
   <property file=".ant.properties"/>
   <property file="${user.home}/.ant.properties"/>
@@ -79,7 +87,7 @@ Authors:
     <property name='default.parser.config.name' value='XIncludeAwareParserConfiguration'/>
     <property name='default.parser.config.qualified' value='org.apache.xerces.parsers.XIncludeAwareParserConfiguration'/>
 
-    <property name="year" value="1999-2022"/>
+    <property name="year" value="1999-2023"/>
     <property name="copyright" value="Copyright &#169; ${year} The Apache Software Foundation. All Rights Reserved."/>
 
     <echo message= "---------------- ${parser.Name} ${parser.Version} [${year}] ---------------"/>
@@ -1491,7 +1499,7 @@ Authors:
                destdir="${build.dest}"
                source="${javac.source}"
                target="${javac.target}"
-	       classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${tools.dir}/${jar.xpath2}"
+	           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${tools.dir}/${jar.xpath2}"
                debug="${debug}"
                debuglevel="${debuglevel}"
                deprecation="${deprecation}"

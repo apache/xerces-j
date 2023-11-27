@@ -21,65 +21,76 @@
   <release version='&ParserName; 2.12.3'>
    <desc>
     <p>
-      This release is a bug fix release. It fixes few bugs which were present in Xerces-J 2.12.2 
-      and also includes a few other minor enhancements.      
+      This XercesJ release is a bug fix release. It fixes few bugs which 
+      were present in XercesJ 2.12.2, and also includes a few other minor 
+      enhancements.      
     </p>
    </desc>
    <changes>                          
      <fix>
         <note>
-      	   Improved few error messages, while using Xerces-J XML parser.
+      	   Improved few error messages, while parsing XML documents with XercesJ's 
+      	   XML document parser.
      	</note>
      	<submitter name='Michael Glavassevich, Mukul Gandhi'/>
      </fix>
      <fix>
         <note>
-      	   Removed the Java interface org.w3c.dom.html.HTMLDOMImplementation from Xerces-J codebase, 
-      	   since its present within Java versions 1.7 and above.
-     	</note>
-     	<submitter name='XercesJ team'/>
-     </fix>     
-     <fix>
-        <note>
-      	   XML Schema simpleType definition's 'final' attribute can have value 'extension'. Please see,
-      	   "XML Schema 1.0 structures specification" section "3.14.2 (non-normative) XML Representation of 
-      	   Simple Type Definition Schema Components" -> Simple Type Definition Schema Component -> {final}, 
-      	   and "XML Schema 1.1 structures specification" section "3.16.2 XML Representation of Simple Type 
-      	   Definition Schema Components" -> 3.16.2.1 Common mapping rules for Simple Type Definitions -> 
-      	   {final}. Prior to this release, Xerces-J didn't implement that.
-     	</note>
-     	<submitter name='Mukul Gandhi'/>
-     </fix>
-     <fix>
-        <note>
-      	   Prior to this release, with XML Schema 1.1 implementation, assertions on simpleType with 
-      	   variety list whose itemType is union, did not evaluate.
-     	</note>
-     	<submitter name='Mukul Gandhi'/>
-     </fix>
-     <fix>
-        <note>
-      	   With XML Schema 1.1, simpleType enumeration values must satisfy base type assertions, by 
-      	   only analyzing an XSD schema. Prior to this release, Xerces-J didn't implement that.
+      	   With XML Schema 1.1, simpleType &lt;enumeration&gt; values must not be in 
+      	   violation with the value space of the base type xs:assertion, at an XML Schema
+      	   document level. Prior to this release, XercesJ didn't implement that.
      	</note>
      	<submitter name='Sandy Gao, Mukul Gandhi'/>
      </fix>
      <fix>
         <note>
-      	   Fixed an XML Schema 1.1 &lt;assert&gt; evaluation issue, that involved the use of Xerces-J bundled
-      	   Java ICU (International Components for Unicode) library. To fix this issue, the Java ICU
-      	   library has been upgraded with this version of Xerces-J. 
-     	</note>
-     	<submitter name='Mukul Gandhi, Yitzhak Khabinsky, Ivan Pedruzzi'/>
+          Fixed an XML Schema 1.1 &lt;assert&gt; evaluation issue, that involved the use of XercesJ
+          bundled Java ICU (International Components for Unicode) library. To fix this issue, a
+          newer version (the best possible for Java 1.7 language level) of Java ICU library, has been 
+          provided with this version of XercesJ. 
+        </note>
+        <submitter name='Yitzhak Khabinsky, Ivan Pedruzzi, Mukul Gandhi'/>
      </fix>
      <fix>
         <note>
-      	   When using XML Schema validator, with xs:ID as a schema type within an XML Schema document, when
-      	   we reuse the Java SAXParser object, the XML Schema validation episodes except the first one
-      	   result with XML Schema validation failure outcomes. This Xerces-J release, fixes this issue. 
+          When using an XML Schema validator with xs:ID as a schema type within an XML Schema document,
+          when we reuse the XercesJ SAXParser object, the XML Schema validation episodes except the first
+          one result with XML Schema validation failure outcomes. This XercesJ release, fixes this issue. 
+        </note>
+        <submitter name='Radu Coravu, Mukul Gandhi'/>
+     </fix>
+     <fix>
+       <note>
+         Fixed an <jump href='https://ant.apache.org/'>Ant</jump> build target 'compile-schema11', for 
+         XercesJ's XML Schema 1.1 implementation. 
+       </note>
+       <submitter name='XercesJ team'/>
+     </fix>
+     <add>
+        <note>
+      	   Removed the Java interface org.w3c.dom.html.HTMLDOMImplementation from the 
+      	   XercesJ codebase as needed by few of XercesJ users, since this Java interface
+      	   is present within Java 1.7+.
      	</note>
-     	<submitter name='Radu Coravu, Mukul Gandhi'/>
-     </fix>                                           
+     	<submitter name='XercesJ team'/>
+     </add>     
+     <add>
+        <note>
+      	   As per W3C XML Schema specification, the XML Schema simpleType definition's
+      	   'final' attribute can have value 'extension'. This XercesJ release, provides 
+      	   this implementation enhancement.
+     	</note>
+     	<submitter name='Mukul Gandhi'/>
+     </add>
+     <add>
+        <note>
+      	   Prior to this release with XML Schema 1.1 implementation, &lt;assertion&gt; 
+      	   on simpleType with variety list having an itemType union was not implemented
+      	   within XercesJ. This XercesJ release, provides this implementation 
+      	   enhancement.
+     	</note>
+     	<submitter name='Mukul Gandhi'/>
+     </add>
    </changes>
   </release>
   <release version='&ParserName; 2.12.2'>

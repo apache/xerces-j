@@ -43,7 +43,7 @@ Authors:
     Although, the Java component org.apache.xerces.util.XJavac
     is designed to support Java 1.4+ (and that's ok for Java 1.7+ 
     as well), starting with XercesJ v 2.12.2, XercesJ builds 
-    produce Java binaries that can run on Java 1.7+.
+    produce Java binaries that require Java language level 1.7+.
     Please see the definitions of Ant build properties javac.source
     and javac.target further below. 
   -->

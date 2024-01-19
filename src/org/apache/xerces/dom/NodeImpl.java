@@ -80,7 +80,7 @@ import org.w3c.dom.events.EventTarget;
  * @since  PR-DOM-Level-1-19980818.
  */
 public abstract class NodeImpl
-    implements Node, NodeList, EventTarget, Cloneable, Serializable{
+    implements Node, NodeList, EventTarget, Cloneable, NodeEqualityWithQname, Serializable{
 
     //
     // Constants
@@ -1752,8 +1752,87 @@ public abstract class NodeImpl
             return false;
         }
 
-
         return true;
+    }
+    
+    /**
+     * Tests whether two nodes are equal.
+     * 
+     * This method implementation is added, to support use
+     * cases like use of XPath 3.1 function fn:deep-equal.
+     * 
+     * <br>This method tests for equality of nodes, not sameness (i.e., 
+     * whether the two nodes are references to the same object) which can be 
+     * tested with <code>Node.isSameNode</code>. All nodes that are the same 
+     * will also be equal, though the reverse may not be true.
+     * <br>Two nodes are equal if and only if the following conditions are 
+     * satisfied: The two nodes are of the same type. The following string 
+     * attributes are equal: <code>localName</code>, <code>namespaceURI</code>,
+     * <code>nodeValue</code>, <code>baseURI</code>. This is: they are both 
+     * <code>null</code>, or they have the same length and are character 
+     * for character identical.
+     * The <code>attributes</code> <code>NamedNodeMaps</code> are equal. 
+     * This is: they are both <code>null</code>, or they have the same 
+     * length and for each node that exists in one map there is a node that 
+     * exists in the other map and is equal, although not necessarily at the 
+     * same index. The <code>childNodes</code> <code>NodeLists</code> are 
+     * equal. This is: they are both <code>null</code>, or they have the 
+     * same length and contain equal nodes at the same index. This is true 
+     * for <code>Attr</code> nodes as for any other type of node. Note that 
+     * normalization can affect equality; to avoid this, nodes should be 
+     * normalized before being compared. 
+     * <br>For two <code>DocumentType</code> nodes to be equal, the following 
+     * conditions must also be satisfied: The following string attributes 
+     * are equal: <code>publicId</code>, <code>systemId</code>, 
+     * <code>internalSubset</code>. The <code>entities</code> 
+     * <code>NamedNodeMaps</code> are equal. The <code>notations</code> 
+     * <code>NamedNodeMaps</code> are equal. 
+     * <br>On the other hand, the following do not affect equality: the 
+     * <code>ownerDocument</code> attribute, the <code>specified</code> 
+     * attribute for <code>Attr</code> nodes, the 
+     * <code>isWhitespaceInElementContent</code> attribute for 
+     * <code>Text</code> nodes, as well as any user data or event listeners 
+     * registered on the nodes.
+     * @param arg The node to compare equality with.
+     * @return If the nodes, and possibly subtrees are equal, 
+     *   <code>true</code> otherwise <code>false</code>.
+     */
+    public boolean isEqualNodeWithQName(Node arg) {
+        if (arg == this) {
+            return true;
+        }
+        if (arg.getNodeType() != getNodeType()) {
+            return false;
+        }
+
+        if (getLocalName() == null) {
+            if (arg.getLocalName() != null) {
+                return false;
+            }
+        }
+        else if (!getLocalName().equals(arg.getLocalName())) {
+            return false;
+        }
+
+        if (getNamespaceURI() == null) {
+            if (arg.getNamespaceURI() != null) {
+                return false;
+            }
+        }
+        else if (!getNamespaceURI().equals(arg.getNamespaceURI())) {
+            return false;
+        }
+
+        if (getNodeValue() == null) {
+            if (arg.getNodeValue() != null) {
+                return false;
+            }
+        }
+        else if (!getNodeValue().equals(arg.getNodeValue())) {
+            return false;
+        }
+
+        return true; 
     }
 
     /**

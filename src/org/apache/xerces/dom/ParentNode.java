@@ -876,6 +876,43 @@ public abstract class ParentNode
         }
         return true;
     }
+    
+    /**
+     * This method implementation is added, to support use
+     * cases like use of XPath 3.1 function fn:deep-equal.
+     */
+    public boolean isEqualNodeWithQName(Node arg) {
+        if (!super.isEqualNodeWithQName(arg)) {
+            return false;
+        }
+        
+        // there are many ways to do this test, and there isn't any way
+        // better than another. Performance may vary greatly depending on
+        // the implementations involved. This one should work fine for us.
+        Node child1 = getFirstChild();
+        Node child2 = arg.getFirstChild();
+        
+        while (child1 != null && child2 != null) {
+            if ((child1 instanceof ElementImpl) && 
+                                             (child2 instanceof ElementImpl)) {
+                if (!((ElementImpl)child1).isEqualNodeWithQName((ElementImpl)
+                                                                           child2)) {
+                    return false;
+                }  
+            }
+            else if (!child1.isEqualNode(child2)) {
+                return false;
+            }
+            child1 = child1.getNextSibling();
+            child2 = child2.getNextSibling();
+        }
+        
+        if (child1 != child2) {
+            return false;
+        }
+        
+        return true; 
+    }
 
     //
     // Public methods

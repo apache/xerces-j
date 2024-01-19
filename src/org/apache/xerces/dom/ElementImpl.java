@@ -17,6 +17,8 @@
 
 package org.apache.xerces.dom;
 
+import javax.xml.XMLConstants;
+
 import org.apache.xerces.util.URI;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -58,7 +60,7 @@ import org.w3c.dom.TypeInfo;
  */
 public class ElementImpl
     extends ParentNode
-    implements Element, ElementTraversal, TypeInfo {
+    implements Element, ElementTraversal, TypeInfo, NodeEqualityWithQname {
 
     //
     // Constants
@@ -933,6 +935,93 @@ public class ElementImpl
             }
         }
         return true;
+    }
+    
+    /**
+     * This method implementation is added, to support use
+     * cases like use of XPath 3.1 function fn:deep-equal.
+     */
+    public boolean isEqualNodeWithQName(Node arg) {
+        if (!super.isEqualNodeWithQName(arg)) {
+            return false;
+        }
+        
+        boolean hasAttrs = hasAttributes();
+        if (hasAttrs != ((Element) arg).hasAttributes()) {
+            return false;
+        }
+        
+        if (hasAttrs) {
+            NamedNodeMap map1 = getAttributes();
+            NamedNodeMap map2 = ((Element) arg).getAttributes();
+            
+            int len = map1.getLength();            
+            if (len != map2.getLength()) {
+                return false;
+            }
+            
+            boolean isNsDeclEqual = false;
+            
+            for (int i = 0; i < len; i++) {
+                Node n1 = map1.item(i);
+                if (n1.getLocalName() == null) { // DOM Level 1 Node
+                    Node n2 = map2.getNamedItem(n1.getNodeName());
+                    if (n2 == null || !((NodeImpl) n1).isEqualNode(n2)) {
+                        return false;
+                    }
+                }
+                else {                                        
+                    String nodeName1 = n1.getNodeName();                                        
+                    
+                    if ((XMLConstants.XMLNS_ATTRIBUTE.equals(nodeName1) || 
+                                                          nodeName1.startsWith(XMLConstants.XMLNS_ATTRIBUTE + ":")) && 
+                                                          XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(n1.getNamespaceURI())) {                        
+                        // This is an XML namespace declaration within the first element. 
+                        // We check whether, there's a logically equal XML namespace 
+                        // declaration present within the second element.
+                        
+                        // For two XML namespace declarations to be logically equal, 
+                        // the only requirement is to have their namespace uri's 
+                        // as equal.
+                        
+                        // Few examples of logically equal XML namespace declarations 
+                        // are following:
+                        // (xmlns="http://a", xmlns="http://a"),
+                        // (xmlns="http://a", xmlns:a1="http://a"),
+                        // (xmlns:a1="http://a", xmlns="http://a"),
+                        // (xmlns:a1="http://a", xmlns:b1="http://a")                                                
+                        
+                        String nsDeclUri = n1.getNodeValue();
+                        int len2 = map2.getLength();
+                        for (int idx = 0; idx < len2; idx++) {
+                           Node attrNode2 = map2.item(idx);
+                           String nodeName2 = attrNode2.getNodeName();
+                           String nsDeclUri2 = attrNode2.getNodeValue();
+                           String nsUri2 = attrNode2.getNamespaceURI();
+                           if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(nsUri2) && 
+                                                         (XMLConstants.XMLNS_ATTRIBUTE.equals(nodeName2) || 
+                                                               nodeName2.startsWith(XMLConstants.XMLNS_ATTRIBUTE + ":")) && 
+                                                               nsDeclUri.equals(nsDeclUri2)) {
+                               isNsDeclEqual = true;
+                               break;
+                           }
+                        }
+                        
+                        if (isNsDeclEqual) {
+                           continue;  
+                        }
+                    }                    
+                    
+                    Node n2 = map2.getNamedItemNS(n1.getNamespaceURI(),
+                                                  n1.getLocalName());
+                    if (n2 == null || !((NodeImpl) n1).isEqualNodeWithQName(n2)) {
+                       return false;
+                    }
+                }
+            }
+        }
+        
+        return true; 
     }
 
     /**

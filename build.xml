@@ -98,8 +98,8 @@ Authors:
     <!--<property name="javac.source" value="${ant.java.version}"/>
     <property name="javac.target" value="${ant.java.version}"/>-->
     
-    <property name="javac.source" value="1.7"/>
-    <property name="javac.target" value="1.7"/>
+    <property name="javac.source" value="1.8"/>
+    <property name="javac.target" value="1.8"/>
 
     <property name="docs.book" value="${docs.dir}/docs-book.xml"/>
 

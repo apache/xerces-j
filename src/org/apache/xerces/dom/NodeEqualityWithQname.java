@@ -32,6 +32,6 @@ import org.w3c.dom.Node;
  */
 public interface NodeEqualityWithQname {
     
-    public boolean isEqualNodeWithQName(Node arg);
+    public boolean isEqualNodeWithQName(Node arg, String collationUri);
     
 }

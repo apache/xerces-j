@@ -22,6 +22,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Hashtable;
 
+import javax.xml.transform.TransformerException;
+
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -1797,7 +1799,7 @@ public abstract class NodeImpl
      * @return If the nodes, and possibly subtrees are equal, 
      *   <code>true</code> otherwise <code>false</code>.
      */
-    public boolean isEqualNodeWithQName(Node arg) {
+    public boolean isEqualNodeWithQName(Node arg, String collationUri) {
         if (arg == this) {
             return true;
         }
@@ -1828,11 +1830,32 @@ public abstract class NodeImpl
                 return false;
             }
         }
-        else if (!getNodeValue().equals(arg.getNodeValue())) {
-            return false;
+        else if (arg.getNodeValue() != null) {
+           String nodeValue1 = getNodeValue();
+           String nodeValue2 = arg.getNodeValue();           
+           if (collationUri != null) {
+               String defaultCollation = XPathCollationSupport.UNICODE_CODEPOINT_COLLATION_URI;
+               XPathCollationSupport xPathCollationSupport = new XPathCollationSupport(defaultCollation);               
+               
+               int comparisonResult;               
+               try {
+                   comparisonResult = xPathCollationSupport.compareStringsUsingCollation(
+                                                                    nodeValue1, nodeValue2, collationUri);
+                   if (comparisonResult != 0) {
+                      return false;  
+                   }
+               }
+               catch (TransformerException ex) {
+                  // may be, we should handle this exception differently. REVISIT
+                  return false; 
+               }
+           }
+           else if (!nodeValue1.equals(nodeValue2)) {
+               return false;
+           }
         }
 
-        return true; 
+        return true;
     }
 
     /**

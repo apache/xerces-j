@@ -941,8 +941,8 @@ public class ElementImpl
      * This method implementation is added, to support use
      * cases like use of XPath 3.1 function fn:deep-equal.
      */
-    public boolean isEqualNodeWithQName(Node arg) {
-        if (!super.isEqualNodeWithQName(arg)) {
+    public boolean isEqualNodeWithQName(Node arg, String collationUri) {
+        if (!super.isEqualNodeWithQName(arg, collationUri)) {
             return false;
         }
         
@@ -1014,7 +1014,7 @@ public class ElementImpl
                     
                     Node n2 = map2.getNamedItemNS(n1.getNamespaceURI(),
                                                   n1.getLocalName());
-                    if (n2 == null || !((NodeImpl) n1).isEqualNodeWithQName(n2)) {
+                    if (n2 == null || !((NodeImpl) n1).isEqualNodeWithQName(n2, collationUri)) {
                        return false;
                     }
                 }
@@ -1023,7 +1023,7 @@ public class ElementImpl
         
         return true; 
     }
-
+    
     /**
      * DOM Level 3: register the given attribute node as an ID attribute
      */

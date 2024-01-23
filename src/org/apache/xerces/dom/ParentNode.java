@@ -881,8 +881,8 @@ public abstract class ParentNode
      * This method implementation is added, to support use
      * cases like use of XPath 3.1 function fn:deep-equal.
      */
-    public boolean isEqualNodeWithQName(Node arg) {
-        if (!super.isEqualNodeWithQName(arg)) {
+    public boolean isEqualNodeWithQName(Node arg, String collationUri) {
+        if (!super.isEqualNodeWithQName(arg, collationUri)) {
             return false;
         }
         
@@ -893,12 +893,11 @@ public abstract class ParentNode
         Node child2 = arg.getFirstChild();
         
         while (child1 != null && child2 != null) {
-            if ((child1 instanceof ElementImpl) && 
-                                             (child2 instanceof ElementImpl)) {
-                if (!((ElementImpl)child1).isEqualNodeWithQName((ElementImpl)
-                                                                           child2)) {
-                    return false;
-                }  
+            if ((child1 instanceof NodeImpl) && (child2 instanceof NodeImpl)) {
+                if (!((NodeImpl)child1).isEqualNodeWithQName((NodeImpl)
+                                                                     child2, collationUri)) {
+                   return false;
+                }
             }
             else if (!child1.isEqualNode(child2)) {
                 return false;
@@ -911,7 +910,7 @@ public abstract class ParentNode
             return false;
         }
         
-        return true; 
+        return true;  
     }
 
     //

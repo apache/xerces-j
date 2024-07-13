@@ -40,12 +40,12 @@ Authors:
 
   <!-- enable compilation under JDK 1.4 and above. -->
   <!--
-    Although, the Java component org.apache.xerces.util.XJavac
-    is designed to support Java 1.4+ (and that's ok for Java 1.7+ 
-    as well), starting with XercesJ v 2.12.2, XercesJ builds 
-    produce Java binaries that require Java language level 1.7+.
-    Please see the definitions of Ant build properties javac.source
-    and javac.target further below. 
+	Although, the Java component org.apache.xerces.util.XJavac
+	is designed to support Java 1.4+ (and that's ok for Java 1.7+ 
+	as well), starting with XercesJ v 2.12.2, XercesJ builds 
+	produce Java binaries that require Java language level 1.7+.
+	Please see the definitions of Ant build properties javac.source
+	and javac.target further below. 
   -->
   <taskdef name="xjavac" classname="org.apache.xerces.util.XJavac">
     <classpath>
@@ -65,9 +65,9 @@ Authors:
     <property name='parser.Name' value='Xerces-J'/>
     <property name='parser.name' value='xerces-j'/>
     <property name='parser.shortname' value='xerces'/>
-    <property name='parser.Version' value='2.12.3'/>
-    <property name='parser.version' value='2.12.3'/>
-    <property name='parser_version' value='2_12_3'/>
+    <property name='parser.Version' value='2.12.3-xml-schema-1.1'/>
+    <property name='parser.version' value='2.12.3-xml-schema-1.1'/>
+    <property name='parser_version' value='2_12_3-xml-schema-1.1'/>
 
     <property name='deprecatedjar.parser' value='xerces.jar'/>
     <property name='jar.apis' value='xml-apis.jar'/>
@@ -76,11 +76,14 @@ Authors:
     <property name='jar.dv' value='xercesDV.jar'/>
     <property name='jar.resolver' value='resolver.jar'/>
     <property name='jar.serializer' value='serializer.jar'/>
+    <property name='jar.charnormalizer' value='icu4j.jar'/>
+    <property name='jar.xpath2' value='org.eclipse.wst.xml.xpath2.processor_1.2.1.jar'/>
+    <property name='jar.cup' value='cupv10k-runtime.jar'/>
     <property name='jar.junit' value='junit.jar'/>
     <property name='jar.ant' value='ant.jar'/>
     <property name='jar.ant.nodeps' value='ant-nodeps.jar'/>
     <property name='jar.xjavac' value='xjavac.jar'/>
-    
+
     <property name='default.parser.config.name' value='XIncludeAwareParserConfiguration'/>
     <property name='default.parser.config.qualified' value='org.apache.xerces.parsers.XIncludeAwareParserConfiguration'/>
 
@@ -90,7 +93,7 @@ Authors:
     <echo message= "---------------- ${parser.Name} ${parser.Version} [${year}] ---------------"/>
     <!-- changed made to synchronize with a patch from Sam Ruby (<rubys@apache.org>) to Xerces1
     <property name="build.compiler" value="classic"/> -->
-    <property name="debug" value="true"/>  <!-- make this 'false' during releases -->
+  	<property name="debug" value="true"/>  <!-- make this 'false' during releases -->
     <property name="debuglevel" value="lines,source"/>
     <property name="optimize" value="on"/>
     <property name="deprecation" value="off"/>
@@ -301,7 +304,7 @@ Authors:
            destdir="${build.dest}"
            source="${javac.source}"
            target="${javac.target}"
-           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"
+           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${tools.dir}/${jar.charnormalizer}:${tools.dir}/${jar.xpath2}:${tools.dir}/${jar.cup}"
            debug="${debug}"
            debuglevel="${debuglevel}"
            deprecation="${deprecation}"
@@ -517,7 +520,7 @@ Authors:
                            org.apache.xerces.xpointer'
       locale='en_US'
       sourcepath='${build.src}' destdir='${build.dir}/docs/javadocs/xerces2'
-      classpath='${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}'
+      classpath='${tools.dir}/${jar.xpath2}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}'
       author='true' version='true'
       windowtitle='Xerces2 Implementation' 
       doctitle='Xerces2 Implementation'
@@ -530,6 +533,7 @@ Authors:
                            org.apache.xml.serialize.*'
       locale='en_US'
       sourcepath='${build.src}' destdir='${build.dir}/docs/javadocs/other'
+      classpath='${tools.dir}/${jar.xpath2}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}'
       author='true' version='true'
       windowtitle='Other Classes' doctitle='Other Classes'
       bottom='${copyright}'
@@ -586,10 +590,13 @@ Authors:
     <copy file="NOTICE.resolver.txt" tofile="${distsrc.dir}/NOTICE.resolver.txt"/>
     <copy file="NOTICE.serializer.txt" tofile="${distsrc.dir}/NOTICE.serializer.txt"/>
     <copy file="LICENSE.DOM-documentation.html" tofile="${distsrc.dir}/LICENSE.DOM-documentation.html"/>
+    <copy file="LICENSE.icu4j.html" tofile="${distsrc.dir}/LICENSE.icu4j.html"/>
     <copy file="LICENSE.DOM-software.html" tofile="${distsrc.dir}/LICENSE.DOM-software.html"/>
     <copy file="LICENSE-SAX.html" tofile="${distsrc.dir}/LICENSE-SAX.html"/>
     <copy file="LICENSE.resolver.txt" tofile="${distsrc.dir}/LICENSE.resolver.txt"/>
     <copy file="LICENSE.serializer.txt" tofile="${distsrc.dir}/LICENSE.serializer.txt"/>
+    <copy file="LICENSE.cupv10k-runtime.txt" tofile="${distsrc.dir}/LICENSE.cupv10k-runtime.txt"/>
+    <copy file="LICENSE.org.eclipse.wst.xml.xpath2.processor_1.2.1.html" tofile="${distsrc.dir}/LICENSE.org.eclipse.wst.xml.xpath2.processor_1.2.1.html"/>
     <copy file="README" tofile="${distsrc.dir}/README"/>
     <copy file="Readme.html" tofile="${distsrc.dir}/Readme.html"/>
     <copy file="build.xml" tofile="${distsrc.dir}/build.xml"/>
@@ -621,7 +628,7 @@ Authors:
         <fileset
             dir="${tools.dir}"  
             includes="**/*.txt, **/*.html, **/*.bat, **/*.jar, **/*.zip, **/*.opt"
-            excludes="**/CVS*, **/.#*, **/*.class, **/icu4j*"
+            excludes="**/CVS*, **/.#*, **/*.class"
         />
     </copy>
 
@@ -686,6 +693,9 @@ Authors:
     <copy file="LICENSE-SAX.html" tofile="${distbin.dir}/LICENSE-SAX.html"/>
     <copy file="LICENSE.resolver.txt" tofile="${distbin.dir}/LICENSE.resolver.txt"/>
     <copy file="LICENSE.serializer.txt" tofile="${distsrc.dir}/LICENSE.serializer.txt"/>
+    <copy file="LICENSE.icu4j.html" tofile="${distsrc.dir}/LICENSE.icu4j.html"/>
+    <copy file="LICENSE.cupv10k-runtime.txt" tofile="${distsrc.dir}/LICENSE.cupv10k-runtime.txt"/>
+    <copy file="LICENSE.org.eclipse.wst.xml.xpath2.processor_1.2.1.html" tofile="${distsrc.dir}/LICENSE.org.eclipse.wst.xml.xpath2.processor_1.2.1.html"/>
     <copy file="Readme.html" tofile="${distbin.dir}/Readme.html"/>
 
     <copy file="${build.dir}/${jar.samples}" tofile="${distbin.dir}/${jar.samples}"/>
@@ -711,6 +721,12 @@ Authors:
     <copy file="${tools.dir}/${jar.resolver}" tofile="${distbin.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
     <copy file="${tools.dir}/${jar.serializer}" tofile="${distbin.dir}/${jar.serializer}"/>
+    <!-- include the ICU4J character normalizer -->
+    <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${distbin.dir}/${jar.charnormalizer}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${distbin.dir}/${jar.xpath2}"/>
+    <!-- include the Java Cup Runtime -->
+    <copy file="${tools.dir}/${jar.cup}" tofile="${distbin.dir}/${jar.cup}"/>
 
     <zip zipfile="${build.dir}/${parser.Name}-bin.${parser.version}.zip" 
          basedir="${build.dir}"
@@ -737,6 +753,12 @@ Authors:
     <copy file="${tools.dir}/${jar.resolver}" tofile="${distbin.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
     <copy file="${tools.dir}/${jar.serializer}" tofile="${distbin.dir}/${jar.serializer}"/>
+    <!-- include the ICU4J character normalizer -->
+    <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${distbin.dir}/${jar.charnormalizer}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${distbin.dir}/${jar.xpath2}"/>
+    <!-- include the Java Cup Runtime -->
+    <copy file="${tools.dir}/${jar.cup}" tofile="${distbin.dir}/${jar.cup}"/>
 
     <zip zipfile="${build.dir}/deprecated${parser.Name}-bin.${parser.version}.zip" 
          basedir="${build.dir}"
@@ -931,12 +953,6 @@ Authors:
           classname="dom.dom3.Test"
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
-    </java>
-    <echo message="Running idc.AllTests ..." />
-    <java fork="yes"
-          classname="idc.AllTests"
-          failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${tools.dir}/${jar.junit}${path.separator}${build.dir}/classes${path.separator}${build.dir}/tests"/>
     </java>    
   </target>
 
@@ -948,6 +964,12 @@ Authors:
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
     <copy file="${tools.dir}/${jar.serializer}" tofile="${build.dir}/${jar.serializer}"/>
+    <!-- include the ICU4J character normalizer -->
+    <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${build.dir}/${jar.charnormalizer}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${build.dir}/${jar.xpath2}"/>
+    <!-- include the Java Cup Runtime -->
+    <copy file="${tools.dir}/${jar.cup}" tofile="${build.dir}/${jar.cup}"/>
   </target>
 
   <!-- =================================================================== -->
@@ -960,6 +982,12 @@ Authors:
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
     <copy file="${tools.dir}/${jar.serializer}" tofile="${build.dir}/${jar.serializer}"/>
+    <!-- include the ICU4J character normalizer -->
+    <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${build.dir}/${jar.charnormalizer}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${build.dir}/${jar.xpath2}"/>
+    <!-- include the Java Cup Runtime -->
+    <copy file="${tools.dir}/${jar.cup}" tofile="${build.dir}/${jar.cup}"/>
   </target>
 
   <!-- =================================================================== -->
@@ -1290,6 +1318,8 @@ Authors:
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
     <copy file="${tools.dir}/${jar.serializer}" tofile="${build.dir}/${jar.serializer}"/>
+    <!-- include the ICU4J character normalizer -->
+    <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${build.dir}/${jar.charnormalizer}"/>
   </target>
 
   <!-- =================================================================== -->
@@ -1469,7 +1499,7 @@ Authors:
                destdir="${build.dest}"
                source="${javac.source}"
                target="${javac.target}"
-               classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"
+	           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${tools.dir}/${jar.xpath2}"
                debug="${debug}"
                debuglevel="${debuglevel}"
                deprecation="${deprecation}"

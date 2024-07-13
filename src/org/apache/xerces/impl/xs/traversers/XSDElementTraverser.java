@@ -18,19 +18,21 @@
 package org.apache.xerces.impl.xs.traversers;
 
 import java.util.Locale;
+import java.util.Vector;
 
+import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.dv.ValidatedInfo;
 import org.apache.xerces.impl.dv.XSSimpleType;
 import org.apache.xerces.impl.xs.SchemaGrammar;
 import org.apache.xerces.impl.xs.SchemaSymbols;
 import org.apache.xerces.impl.xs.XSAnnotationImpl;
 import org.apache.xerces.impl.xs.XSComplexTypeDecl;
-import org.apache.xerces.impl.xs.XSConstraints;
 import org.apache.xerces.impl.xs.XSElementDecl;
 import org.apache.xerces.impl.xs.XSParticleDecl;
 import org.apache.xerces.impl.xs.util.XInt;
 import org.apache.xerces.impl.xs.util.XSObjectListImpl;
 import org.apache.xerces.util.DOMUtil;
+import org.apache.xerces.util.NamespaceSupport;
 import org.apache.xerces.util.SymbolTable;
 import org.apache.xerces.util.XMLChar;
 import org.apache.xerces.xni.QName;
@@ -59,7 +61,7 @@ import org.w3c.dom.Element;
  *   substitutionGroup = QName
  *   type = QName
  *   {any attributes with non-schema namespace . . .}>
- *   Content: (annotation?, ((simpleType | complexType)?, (unique | key | keyref)*))
+ *   Content: (annotation?, ((simpleType | complexType)?, alternative*, (unique | key | keyref)*))
  * </element>
  *
  * @xerces.internal 
@@ -267,7 +269,8 @@ class XSDElementTraverser extends XSDAbstractTraverser {
         XInt    formAtt      = (XInt)    attrValues[XSAttributeChecker.ATTIDX_FORM];
         String  nameAtt      = (String)  attrValues[XSAttributeChecker.ATTIDX_NAME];
         Boolean nillableAtt  = (Boolean) attrValues[XSAttributeChecker.ATTIDX_NILLABLE];
-        QName   subGroupAtt  = (QName)   attrValues[XSAttributeChecker.ATTIDX_SUBSGROUP];
+        Vector  subGroupAtt  = (Vector)  attrValues[XSAttributeChecker.ATTIDX_SUBSGROUP];
+        String  targetNsAtt  = (String)  attrValues[XSAttributeChecker.ATTIDX_TARGETNAMESPACE];
         QName   typeAtt      = (QName)   attrValues[XSAttributeChecker.ATTIDX_TYPE];
         
         // Step 1: get declaration information
@@ -288,10 +291,18 @@ class XSDElementTraverser extends XSDAbstractTraverser {
             element.setIsGlobal();
         }
         else {
-            if (parent instanceof XSComplexTypeDecl)
-                element.setIsLocal((XSComplexTypeDecl)parent);
+            // Sanity check, parent should not be null
+            if (parent != null) {
+                if (parent instanceof XSComplexTypeDecl || fSchemaHandler.fSchemaVersion == Constants.SCHEMA_VERSION_1_1) {
+                    element.setIsLocal(parent);
+                }
+            }
             
-            if (formAtt != null) {
+            if (targetNsAtt!=null) {
+                // XML Schema 1.1, set the target namespace to be the value of the targetNamespace attribute if one is defined
+                targetNsAtt = fSymbolTable.addSymbol(targetNsAtt);
+                element.fTargetNamespace = targetNsAtt;
+            } else if (formAtt != null) {
                 if (formAtt.intValue() == SchemaSymbols.FORM_QUALIFIED)
                     element.fTargetNamespace = schemaDoc.fTargetNamespace;
                 else
@@ -327,12 +338,26 @@ class XSDElementTraverser extends XSDAbstractTraverser {
         } else {
             element.setConstraintType(XSConstants.VC_NONE);
         }
-        
+
         // get 'substitutionGroup affiliation'
-        if (subGroupAtt != null) {
-            element.fSubGroup = (XSElementDecl)fSchemaHandler.getGlobalDecl(schemaDoc, XSDHandler.ELEMENT_TYPE, subGroupAtt, elmDecl);
+        if (subGroupAtt != null && !subGroupAtt.isEmpty()) {
+            Vector elemDecl = new Vector();
+            for (int i=0; i<subGroupAtt.size(); i++) {
+                QName subGroup = (QName)subGroupAtt.get(i);
+
+                // returns null if element is already parsed
+                XSElementDecl globalDecl = (XSElementDecl)fSchemaHandler.getGlobalDecl(schemaDoc, XSDHandler.ELEMENT_TYPE, subGroup, elmDecl);
+                if (globalDecl != null) {
+                    elemDecl.add(globalDecl);
+                }
+            }
+
+            int validSubgroupElemDeclSize = elemDecl.size();
+            if (validSubgroupElemDeclSize > 0) {
+                element.fSubGroup = (XSElementDecl[])elemDecl.toArray(new XSElementDecl[validSubgroupElemDeclSize]);
+            }
         }
-        
+
         // get 'annotation'
         Element child = DOMUtil.getFirstChildElement(elmDecl);
         XSAnnotationImpl annotation = null;
@@ -365,12 +390,12 @@ class XSDElementTraverser extends XSDAbstractTraverser {
             String childName = DOMUtil.getLocalName(child);
             
             if (childName.equals(SchemaSymbols.ELT_COMPLEXTYPE)) {
-                elementType = fSchemaHandler.fComplexTypeTraverser.traverseLocal(child, schemaDoc, grammar);
+                elementType = fSchemaHandler.fComplexTypeTraverser.traverseLocal(child, schemaDoc, grammar, element);
                 haveAnonType = true;
                 child = DOMUtil.getNextSiblingElement(child);
             }
             else if (childName.equals(SchemaSymbols.ELT_SIMPLETYPE)) {
-                elementType = fSchemaHandler.fSimpleTypeTraverser.traverseLocal(child, schemaDoc, grammar);
+                elementType = fSchemaHandler.fSimpleTypeTraverser.traverseLocal(child, schemaDoc, grammar, element);
                 haveAnonType = true;
                 child = DOMUtil.getNextSiblingElement(child);
             }
@@ -386,11 +411,11 @@ class XSDElementTraverser extends XSDAbstractTraverser {
         
         // Get it from the substitutionGroup declaration
         if (elementType == null && element.fSubGroup != null) {
-            elementType = element.fSubGroup.fType;
+            elementType = element.fSubGroup[0].fType;
         }
         
         if (elementType == null) {
-            elementType = SchemaGrammar.fAnyType;
+            elementType = SchemaGrammar.getXSAnyType(fSchemaHandler.fSchemaVersion);
         }
         
         element.fType = elementType;
@@ -400,12 +425,39 @@ class XSDElementTraverser extends XSDAbstractTraverser {
         // see if there's something here; it had better be key, keyref or unique.
         if (child != null) {
             String childName = DOMUtil.getLocalName(child);
+            
+            // if XML Schema 1.1, check for alternative types first            
+            if (fSchemaHandler.fSchemaVersion == Constants.SCHEMA_VERSION_1_1) {
+                while (childName.equals(SchemaSymbols.ELT_ALTERNATIVE)) {
+                	fSchemaHandler.fTypeAlternativeTraverser.traverse(child, element, schemaDoc, grammar);
+                	child = DOMUtil.getNextSiblingElement(child);
+                    if (child != null) {
+                        childName = DOMUtil.getLocalName(child);
+                    }
+                    else {
+                    	if (!element.isTypeTableOK()) {
+                    		reportSchemaError("src-element.5", new Object[]{nameAtt}, elmDecl);
+                    	}
+                    	element.setDefaultTypeDefinition();
+                    	if (element.getDefaultTypeDefinition() != null) {
+                    	    element.getDefaultTypeDefinition().setNamespaceContext(new NamespaceSupport(schemaDoc.fNamespaceSupport));
+                    	}
+                    	break;
+                    }
+                }                
+            }
+            
             while (child != null &&
                     (childName.equals(SchemaSymbols.ELT_KEY) ||
                             childName.equals(SchemaSymbols.ELT_KEYREF) ||
                             childName.equals(SchemaSymbols.ELT_UNIQUE))) {
                 
-                if (childName.equals(SchemaSymbols.ELT_KEY) ||
+                // if the identity constraint contains the ref attribute,
+                // defer traversal until all the named identity constraints have been traversed
+                if (DOMUtil.getAttr(child, SchemaSymbols.ATT_REF) != null) {
+                    fSchemaHandler.storeIdentityConstraintReferral(child, schemaDoc, element);
+                } 
+                else if (childName.equals(SchemaSymbols.ELT_KEY) ||
                         childName.equals(SchemaSymbols.ELT_UNIQUE)) {
                     // need to set <key>/<unique> to hidden before traversing it,
                     // because it has global scope
@@ -441,7 +493,12 @@ class XSDElementTraverser extends XSDAbstractTraverser {
         
         // element
         if (child != null) {
-            reportSchemaError("s4s-elt-must-match.1", new Object[]{nameAtt, "(annotation?, (simpleType | complexType)?, (unique | key | keyref)*))", DOMUtil.getLocalName(child)}, child);
+            if (fSchemaHandler.fSchemaVersion == Constants.SCHEMA_VERSION_1_1) {
+                reportSchemaError("s4s-elt-must-match.1", new Object[]{nameAtt, "(annotation?, (simpleType | complexType)?, alternative*, (unique | key | keyref)*))", DOMUtil.getLocalName(child)}, child);
+            }
+            else {
+                reportSchemaError("s4s-elt-must-match.1", new Object[]{nameAtt, "(annotation?, (simpleType | complexType)?, (unique | key | keyref)*))", DOMUtil.getLocalName(child)}, child);
+            }
         }
         
         // Step 4: check 3.3.3 constraints
@@ -465,16 +522,40 @@ class XSDElementTraverser extends XSDAbstractTraverser {
             reportSchemaError("src-element.3", new Object[]{nameAtt}, elmDecl);
         }
         
+        // 4 If the targetNamespace attribute is present, then all of the following are true:
+        if (targetNsAtt != null) {
+            // 4.2 The form attribute must not be present.
+            if (formAtt != null) {
+                reportSchemaError ("src-element.4.2", new Object[] {nameAtt}, elmDecl);
+            }
+            // 4.3 If the ancestor <schema> does not have a targetNamespace [attribute] or its 'actual value' is different from the 'actual value' of targetNamespace of <attribute>:
+            String schemaTns = schemaDoc.fTargetNamespace;
+            if (schemaTns==null || targetNsAtt!=schemaTns) {
+                // 4.3.1 <element> must have <complexType> as an ancestor
+                if (parent==null || !(parent instanceof XSComplexTypeDecl)) {
+                    reportSchemaError ("src-element.4.3.1", new Object[] {nameAtt}, elmDecl);
+                }
+                // 4.3.2 There must be a <restriction> ancestor between the <attribute> and the nearest <complexType> ancestor, and the 'actual value' of the base [attribute] of <restriction> does not 'match' the name of 'xs:anyType'.
+                else if ((((XSComplexTypeDecl)parent).getDerivationMethod() != XSConstants.DERIVATION_RESTRICTION) || (((XSComplexTypeDecl)parent).getBaseType() == SchemaGrammar.getXSAnyType(fSchemaHandler.fSchemaVersion))) {
+                    reportSchemaError ("src-element.4.3.2", new Object[] {nameAtt}, elmDecl);
+                }
+            }
+        }
+        
         // Step 5: check 3.3.6 constraints
         // check for NOTATION type
-        checkNotationType(nameAtt, elementType, elmDecl);
+        // Only for XML Schema 1.0
+        if (fSchemaHandler.fSchemaVersion < Constants.SCHEMA_VERSION_1_1) {
+            checkNotationType(nameAtt, elementType, elmDecl);
+        }
         
         // e-props-correct
         
         // 2 If there is a {value constraint}, the canonical lexical representation of its value must be valid with respect to the {type definition} as defined in Element Default Valid (Immediate) (3.3.6).
         if (element.fDefault != null) {
             fValidationState.setNamespaceSupport(schemaDoc.fNamespaceSupport);
-            if (XSConstraints.ElementDefaultValidImmediate(element.fType, element.fDefault.normalizedValue, fValidationState, element.fDefault) == null) {
+            fValidationState.setDatatypeXMLVersion(schemaDoc.fDatatypeXMLVersion);
+            if (fSchemaHandler.fXSConstraints.ElementDefaultValidImmediate(element.fType, element.fDefault.normalizedValue, fValidationState, element.fDefault) == null) {
                 reportSchemaError ("e-props-correct.2", new Object[]{nameAtt, element.fDefault.normalizedValue}, elmDecl);
                 element.fDefault = null;
                 element.setConstraintType(XSConstants.VC_NONE);
@@ -483,14 +564,18 @@ class XSDElementTraverser extends XSDAbstractTraverser {
         
         // 4 If there is an {substitution group affiliation}, the {type definition} of the element declaration must be validly derived from the {type definition} of the {substitution group affiliation}, given the value of the {substitution group exclusions} of the {substitution group affiliation}, as defined in Type Derivation OK (Complex) (3.4.6) (if the {type definition} is complex) or as defined in Type Derivation OK (Simple) (3.14.6) (if the {type definition} is simple).
         if (element.fSubGroup != null) {
-            if (!XSConstraints.checkTypeDerivationOk(element.fType, element.fSubGroup.fType, element.fSubGroup.fFinal)) {
-                reportSchemaError ("e-props-correct.4", new Object[]{nameAtt, subGroupAtt.prefix+":"+subGroupAtt.localpart}, elmDecl);
-                element.fSubGroup = null;
+            for (int i=0; i< element.fSubGroup.length; i++) {
+                if (!fSchemaHandler.fXSConstraints.checkTypeDerivationOk(element.fType, element.fSubGroup[i].fType, element.fSubGroup[i].fFinal)) {
+                    reportSchemaError ("e-props-correct.4", new Object[]{nameAtt, ((QName)subGroupAtt.get(i)).prefix +":"+((QName)subGroupAtt.get(i)).localpart}, elmDecl);
+//TODO: remove the subGroup from the list?????
+                }
             }
         }
         
+        // Only applies to XML Schema 1.0
+        //
         // 5 If the {type definition} or {type definition}'s {content type} is or is derived from ID then there must not be a {value constraint}.
-        if (element.fDefault != null) {
+        if (fSchemaHandler.fSchemaVersion < Constants.SCHEMA_VERSION_1_1 && element.fDefault != null) {
             if ((elementType.getTypeCategory() == XSTypeDefinition.SIMPLE_TYPE &&
                     ((XSSimpleType)elementType).isIDType()) ||
                     (elementType.getTypeCategory() == XSTypeDefinition.COMPLEX_TYPE &&

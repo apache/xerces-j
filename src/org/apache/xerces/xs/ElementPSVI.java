@@ -17,6 +17,8 @@
 
 package org.apache.xerces.xs;
 
+import org.apache.xerces.xs.datatypes.ObjectList;
+
 /**
  *  Represents a PSVI item for one element information item. 
  */
@@ -43,5 +45,20 @@ public interface ElementPSVI extends ItemPSVI {
      * validation root, <code>null</code> otherwise. 
      */
     public XSModel getSchemaInformation();
+    
+    /**
+     * [inherited attributes]: inherited attributes.
+     */
+    public ObjectList getInheritedAttributes();
+    
+    /**
+     * [failed assertions]: failed assertions.
+     */
+    public ObjectList getFailedAssertions();
+    
+    /**
+     * [type alternative]: type alternative.
+     */
+    public XSTypeAlternative getTypeAlternative();
 
 }

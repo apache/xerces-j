@@ -24,6 +24,7 @@ import java.io.ObjectOutputStream;
 
 import org.apache.xerces.impl.dv.ValidatedInfo;
 import org.apache.xerces.impl.xs.ElementPSVImpl;
+import org.apache.xerces.impl.xs.util.ObjectListImpl;
 import org.apache.xerces.impl.xs.util.StringListImpl;
 import org.apache.xerces.xs.ElementPSVI;
 import org.apache.xerces.xs.ItemPSVI;
@@ -34,8 +35,10 @@ import org.apache.xerces.xs.XSElementDeclaration;
 import org.apache.xerces.xs.XSModel;
 import org.apache.xerces.xs.XSNotationDeclaration;
 import org.apache.xerces.xs.XSSimpleTypeDefinition;
+import org.apache.xerces.xs.XSTypeAlternative;
 import org.apache.xerces.xs.XSTypeDefinition;
 import org.apache.xerces.xs.XSValue;
+import org.apache.xerces.xs.datatypes.ObjectList;
 
 /**
  * Element namespace implementation; stores PSVI element items.
@@ -105,6 +108,15 @@ public class PSVIElementNSImpl extends ElementNSImpl implements ElementPSVI {
 
     /** the schema information property */
     protected XSModel fSchemaInformation = null;
+    
+    /** inherited attributes */
+    protected ObjectList fInheritedAttributes = null;
+    
+    /** failed assertions */
+    protected ObjectList fFailedAssertions = null;
+    
+    /** type alternative **/
+    protected XSTypeAlternative fTypeAlternative = null;
     
     //
     // ElementPSVI methods
@@ -267,6 +279,40 @@ public class PSVIElementNSImpl extends ElementNSImpl implements ElementPSVI {
     }
     
     /**
+     * Inherited attributes.
+     * 
+     * @return inherited attributes list, or an empty list 
+     * if there are no inherited attributes.
+     */
+    public ObjectList getInheritedAttributes() {
+        if (fInheritedAttributes != null) {
+            return fInheritedAttributes;
+        }
+        return ObjectListImpl.EMPTY_LIST;
+    }
+    
+    /**
+     * Failed assertions.
+     * 
+     * @return failed assertions list, or an empty list 
+     * if none of assertions failed.
+     */
+    public ObjectList getFailedAssertions() {
+        if (fFailedAssertions != null) {
+            return fFailedAssertions;
+        }
+        return ObjectListImpl.EMPTY_LIST;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.apache.xerces.xs.ElementPSVI#getTypeAlternative()
+     */
+    public XSTypeAlternative getTypeAlternative() {
+        return fTypeAlternative;
+    }
+    
+    /**
      * Copy PSVI properties from another psvi item.
      * 
      * @param elem  the source of element PSVI items
@@ -291,6 +337,9 @@ public class PSVIElementNSImpl extends ElementNSImpl implements ElementPSVI {
         }
         this.fSpecified = elem.getIsSchemaSpecified();
         this.fNil = elem.getNil();
+        this.fTypeAlternative = elem.getTypeAlternative();
+        this.fInheritedAttributes = elem.getInheritedAttributes();
+        this.fFailedAssertions = elem.getFailedAssertions();        
     }
 
     /* (non-Javadoc)

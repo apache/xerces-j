@@ -33,7 +33,7 @@
           <tr>
             <xsl:choose>
                <xsl:when test="$id = 'index'">
-                  <!-- revisit : get the value 'Xerces2 Java XML Parser' from file entities.ent --> 
+                  <!-- revisit : get the value 'Xerces2 Java XML Parser' from file entities.ent -->
                   <td align="center" bgcolor="#0086b2" colspan="4" height="35" valign="middle" width="456">
                     <font color="#f8fefd" face="arial,helvetica,sanserif" size="+2">Xerces2 Java XML Parser Readme</font>
                   </td>

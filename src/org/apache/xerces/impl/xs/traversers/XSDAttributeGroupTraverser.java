@@ -139,7 +139,7 @@ class XSDAttributeGroupTraverser extends XSDAbstractTraverser {
         // Traverse the attribute and attribute group elements and fill in the 
         // attributeGroup structure
         
-        Element nextNode = traverseAttrsAndAttrGrps(child, attrGrp, schemaDoc, grammar, null);
+        Element nextNode = traverseAttrsAndAttrGrps(child, attrGrp, schemaDoc, grammar,attrGrp);
         if (nextNode!=null) {
             // An invalid element was found...
             Object[] args = new Object [] {nameAttr, "(annotation?, ((attribute | attributeGroup)*, anyAttribute?))", DOMUtil.getLocalName(nextNode)};
@@ -161,7 +161,7 @@ class XSDAttributeGroupTraverser extends XSDAbstractTraverser {
                 new QName(XMLSymbols.EMPTY_STRING, nameAttr, nameAttr, schemaDoc.fTargetNamespace), 
                 schemaDoc, elmNode); 
         if(redefinedAttrGrp != null) {
-            Object[] errArgs = attrGrp.validRestrictionOf(nameAttr, redefinedAttrGrp);
+            Object[] errArgs = attrGrp.validRestrictionOf(nameAttr, redefinedAttrGrp, fSchemaHandler.fXSConstraints);
             if (errArgs != null) {
                 reportSchemaError((String)errArgs[errArgs.length-1], errArgs, child);            	
                 reportSchemaError("src-redefine.7.2.2", new Object [] {nameAttr, errArgs[errArgs.length-1]}, child);
@@ -179,7 +179,8 @@ class XSDAttributeGroupTraverser extends XSDAbstractTraverser {
         attrGrp.fAnnotations = annotations;
         
         // make an entry in global declarations.
-        if (grammar.getGlobalAttributeGroupDecl(attrGrp.fName) == null) {
+        if (grammar.getGlobalAttributeGroupDecl(attrGrp.fName) == null ||
+            DOMUtil.getLocalName(DOMUtil.getParent(elmNode)).equals(SchemaSymbols.ELT_REDEFINE)) {
             grammar.addGlobalAttributeGroupDecl(attrGrp);
         }
 

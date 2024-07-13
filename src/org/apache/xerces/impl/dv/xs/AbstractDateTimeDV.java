@@ -62,10 +62,6 @@ public abstract class AbstractDateTimeDV extends TypeValidator {
     
     protected static final DatatypeFactory datatypeFactory = new DatatypeFactoryImpl();
 	
-	public short getAllowedFacets(){
-		return ( XSSimpleTypeDecl.FACET_PATTERN | XSSimpleTypeDecl.FACET_WHITESPACE | XSSimpleTypeDecl.FACET_ENUMERATION |XSSimpleTypeDecl.FACET_MAXINCLUSIVE |XSSimpleTypeDecl.FACET_MININCLUSIVE | XSSimpleTypeDecl.FACET_MAXEXCLUSIVE  | XSSimpleTypeDecl.FACET_MINEXCLUSIVE  );
-	}//getAllowedFacets()
-	
 	
 	// distinguishes between identity and equality for date/time values
 	// ie: two values representing the same "moment in time" but with different 
@@ -92,6 +88,10 @@ public abstract class AbstractDateTimeDV extends TypeValidator {
 		return compareDates(((DateTimeData)value1),
 				((DateTimeData)value2), true);
 	}//compare()
+	
+	public boolean hasTimeZone(Object value){
+	    return ((DateTimeData)value).hasTimeZone();
+	}
 	
 	/**
 	 * Compare algorithm described in dateDime (3.2.7).
@@ -408,22 +408,20 @@ public abstract class AbstractDateTimeDV extends TypeValidator {
 	 *
 	 * @param data
 	 */
-	protected void validateDateTime (DateTimeData data) {
+	protected void validateDateTime(DateTimeData data, boolean isSchema11Type) {
 		
 		//REVISIT: should we throw an exception for not valid dates
 		//          or reporting an error message should be sufficient?
-		
-		/**
-		 * XML Schema 1.1 - RQ-123: Allow year 0000 in date related types.
-		 */
-		if (!Constants.SCHEMA_1_1_SUPPORT && data.year==0 ) {
-			throw new RuntimeException("The year \"0000\" is an illegal year value");
-			
-		}
-		
+	    /**
+         * XML Schema 1.1 - RQ-123: Allow year 0000 in date related types.
+         */
+        if (!isSchema11Type && data.year==0 ) {
+            throw new RuntimeException("The year \"0000\" is an illegal year value");
+            
+        }
+
 		if ( data.month<1 || data.month>12 ) {
 			throw new RuntimeException("The month must have values 1 to 12");
-			
 		}
 		
 		//validate days

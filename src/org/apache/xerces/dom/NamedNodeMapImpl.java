@@ -605,8 +605,8 @@ public class NamedNodeMapImpl
         throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         if (nodes != null) {
-            // cast to Vector is required
-            nodes = new ArrayList((Vector)nodes);
+           // cast to Vector is required
+           nodes = new ArrayList((Vector)nodes);
         }
     }
 

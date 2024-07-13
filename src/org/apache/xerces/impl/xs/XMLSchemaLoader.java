@@ -39,7 +39,7 @@ import org.apache.xerces.impl.XMLEntityManager;
 import org.apache.xerces.impl.XMLErrorReporter;
 import org.apache.xerces.impl.dv.InvalidDatatypeValueException;
 import org.apache.xerces.impl.dv.SchemaDVFactory;
-import org.apache.xerces.impl.dv.xs.SchemaDVFactoryImpl;
+import org.apache.xerces.impl.dv.xs.BaseSchemaDVFactory;
 import org.apache.xerces.impl.xs.models.CMBuilder;
 import org.apache.xerces.impl.xs.models.CMNodeFactory;
 import org.apache.xerces.impl.xs.traversers.XSDHandler;
@@ -146,6 +146,14 @@ XSLoader, DOMConfiguration {
     protected static final String TOLERATE_DUPLICATES = 
         Constants.XERCES_FEATURE_PREFIX + Constants.TOLERATE_DUPLICATES_FEATURE;
     
+    /** Feature identifier: full XPath 2.0 support for CTA */
+    protected static final String CTA_FULL_XPATH = 
+        Constants.XERCES_FEATURE_PREFIX + Constants.CTA_FULL_XPATH_CHECKING_FEATURE;
+    
+    /** Feature identifier: comment and PI nodes for <assert> */
+    protected static final String ASSERT_COMMENT_PI = 
+        Constants.XERCES_FEATURE_PREFIX + Constants.ASSERT_COMMENT_PI_CHECKING_FEATURE;
+    
     /** Property identifier: Schema DV Factory */
     protected static final String SCHEMA_DV_FACTORY = 
         Constants.XERCES_PROPERTY_PREFIX + Constants.SCHEMA_DV_FACTORY_PROPERTY;
@@ -162,7 +170,9 @@ XSLoader, DOMConfiguration {
         VALIDATE_ANNOTATIONS,
         HONOUR_ALL_SCHEMALOCATIONS,
         NAMESPACE_GROWTH,
-        TOLERATE_DUPLICATES
+        TOLERATE_DUPLICATES,
+        CTA_FULL_XPATH,
+        ASSERT_COMMENT_PI,
     };
     
     // property identifiers
@@ -208,6 +218,12 @@ XSLoader, DOMConfiguration {
     
     protected static final String ENTITY_MANAGER =
         Constants.XERCES_PROPERTY_PREFIX + Constants.ENTITY_MANAGER_PROPERTY;   
+
+    protected static final String XML_SCHEMA_VERSION =
+        Constants.XERCES_PROPERTY_PREFIX + Constants.XML_SCHEMA_VERSION_PROPERTY;
+    
+    protected static final String DATATYPE_XML_VERSION =
+        Constants.XERCES_PROPERTY_PREFIX + Constants.DATATYPE_XML_VERSION_PROPERTY;
     
     // recognized properties
     private static final String [] RECOGNIZED_PROPERTIES = {
@@ -222,8 +238,13 @@ XSLoader, DOMConfiguration {
         JAXP_SCHEMA_SOURCE,
         SECURITY_MANAGER,
         LOCALE,
-        SCHEMA_DV_FACTORY
+        SCHEMA_DV_FACTORY,
+        XML_SCHEMA_VERSION,
+        DATATYPE_XML_VERSION
     };
+    
+    private static final String EXTENDED_SCHEMA_FACTORY_CLASS = "org.apache.xerces.impl.dv.xs.ExtendedSchemaDVFactoryImpl";
+    private static final String SCHEMA11_FACTORY_CLASS = "org.apache.xerces.impl.dv.xs.Schema11DVFactoryImpl";
     
     // Data
     
@@ -264,6 +285,12 @@ XSLoader, DOMConfiguration {
     
     /** DOM L3 resource resolver */
     private DOMEntityResolverWrapper fResourceResolver = null;
+
+    /** XML Schema 1.1 flag */
+    private short fSchemaVersion = Constants.SCHEMA_VERSION_1_0;
+
+    /** XML Schema Constraints checker */
+    private XSConstraints fXSConstraints = XSConstraints.XS_1_0_CONSTRAINTS;
     
     // default constructor.  Create objects we absolutely need:
     public XMLSchemaLoader() {
@@ -339,7 +366,7 @@ XSLoader, DOMConfiguration {
             builder = new CMBuilder(nodeFactory);
         }
         fCMBuilder = builder;
-        fSchemaHandler = new XSDHandler(fGrammarBucket);
+        fSchemaHandler = new XSDHandler(fGrammarBucket, fSchemaVersion, fXSConstraints);
         fJAXPCache = new WeakHashMap();
         
         fSettingsChanged = true;
@@ -421,30 +448,33 @@ XSLoader, DOMConfiguration {
             Object state) throws XMLConfigurationException {                   
         fSettingsChanged = true;
         fLoaderConfig.setProperty(propertyId, state);    
-        if (propertyId.equals(JAXP_SCHEMA_SOURCE)) {
+        if(propertyId.equals( JAXP_SCHEMA_SOURCE)) {
             fJAXPSource = state;
             fJAXPProcessed = false;
         }  
-        else if (propertyId.equals(XMLGRAMMAR_POOL)) {
+        else if(propertyId.equals( XMLGRAMMAR_POOL)) {
             fGrammarPool = (XMLGrammarPool)state;
         } 
-        else if (propertyId.equals(SCHEMA_LOCATION)) {
+        else if (propertyId.equals(SCHEMA_LOCATION)){
             fExternalSchemas = (String)state;
         }
-        else if (propertyId.equals(SCHEMA_NONS_LOCATION)) {
+        else if (propertyId.equals(SCHEMA_NONS_LOCATION)){
             fExternalNoNSSchema = (String) state;
         }
         else if (propertyId.equals(LOCALE)) {
             setLocale((Locale) state);
         }
-        else if (propertyId.equals(ENTITY_RESOLVER)) {
+        else if (propertyId.equals(ENTITY_RESOLVER)){
             fEntityManager.setProperty(ENTITY_RESOLVER, state);
         }
-        else if (propertyId.equals(ERROR_REPORTER)) {
+        else if (propertyId.equals(ERROR_REPORTER)){
             fErrorReporter = (XMLErrorReporter)state;
             if (fErrorReporter.getMessageFormatter(XSMessageFormatter.SCHEMA_DOMAIN) == null) {
                 fErrorReporter.putMessageFormatter(XSMessageFormatter.SCHEMA_DOMAIN, new XSMessageFormatter());
             }
+        }
+        else if (propertyId.equals(XML_SCHEMA_VERSION)) {
+            setSchemaVersion((String)state);	
         }
     } // setProperty(String, Object)
     
@@ -495,7 +525,41 @@ XSLoader, DOMConfiguration {
     public XMLEntityResolver getEntityResolver() {
         return fUserEntityResolver;
     } // getEntityResolver():  XMLEntityResolver
-    
+
+    /**
+     * Sets the XML Schema Version
+     */
+    private void setSchemaVersion(String version) {
+        if (version.equals(Constants.W3C_XML_SCHEMA10_NS_URI)) {
+            fSchemaVersion = Constants.SCHEMA_VERSION_1_0;
+            fXSConstraints = XSConstraints.XS_1_0_CONSTRAINTS;
+        }
+        else if (version.equals(Constants.W3C_XML_SCHEMA11_NS_URI)) {
+            fSchemaVersion = Constants.SCHEMA_VERSION_1_1;
+            fXSConstraints = XSConstraints.XS_1_1_CONSTRAINTS;
+        }
+        else {
+            fSchemaVersion = Constants.SCHEMA_VERSION_1_0_EXTENDED;
+            fXSConstraints = XSConstraints.XS_1_0_CONSTRAINTS_EXTENDED;
+        }
+        fSchemaHandler.setSchemaVersionInfo(fSchemaVersion, fXSConstraints);
+        fCMBuilder.setSchemaVersion(fSchemaVersion);
+    }
+
+    /**
+     * Return XML Schema 1.1 support flag
+     */
+    short getSchemaVersion() {
+    	return fSchemaVersion;
+    }
+
+    /**
+     * Return XML Schema Constraints
+     */
+    XSConstraints getXSConstraints() {
+    	return fXSConstraints;
+    }
+
     /**
      * Returns a Grammar object by parsing the contents of the
      * entities pointed to by sources.
@@ -551,7 +615,7 @@ XSLoader, DOMConfiguration {
             // NOTE: we only need to verify full checking in case the schema was not provided via JAXP
             // since full checking already verified for all JAXP schemas
             if(fIsCheckedFully && fJAXPCache.get(grammar) != grammar) {
-                XSConstraints.fullSchemaChecking(fGrammarBucket, fSubGroupHandler, fCMBuilder, fErrorReporter);
+                fXSConstraints.fullSchemaChecking(fGrammarBucket, fSubGroupHandler, fCMBuilder, fErrorReporter);
             }
         }
         return grammar;
@@ -568,9 +632,8 @@ XSLoader, DOMConfiguration {
      * @throws IOException
      * @throws XNIException
      */
-    SchemaGrammar loadSchema(XSDDescription desc,
-            XMLInputSource source,
-            Hashtable locationPairs) throws IOException, XNIException {
+    SchemaGrammar loadSchema(XSDDescription desc, XMLInputSource source,
+                             Hashtable locationPairs) throws IOException, XNIException {
         
         // this should only be done once per invocation of this object;
         // unless application alters JAXPSource in the mean time.
@@ -580,7 +643,7 @@ XSLoader, DOMConfiguration {
         SchemaGrammar grammar = fSchemaHandler.parseSchema(source, desc, locationPairs);
         
         return grammar;
-    } // loadSchema(XSDDescription, XMLInputSource):  SchemaGrammar
+    } // loadSchema(XSDDescription, XMLInputSource, Hashtable):  SchemaGrammar
     
     /** 
      * This method tries to resolve location of the given schema.
@@ -752,7 +815,7 @@ XSLoader, DOMConfiguration {
                         fJAXPSource instanceof InputSource) {
                     fJAXPCache.put(fJAXPSource, g);
                     if (fIsCheckedFully) {
-                        XSConstraints.fullSchemaChecking(fGrammarBucket, fSubGroupHandler, fCMBuilder, fErrorReporter);
+                    	fXSConstraints.fullSchemaChecking(fGrammarBucket, fSubGroupHandler, fCMBuilder, fErrorReporter);                    	
                     }
                 }
                 fGrammarBucket.putGrammar(g);
@@ -806,7 +869,7 @@ XSLoader, DOMConfiguration {
             SchemaGrammar grammar = fSchemaHandler.parseSchema(xis,fXSDDescription, locationPairs);
             
             if (fIsCheckedFully) {
-                XSConstraints.fullSchemaChecking(fGrammarBucket, fSubGroupHandler, fCMBuilder, fErrorReporter);
+            	fXSConstraints.fullSchemaChecking(fGrammarBucket, fSubGroupHandler, fCMBuilder, fErrorReporter);            	
             }                                   
             if (grammar != null) {
                 targetNamespace = grammar.getTargetNamespace();
@@ -965,7 +1028,7 @@ XSLoader, DOMConfiguration {
         
         fGrammarBucket.reset();
         
-        fSubGroupHandler.reset();		
+        fSubGroupHandler.reset();
         
         if (!fSettingsChanged || !parserSettingsUpdated(componentManager)) {
             // need to reprocess JAXP schema sources
@@ -994,7 +1057,7 @@ XSLoader, DOMConfiguration {
         }
         if (dvFactory == null) {
             if (fDefaultSchemaDVFactory == null) {
-                fDefaultSchemaDVFactory = SchemaDVFactory.getInstance();
+                fDefaultSchemaDVFactory = getSchemaDVFactory(fSchemaVersion);
             }
             dvFactory = fDefaultSchemaDVFactory;
         }
@@ -1049,15 +1112,15 @@ XSLoader, DOMConfiguration {
             }
             fCMBuilder.setDeclPool(fDeclPool);
             fSchemaHandler.setDeclPool(fDeclPool);
-            if (dvFactory instanceof SchemaDVFactoryImpl) {
-                fDeclPool.setDVFactory((SchemaDVFactoryImpl)dvFactory);
-                ((SchemaDVFactoryImpl)dvFactory).setDeclPool(fDeclPool);
+            if (dvFactory instanceof BaseSchemaDVFactory) {
+                fDeclPool.setDVFactory((BaseSchemaDVFactory)dvFactory);
+                ((BaseSchemaDVFactory)dvFactory).setDeclPool(fDeclPool);
             }
         } else {
             fCMBuilder.setDeclPool(null);
             fSchemaHandler.setDeclPool(null);
-            if (dvFactory instanceof SchemaDVFactoryImpl) {
-                ((SchemaDVFactoryImpl)dvFactory).setDeclPool(null);
+            if (dvFactory instanceof BaseSchemaDVFactory) {
+                ((BaseSchemaDVFactory)dvFactory).setDeclPool(null);
             }
         }
         
@@ -1083,7 +1146,18 @@ XSLoader, DOMConfiguration {
         }
         fSchemaHandler.reset(componentManager);		 
     }
-    
+    private SchemaDVFactory getSchemaDVFactory(short schemaVersion) {
+        if (schemaVersion != Constants.SCHEMA_VERSION_1_0) {
+            if (schemaVersion == Constants.SCHEMA_VERSION_1_1) {
+                return SchemaDVFactory.getInstance(SCHEMA11_FACTORY_CLASS);
+            }
+            else {
+                return  SchemaDVFactory.getInstance(EXTENDED_SCHEMA_FACTORY_CLASS);
+            }
+        }
+
+        return SchemaDVFactory.getInstance();
+    }
     private boolean parserSettingsUpdated(XMLComponentManager componentManager) {
         // If the component manager is the loader config don't bother querying it since it doesn't 
         // recognize the PARSER_SETTINGS feature. Prevents an XMLConfigurationException from being 

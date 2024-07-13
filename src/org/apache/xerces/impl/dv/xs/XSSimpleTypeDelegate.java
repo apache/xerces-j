@@ -178,7 +178,7 @@ public class XSSimpleTypeDelegate
         return type.getType();
     }
 
-    public void applyFacets(XSFacets facets, short presentFacet, short fixedFacet, ValidationContext context) 
+    public void applyFacets(XSFacets facets, int presentFacet, int fixedFacet, ValidationContext context) 
         throws InvalidDatatypeFacetException {
         type.applyFacets(facets, presentFacet, fixedFacet, context);
     }
@@ -212,6 +212,10 @@ public class XSSimpleTypeDelegate
     public Object validate(Object content, ValidationContext context, ValidatedInfo validatedInfo) 
         throws InvalidDatatypeValueException {
         return type.validate(content, context, validatedInfo);
+    }
+    
+    public XSObject getContext() {
+        return type.getContext();
     }
     
     public String toString() {

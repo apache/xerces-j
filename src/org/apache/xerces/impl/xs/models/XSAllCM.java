@@ -19,10 +19,12 @@ package org.apache.xerces.impl.xs.models;
 
 import java.util.Vector;
 
+import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.xs.SubstitutionGroupHandler;
 import org.apache.xerces.impl.xs.XMLSchemaException;
 import org.apache.xerces.impl.xs.XSConstraints;
 import org.apache.xerces.impl.xs.XSElementDecl;
+import org.apache.xerces.impl.xs.XSElementDeclHelper;
 import org.apache.xerces.xni.QName;
 
 /**
@@ -53,15 +55,17 @@ public class XSAllCM implements XSCMValidator {
     private final boolean fIsOptionalElement[];
     private final boolean fHasOptionalContent;
     private int fNumElements = 0;
+    private final short fSchemaVersion;
 
     //
     // Constructors
     //
 
-    public XSAllCM (boolean hasOptionalContent, int size) {
+    public XSAllCM (boolean hasOptionalContent, int size, short schemaVersion) {
         fHasOptionalContent = hasOptionalContent;
         fAllElements = new XSElementDecl[size];
         fIsOptionalElement = new boolean[size];
+        fSchemaVersion = schemaVersion;
     }
 
     public void addElement (XSElementDecl element, boolean isOptional) {
@@ -97,7 +101,7 @@ public class XSAllCM implements XSCMValidator {
     Object findMatchingDecl(QName elementName, SubstitutionGroupHandler subGroupHandler) {
         Object matchingDecl = null;
         for (int i = 0; i < fNumElements; i++) {
-            matchingDecl = subGroupHandler.getMatchingElemDecl(elementName, fAllElements[i]);
+            matchingDecl = subGroupHandler.getMatchingElemDecl(elementName, fAllElements[i], fSchemaVersion/*Constants.SCHEMA_VERSION_1_0*/);
             if (matchingDecl != null)
                 break;
         }
@@ -111,7 +115,7 @@ public class XSAllCM implements XSCMValidator {
      * @param currentState  Current state
      * @return an element decl object
      */
-    public Object oneTransition (QName elementName, int[] currentState, SubstitutionGroupHandler subGroupHandler) {
+    public Object oneTransition (QName elementName, int[] currentState, SubstitutionGroupHandler subGroupHandler, XSElementDeclHelper eDeclHelper) {
 
         // error state
         if (currentState[0] < 0) {
@@ -129,7 +133,7 @@ public class XSAllCM implements XSCMValidator {
             // this element yet.
             if (currentState[i+1] != STATE_START)
                 continue;
-            matchingDecl = subGroupHandler.getMatchingElemDecl(elementName, fAllElements[i]);
+            matchingDecl = subGroupHandler.getMatchingElemDecl(elementName, fAllElements[i], fSchemaVersion/*Constants.SCHEMA_VERSION_1_0*/);
             if (matchingDecl != null) {
                 // found the decl, mark this element as "seen".
                 currentState[i+1] = STATE_VALID;
@@ -176,13 +180,14 @@ public class XSAllCM implements XSCMValidator {
      * check whether this content violates UPA constraint.
      *
      * @param subGroupHandler the substitution group handler
+     * @param xsConstraints the XML Schema Constraint checker 
      * @return true if this content model contains other or list wildcard
      */
-    public boolean checkUniqueParticleAttribution(SubstitutionGroupHandler subGroupHandler) throws XMLSchemaException {
+    public boolean checkUniqueParticleAttribution(SubstitutionGroupHandler subGroupHandler, XSConstraints xsConstraints) throws XMLSchemaException {
         // check whether there is conflict between any two leaves
         for (int i = 0; i < fNumElements; i++) {
             for (int j = i+1; j < fNumElements; j++) {
-                if (XSConstraints.overlapUPA(fAllElements[i], fAllElements[j], subGroupHandler)) {
+                if (xsConstraints.overlapUPA(fAllElements[i], fAllElements[j], subGroupHandler)) {
                     // REVISIT: do we want to report all errors? or just one?
                     throw new XMLSchemaException("cos-nonambig", new Object[]{fAllElements[i].toString(),
                                                                               fAllElements[j].toString()});
@@ -223,6 +228,17 @@ public class XSAllCM implements XSCMValidator {
 
     public boolean isCompactedForUPA() {
         return false;
+    }
+    
+    public XSElementDecl findMatchingElemDecl(QName elementName, SubstitutionGroupHandler subGroupHandler) {
+        for (int i = 1; i < fNumElements; i++) {
+            final XSElementDecl matchingDecl = subGroupHandler.getMatchingElemDecl(elementName, fAllElements[i], Constants.SCHEMA_VERSION_1_0);
+            if (matchingDecl != null) {
+                return matchingDecl;
+            }
+        }
+
+        return null;
     }
 } // class XSAllCM
 

@@ -21,6 +21,9 @@ import java.util.Vector;
 
 import org.apache.xerces.impl.xs.SubstitutionGroupHandler;
 import org.apache.xerces.impl.xs.XMLSchemaException;
+import org.apache.xerces.impl.xs.XSConstraints;
+import org.apache.xerces.impl.xs.XSElementDecl;
+import org.apache.xerces.impl.xs.XSElementDeclHelper;
 import org.apache.xerces.xni.QName;
 
 /**
@@ -56,10 +59,11 @@ public interface XSCMValidator {
      *
      * @param elementName
      * @param state  Current state
+     * @param eDeclHelper A helper that allows inquiry of global element declarations
      * @return element decl or wildcard decl that
      *         corresponds to the element from the Schema grammar
      */
-    public Object oneTransition (QName elementName, int[] state, SubstitutionGroupHandler subGroupHandler);
+    public Object oneTransition (QName elementName, int[] state, SubstitutionGroupHandler subGroupHandler, XSElementDeclHelper eDeclHelper);
 
 
     /**
@@ -74,9 +78,10 @@ public interface XSCMValidator {
      * check whether this content violates UPA constraint.
      *
      * @param subGroupHandler the substitution group handler
+     * @param xsConstraints the XML Schema Constraint checker
      * @return true if this content model contains other or list wildcard
      */
-    public boolean checkUniqueParticleAttribution(SubstitutionGroupHandler subGroupHandler) throws XMLSchemaException;
+    public boolean checkUniqueParticleAttribution(SubstitutionGroupHandler subGroupHandler, XSConstraints xsConstraints) throws XMLSchemaException;
 
     /**
      * Check which elements are valid to appear at this point. This method also
@@ -124,4 +129,6 @@ public interface XSCMValidator {
      * @return a boolean that says whether this content has been compacted for UPA
      */
     public boolean isCompactedForUPA();
+    
+    public XSElementDecl findMatchingElemDecl(QName elementName, SubstitutionGroupHandler subGroupHandler);
 } // XSCMValidator

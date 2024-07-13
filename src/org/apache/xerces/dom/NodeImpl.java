@@ -1855,7 +1855,7 @@ public abstract class NodeImpl
            }
         }
 
-        return true; 
+        return true;
     }
 
     /**

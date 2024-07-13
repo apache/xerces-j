@@ -160,7 +160,7 @@
       	   required by XercesJ.
      	</note>
      	<submitter name='XercesJ team'/>
-     </add>     
+     </add>
      <add>
         <note>
       	   Re-built, "XML Commons External" and "XML Commons Resolver" codebases 

@@ -27,6 +27,7 @@ import org.apache.xerces.xs.XSAttributeDeclaration;
 import org.apache.xerces.xs.XSComplexTypeDefinition;
 import org.apache.xerces.xs.XSConstants;
 import org.apache.xerces.xs.XSNamespaceItem;
+import org.apache.xerces.xs.XSObject;
 import org.apache.xerces.xs.XSObjectList;
 import org.apache.xerces.xs.XSSimpleTypeDefinition;
 import org.apache.xerces.xs.XSValue;
@@ -59,8 +60,8 @@ public class XSAttributeDecl implements XSAttributeDeclaration {
     short fConstraintType = XSConstants.VC_NONE;
     // scope
     short fScope = XSConstants.SCOPE_ABSENT;
-    // enclosing complex type, when the scope is local
-    XSComplexTypeDecl fEnclosingCT = null;
+    // enclosing complex type or attribute group definition, when the scope is local
+    XSObject fEnclosingParent = null;
     // optional annotations
     XSObjectList fAnnotations = null;    
     // value constraint value
@@ -68,19 +69,22 @@ public class XSAttributeDecl implements XSAttributeDeclaration {
     // The namespace schema information item corresponding to the target namespace 
     // of the attribute declaration, if it is globally declared; or null otherwise.
     private XSNamespaceItem fNamespaceItem = null;
+    
+    boolean fInheritable = false;
 
     public void setValues(String name, String targetNamespace,
             XSSimpleType simpleType, short constraintType, short scope,
-            ValidatedInfo valInfo, XSComplexTypeDecl enclosingCT,
-            XSObjectList annotations) {
+            ValidatedInfo valInfo, XSObject enclosingParent,
+            XSObjectList annotations, boolean inheritable) {
         fName = name;
         fTargetNamespace = targetNamespace;
         fType = simpleType;
         fConstraintType = constraintType;
         fScope = scope;
         fDefault = valInfo;
-        fEnclosingCT = enclosingCT;
+        fEnclosingParent = enclosingParent;
         fAnnotations = annotations;
+        fInheritable = inheritable;
     }
 
     public void reset(){
@@ -92,6 +96,7 @@ public class XSAttributeDecl implements XSAttributeDeclaration {
         fScope = XSConstants.SCOPE_ABSENT;
         fDefault = null;
         fAnnotations = null;
+        fInheritable = false;
     }
 
     /**
@@ -142,7 +147,17 @@ public class XSAttributeDecl implements XSAttributeDeclaration {
      * property.
      */
     public XSComplexTypeDefinition getEnclosingCTDefinition() {
-        return fEnclosingCT;
+        return (fEnclosingParent instanceof XSComplexTypeDecl)
+                    ? (XSComplexTypeDecl)fEnclosingParent : null;
+    }
+
+    /**
+     * Locally scoped declarations are available for use only within the
+     * complex type definition or attribute group definition identified
+     * by the <code>scope</code> property.
+     */
+    public XSObject getParent() {
+        return fEnclosingParent;
     }
 
     /**
@@ -209,9 +224,13 @@ public class XSAttributeDecl implements XSAttributeDeclaration {
                null :
                fDefault.itemValueTypes;
     }
-
+    
     public XSValue getValueConstraintValue() {
         return fDefault;
+    }
+
+    public boolean getInheritable() {
+        return fInheritable;
     }
 
 } // class XSAttributeDecl

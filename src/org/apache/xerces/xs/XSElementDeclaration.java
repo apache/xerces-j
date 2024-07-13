@@ -38,8 +38,19 @@ public interface XSElementDeclaration extends XSTerm {
      * The complex type definition for locally scoped declarations (see 
      * <code>scope</code>), otherwise <code>null</code> if no such 
      * definition exists. 
+     * 
+     * NOTE: deprecated for XML Schema 1.1
      */
     public XSComplexTypeDefinition getEnclosingCTDefinition();
+    
+    /**
+     * XML Schema 1.1
+     *
+     * The complex type definition or model group definition for
+     * locally scoped declarations (see  <code>scope</code>), otherwise
+     * <code>null</code> if no such definition exists.
+     */
+    public XSObject getParent();
 
     /**
      * [Value constraint]: one of <code>VC_NONE, VC_DEFAULT, VC_FIXED</code>. 
@@ -58,9 +69,6 @@ public interface XSElementDeclaration extends XSTerm {
      * Value Constraint: Binding specific actual constraint value or 
      * <code>null</code> if the value is in error or there is no value 
      * constraint. 
-     * @exception XSException
-     *   NOT_SUPPORTED_ERR: Raised if the implementation does not support this 
-     *   method.
      * 
      * @deprecated Use getValueConstraintValue().getActualValue() instead
      */
@@ -77,9 +85,6 @@ public interface XSElementDeclaration extends XSTerm {
      * constraint value of the list or list of union type definitions use 
      * <code>itemValueTypes</code>. If the <code>actualNormalizedValue</code>
      *  is <code>null</code>, this method returns <code>UNAVAILABLE_DT</code>.
-     * @exception XSException
-     *   NOT_SUPPORTED_ERR: Raised if the implementation does not support this 
-     *   method.
      * 
      * @deprecated Use getValueConstraintValue().getActualValueType() instead
      */
@@ -95,9 +100,6 @@ public interface XSElementDeclaration extends XSTerm {
      * for each actual constraint value in the list the array contains the 
      * corresponding memberType kind. For examples, see 
      * <code>ItemPSVI.itemValueTypes</code>. 
-     * @exception XSException
-     *   NOT_SUPPORTED_ERR: Raised if the implementation does not support this 
-     *   method.
      * 
      * @deprecated Use getValueConstraintValue().getListValueTypes() instead
      */

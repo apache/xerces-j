@@ -48,9 +48,6 @@ public abstract class TypeValidator {
             return Boolean.FALSE;
         }}) == Boolean.TRUE;
 
-    // which facets are allowed for this type
-    public abstract short getAllowedFacets();
-
     // convert a string to an actual value. for example,
     // for number types (decimal, double, float, and types derived from them),
     // get the BigDecimal, Double, Flout object.
@@ -142,6 +139,21 @@ public abstract class TypeValidator {
     // otherwise, return -1
     public static final int getDigit(char ch) {
         return isDigit(ch) ? ch - '0' : -1;
+    }
+    
+    //get the number of precision of the value
+    //the parameters are in compiled form (from getActualValue)
+    public int getPrecision(Object value){
+        return 0;
+    }
+
+    //whether this value has a precision. false indicate it's a special value.
+    public boolean hasPrecision(Object value){
+        return false;
+    }
+    
+    public boolean hasTimeZone(Object value){
+        return false;
     }
     
 } // interface TypeValidator

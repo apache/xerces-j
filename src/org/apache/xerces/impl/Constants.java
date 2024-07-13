@@ -40,7 +40,9 @@ public final class Constants {
     
     // Schema Versions:
     public static final String W3C_XML_SCHEMA10_NS_URI = "http://www.w3.org/XML/XMLSchema/v1.0".intern();
-    
+    public static final String W3C_XML_SCHEMA11_NS_URI = "http://www.w3.org/XML/XMLSchema/v1.1".intern();
+    public static final String W3C_XML_SCHEMA10EX_NS_URI = "http://www.w3.org/XML/XMLSchema/v1.0EX".intern();
+
     // sax features
     
     /** SAX feature prefix ("http://xml.org/sax/features/"). */
@@ -296,7 +298,7 @@ public final class Constants {
     public static final String XINCLUDE_FIXUP_BASE_URIS_FEATURE = "xinclude/fixup-base-uris";
     
     /** XInclude fixup language feature ("xinclude/fixup-language"). */
-    public static final String XINCLUDE_FIXUP_LANGUAGE_FEATURE = "xinclude/fixup-language";    
+    public static final String XINCLUDE_FIXUP_LANGUAGE_FEATURE = "xinclude/fixup-language";
     
     /**
      * Feature to ignore xsi:type attributes on elements during validation,
@@ -328,6 +330,15 @@ public final class Constants {
     
     /** Feature to ignore errors caused by identity constraints ("validation/identity-constraint-checking") */
     public static final String IDC_CHECKING_FEATURE = "validation/identity-constraint-checking";
+
+    /** Feature to ignore errors caused by type alternatives */
+    public static final String TYPE_ALTERNATIVES_CHEKING_FEATURE = "validation/type-alternative-checking";
+    
+    /** Feature to allow full XPath 2.0 checking for CTA processing */
+    public static final String CTA_FULL_XPATH_CHECKING_FEATURE = "validation/cta-full-xpath-checking";
+    
+    /** Feature to allow if comments and PIs should be available in <assert> XDM trees */
+    public static final String ASSERT_COMMENT_PI_CHECKING_FEATURE = "validation/assert-comments-and-pi-checking";
     
     /** Feature to ignore errors caused by unparsed entities ("validation/unparsed-entity-checking") */
     public static final String UNPARSED_ENTITY_CHECKING_FEATURE = "validation/unparsed-entity-checking";
@@ -430,9 +441,15 @@ public final class Constants {
     
     /** Schema element declaration for the root element in a document ("validation/schema/root-element-declaration"). */
     public static final String ROOT_ELEMENT_DECLARATION_PROPERTY = "validation/schema/root-element-declaration";
-    
+
     /** Schema element declaration for the root element in a document ("internal/validation/schema/dv-factory"). */
     public static final String SCHEMA_DV_FACTORY_PROPERTY = "internal/validation/schema/dv-factory";
+
+    /** XML Schema version property ("validation/schema/version"). */
+    public static final String XML_SCHEMA_VERSION_PROPERTY ="validation/schema/version";
+    
+    /** Datatype XML version property ("validation/schema/datatype-xml-version"). */
+    public static final String DATATYPE_XML_VERSION_PROPERTY = "validation/schema/datatype-xml-version";
     
     // general constants
     
@@ -473,8 +490,19 @@ public final class Constants {
     
     // Constant to enable Schema 1.1 support
     public final static boolean SCHEMA_1_1_SUPPORT = false;
-    public final static short SCHEMA_VERSION_1_0          = 1;
+    public final static short SCHEMA_VERSION_1_0 = 1;
     public final static short SCHEMA_VERSION_1_0_EXTENDED = 2;
+    public final static short SCHEMA_VERSION_1_1 = 4;
+    
+    // Constants to support XML Schema 1.1 conditional inclusion functionality
+    public final static short IS_TYPE = 0;
+    public final static short IS_FACET = 1;
+    public final static short TYPE_AND_FACET_AVAILABILITY = 2;
+    public final static short TYPE_AND_FACET_UNAVAILABILITY = 3;
+    
+    // Constants to support Eclipse XPath 2.0 engine uses
+    public final static String XPATH2_NAMESPACE_CONTEXT = "XPATH2_NS_CONTEXT";
+    public final static String IS_CTA_EVALUATOR = "CTA-EVALUATOR";
     
     // private
     
@@ -532,6 +560,9 @@ public final class Constants {
             NAMESPACE_GROWTH_FEATURE,
             TOLERATE_DUPLICATES_FEATURE,
             STRINGS_INTERNED_FEATURE,
+            TYPE_ALTERNATIVES_CHEKING_FEATURE,
+            CTA_FULL_XPATH_CHECKING_FEATURE,
+            ASSERT_COMMENT_PI_CHECKING_FEATURE,
     };
     
     /** Xerces properties. */
@@ -557,6 +588,8 @@ public final class Constants {
             ROOT_TYPE_DEFINITION_PROPERTY,
             ROOT_ELEMENT_DECLARATION_PROPERTY,
             SCHEMA_DV_FACTORY_PROPERTY,
+            XML_SCHEMA_VERSION_PROPERTY,
+            DATATYPE_XML_VERSION_PROPERTY
     };
     
     /** Empty enumeration. */

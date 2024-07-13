@@ -26,7 +26,9 @@ import org.apache.xerces.xs.XSAttributeUse;
 import org.apache.xerces.xs.XSComplexTypeDefinition;
 import org.apache.xerces.xs.XSConstants;
 import org.apache.xerces.xs.XSNamespaceItem;
+import org.apache.xerces.xs.XSObject;
 import org.apache.xerces.xs.XSObjectList;
+import org.apache.xerces.xs.XSOpenContent;
 import org.apache.xerces.xs.XSParticle;
 import org.apache.xerces.xs.XSSimpleTypeDefinition;
 import org.apache.xerces.xs.XSTypeDefinition;
@@ -92,6 +94,15 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
     // of the complex type definition, if it is globally declared; or null otherwise.
     private XSNamespaceItem fNamespaceItem = null;
 
+    // the open content
+    XSOpenContentDecl fOpenContent = null;
+    
+    // list of assertions affiliated with this type
+    XSObjectListImpl fAssertions = null;
+    
+    // context
+    XSObject fContext = null;
+
     // DOM Level 3 TypeInfo Derivation Method constants
     static final int DERIVATION_ANY = 0;
     static final int DERIVATION_RESTRICTION = 1;
@@ -108,7 +119,7 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
             short block, short contentType,
             boolean isAbstract, XSAttributeGroupDecl attrGrp, 
             XSSimpleType simpleType, XSParticleDecl particle,
-            XSObjectListImpl annotations) {
+            XSObjectListImpl annotations, XSOpenContentDecl openContent) {
         fTargetNamespace = targetNamespace;
         fBaseType = baseType;
         fDerivedBy = derivedBy;
@@ -121,10 +132,15 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
         fXSSimpleType = simpleType;
         fParticle = particle;
         fAnnotations = annotations;
+        fOpenContent = openContent;
    }
 
    public void setName(String name) {
         fName = name;
+   }
+   
+   public void setBaseType(XSTypeDefinition baseType) {
+       fBaseType = baseType;
    }
 
     public short getTypeCategory() {
@@ -162,6 +178,14 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
     }
     public void setIsAnonymous() {
         fMiscFlags |= CT_IS_ANONYMOUS;
+    }
+    
+    public void setDerivationMethod(short derivationMethod) {
+        fDerivedBy = derivationMethod;
+    }
+
+    public void setAssertions(XSObjectListImpl assertions) {
+        fAssertions = assertions;
     }
 
     public XSCMValidator getContentModel(CMBuilder cmBuilder) {
@@ -226,13 +250,13 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
         if (ancestor == null)
             return false;
         // ancestor is anyType, return true
-        if (ancestor == SchemaGrammar.fAnyType)
+        if (SchemaGrammar.isAnyType(ancestor))
             return true;
         // recursively get base, and compare it with ancestor
         XSTypeDefinition type = this;
         while (type != ancestor &&                     // compare with ancestor
                type != SchemaGrammar.fAnySimpleType &&  // reached anySimpleType
-               type != SchemaGrammar.fAnyType) {        // reached anyType
+               !SchemaGrammar.isAnyType(type)) {        // reached anyType
             type = type.getBaseType();
         }
 
@@ -256,12 +280,11 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
                  ((ancestorNS == null && type.getNamespace() == null) ||
                   (ancestorNS != null && ancestorNS.equals(type.getNamespace())))) &&   // compare with ancestor
                type != SchemaGrammar.fAnySimpleType &&  // reached anySimpleType
-               type != SchemaGrammar.fAnyType) {        // reached anyType
+               !SchemaGrammar.isAnyType(type)) {        // reached anyType
             type = (XSTypeDefinition)type.getBaseType();
         }
 
-        return type != SchemaGrammar.fAnySimpleType &&
-        type != SchemaGrammar.fAnyType;
+        return type != SchemaGrammar.fAnySimpleType && !SchemaGrammar.isAnyType(type);
     }
 
     /**
@@ -554,6 +577,11 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
             fAnnotations.clearXSObjectList();
         }
         fAnnotations = null;
+        if (fAssertions != null) {
+            fAssertions.clear();
+        }
+        fAssertions = null;
+        fContext = null;
     }
 
     /**
@@ -727,6 +755,22 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
 
     public boolean isDerivedFrom(String typeNamespaceArg, String typeNameArg, int derivationMethod) {
         return isDOMDerivedFrom(typeNamespaceArg, typeNameArg, derivationMethod);
+    }
+
+    public XSOpenContent getOpenContent() {
+        return fOpenContent;
+    }
+    
+    public XSObjectList getAssertions() {
+        return (fAssertions != null) ? fAssertions : XSObjectListImpl.EMPTY_LIST;
+    }
+
+    public void setContext(XSObject context) {
+        fContext = context;
+    }
+
+    public XSObject getContext() {
+        return fContext;
     }
 
 } // class XSComplexTypeDecl

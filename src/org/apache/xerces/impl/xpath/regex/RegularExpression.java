@@ -21,6 +21,7 @@ import java.text.CharacterIterator;
 import java.util.Locale;
 import java.util.Stack;
 
+import org.apache.xerces.impl.Constants;
 import org.apache.xerces.util.IntStack;
 
 /**
@@ -2225,6 +2226,14 @@ public class RegularExpression implements java.io.Serializable {
      * ",".
      */
     static final int SPECIAL_COMMA = 1<<10;
+    /**
+     * "b". Allow unrecognized block names; treat as '.'.
+     */
+    static final int ALLOW_UNRECOGNIZED_BLOCK_NAME = 1<<11;
+    /**
+     * "h". New rule about '-' in schema 1.1.
+     */
+    static final int HYPHEN_IN_SCHEMA_11 = 1<<12;
 
 
     private static final boolean isSet(int options, int flag) {
@@ -2263,6 +2272,10 @@ public class RegularExpression implements java.io.Serializable {
         this.setPattern(regex, options, locale);
     }
 
+    public RegularExpression(String regex, String options, Locale locale, short datatypeXMLVersion) {
+        this.setPattern(regex, options, locale, datatypeXMLVersion);
+    }
+
     RegularExpression(String regex, Token tok, int parens, boolean hasBackReferences, int options) {
         this.regex = regex;
         this.tokentree = tok;
@@ -2279,14 +2292,14 @@ public class RegularExpression implements java.io.Serializable {
     }
     
     public void setPattern(String newPattern, Locale locale) throws ParseException {
-        this.setPattern(newPattern, this.options, locale);
+        this.setPattern(newPattern, this.options, locale, Constants.XML_VERSION_1_0);
     }
 
-    private void setPattern(String newPattern, int options, Locale locale) throws ParseException {
+    private void setPattern(String newPattern, int options, Locale locale, short datatypeXMLVersion) throws ParseException {
         this.regex = newPattern;
         this.options = options;
         RegexParser rp = RegularExpression.isSet(this.options, RegularExpression.XMLSCHEMA_MODE)
-                         ? new ParserForXMLSchema(locale) : new RegexParser(locale);
+                         ? new ParserForXMLSchema(locale, datatypeXMLVersion) : new RegexParser(locale);
         this.tokentree = rp.parse(this.regex, this.options);
         this.nofparen = rp.parennumber;
         this.hasBackReferences = rp.hasBackReferences;
@@ -2302,7 +2315,11 @@ public class RegularExpression implements java.io.Serializable {
     }
     
     public void setPattern(String newPattern, String options, Locale locale) throws ParseException {
-        this.setPattern(newPattern, REUtil.parseOptions(options), locale);
+        this.setPattern(newPattern, REUtil.parseOptions(options), locale, Constants.XML_VERSION_1_0);
+    }
+    
+    public void setPattern(String newPattern, String options, Locale locale, short datatypeXMLVersion) throws ParseException {
+        this.setPattern(newPattern, REUtil.parseOptions(options), locale, datatypeXMLVersion);
     }
 
     /**

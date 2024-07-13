@@ -192,10 +192,10 @@ public final class XSModelImpl extends AbstractList implements XSModel, XSNamesp
         fNamespacesList = new StringListImpl(fNamespaces, fGrammarCount);
         
         // build substitution groups
-        fSubGroupMap = buildSubGroups();
+        fSubGroupMap = buildSubGroups(s4sVersion);
     }
     
-    private SymbolHash buildSubGroups_Org() {
+    private SymbolHash buildSubGroups_Org(short s4sVersion) {
         SubstitutionGroupHandler sgHandler = new SubstitutionGroupHandler(null);
         for (int i = 0 ; i < fGrammarCount; i++) {
             sgHandler.addSubstitutionGroup(fGrammarList[i].getSubstitutionGroups());
@@ -208,14 +208,14 @@ public final class XSModelImpl extends AbstractList implements XSModel, XSNamesp
         XSElementDeclaration[] subGroup;
         for (int i = 0; i < len; i++) {
             head = (XSElementDecl)elements.item(i);
-            subGroup = sgHandler.getSubstitutionGroup(head);
+            subGroup = sgHandler.getSubstitutionGroup(head, s4sVersion);
             subGroupMap.put(head, subGroup.length > 0 ? 
                     new XSObjectListImpl(subGroup, subGroup.length) : XSObjectListImpl.EMPTY_LIST);
         }
         return subGroupMap;
     }
     
-    private SymbolHash buildSubGroups() {
+    private SymbolHash buildSubGroups(short s4sVersion) {
         SubstitutionGroupHandler sgHandler = new SubstitutionGroupHandler(null);
         for (int i = 0 ; i < fGrammarCount; i++) {
             sgHandler.addSubstitutionGroup(fGrammarList[i].getSubstitutionGroups());
@@ -228,7 +228,7 @@ public final class XSModelImpl extends AbstractList implements XSModel, XSNamesp
         XSElementDeclaration[] subGroup;
         for (int i = 0; i < len; i++) {
             head = (XSElementDecl)elements.item(i);
-            subGroup = sgHandler.getSubstitutionGroup(head);
+            subGroup = sgHandler.getSubstitutionGroup(head, s4sVersion);
             subGroupMap.put(head, subGroup.length > 0 ? 
                     new XSObjectListImpl(subGroup, subGroup.length) : XSObjectListImpl.EMPTY_LIST);
         }

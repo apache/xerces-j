@@ -20,6 +20,8 @@ package org.apache.xerces.util;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.PatternSet;
+import org.apache.tools.ant.types.PatternSet.NameEntry;
 import org.apache.tools.ant.util.JavaEnvUtils;
 import org.apache.tools.ant.taskdefs.Javac;
 

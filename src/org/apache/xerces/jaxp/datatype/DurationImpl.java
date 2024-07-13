@@ -420,7 +420,7 @@ class DurationImpl
     protected DurationImpl(String lexicalRepresentation)
         throws IllegalArgumentException {
         // only if I could use the JDK1.4 regular expression ....
-             
+        
         final String s = lexicalRepresentation;
         boolean positive;
         int[] idx = new int[1];
@@ -428,7 +428,7 @@ class DurationImpl
         boolean timeRequired = false;
         
         if (lexicalRepresentation == null) {
-            throw new NullPointerException();
+           throw new NullPointerException();
         }
 
         idx[0] = 0;

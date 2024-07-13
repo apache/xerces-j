@@ -81,7 +81,7 @@ class XSDKeyrefTraverser extends XSDAbstractIDConstraintTraverser {
             return;
         }
 
-        KeyRef keyRef = new KeyRef(schemaDoc.fTargetNamespace, krName, element.fName, key);
+        KeyRef keyRef = new KeyRef(schemaDoc.fTargetNamespace, krName, key);
 
         // If errors occurred in traversing the identity constraint, then don't
         // add it to the schema, to avoid errors when processing the instance.

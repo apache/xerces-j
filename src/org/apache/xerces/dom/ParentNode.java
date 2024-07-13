@@ -910,7 +910,7 @@ public abstract class ParentNode
             return false;
         }
         
-        return true; 
+        return true;  
     }
 
     //

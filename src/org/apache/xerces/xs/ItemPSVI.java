@@ -117,9 +117,6 @@ public interface ItemPSVI {
     /**
      * <code>[schema normalized value]</code>: Binding specific actual value 
      * or <code>null</code> if the value is in error. 
-     * @exception XSException
-     *   NOT_SUPPORTED_ERR: Raised if the implementation does not support this 
-     *   method.
      * 
      * @deprecated Use getSchemaValue().getActualValue() instead
      */
@@ -136,9 +133,6 @@ public interface ItemPSVI {
      * of the list or list of union type definitions use 
      * <code>itemValueTypes</code>. If the <code>actualNormalizedValue</code>
      *  is <code>null</code>, this method returns <code>UNAVAILABLE_DT</code>. 
-     * @exception XSException
-     *   NOT_SUPPORTED_ERR: Raised if the implementation does not support this 
-     *   method.
      *   
      *  @deprecated Use getSchemaValue().getActualValueType() instead
      */
@@ -172,9 +166,6 @@ public interface ItemPSVI {
      * <code>actualNormalizedValueType</code> is <code>LISTOFUNION_DT</code>
      * , and the <code>itemValueTypes</code> is an array of size 3 with the 
      * following values: <code>INTEGER_DT, INTEGER_DT, STRING_DT</code>. 
-     * @exception XSException
-     *   NOT_SUPPORTED_ERR: Raised if the implementation does not support this 
-     *   method.
      *  
      *  @deprecated Use getSchemaValue().getListValueTypes() instead
      */

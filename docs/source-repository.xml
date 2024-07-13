@@ -60,6 +60,6 @@ svn co <jump href="https://svn.apache.org/repos/asf/xerces/java/tags/Xerces-J_2_
        Tools Platform (WTP) project</jump>, has contributed to the development of an XPath 2.0 engine that is 
        used within XercesJ's XML Schema 1.1 processor. The XercesJ specific source code of this 
        XPath 2.0 engine, is located on following GitHub repository : <jump href="https://github.com/xercesj/xpath20">https://github.com/xercesj/xpath20</jump>.
-    </p>      
+    </p>   
   </s2>
 </s1>

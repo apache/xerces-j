@@ -82,6 +82,18 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
     /** Feature identifier: whether to ignore identity constraint errors */
     private static final String IDENTITY_CONSTRAINT_CHECKING =
         Constants.XERCES_FEATURE_PREFIX + Constants.IDC_CHECKING_FEATURE;
+
+    /** Feature identifier: whether to ignore type alternatives errors */
+    private static final String TYPE_ALTERNATIVES_CHECKING =
+        Constants.XERCES_FEATURE_PREFIX + Constants.TYPE_ALTERNATIVES_CHEKING_FEATURE;
+    
+    /** Feature identifier: whether to use full XPath 2.0 support for CTA processing */
+    private static final String CTA_FULL_XPATH_CHECKING =
+        Constants.XERCES_FEATURE_PREFIX + Constants.CTA_FULL_XPATH_CHECKING_FEATURE;
+    
+    /** Feature identifier: whether to allow comment and PI nodes to be visible during <assert> processing */
+    private static final String ASSERT_COMMENT_PI_CHECKING =
+        Constants.XERCES_FEATURE_PREFIX + Constants.ASSERT_COMMENT_PI_CHECKING_FEATURE;
     
     /** Feature identifier: disallow DOCTYPE declaration */
     private static final String DISALLOW_DOCTYPE_DECL_FEATURE =
@@ -144,7 +156,11 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
     /** Property identifier: locale. */
     private static final String LOCALE =
         Constants.XERCES_PROPERTY_PREFIX + Constants.LOCALE_PROPERTY;
-    
+
+    /** Property identifier: xml schema version. */
+    private static final String XML_SCHEMA_VERSION =
+        Constants.XERCES_PROPERTY_PREFIX + Constants.XML_SCHEMA_VERSION_PROPERTY;
+
     //
     // Data
     //
@@ -160,6 +176,9 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
      * the grammar pool to the exclusion of all others.
      */
     private boolean fUseGrammarPoolOnly;
+    
+    /** Whether the XML Schema is 1.1 or not */
+    private final String fXSDVersion;
     
     /** Lookup map for components required for validation. **/
     private final HashMap fComponents = new HashMap();
@@ -223,6 +242,8 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         fComponents.put(NAMESPACE_CONTEXT, fNamespaceContext);
         
         fSchemaValidator = new XMLSchemaValidator();
+        fXSDVersion = grammarContainer.getXMLSchemaVersion();
+        fSchemaValidator.setProperty(XML_SCHEMA_VERSION, fXSDVersion);
         fComponents.put(SCHEMA_VALIDATOR, fSchemaValidator);
         
         fValidationManager = new ValidationManager();
@@ -277,6 +298,9 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         fFeatures.put(ID_IDREF_CHECKING, Boolean.TRUE);
         fFeatures.put(IDENTITY_CONSTRAINT_CHECKING, Boolean.TRUE);
         fFeatures.put(UNPARSED_ENTITY_CHECKING, Boolean.TRUE);
+        fFeatures.put(TYPE_ALTERNATIVES_CHECKING, Boolean.TRUE);
+        fFeatures.put(CTA_FULL_XPATH_CHECKING, Boolean.FALSE);
+        fFeatures.put(ASSERT_COMMENT_PI_CHECKING, Boolean.FALSE);
     }
 
     /**
@@ -358,6 +382,9 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         if (LOCALE.equals(propertyId)) {
             return getLocale();
         }
+        else if (XML_SCHEMA_VERSION.equals(propertyId)) {
+            return fXSDVersion;
+        }
         final Object component = fComponents.get(propertyId);
         if (component != null) {
             return component;
@@ -380,7 +407,7 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         if ( ENTITY_MANAGER.equals(propertyId) || ERROR_REPORTER.equals(propertyId) ||
              NAMESPACE_CONTEXT.equals(propertyId) || SCHEMA_VALIDATOR.equals(propertyId) ||
              SYMBOL_TABLE.equals(propertyId) || VALIDATION_MANAGER.equals(propertyId) ||
-             XMLGRAMMAR_POOL.equals(propertyId)) {
+             XMLGRAMMAR_POOL.equals(propertyId) || XML_SCHEMA_VERSION.equals(propertyId)) {
             throw new XMLConfigurationException(XMLConfigurationException.NOT_SUPPORTED, propertyId);
         }
         fConfigUpdated = true;
@@ -453,7 +480,7 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         setProperty(ENTITY_RESOLVER, new DOMEntityResolverWrapper(resourceResolver));
     }
     
-    LSResourceResolver getResourceResolver() {
+    public LSResourceResolver getResourceResolver() {
         return fResourceResolver;
     }
     

@@ -36,9 +36,20 @@ public interface XSAttributeDeclaration extends XSObject {
     /**
      * The complex type definition for locally scoped declarations (see 
      * <code>scope</code>), otherwise <code>null</code> if no such 
-     * definition exists. 
+     * definition exists.
+     * 
+     * NOTE: deprecated for XML Schema 1.1
      */
     public XSComplexTypeDefinition getEnclosingCTDefinition();
+
+    /**
+     * XML Schema 1.1
+     * 
+     * The complex type definition or attribute group definition for
+     * locally scoped declarations (see  <code>scope</code>), otherwise
+     * <code>null</code> if no such definition exists. 
+     */
+    public XSObject getParent();
 
     /**
      * Value constraint: one of <code>VC_NONE, VC_DEFAULT, VC_FIXED</code>. 
@@ -63,8 +74,7 @@ public interface XSAttributeDeclaration extends XSObject {
      *  
      *  @deprecated Use getValueConstraintValue().getActualValue() instead
      */
-    public Object getActualVC()
-                                                        throws XSException;
+    public Object getActualVC() throws XSException;
 
     /**
      * The actual constraint value built-in datatype, e.g. 
@@ -82,8 +92,7 @@ public interface XSAttributeDeclaration extends XSObject {
      *  
      *  @deprecated Use getValueConstraintValue().getActualValueType() instead
      */
-    public short getActualVCType()
-                                                        throws XSException;
+    public short getActualVCType() throws XSException;
 
     /**
      * In the case the actual constraint value represents a list, i.e. the 
@@ -100,8 +109,7 @@ public interface XSAttributeDeclaration extends XSObject {
      *   
      *  @deprecated Use getValueConstraintValue().getListValueTypes() instead
      */
-    public ShortList getItemValueTypes()
-                                                        throws XSException;
+    public ShortList getItemValueTypes() throws XSException;
 
     /**
      * The actual value of the default or fixed value constraint.
@@ -117,5 +125,10 @@ public interface XSAttributeDeclaration extends XSObject {
     /**
      * A sequence of [annotations] or an empty  <code>XSObjectList</code>. 
      */
-    public XSObjectList getAnnotations();    
+    public XSObjectList getAnnotations();
+    
+    /**
+     * Inheritable flag for the attribute. 
+     */
+    public boolean getInheritable(); 
 }

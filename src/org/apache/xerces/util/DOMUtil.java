@@ -807,6 +807,12 @@ public class DOMUtil {
     
     // return the value of the attribute of the given element
     // with the given name
+    public static String getAttrValueTrimmed(Element elem, String name) {
+        return XMLChar.trim(elem.getAttribute(name));
+    } // getAttr(Element, String):Attr
+    
+    // return the value of the attribute of the given element
+    // with the given name
     public static String getAttrValueNS(Element elem, String nsUri,
             String localName) {
         return elem.getAttributeNS(nsUri, localName);

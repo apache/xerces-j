@@ -108,6 +108,17 @@ public interface NamespaceContext {
      */
     public boolean declarePrefix(String prefix, String uri);
     
+    /**
+     * Delete a namespace binding, corresponding to a namespace prefix.
+     * 
+     * @param prefix The prefix corresponding to which, namespace binding
+     *        is to be deleted.
+     *        
+     * @return true if namespace binding is successfully deleted, false
+     *         otherwise.       
+     */
+    public boolean deletePrefix(String prefix);
+    
 
     /**
      * Look up a prefix and get the currently-mapped Namespace URI.

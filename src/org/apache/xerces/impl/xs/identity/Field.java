@@ -47,16 +47,19 @@ public class Field {
 
     /** Identity constraint. */
     protected final IdentityConstraint fIdentityConstraint;
+    
+    /** XPath default namespace. */
+    protected String fXpathDefaultNamespace;
 
     //
     // Constructors
     //
 
     /** Constructs a field. */
-    public Field(Field.XPath xpath, 
-                 IdentityConstraint identityConstraint) {
+    public Field(Field.XPath xpath, IdentityConstraint identityConstraint, String xpathDefaultNamespace) {
         fXPath = xpath;
         fIdentityConstraint = identityConstraint;
+        fXpathDefaultNamespace = xpathDefaultNamespace;
     } // <init>(Field.XPath,IdentityConstraint)
 
     //
@@ -88,6 +91,11 @@ public class Field {
     public String toString() {
         return fXPath.toString();
     } // toString():String
+    
+    /** Return value of xpathDefaultNamespace. */
+    public String getXPathDefaultNamespace() {
+        return fXpathDefaultNamespace;
+    }
 
     //
     // Classes
@@ -234,7 +242,7 @@ public class Field {
             if(isNil && (fIdentityConstraint.getCategory() == IdentityConstraint.IC_KEY)) {
                 String code = "KeyMatchesNillable";
                 fStore.reportError(code, 
-                    new Object[]{fIdentityConstraint.getElementName(), fIdentityConstraint.getIdentityConstraintName()});
+                    new Object[]{fStore.getElementName(), fIdentityConstraint.getIdentityConstraintName()});
             }
             fStore.addValue(Field.this, fMayMatch, actualValue, convertToPrimitiveKind(valueType), convertToPrimitiveKind(itemValueType));
             // once we've stored the value for this field, we set the mayMatch
@@ -293,7 +301,7 @@ public class Field {
                     // the content must be simpleType content
                     fStore.reportError( "cvc-id.3", new Object[] {
                             fIdentityConstraint.getName(),
-                            fIdentityConstraint.getElementName()});
+                            fStore.getElementName()});
                 
             }
             fMatchedString = actualValue;

@@ -90,6 +90,11 @@ public final class REUtil {
           case ',':
             ret = RegularExpression.SPECIAL_COMMA;
             break;
+          case 'b':
+            ret = RegularExpression.ALLOW_UNRECOGNIZED_BLOCK_NAME;
+            break;
+          case 'h':
+            ret = RegularExpression.HYPHEN_IN_SCHEMA_11;
           default:
         }
         return ret;
@@ -359,5 +364,17 @@ public final class REUtil {
             System.out.print(" ");
         }
         System.out.println();
+    }
+
+    static void setupRange(Token range, String src) {
+        int len = src.length();
+        for (int i = 0;  i < len;  i += 2)
+            range.addRange(src.charAt(i), src.charAt(i+1));
+    }
+
+    static void setupRange(Token range, int[] src) {
+        int len = src.length;
+        for (int i = 0;  i < len;  i += 2)
+            range.addRange(src[i], src[i+1]);
     }
 }

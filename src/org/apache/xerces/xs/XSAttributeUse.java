@@ -50,9 +50,6 @@ public interface XSAttributeUse extends XSObject {
      * Value Constraint: Binding specific actual constraint value or 
      * <code>null</code> if the value is in error or there is no value 
      * constraint. 
-     * @exception XSException
-     *   NOT_SUPPORTED_ERR: Raised if the implementation does not support this 
-     *   method.
      * 
      * @deprecated Use getValueConstraintValue().getActualValue() instead
      */
@@ -69,9 +66,6 @@ public interface XSAttributeUse extends XSObject {
      * constraint value of the list or list of union type definitions use 
      * <code>itemValueTypes</code>. If the <code>actualNormalizedValue</code>
      *  is <code>null</code>, this method returns <code>UNAVAILABLE_DT</code>. 
-     * @exception XSException
-     *   NOT_SUPPORTED_ERR: Raised if the implementation does not support this 
-     *   method.
      * 
      * @deprecated Use getValueConstraintValue().getActualValueType() instead
      */
@@ -104,5 +98,10 @@ public interface XSAttributeUse extends XSObject {
     /**
      * A sequence of [annotations] or an empty <code>XSObjectList</code>.
      */
-    public XSObjectList getAnnotations();    
+    public XSObjectList getAnnotations();
+    
+    /**
+     * Tells whether this attribute is declared inheritable.
+     */
+    public boolean getInheritable(); 
 }

@@ -184,6 +184,7 @@ public class XSDAssertionValidator {
             xpathNamespaceContext = new NamespaceSupport();     
         }
         assertProcessorParams.put(Constants.XPATH2_NAMESPACE_CONTEXT, xpathNamespaceContext);
+        assertProcessorParams.put(Constants.XML_BASE_URI, fXmlSchemaValidator.fLocator.getExpandedSystemId());
         // initialize the assertions processor
         initializeAssertProcessor(assertProcessorParams);
     } // constructAssertProcessor

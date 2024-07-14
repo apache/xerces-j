@@ -160,6 +160,12 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
         
         if (fCurrentAssertDomNode == null) {
             fCurrentAssertDomNode = new PSVIElementNSImpl((CoreDocumentImpl) fAssertDocument, element.uri, element.rawname);
+            Object xmlBaseUri = fAssertParams.get(Constants.XML_BASE_URI);
+            if (xmlBaseUri != null) {
+               PSVIAttrNSImpl attrNode = new PSVIAttrNSImpl((PSVIDocumentImpl)fAssertDocument, "http://www.w3.org/XML/1998/namespace", "xml:base", "base");
+               attrNode.setNodeValue((fAssertParams.get(Constants.XML_BASE_URI)).toString());
+               fCurrentAssertDomNode.setAttributeNode(attrNode);
+            }
             fAssertDocument.appendChild(fCurrentAssertDomNode);
         } else {
             Element elem = new PSVIElementNSImpl((CoreDocumentImpl) fAssertDocument, element.uri, element.rawname);
@@ -177,7 +183,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
                attrNode.setPSVI(attrPSVI);
             }
             fCurrentAssertDomNode.setAttributeNode(attrNode);
-        }
+        }                
 
         if (augs != null) {
             // if we have assertions applicable to this element, store the element reference and the assertions 

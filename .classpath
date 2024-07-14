@@ -8,6 +8,7 @@
 	<classpathentry kind="lib" path="tools/icu4j.jar"/>
 	<classpathentry kind="lib" path="tools/resolver.jar"/>
 	<classpathentry kind="lib" path="tools/junit.jar"/>
+	<classpathentry kind="lib" path="tools/org.eclipse.wst.xml.xpath2.processor_1.2.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

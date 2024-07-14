@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="X">
+       <xs:complexType>
+          <xs:sequence>
+             <xs:element name="a" type="xs:string"/>
+          </xs:sequence>
+          <xs:assert test="matches(a, '\05')"/>
+          <xs:assert test="matches(a, '\a')"/>
+          <xs:assert test="matches(a, '\e')"/>
+          <xs:assert test="matches(a, '\f')"/>
+          <xs:assert test="matches(a, '\v')"/>
+          <xs:assert test="matches(a, '&#x37;')"/>
+       </xs:complexType>
+    </xs:element>
+
+</xs:schema>

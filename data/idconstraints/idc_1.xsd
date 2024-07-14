@@ -1,0 +1,62 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <xs:element name="root">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="nffg" maxOccurs="unbounded">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="nodes">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="node" maxOccurs="unbounded">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="nodeName" type="xs:string"/>
+                                    </xs:sequence>
+                                    <xs:attribute name="functionalType" type="xs:string" use="required"/>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="links">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="link" maxOccurs="unbounded">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="sourceNode" type="xs:string"/>
+                                       <xs:element name="destNode" type="xs:string"/>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="nffgName" type="xs:string" use="required"/>
+                  <xs:attribute name="deployTime" type="xs:dateTime" use="required"/>
+               </xs:complexType>               
+               <xs:key name="nodeName_key">
+                  <xs:selector xpath="nodes/node"/>
+                  <xs:field xpath="nodeName"/>
+               </xs:key>
+               <xs:keyref name="srcNodeRef_key" refer="nodeName_key">
+                  <xs:selector xpath="links/link"/>
+                  <xs:field xpath="sourceNode"/>
+               </xs:keyref>
+               <xs:keyref name="destNodeRef_key" refer="nodeName_key">
+                  <xs:selector xpath="links/link"/>
+                  <xs:field xpath="destNode"/>
+               </xs:keyref>
+            </xs:element>
+         </xs:sequence>
+      </xs:complexType>
+      <xs:key name="nffgName_key">
+         <xs:selector xpath="nffg"/>
+         <xs:field xpath="@nffgName"/>
+      </xs:key>
+   </xs:element>
+
+</xs:schema>

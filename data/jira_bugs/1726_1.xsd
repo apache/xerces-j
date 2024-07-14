@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+	<!-- ********************** -->
+	<!-- * Top-level elements * -->
+	<!-- ********************** -->
+	<xs:element name="extension">
+		<xs:alternative test="@type='language'" type="extensionTypeLanguage"/>
+	</xs:element>
+	<!-- ******************************************************** -->
+	<!-- * Structures used from more than one top-level element * -->
+	<!-- ******************************************************** -->
+	<xs:group name="metadata">
+		<xs:all>
+			<xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="creationDate" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="author" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="authorEmail" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="authorUrl" type="xs:anyURI" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="copyright" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<!-- ***************************************************************************** -->
+			<!-- * Disregard the following element, not decoded by the installation software * -->
+			<!-- ***************************************************************************** -->
+			<xs:element name="license" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="version" type="extensionVersionType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+		</xs:all>
+	</xs:group>
+	<xs:simpleType name="methodChoice">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="install"/>
+			<xs:enumeration value="upgrade"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="joomlaVersionChoice">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[23].[0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="extensionVersionType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]([0-9])*(.[0-9]([0-9])*)+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tagChoice">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-z]{2,3}-[A-Z]{2,3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="clientChoice">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="administrator|site"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="typeUpdateServers">
+		<xs:complexContent>
+			<xs:restriction base="xs:anyType">
+				<xs:all>
+					<xs:element name="server" type="typeServerUpdateServers" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:all>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="typeMedia">
+		<xs:all>
+			<xs:element name="filename" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="folder" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:all>
+		<xs:attribute name="folder" type="xs:string" use="optional"/>
+		<xs:attribute name="destination" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:simpleType name="typeParams">
+		<xs:restriction base="xs:string">
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ************************************ -->
+	<!-- * attributes optional or required? * -->
+	<!-- ************************************ -->
+	<xs:complexType name="typeServerUpdateServers">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string"/>
+				<xs:attribute name="type" type="serverChoice"/>
+				<!-- **************************************************** -->
+				<!-- * Include the "priority" attribute here to prevent * -->
+				<!-- * errors although I have failed to identify        * -->
+				<!-- * code in Joomla! which processes it.              * -->
+				<!-- **************************************************** -->
+				<xs:attribute name="priority" type="xs:positiveInteger"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="serverChoice">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="extension|collection"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- ********************************************* -->
+	<!-- * Material for Language-specific extensions * -->
+	<!-- ********************************************* -->
+	<xs:complexType name="extensionTypeLanguage">
+		<xs:all>
+			<xs:element name="tag" type="tagChoice" minOccurs="0" maxOccurs="1"/>
+			<xs:group ref="metadata"/>
+			<xs:element name="files" type="typeLanguageFiles" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="media" type="typeMedia" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="params" type="typeParams" minOccurs="1" maxOccurs="1"/>
+		</xs:all>
+		<xs:attribute name="type" type="xs:string" use="required" fixed="language"/>
+		<xs:attribute name="method" type="methodChoice"/>
+		<xs:attribute name="version" type="joomlaVersionChoice"/>
+		<xs:attribute name="client" type="clientChoice"/>
+	</xs:complexType>
+	<xs:complexType name="typeLanguageFilesFilename">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="file" type="xs:string" use="optional"/>
+				<!-- ***************************************************************************************************************************************************************************************** -->
+				<!-- * Assuming that the current context is "/extension/files/filename"                                                                                                                      * -->
+				<!-- * check that there are ALL elements in this context whose values DO match one of:                                                                                                       * -->
+				<!-- *  1) ^([a-z]{2}[a-z]?-[A-Z]{2}\.((((com)|(lib)|(mod(_[a-z][a-z0-9]+)?)|(plg_[a-z][a-z0-9]+(\-[a-z0-9][a-z0-9]+)*)|(tpl))_[a-z][a-z0-9]+(\.sys)?(\.ini))|(ini)|(css)|(localise\.php)))$ * -->
+				<!-- *  2) ^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$                                                                                                                                                  * -->
+				<!-- *  3) ^(install\.xml)$                                                                                                                                                                  * -->
+				<!-- ***************************************************************************************************************************************************************************************** -->
+				<!-- ******************************************************************************************************************************************* -->
+				<!-- * Start of Highlighted Lines for Untreated Kind of Error                                                                                  * -->
+				<!-- ******************************************************************************************************************************************* -->
+				<xs:assert test="./text()[matches(.,'^([a-z]{2}[a-z]?-[A-Z]{2}\.((((com)|(lib)|(mod(_[a-z][a-z0-9]+)?)|(plg_[a-z][a-z0-9]+(\-[a-z0-9][a-z0-9]+)*)|(tpl))_[a-z][a-z0-9]+(\.sys)?(\.ini))|(ini)|(css)|(localise\.php)))|([a-z]{2}[a-z]?-[A-Z]{2}\.xml)|(install\.xml)$')]"/>
+				<xs:assert test="if (./text()[matches(.,'^([a-z]{2}[a-z]?-[A-Z]{2}\.((((com)|(lib)|(mod(_[a-z][a-z0-9]+)?)|(plg_[a-z][a-z0-9]+(\-[a-z0-9][a-z0-9]+)*)|(tpl))_[a-z][a-z0-9]+(\.sys)?(\.ini))|(ini)|(css)|(localise\.php)))|([a-z]{2}[a-z]?-[A-Z]{2}\.xml)|(install\.xml)$')]) then true() else false()"/>
+				<xs:assert test="if (./text()[last()>1]) then false() else true()"/>
+				<!-- <xs:assert test="if (./text()[matches(.,'^_finder\.ini$')]) then true() else false()"/>
+				<xs:assert test="if (./text()[matches(.,'^[a-z]{2}[a-z]?-[A-Z]{2}\.com$)]) then true() else false()"/> -->
+				<!-- ******************************************************************************************************************************************* -->
+				<!-- * End of Highlighted Lines for Untreated Kind of Error                                                                                    * -->
+				<!-- ******************************************************************************************************************************************* -->
+				<!-- ******************************************************************************************************************************************* -->
+				<!-- * Of the elements whose values (./text()) match:                                                                                          * -->
+				<!-- *  2) ^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$                                                                                                    * -->
+				<!-- * check that ALL have the "file" attribute.                                                                                               * -->
+				<!-- ******************************************************************************************************************************************* -->
+				<!-- <xs:assert test="./text()[matches(.,'^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$')]/../@file"/>
+				<xs:assert test="if (true()) then true() else false()"/>
+				<xs:assert test="matches(text(),'^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$')"/>
+				<xs:assert test="if (matches(text(),'^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$')) then @file else true()"/> -->
+				<xs:assert test="if (matches(.,'^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$')) then @file else true()"/>
+				<!-- ******************************************************************************************************************************************* -->
+				<!-- * Check that the ONE element which matches:                                                                                                 * -->
+				<!-- *  2) ^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$                                                                                                    * -->
+				<!-- * has an attribute "file" with value "meta".                                                                                              * -->
+				<!-- ******************************************************************************************************************************************* -->
+				<!-- <xs:assert test="./text()[matches(.,'^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$')]/../@file[.='meta']"/>
+				<xs:assert test="if (matches(text(),'^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$')) then @file[.='meta'] else true()"/> -->
+				<xs:assert test="if (matches(.,'^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$')) then @file[.='meta'] else true()"/>
+				<!-- ******************************************************************************************************************************************* -->
+				<!-- * Of the elements whose values (./text()) match:                                                                                            * -->
+				<!-- *  3) ^(install\.xml)$                                                                                                                    * -->
+				<!-- * check that ALL have the "file" attribute.                                                                                               * -->
+				<!-- ******************************************************************************************************************************************* -->
+				<xs:assert test="if (./text()[matches(.,'^(install\.xml)$')]) then @file else true()"/>
+				<!-- ******************************************************************************************************************************************* -->
+				<!-- * Check that the ONE element which matches:                                                                                                 * -->
+				<!-- *  3) ^(install\.xml)$                                                                                                                    * -->
+				<!-- * has an attribute "file" with value "meta".                                                                                              * -->
+				<!-- ******************************************************************************************************************************************* -->
+				<xs:assert test="if (./text()[matches(.,'^(install\.xml)$')]) then @file[.='meta'] else true()"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="typeLanguageFiles">
+		<xs:all>
+			<xs:element name="folder" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="filename" type="typeLanguageFilesFilename" minOccurs="1" maxOccurs="unbounded"/> <!-- For the "index.<php|html>" file -->
+		</xs:all>
+		<xs:attribute name="folder" type="xs:string" use="optional"/>
+		<!-- ***************************************************************************************************************************************************************************************** -->
+		<!-- * Assuming that the current context is "/extension/files"                                                                                                                               * -->
+		<!-- ***************************************************************************************************************************************************************************************** -->
+		<!-- ***************************************************************************************************************************************************************************************** -->
+		<!-- Of the elements whose values (./text()) match:                                                                                                                                          * -->
+		<!-- *  1) ^([a-z]{2}[a-z]?-[A-Z]{2}\.((((com)|(lib)|(mod(_[a-z][a-z0-9]+)?)|(plg_[a-z][a-z0-9]+(\-[a-z0-9][a-z0-9]+)*)|(tpl))_[a-z][a-z0-9]+(\.sys)?(\.ini))|(ini)|(css)|(localise\.php)))$ * -->
+		<!-- * check that NONE have the "file" attribute.                                                                                                                                            * -->
+		<!-- ***************************************************************************************************************************************************************************************** -->
+		<xs:assert test="count(./filename/text()[matches(.,'^([a-z]{2}[a-z]?-[A-Z]{2}\.((((com)|(lib)|(mod(_[a-z][a-z0-9]+)?)|(plg_[a-z][a-z0-9]+(\-[a-z0-9][a-z0-9]+)*)|(tpl))_[a-z][a-z0-9]+(\.sys)?(\.ini))|(ini)|(css)|(localise\.php)))$')]/..[@file])=0"/>
+		<!-- ***************************************************************************************************************************************************************************************** -->
+		<!-- * Check there is ONE and ONLY ONE element whose value (./text()) matches:                                                                                                               * -->
+		<!-- *  2) ^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$                                                                                                                                                  * -->
+		<!-- ***************************************************************************************************************************************************************************************** -->
+		<xs:assert test="count(./filename/text()[matches(.,'^([a-z]{2}[a-z]?-[A-Z]{2}\.xml)$')])=1"/>
+		<!-- ***************************************************************************************************************************************************************************************** -->
+		<!-- * Check there is ONE and ONLY ONE element whose value (./text()) matches:                                                                                                               * -->
+		<!-- *  3) ^(install\.xml)$                                                                                                                                                                  * -->
+		<!-- ***************************************************************************************************************************************************************************************** -->
+		<xs:assert test="count(./filename/text()[matches(.,'^(install\.xml)$')])=1"/>
+	</xs:complexType>
+</xs:schema>

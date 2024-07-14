@@ -1,0 +1,9 @@
+To run the W3C XML Schema 1.1 test suite, on Apache Xerces XSD 1.1 processor, please go to the 
+folder "impl" and run the batch script "run-suite-all.bat".
+
+The test results would be, produced within the folder w3c_xmlschema11-testsuite/reports. 
+
+Currently, the batch scripts for this test suite utility, only supports Windows platform.
+
+
+Copyright © 1999-2022 The Apache Software Foundation. All Rights Reserved.

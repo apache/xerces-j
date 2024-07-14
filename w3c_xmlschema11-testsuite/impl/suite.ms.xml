@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<ts:testSuite xmlns:ts="http://www.w3.org/XML/2004/xml-schema-test-suite/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://www.w3.org/XML/2004/xml-schema-test-suite/ http://www.w3.org/XML/2004/xml-schema-test-suite/AnnotatedTSSchema.xsd" name="schema11_ts" releaseDate="2009-12-18" schemaVersion="W3C XML Schema 1.1">
+   <ts:annotation>
+      <ts:documentation>W3C XML Schema 1.1 Test Suite</ts:documentation>
+   </ts:annotation>
+   <ts:testSetRef xlink:href="MS/msMeta/Additional_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/Annotations_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/AttributeGroup_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/Attribute_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/ComplexType_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/DataTypes_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/Element_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/Errata10_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/Group_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/IdentityConstraint_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/ModelGroups_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/Notations_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/Particles_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/Regex_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/Schema_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/SimpleType_w3c.xml"/>
+   <ts:testSetRef xlink:href="MS/msMeta/Wildcards_w3c.xml"/>
+</ts:testSuite>

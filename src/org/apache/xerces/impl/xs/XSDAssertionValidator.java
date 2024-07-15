@@ -61,7 +61,7 @@ import org.apache.xerces.xs.XSTypeDefinition;
 public class XSDAssertionValidator {
     
     // the context XMLSchemaValidator instance
-    XMLSchemaValidator fXmlSchemaValidator = null;
+    XMLSchemaValidatorImpl fXmlSchemaValidator = null;
     
     // assertion processor object reference
     XMLAssertHandler fAssertionProcessor = null;
@@ -73,7 +73,7 @@ public class XSDAssertionValidator {
     /*
      * Class constructor.
      */
-    public XSDAssertionValidator(XMLSchemaValidator xmlSchemaValidator) {
+    public XSDAssertionValidator(XMLSchemaValidatorImpl xmlSchemaValidator) {
        this.fXmlSchemaValidator = xmlSchemaValidator; 
     }
 

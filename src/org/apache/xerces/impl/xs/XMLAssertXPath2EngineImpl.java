@@ -99,7 +99,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
     private Stack fAssertListStack = null;
 
     // XMLSchemaValidator reference. set from the XMLSchemaValidator object itself.
-    private XMLSchemaValidator fXmlSchemaValidator = null;
+    private XMLSchemaValidatorImpl fXmlSchemaValidator = null;
     
     // parameters to pass to XPath engine (for e.g, the XML namespace bindings)
     private Map fAssertParams = null;
@@ -135,7 +135,7 @@ public class XMLAssertXPath2EngineImpl extends XMLAssertAdapter {
      * Initialize the Eclipse XPath processor.
      */
     public void initXPathProcessor() throws Exception {        
-        fXmlSchemaValidator = (XMLSchemaValidator) getProperty("http://apache.org/xml/properties/assert/validator");        
+        fXmlSchemaValidator = (XMLSchemaValidatorImpl) getProperty("http://apache.org/xml/properties/assert/validator");        
         fAbstrXpathEngineImpl = new AbstractXPath2EngineImpl();
         fXpath2DynamicContext = fAbstrXpathEngineImpl.initXPath2DynamicContext(fSchemaXSmodel, fAssertDocument, fAssertParams);        
     } // initXPathProcessor

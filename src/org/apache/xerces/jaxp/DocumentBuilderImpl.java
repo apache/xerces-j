@@ -29,7 +29,7 @@ import org.apache.xerces.dom.DOMImplementationImpl;
 import org.apache.xerces.dom.DOMMessageFormatter;
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.validation.ValidationManager;
-import org.apache.xerces.impl.xs.XMLSchemaValidator;
+import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;
 import org.apache.xerces.jaxp.validation.XSGrammarPoolContainer;
 import org.apache.xerces.parsers.DOMParser;
 import org.apache.xerces.util.SecurityManager;
@@ -165,7 +165,7 @@ public class DocumentBuilderImpl extends DocumentBuilder
             /** For Xerces grammars, use built-in schema validator. **/
             if (grammar instanceof XSGrammarPoolContainer) {  
                 String xmlSchemaVersion = ((XSGrammarPoolContainer) grammar).getXMLSchemaVersion();
-                validatorComponent = new XMLSchemaValidator();
+                validatorComponent = new XMLSchemaValidatorImpl();
                 if ((Constants.W3C_XML_SCHEMA11_NS_URI).equals(xmlSchemaVersion)) {
                     validatorComponent.setProperty(XML_SCHEMA_VERSION, Constants.W3C_XML_SCHEMA11_NS_URI);
                 }

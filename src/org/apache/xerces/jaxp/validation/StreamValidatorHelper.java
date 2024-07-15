@@ -30,7 +30,7 @@ import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.XMLEntityManager;
 import org.apache.xerces.impl.XMLErrorReporter;
 import org.apache.xerces.impl.msg.XMLMessageFormatter;
-import org.apache.xerces.impl.xs.XMLSchemaValidator;
+import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;
 import org.apache.xerces.parsers.SAXParser;
 import org.apache.xerces.parsers.XML11Configuration;
 import org.apache.xerces.xni.XNIException;
@@ -95,7 +95,7 @@ final class StreamValidatorHelper implements ValidatorHelper {
     private SoftReference fConfiguration = new SoftReference(null);
     
     /** Schema validator. **/
-    private final XMLSchemaValidator fSchemaValidator;
+    private final XMLSchemaValidatorImpl fSchemaValidator;
     
     /** Component manager. **/
     private final XMLSchemaValidatorComponentManager fComponentManager;
@@ -110,7 +110,7 @@ final class StreamValidatorHelper implements ValidatorHelper {
     
     public StreamValidatorHelper(XMLSchemaValidatorComponentManager componentManager) {
         fComponentManager = componentManager;
-        fSchemaValidator = (XMLSchemaValidator) fComponentManager.getProperty(SCHEMA_VALIDATOR);
+        fSchemaValidator = (XMLSchemaValidatorImpl) fComponentManager.getProperty(SCHEMA_VALIDATOR);
     }
 
     public void validate(Source source, Result result) 

@@ -42,7 +42,7 @@ import org.apache.xerces.impl.dtd.XMLNSDTDValidator;
 import org.apache.xerces.impl.dv.DTDDVFactory;
 import org.apache.xerces.impl.msg.XMLMessageFormatter;
 import org.apache.xerces.impl.validation.ValidationManager;
-import org.apache.xerces.impl.xs.XMLSchemaValidator;
+import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;
 import org.apache.xerces.impl.xs.XSMessageFormatter;
 import org.apache.xerces.util.ParserConfigurationSettings;
 import org.apache.xerces.util.SymbolTable;
@@ -414,7 +414,7 @@ public class XML11Configuration extends ParserConfigurationSettings
     protected XMLEntityManager fEntityManager;
 
     /** XML Schema Validator. */
-    protected XMLSchemaValidator fSchemaValidator;
+    protected XMLSchemaValidatorImpl fSchemaValidator;
 
     /** Current scanner */
     protected XMLDocumentScanner fCurrentScanner;
@@ -1157,7 +1157,7 @@ public class XML11Configuration extends ParserConfigurationSettings
         if (fFeatures.get(XMLSCHEMA_VALIDATION) == Boolean.TRUE) {
             // If schema validator was not in the pipeline insert it.
             if (fSchemaValidator == null) {
-                fSchemaValidator = new XMLSchemaValidator();
+                fSchemaValidator = new XMLSchemaValidatorImpl();
                 // add schema component
                 setProperty(SCHEMA_VALIDATOR, fSchemaValidator);
 				addCommonComponent(fSchemaValidator);
@@ -1251,7 +1251,7 @@ public class XML11Configuration extends ParserConfigurationSettings
         if (fFeatures.get(XMLSCHEMA_VALIDATION) == Boolean.TRUE) {
             // If schema validator was not in the pipeline insert it.
             if (fSchemaValidator == null) {
-                fSchemaValidator = new XMLSchemaValidator();
+                fSchemaValidator = new XMLSchemaValidatorImpl();
                 // add schema component
                 setProperty(SCHEMA_VALIDATOR, fSchemaValidator);
                 addCommonComponent(fSchemaValidator);

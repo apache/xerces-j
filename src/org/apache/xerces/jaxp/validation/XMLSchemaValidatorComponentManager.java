@@ -28,7 +28,7 @@ import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.XMLEntityManager;
 import org.apache.xerces.impl.XMLErrorReporter;
 import org.apache.xerces.impl.validation.ValidationManager;
-import org.apache.xerces.impl.xs.XMLSchemaValidator;
+import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;
 import org.apache.xerces.impl.xs.XSMessageFormatter;
 import org.apache.xerces.util.DOMEntityResolverWrapper;
 import org.apache.xerces.util.ErrorHandlerWrapper;
@@ -197,7 +197,7 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
     private final NamespaceContext fNamespaceContext;
     
     /** XML Schema validator. */
-    private final XMLSchemaValidator fSchemaValidator;
+    private final XMLSchemaValidatorImpl fSchemaValidator;
        
     /** Validation manager. */
     private final ValidationManager fValidationManager;
@@ -241,7 +241,7 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         fNamespaceContext = new NamespaceSupport();
         fComponents.put(NAMESPACE_CONTEXT, fNamespaceContext);
         
-        fSchemaValidator = new XMLSchemaValidator();
+        fSchemaValidator = new XMLSchemaValidatorImpl();
         fXSDVersion = grammarContainer.getXMLSchemaVersion();
         fSchemaValidator.setProperty(XML_SCHEMA_VERSION, fXSDVersion);
         fComponents.put(SCHEMA_VALIDATOR, fSchemaValidator);

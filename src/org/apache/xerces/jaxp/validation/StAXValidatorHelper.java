@@ -51,7 +51,7 @@ import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.XMLErrorReporter;
 import org.apache.xerces.impl.validation.EntityState;
 import org.apache.xerces.impl.validation.ValidationManager;
-import org.apache.xerces.impl.xs.XMLSchemaValidator;
+import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;
 import org.apache.xerces.util.JAXPNamespaceContextWrapper;
 import org.apache.xerces.util.StAXLocationWrapper;
 import org.apache.xerces.util.SymbolTable;
@@ -105,7 +105,7 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
     private final XMLErrorReporter fErrorReporter;
     
     /** Schema validator. **/
-    private final XMLSchemaValidator fSchemaValidator;
+    private final XMLSchemaValidatorImpl fSchemaValidator;
     
     /** Symbol table **/
     private final SymbolTable fSymbolTable;
@@ -166,7 +166,7 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
     public StAXValidatorHelper(XMLSchemaValidatorComponentManager componentManager) {
         fComponentManager = componentManager;
         fErrorReporter = (XMLErrorReporter) fComponentManager.getProperty(ERROR_REPORTER);
-        fSchemaValidator = (XMLSchemaValidator) fComponentManager.getProperty(SCHEMA_VALIDATOR);
+        fSchemaValidator = (XMLSchemaValidatorImpl) fComponentManager.getProperty(SCHEMA_VALIDATOR);
         fSymbolTable = (SymbolTable) fComponentManager.getProperty(SYMBOL_TABLE);        
         fValidationManager = (ValidationManager) fComponentManager.getProperty(VALIDATION_MANAGER);
         fNamespaceContext = new JAXPNamespaceContextWrapper(fSymbolTable);

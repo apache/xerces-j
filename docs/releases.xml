@@ -68,8 +68,8 @@
      </fix>
      <fix>
         <note>
-      	   Removed the Java interface org.w3c.dom.html.HTMLDOMImplementation from the 
-      	   Xerces-J codebase since this Java interface is present within Java 1.7+.
+      	   Deleted the Java interface org.w3c.dom.html.HTMLDOMImplementation from 
+      	   Xerces-J codebase, since this interface is present within Java 1.7+.
      	</note>
      	<submitter name='Xerces-J team'/>
      </fix>

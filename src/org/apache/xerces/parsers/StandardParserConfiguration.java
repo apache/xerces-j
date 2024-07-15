@@ -18,7 +18,7 @@
 package org.apache.xerces.parsers;
 
 import org.apache.xerces.impl.Constants;
-import org.apache.xerces.impl.xs.XMLSchemaValidator;
+import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;
 import org.apache.xerces.impl.xs.XSMessageFormatter;
 import org.apache.xerces.util.SymbolTable;
 import org.apache.xerces.xni.grammars.XMLGrammarPool;
@@ -173,7 +173,7 @@ public class StandardParserConfiguration
     // components (non-configurable)
 
     /** XML Schema Validator. */
-    protected XMLSchemaValidator fSchemaValidator;
+    protected XMLSchemaValidatorImpl fSchemaValidator;
 
     //
     // Constructors
@@ -297,7 +297,7 @@ public class StandardParserConfiguration
         if ( getFeature(XMLSCHEMA_VALIDATION )) {
             // If schema validator was not in the pipeline insert it.
             if (fSchemaValidator == null) {
-                fSchemaValidator = new XMLSchemaValidator(); 
+                fSchemaValidator = new XMLSchemaValidatorImpl(); 
             
                 // add schema component
                 fProperties.put(SCHEMA_VALIDATOR, fSchemaValidator);

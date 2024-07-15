@@ -66,13 +66,21 @@
        </note>
        <submitter name='Xerces-J team'/>
      </fix>
-     <add>
+     <fix>
         <note>
       	   Removed the Java interface org.w3c.dom.html.HTMLDOMImplementation from the 
       	   Xerces-J codebase since this Java interface is present within Java 1.7+.
      	</note>
      	<submitter name='Xerces-J team'/>
-     </add>     
+     </fix>
+     <fix>
+        <note>
+      	   Implemented a fix to XML Schema 1.1 xs:assert implementation by having
+      	   base-uri available on XML xs:assert subtrees, so that XPath 2.0 fn:base-uri
+      	   function can be used with XML Schema xs:assert instruction.
+     	</note>
+     	<submitter name='Mukul Gandhi'/>
+     </fix>     
      <add>
         <note>
       	   As per W3C XML Schema recommendation, the XML Schema simpleType definition's
@@ -89,7 +97,7 @@
       	   enhancement.
      	</note>
      	<submitter name='Mukul Gandhi'/>
-     </add>
+     </add>     
    </changes>
   </release>
   <release version='&ParserName; 2.12.2'>

@@ -28,7 +28,7 @@ import javax.xml.validation.Schema;
 
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.validation.ValidationManager;
-import org.apache.xerces.impl.xs.XMLSchemaValidator;
+import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;
 import org.apache.xerces.jaxp.validation.XSGrammarPoolContainer;
 import org.apache.xerces.util.SAXMessageFormatter;
 import org.apache.xerces.util.SecurityManager;
@@ -171,7 +171,7 @@ public class SAXParserImpl extends javax.xml.parsers.SAXParser
             /** For Xerces grammars, use built-in schema validator. **/
             if (grammar instanceof XSGrammarPoolContainer) {
                 String xmlSchemaVersion = ((XSGrammarPoolContainer) grammar).getXMLSchemaVersion();
-                validatorComponent = new XMLSchemaValidator();
+                validatorComponent = new XMLSchemaValidatorImpl();
                 if ((Constants.W3C_XML_SCHEMA11_NS_URI).equals(xmlSchemaVersion)) {
                     validatorComponent.setProperty(XML_SCHEMA_VERSION, Constants.W3C_XML_SCHEMA11_NS_URI);
                 }

@@ -38,7 +38,7 @@ import org.apache.xerces.impl.XMLErrorReporter;
 import org.apache.xerces.impl.dv.XSSimpleType;
 import org.apache.xerces.impl.validation.EntityState;
 import org.apache.xerces.impl.validation.ValidationManager;
-import org.apache.xerces.impl.xs.XMLSchemaValidator;
+import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;
 import org.apache.xerces.util.AttributesProxy;
 import org.apache.xerces.util.SAXLocatorWrapper;
 import org.apache.xerces.util.SAXMessageFormatter;
@@ -151,7 +151,7 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
     private final NamespaceContext fNamespaceContext;
     
     /** Schema validator. **/
-    private final XMLSchemaValidator fSchemaValidator;
+    private final XMLSchemaValidatorImpl fSchemaValidator;
     
     /** Symbol table **/
     private final SymbolTable fSymbolTable;
@@ -207,7 +207,7 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
         fComponentManager = componentManager;
         fErrorReporter = (XMLErrorReporter) fComponentManager.getProperty(ERROR_REPORTER);
         fNamespaceContext = (NamespaceContext) fComponentManager.getProperty(NAMESPACE_CONTEXT);
-        fSchemaValidator = (XMLSchemaValidator) fComponentManager.getProperty(SCHEMA_VALIDATOR);
+        fSchemaValidator = (XMLSchemaValidatorImpl) fComponentManager.getProperty(SCHEMA_VALIDATOR);
         fSymbolTable = (SymbolTable) fComponentManager.getProperty(SYMBOL_TABLE);
         fValidationManager = (ValidationManager) fComponentManager.getProperty(VALIDATION_MANAGER);
         fIsXSD11 = Constants.W3C_XML_SCHEMA11_NS_URI.equals(fComponentManager.getProperty(XML_SCHEMA_VERSION));

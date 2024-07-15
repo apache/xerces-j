@@ -48,12 +48,12 @@ import org.apache.xerces.xs.datatypes.ObjectList;
 public class XSDTypeAlternativeValidator {          
     
     // the context XMLSchemaValidator instance
-    XMLSchemaValidator fXmlSchemaValidator = null;
+    XMLSchemaValidatorImpl fXmlSchemaValidator = null;
     
     /*
      * Class constructor.
      */
-    public XSDTypeAlternativeValidator(XMLSchemaValidator xmlSchemaValidator) {
+    public XSDTypeAlternativeValidator(XMLSchemaValidatorImpl xmlSchemaValidator) {
        this.fXmlSchemaValidator = xmlSchemaValidator;
     }
     

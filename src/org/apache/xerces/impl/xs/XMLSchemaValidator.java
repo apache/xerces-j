@@ -40,6 +40,7 @@ import org.apache.xerces.impl.dv.xs.XSSimpleTypeDecl;
 import org.apache.xerces.impl.validation.ConfigurableValidationState;
 import org.apache.xerces.impl.validation.ValidationManager;
 import org.apache.xerces.impl.validation.ValidationState;
+import org.apache.xerces.impl.xs.XMLSchemaLoader.LocationArray;
 import org.apache.xerces.impl.xs.identity.Field;
 import org.apache.xerces.impl.xs.identity.FieldActivator;
 import org.apache.xerces.impl.xs.identity.IdentityConstraint;
@@ -523,7 +524,7 @@ public class XMLSchemaValidator
 
     /** Schema Grammar Description passed,  to give a chance to application to supply the Grammar */
     protected final XSDDescription fXSDDescription = new XSDDescription();
-    protected final Hashtable fLocationPairs = new Hashtable();
+    protected final Hashtable<String, LocationArray> fLocationPairs = new Hashtable<>();
     protected final Hashtable fExpandedLocationPairs = new Hashtable();
     protected final ArrayList fUnparsedLocations = new ArrayList();
 
@@ -2614,8 +2615,7 @@ public class XMLSchemaValidator
             }
         }
         if (nsLocation != null) {
-            XMLSchemaLoader.LocationArray la =
-                ((XMLSchemaLoader.LocationArray) fLocationPairs.get(XMLSymbols.EMPTY_STRING));
+            XMLSchemaLoader.LocationArray la = ((XMLSchemaLoader.LocationArray) fLocationPairs.get(XMLSymbols.EMPTY_STRING));
             if (la == null) {
                 la = new XMLSchemaLoader.LocationArray();
                 fLocationPairs.put(XMLSymbols.EMPTY_STRING, la);

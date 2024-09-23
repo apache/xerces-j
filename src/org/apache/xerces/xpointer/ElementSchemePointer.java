@@ -534,9 +534,9 @@ final class ElementSchemePointer implements XPointerPart {
         private Tokens(SymbolTable symbolTable) {
             fSymbolTable = symbolTable;
 
-            fTokenNames.put(new Integer(XPTRTOKEN_ELEM_NCNAME),
+            fTokenNames.put(Integer.valueOf(XPTRTOKEN_ELEM_NCNAME),
                     "XPTRTOKEN_ELEM_NCNAME");
-            fTokenNames.put(new Integer(XPTRTOKEN_ELEM_CHILD),
+            fTokenNames.put(Integer.valueOf(XPTRTOKEN_ELEM_CHILD),
                     "XPTRTOKEN_ELEM_CHILD");
         }
 
@@ -546,7 +546,7 @@ final class ElementSchemePointer implements XPointerPart {
          * @return String The token string
          */
         private String getTokenString(int token) {
-            return (String) fTokenNames.get(new Integer(token));
+            return (String) fTokenNames.get(Integer.valueOf(token));
         }
 
         /**
@@ -555,7 +555,7 @@ final class ElementSchemePointer implements XPointerPart {
          * @return String The token string
          */
         private Integer getToken(int token) {
-            return (Integer) fTokenNames.get(new Integer(token));
+            return (Integer) fTokenNames.get(Integer.valueOf(token));
         }
 
         /**
@@ -566,7 +566,7 @@ final class ElementSchemePointer implements XPointerPart {
         private void addToken(String tokenStr) {
             Integer tokenInt = (Integer) fTokenNames.get(tokenStr);
             if (tokenInt == null) {
-                tokenInt = new Integer(fTokenNames.size());
+                tokenInt = Integer.valueOf(fTokenNames.size());
                 fTokenNames.put(tokenInt, tokenStr);
             }
             addToken(tokenInt.intValue());

@@ -71,7 +71,7 @@ public class AttributeMap extends NamedNodeMapImpl {
      */
     public Node setNamedItem(Node arg)
     throws DOMException {
-        
+
         boolean errCheck = ownerNode.ownerDocument().errorChecking;
         if (errCheck) {
             if (isReadOnly()) {
@@ -141,7 +141,7 @@ public class AttributeMap extends NamedNodeMapImpl {
      */
     public Node setNamedItemNS(Node arg)
     throws DOMException {
-        
+
         boolean errCheck = ownerNode.ownerDocument().errorChecking;
         if (errCheck) { 
             if (isReadOnly()) {
@@ -472,7 +472,7 @@ public class AttributeMap extends NamedNodeMapImpl {
      * Cloning a NamedNodeMap is a DEEP OPERATION; it always clones
      * all the nodes contained in the map.
      */
-     
+
     public NamedNodeMapImpl cloneMap(NodeImpl ownerNode) {
         AttributeMap newmap =
             new AttributeMap((ElementImpl) ownerNode, null);
@@ -485,12 +485,12 @@ public class AttributeMap extends NamedNodeMapImpl {
      * Override parent's method to set the ownerNode correctly
      */
     protected void cloneContent(NamedNodeMapImpl srcmap) {
-        List srcnodes = srcmap.nodes;
+        List<Node> srcnodes = srcmap.nodes;
         if (srcnodes != null) {
             int size = srcnodes.size();
             if (size != 0) {
                 if (nodes == null) {
-                    nodes = new ArrayList(size);
+                    nodes = new ArrayList<>(size);
                 }
                 else {
                     nodes.clear();

@@ -19,6 +19,7 @@ package org.apache.xerces.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.xni.parser.XMLComponentManager;
@@ -41,9 +42,9 @@ import org.apache.xerces.xni.parser.XMLConfigurationException;
  */
 public class ParserConfigurationSettings
     implements XMLComponentManager {
-    	
-	protected static final String PARSER_SETTINGS = 
-			Constants.XERCES_FEATURE_PREFIX + Constants.PARSER_SETTINGS;	
+
+	protected static final String PARSER_SETTINGS =
+			Constants.XERCES_FEATURE_PREFIX + Constants.PARSER_SETTINGS;
 
     //
     // Data
@@ -51,16 +52,16 @@ public class ParserConfigurationSettings
 
     // data
 
-    /** Recognized properties. */
+    /** Recognized properties as a list of Strings. */
     protected ArrayList fRecognizedProperties;
 
-    /** Properties. */
+    /** Properties as a map of Strings to Objects. */
     protected HashMap fProperties;
 
-    /** Recognized features. */
+    /** Recognized features as a list of strings. */
     protected ArrayList fRecognizedFeatures;
 
-    /** Features. */
+    /** Features as a map of Strings to Boolean values. */
     protected HashMap fFeatures;
 
     /** Parent parser configuration settings. */
@@ -82,12 +83,12 @@ public class ParserConfigurationSettings
     public ParserConfigurationSettings(XMLComponentManager parent) {
 
         // create storage for recognized features and properties
-        fRecognizedFeatures = new ArrayList();
-        fRecognizedProperties = new ArrayList();
+        fRecognizedFeatures = new ArrayList<String>();
+        fRecognizedProperties = new ArrayList<String>();
 
         // create table for features and properties
-        fFeatures = new HashMap();
-        fProperties = new HashMap();
+        fFeatures = new HashMap<String, Boolean>();
+        fProperties = new HashMap<String, Object>();
 
         // save parent
         fParentSettings = parent;

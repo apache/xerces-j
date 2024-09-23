@@ -18,6 +18,7 @@
 package org.apache.xerces.dom;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.w3c.dom.DOMImplementation;
@@ -34,38 +35,38 @@ import org.w3c.dom.DOMImplementationList;
 public class DOMImplementationListImpl implements DOMImplementationList {
 
     // A collection of DOMImplementations
-    private final ArrayList fImplementations;
+    private final List<DOMImplementation> fImplementations;
 
     /**
      * Construct an empty list of DOMImplementations
      */
     public DOMImplementationListImpl() {
-        fImplementations = new ArrayList();
+        fImplementations = new ArrayList<>();
     }
     
     /** 
-     * Construct a list of DOMImplementations from an ArrayList
-     */ 
+     * Construct a list of DOMImplementations from an ArrayList of DOMImplementation
+     */
     public DOMImplementationListImpl(ArrayList params) {
         fImplementations = params;    
     }
 
     /** 
-     * Construct a list of DOMImplementations from a Vector
-     */ 
+     * Construct a list of DOMImplementations from a Vector of DOMImplementation
+     */
     public DOMImplementationListImpl(Vector params) {
-        fImplementations = new ArrayList(params);
+        fImplementations = new ArrayList<>(params);
     }
 
     /**
      * Returns the indexth item in the collection.
      * 
-     * @param index The index of the DOMImplemetation from the list to return.
+     * @param index the index of the DOMImplementation from the list to return
      */
     public DOMImplementation item(int index) {
         final int length = getLength();
         if (index >= 0 && index < length) {
-            return (DOMImplementation) fImplementations.get(index);
+            return fImplementations.get(index);
         }
         return null;
     }

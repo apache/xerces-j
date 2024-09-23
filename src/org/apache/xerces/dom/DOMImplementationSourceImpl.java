@@ -18,6 +18,7 @@
 package org.apache.xerces.dom;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.w3c.dom.DOMImplementation;
@@ -78,7 +79,7 @@ public class DOMImplementationSourceImpl
     public DOMImplementationList getDOMImplementationList(String features) {
         // first check whether the CoreDOMImplementation would do
         DOMImplementation impl = CoreDOMImplementationImpl.getDOMImplementation();
-        final ArrayList implementations = new ArrayList();
+        final ArrayList<DOMImplementation> implementations = new ArrayList<>();
         if (testImpl(impl, features)) {
             implementations.add(impl);
         }

@@ -40,6 +40,7 @@ import org.apache.xerces.impl.xs.SchemaNamespaceSupport;
 import org.apache.xerces.impl.xs.SchemaSymbols;
 import org.apache.xerces.impl.xs.XMLSchemaException;
 import org.apache.xerces.impl.xs.XMLSchemaLoader;
+import org.apache.xerces.impl.xs.XMLSchemaLoader.LocationArray;
 import org.apache.xerces.impl.xs.XSAttributeDecl;
 import org.apache.xerces.impl.xs.XSAttributeGroupDecl;
 import org.apache.xerces.impl.xs.XSComplexTypeDecl;
@@ -289,23 +290,23 @@ public class XSDHandler {
     // this hashtable is keyed on by XSDocumentInfo objects.  Its values
     // are Vectors containing the XSDocumentInfo objects <include>d,
     // <import>ed or <redefine>d by the key XSDocumentInfo.
-    private Hashtable fDependencyMap = new Hashtable();
+    private Hashtable<XSDocumentInfo, Vector<XSDocumentInfo>> fDependencyMap = new Hashtable<>();
     
     // this hashtable is keyed on by a target namespace.  Its values
     // are Vectors containing namespaces imported by schema documents
     // with the key target namespace.
     // if an imprted schema has absent namespace, the value "null" is stored.
-    private Hashtable fImportMap = new Hashtable();
+    private Hashtable<String, Vector> fImportMap = new Hashtable<>();
     // all namespaces that imports other namespaces
     // if the importing schema has absent namespace, empty string is stored.
     // (because the key of a hashtable can't be null.)
-    private Vector fAllTNSs = new Vector();
+    private Vector<String> fAllTNSs = new Vector<String>();
     // stores instance document mappings between namespaces and schema hints
-    private Hashtable fLocationPairs = null;
-    private static final Hashtable EMPTY_TABLE = new Hashtable();
+    private Hashtable<String, LocationArray> fLocationPairs = null;
+    private static final Hashtable<String, LocationArray> EMPTY_TABLE = new Hashtable<>();
     
     // Records which nodes are hidden when the input is a DOMInputSource.
-    Hashtable fHiddenNodes = null;
+    Hashtable<Node, Object> fHiddenNodes = null;
 
     // convenience methods
     private String null2EmptyString(String ns) {
@@ -317,7 +318,7 @@ public class XSDHandler {
     // use Schema Element to lookup the SystemId.
     private String doc2SystemId(Element ele) {
         String documentURI = null;
-        /**
+        /*
          * REVISIT: Casting until DOM Level 3 interfaces are available. -- mrglavas
          */
         if(ele.getOwnerDocument() instanceof org.apache.xerces.impl.xs.opti.SchemaDOM){
@@ -456,7 +457,7 @@ public class XSDHandler {
 
     // Constructors
     public XSDHandler(){
-        fHiddenNodes = new Hashtable();       
+        fHiddenNodes = new Hashtable<>();       
         fSchemaParser = new SchemaDOMParser(new SchemaParsingConfig());
     }
     
@@ -478,9 +479,10 @@ public class XSDHandler {
      * called from the Validator and it will make the
      * resulting grammar available; it returns a reference to this object just
      * in case.  A reset(XMLComponentManager) must be called before this methods is called.
-     * @param is
+     *
+     * @param is an input source
      * @param desc
-     * @param locationPairs
+     * @param locationPairs a Hashtable of String to LocationArray
      * @return the SchemaGrammar
      * @throws IOException
      */
@@ -2049,7 +2051,7 @@ public class XSDHandler {
                                   Element referElement, boolean usePairs) {
         XMLInputSource schemaSource = null;
         try {
-            Hashtable pairs = usePairs ? fLocationPairs : EMPTY_TABLE;
+            Hashtable<String, LocationArray> pairs = usePairs ? fLocationPairs : EMPTY_TABLE;
             schemaSource = XMLSchemaLoader.resolveDocument(desc, pairs, fEntityResolver);
         }
         catch (IOException ex) {
@@ -2705,11 +2707,11 @@ public class XSDHandler {
     }
 
     private void addNewImportedGrammars(SchemaGrammar srcGrammar, SchemaGrammar dstGrammar) {
-        final Vector src = srcGrammar.getImportedGrammars();
+        final Vector<Grammar> src = srcGrammar.getImportedGrammars();
         if (src != null) {
-            Vector dst = dstGrammar.getImportedGrammars();
+            Vector<Grammar> dst = dstGrammar.getImportedGrammars();
             if (dst == null) {
-                dst = new Vector();
+                dst = new Vector<>();
                 dstGrammar.setImportedGrammars(dst);
             }
             final int size = src.size();
@@ -3285,9 +3287,9 @@ public class XSDHandler {
         SchemaGrammar sg = fGrammarBucket.getGrammar(namespace);
         // shouldn't be null
         if (sg != null) {
-            Vector isgs = sg.getImportedGrammars();
+            Vector<Grammar> isgs = sg.getImportedGrammars();
             if (isgs == null) {
-                isgs = new Vector();
+                isgs = new Vector<>();
                 addImportList(sg, isgs, namespaceList);
                 sg.setImportedGrammars(isgs);
             }

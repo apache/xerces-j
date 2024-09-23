@@ -19,6 +19,7 @@ package org.apache.xerces.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.xni.parser.XMLComponentManager;
@@ -39,11 +40,9 @@ import org.apache.xerces.xni.parser.XMLConfigurationException;
  *
  * @version $Id$
  */
-public class ParserConfigurationSettings
-    implements XMLComponentManager {
-    	
-	protected static final String PARSER_SETTINGS = 
-			Constants.XERCES_FEATURE_PREFIX + Constants.PARSER_SETTINGS;	
+public class ParserConfigurationSettings implements XMLComponentManager {
+
+	protected static final String PARSER_SETTINGS = Constants.XERCES_FEATURE_PREFIX + Constants.PARSER_SETTINGS;	
 
     //
     // Data
@@ -52,16 +51,16 @@ public class ParserConfigurationSettings
     // data
 
     /** Recognized properties. */
-    protected ArrayList fRecognizedProperties;
+    protected List<String> fRecognizedProperties;
 
     /** Properties. */
-    protected HashMap fProperties;
+    protected HashMap<String, Object> fProperties;
 
     /** Recognized features. */
-    protected ArrayList fRecognizedFeatures;
+    protected List<String> fRecognizedFeatures;
 
     /** Features. */
-    protected HashMap fFeatures;
+    protected HashMap<String, Boolean> fFeatures;
 
     /** Parent parser configuration settings. */
     protected XMLComponentManager fParentSettings;
@@ -82,12 +81,12 @@ public class ParserConfigurationSettings
     public ParserConfigurationSettings(XMLComponentManager parent) {
 
         // create storage for recognized features and properties
-        fRecognizedFeatures = new ArrayList();
-        fRecognizedProperties = new ArrayList();
+        fRecognizedFeatures = new ArrayList<>();
+        fRecognizedProperties = new ArrayList<>();
 
         // create table for features and properties
-        fFeatures = new HashMap();
-        fProperties = new HashMap();
+        fFeatures = new HashMap<>();
+        fProperties = new HashMap<>();
 
         // save parent
         fParentSettings = parent;
@@ -131,9 +130,7 @@ public class ParserConfigurationSettings
      * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
      *            requested feature is not known.
      */
-    public void setFeature(String featureId, boolean state)
-        throws XMLConfigurationException {
-
+    public void setFeature(String featureId, boolean state) throws XMLConfigurationException {
         // check and store
         checkFeature(featureId);
 
@@ -148,7 +145,6 @@ public class ParserConfigurationSettings
      *                    to be recognized.
      */
     public void addRecognizedProperties(String[] propertyIds) {
-
         // add recognizedProperties
         int propertyIdsCount = propertyIds != null ? propertyIds.length : 0;
         for (int i = 0; i < propertyIdsCount; i++) {
@@ -165,12 +161,9 @@ public class ParserConfigurationSettings
      * 
      * @param propertyId 
      * @param value 
-     * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
-     *            requested feature is not known.
+     * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the requested feature is not known.
      */
-    public void setProperty(String propertyId, Object value)
-        throws XMLConfigurationException {
-
+    public void setProperty(String propertyId, Object value) throws XMLConfigurationException {
         // check and store
         checkProperty(propertyId);
         fProperties.put(propertyId, value);
@@ -193,10 +186,8 @@ public class ParserConfigurationSettings
      *                                   it is <strong>really</strong>
      *                                   a critical error.
      */
-    public boolean getFeature(String featureId)
-        throws XMLConfigurationException {
-
-        Boolean state = (Boolean) fFeatures.get(featureId);
+    public boolean getFeature(String featureId) throws XMLConfigurationException {
+        Boolean state = fFeatures.get(featureId);
 
         if (state == null) {
             checkFeature(featureId);
@@ -218,9 +209,7 @@ public class ParserConfigurationSettings
      *                                   it is <strong>really</strong>
      *                                   a critical error.
      */
-    public Object getProperty(String propertyId)
-        throws XMLConfigurationException {
-
+    public Object getProperty(String propertyId) throws XMLConfigurationException {
         Object propertyValue = fProperties.get(propertyId);
 
         if (propertyValue == null) {
@@ -228,7 +217,6 @@ public class ParserConfigurationSettings
         }
 
         return propertyValue;
-
     } // getProperty(String):Object
 
     //
@@ -244,9 +232,7 @@ public class ParserConfigurationSettings
      * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
      *            requested feature is not known.
      */
-    protected void checkFeature(String featureId)
-        throws XMLConfigurationException {
-
+    protected void checkFeature(String featureId) throws XMLConfigurationException {
         // check feature
         if (!fRecognizedFeatures.contains(featureId)) {
             if (fParentSettings != null) {
@@ -269,8 +255,7 @@ public class ParserConfigurationSettings
      * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
      *            requested feature is not known.
      */
-    protected void checkProperty(String propertyId)
-        throws XMLConfigurationException {
+    protected void checkProperty(String propertyId) throws XMLConfigurationException {
 
         // check property
         if (!fRecognizedProperties.contains(propertyId)) {

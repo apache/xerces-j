@@ -4,11 +4,11 @@
 
 ===========================================================================
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. Please see the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * The ASF licenses this file to you under the Apache License, Version 2.0
+ * (the "License"). You may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -19,9 +19,10 @@
  * limitations under the License.
 ===========================================================================
 
-Before building Xerces-J, users shall need the source package and tools
-package available from the Apache Xerces-J project's distribution
-web page:
+This Apache Xerces-J GitHub repos branch, contains instructions to build Xerces-J.
+
+Before building Xerces-J, users would need the source package and tools package 
+available from the Apache Xerces-J project's distribution web page:
 
     https://xerces.apache.org/xerces2-j/
 
@@ -38,7 +39,7 @@ repos has Java language maximum source/target level requirement of 1.8.
 Before initiating any part of the build, set the JAVA_HOME environment 
 variable to the installation directory of your JDK.
 
-The Ant build too is needed to build everything in Xerces-J, including
+An Ant (https://ant.apache.org/) build tool is needed to build everything in Xerces-J, including
 the documentation. This tool, and the others needed (besides the
 pre-requisite JDK) are contained within the tools package. To
 make building Xerces-J packages easier, Windows batch file and a Linux 
@@ -61,3 +62,7 @@ located in the "build" directory.
 If all results of Xerces-J build are needed, including the documentation,
 run the build batch file or shell script specifying an Ant build "all"
 target instead of "jars".
+
+
+Sincerely,
+Apache Xerces Team

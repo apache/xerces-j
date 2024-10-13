@@ -26,8 +26,7 @@ package org.apache.xerces.impl.xpath;
  *
  * @version $Id$
  */
-public class XPathException 
-    extends Exception {
+public class XPathException extends Exception {
 
     /** Serialization version. */
     static final long serialVersionUID = -948482312169512085L;
@@ -42,8 +41,7 @@ public class XPathException
 
     /** Constructs an exception. */
     public XPathException() {
-        super();
-        fKey = "c-general-xpath";
+        this("c-general-xpath");
     } // <init>()
 
     /** Constructs an exception with the specified key. */

@@ -200,7 +200,7 @@ public class XMLEntityManager
         null,
         null,
         null,
-        new Integer(DEFAULT_BUFFER_SIZE),
+        Integer.valueOf(DEFAULT_BUFFER_SIZE),
         null,
     };
 
@@ -953,7 +953,7 @@ public class XMLEntityManager
             if (fEntityExpansionCount++ > fEntityExpansionLimit) {
                 fErrorReporter.reportError(XMLMessageFormatter.XML_DOMAIN,
                         "EntityExpansionLimitExceeded",
-                        new Object[]{new Integer(fEntityExpansionLimit) },
+                        new Object[]{Integer.valueOf(fEntityExpansionLimit) },
                         XMLErrorReporter.SEVERITY_FATAL_ERROR );
                 // is there anything better to do than reset the counter?
                 // at least one can envision debugging applications where this might

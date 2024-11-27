@@ -63,6 +63,9 @@ If all results of Xerces-J build are needed, including the documentation,
 run the build batch file or shell script specifying an Ant build "all"
 target instead of "jars".
 
+We use JProfiler (https://www.ej-technologies.com/jprofiler) tool for Java software run-time 
+analysis and optimization of Xerces-J software. 
+
 
 Sincerely,
 Apache Xerces Team

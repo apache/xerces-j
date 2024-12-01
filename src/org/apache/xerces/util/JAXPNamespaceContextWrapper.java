@@ -38,8 +38,8 @@ public final class JAXPNamespaceContextWrapper implements NamespaceContext {
     
     private javax.xml.namespace.NamespaceContext fNamespaceContext;
     private SymbolTable fSymbolTable;
-    private List fPrefixes;
-    private final Vector fAllPrefixes = new Vector();
+    private List<String> fPrefixes;
+    private final Vector<String> fAllPrefixes = new Vector<>();
     
     private int[] fContext = new int[8];
     private int fCurrentContext;
@@ -64,11 +64,11 @@ public final class JAXPNamespaceContextWrapper implements NamespaceContext {
         return fSymbolTable;
     }
     
-    public void setDeclaredPrefixes(List prefixes) {
+    public void setDeclaredPrefixes(List<String> prefixes) {
         fPrefixes = prefixes;
     }
     
-    public List getDeclaredPrefixes() {
+    public List<String> getDeclaredPrefixes() {
         return fPrefixes;
     }
     
@@ -100,10 +100,10 @@ public final class JAXPNamespaceContextWrapper implements NamespaceContext {
         return null;
     }
     
-    public Enumeration getAllPrefixes() {
+    public Enumeration<String> getAllPrefixes() {
         // There may be duplicate prefixes in the list so we 
         // first transfer them to a set to ensure uniqueness.
-        return Collections.enumeration(new TreeSet(fAllPrefixes));
+        return Collections.enumeration(new TreeSet<String>(fAllPrefixes));
     }
 
     public void pushContext() {

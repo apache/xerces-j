@@ -1,0 +1,1627 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Wed Apr 07 13:11:04 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Infoset Mapping</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='configuration-settings.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='namespaces-algorithms.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Namespaces Algorithms' accesskey='p' href='namespaces-algorithms.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Configuration Settings' accesskey='n' href='configuration-settings.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='InfosetMapping'></a>
+<h1 id='InfosetMapping-h1' class='adiv1'>Appendix C: Infoset Mapping</h1>
+<dl>
+<dt><i>Editor</i>:
+</dt><dd>Philippe Le H&#xe9;garet, W3C</dd>
+</dl>
+<div class='noprint'>
+<h2 id='table-of-contents'>Table of contents</h2>
+<ul class='toc'>
+<li class='tocline3'><a class='tocxref' href='#DocumentMapping'>C.1 Document Node Mapping</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#Infoset2Document'>C.1.1 Infoset to Document Node</a>
+<li class='tocline4'><a class='tocxref' href='#Document2Infoset'>C.1.2 Document Node to Infoset</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#ElementMapping'>C.2 Element Node Mapping</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#Infoset2Element'>C.2.1 Infoset to Element Node</a>
+<li class='tocline4'><a class='tocxref' href='#Element2Infoset'>C.2.2 Element Node to Infoset</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#AttrMapping'>C.3 Attr Node Mapping</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#Infoset2Attr'>C.3.1 Infoset to Attr Node</a>
+<li class='tocline4'><a class='tocxref' href='#Attr2Infoset'>C.3.2 Attr Node to Infoset</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#ProcessingInstructionMapping'>C.4 ProcessingInstruction Node Mapping</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#Infoset2ProcessingInstruction'>C.4.1 Infoset to ProcessingInstruction Node</a>
+<li class='tocline4'><a class='tocxref' href='#ProcessingInstruction2Infoset'>C.4.2 ProcessingInstruction Node to Infoset</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#EntityReferenceMapping'>C.5 EntityReference Node Mapping</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#Infoset2EntityReference'>C.5.1 Infoset to EntityReference Node</a>
+<li class='tocline4'><a class='tocxref' href='#EntityReference2Infoset'>C.5.2 EntityReference Node to Infoset</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#TextMapping'>C.6 Text and CDATASection Nodes Mapping</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#Infoset2Text'>C.6.1 Infoset to Text Node</a>
+<li class='tocline4'><a class='tocxref' href='#Text2Infoset'>C.6.2 Text and CDATASection Nodes to Infoset</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#CommentMapping'>C.7 Comment Node Mapping</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#Infoset2Comment'>C.7.1 Infoset to Comment Node</a>
+<li class='tocline4'><a class='tocxref' href='#Comment2Infoset'>C.7.2 Comment Node to Infoset</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#DocumentTypeMapping'>C.8 DocumentType Node Mapping</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#Infoset2DocumentType'>C.8.1 Infoset to DocumentType Node</a>
+<li class='tocline4'><a class='tocxref' href='#DocumentType2Infoset'>C.8.2 DocumentType Node to Infoset</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#EntityMapping'>C.9 Entity Node Mapping</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#Infoset2Entity'>C.9.1 Infoset to Entity Node</a>
+<li class='tocline4'><a class='tocxref' href='#Entity2Infoset'>C.9.2 Entity Node to Infoset</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#NotationMapping'>C.10 Notation Node Mapping</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#Infoset2Notation'>C.10.1 Infoset to Notation Node</a>
+<li class='tocline4'><a class='tocxref' href='#Notation2Infoset'>C.10.2 Notation Node to Infoset</a>
+</ul></li>
+</ul>
+</div>
+<p class='first'>
+    This appendix contains the mappings between the XML Information Set
+    [<cite><a class='noxref normative' href='references.html#InfoSet'>XML Information Set</a></cite>] model and the Document Object Model.
+    Starting from a <a href='core.html#i-Document'><code>Document</code></a> node, each <i>information
+    item</i> is mapped to its respective <a href='core.html#ID-1950641247'><code>Node</code></a>, and each
+    <a class='noxref' href='core.html#ID-1950641247'><code>Node</code></a> is mapped to its respective <i>information
+    item</i>. As used in the Infoset specification, the Infoset
+    property names are shown in square brackets, <b>[thus]</b>.
+  </p><p>
+    Unless specified, the Infoset to DOM node mapping makes no
+    distinction between unknown and no value since both will be exposed
+    as <code>null</code> (or <code>false</code> if the DOM attribute is
+    of type <code>boolean</code>).
+  </p>
+<div class='div2'><a name='DocumentMapping'></a>
+<h2 id='DocumentMapping-h2' class='adiv2'>C.1 Document Node Mapping</h2>
+
+<div class='div3'><a name='Infoset2Document'></a>
+<h3 id='Infoset2Document-h3' class='adiv3'>C.1.1 Infoset to Document Node</h3>
+<p>
+	An <i>document information item</i> maps to a
+	<a href='core.html#i-Document'><code>Document</code></a> node. The attributes of the corresponding
+	<a class='noxref' href='core.html#i-Document'><code>Document</code></a> node are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of an       Infoset information item to a Node' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Attribute</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>"#document"</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-111237558'><code>Node.nodeType</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node-DOCUMENT_NODE'><code>Node.DOCUMENT_NODE</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+A <a href='core.html#ID-536297177'><code>NodeList</code></a> containing the information items
+	      in the <b>[children]</b> property.
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-169727388'><code>Node.firstChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The first node contained in <a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-61AD09FB'><code>Node.lastChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The last node contained in <a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-640FB3C8'><code>Node.previousSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6AC54C2F'><code>Node.nextSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-84CF096'><code>Node.attributes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#node-ownerDoc'><code>Node.ownerDocument</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#Document3-documentURI'><code>Document.documentURI</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-textContent'><code>Node.textContent</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-B63ED1A31'><code>Document.doctype</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The document type information item</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1B793EBA'><code>Document.implementation</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <a href='core.html#ID-102161490'><code>DOMImplementation</code></a> object used to create
+	    this node</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-87CD092'><code>Document.documentElement</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[document element]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-inputEncoding'><code>Document.inputEncoding</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[character encoding scheme]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-encoding'><code>Document.xmlEncoding</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-standalone'><code>Document.xmlStandalone</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[standalone]</b> property, or <code>false</code>
+	      if the latter has no value.</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-version'><code>Document.xmlVersion</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[version]</b> property, or <code>"1.0"</code> if
+	      the latter has no value.</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-strictErrorChecking'><code>Document.strictErrorChecking</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-documentURI'><code>Document.documentURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[base URI]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-domConfig'><code>Document.domConfig</code></a></td><td valign='top' rowspan='1' colspan='1'>
+A <a href='core.html#DOMConfiguration'><code>DOMConfiguration</code></a> object whose parameters
+	      are set to their default values</td></tr>
+</table>
+<p>
+	The <b>[notations]</b>, <b>[unparsed entities]</b> properties
+	are being exposed in the <a href='core.html#ID-412266927'><code>DocumentType</code></a> node.
+      <p><b>Note:</b> 
+	  The <b>[all declarations processed]</b> property is not
+	  exposed through the <a href='core.html#i-Document'><code>Document</code></a> node.
+	</p>
+</div> <!-- div3 Infoset2Document -->
+<div class='div3'><a name='Document2Infoset'></a>
+<h3 id='Document2Infoset-h3' class='adiv3'>C.1.2 Document Node to Infoset</h3>
+<p>
+	A <a href='core.html#i-Document'><code>Document</code></a> node maps to an <i>document
+	information item</i>. <a class='noxref' href='core.html#i-Document'><code>Document</code></a> nodes with no
+	namespace URI (<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a> equals to
+	<code>null</code>) cannot be represented using the Infoset. The
+	properties of the corresponding <i>document information
+	item</i> are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of a       Node to the Infoset' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Property</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[children]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[document element]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-87CD092'><code>Document.documentElement</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[notations]</b></td><td valign='top' rowspan='1' colspan='1'>
+<code>Document.doctype.notations</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[unparsed entities]</b></td><td valign='top' rowspan='1' colspan='1'>
+The information items from
+	      <code>Document.doctype.entities</code>, whose
+	      <a href='core.html#ID-1451460987'><code>Node.childNodes</code></a> is an empty list</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[base URI]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-documentURI'><code>Document.documentURI</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[character encoding scheme]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-inputEncoding'><code>Document.inputEncoding</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[standalone]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-standalone'><code>Document.xmlStandalone</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[version]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Document3-version'><code>Document.xmlVersion</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[all declarations processed]</b></td><td valign='top' rowspan='1' colspan='1'>
+The value is implementation dependent</td></tr>
+</table>
+</div> <!-- div3 Document2Infoset --></div> <!-- div2 DocumentMapping -->
+<div class='div2'><a name='ElementMapping'></a>
+<h2 id='ElementMapping-h2' class='adiv2'>C.2 Element Node Mapping</h2>
+
+<div class='div3'><a name='Infoset2Element'></a>
+<h3 id='Infoset2Element-h3' class='adiv3'>C.2.1 Infoset to Element Node</h3>
+<p>
+	An <i>element information item</i> maps to a
+	<a href='core.html#ID-745549614'><code>Element</code></a> node. The attributes of the corresponding
+	<a class='noxref' href='core.html#ID-745549614'><code>Element</code></a> node are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of an       Infoset information item to a Node' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Attribute</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-104682815'><code>Element.tagName</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-111237558'><code>Node.nodeType</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node-ELEMENT_NODE'><code>Node.ELEMENT_NODE</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[parent]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+A <a href='core.html#ID-536297177'><code>NodeList</code></a> containing the information items
+	      in the <b>[children]</b> property
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-169727388'><code>Node.firstChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The first node contained in <a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-61AD09FB'><code>Node.lastChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The last node contained in <a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-640FB3C8'><code>Node.previousSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The information item preceding the current one on the
+	      <b>[children]</b> property contained in the <b>[parent]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6AC54C2F'><code>Node.nextSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The information item following the current one on the
+	      <b>[children]</b> property contained in the <b>[parent]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-84CF096'><code>Node.attributes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The information items contained in
+	      the <b>[attributes]</b> and <b>[namespace attributes]</b> properties</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#node-ownerDoc'><code>Node.ownerDocument</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The document information item</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[namespace name]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[prefix]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[local name]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[base URI]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-textContent'><code>Node.textContent</code></a></td><td valign='top' rowspan='1' colspan='1'>
+Concatenation of the <a href='core.html#Node3-textContent'><code>Node.textContent</code></a>
+	      attribute value of every child node, excluding
+	      <code>COMMENT_NODE</code> and
+	      <code>PROCESSING_INSTRUCTION_NODE</code> nodes. This is
+	      the empty string if the node has no children.</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-104682815'><code>Element.tagName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+If the <b>[prefix]</b> property has no value, this contains the
+	    <b>[local name]</b> property. Otherwise, this contains the
+	      concatenation of the <b>[prefix]</b> property, the colon ':'
+	      character, and the <b>[local name]</b> property.</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Element-schemaTypeInfo'><code>Element.schemaTypeInfo</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      A <a href='core.html#TypeInfo'><code>TypeInfo</code></a> object whose
+	      <a href='core.html#TypeInfo-typeNamespace'><code>TypeInfo.typeNamespace</code></a> and
+	      <a href='core.html#TypeInfo-typeName'><code>TypeInfo.typeName</code></a> are inferred from the
+	      schema in use if available.
+	    </td></tr>
+</table>
+<p><b>Note:</b> 
+	  The <b>[in-scope namespaces]</b> property is not exposed through the
+	  <a href='core.html#ID-745549614'><code>Element</code></a> node.
+	</p>
+</div> <!-- div3 Infoset2Element -->
+<div class='div3'><a name='Element2Infoset'></a>
+<h3 id='Element2Infoset-h3' class='adiv3'>C.2.2 Element Node to Infoset</h3>
+<p>
+	An <a href='core.html#ID-745549614'><code>Element</code></a> node maps to an <i>element
+	information item</i>. Because the Infoset only represents
+	unexpanded entity references, non-empty
+	<a href='core.html#ID-11C98490'><code>EntityReference</code></a> nodes contained in
+	<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a> need to be replaced by their
+	content. DOM applications could use the
+	<a href='core.html#Document3-normalizeDocument'><code>Document.normalizeDocument()</code></a> method for that effect
+	with the "<a href='core.html#parameter-entities'>entities</a>"
+	parameter set to <code>false</code>. The properties of the
+	corresponding <i>element information item</i> are
+	constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of a       Node to the Infoset' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Property</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[namespace name]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[local name]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[prefix]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[children]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a>, whose
+	      expanded entity references (<a href='core.html#ID-11C98490'><code>EntityReference</code></a>
+	      nodes with children) have been replaced with
+	    their content.</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[attributes]</b></td><td valign='top' rowspan='1' colspan='1'>
+The nodes contained in <a href='core.html#ID-84CF096'><code>Node.attributes</code></a>,
+	      whose <a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a> value is different
+	      from <code>"http://www.w3.org/2000/xmlns/"</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[namespace attributes]</b></td><td valign='top' rowspan='1' colspan='1'>
+The nodes contained in <a href='core.html#ID-84CF096'><code>Node.attributes</code></a>,
+	      whose <a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a> value is
+	      <code>"http://www.w3.org/2000/xmlns/"</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[in-scope namespaces]</b></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The namespace information items computed using the
+	      <b>[namespace attributes]</b> properties of this node and
+	      its ancestors. If the [<cite><a class='noxref informative' href='references.html#DOMXPath'>DOM Level 3 XPath</a></cite>] module is supported, the namespace
+	      information items can also be computed from the
+	      <code>XPathNamespace</code> nodes.
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[base URI]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[parent]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td></tr>
+</table>
+</div> <!-- div3 Element2Infoset --></div> <!-- div2 ElementMapping -->
+<div class='div2'><a name='AttrMapping'></a>
+<h2 id='AttrMapping-h2' class='adiv2'>C.3 Attr Node Mapping</h2>
+
+<div class='div3'><a name='Infoset2Attr'></a>
+<h3 id='Infoset2Attr-h3' class='adiv3'>C.3.1 Infoset to Attr Node</h3>
+<p>
+	An <i>attribute information item</i> map to
+	a <a href='core.html#ID-637646024'><code>Attr</code></a> node. The attributes of the corresponding
+	<a class='noxref' href='core.html#ID-637646024'><code>Attr</code></a> node are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of an       Infoset information item to a Node' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Attribute/Method</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-1112119403'><code>Attr.name</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-221662474'><code>Attr.value</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-111237558'><code>Node.nodeType</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node-ATTRIBUTE_NODE'><code>Node.ATTRIBUTE_NODE</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+A <a href='core.html#ID-536297177'><code>NodeList</code></a> containing one <a href='core.html#ID-1312295772'><code>Text</code></a>
+	    node whose text content is the same as
+	      <a href='core.html#ID-221662474'><code>Attr.value</code></a>.
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-169727388'><code>Node.firstChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <a href='core.html#ID-1312295772'><code>Text</code></a> node contained in <a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-61AD09FB'><code>Node.lastChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <a href='core.html#ID-1312295772'><code>Text</code></a> node contained in <a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-640FB3C8'><code>Node.previousSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6AC54C2F'><code>Node.nextSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-84CF096'><code>Node.attributes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#node-ownerDoc'><code>Node.ownerDocument</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The document information item</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[namespace name]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[prefix]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[local name]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-textContent'><code>Node.textContent</code></a></td><td valign='top' rowspan='1' colspan='1'>
+the value of <a href='core.html#Node3-textContent'><code>Node.textContent</code></a> of the
+	      <a href='core.html#ID-1312295772'><code>Text</code></a> child.
+	      same as <a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a> (since this
+	      attribute node only contains one <a class='noxref' href='core.html#ID-1312295772'><code>Text</code></a> node)</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1112119403'><code>Attr.name</code></a></td><td valign='top' rowspan='1' colspan='1'>
+If the <b>[prefix]</b> property has no value, this contains the
+	    <b>[local name]</b> property. Otherwise, this contains the
+	      concatenation of the <b>[prefix]</b> property, the colon ':'
+	      character, and the <b>[local name]</b> property.</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-862529273'><code>Attr.specified</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[specified]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-221662474'><code>Attr.value</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[normalized value]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Attr-ownerElement'><code>Attr.ownerElement</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[owner element]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Attr-schemaTypeInfo'><code>Attr.schemaTypeInfo</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      A <a href='core.html#TypeInfo'><code>TypeInfo</code></a> object whose
+	      <a href='core.html#TypeInfo-typeNamespace'><code>TypeInfo.typeNamespace</code></a> is
+	      <code>"http://www.w3.org/TR/REC-xml"</code> and
+	      <a href='core.html#TypeInfo-typeName'><code>TypeInfo.typeName</code></a> is the <b>[attribute
+	      type]</b> property
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Attr-isId'><code>Attr.isId</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      if the <b>[attribute type]</b> property is ID, this method return
+	      <code>true</code>
+	    </td></tr>
+</table>
+</div> <!-- div3 Infoset2Attr -->
+<div class='div3'><a name='Attr2Infoset'></a>
+<h3 id='Attr2Infoset-h3' class='adiv3'>C.3.2 Attr Node to Infoset</h3>
+<p>
+	An <a href='core.html#ID-637646024'><code>Attr</code></a> node maps to an <i>attribute information
+	item</i>. <a class='noxref' href='core.html#ID-637646024'><code>Attr</code></a> nodes with no namespace URI
+	(<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a> equals to <code>null</code>)
+	cannot be represented using the Infoset. The properties of the
+	corresponding <i>attribute information item</i> are
+	constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of a       Node to the Infoset' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Property</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[namespace name]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[local name]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[prefix]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[normalized value]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-221662474'><code>Attr.value</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[specified]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-862529273'><code>Attr.specified</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[attribute type]</b></td><td valign='top' rowspan='1' colspan='1'>
+
+	      Using the <a href='core.html#TypeInfo'><code>TypeInfo</code></a> object referenced from
+	      <a href='core.html#Attr-schemaTypeInfo'><code>Attr.schemaTypeInfo</code></a>, the value of
+	      <a href='core.html#TypeInfo-typeName'><code>TypeInfo.typeName</code></a> if
+	      <a href='core.html#TypeInfo-typeNamespace'><code>TypeInfo.typeNamespace</code></a> is
+	      <code>"http://www.w3.org/TR/REC-xml"</code>.
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[references]</b></td><td valign='top' rowspan='1' colspan='1'>
+
+	      if the computed <b>[attribute type]</b> property is IDREF,
+	      IDREFS, ENTITY, ENTITIES, or NOTATION, the value of this
+	      property is an ordered list of the element, unparsed
+	      entity, or notation information items referred to in the
+	      attribute value, in the order that they appear there. The
+	      ordered list is computed using
+	      <code>Node.ownerDocument.getElementById</code>,
+	      <code>Node.ownerDocument.doctype.entities</code>, and
+	      <code>Node.ownerDocument.doctype.notations</code>.
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[owner element]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Attr-ownerElement'><code>Attr.ownerElement</code></a></td></tr>
+</table>
+</div> <!-- div3 Attr2Infoset --></div> <!-- div2 AttrMapping -->
+<div class='div2'><a name='ProcessingInstructionMapping'></a>
+<h2 id='ProcessingInstructionMapping-h2' class='adiv2'>C.4 ProcessingInstruction Node Mapping</h2>
+
+<div class='div3'><a name='Infoset2ProcessingInstruction'></a>
+<h3 id='Infoset2ProcessingInstruction-h3' class='adiv3'>C.4.1 Infoset to ProcessingInstruction Node</h3>
+<p>
+	A <i>processing instruction information item</i> map to a
+	<a href='core.html#ID-1004215813'><code>ProcessingInstruction</code></a> node. The attributes of the
+	corresponding <a class='noxref' href='core.html#ID-1004215813'><code>ProcessingInstruction</code></a> node are
+	constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of an       Infoset information item to a Node' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Attribute</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-1478689192'><code>ProcessingInstruction.target</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-837822393'><code>ProcessingInstruction.data</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-111237558'><code>Node.nodeType</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node-PROCESSING_INSTRUCTION_NODE'><code>Node.PROCESSING_INSTRUCTION_NODE</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[parent]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+empty <a href='core.html#ID-536297177'><code>NodeList</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-169727388'><code>Node.firstChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-61AD09FB'><code>Node.lastChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-640FB3C8'><code>Node.previousSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6AC54C2F'><code>Node.nextSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-84CF096'><code>Node.attributes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#node-ownerDoc'><code>Node.ownerDocument</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The document information item</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[base URI]</b> property of the parent element if
+	      any. The <b>[base URI]</b> property of the processing instruction
+	    information item is not exposed through the
+	      <a href='core.html#ID-1004215813'><code>ProcessingInstruction</code></a> node.</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-textContent'><code>Node.textContent</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1478689192'><code>ProcessingInstruction.target</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[target]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-837822393'><code>ProcessingInstruction.data</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[content]</b> property</td></tr>
+</table>
+</div> <!-- div3 Infoset2ProcessingInstruction -->
+<div class='div3'><a name='ProcessingInstruction2Infoset'></a>
+<h3 id='ProcessingInstruction2Infoset-h3' class='adiv3'>C.4.2 ProcessingInstruction Node to Infoset</h3>
+<p>
+	A <a href='core.html#ID-1004215813'><code>ProcessingInstruction</code></a> node maps to an
+	<i>processing instruction information item</i>. The
+	properties of the corresponding <i>processing instruction
+	information item</i> are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of a       Node to the Infoset' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Property</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[target]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1478689192'><code>ProcessingInstruction.target</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[content]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-837822393'><code>ProcessingInstruction.data</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[base URI]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a> (which is equivalent to the
+	      base URI of its parent element if any)</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[notation]</b></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The <a href='core.html#ID-5431D1B9'><code>Notation</code></a> node named by the target and if
+	      available from <code>Node.ownerDocument.doctype.notations</code>
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[parent]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td></tr>
+</table>
+</div> <!-- div3 ProcessingInstruction2Infoset --></div> <!-- div2 ProcessingInstructionMapping -->
+<div class='div2'><a name='EntityReferenceMapping'></a>
+<h2 id='EntityReferenceMapping-h2' class='adiv2'>C.5 EntityReference Node Mapping</h2>
+
+<div class='div3'><a name='Infoset2EntityReference'></a>
+<h3 id='Infoset2EntityReference-h3' class='adiv3'>C.5.1 Infoset to EntityReference Node</h3>
+<p>
+	An <i>unexpanded entity reference information item</i>
+	maps to a <a href='core.html#ID-11C98490'><code>EntityReference</code></a> node. The attributes of
+	the corresponding <a class='noxref' href='core.html#ID-11C98490'><code>EntityReference</code></a> node are
+	constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of an       Infoset information item to a Node' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Attribute</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[name]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-111237558'><code>Node.nodeType</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node-ENTITY_REFERENCE_NODE'><code>Node.ENTITY_REFERENCE_NODE</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td><td valign='top' rowspan='1' colspan='1'>
+the <b>[parent]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+Empty <a href='core.html#ID-536297177'><code>NodeList</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-169727388'><code>Node.firstChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-61AD09FB'><code>Node.lastChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-640FB3C8'><code>Node.previousSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6AC54C2F'><code>Node.nextSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-84CF096'><code>Node.attributes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#node-ownerDoc'><code>Node.ownerDocument</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The document information item</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[declaration base URI]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-textContent'><code>Node.textContent</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code> (the node has no children)</td></tr>
+</table>
+<p><b>Note:</b> 
+	  The <b>[system identifier]</b> and <b>[public identifier]</b>
+	  properties are not exposed through the
+	  <a href='core.html#ID-11C98490'><code>EntityReference</code></a> node, but through the
+	  <a href='core.html#ID-527DCFF2'><code>Entity</code></a> node reference from this
+	  <a class='noxref' href='core.html#ID-11C98490'><code>EntityReference</code></a> node, if any.
+	</p>
+</div> <!-- div3 Infoset2EntityReference -->
+<div class='div3'><a name='EntityReference2Infoset'></a>
+<h3 id='EntityReference2Infoset-h3' class='adiv3'>C.5.2 EntityReference Node to Infoset</h3>
+<p>
+	An <a href='core.html#ID-11C98490'><code>EntityReference</code></a> node maps to an <i>unexpanded
+	entity reference information
+	item</i>. <a class='noxref' href='core.html#ID-11C98490'><code>EntityReference</code></a> nodes with children
+	(<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a> contains a non-empty list) cannot
+	be represented using the Infoset. The properties of the
+	corresponding <i>unexpanded entity reference information
+	item</i> are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of a       Node to the Infoset' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Property</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[name]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[system identifier]</b></td><td valign='top' rowspan='1' colspan='1'>
+The <a href='core.html#ID-D7C29F3E'><code>Entity.systemId</code></a> value of the
+	      <a href='core.html#ID-527DCFF2'><code>Entity</code></a> node available from
+	      <code>Node.ownerDocument.doctype.entities</code> if available</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[public identifier]</b></td><td valign='top' rowspan='1' colspan='1'>
+The <a href='core.html#ID-D7303025'><code>Entity.publicId</code></a> value of the
+	      <a href='core.html#ID-527DCFF2'><code>Entity</code></a> node available from
+	      <code>Node.ownerDocument.doctype.entities</code> if available</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[declaration base URI]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[parent]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td></tr>
+</table>
+</div> <!-- div3 EntityReference2Infoset --></div> <!-- div2 EntityReferenceMapping -->
+<div class='div2'><a name='TextMapping'></a>
+<h2 id='TextMapping-h2' class='adiv2'>C.6 Text and CDATASection Nodes Mapping</h2>
+<p>
+      Since the [<cite><a class='noxref normative' href='references.html#InfoSet'>XML Information Set</a></cite>] doesn't represent the boundaries
+      of CDATA marked sections, <a href='core.html#ID-667469212'><code>CDATASection</code></a> nodes cannot
+      occur from an infoset mapping.
+    
+<div class='div3'><a name='Infoset2Text'></a>
+<h3 id='Infoset2Text-h3' class='adiv3'>C.6.1 Infoset to Text Node</h3>
+<p>
+	Consecutive <i>character information items</i> map to a
+	<a href='core.html#ID-1312295772'><code>Text</code></a> node. The attributes of the corresponding
+	<a class='noxref' href='core.html#ID-1312295772'><code>Text</code></a> node are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of an       Infoset information item to a Node' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Attribute/Method</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>"#text"</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-72AB8359'><code>CharacterData.data</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-111237558'><code>Node.nodeType</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node-TEXT_NODE'><code>Node.TEXT_NODE</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[parent]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+empty <a href='core.html#ID-536297177'><code>NodeList</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-169727388'><code>Node.firstChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-61AD09FB'><code>Node.lastChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-640FB3C8'><code>Node.previousSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6AC54C2F'><code>Node.nextSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-84CF096'><code>Node.attributes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#node-ownerDoc'><code>Node.ownerDocument</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The document information item</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+null</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-textContent'><code>Node.textContent</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-72AB8359'><code>CharacterData.data</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      A <a href='core.html#DOMString'><code>DOMString</code></a> including all <b>[character
+	      code]</b> contained in the <i>character information
+	      items</i>
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-7D61178C'><code>CharacterData.length</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The number of 16-bit units needed to encode all ISO 10646
+	      character code contained in the <i>character
+	      information items</i> using the UTF-16 encoding.
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Text3-isElementContentWhitespace'><code>Text.isElementContentWhitespace</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[element content whitespace]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Text3-wholeText'><code>Text.wholeText</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-72AB8359'><code>CharacterData.data</code></a></td></tr>
+</table>
+<p><b>Note:</b> 
+	  By construction, the values of the <b>[parent]</b> and <b>[element
+	  content whitespace]</b> properties are necessarily the sames for
+	  all consecutive <i>character information items</i>.
+	</p>
+</div> <!-- div3 Infoset2Text -->
+<div class='div3'><a name='Text2Infoset'></a>
+<h3 id='Text2Infoset-h3' class='adiv3'>C.6.2 Text and CDATASection Nodes to Infoset</h3>
+<p>
+	The text content of a <a href='core.html#ID-1312295772'><code>Text</code></a> or a
+	<a href='core.html#ID-667469212'><code>CDATASection</code></a> node maps to a sequence of
+	<i>character information items</i>. The number of items is
+	less or equal to <a href='core.html#ID-7D61178C'><code>CharacterData.length</code></a>. Text nodes
+	contained in <a href='core.html#ID-637646024'><code>Attr</code></a> nodes are mapped to the Infoset
+	using the <a href='core.html#ID-221662474'><code>Attr.value</code></a> attribute. Text nodes
+	contained in <a href='core.html#i-Document'><code>Document</code></a> nodes cannot be represented
+	using the Infoset. The properties of the corresponding
+	<i>character information items</i> are constructed as
+	follows:
+      </p><table border='1' summary='The table contains the mapping of a       Node to the Infoset' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Property</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[character code]</b></td><td valign='top' rowspan='1' colspan='1'>
+The ISO 10646 character code produced using one or two
+	      <i>16-bit units</i> from <a href='core.html#ID-72AB8359'><code>CharacterData.data</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[element content whitespace]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Text3-isElementContentWhitespace'><code>Text.isElementContentWhitespace</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[parent]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td></tr>
+</table>
+</div> <!-- div3 Text2Infoset --></div> <!-- div2 TextMapping -->
+<div class='div2'><a name='CommentMapping'></a>
+<h2 id='CommentMapping-h2' class='adiv2'>C.7 Comment Node Mapping</h2>
+
+<div class='div3'><a name='Infoset2Comment'></a>
+<h3 id='Infoset2Comment-h3' class='adiv3'>C.7.1 Infoset to Comment Node</h3>
+<p>
+	A <i>comment information item</i> maps to a
+	<a href='core.html#ID-1728279322'><code>Comment</code></a> node. The attributes of the corresponding
+	<a class='noxref' href='core.html#ID-1728279322'><code>Comment</code></a> node are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of an       Infoset information item to a Node' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Attribute</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>"#comment"</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-72AB8359'><code>CharacterData.data</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-111237558'><code>Node.nodeType</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node-COMMENT_NODE'><code>Node.COMMENT_NODE</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[parent]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+empty <a href='core.html#ID-536297177'><code>NodeList</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-169727388'><code>Node.firstChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-61AD09FB'><code>Node.lastChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-640FB3C8'><code>Node.previousSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6AC54C2F'><code>Node.nextSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-84CF096'><code>Node.attributes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#node-ownerDoc'><code>Node.ownerDocument</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The document information item</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-textContent'><code>Node.textContent</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-72AB8359'><code>CharacterData.data</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The <b>[content]</b> property encoded using the UTF-16 encoding.
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-7D61178C'><code>CharacterData.length</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The number of 16-bit units needed to encode all ISO character code
+	      contained in the <b>[content]</b> property using the UTF-16 encoding.
+	    </td></tr>
+</table>
+</div> <!-- div3 Infoset2Comment -->
+<div class='div3'><a name='Comment2Infoset'></a>
+<h3 id='Comment2Infoset-h3' class='adiv3'>C.7.2 Comment Node to Infoset</h3>
+<p>
+	A <a href='core.html#ID-1728279322'><code>Comment</code></a> maps to a <i>comment information
+	item</i>. The properties of the corresponding <i>comment
+	information item</i> are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of a       Node to the Infoset' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Property</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[content]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-72AB8359'><code>CharacterData.data</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[parent]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td></tr>
+</table>
+</div> <!-- div3 Comment2Infoset --></div> <!-- div2 CommentMapping -->
+<div class='div2'><a name='DocumentTypeMapping'></a>
+<h2 id='DocumentTypeMapping-h2' class='adiv2'>C.8 DocumentType Node Mapping</h2>
+
+<div class='div3'><a name='Infoset2DocumentType'></a>
+<h3 id='Infoset2DocumentType-h3' class='adiv3'>C.8.1 Infoset to DocumentType Node</h3>
+<p>
+	A <i>document type declaration information item</i> maps
+	to a <a href='core.html#ID-412266927'><code>DocumentType</code></a> node. The attributes of the
+	corresponding <a class='noxref' href='core.html#ID-412266927'><code>DocumentType</code></a> node are constructed as
+	follows:
+      </p><table border='1' summary='The table contains the mapping of an       Infoset information item to a Node' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Attribute</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+same as <a href='core.html#ID-1844763134'><code>DocumentType.name</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-111237558'><code>Node.nodeType</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node-DOCUMENT_TYPE_NODE'><code>Node.DOCUMENT_TYPE_NODE</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[parent]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+empty <a href='core.html#ID-536297177'><code>NodeList</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-169727388'><code>Node.firstChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-61AD09FB'><code>Node.lastChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-640FB3C8'><code>Node.previousSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6AC54C2F'><code>Node.nextSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-84CF096'><code>Node.attributes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#node-ownerDoc'><code>Node.ownerDocument</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The document information item</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-textContent'><code>Node.textContent</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1844763134'><code>DocumentType.name</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The name of the document element.
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1788794630'><code>DocumentType.entities</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The <b>[unparsed entities]</b> property available from the
+	      document information item.
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-D46829EF'><code>DocumentType.notations</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The <b>[notations]</b> property available from the document
+	      information item.
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-Core-DocType-publicId'><code>DocumentType.publicId</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The <b>[public identifier]</b> property
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-Core-DocType-systemId'><code>DocumentType.systemId</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The <b>[system identifier]</b> property
+	    </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-Core-DocType-internalSubset'><code>DocumentType.internalSubset</code></a></td><td valign='top' rowspan='1' colspan='1'>
+
+	      The value is implementation dependent
+	    </td></tr>
+</table>
+<p><b>Note:</b> 
+	  The <b>[children]</b> property is not exposed through the
+	  <a href='core.html#ID-412266927'><code>DocumentType</code></a> node.
+	</p>
+</div> <!-- div3 Infoset2DocumentType -->
+<div class='div3'><a name='DocumentType2Infoset'></a>
+<h3 id='DocumentType2Infoset-h3' class='adiv3'>C.8.2 DocumentType Node to Infoset</h3>
+<p>
+	A <a href='core.html#ID-412266927'><code>DocumentType</code></a> maps to a <i>document type
+	declaration information item</i>. The properties of the
+	corresponding <i>document type declaration information
+	item</i> are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of a       Node to the Infoset' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Property</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[system identifier]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-Core-DocType-systemId'><code>DocumentType.systemId</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[public identifier]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-Core-DocType-publicId'><code>DocumentType.publicId</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[children]</b></td><td valign='top' rowspan='1' colspan='1'>
+The value of this property is implementation dependent</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[parent]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td></tr>
+</table>
+</div> <!-- div3 DocumentType2Infoset --></div> <!-- div2 DocumentTypeMapping -->
+<div class='div2'><a name='EntityMapping'></a>
+<h2 id='EntityMapping-h2' class='adiv2'>C.9 Entity Node Mapping</h2>
+
+<div class='div3'><a name='Infoset2Entity'></a>
+<h3 id='Infoset2Entity-h3' class='adiv3'>C.9.1 Infoset to Entity Node</h3>
+<p>
+	An <i>unparsed entity information item</i> maps to
+	a <a href='core.html#ID-527DCFF2'><code>Entity</code></a> node. The attributes of the corresponding
+	<a class='noxref' href='core.html#ID-527DCFF2'><code>Entity</code></a> node are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of an       Infoset information item to a Node' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Attribute</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[name]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-111237558'><code>Node.nodeType</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node-ENTITY_NODE'><code>Node.ENTITY_NODE</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+Empty <a href='core.html#ID-536297177'><code>NodeList</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-169727388'><code>Node.firstChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-61AD09FB'><code>Node.lastChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-640FB3C8'><code>Node.previousSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6AC54C2F'><code>Node.nextSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-84CF096'><code>Node.attributes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#node-ownerDoc'><code>Node.ownerDocument</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The document information item</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[declaration base URI]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-textContent'><code>Node.textContent</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>""</code> (the node has no children)</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-D7303025'><code>Entity.publicId</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[public identifier]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-D7C29F3E'><code>Entity.systemId</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[system identifier]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6ABAEB38'><code>Entity.notationName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[notation name]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Entity3-inputEncoding'><code>Entity.inputEncoding</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Entity3-encoding'><code>Entity.xmlEncoding</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Entity3-version'><code>Entity.xmlVersion</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+</table>
+<p><b>Note:</b> 
+	  The <b>[notation]</b> property is available through the
+	  <a href='core.html#ID-412266927'><code>DocumentType</code></a> node.
+	</p>
+</div> <!-- div3 Infoset2Entity -->
+<div class='div3'><a name='Entity2Infoset'></a>
+<h3 id='Entity2Infoset-h3' class='adiv3'>C.9.2 Entity Node to Infoset</h3>
+<p>
+	An <a href='core.html#ID-527DCFF2'><code>Entity</code></a> node maps to an <i>unparsed entity
+	information item</i>. <a class='noxref' href='core.html#ID-527DCFF2'><code>Entity</code></a> nodes with children
+	(<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a> contains a non-empty list) cannot
+	be represented using the Infoset. The properties of the
+	corresponding <i>unparsed entity information item</i> are
+	constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of a       Node to the Infoset' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Property</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[name]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[system identifier]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-D7C29F3E'><code>Entity.systemId</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[public identifier]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-D7303025'><code>Entity.publicId</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[declaration base URI]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[notation name]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6ABAEB38'><code>Entity.notationName</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[notation]</b></td><td valign='top' rowspan='1' colspan='1'>
+The <a href='core.html#ID-5431D1B9'><code>Notation</code></a> node referenced from
+	      <a href='core.html#ID-D46829EF'><code>DocumentType.notations</code></a> whose name is the
+	      <b>[notation name]</b> property</td></tr>
+</table>
+</div> <!-- div3 Entity2Infoset --></div> <!-- div2 EntityMapping -->
+<div class='div2'><a name='NotationMapping'></a>
+<h2 id='NotationMapping-h2' class='adiv2'>C.10 Notation Node Mapping</h2>
+
+<div class='div3'><a name='Infoset2Notation'></a>
+<h3 id='Infoset2Notation-h3' class='adiv3'>C.10.1 Infoset to Notation Node</h3>
+<p>
+	A <i>notation information item</i> maps to a
+	<a href='core.html#ID-5431D1B9'><code>Notation</code></a> node. The attributes of the corresponding
+	<a class='noxref' href='core.html#ID-5431D1B9'><code>Notation</code></a> node are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of an       Infoset information item to a Node' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Attribute</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[name]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D080'><code>Node.nodeValue</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-111237558'><code>Node.nodeType</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node-NOTATION_NODE'><code>Node.NOTATION_NODE</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1451460987'><code>Node.childNodes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+Empty <a href='core.html#ID-536297177'><code>NodeList</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-169727388'><code>Node.firstChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-61AD09FB'><code>Node.lastChild</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-640FB3C8'><code>Node.previousSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-6AC54C2F'><code>Node.nextSibling</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-84CF096'><code>Node.attributes</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#node-ownerDoc'><code>Node.ownerDocument</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The document information item</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSname'><code>Node.namespaceURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSPrefix'><code>Node.prefix</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-NodeNSLocalN'><code>Node.localName</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[declaration base URI]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#Node3-textContent'><code>Node.textContent</code></a></td><td valign='top' rowspan='1' colspan='1'>
+<code>null</code></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-54F2B4D0'><code>Notation.publicId</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[public identifier]</b> property</td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-E8AAB1D0'><code>Notation.systemId</code></a></td><td valign='top' rowspan='1' colspan='1'>
+The <b>[system identifier]</b> property</td></tr>
+</table>
+</div> <!-- div3 Infoset2Notation -->
+<div class='div3'><a name='Notation2Infoset'></a>
+<h3 id='Notation2Infoset-h3' class='adiv3'>C.10.2 Notation Node to Infoset</h3>
+<p>
+	A <a href='core.html#ID-5431D1B9'><code>Notation</code></a> maps to a <i>notation information
+	item</i>. The properties of the corresponding <i>notation
+	information item</i> are constructed as follows:
+      </p><table border='1' summary='The table contains the mapping of a       Notation node to the Infoset' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+Property</th><th rowspan='1' colspan='1'>
+Value</th></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[name]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-F68D095'><code>Node.nodeName</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[system identifier]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-E8AAB1D0'><code>Notation.systemId</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[public identifier]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-54F2B4D0'><code>Notation.publicId</code></a></td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<b>[parent]</b></td><td valign='top' rowspan='1' colspan='1'>
+<a href='core.html#ID-1060184317'><code>Node.parentNode</code></a></td></tr>
+</table>
+</div> <!-- div3 Notation2Infoset --></div> <!-- div2 NotationMapping --></div> <!-- div1 InfosetMapping --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Namespaces Algorithms' href='namespaces-algorithms.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Configuration Settings' href='configuration-settings.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

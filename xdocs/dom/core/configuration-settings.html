@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Wed Apr 07 13:11:21 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Configuration Settings</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='accessing-code-point-boundaries.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='infoset-mapping.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Infoset Mapping' accesskey='p' href='infoset-mapping.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Accessing code point boundaries' accesskey='n' href='accessing-code-point-boundaries.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='Parameters'></a>
+<h1 id='Parameters-h1' class='adiv1'>Appendix D: Configuration Settings</h1>
+<dl>
+<dt><i>Editor</i>:
+</dt><dd>Elena Litani, IBM</dd>
+</dl>
+
+<div class='div2'><a name='ConfigTable'></a>
+<h2 id='ConfigTable-h2' class='adiv2'>D.1 Configuration Scenarios</h2>
+<p>
+      Using the <a href='core.html#DOMConfiguration'><code>DOMConfiguration</code></a> users can change behavior
+      of the <code>DOMParser</code>, <code>DOMSerializer</code> and
+      <a href='core.html#Document3-normalizeDocument'><code>Document.normalizeDocument()</code></a>.  If a DOM
+      implementation supports XML Schemas and DTD validation, the table
+      below defines behavior of such implementation following various
+      parameter settings on the <a class='noxref' href='core.html#DOMConfiguration'><code>DOMConfiguration</code></a>. Errors
+      are effectively reported only if a <a href='core.html#ERROR-Interfaces-DOMErrorHandler'><code>DOMErrorHandler</code></a>
+      object is attached to the "<a href='core.html#parameter-error-handler'>error-handler</a>" parameter.
+    </p><table border='1' summary='Layout table: the first cell contains the value of schema-type       parameter, the second contains the value of validate parameter,       the third contains the value of the validate-if-schema parameter,       the 4th contains the actual document schemas, the 5th contains the output       of such configuration, the 6th list addition parameters that can be effected.' cellpadding='3'
+>
+<tr>
+<th rowspan='1' colspan='1'>
+"<a href='core.html#parameter-schema-type'>schema-type</a>"</th><th rowspan='1' colspan='1'>
+"<a href='core.html#parameter-validate'>validate</a>"</th><th rowspan='1' colspan='1'>
+"<a href='core.html#parameter-validate-if-schema'>validate-if-schema</a>"</th><th rowspan='1' colspan='1'>
+Instance schemas, i.e. the current schema</th><th rowspan='1' colspan='1'>
+Outcome</th><th rowspan='1' colspan='1'>
+Other parameters</th></tr>
+<tr>
+<td valign='top' rowspan='2' colspan='1'>
+<code>null</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='2' colspan='1'>
+DTD and XML Schema</td><td valign='top' rowspan='2' colspan='1'>
+Implementation dependent</td><td valign='top' rowspan='2' colspan='1'>
+
+	    The outcome of setting the "<a href='core.html#parameter-datatype-normalization'>datatype-normalization</a>",
+	    "<a href='core.html#parameter-element-content-whitespace'>element-content-whitespace</a>"
+	    or "<a href='core.html#parameter-namespaces'>namespaces</a>" parameters
+	    to <code>true</code> or <code>false</code> is implementation
+	    dependent.
+	  </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td></tr>
+<tr>
+<td valign='top' rowspan='2' colspan='1'>
+<code>null</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='2' colspan='1'>
+none</td><td valign='top' rowspan='1' colspan='1'>
+Report an error</td><td valign='top' rowspan='2' colspan='1'>
+
+	    Setting the "<a href='core.html#parameter-datatype-normalization'>datatype-normalization</a>"
+	    to <code>true</code> or <code>false</code> has no effect on
+	    the DOM.
+	  </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td><td valign='top' rowspan='1' colspan='1'>
+No error is reported</td></tr>
+<tr>
+<td valign='top' rowspan='2' colspan='1'>
+<code>null</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='2' colspan='1'>
+DTD</td><td valign='top' rowspan='2' colspan='1'>
+Validate against DTD</td><td valign='top' rowspan='2' colspan='1'>
+
+	    Setting the "<a href='core.html#parameter-datatype-normalization'>datatype-normalization</a>"
+	    to <code>true</code> or <code>false</code> has no effect on
+	    the DOM.  </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td></tr>
+<tr>
+<td valign='top' rowspan='2' colspan='1'>
+<code>null</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='2' colspan='1'>
+XML Schema</td><td valign='top' rowspan='2' colspan='1'>
+
+	    Validate against XML Schema
+	  </td><td valign='top' rowspan='2' colspan='1'>
+
+	    The outcome of setting the "<a href='core.html#parameter-namespaces'>namespaces</a>" to
+	    <code>false</code> is implementation dependent (likely to be
+	    an error). Setting the "<a href='core.html#parameter-element-content-whitespace'>element-content-whitespace</a>"
+	    to <code>false</code> does not have any effect on the DOM.
+	  </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td></tr>
+<tr>
+<td valign='top' rowspan='2' colspan='1'>
+<code>"http://www.w3.org/TR/REC-xml"</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='2' colspan='1'>
+DTD or XML Schema or both</td><td valign='top' rowspan='1' colspan='1'>
+
+	    If DTD is found, validate against DTD.  Otherwise, report an
+	    error.
+	  </td><td valign='top' rowspan='2' colspan='1'>
+
+	    Setting the "<a href='core.html#parameter-datatype-normalization'>datatype-normalization</a>"
+	    to <code>true</code> or <code>false</code> has no effect on
+	    the DOM.
+	  </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td><td valign='top' rowspan='1' colspan='1'>
+If DTD is found, validate against DTD.</td></tr>
+<tr>
+<td valign='top' rowspan='2' colspan='1'>
+<code>"http://www.w3.org/2001/XMLSchema"</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='2' colspan='1'>
+DTD or XML Schema or both</td><td valign='top' rowspan='1' colspan='1'>
+
+	    If XML Schema is found, validate against the schema. 
+	    Otherwise, report an error.
+	  </td><td valign='top' rowspan='2' colspan='1'>
+
+	    Setting the "<a href='core.html#parameter-datatype-normalization'>datatype-normalization</a>"
+	    to <code>true</code> exposes XML Schema <a class='normative' href='http://www.w3.org/TR/2001/REC-xmlschema-1-20010502/#key-nv'>normalized values</a> in the
+	    DOM.  The outcome of setting the "<a href='core.html#parameter-namespaces'>namespaces</a>" to
+	    <code>false</code> is implementation dependent (likely to be
+	    an error).
+	  </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>true</code></td><td valign='top' rowspan='1' colspan='1'>
+
+	    If XML Schema is found, validate against the schema.
+	  </td></tr>
+<tr>
+<td valign='top' rowspan='1' colspan='1'>
+
+	    <code>"http://www.w3.org/2001/XMLSchema"</code> or
+	    <code>"http://www.w3.org/TR/REC-xml"</code>
+	  </td><td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='1' colspan='1'>
+<code>false</code></td><td valign='top' rowspan='1' colspan='1'>
+DTD or XML Schema or both</td><td valign='top' rowspan='1' colspan='1'>
+
+	    If XML Schema is found, it is ignored. DOM implementations
+	    <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-20040204#proc-types'>may</a> use information
+	    available in the DTD to perform <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-20040204#intern-replacement'>entity
+	    resolution</a>.
+	  </td><td valign='top' rowspan='1' colspan='1'>
+
+	    Setting the "<a href='core.html#parameter-datatype-normalization'>datatype-normalization</a>"
+	    to <code>true</code> of <code>false</code> has no effect on
+	    the DOM.
+	  </td></tr>
+</table>
+<p><b>Note:</b> 
+	If an error has to be reported, as specified in the "Outcome"
+	column above, the <a href='core.html#ERROR-DOMError-type'><code>DOMError.type</code></a> is
+	<code>"no-schema-available"</code>.
+      </p>
+</div> <!-- div2 ConfigTable --></div> <!-- div1 Parameters --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Infoset Mapping' href='infoset-mapping.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Accessing code point boundaries' href='accessing-code-point-boundaries.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

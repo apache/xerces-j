@@ -1,0 +1,559 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Wed Apr 07 13:11:03 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Namespaces Algorithms</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='infoset-mapping.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='changes.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Changes' accesskey='p' href='changes.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Infoset Mapping' accesskey='n' href='infoset-mapping.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='Algorithms'></a>
+<h1 id='Algorithms-h1' class='adiv1'>Appendix B: Namespaces Algorithms</h1>
+<dl>
+<dt><i>Editors</i>:
+</dt><dd>Arnaud Le Hors, IBM</dd>
+<dd>Elena Litani, IBM</dd>
+</dl>
+<div class='noprint'>
+<h2 id='table-of-contents'>Table of contents</h2>
+<ul class='toc'>
+<li class='tocline3'><a class='tocxref' href='#normalizeDocumentAlgo'>B.1 Namespace Normalization</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#scope'>B.1.1 Scope of a Binding</a>
+<li class='tocline4'><a class='tocxref' href='#conflicting'>B.1.2 Conflicting Namespace Declaration</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#lookupNamespacePrefixAlgo'>B.2 Namespace Prefix Lookup</a>
+</li>
+<li class='tocline3'><a class='tocxref' href='#isDefaultNamespaceAlgo'>B.3 Default Namespace Lookup</a>
+</li>
+<li class='tocline3'><a class='tocxref' href='#lookupNamespaceURIAlgo'>B.4 Namespace URI Lookup</a>
+</li>
+</ul>
+</div>
+<p class='first'>
+    This appendix contains several namespace algorithms, such as namespace normalization algorithm
+    that fixes namespace information in the Document Object Model to produce a 
+    <a href='glossary.html#dt-namespace-well-formed'>namespace well-formed</a> document.  
+    If [<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>] is in use (see <a href='core.html#Document3-version'><code>Document.xmlVersion</code></a>) the algorithms 
+    conform to [<cite><a class='noxref normative' href='references.html#Namespaces'>XML Namespaces</a></cite>], otherwise if  
+    [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>] is in use, algorithms conform to [<cite><a class='noxref normative' href='references.html#Namespaces11'>XML Namespaces 1.1</a></cite>].
+
+  </p>
+<div class='div2'><a name='normalizeDocumentAlgo'></a>
+<h2 id='normalizeDocumentAlgo-h2' class='adiv2'>B.1 Namespace Normalization</h2>
+<p>
+      Namespace declaration attributes and prefixes are normalized as
+      part of the <code>normalizeDocument</code> method of the
+      <a href='core.html#i-Document'><code>Document</code></a> interface as if the following method
+      described in pseudo code was called on the document element.
+    <div class='eg'>
+<pre>
+void Element.normalizeNamespaces()
+{
+
+  // Pick up local namespace declarations
+  // 
+  for ( all DOM Level 2 valid local namespace declaration attributes of Element ) 
+  {    
+      if (the namespace declaration is invalid) 
+      {
+          // Note: The prefix xmlns is used only to declare namespace bindings and
+          // is by definition bound to the namespace name http://www.w3.org/2000/xmlns/.
+          // It must not be declared. No other prefix may be bound to this namespace name.         
+               
+          ==&gt; Report an error.
+
+      } 
+      else 
+      {
+          ==&gt;  Record the namespace declaration
+      }
+  }
+
+
+  // Fixup element's namespace
+  //
+  if ( Element's namespaceURI != null )
+  {
+    if ( Element's prefix/namespace pair (or default namespace,
+         if no prefix) are within the scope of a binding )
+    {
+      ==&gt; do nothing, declaration in scope is inherited
+
+      See section "B.1.1: Scope of a binding" for an example
+
+    }
+    else
+    {
+      ==&gt; Create a local namespace declaration attr for this namespace,
+          with Element's current prefix (or a default namespace, if
+          no prefix). If there's a conflicting local declaration
+          already present, change its value to use this namespace.
+
+          See section "B.1.2: Conflicting namespace declaration" for an example
+
+          // NOTE that this may break other nodes within this Element's
+          // subtree, if they're already using this prefix.
+          // They will be repaired when we reach them.
+    }
+  }
+  else
+  {
+    // Element has no namespace URI:
+    if ( Element's localName is null )
+    {
+       // DOM Level 1 node
+       ==&gt; if in process of validation against a namespace aware schema 
+           (i.e XML Schema) report a fatal error: the processor can not recover 
+           in this situation. 
+           Otherwise, report an error: no namespace fixup will be performed on this node.
+    }
+    else
+    {
+      // Element has no pseudo-prefix
+      if ( there's a conflicting local default namespace declaration
+           already present )
+      {
+        ==&gt; change its value to use this empty namespace.
+
+      }
+      // NOTE that this may break other nodes within this Element's
+      // subtree, if they're already using the default namespaces.
+      // They will be repaired when we reach them.
+    }
+  }
+
+
+  // Examine and polish the attributes
+  //
+  for ( all non-namespace Attrs of Element )
+  {
+     if ( Attr[i] has a namespace URI )
+     {
+        if ( attribute has no prefix (default namespace decl does not apply to attributes) 
+             OR
+             attribute prefix is not declared
+             OR
+             conflict: attribute has a prefix that conflicts with a binding
+                       already active in scope)
+        {              
+           if (namespaceURI matches an in scope declaration of one or more prefixes) 
+           {
+               // pick the most local binding available; 
+               // if there is more than one pick one arbitrarily
+
+               ==&gt; change attribute's prefix.
+           }
+           else 
+           {
+               if (the current prefix is not null and it has no in scope declaration) 
+               {
+                   ==&gt; declare this prefix
+               } 
+               else 
+               {
+                   // find a prefix following the pattern "NS" +index (starting at 1)
+                   // make sure this prefix is not declared in the current scope.
+                   // create a local namespace declaration attribute
+
+                   ==&gt; change attribute's prefix.
+               }
+           }           
+        }
+     }    
+     else
+     {
+        // Attr[i] has no namespace URI
+            
+        if ( Attr[i] has no localName )
+        {
+           // DOM Level 1 node
+           ==&gt; if in process of validation against a namespace aware schema 
+               (i.e XML Schema) report a fatal error: the processor can not recover 
+                in this situation. 
+                Otherwise, report an error: no namespace fixup will be performed on this node.
+        }
+        else
+        { 
+           // attr has no namespace URI and no prefix
+           // no action is required, since attrs don't use default
+           ==&gt; do nothing 
+        }
+     }
+  } // end for-all-Attrs
+
+  // do this recursively
+  for ( all child elements of Element )
+  {
+    childElement.normalizeNamespaces()
+  }
+} // end Element.normalizeNamespaces
+      </pre>
+</div>
+<div class='div3'><a name='scope'></a>
+<h3 id='scope-h3' class='adiv3'>B.1.1 Scope of a Binding</h3>
+<p><b>Note:</b> 
+	  This section is informative.
+	</p>
+<p>
+	An element's prefix/namespace URI pair is said to be within the
+	scope of a binding if its namespace prefix is bound to the same
+	namespace URI in the [in-scope namespaces] defined in [<cite><a class='noxref normative' href='references.html#InfoSet'>XML Information Set</a></cite>].
+      <p>
+	As an example, the following document is loaded in a DOM tree:
+      <div class='eg'>
+<pre>
+&lt;root&gt;
+  &lt;parent xmlns:ns="http://www.example.org/ns1"
+          xmlns:bar="http://www.example.org/ns2"&gt;
+    &lt;ns:child1 xmlns:ns="http://www.example.org/ns2"/&gt;
+  &lt;/parent&gt;
+&lt;/root&gt;
+      </pre>
+</div><p>
+	In the case of the <code>child1</code> element, the namespace
+	prefix and namespace URI are within the scope of the appropriate
+	namespace declaration given that the namespace prefix
+	<code>ns</code> of <code>child1</code> is bound to
+	<code>http://www.example.org/ns2</code>.
+      <p>
+	Using the method <a href='core.html#ID-184E7107'><code>Node.appendChild</code></a>, a
+	<code>child2</code> element is added as a sibling of
+	<code>child1</code> with the same namespace prefix and namespace
+	URI, i.e. <code>"ns"</code> and
+	<code>"http://www.example.org/ns2"</code> respectively. Unlike
+	<code>child1</code> which contains the appropriate namespace
+	declaration in its attributes, <code>child2</code>'s prefix/namespace URI pair is within the
+	scope of the namespace declaration of its parent, and the
+	namespace prefix <code>"ns"</code> is bound to
+	<code>"http://www.example.org/ns1"</code>. <code>child2</code>'s prefix/namespace URI pair
+	is therefore not within the scope of a binding. In order to put
+	them within a scope of a binding, the namespace
+	normalization algorithm will create a namespace declaration
+	attribute value to bind the namespace prefix <code>"ns"</code>
+	to the namespace URI <code>"http://www.example.org/ns2"</code>
+	and will attach to <code>child2</code>. The XML representation
+	of the document after the completion of the namespace
+	normalization algorithm will be:
+      <div class='eg'>
+<pre>
+&lt;root&gt;
+  &lt;parent xmlns:ns="http://www.example.org/ns1"
+          xmlns:bar="http://www.example.org/ns2"&gt;
+    &lt;ns:child1 xmlns:ns="http://www.example.org/ns2"/&gt;
+    &lt;ns:child2 xmlns:ns="http://www.example.org/ns2"/&gt;
+  &lt;/parent&gt;
+&lt;/root&gt;
+      </pre>
+</div><p>
+	To determine if an element is within the scope of a binding, one
+	can invoke <a href='core.html#Node3-lookupNamespaceURI'><code>Node.lookupNamespaceURI</code></a>, using its
+	namespace prefix as the parameter, and compare the resulting
+	namespace URI against the desired URI, or one can invoke
+	<code>Node.isDefaultNamespaceURI</code> using its namespace URI
+	if the element has no namespace prefix.
+      </div> <!-- div3 scope -->
+<div class='div3'><a name='conflicting'></a>
+<h3 id='conflicting-h3' class='adiv3'>B.1.2 Conflicting Namespace Declaration</h3>
+<p><b>Note:</b> 
+	  This section is informative.
+	</p>
+<p>
+	A conflicting namespace declaration could occur on an element if
+	an <a href='core.html#ID-745549614'><code>Element</code></a> node and a namespace declaration
+	attribute use the same prefix but map them to two different
+	namespace URIs.
+      <p>
+	As an example, the following document is loaded in a DOM tree:
+      <div class='eg'>
+<pre>
+&lt;root&gt;
+  &lt;ns:child1 xmlns:ns="http://www.example.org/ns1"&gt;
+    &lt;ns:child2/&gt; 
+  &lt;/ns:child1&gt;   
+&lt;/root&gt;
+      </pre>
+</div><p>
+	Using the method <code>Node.renameNode</code>, the namespace URI
+	of the element <code>child1</code> is renamed from
+	<code>"http://www.example.org/ns1"</code> to
+	<code>"http://www.example.org/ns2"</code>. The namespace prefix
+	<code>"ns"</code> is now mapped to two different namespace URIs
+	at the element <code>child1</code> level and thus the namespace
+	declaration is declared conflicting. The namespace normalization
+	algorithm will resolved the namespace prefix conflict by
+	modifying the namespace declaration attribute value from
+	<code>"http://www.example.org/ns1"</code> to
+	<code>"http://www.example.org/ns2"</code>. The algorithm will
+	then continue and consider the element <code>child2</code>, will
+	no longer find a namespace declaration mapping the namespace
+	prefix <code>"ns"</code> to
+	<code>"http://www.example.org/ns1"</code> in the element's
+	scope, and will create a new one.  The XML representation of the
+	document after the completion of the namespace normalization
+	algorithm will be:
+      <div class='eg'>
+<pre>
+&lt;root&gt;
+  &lt;ns:child1 xmlns:ns="http://www.example.org/ns2"&gt;
+    &lt;ns:child2  xmlns:ns="http://www.example.org/ns1"/&gt; 
+  &lt;/ns:child1&gt;   
+&lt;/root&gt;
+      </pre>
+</div></div> <!-- div3 conflicting --></div> <!-- div2 normalizeDocumentAlgo -->
+<div class='div2'><a name='lookupNamespacePrefixAlgo'></a>
+<h2 id='lookupNamespacePrefixAlgo-h2' class='adiv2'>B.2 Namespace Prefix Lookup</h2>
+<p>
+      The following describes in pseudo code the algorithm used in the
+      <code>lookupPrefix</code> method of the <a href='core.html#ID-1950641247'><code>Node</code></a>
+      interface. Before returning found prefix the algorithm needs to
+      make sure that the prefix is not redefined on an element from
+      which the lookup started. This methods ignores DOM Level 1
+      nodes.
+    <p><b>Note:</b> 
+	This method ignores all <a class='normative' href='http://www.w3.org/TR/REC-xml-names/#NT-DefaultAttName'>default
+	namespace declarations</a>.  To look up default namespace use
+	<code>isDefaultNamespace</code> method.
+      </p>
+<div class='eg'>
+<pre>
+DOMString lookupPrefix(in DOMString namespaceURI)
+{
+  if (namespaceURI has no value, i.e. namespaceURI is null or empty string) {
+     return null;
+  }
+  short type = this.getNodeType(); 
+  switch (type) { 
+        case Node.ELEMENT_NODE: 
+        { 
+             return lookupNamespacePrefix(namespaceURI, this); 
+        } 
+        case Node.DOCUMENT_NODE:
+        { 
+             return getDocumentElement().lookupNamespacePrefix(namespaceURI); 
+        } 
+        case Node.ENTITY_NODE : 
+        case Node.NOTATION_NODE: 
+        case Node.DOCUMENT_FRAGMENT_NODE: 
+        case Node.DOCUMENT_TYPE_NODE: 
+            return null;  // type is unknown  
+        case Node.ATTRIBUTE_NODE:
+        {
+             if ( Attr has an owner Element ) 
+             { 
+                 return ownerElement.lookupNamespacePrefix(namespaceURI); 
+             } 
+             return null; 
+        } 
+        default:
+        { 
+           if (Node has an ancestor Element )
+           // EntityReferences may have to be skipped to get to it 
+           { 
+                    return ancestor.lookupNamespacePrefix(namespaceURI); 
+           } 
+            return null; 
+        } 
+     } 
+ } 
+
+
+DOMString lookupNamespacePrefix(DOMString namespaceURI, Element originalElement){ 
+        if ( Element has a namespace and Element's namespace == namespaceURI and 
+             Element has a prefix and 
+             originalElement.lookupNamespaceURI(Element's prefix) == namespaceURI) 
+        { 
+             return (Element's prefix); 
+        } 
+        if ( Element has attributes)
+        { 
+            for ( all DOM Level 2 valid local namespace declaration attributes of Element )
+            {
+                if (Attr's prefix == "xmlns" and 
+                   Attr's value == namespaceURI and 
+                   originalElement.lookupNamespaceURI(Attr's localname) == namespaceURI) 
+                   { 
+                      return (Attr's localname);
+                   } 
+            }
+        } 
+
+        if (Node has an ancestor Element ) 
+           // EntityReferences may have to be skipped to get to it 
+        { 
+            return ancestor.lookupNamespacePrefix(namespaceURI, originalElement); 
+        } 
+        return null; 
+    } 
+</pre>
+</div></div> <!-- div2 lookupNamespacePrefixAlgo -->
+<div class='div2'><a name='isDefaultNamespaceAlgo'></a>
+<h2 id='isDefaultNamespaceAlgo-h2' class='adiv2'>B.3 Default Namespace Lookup</h2>
+<p>
+      The following describes in pseudo code the algorithm used in the
+      <code>isDefaultNamespace</code> method of the <a href='core.html#ID-1950641247'><code>Node</code></a>
+      interface. This methods ignores DOM Level 1 nodes.
+    <div class='eg'>
+<pre>
+boolean isDefaultNamespace(in DOMString namespaceURI)
+{
+  switch (nodeType) {
+  case ELEMENT_NODE:  
+     if ( Element has no prefix )
+     {
+          return (Element's namespace == namespaceURI);
+     }
+     if ( Element has attributes and there is a valid DOM Level 2 
+          default namespace declaration, i.e. Attr's localName == "xmlns" )
+     {
+	  return (Attr's value == namespaceURI);
+     }
+
+     if ( Element has an ancestor Element )
+         // EntityReferences may have to be skipped to get to it
+     {
+          return ancestorElement.isDefaultNamespace(namespaceURI);
+     }
+     else {
+          return unknown (false);
+     }    
+  case DOCUMENT_NODE:
+     return documentElement.isDefaultNamespace(namespaceURI);
+  case ENTITY_NODE:
+  case NOTATION_NODE:
+  case DOCUMENT_TYPE_NODE:
+  case DOCUMENT_FRAGMENT_NODE:
+     return unknown (false);
+  case ATTRIBUTE_NODE:
+     if ( Attr has an owner Element )
+     {          
+          return ownerElement.isDefaultNamespace(namespaceURI);
+     }
+     else {
+          return unknown (false);
+     }    
+  default:
+     if ( Node has an ancestor Element )
+         // EntityReferences may have to be skipped to get to it
+     {          
+          return ancestorElement.isDefaultNamespace(namespaceURI);
+     }
+     else {
+          return unknown (false);
+     }    
+  }
+}
+      </pre>
+</div></div> <!-- div2 isDefaultNamespaceAlgo -->
+<div class='div2'><a name='lookupNamespaceURIAlgo'></a>
+<h2 id='lookupNamespaceURIAlgo-h2' class='adiv2'>B.4 Namespace URI Lookup</h2>
+<p>
+      The following describes in pseudo code the algorithm used in the
+      <code>lookupNamespaceURI</code> method of the <a href='core.html#ID-1950641247'><code>Node</code></a>
+      interface. This methods ignores DOM Level 1 nodes.
+    <div class='eg'>
+<pre>
+DOMString lookupNamespaceURI(in DOMString prefix) 
+{ 
+  switch (nodeType) { 
+     case ELEMENT_NODE: 
+     { 
+         if ( Element's namespace != null and Element's prefix == prefix ) 
+         { 
+               // Note: prefix could be "null" in this case we are looking for default namespace 
+               return (Element's namespace);
+         } 
+         if ( Element has attributes)
+         { 
+            for ( all DOM Level 2 valid local namespace declaration attributes of Element )
+            {
+                 if (Attr's prefix == "xmlns" and Attr's localName == prefix ) 
+                       // non default namespace
+                 { 
+                        if (Attr's value is not empty) 
+                        {
+                          return (Attr's value);
+                        }         
+                        return unknown (null);                   
+                 } 
+                 else if (Attr's localname == "xmlns" and prefix == null)
+                       // default namespace
+                 { 
+                        if (Attr's value is not empty) 
+                        {
+                          return (Attr's value);
+                        }         
+                        return unknown (null); 
+                 } 
+           }
+         } 
+         if ( Element has an ancestor Element ) 
+            // EntityReferences may have to be skipped to get to it 
+         { 
+                   return ancestorElement.lookupNamespaceURI(prefix); 
+         } 
+         return null; 
+     } 
+     case DOCUMENT_NODE: 
+          return documentElement.lookupNamespaceURI(prefix) 
+
+     case ENTITY_NODE: 
+     case NOTATION_NODE: 
+     case DOCUMENT_TYPE_NODE: 
+     case DOCUMENT_FRAGMENT_NODE: 
+           return unknown (null); 
+
+     case ATTRIBUTE_NODE: 
+         if (Attr has an owner Element) 
+         { 
+             return ownerElement.lookupNamespaceURI(prefix); 
+         } 
+         else 
+         { 
+             return unknown (null); 
+         } 
+     default: 
+         if (Node has an ancestor Element) 
+          // EntityReferences may have to be skipped to get to it 
+         { 
+             return ancestorElement.lookupNamespaceURI(prefix); 
+         } 
+         else { 
+             return unknown (null); 
+         } 
+  } 
+} 
+      </pre>
+</div></div> <!-- div2 lookupNamespaceURIAlgo --></div> <!-- div1 Algorithms --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Changes' href='changes.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Infoset Mapping' href='infoset-mapping.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

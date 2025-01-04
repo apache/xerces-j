@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Feb 23 16:43:32 EST 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Glossary</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-WG-NOTE.css'>
+  <link rel='next' href='references.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='acknowledgements.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Acknowledgements' accesskey='p' href='acknowledgements.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='References' accesskey='n' href='references.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>26 February 2004</p>
+</div>
+
+<div class='div1'><a name='glossary'></a>
+<h1 id='role-glossary' class='glossary'>
+Glossary</h1>
+<dl>
+<dt><i>Editors</i>:
+</dt><dd>Arnaud Le Hors, W3C</dd>
+<dd>Robert S. Sutor, IBM Research (for DOM Level 1)</dd>
+</dl>
+<p class='first'>Some of the following term definitions have been borrowed or
+    modified from similar definitions in other W3C or standards documents.
+    See the links within the definitions for more information.</p><dl>
+<dt><b><a name='dt-API'>API</a></b></dt>
+<dd>An <i>API</i> is an Application Programming
+	  Interface, a set of functions or methods used to access some
+	  functionality.</dd><dt><b><a name='dt-document-element'>document element</a></b></dt>
+<dd>
+	  There is only one document element in a <code>Document</code>. This
+	  element node is a child of the <code>Document</code> node. See
+	  <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-20040204#dt-root'><em>Well-Formed XML
+	  Documents</em></a> in XML [<cite><a class='noxref informative' href='references.html#XML'>XML 1.0</a></cite>].
+	</dd><dt><b><a name='dt-document-order'>document order</a></b></dt>
+<dd>There is an ordering, <i>document order</i>, defined on all
+      the nodes in the document corresponding to the order in which the first
+      character of the XML representation of each node occurs in the XML
+      representation of the document after expansion of general entities. Thus,
+      the <a href='glossary.html#dt-document-element'>document element</a> node
+      will be the first node. Element nodes occur before their children. Thus,
+      document order orders element nodes in order of the occurrence of their
+      start-tag in the XML (after expansion of entities). The attribute nodes
+      of an element occur after the element and before its children. The
+      relative order of attribute nodes is implementation-dependent.</dd><dt><b><a name='dt-element'>element</a></b></dt>
+<dd>Each document contains one or more elements, the
+	  boundaries of which are either delimited by start-tags and
+	  end-tags, or, for empty elements by an empty-element tag.
+	  Each element has a type, identified by name, and may have a
+	  set of attributes. Each attribute has a name and a value.
+	  See <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-20040204#sec-logical-struct'><em>Logical
+	    Structures</em></a> in XML [<cite><a class='noxref informative' href='references.html#XML'>XML 1.0</a></cite>].
+	</dd><dt><b><a name='dt-logically-adjacent-text-nodes'>logically-adjacent text nodes</a></b></dt>
+<dd>
+        <i>Logically-adjacent text nodes</i> are <code>Text</code>
+        or <code>CDATASection</code> nodes that can be visited
+        sequentially in <a href='glossary.html#dt-document-order'>document
+        order</a> or in reversed document order without entering,
+        exiting, or passing over <code>Element</code>,
+        <code>Comment</code>, or <code>ProcessingInstruction</code>
+        nodes.
+	</dd><dt><b><a name='dt-live'>live</a></b></dt>
+<dd>An object is <i>live</i> if any change to the underlying
+          document structure is reflected in the object.</dd><dt><b><a name='dt-model'>model</a></b></dt>
+<dd>A <i>model</i> is the actual data representation
+	  for the information at hand. Examples are the structural
+	  model and the style model representing the parse structure
+	  and the style information associated with a document. The
+	  model might be a tree, or a directed graph, or something
+	  else.</dd><dt><b><a name='dt-namespaceprefix'>namespace prefix</a></b></dt>
+<dd>A <i>namespace prefix</i> is a string that associates
+	  an element or attribute name with a <i>namespace URI</i> in
+	  XML. See namespace
+	    prefix in Namespaces in XML [<cite><a class='noxref informative' href='references.html#Namespaces'>XML Namespaces</a></cite>].</dd><dt><b><a name='dt-namespaceURI'>namespace URI</a></b></dt>
+<dd>
+	  A <i>namespace URI</i> is a URI that identifies an XML
+	  namespace. This is called the namespace name in
+	  Namespaces in XML [<cite><a class='noxref informative' href='references.html#Namespaces'>XML Namespaces</a></cite>]. See also sections 1.3.2 "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#baseURIs-Considerations'><em>DOM
+	  URIs</em></a>" and 1.3.3 "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations'><em>XML
+	  Namespaces</em></a>" regarding URIs and namespace URIs
+	  handling and comparison in the DOM APIs.
+	</dd><dt><b><a name='dt-readonly-node'>read only node</a></b></dt>
+<dd>A <i>read only node</i> is a node that is immutable. This
+          means its list of children, its content, and its attributes, when it
+          is an element, cannot be changed in any way. However, a read only node
+          can possibly be moved, when it is not itself contained in a read only
+          node.</dd></dl>
+</div> <!-- div1 glossary --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Acknowledgements' href='acknowledgements.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='References' href='references.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

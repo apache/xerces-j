@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Feb 23 16:43:29 EST 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>IDL Definitions</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-WG-NOTE.css'>
+  <link rel='next' href='java-binding.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='xpath.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Document Object Model XPath' accesskey='p' href='xpath.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Java Language Binding' accesskey='n' href='java-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>26 February 2004</p>
+</div>
+
+<div class='div1'><a name='idl'></a>
+<h1 id='idl-h1' class='adiv1'>Appendix A: IDL Definitions</h1>
+<p class='first'>This appendix contains the complete OMG IDL [<cite><a class='noxref normative' href='references.html#OMGIDL'>OMG IDL</a></cite>] for
+  the Level 3 Document Object Model XPath definitions.</p><p>The IDL files are also available as: <a class='normative' href='idl.zip'>http://www.w3.org/TR/2004/NOTE-DOM-Level-3-XPath-20040226/idl.zip</a></p><h3 id='idl-xpath.idl'><a href='idl/xpath.idl'>xpath.idl</a>:</h3>
+<div class='idl-code'>
+<pre>
+// File: xpath.idl
+
+#ifndef _XPATH_IDL_
+#define _XPATH_IDL_
+
+#include "dom.idl"
+
+#pragma prefix "dom.w3c.org"
+module xpath
+{
+
+  typedef dom::DOMString DOMString;
+  typedef dom::Node Node;
+  typedef dom::DOMObject DOMObject;
+  typedef dom::Element Element;
+
+  interface XPathNSResolver;
+  interface XPathExpression;
+
+  exception <a class='noxref' href='xpath.html#XPathException'>XPathException</a> {
+    unsigned short   code;
+  };
+  // XPathExceptionCode
+  const unsigned short      <a class='noxref' href='xpath.html#INVALID_EXPRESSION_ERR'>INVALID_EXPRESSION_ERR</a>         = 51;
+  const unsigned short      <a class='noxref' href='xpath.html#TYPE_ERR'>TYPE_ERR</a>                       = 52;
+
+
+  interface <a class='noxref' href='xpath.html#XPathEvaluator'>XPathEvaluator</a> {
+    <a class='noxref' href='xpath.html#XPathExpression'>XPathExpression</a>    <a class='noxref' href='xpath.html#XPathEvaluator-createExpression'>createExpression</a>(in DOMString expression, 
+                                        in <a class='noxref' href='xpath.html#XPathNSResolver'>XPathNSResolver</a> resolver)
+                                        raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>, 
+                                               dom::DOMException);
+    <a class='noxref' href='xpath.html#XPathNSResolver'>XPathNSResolver</a>    <a class='noxref' href='xpath.html#XPathEvaluator-createNSResolver'>createNSResolver</a>(in Node nodeResolver);
+    DOMObject          <a class='noxref' href='xpath.html#XPathEvaluator-evaluate'>evaluate</a>(in DOMString expression, 
+                                in Node contextNode, 
+                                in <a class='noxref' href='xpath.html#XPathNSResolver'>XPathNSResolver</a> resolver, 
+                                in unsigned short type, 
+                                in DOMObject result)
+                                        raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>, 
+                                               dom::DOMException);
+  };
+
+  interface <a class='noxref' href='xpath.html#XPathExpression'>XPathExpression</a> {
+    DOMObject          <a class='noxref' href='xpath.html#XPathExpression-evaluate'>evaluate</a>(in Node contextNode, 
+                                in unsigned short type, 
+                                in DOMObject result)
+                                        raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>, 
+                                               dom::DOMException);
+  };
+
+  interface <a class='noxref' href='xpath.html#XPathNSResolver'>XPathNSResolver</a> {
+    DOMString          <a class='noxref' href='xpath.html#XPathNSResolver-lookupNamespaceURI'>lookupNamespaceURI</a>(in DOMString prefix);
+  };
+
+  interface <a class='noxref' href='xpath.html#XPathResult'>XPathResult</a> {
+
+    // XPathResultType
+    const unsigned short      <a class='noxref' href='xpath.html#XPathResult-ANY-TYPE'>ANY_TYPE</a>                       = 0;
+    const unsigned short      <a class='noxref' href='xpath.html#XPathResult-NUMBER-TYPE'>NUMBER_TYPE</a>                    = 1;
+    const unsigned short      <a class='noxref' href='xpath.html#XPathResult-STRING-TYPE'>STRING_TYPE</a>                    = 2;
+    const unsigned short      <a class='noxref' href='xpath.html#XPathResult-BOOLEAN-TYPE'>BOOLEAN_TYPE</a>                   = 3;
+    const unsigned short      <a class='noxref' href='xpath.html#XPathResult-UNORDERED-NODE-ITERATOR-TYPE'>UNORDERED_NODE_ITERATOR_TYPE</a>   = 4;
+    const unsigned short      <a class='noxref' href='xpath.html#XPathResult-ORDERED-NODE-ITERATOR-TYPE'>ORDERED_NODE_ITERATOR_TYPE</a>     = 5;
+    const unsigned short      <a class='noxref' href='xpath.html#XPathResult-UNORDERED-NODE-SNAPSHOT-TYPE'>UNORDERED_NODE_SNAPSHOT_TYPE</a>   = 6;
+    const unsigned short      <a class='noxref' href='xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE'>ORDERED_NODE_SNAPSHOT_TYPE</a>     = 7;
+    const unsigned short      <a class='noxref' href='xpath.html#XPathResult-ANY-UNORDERED-NODE-TYPE'>ANY_UNORDERED_NODE_TYPE</a>        = 8;
+    const unsigned short      <a class='noxref' href='xpath.html#XPathResult-FIRST-ORDERED-NODE-TYPE'>FIRST_ORDERED_NODE_TYPE</a>        = 9;
+
+    readonly attribute unsigned short  <a class='noxref' href='xpath.html#XPathResult-resultType'>resultType</a>;
+    readonly attribute double          <a class='noxref' href='xpath.html#XPathResult-numberValue'>numberValue</a>;
+                                        // raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>) on retrieval
+
+    readonly attribute DOMString       <a class='noxref' href='xpath.html#XPathResult-stringValue'>stringValue</a>;
+                                        // raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>) on retrieval
+
+    readonly attribute boolean         <a class='noxref' href='xpath.html#XPathResult-booleanValue'>booleanValue</a>;
+                                        // raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>) on retrieval
+
+    readonly attribute Node            <a class='noxref' href='xpath.html#XPathResult-singleNodeValue'>singleNodeValue</a>;
+                                        // raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>) on retrieval
+
+    readonly attribute boolean         <a class='noxref' href='xpath.html#XPathResult-invalid-iterator-state'>invalidIteratorState</a>;
+    readonly attribute unsigned long   <a class='noxref' href='xpath.html#XPathResult-snapshot-length'>snapshotLength</a>;
+                                        // raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>) on retrieval
+
+    Node               <a class='noxref' href='xpath.html#XPathResult-iterateNext'>iterateNext</a>()
+                                        raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>, 
+                                               dom::DOMException);
+    Node               <a class='noxref' href='xpath.html#XPathResult-snapshotItem'>snapshotItem</a>(in unsigned long index)
+                                        raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>);
+  };
+
+  interface <a class='noxref' href='xpath.html#XPathNamespace'>XPathNamespace</a> : Node {
+
+    // XPathNodeType
+    const unsigned short      <a class='noxref' href='xpath.html#XPATH_NAMESPACE_NODE'>XPATH_NAMESPACE_NODE</a>           = 13;
+
+    readonly attribute Element         <a class='noxref' href='xpath.html#XPathNamespace-ownerElement'>ownerElement</a>;
+  };
+};
+
+#endif // _XPATH_IDL_
+
+</pre>
+</div>
+</div> <!-- div1 idl --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Document Object Model XPath' href='xpath.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Java Language Binding' href='java-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

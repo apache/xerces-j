@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Feb 23 16:43:26 EST 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Document Object Model (DOM) Level 3 XPath Specification</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-WG-NOTE.css'>
+  <link rel='next' href='expanded-toc.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Expanded Table of Contents' accesskey='n' href='expanded-toc.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+
+<div class='head'>
+<p><a href='http://www.w3.org/'>
+<img height='48' width='72'
+ alt='W3C' src='./images/w3c_home.gif'></a></p>
+  <h1 id='title'>Document Object Model (DOM) Level 3 XPath Specification</h1>
+  <h2 id='version'>Version 1.0</h2>
+<!-- NOTE-DOM-Level-3-XPath-20040226
+ -->  <h2 id='W3C-doctype'>W3C Working Group Note 26 February 2004</h2>
+<dl><dt>This version:</dt>
+<dd><a href='http://www.w3.org/TR/2004/NOTE-DOM-Level-3-XPath-20040226'>http://www.w3.org/TR/2004/NOTE-DOM-Level-3-XPath-20040226</a></dd><dt>Latest version:</dt>
+ <dd><a href='http://www.w3.org/TR/DOM-Level-3-XPath'>http://www.w3.org/TR/DOM-Level-3-XPath</a></dd>
+ <dt>Previous version:</dt>
+
+
+<dd><a href='http://www.w3.org/TR/2003/CR-DOM-Level-3-XPath-20030331'>http://www.w3.org/TR/2003/CR-DOM-Level-3-XPath-20030331</a></dd>
+
+</dl>
+<dl><dt>Editor:
+</dt><dd>Ray Whitmer, 
+<i>Netscape/AOL, then Invited Expert</i></dd>
+</dl>
+
+<p>This document is also available in these non-normative formats: <a href='http://www.w3.org/TR/2004/NOTE-DOM-Level-3-XPath-20040226/xml-source.xml'>XML file</a>, <a href='http://www.w3.org/TR/2004/NOTE-DOM-Level-3-XPath-20040226/DOM3-XPath.txt'>plain text</a>, <a href='http://www.w3.org/TR/2004/NOTE-DOM-Level-3-XPath-20040226/DOM3-XPath.ps'>PostScript file</a>, <a href='http://www.w3.org/TR/2004/NOTE-DOM-Level-3-XPath-20040226/DOM3-XPath.pdf'>PDF file</a>, <a href='http://www.w3.org/TR/2004/NOTE-DOM-Level-3-XPath-20040226/DOM3-XPath.html'>single HTML file</a>, and <a href='http://www.w3.org/TR/2004/NOTE-DOM-Level-3-XPath-20040226/DOM3-XPath.zip'>ZIP file</a>.</p>
+<p class='copyright'><a href='http://www.w3.org/Consortium/Legal/ipr-notice#Copyright'> Copyright</a> &copy;2004 <a href='http://www.w3.org/'><abbr title='World Wide Web Consortium'>W3C</abbr></a><sup>&reg;</sup> (<a href='http://www.csail.mit.edu/'><abbr title='Massachusetts Institute of Technology'>MIT</abbr></a>, <a href='http://www.ercim.org/'><abbr title='European Research Consortium for Informatics and Mathematics'>ERCIM</abbr></a>, <a href='http://www.keio.ac.jp/'>Keio</a>), All Rights Reserved. W3C <a href='http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer'>liability</a>, <a href='http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks'>trademark</a>, <a href='http://www.w3.org/Consortium/Legal/copyright-documents'>document use</a> and <a href='http://www.w3.org/Consortium/Legal/copyright-software'>software licensing</a> rules apply.</p>
+</div>
+<hr title='separator from header'>
+<h2 id='abstract'>Abstract</h2>
+<div class='abstract'>
+<p>This specification defines the Document Object Model Level 3 XPath. It
+provides simple functionalities to access a DOM tree using [<a class='noxref' href='references.html#XPath10'>XPath 1.0</a>].</p></div>
+<h2 id='status'>Status of this document</h2>
+<div class='status'>
+<p>
+	<em>This section describes the status of this document at the
+	time of its publication. Other documents may supersede this
+	document. A list of current W3C publications and the latest
+	revision of this technical report can be found in the <a href='http://www.w3.org/TR/'>W3C technical reports index</a>
+	at http://www.w3.org/TR/.</em>
+      </p><p>
+	This is a <a href='http://www.w3.org/Consortium/Process-20010719/tr.html#RecsCR'>Working
+	Group Note</a> of "DOM Level 3 XPath" and is based on the <a href='http://www.w3.org/2002/03/DOM-Level-3-XPath-issues'>feedback
+	received</a> during the Last Call period. The W3C DOM Working
+	Group participants do not expect to provide two interoperable
+	implementations of this module, <em>using the same
+	binding</em>. Implementation feedbacks are however welcome and
+	have to be sent to the public mailing list <a href='mailto:www-dom@w3.org'>www-dom@w3.org</a> (public <a href='http://lists.w3.org/Archives/Public/www-dom/'>archive</a>). Other W3C Working Groups
+	may continue the work and provide implementations of this
+	document.
+      </p><p>
+	Individuals or organizations are also invited to send a message
+	to the public mailing list if they intend to produce an
+	implementation of this module.
+      </p><p>
+        Publication as a Working Group Note does not imply endorsement
+        by the W3C Membership. This is a draft document and may be
+        updated, replaced or obsoleted by other documents at any time.
+      </p><p>
+	This document has been produced as part of the <a href='http://www.w3.org/DOM/Activity.html'>W3C DOM
+	Activity</a>. The authors of this document are the DOM Working
+	Group members.
+      </p><p>
+	An <a href='http://www.w3.org/2003/02/19-dom-xpath-implementation.html'>implementation
+	report</a> is also available.
+      </p><p>
+	Patent disclosures relevant to this specification may be found
+	on the Working Group's <a href='http://www.w3.org/2002/08/02-DOM-Disclosures.html'>patent
+	disclosure page</a>.
+      </p></div>
+<h2 id='table-of-contents'><a name='contents'>Table of contents</a></h2>
+<ul class='toc'>
+<li class='tocline2'><a class='tocxref' href='expanded-toc.html'>Expanded Table of Contents</a></li>
+<li class='tocline2'><a class='tocxref' href='copyright-notice.html'>W3C Copyright Notices and Licenses</a></li>
+</ul>
+<ul class='toc'>
+<li class='tocline2'><a class='tocxref' href='xpath.html'>1. Document Object Model XPath</a></li>
+</ul>
+<ul class='toc'>
+<li class='tocline2'><a class='tocxref' href='idl-definitions.html'>Appendix A: IDL Definitions</a></li>
+<li class='tocline2'><a class='tocxref' href='java-binding.html'>Appendix B: Java Language Binding</a></li>
+<li class='tocline2'><a class='tocxref' href='ecma-script-binding.html'>Appendix C: ECMAScript Language Binding</a></li>
+<li class='tocline2'><a class='tocxref' href='acknowledgements.html'>Appendix D: Acknowledgements</a></li>
+<li class='tocline2'><a class='tocxref' href='glossary.html'>Glossary</a></li>
+<li class='tocline2'><a class='tocxref' href='references.html'>References</a></li>
+<li class='tocline2'><a class='tocxref' href='def-index.html'>Index</a></li>
+</ul>
+
+<div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Expanded Table of Contents' href='expanded-toc.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

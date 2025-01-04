@@ -17,52 +17,50 @@
 # limitations under the License.
 #=========================================================================
 #
+#	Name:   build.sh Build xml-commons using Ant
+#	Author: Shane Curcuru
 
-echo
-echo "Xerces-Java Build System"
-echo "------------------------"
+# Alternatively, you can just call "ant" 
 
+echo "xml-commons Build"
+echo "-----------------"
+
+_JAVACMD=$JAVA_HOME/bin/java
 if [ "$JAVA_HOME" = "" ] ; then
-    echo "ERROR: JAVA_HOME not found in your environment."
-    echo
-    echo "Please, set the JAVA_HOME variable in your environment to match the"
-    echo "location of the Java Virtual Machine you want to use."
-    exit 1
+    echo "Warning: JAVA_HOME environment variable is not set."
+    _JAVACMD=java
 fi
 
-# OS specific support.  $var _must_ be set to either true or false.
-cygwin=false;
-case "`uname`" in
-    CYGWIN*) cygwin=true ;;
-esac
-
-# For Cygwin, ensure paths are in UNIX format before anything is touched
-if $cygwin ; then
-    [ -n "$JAVA_HOME" ] &&
-    JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
+# Default locations of jars we depend on to run Ant on our build.xml file
+if [ "$ANT_HOME" = "" ] ; then
+    ANT_HOME=.
+fi
+if [ "$ANT_JAR" = "" ] ; then
+    ANT_JAR=./bin/ant.jar
 fi
 
-LIBDIR=./tools
-ANT_HOME="$LIBDIR"
-LOCALCLASSPATH="$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/classes.zip"
-LOCALCLASSPATH="$LOCALCLASSPATH:$LIBDIR/ant.jar"
-LOCALCLASSPATH="$LOCALCLASSPATH:$LIBDIR/ant-nodeps.jar"
-LOCALCLASSPATH="$LOCALCLASSPATH:$LIBDIR/ant-launcher.jar"
-LOCALCLASSPATH="$LOCALCLASSPATH:$LIBDIR/ant-junit.jar"
-LOCALCLASSPATH="$LOCALCLASSPATH:$LIBDIR/xml-apis.jar"
-LOCALCLASSPATH="$LOCALCLASSPATH:$LIBDIR/xercesImpl.jar"
-LOCALCLASSPATH="$LOCALCLASSPATH:$LIBDIR/bin/xjavac.jar"
+# Use _underscore prefix to not conflict with user's settings
+# Default to UNIX-style pathing
+CLPATHSEP=:
+# if we're on a Windows box make it ;
+uname | grep WIN && CLPATHSEP=\;
+_CLASSPATH="${ANT_JAR}${CLPATHSEP}${CLASSPATH}"
 
-
-# For Cygwin, switch paths to Windows format before running java
-if $cygwin; then
-    JAVA_HOME=`cygpath --path --windows "$JAVA_HOME"`
-    LOCALCLASSPATH=`cygpath --path --windows "$LOCALCLASSPATH"`
+# Attempt to automatically add system classes to _CLASSPATH
+if [ -f $JAVA_HOME/lib/tools.jar ] ; then
+  _CLASSPATH=${_CLASSPATH}${CLPATHSEP}${JAVA_HOME}/lib/tools.jar
 fi
 
-echo
-echo Building with classpath $LOCALCLASSPATH
-echo Starting Ant...
-echo
+if [ -f $JAVA_HOME/lib/classes.zip ] ; then
+  _CLASSPATH=${_CLASSPATH}${CLPATHSEP}${JAVA_HOME}/lib/classes.zip
+fi
 
-"$JAVA_HOME"/bin/java -Dant.home="$ANT_HOME" -classpath "$LOCALCLASSPATH" org.apache.tools.ant.Main $@ 
+
+echo "Starting Ant with targets: $@"
+echo "        ...with classpath: $_CLASSPATH"
+
+"$_JAVACMD" $JAVA_OPTS -Dant.home=$ANT_HOME -classpath "$_CLASSPATH" org.apache.tools.ant.Main $@
+
+
+
+

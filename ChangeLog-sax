@@ -1,0 +1,666 @@
+2004-04-26  dmegginson  <dmegginson@dobby>
+
+	* .cvsignore: Added another ignorable file.
+
+	* src/org/xml/sax/ContentHandler.java:
+	Patch from Elliotte Rusty Harold:
+
+	This patch to one file (ContentHandler) fixes a broken @link to
+	java.net.ContentHandler by removing it. For various obscure
+	reasons it doesn't seem possible for this to be referenced without
+	importing java.net.ContentHandler
+
+	(Also some punctuation and JavaDoc cleanups: dpm)
+
+	* src/org/xml/sax/ext/Locator2Impl.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/XMLFilterImpl.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/AttributeList.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/XMLReader.java:
+	From Elliotte Rusty Harold:
+
+	I've attached a patch for the current CVS that fixes a number of
+	mismatched @param tags in the JavaDoc. Yell if you have any
+	troubles with this.
+
+2004-04-23  dmegginson  <dmegginson@dobby>
+
+	* src/org/xml/sax/helpers/NamespaceSupport.java: 
+	From Norman Walsh:
+
+	It turns out there's some existing code that relies on the fact that
+	this exception isn't thrown. So while I prefer to do the right thing,
+	there's a school of thought that says breaking existing code isn't the
+	right thing. Especially if you're trying to get things past the folks
+	that test for compatibility.
+
+	Given that the user can, if they care, test the result, I'd like
+	to suggest the patch above That is, to remove the JavaDoc that
+	says the exception is thrown since historically it has never
+	actually been thrown.
+
+	* CHANGES, ChangeLog, README, build.xml: Updated for SAX2r3 pre 1.
+
+2004-04-22  dmegginson  <dmegginson@dobby>
+
+	* CHANGES:
+	Move high-level changes from docs/changes.html to this text file, and
+	add changes for SAX2 r2 pre2.
+
+	* src/org/xml/sax/ext/DeclHandler.java:
+	Patch from Michael Glavassevich:
+
+	Align the description of DeclHandler.externalEntityDecl with DTDHandler.unparsedEntityDecl, requiring that the parser absolutize the system identifier, though this is backwards incompatible and may affect some real world users who expect the declared system identifier even if it was always intended that the system id passed to DeclHandler.externalEntityDecl be fully resolved.
+
+2004-04-22  dmegginson  <dmegginson@dobby>
+
+	* src/org/xml/sax/ext/DeclHandler.java:
+	Patch from Michael Glavassevich:
+
+	Align the description of DeclHandler.externalEntityDecl with
+	DTDHandler.unparsedEntityDecl, requiring that the parser
+	absolutize the system identifier, though this is backwards
+	incompatible and may affect some real world users who expect the
+	declared system identifier even if it was always intended that the
+	system id passed to DeclHandler.externalEntityDecl be fully
+	resolved.
+
+2004-04-21  dmegginson  <dmegginson@dobby>
+
+	* src/org/xml/sax/package.html: Patch from Michael Glavassevich:
+
+	A couple fixes to org/xml/sax/package.html.
+
+	1) Improve description of is-standalone feature as suggested by
+	Elliotte [1].
+
+	2) Specify that the use-entity-resolver2 is read-write with a
+	default value of true, instead of read-only with no default
+	value. The description of EntityResolver2 in CVS says: "If a SAX
+	application requires the customized handling which this interface
+	defines for external entities, it must ensure that it uses an
+	XMLReader with the
+	http://xml.org/sax/features/use-entity-resolver2 feature flag set
+	to true (which is its default value when the feature is
+	recognized). If that flag is unrecognized, or its value is false,
+	or the resolver does not implement this interface, then only the
+	EntityResolver method will be used." Therefore this feature has a
+	default value of true (when it is recognized). Since the default
+	value is true, the value of the feature could only ever be false
+	if it were read-write. Parsers which do not support setting this
+	feature to false would throw a SAXNotSupportedException.
+
+	[1] http://article.gmane.org/gmane.text.xml.sax.devel/277/
+
+	* src/org/xml/sax/SAXParseException.java:
+	Patch from Michael Glavassevich:
+
+	The version of SAXParseException in CVS still has methods for
+	getting and setting exception ids. This patch removes these
+	methods and the private field: exceptionId.
+
+2004-04-15  dmegginson  <dmegginson@dobby>
+
+	* src/org/xml/sax/package.html: From Karl Waclawek:
+
+	I tried to come up with some modifications for package.html
+	regarding read-only access for certain features.
+
+	There is also a docs directory with some discussion of features.
+	Where on the web is this exposed? Seems somehow incomplete.
+
+	I added a column called "Access". For read-only access
+	I changed the Default entry from "unspecified" to "not applicable".
+	I made a few other changes, like adding punctuation, consistently
+	indicating a boolean value of true as "true" (except in one case).
+
+	I am not entirely sure what the purpose of italics is.
+
+	Maybe the second paragraph after the end of the main table needs
+	to be somehow changed to reflect that read/write access
+	has already been indicated further up.
+
+2004-04-06  dmegginson  <dmegginson@dobby>
+
+	* src/org/xml/sax/package.html:
+	Updated package description from Michael Glavassevich at the IBM
+	Toronto Lab.
+
+2004-04-04  dmegginson  <dmegginson@dobby>
+
+	* .cvsignore: Add generated Eclipse files to .cvsignore.
+
+2004-03-19  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/ContentHandler.java:
+	Fix bugid 911507:  longstanding restriction on startElement()
+		attribute handling needs to be in the javadoc.
+
+2004-03-18  dmegginson  <dmegginson@dobby>
+
+	* src/org/xml/sax/Attributes.java:
+	Specify that the xmlns-uris feature will use "xmlns" for the local
+	part of the attribute declaring a default Namespace.
+
+2004-03-17  dmegginson  <dmegginson@dobby>
+
+	* README: Updated the release notes.
+
+	* src/org/xml/sax/ext/Locator2.java:
+	Delete obsolete paragraph about future XML versions.
+
+	* src/org/xml/sax/package.html:
+	Roll out most of the new documentation that was intended for SAX 2.1.
+
+2004-03-08  dmegginson  <dmegginson@dobby>
+
+	* src/org/xml/sax/ext/Attributes2Impl.java, src/org/xml/sax/ext/Locator2.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/ext/Attributes2.java, src/org/xml/sax/package.html, docs/features.html, docs/quick-start.html, docs/changes.html:
+	* 2004-0001: beta status
+
+	- changed docs for all beta features to released status
+	[dpm: automatic upon release?]
+
+
+	* 2004-0002: XML 1.1 support
+
+	- add a read-only feature to check for XML 1.1 support
+	[added to docs/features.html]
+
+	- add a read-only string property to return the version number of the
+	  document being parsed
+	[added to docs/features.html]
+
+	- remove all unnecessary references to XML 1.0 from the docs
+	[kept references to specific sections in the XML 1.0 REC and to error
+	codes based on 1.0; removed things like "raw XML 1.0 names"]
+
+
+	* 2004-0003: Unicode normalization
+
+	- add a feature to request Unicode normalization checking (false by
+	  default)
+	[added to docs/features.html]
+
+	- use error() to report all normalization problems
+	[added to docs/features.html]
+
+	- add a new exception subclass for normalization errors
+	[not this time]
+
+
+	* 2004-0004: xmlns Namespace
+
+	- commit paragraph from CVS Attributes.java about xmlns-uris feature
+	[added to docs/features.html]
+
+	- document interaction between xmlns-uris and namespace-prefixes
+	  features
+	[added to docs/features.html]
+
+
+	* 2004-0005: endDocument
+
+	- note that a parser might not invoke endDocument after reporting a
+	  fatal error (this produces the fewest incompatibilities)
+	[added JavaDocs to endDocument() and fatalError()]
+
+
+	* 2004-0006: Locator2
+
+	- allow getEncoding() and getXMLVersion() to return null if the
+	  information is not yet available
+	[added to Locator2.java]
+
+2003-05-29  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/helpers/ParserAdapter.java:
+	workspace cleanup: test catches illegal/nonsense state
+
+2002-07-29  dbrownell  <dbrownell@dobby>
+
+	* src/SAXDump.java: another from Phil Hanna
+
+2002-07-27  dbrownell  <dbrownell@dobby>
+
+	* build.xml: update, from Phil Hanna <phanna@ipass.net>
+
+2002-05-25  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/Attributes.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/package.html, ChangeLog:
+	add "xmlns-uris" support, for
+	backwards-incompatble change in namespace REC
+
+2002-05-07  dbrownell  <dbrownell@dobby>
+
+	* ChangeLog: describe
+
+	* src/org/xml/sax/package.html:
+	clarify rule-* issue and application-oriented messages
+
+	* src/org/xml/sax/helpers/NamespaceSupport.java:
+	clarifications, typo fix
+
+	* src/org/xml/sax/Attributes.java, src/org/xml/sax/ErrorHandler.java:
+	fix typos
+
+	* src/org/xml/sax/SAXParseException.java:
+	correct sense if ID test; fix old typos
+
+2002-04-22  dbrownell  <dbrownell@dobby>
+
+	* ChangeLog: mention one other putback
+
+	* src/org/xml/sax/package.html:
+	fix a few html errors that IE cares about
+
+	* src/org/xml/sax/helpers/XMLReaderFactory.java:
+	[521200] some compilers whine about very inclusive exception specs
+
+	* ChangeLog: describe latest updates
+
+	* src/org/xml/sax/package.html:
+	Initial definitions of exception IDs; minor clarifications.
+
+	* src/org/xml/sax/SAXParseException.java:
+	[486006] add exception ID support.
+
+	* src/org/xml/sax/ext/Attributes2.java, src/org/xml/sax/ext/Attributes2Impl.java:
+	add Attributes2.isDeclared() methods (mostly for CDATA)
+
+2002-04-21  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/ContentHandler.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/XMLReader.java:
+	sync with updates to sax2.0.1
+
+	* ChangeLog: summarize latest doc clarifications
+
+	* src/org/xml/sax/XMLReader.java:
+	clarify parser reuse: configuration is unchanged
+
+	* src/org/xml/sax/ErrorHandler.java:
+	clarify behavior of parser with/without ErrorHandler
+
+	* src/org/xml/sax/ContentHandler.java:
+	clarify: Locator usable only between starDocument()/endDocument()
+
+2002-01-30  dbrownell  <dbrownell@dobby>
+
+	* ChangeLog, src/org/xml/sax/XMLReader.java, src/org/xml/sax/package.html, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/XMLFilter.java, src/org/xml/sax/Locator.java, src/org/xml/sax/Parser.java, src/org/xml/sax/InputSource.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/DTDHandler.java, src/org/xml/sax/DocumentHandler.java, src/org/xml/sax/AttributeList.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/ext/LexicalHandler.java, src/org/xml/sax/ext/package.html, src/org/xml/sax/ext/DeclHandler.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/helpers/XMLReaderFactory.java, src/org/xml/sax/helpers/package.html, src/org/xml/sax/helpers/XMLFilterImpl.java, src/org/xml/sax/helpers/ParserFactory.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/LocatorImpl.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/NewInstance.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/AttributeListImpl.java:
+	sync with SAX 2.0.1
+
+2002-01-29  dbrownell  <dbrownell@dobby>
+
+	* README: sync with sax 2.0.1
+
+	* README: update for 2.0.1 release
+
+	* src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/helpers/XMLReaderFactory.java, ChangeLog, src/org/xml/sax/AttributeList.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/DTDHandler.java, src/org/xml/sax/DocumentHandler.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/InputSource.java, src/org/xml/sax/Locator.java, src/org/xml/sax/Parser.java, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/XMLFilter.java, src/org/xml/sax/XMLReader.java, src/org/xml/sax/ext/DeclHandler.java, src/org/xml/sax/ext/LexicalHandler.java, src/org/xml/sax/helpers/AttributeListImpl.java, src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/LocatorImpl.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/NewInstance.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/ParserFactory.java, src/org/xml/sax/helpers/XMLFilterImpl.java:
+	2.0.1 (sax2r2) release
+
+2002-01-12  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/ContentHandler.java: sync with sax2r2 branch
+
+	* ChangeLog: merge sax2r2 changes
+
+	* ChangeLog: update
+
+	* src/org/xml/sax/ContentHandler.java:
+	clarify skipping w/in markup constructs
+
+	* src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/InputSource.java, src/org/xml/sax/Locator.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/package.html:
+	sync with sax2r2 branch
+
+	* src/org/xml/sax/package.html: describe property value constraints
+
+	* src/org/xml/sax/helpers/XMLFilterImpl.java: sync with sax2r2pre3+
+
+	* ChangeLog: update
+
+	* src/org/xml/sax/ext/EntityResolver2.java: clarify null params, etc
+
+	* src/org/xml/sax/ext/Attributes2.java, src/org/xml/sax/ext/Attributes2Impl.java, src/org/xml/sax/ext/Locator2.java, src/org/xml/sax/ext/Locator2Impl.java:
+	comment cleanup
+
+	* src/org/xml/sax/ext/DefaultHandler2.java:
+	teach about EntityResolver2; [502043] misc cleanup
+
+2002-01-11  dbrownell  <dbrownell@dobby>
+
+	* ChangeLog: update
+
+	* src/org/xml/sax/SAXParseException.java:
+	clarify Locator interrelationship
+
+	* src/org/xml/sax/Locator.java:
+	clarify I18N line/col, and sysid absolutization
+
+	* src/org/xml/sax/ContentHandler.java: warn about multi-char characters
+
+2002-01-10  dbrownell  <dbrownell@dobby>
+
+	* ChangeLog: describe updates
+
+	* README: mention JDK 1.4 update procedure
+
+	* src/org/xml/sax/ext/Attributes2.java, src/org/xml/sax/ext/Attributes2Impl.java:
+	[501968] paramter names match doc
+
+	* src/org/xml/sax/helpers/XMLFilterImpl.java: [501927] fix typo
+
+	* src/org/xml/sax/helpers/XMLFilterImpl.java:
+	[501919] remove duplicate @see; [501915] add missing @see
+
+	* src/org/xml/sax/ContentHandler.java:
+	[501901] inconsistent parameter naming
+
+	* src/org/xml/sax/ContentHandler.java:
+	[501777] clarify declaration of default element NS
+
+2001-12-04  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/ContentHandler.java:
+	clarify skippedEntity: once per skip
+
+2001-11-29  dbrownell  <dbrownell@dobby>
+
+	* ChangeLog: updates
+
+	* src/org/xml/sax/Attributes.java: namespace decls have no namespace
+
+	* src/org/xml/sax/ContentHandler.java: clarifications
+
+	* src/org/xml/sax/InputSource.java: clarify reader w/encoding behavior
+
+2001-11-21  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/AttributeList.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/DTDHandler.java, src/org/xml/sax/DocumentHandler.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/InputSource.java, src/org/xml/sax/Locator.java, src/org/xml/sax/Parser.java, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/XMLFilter.java, src/org/xml/sax/XMLReader.java, src/org/xml/sax/package.html, src/org/xml/sax/helpers/AttributeListImpl.java, src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/LocatorImpl.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/NewInstance.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/ParserFactory.java, src/org/xml/sax/helpers/XMLFilterImpl.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/helpers/XMLReaderFactory.java, src/org/xml/sax/helpers/package.html, src/org/xml/sax/ext/LexicalHandler.java, src/org/xml/sax/ext/package.html, src/org/xml/sax/ext/DeclHandler.java, ChangeLog, Makefile, README:
+	sync w/sax2r2pre3
+
+2001-11-20  dbrownell  <dbrownell@dobby>
+
+	* README: update
+
+	* Makefile: use zip, not jar, to create distribution
+
+	* ChangeLog: describe updates; sax2 r2pre3
+
+	* src/org/xml/sax/ext/DeclHandler.java, src/org/xml/sax/ext/LexicalHandler.java, src/org/xml/sax/helpers/AttributeListImpl.java, src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/LocatorImpl.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/NewInstance.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/ParserFactory.java, src/org/xml/sax/helpers/XMLFilterImpl.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/helpers/XMLReaderFactory.java, src/org/xml/sax/AttributeList.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/DTDHandler.java, src/org/xml/sax/DocumentHandler.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/InputSource.java, src/org/xml/sax/Locator.java, src/org/xml/sax/Parser.java, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/XMLFilter.java, src/org/xml/sax/XMLReader.java:
+	label as sax2 r2pre3; add "more info" links
+
+2001-11-13  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/package.html:
+	startDTD() didn't absolutize; describe resolver2 control
+
+2001-11-12  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/ext/DefaultHandler2.java: add Resolver2 support
+
+	* src/org/xml/sax/ext/EntityResolver2.java: create
+
+2001-11-11  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/DTDHandler.java:
+	revert absolutization change for 446280; that behavior needs
+	to be an option flag.
+
+	* src/org/xml/sax/ext/package.html: clarify recognize vs support
+
+	* src/org/xml/sax/ext/LexicalHandler.java:
+	clarify "set" description; clarify support != recognize;
+	clarify startDTD() so systemId matches all implementations
+
+	* src/org/xml/sax/ext/DeclHandler.java:
+	update "set" description; clarify support != recognize
+
+	* src/org/xml/sax/Locator.java: clarify
+
+	* src/org/xml/sax/helpers/NewInstance.java:
+	patch from Edwin Goei: compile on jdk 1.1
+
+2001-11-09  dbrownell  <dbrownell@dobby>
+
+	* Makefile, README: use www.saxproject.org
+
+	* src/org/xml/sax/ext/package.html, src/org/xml/sax/helpers/package.html, src/org/xml/sax/package.html:
+	from sax2r2: use www.saxproject.org
+
+	* Makefile, README, src/org/xml/sax/ext/package.html, src/org/xml/sax/helpers/package.html, src/org/xml/sax/package.html:
+	use www.saxproject.org
+
+2001-11-07  dbrownell  <dbrownell@dobby>
+
+	* src/SAXDump.java: add XP, resolve-dtd-uris
+
+	* src/org/xml/sax/package.html: add resolve-did-uris flag
+
+2001-11-06  dbrownell  <dbrownell@dobby>
+
+	* src/SAXDump.java: create
+
+	* src/org/xml/sax/ext/DefaultHandler2.java: add [472323]
+
+	* ChangeLog, src/org/xml/sax/XMLReader.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/XMLFilterImpl.java:
+	sync with sax2r2
+
+	* src/org/xml/sax/ext/Locator2.java: speling fixx
+
+	* ChangeLog: summarize recent updates
+
+	* src/org/xml/sax/helpers/XMLFilterImpl.java:
+	null handlers are no error (restore default)
+
+	* src/org/xml/sax/XMLReader.java: use the right param names [476507]
+
+	* src/org/xml/sax/helpers/ParserAdapter.java:
+	clarify docs.  NotSupported != NotRecognized.
+	setting null handlers restores default.
+
+	* src/org/xml/sax/helpers/XMLFilterImpl.java:
+	clarify get/set feature/property
+
+	* src/org/xml/sax/XMLReader.java:
+	Clarify what a 'recognized' feature/property is (gettable/settable).
+	Setting handler to null doesn't require an exception.
+
+2001-10-23  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/helpers/NamespaceSupport.java:
+	enforce declare-before-use constraint; fix minor typo
+
+2001-10-18  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/ext/Attributes2.java: fix typo for id
+
+	* src/org/xml/sax/package.html: ids for new extension
+
+	* src/org/xml/sax/ext/package.html: update to reflect RFE fixes
+
+	* src/org/xml/sax/ext/Locator2.java, src/org/xml/sax/ext/Locator2Impl.java:
+	RFE 449377 -- expose entity encoding and version
+
+	* src/org/xml/sax/ext/Attributes2.java, src/org/xml/sax/ext/Attributes2Impl.java:
+	RFE 446713 - expose isStandalone
+
+	* ChangeLog, README: sync with sax2r2 branch, pre2 release
+
+2001-10-17  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/AttributeList.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/DTDHandler.java, src/org/xml/sax/DocumentHandler.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/InputSource.java, src/org/xml/sax/Locator.java, src/org/xml/sax/Parser.java, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/XMLFilter.java, src/org/xml/sax/XMLReader.java, src/org/xml/sax/ext/DeclHandler.java, src/org/xml/sax/ext/LexicalHandler.java, src/org/xml/sax/helpers/AttributeListImpl.java, src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/LocatorImpl.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/NewInstance.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/ParserFactory.java, src/org/xml/sax/helpers/XMLFilterImpl.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/helpers/XMLReaderFactory.java:
+	sync with sax2r2 branch, pre2 release
+
+	* src/org/xml/sax/helpers/AttributeListImpl.java, src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/LocatorImpl.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/NewInstance.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/ParserFactory.java, src/org/xml/sax/helpers/XMLFilterImpl.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/helpers/XMLReaderFactory.java, README, src/org/xml/sax/AttributeList.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/DTDHandler.java, src/org/xml/sax/DocumentHandler.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/InputSource.java, src/org/xml/sax/Locator.java, src/org/xml/sax/Parser.java, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/XMLFilter.java, src/org/xml/sax/XMLReader.java, src/org/xml/sax/ext/DeclHandler.java, src/org/xml/sax/ext/LexicalHandler.java:
+	label as sax2r2 pre2
+
+2001-10-15  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXParseException.java:
+	remove @see setLocale
+
+	* ChangeLog: describe latest 2 changes
+
+	* src/org/xml/sax/ext/DeclHandler.java: doc fix
+
+	* src/org/xml/sax/helpers/NamespaceSupport.java: doc updates
+
+2001-10-08  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/helpers/XMLReaderFactory.java: merge fix from sax2r2
+
+	* src/org/xml/sax/helpers/XMLReaderFactory.java:
+	fix: use value of property!
+
+2001-09-29  dbrownell  <dbrownell@dobby>
+
+	* .cvsignore: add
+
+	* Makefile: add a Makefile for building
+
+	* ChangeLog: mention latest fixes
+
+	* src/org/xml/sax/ext/package.html, src/org/xml/sax/helpers/package.html, src/org/xml/sax/package.html:
+	make http://sax.sourceforge.net url visible
+
+	* src/org/xml/sax/helpers/ParserFactory.java:
+	use correct/secure class loader
+
+	* src/org/xml/sax/helpers/XMLReaderFactory.java:
+	be more robust [449378], use META-INF/services [449664],
+	use correct/secure class loader
+
+	* src/org/xml/sax/helpers/NewInstance.java:
+	Support for using correct/secure class loader.
+
+2001-09-28  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/helpers/ParserAdapter.java:
+	error path fix for undeclared prefix
+
+2001-09-26  dbrownell  <dbrownell@dobby>
+
+	* ChangeLog: describe recent changes
+
+	* src/org/xml/sax/ext/package.html, src/org/xml/sax/helpers/package.html:
+	add xref to http://sax.sourceforge.net/
+
+	* docs/filters.html, docs/namespaces.html: minor updates
+
+	* src/org/xml/sax/helpers/NamespaceSupport.java:
+	remove sax@megginson.com email; clarify default prefix doc
+
+	* src/org/xml/sax/InputSource.java:
+	remove sax@megginson.com email; clarify stream close() rule
+
+	* src/org/xml/sax/ContentHandler.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/DTDHandler.java, src/org/xml/sax/DocumentHandler.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/Locator.java, src/org/xml/sax/Parser.java, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/XMLFilter.java, src/org/xml/sax/XMLReader.java, src/org/xml/sax/ext/DeclHandler.java, src/org/xml/sax/ext/LexicalHandler.java, src/org/xml/sax/helpers/AttributeListImpl.java, src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/LocatorImpl.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/ParserFactory.java, src/org/xml/sax/helpers/XMLFilterImpl.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/AttributeList.java:
+	remove sax@megginson.com email
+
+2001-08-21  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/ContentHandler.java:
+	clarify:  start/end mapping immediately before/after element
+
+2001-08-08  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/Attributes.java: fix wrong @see
+
+2001-08-07  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/InputSource.java: doc fix (448847)
+
+2001-08-03  dbrownell  <dbrownell@dobby>
+
+	* ChangeLog: describe recent changes
+
+	* src/org/xml/sax/DTDHandler.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java:
+	doc tweaks (447371)
+
+	* src/org/xml/sax/helpers/ParserAdapter.java:
+	namespace handling probs (441055, 441060)
+
+2001-08-01  dbrownell  <dbrownell@dobby>
+
+	* ChangeLog: summarize last set of changes
+
+	* src/org/xml/sax/helpers/NamespaceSupport.java:
+	update doc (441056); popContext() frees most memory
+
+	* src/org/xml/sax/helpers/AttributesImpl.java:
+	fix array bounds bug, make strings gc-able (446875)
+
+2001-07-31  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/DTDHandler.java:
+	clarify endDTD(); don't absolutize notationDecl() sysID (446280)
+
+	* ChangeLog: merge extensions changelog; list recent updates
+
+	* src/org/xml/sax/ext/package.html: merge more package overview doc
+
+2001-07-30  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/ext/DeclHandler.java, src/org/xml/sax/ext/LexicalHandler.java, src/org/xml/sax/ext/package.html:
+	re-merge "extensions".
+
+	* docs/filters.html: fix typo
+
+	* src/org/xml/sax/EntityResolver.java: fix @see tag
+
+	* src/org/xml/sax/Locator.java: remove duplicated text
+
+2001-07-29  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/helpers/NamespaceSupport.java: doc tweak (445058)
+
+	* src/org/xml/sax/helpers/XMLReaderAdapter.java: tweak javadoc (445064)
+
+	* src/org/xml/sax/helpers/ParserAdapter.java:
+	workaround javadoc tool bug (445062)
+
+2001-07-14  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/package.html, src/org/xml/sax/helpers/package.html:
+	import
+
+	* src/org/xml/sax/EntityResolver.java: clarify javadoc
+
+	* src/org/xml/sax/helpers/DefaultHandler.java:
+	fix javadoc bug (wrong params)
+
+	* src/org/xml/sax/helpers/XMLReaderFactory.java:
+	no point in synchronizing (no state to protect)
+
+2001-07-12  dbrownell  <dbrownell@dobby>
+
+	* src/org/xml/sax/helpers/AttributesImpl.java:
+	clear() now really clears
+
+	* src/org/xml/sax/helpers/ParserAdapter.java:
+	remove jdk 1.2 dependency, unused variable
+
+2000-12-28  David Megginson  <dmeggin@attglobal.net>
+
+	* src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/LocatorImpl.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/ParserFactory.java, src/org/xml/sax/helpers/XMLFilterImpl.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/helpers/XMLReaderFactory.java, src/org/xml/sax/helpers/AttributeListImpl.java, src/org/xml/sax/AttributeList.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/DTDHandler.java, src/org/xml/sax/DocumentHandler.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/InputSource.java, src/org/xml/sax/Locator.java, src/org/xml/sax/Parser.java, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/XMLFilter.java, src/org/xml/sax/XMLReader.java, ChangeLog, README, build.xml:
+	SAX2 r2 prerelease
+
+	* docs/changes.html, docs/sax.html: SAX 2 r2 prerelease
+
+2000-12-27  David Megginson  <dmeggin@attglobal.net>
+
+	* src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/helpers/XMLReaderFactory.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/InputSource.java, src/SAXTest.java:
+	*** empty log message ***
+
+2000-09-16  David Megginson  <dmeggin@attglobal.net>
+
+	* src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, ChangeLog:
+	*** empty log message ***
+
+2000-09-08  David Megginson  <dmeggin@attglobal.net>
+
+	* build.xml: *** empty log message ***
+
+	* docs/changes.html, docs/features.html, docs/filters.html, docs/namespaces.html, docs/quick-start.html, docs/sax-style.css, docs/sax.html, src/org/xml/sax/AttributeList.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/DTDHandler.java, src/org/xml/sax/DocumentHandler.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/InputSource.java, src/org/xml/sax/Locator.java, src/org/xml/sax/Parser.java, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/XMLFilter.java, src/org/xml/sax/XMLReader.java, src/org/xml/sax/helpers/AttributeListImpl.java, src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/LocatorImpl.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/ParserFactory.java, src/org/xml/sax/helpers/XMLFilterImpl.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/helpers/XMLReaderFactory.java:
+
+	* docs/changes.html, docs/features.html, docs/filters.html, docs/namespaces.html, docs/quick-start.html, docs/sax-style.css, docs/sax.html, src/org/xml/sax/AttributeList.java, src/org/xml/sax/Attributes.java, src/org/xml/sax/ContentHandler.java, src/org/xml/sax/DTDHandler.java, src/org/xml/sax/DocumentHandler.java, src/org/xml/sax/EntityResolver.java, src/org/xml/sax/ErrorHandler.java, src/org/xml/sax/HandlerBase.java, src/org/xml/sax/InputSource.java, src/org/xml/sax/Locator.java, src/org/xml/sax/Parser.java, src/org/xml/sax/SAXException.java, src/org/xml/sax/SAXNotRecognizedException.java, src/org/xml/sax/SAXNotSupportedException.java, src/org/xml/sax/SAXParseException.java, src/org/xml/sax/XMLFilter.java, src/org/xml/sax/XMLReader.java, src/org/xml/sax/helpers/AttributeListImpl.java, src/org/xml/sax/helpers/AttributesImpl.java, src/org/xml/sax/helpers/DefaultHandler.java, src/org/xml/sax/helpers/LocatorImpl.java, src/org/xml/sax/helpers/NamespaceSupport.java, src/org/xml/sax/helpers/ParserAdapter.java, src/org/xml/sax/helpers/ParserFactory.java, src/org/xml/sax/helpers/XMLFilterImpl.java, src/org/xml/sax/helpers/XMLReaderAdapter.java, src/org/xml/sax/helpers/XMLReaderFactory.java:
+	New file.
+
+	* COPYING, ChangeLog, README:
+
+	* COPYING, ChangeLog, README: New file.
+	

@@ -1,0 +1,1055 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Wed Apr 07 13:12:01 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>ECMAScript Language Binding</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='acknowledgements.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='java-binding.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Java Language Binding' accesskey='p' href='java-binding.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Acknowledgements' accesskey='n' href='acknowledgements.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='ecma-binding'></a>
+<h1 id='ecma-binding-h1' class='adiv1'>Appendix H: ECMAScript Language Binding</h1>
+<p class='first'>This appendix contains the complete ECMAScript [<cite><a class='noxref normative' href='references.html#ECMAScript'>ECMAScript</a></cite>] binding for the Level 3 Document Object Model Core
+  definitions.</p>
+<div class='div2'><a name='Level-3-ECMAScript-Binding-Extension'></a>
+<h2 id='Level-3-ECMAScript-Binding-Extension-h2' class='adiv2'>H.1 ECMAScript Binding Extension</h2>
+<p>This section defines the <code>DOMImplementationRegistry</code> object,
+    discussed in <a href='core.html#Bootstrap'>Bootstrapping</a>, for ECMAScript.<div class='ecma-block'>
+<dl>
+<dt>Objects that implements the DOMImplementationRegistry
+      interface</dt>
+<dd><dl>
+<dt>DOMImplementationRegistry is a global variable
+              which has the following functions:</dt>
+<dd><dl>
+<dt>getDOMImplementation(features)</dt>
+<dd>This method returns the first registered object
+                    that implements the <b>DOMImplementation</b>
+                    interface and has the desired features, or
+                    <b>null</b> if none is found.<br>
+The
+                    <b>features</b> parameter is a <b>String</b>. See
+                    also
+                    <a href='core.html#ID-getDOMImpl'><code>DOMImplementationSource.getDOMImplementation()</code></a>.
+		    </dd><dt>getDOMImplementationList(features)</dt>
+<dd>This method returns a
+		      <a href='core.html#DOMImplementationList'><code>DOMImplementationList</code></a> list of registered object
+                    that implements the <b>DOMImplementation</b>
+                    interface and has the desired features.<br>
+The
+                    <b>features</b> parameter is a <b>String</b>. See
+                    also
+                    <a href='core.html#ID-getDOMImpls'><code>DOMImplementationSource.getDOMImplementationList()</code></a>.
+		    </dd></dl>
+</dd></dl>
+</dd></dl>
+</div>
+</div> <!-- div2 Level-3-ECMAScript-Binding-Extension -->
+<div class='div2'><a name='ECMAScriptCoreInterfaces'></a>
+<h2 id='ECMAScriptCoreInterfaces-h2' class='adiv2'>H.2 Other Core interfaces</h2>
+<div class='ecma-block'>
+
+<dl>
+
+<dt>Properties of the <b>DOMException</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>DOMException.INDEX_SIZE_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.INDEX_SIZE_ERR</b> is <b>1</b>.</dd>
+<dt><b>DOMException.DOMSTRING_SIZE_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.DOMSTRING_SIZE_ERR</b> is <b>2</b>.</dd>
+<dt><b>DOMException.HIERARCHY_REQUEST_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.HIERARCHY_REQUEST_ERR</b> is <b>3</b>.</dd>
+<dt><b>DOMException.WRONG_DOCUMENT_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.WRONG_DOCUMENT_ERR</b> is <b>4</b>.</dd>
+<dt><b>DOMException.INVALID_CHARACTER_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.INVALID_CHARACTER_ERR</b> is <b>5</b>.</dd>
+<dt><b>DOMException.NO_DATA_ALLOWED_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.NO_DATA_ALLOWED_ERR</b> is <b>6</b>.</dd>
+<dt><b>DOMException.NO_MODIFICATION_ALLOWED_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.NO_MODIFICATION_ALLOWED_ERR</b> is <b>7</b>.</dd>
+<dt><b>DOMException.NOT_FOUND_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.NOT_FOUND_ERR</b> is <b>8</b>.</dd>
+<dt><b>DOMException.NOT_SUPPORTED_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.NOT_SUPPORTED_ERR</b> is <b>9</b>.</dd>
+<dt><b>DOMException.INUSE_ATTRIBUTE_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.INUSE_ATTRIBUTE_ERR</b> is <b>10</b>.</dd>
+<dt><b>DOMException.INVALID_STATE_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.INVALID_STATE_ERR</b> is <b>11</b>.</dd>
+<dt><b>DOMException.SYNTAX_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.SYNTAX_ERR</b> is <b>12</b>.</dd>
+<dt><b>DOMException.INVALID_MODIFICATION_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.INVALID_MODIFICATION_ERR</b> is <b>13</b>.</dd>
+<dt><b>DOMException.NAMESPACE_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.NAMESPACE_ERR</b> is <b>14</b>.</dd>
+<dt><b>DOMException.INVALID_ACCESS_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.INVALID_ACCESS_ERR</b> is <b>15</b>.</dd>
+<dt><b>DOMException.VALIDATION_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.VALIDATION_ERR</b> is <b>16</b>.</dd>
+<dt><b>DOMException.TYPE_MISMATCH_ERR</b></dt>
+<dd>
+The value of the constant <b>DOMException.TYPE_MISMATCH_ERR</b> is <b>17</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>DOMException</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>DOMException</b> interface:</dt>
+<dd><dl>
+<dt><b>code</b></dt>
+<dd>
+ This property is 
+a <b>Number</b>.</dd></dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>DOMStringList</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>DOMStringList</b> interface:</dt>
+<dd><dl>
+<dt><b>length</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>DOMStringList</b> interface:</dt>
+<dd><dl>
+<dt><b>item(index)</b></dt>
+<dd>This function returns a <b>String</b>.<br>The <b>index</b> parameter is a <b>Number</b>.
+<br><b>Note:</b> This object can also be dereferenced using square bracket notation (e.g. obj[1]). Dereferencing with an integer <b>index</b> is equivalent to invoking the <b>item</b> function with that index.
+</dd>
+<dt><b>contains(str)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>str</b> parameter is a <b>String</b>.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>NameList</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>NameList</b> interface:</dt>
+<dd><dl>
+<dt><b>length</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>NameList</b> interface:</dt>
+<dd><dl>
+<dt><b>getName(index)</b></dt>
+<dd>This function returns a <b>String</b>.<br>The <b>index</b> parameter is a <b>Number</b>.
+</dd>
+<dt><b>getNamespaceURI(index)</b></dt>
+<dd>This function returns a <b>String</b>.<br>The <b>index</b> parameter is a <b>Number</b>.
+</dd>
+<dt><b>contains(str)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>str</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>containsNS(namespaceURI, name)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>name</b> parameter is a <b>String</b>.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>DOMImplementationList</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>DOMImplementationList</b> interface:</dt>
+<dd><dl>
+<dt><b>length</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>DOMImplementationList</b> interface:</dt>
+<dd><dl>
+<dt><b>item(index)</b></dt>
+<dd>This function returns an object that implements the <b>DOMImplementation</b> interface.<br>The <b>index</b> parameter is a <b>Number</b>.
+<br><b>Note:</b> This object can also be dereferenced using square bracket notation (e.g. obj[1]). Dereferencing with an integer <b>index</b> is equivalent to invoking the <b>item</b> function with that index.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>DOMImplementationSource</b> interface:</dt>
+<dd>
+<dl>
+<dt>Functions of objects that implement the <b>DOMImplementationSource</b> interface:</dt>
+<dd><dl>
+<dt><b>getDOMImplementation(features)</b></dt>
+<dd>This function returns an object that implements the <b>DOMImplementation</b> interface.<br>The <b>features</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>getDOMImplementationList(features)</b></dt>
+<dd>This function returns an object that implements the <b>DOMImplementationList</b> interface.<br>The <b>features</b> parameter is a <b>String</b>.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>DOMImplementation</b> interface:</dt>
+<dd>
+<dl>
+<dt>Functions of objects that implement the <b>DOMImplementation</b> interface:</dt>
+<dd><dl>
+<dt><b>hasFeature(feature, version)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>feature</b> parameter is a <b>String</b>.
+<br>The <b>version</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>createDocumentType(qualifiedName, publicId, systemId)</b></dt>
+<dd>This function returns an object that implements the <b>DocumentType</b> interface.<br>The <b>qualifiedName</b> parameter is a <b>String</b>.
+<br>The <b>publicId</b> parameter is a <b>String</b>.
+<br>The <b>systemId</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>createDocument(namespaceURI, qualifiedName, doctype)</b></dt>
+<dd>This function returns an object that implements the <b>Document</b> interface.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>qualifiedName</b> parameter is a <b>String</b>.
+<br>The <b>doctype</b> parameter is an object that implements the <b>DocumentType</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>getFeature(feature, version)</b></dt>
+<dd>This function returns an object that implements the <b>Object</b> interface.<br>The <b>feature</b> parameter is a <b>String</b>.
+<br>The <b>version</b> parameter is a <b>String</b>.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>DocumentFragment</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>DocumentFragment</b> interface have all properties and functions of the <b>Node</b> interface.</dt>
+</dl>
+</dd>
+<dt>Objects that implement the <b>Document</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>Document</b> interface have all properties and functions of the <b>Node</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>Document</b> interface:</dt>
+<dd><dl>
+<dt><b>doctype</b></dt>
+<dd>
+This read-only property is an object that implements the <b>DocumentType</b> interface.</dd>
+<dt><b>implementation</b></dt>
+<dd>
+This read-only property is an object that implements the <b>DOMImplementation</b> interface.</dd>
+<dt><b>documentElement</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Element</b> interface.</dd>
+<dt><b>inputEncoding</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>xmlEncoding</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>xmlStandalone</b></dt>
+<dd>
+This property is a <b>Boolean</b> and can raise an object that implements the <b>DOMException</b> interface on setting.</dd>
+<dt><b>xmlVersion</b></dt>
+<dd>
+This property is a <b>String</b> and can raise an object that implements the <b>DOMException</b> interface on setting.</dd>
+<dt><b>strictErrorChecking</b></dt>
+<dd>
+This property is a <b>Boolean</b>.</dd>
+<dt><b>documentURI</b></dt>
+<dd>
+This property is a <b>String</b>.</dd>
+<dt><b>domConfig</b></dt>
+<dd>
+This read-only property is an object that implements the <b>DOMConfiguration</b> interface.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>Document</b> interface:</dt>
+<dd><dl>
+<dt><b>createElement(tagName)</b></dt>
+<dd>This function returns an object that implements the <b>Element</b> interface.<br>The <b>tagName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>createDocumentFragment()</b></dt>
+<dd>This function returns an object that implements the <b>DocumentFragment</b> interface.</dd>
+<dt><b>createTextNode(data)</b></dt>
+<dd>This function returns an object that implements the <b>Text</b> interface.<br>The <b>data</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>createComment(data)</b></dt>
+<dd>This function returns an object that implements the <b>Comment</b> interface.<br>The <b>data</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>createCDATASection(data)</b></dt>
+<dd>This function returns an object that implements the <b>CDATASection</b> interface.<br>The <b>data</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>createProcessingInstruction(target, data)</b></dt>
+<dd>This function returns an object that implements the <b>ProcessingInstruction</b> interface.<br>The <b>target</b> parameter is a <b>String</b>.
+<br>The <b>data</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>createAttribute(name)</b></dt>
+<dd>This function returns an object that implements the <b>Attr</b> interface.<br>The <b>name</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>createEntityReference(name)</b></dt>
+<dd>This function returns an object that implements the <b>EntityReference</b> interface.<br>The <b>name</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>getElementsByTagName(tagname)</b></dt>
+<dd>This function returns an object that implements the <b>NodeList</b> interface.<br>The <b>tagname</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>importNode(importedNode, deep)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>importedNode</b> parameter is an object that implements the <b>Node</b> interface.
+<br>The <b>deep</b> parameter is a <b>Boolean</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>createElementNS(namespaceURI, qualifiedName)</b></dt>
+<dd>This function returns an object that implements the <b>Element</b> interface.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>qualifiedName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>createAttributeNS(namespaceURI, qualifiedName)</b></dt>
+<dd>This function returns an object that implements the <b>Attr</b> interface.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>qualifiedName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>getElementsByTagNameNS(namespaceURI, localName)</b></dt>
+<dd>This function returns an object that implements the <b>NodeList</b> interface.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>localName</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>getElementById(elementId)</b></dt>
+<dd>This function returns an object that implements the <b>Element</b> interface.<br>The <b>elementId</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>adoptNode(source)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>source</b> parameter is an object that implements the <b>Node</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>normalizeDocument()</b></dt>
+<dd>This function has no return value.
+</dd>
+<dt><b>renameNode(n, namespaceURI, qualifiedName)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>n</b> parameter is an object that implements the <b>Node</b> interface.
+<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>qualifiedName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Properties of the <b>Node</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>Node.ELEMENT_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.ELEMENT_NODE</b> is <b>1</b>.</dd>
+<dt><b>Node.ATTRIBUTE_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.ATTRIBUTE_NODE</b> is <b>2</b>.</dd>
+<dt><b>Node.TEXT_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.TEXT_NODE</b> is <b>3</b>.</dd>
+<dt><b>Node.CDATA_SECTION_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.CDATA_SECTION_NODE</b> is <b>4</b>.</dd>
+<dt><b>Node.ENTITY_REFERENCE_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.ENTITY_REFERENCE_NODE</b> is <b>5</b>.</dd>
+<dt><b>Node.ENTITY_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.ENTITY_NODE</b> is <b>6</b>.</dd>
+<dt><b>Node.PROCESSING_INSTRUCTION_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.PROCESSING_INSTRUCTION_NODE</b> is <b>7</b>.</dd>
+<dt><b>Node.COMMENT_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.COMMENT_NODE</b> is <b>8</b>.</dd>
+<dt><b>Node.DOCUMENT_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.DOCUMENT_NODE</b> is <b>9</b>.</dd>
+<dt><b>Node.DOCUMENT_TYPE_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.DOCUMENT_TYPE_NODE</b> is <b>10</b>.</dd>
+<dt><b>Node.DOCUMENT_FRAGMENT_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.DOCUMENT_FRAGMENT_NODE</b> is <b>11</b>.</dd>
+<dt><b>Node.NOTATION_NODE</b></dt>
+<dd>
+The value of the constant <b>Node.NOTATION_NODE</b> is <b>12</b>.</dd>
+<dt><b>Node.DOCUMENT_POSITION_DISCONNECTED</b></dt>
+<dd>
+The value of the constant <b>Node.DOCUMENT_POSITION_DISCONNECTED</b> is <b>0x01</b>.</dd>
+<dt><b>Node.DOCUMENT_POSITION_PRECEDING</b></dt>
+<dd>
+The value of the constant <b>Node.DOCUMENT_POSITION_PRECEDING</b> is <b>0x02</b>.</dd>
+<dt><b>Node.DOCUMENT_POSITION_FOLLOWING</b></dt>
+<dd>
+The value of the constant <b>Node.DOCUMENT_POSITION_FOLLOWING</b> is <b>0x04</b>.</dd>
+<dt><b>Node.DOCUMENT_POSITION_CONTAINS</b></dt>
+<dd>
+The value of the constant <b>Node.DOCUMENT_POSITION_CONTAINS</b> is <b>0x08</b>.</dd>
+<dt><b>Node.DOCUMENT_POSITION_CONTAINED_BY</b></dt>
+<dd>
+The value of the constant <b>Node.DOCUMENT_POSITION_CONTAINED_BY</b> is <b>0x10</b>.</dd>
+<dt><b>Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</b></dt>
+<dd>
+The value of the constant <b>Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</b> is <b>0x20</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>Node</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>Node</b> interface:</dt>
+<dd><dl>
+<dt><b>nodeName</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>nodeValue</b></dt>
+<dd>
+This property is a <b>String</b>, can raise an object that implements the <b>DOMException</b> interface on setting and can raise an object that implements the <b>DOMException</b> interface on retrieval.</dd>
+<dt><b>nodeType</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+<dt><b>parentNode</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Node</b> interface.</dd>
+<dt><b>childNodes</b></dt>
+<dd>
+This read-only property is an object that implements the <b>NodeList</b> interface.</dd>
+<dt><b>firstChild</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Node</b> interface.</dd>
+<dt><b>lastChild</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Node</b> interface.</dd>
+<dt><b>previousSibling</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Node</b> interface.</dd>
+<dt><b>nextSibling</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Node</b> interface.</dd>
+<dt><b>attributes</b></dt>
+<dd>
+This read-only property is an object that implements the <b>NamedNodeMap</b> interface.</dd>
+<dt><b>ownerDocument</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Document</b> interface.</dd>
+<dt><b>namespaceURI</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>prefix</b></dt>
+<dd>
+This property is a <b>String</b> and can raise an object that implements the <b>DOMException</b> interface on setting.</dd>
+<dt><b>localName</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>baseURI</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>textContent</b></dt>
+<dd>
+This property is a <b>String</b>, can raise an object that implements the <b>DOMException</b> interface on setting and can raise an object that implements the <b>DOMException</b> interface on retrieval.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>Node</b> interface:</dt>
+<dd><dl>
+<dt><b>insertBefore(newChild, refChild)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>newChild</b> parameter is an object that implements the <b>Node</b> interface.
+<br>The <b>refChild</b> parameter is an object that implements the <b>Node</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>replaceChild(newChild, oldChild)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>newChild</b> parameter is an object that implements the <b>Node</b> interface.
+<br>The <b>oldChild</b> parameter is an object that implements the <b>Node</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>removeChild(oldChild)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>oldChild</b> parameter is an object that implements the <b>Node</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>appendChild(newChild)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>newChild</b> parameter is an object that implements the <b>Node</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>hasChildNodes()</b></dt>
+<dd>This function returns a <b>Boolean</b>.</dd>
+<dt><b>cloneNode(deep)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>deep</b> parameter is a <b>Boolean</b>.
+</dd>
+<dt><b>normalize()</b></dt>
+<dd>This function has no return value.
+</dd>
+<dt><b>isSupported(feature, version)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>feature</b> parameter is a <b>String</b>.
+<br>The <b>version</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>hasAttributes()</b></dt>
+<dd>This function returns a <b>Boolean</b>.</dd>
+<dt><b>compareDocumentPosition(other)</b></dt>
+<dd>This function returns a <b>Number</b>.<br>The <b>other</b> parameter is an object that implements the <b>Node</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>isSameNode(other)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>other</b> parameter is an object that implements the <b>Node</b> interface.
+</dd>
+<dt><b>lookupPrefix(namespaceURI)</b></dt>
+<dd>This function returns a <b>String</b>.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>isDefaultNamespace(namespaceURI)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>lookupNamespaceURI(prefix)</b></dt>
+<dd>This function returns a <b>String</b>.<br>The <b>prefix</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>isEqualNode(arg)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>arg</b> parameter is an object that implements the <b>Node</b> interface.
+</dd>
+<dt><b>getFeature(feature, version)</b></dt>
+<dd>This function returns an object that implements the <b>Object</b> interface.<br>The <b>feature</b> parameter is a <b>String</b>.
+<br>The <b>version</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>setUserData(key, data, handler)</b></dt>
+<dd>This function returns an object that implements the <b>any type</b> interface.<br>The <b>key</b> parameter is a <b>String</b>.
+<br>The <b>data</b> parameter is an object that implements the <b>any type</b> interface.
+<br>The <b>handler</b> parameter is an object that implements the <b>UserDataHandler</b> interface.
+</dd>
+<dt><b>getUserData(key)</b></dt>
+<dd>This function returns an object that implements the <b>any type</b> interface.<br>The <b>key</b> parameter is a <b>String</b>.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>NodeList</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>NodeList</b> interface:</dt>
+<dd><dl>
+<dt><b>length</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>NodeList</b> interface:</dt>
+<dd><dl>
+<dt><b>item(index)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>index</b> parameter is a <b>Number</b>.
+<br><b>Note:</b> This object can also be dereferenced using square bracket notation (e.g. obj[1]). Dereferencing with an integer <b>index</b> is equivalent to invoking the <b>item</b> function with that index.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>NamedNodeMap</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>NamedNodeMap</b> interface:</dt>
+<dd><dl>
+<dt><b>length</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>NamedNodeMap</b> interface:</dt>
+<dd><dl>
+<dt><b>getNamedItem(name)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>name</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>setNamedItem(arg)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>arg</b> parameter is an object that implements the <b>Node</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>removeNamedItem(name)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>name</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>item(index)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>index</b> parameter is a <b>Number</b>.
+<br><b>Note:</b> This object can also be dereferenced using square bracket notation (e.g. obj[1]). Dereferencing with an integer <b>index</b> is equivalent to invoking the <b>item</b> function with that index.
+</dd>
+<dt><b>getNamedItemNS(namespaceURI, localName)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>localName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>setNamedItemNS(arg)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>arg</b> parameter is an object that implements the <b>Node</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>removeNamedItemNS(namespaceURI, localName)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>localName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>CharacterData</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>CharacterData</b> interface have all properties and functions of the <b>Node</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>CharacterData</b> interface:</dt>
+<dd><dl>
+<dt><b>data</b></dt>
+<dd>
+This property is a <b>String</b>, can raise an object that implements the <b>DOMException</b> interface on setting and can raise an object that implements the <b>DOMException</b> interface on retrieval.</dd>
+<dt><b>length</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>CharacterData</b> interface:</dt>
+<dd><dl>
+<dt><b>substringData(offset, count)</b></dt>
+<dd>This function returns a <b>String</b>.<br>The <b>offset</b> parameter is a <b>Number</b>.
+<br>The <b>count</b> parameter is a <b>Number</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>appendData(arg)</b></dt>
+<dd>This function has no return value.
+<br>The <b>arg</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>insertData(offset, arg)</b></dt>
+<dd>This function has no return value.
+<br>The <b>offset</b> parameter is a <b>Number</b>.
+<br>The <b>arg</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>deleteData(offset, count)</b></dt>
+<dd>This function has no return value.
+<br>The <b>offset</b> parameter is a <b>Number</b>.
+<br>The <b>count</b> parameter is a <b>Number</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>replaceData(offset, count, arg)</b></dt>
+<dd>This function has no return value.
+<br>The <b>offset</b> parameter is a <b>Number</b>.
+<br>The <b>count</b> parameter is a <b>Number</b>.
+<br>The <b>arg</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>Attr</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>Attr</b> interface have all properties and functions of the <b>Node</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>Attr</b> interface:</dt>
+<dd><dl>
+<dt><b>name</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>specified</b></dt>
+<dd>
+This read-only property is a <b>Boolean</b>.</dd>
+<dt><b>value</b></dt>
+<dd>
+This property is a <b>String</b> and can raise an object that implements the <b>DOMException</b> interface on setting.</dd>
+<dt><b>ownerElement</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Element</b> interface.</dd>
+<dt><b>schemaTypeInfo</b></dt>
+<dd>
+This read-only property is an object that implements the <b>TypeInfo</b> interface.</dd>
+<dt><b>isId</b></dt>
+<dd>
+This read-only property is a <b>Boolean</b>.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>Element</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>Element</b> interface have all properties and functions of the <b>Node</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>Element</b> interface:</dt>
+<dd><dl>
+<dt><b>tagName</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>schemaTypeInfo</b></dt>
+<dd>
+This read-only property is an object that implements the <b>TypeInfo</b> interface.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>Element</b> interface:</dt>
+<dd><dl>
+<dt><b>getAttribute(name)</b></dt>
+<dd>This function returns a <b>String</b>.<br>The <b>name</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>setAttribute(name, value)</b></dt>
+<dd>This function has no return value.
+<br>The <b>name</b> parameter is a <b>String</b>.
+<br>The <b>value</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>removeAttribute(name)</b></dt>
+<dd>This function has no return value.
+<br>The <b>name</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>getAttributeNode(name)</b></dt>
+<dd>This function returns an object that implements the <b>Attr</b> interface.<br>The <b>name</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>setAttributeNode(newAttr)</b></dt>
+<dd>This function returns an object that implements the <b>Attr</b> interface.<br>The <b>newAttr</b> parameter is an object that implements the <b>Attr</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>removeAttributeNode(oldAttr)</b></dt>
+<dd>This function returns an object that implements the <b>Attr</b> interface.<br>The <b>oldAttr</b> parameter is an object that implements the <b>Attr</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>getElementsByTagName(name)</b></dt>
+<dd>This function returns an object that implements the <b>NodeList</b> interface.<br>The <b>name</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>getAttributeNS(namespaceURI, localName)</b></dt>
+<dd>This function returns a <b>String</b>.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>localName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>setAttributeNS(namespaceURI, qualifiedName, value)</b></dt>
+<dd>This function has no return value.
+<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>qualifiedName</b> parameter is a <b>String</b>.
+<br>The <b>value</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>removeAttributeNS(namespaceURI, localName)</b></dt>
+<dd>This function has no return value.
+<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>localName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>getAttributeNodeNS(namespaceURI, localName)</b></dt>
+<dd>This function returns an object that implements the <b>Attr</b> interface.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>localName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>setAttributeNodeNS(newAttr)</b></dt>
+<dd>This function returns an object that implements the <b>Attr</b> interface.<br>The <b>newAttr</b> parameter is an object that implements the <b>Attr</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>getElementsByTagNameNS(namespaceURI, localName)</b></dt>
+<dd>This function returns an object that implements the <b>NodeList</b> interface.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>localName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>hasAttribute(name)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>name</b> parameter is a <b>String</b>.
+</dd>
+<dt><b>hasAttributeNS(namespaceURI, localName)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>localName</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>setIdAttribute(name, isId)</b></dt>
+<dd>This function has no return value.
+<br>The <b>name</b> parameter is a <b>String</b>.
+<br>The <b>isId</b> parameter is a <b>Boolean</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>setIdAttributeNS(namespaceURI, localName, isId)</b></dt>
+<dd>This function has no return value.
+<br>The <b>namespaceURI</b> parameter is a <b>String</b>.
+<br>The <b>localName</b> parameter is a <b>String</b>.
+<br>The <b>isId</b> parameter is a <b>Boolean</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>setIdAttributeNode(idAttr, isId)</b></dt>
+<dd>This function has no return value.
+<br>The <b>idAttr</b> parameter is an object that implements the <b>Attr</b> interface.
+<br>The <b>isId</b> parameter is a <b>Boolean</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>Text</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>Text</b> interface have all properties and functions of the <b>CharacterData</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>Text</b> interface:</dt>
+<dd><dl>
+<dt><b>isElementContentWhitespace</b></dt>
+<dd>
+This read-only property is a <b>Boolean</b>.</dd>
+<dt><b>wholeText</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>Text</b> interface:</dt>
+<dd><dl>
+<dt><b>splitText(offset)</b></dt>
+<dd>This function returns an object that implements the <b>Text</b> interface.<br>The <b>offset</b> parameter is a <b>Number</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>replaceWholeText(content)</b></dt>
+<dd>This function returns an object that implements the <b>Text</b> interface.<br>The <b>content</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>Comment</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>Comment</b> interface have all properties and functions of the <b>CharacterData</b> interface.</dt>
+</dl>
+</dd>
+<dt>Properties of the <b>TypeInfo</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>TypeInfo.DERIVATION_RESTRICTION</b></dt>
+<dd>
+The value of the constant <b>TypeInfo.DERIVATION_RESTRICTION</b> is <b>0x00000001</b>.</dd>
+<dt><b>TypeInfo.DERIVATION_EXTENSION</b></dt>
+<dd>
+The value of the constant <b>TypeInfo.DERIVATION_EXTENSION</b> is <b>0x00000002</b>.</dd>
+<dt><b>TypeInfo.DERIVATION_UNION</b></dt>
+<dd>
+The value of the constant <b>TypeInfo.DERIVATION_UNION</b> is <b>0x00000004</b>.</dd>
+<dt><b>TypeInfo.DERIVATION_LIST</b></dt>
+<dd>
+The value of the constant <b>TypeInfo.DERIVATION_LIST</b> is <b>0x00000008</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>TypeInfo</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>TypeInfo</b> interface:</dt>
+<dd><dl>
+<dt><b>typeName</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>typeNamespace</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>TypeInfo</b> interface:</dt>
+<dd><dl>
+<dt><b>isDerivedFrom(typeNamespaceArg, typeNameArg, derivationMethod)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>typeNamespaceArg</b> parameter is a <b>String</b>.
+<br>The <b>typeNameArg</b> parameter is a <b>String</b>.
+<br>The <b>derivationMethod</b> parameter is a <b>Number</b>.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Properties of the <b>UserDataHandler</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>UserDataHandler.NODE_CLONED</b></dt>
+<dd>
+The value of the constant <b>UserDataHandler.NODE_CLONED</b> is <b>1</b>.</dd>
+<dt><b>UserDataHandler.NODE_IMPORTED</b></dt>
+<dd>
+The value of the constant <b>UserDataHandler.NODE_IMPORTED</b> is <b>2</b>.</dd>
+<dt><b>UserDataHandler.NODE_DELETED</b></dt>
+<dd>
+The value of the constant <b>UserDataHandler.NODE_DELETED</b> is <b>3</b>.</dd>
+<dt><b>UserDataHandler.NODE_RENAMED</b></dt>
+<dd>
+The value of the constant <b>UserDataHandler.NODE_RENAMED</b> is <b>4</b>.</dd>
+<dt><b>UserDataHandler.NODE_ADOPTED</b></dt>
+<dd>
+The value of the constant <b>UserDataHandler.NODE_ADOPTED</b> is <b>5</b>.</dd>
+</dl></dd>
+<dt><b>UserDataHandler</b> function:</dt>
+<dd>
+<dd>This function has no return value.
+ The first parameter is a <b>Number</b>.
+ The second parameter is a <b>String</b>.
+ The third parameter is an object that implements the <b>any type</b> interface.
+ The fourth parameter is an object that implements the <b>Node</b> interface.
+ The fifth parameter is an object that implements the <b>Node</b> interface.
+</dd>
+<dt>Properties of the <b>DOMError</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>DOMError.SEVERITY_WARNING</b></dt>
+<dd>
+The value of the constant <b>DOMError.SEVERITY_WARNING</b> is <b>1</b>.</dd>
+<dt><b>DOMError.SEVERITY_ERROR</b></dt>
+<dd>
+The value of the constant <b>DOMError.SEVERITY_ERROR</b> is <b>2</b>.</dd>
+<dt><b>DOMError.SEVERITY_FATAL_ERROR</b></dt>
+<dd>
+The value of the constant <b>DOMError.SEVERITY_FATAL_ERROR</b> is <b>3</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>DOMError</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>DOMError</b> interface:</dt>
+<dd><dl>
+<dt><b>severity</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+<dt><b>message</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>type</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>relatedException</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Object</b> interface.</dd>
+<dt><b>relatedData</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Object</b> interface.</dd>
+<dt><b>location</b></dt>
+<dd>
+This read-only property is an object that implements the <b>DOMLocator</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt><b>DOMErrorHandler</b> function:</dt>
+<dd>
+<dd>This function returns a <b>Boolean</b>. The parameter is an object that implements the <b>DOMError</b> interface.
+</dd>
+<dt>Objects that implement the <b>DOMLocator</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>DOMLocator</b> interface:</dt>
+<dd><dl>
+<dt><b>lineNumber</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+<dt><b>columnNumber</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+<dt><b>byteOffset</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+<dt><b>utf16Offset</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+<dt><b>relatedNode</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Node</b> interface.</dd>
+<dt><b>uri</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>DOMConfiguration</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>DOMConfiguration</b> interface:</dt>
+<dd><dl>
+<dt><b>parameterNames</b></dt>
+<dd>
+This read-only property is an object that implements the <b>DOMStringList</b> interface.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>DOMConfiguration</b> interface:</dt>
+<dd><dl>
+<dt><b>setParameter(name, value)</b></dt>
+<dd>This function has no return value.
+<br>The <b>name</b> parameter is a <b>String</b>.
+<br>The <b>value</b> parameter is an object that implements the <b>any type</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>getParameter(name)</b></dt>
+<dd>This function returns an object that implements the <b>any type</b> interface.<br>The <b>name</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>canSetParameter(name, value)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>name</b> parameter is a <b>String</b>.
+<br>The <b>value</b> parameter is an object that implements the <b>any type</b> interface.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>CDATASection</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>CDATASection</b> interface have all properties and functions of the <b>Text</b> interface.</dt>
+</dl>
+</dd>
+<dt>Objects that implement the <b>DocumentType</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>DocumentType</b> interface have all properties and functions of the <b>Node</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>DocumentType</b> interface:</dt>
+<dd><dl>
+<dt><b>name</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>entities</b></dt>
+<dd>
+This read-only property is an object that implements the <b>NamedNodeMap</b> interface.</dd>
+<dt><b>notations</b></dt>
+<dd>
+This read-only property is an object that implements the <b>NamedNodeMap</b> interface.</dd>
+<dt><b>publicId</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>systemId</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>internalSubset</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>Notation</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>Notation</b> interface have all properties and functions of the <b>Node</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>Notation</b> interface:</dt>
+<dd><dl>
+<dt><b>publicId</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>systemId</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>Entity</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>Entity</b> interface have all properties and functions of the <b>Node</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>Entity</b> interface:</dt>
+<dd><dl>
+<dt><b>publicId</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>systemId</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>notationName</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>inputEncoding</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>xmlEncoding</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>xmlVersion</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>EntityReference</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>EntityReference</b> interface have all properties and functions of the <b>Node</b> interface.</dt>
+</dl>
+</dd>
+<dt>Objects that implement the <b>ProcessingInstruction</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>ProcessingInstruction</b> interface have all properties and functions of the <b>Node</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>ProcessingInstruction</b> interface:</dt>
+<dd><dl>
+<dt><b>target</b></dt>
+<dd>
+This read-only property is a <b>String</b>.</dd>
+<dt><b>data</b></dt>
+<dd>
+This property is a <b>String</b> and can raise an object that implements the <b>DOMException</b> interface on setting.</dd>
+</dl></dd>
+</dl>
+</dd>
+
+</dl>
+
+</div> <!-- ecma-block -->
+<p><b>Note:</b> 
+	In addition of having <a href='core.html#DOMConfiguration'><code>DOMConfiguration</code></a> parameters
+	exposed to the application using the <code>setParameter</code>
+	and <code>getParameter</code>, those parameters are also exposed
+	as ECMAScript properties on the <a class='noxref' href='core.html#DOMConfiguration'><code>DOMConfiguration</code></a>
+	object. The name of the parameter is converted into a property
+	name using a camel-case convention: the character '-'
+	(HYPHEN-MINUS) is removed and the following character is
+	being replaced by its uppercase equivalent.
+      </p>
+</div> <!-- div2 ECMAScriptCoreInterfaces --></div> <!-- div1 ecma-binding --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Java Language Binding' href='java-binding.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Acknowledgements' href='acknowledgements.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

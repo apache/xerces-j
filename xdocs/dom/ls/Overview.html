@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Apr 05 15:05:38 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Document Object Model (DOM) Level 3 Load
+and Save Specification</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='expanded-toc.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Expanded Table of Contents' accesskey='n' href='expanded-toc.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+
+<div class='head'>
+<p><a href='http://www.w3.org/'>
+<img height='48' width='72'
+ alt='W3C' src='./images/w3c_home.gif'></a></p>
+  <h1 id='title'>Document Object Model (DOM) Level 3 Load
+and Save Specification</h1>
+  <h2 id='version'>Version 1.0</h2>
+<!-- REC-DOM-Level-3-LS-20040407
+ -->  <h2 id='W3C-doctype'>W3C Recommendation 07 April 2004</h2>
+<dl><dt>This version:</dt>
+<dd><a href='http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407'>http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407</a></dd><dt>Latest version:</dt>
+ <dd><a href='http://www.w3.org/TR/DOM-Level-3-LS'>http://www.w3.org/TR/DOM-Level-3-LS</a></dd>
+ <dt>Previous version:</dt>
+
+
+      <dd><a href='http://www.w3.org/TR/2004/PR-DOM-Level-3-LS-20040205/'>http://www.w3.org/TR/2004/PR-DOM-Level-3-LS-20040205/</a></dd>
+
+</dl>
+<dl><dt>Editors:
+</dt><dd>Johnny Stenback, 
+<i>Netscape</i></dd>
+<dd>Andy Heninger, 
+<i>IBM (until March 2001)</i></dd>
+</dl>
+
+<p>Please refer to the <a href='http://www.w3.org/2004/01/DOM-Level-3-errata'><strong>errata</strong></a> for this document, which may include some normative corrections.</p><p>This document is also available in these non-normative formats: <a href='http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/xml-source.xml'>XML file</a>, <a href='http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/DOM3-LS.txt'>plain text</a>, <a href='http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/DOM3-LS.ps'>PostScript file</a>, <a href='http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/DOM3-LS.pdf'>PDF file</a>, <a href='http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/DOM3-LS.html'>single HTML file</a>, and <a href='http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/DOM3-LS.zip'>ZIP file</a>.</p>
+<p class='translation'>See also <a href='http://www.w3.org/2004/01/DOM-Level-3-translations'>translations</a> of this document.</p><p class='copyright'><a href='http://www.w3.org/Consortium/Legal/ipr-notice#Copyright'> Copyright</a> &#xa9;2004 <a href='http://www.w3.org/'><acronym title='World Wide Web Consortium'>W3C</acronym></a><sup>&#xae;</sup> (<a href='http://www.csail.mit.edu/'><acronym title='Massachusetts Institute of Technology'>MIT</acronym></a>, <a href='http://www.ercim.org/'><acronym title='European Research Consortium for Informatics and Mathematics'>ERCIM</acronym></a>, <a href='http://www.keio.ac.jp/'>Keio</a>), All Rights Reserved. W3C <a href='http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer'>liability</a>, <a href='http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks'>trademark</a>, <a href='http://www.w3.org/Consortium/Legal/copyright-documents'>document use</a> and <a href='http://www.w3.org/Consortium/Legal/copyright-software'>software licensing</a> rules apply.</p>
+</div>
+<hr title='separator from header'>
+<h2 id='abstract'>Abstract</h2>
+<div class='abstract'>
+<p>
+	This specification defines the Document Object Model Load and
+	Save Level 3, a platform- and language-neutral interface that
+	allows programs and scripts to dynamically load the content of
+	an XML document into a DOM document and serialize a DOM document
+	into an XML document; DOM documents being defined in [<a class='noxref' href='references.html#DOM2Core'>DOM Level 2 Core</a>] or newer, and XML documents being defined in
+	[<a class='noxref' href='references.html#XML'>XML 1.0</a>] or newer. It also allows filtering of
+	content at load time and at serialization time.
+      </p></div>
+<h2 id='status'>Status of this document</h2>
+<div class='status'>
+<p>
+	<em>This section describes the status of this document at the
+	time of its publication. Other documents may supersede this
+	document. A list of current W3C publications and the latest
+	revision of this technical report can be found in the <a href='http://www.w3.org/TR/'>W3C technical reports index</a>
+	at http://www.w3.org/TR/.</em>
+      </p><p>
+        This document contains the Document Object Model Level 3 Load
+        and Save specification and is a <a href='http://www.w3.org/2004/02/Process-20040205/tr.html#RecsW3C'>W3C
+        Recommendation</a>. It has been produced as part of the <a href='http://www.w3.org/DOM/Activity.html'>W3C DOM
+        Activity</a>. The authors of this document are the <a href='http://www.w3.org/DOM/'>DOM Working Group</a>
+        participants. For more information about DOM, readers can also
+        refer to <a href='http://www.w3.org/DOM/faq.html'>DOM
+        FAQ</a> and <a href='http://www.w3.org/DOM/Test/'>DOM
+        Conformance Test Suites</a>.
+      </p><p>
+        It is based on the feedback received during the <a href='http://www.w3.org/2004/02/19-dom-level-3-issues/issues.html'>Proposed
+        Recommendation</a> period. <a href='http://www.w3.org/2004/03/DOM-Level-3-LS-changes.html'>Changes
+        since the Proposed Recommendation version</a> and an <a href='http://www.w3.org/2003/10/DOM-Level-3-LS-implementations.html'>implementation
+        report</a> are available. Please refer to the <a href='http://www.w3.org/2004/01/DOM-Level-3-errata'>errata</a> for this
+        document, which may include some normative corrections.
+      </p><p>
+        Comments on this document should be sent to the public mailing
+        list <a href='mailto:www-dom@w3.org'>www-dom@w3.org</a> (<a href='http://lists.w3.org/Archives/Public/www-dom/'>public archive</a>).
+      </p><p>
+        This is a stable document and has been endorsed by the W3C
+        Membership and the participants of the DOM working group. The
+        English version of this specification is the only normative
+        version. See also <a href='http://www.w3.org/2004/01/DOM-Level-3-translations'>translations</a>.
+      </p><p>
+	Patent disclosures relevant to this specification may be found
+	on the Working Group's <a href='http://www.w3.org/2002/08/02-DOM-Disclosures.html'>patent
+	disclosure page</a>. This document has been produced under the
+	<a href='http://www.w3.org/TR/2002/NOTE-patent-practice-20020124'>24
+	January 2002 CPP</a> as amended by the <a href='http://www.w3.org/2004/02/05-pp-transition'>W3C Patent
+	Policy Transition Procedure</a>. An individual who has actual
+	knowledge of a patent which the individual believes contains
+	Essential Claim(s) with respect to this specification should
+	disclose the information in accordance with <a href='http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure'>section
+	6 of the W3C Patent Policy</a>.
+      </p></div>
+<h2 id='table-of-contents'><a name='contents'>Table of contents</a></h2>
+<ul class='toc'>
+<li class='tocline2'><a class='tocxref' href='expanded-toc.html'>Expanded Table of Contents</a></li>
+<li class='tocline2'><a class='tocxref' href='copyright-notice.html'>W3C Copyright Notices and Licenses</a></li>
+</ul>
+<ul class='toc'>
+<li class='tocline2'><a class='tocxref' href='load-save.html'>1. Document Object Model Load and Save</a></li>
+</ul>
+<ul class='toc'>
+<li class='tocline2'><a class='tocxref' href='idl-definitions.html'>Appendix A: IDL Definitions</a></li>
+<li class='tocline2'><a class='tocxref' href='java-binding.html'>Appendix B: Java Language Binding</a></li>
+<li class='tocline2'><a class='tocxref' href='ecma-script-binding.html'>Appendix C: ECMAScript Language Binding</a></li>
+<li class='tocline2'><a class='tocxref' href='acknowledgements.html'>Appendix D: Acknowledgements</a></li>
+<li class='tocline2'><a class='tocxref' href='glossary.html'>Glossary</a></li>
+<li class='tocline2'><a class='tocxref' href='references.html'>References</a></li>
+<li class='tocline2'><a class='tocxref' href='def-index.html'>Index</a></li>
+</ul>
+
+<div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Expanded Table of Contents' href='expanded-toc.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

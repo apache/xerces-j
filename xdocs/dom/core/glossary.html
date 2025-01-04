@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Wed Apr 07 13:12:03 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Glossary</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='references.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='acknowledgements.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Acknowledgements' accesskey='p' href='acknowledgements.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='References' accesskey='n' href='references.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='glossary'></a>
+<h1 id='role-glossary' class='glossary'>
+Glossary</h1>
+<dl>
+<dt><i>Editors</i>:
+</dt><dd>Arnaud Le Hors, W3C</dd>
+<dd>Robert S. Sutor, IBM Research (for DOM Level 1)</dd>
+</dl>
+<p class='first'>Some of the following term definitions have been borrowed or
+    modified from similar definitions in other W3C or standards documents.
+    See the links within the definitions for more information.</p><dl>
+<dt><b><a name='dt-16-bit-unit'>16-bit unit</a></b></dt>
+<dd>The base unit of a <a href='core.html#DOMString'><code>DOMString</code></a>. This indicates that
+          indexing on a <a class='noxref' href='core.html#DOMString'><code>DOMString</code></a> occurs in units of 16 bits. 
+          This must not be misunderstood to mean that a <a class='noxref' href='core.html#DOMString'><code>DOMString</code></a>
+          can store arbitrary 16-bit units. A <a class='noxref' href='core.html#DOMString'><code>DOMString</code></a> is a 
+          character string encoded in UTF-16; this means that the restrictions
+          of UTF-16 as well as the other relevant restrictions on character strings
+          must be maintained. A single character, for example in the form of a 
+          numeric character reference, may correspond to one or two 16-bit units.</dd><dt><b><a name='dt-ancestor'>ancestor</a></b></dt>
+<dd>An <i>ancestor</i> node of any node A is any node
+	  above A in a tree model, where "above" means "toward the root."
+	</dd><dt><b><a name='dt-API'>API</a></b></dt>
+<dd>An <i>API</i> is an Application Programming
+	  Interface, a set of functions or methods used to access some
+	  functionality.</dd><dt><b><a name='dt-anonymous'>anonymous type name</a></b></dt>
+<dd>
+          An <i>anonymous type name</i> is an
+          implementation-defined, globally unique qualified name
+          provided by the processor for every anonymous type declared in
+          a <a href='glossary.html#dt-schema'>schema</a>.
+	</dd><dt><b><a name='dt-child'>child</a></b></dt>
+<dd>A <i>child</i> is an immediate descendant node of
+	  a node.</dd><dt><b><a name='dt-application'>client application</a></b></dt>
+<dd>A [client] application is any software that uses the
+	  Document Object Model programming interfaces provided by the
+	  hosting implementation to accomplish useful work. Some
+	  examples of client applications are scripts within an HTML
+	  or XML document.</dd><dt><b><a name='dt-COM'>COM</a></b></dt>
+<dd><i>COM</i> is Microsoft's Component Object Model [<cite><a class='noxref informative' href='references.html#COM'>COM</a></cite>], a technology for building applications from binary
+	    software components.</dd><dt><b><a name='dt-convenience'>convenience</a></b></dt>
+<dd>A <i>convenience method</i> is an operation on an
+          object that could be accomplished by a program consisting of
+          more basic operations on the object. Convenience methods are
+          usually provided to make the API easier and simpler to use or to
+	  allow specific programs to create more optimized implementations
+	  for common operations. A similar definition holds for a
+	  <i>convenience property</i>.
+        </dd><dt><b><a name='dt-datamodel'>data model</a></b></dt>
+<dd>A <i>data model</i> is a collection of descriptions of data
+	  structures and their contained fields, together with the operations
+	  or functions that manipulate them.</dd><dt><b><a name='dt-descendant'>descendant</a></b></dt>
+<dd>A <i>descendant</i> node of any node A is any node
+	  below A in a tree model, where "below" means "away from the
+	  root."</dd><dt><b><a name='dt-document-element'>document element</a></b></dt>
+<dd>
+	  There is only one document element in a <a href='core.html#i-Document'><code>Document</code></a>. This
+	  element node is a child of the <a class='noxref' href='core.html#i-Document'><code>Document</code></a> node. See
+	  <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-20040204#dt-root'><em>Well-Formed XML
+	  Documents</em></a> in XML [<cite><a class='noxref informative' href='references.html#XML'>XML 1.0</a></cite>].
+	</dd><dt><b><a name='dt-document-order'>document order</a></b></dt>
+<dd>There is an ordering, <i>document order</i>, defined on all
+      the nodes in the document corresponding to the order in which the first
+      character of the XML representation of each node occurs in the XML
+      representation of the document after expansion of general entities. Thus,
+      the <a href='glossary.html#dt-document-element'>document element</a> node
+      will be the first node. Element nodes occur before their children. Thus,
+      document order orders element nodes in order of the occurrence of their
+      start-tag in the XML (after expansion of entities). The attribute nodes
+      of an element occur after the element and before its children. The
+      relative order of attribute nodes is implementation-dependent.</dd><dt><b><a name='dt-ECMAScript'>ECMAScript</a></b></dt>
+<dd>The programming language defined by the ECMA-262 standard
+	  [<cite><a class='noxref informative' href='references.html#ECMAScript'>ECMAScript</a></cite>]. As stated in the standard, the
+            originating technology for ECMAScript was JavaScript [<cite><a class='noxref informative' href='references.html#JavaScript'>JavaScript</a></cite>]. Note that in the ECMAScript binding, the word
+              "property" is used in the same sense as the IDL term
+              "attribute."</dd><dt><b><a name='dt-element'>element</a></b></dt>
+<dd>Each document contains one or more elements, the
+	  boundaries of which are either delimited by start-tags and
+	  end-tags, or, for empty elements by an empty-element tag.
+	  Each element has a type, identified by name, and may have a
+	  set of attributes. Each attribute has a name and a value.
+	  See <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-20040204#sec-logical-struct'><em>Logical
+	    Structures</em></a> in XML [<cite><a class='noxref informative' href='references.html#XML'>XML 1.0</a></cite>].
+	</dd><dt><b><a name='dt-infoitem'>information item</a></b></dt>
+<dd>An information item is an abstract representation of some
+          component of an XML document. See the [<cite><a class='noxref informative' href='references.html#InfoSet'>XML Information Set</a></cite>]
+            for details.
+        </dd><dt><b><a name='dt-logically-adjacent-text-nodes'>logically-adjacent text nodes</a></b></dt>
+<dd>
+        <i>Logically-adjacent text nodes</i> are <a href='core.html#ID-1312295772'><code>Text</code></a>
+        or <a href='core.html#ID-667469212'><code>CDATASection</code></a> nodes that can be visited
+        sequentially in <a href='glossary.html#dt-document-order'>document
+        order</a> or in reversed document order without entering,
+        exiting, or passing over <a href='core.html#ID-745549614'><code>Element</code></a>,
+        <a href='core.html#ID-1728279322'><code>Comment</code></a>, or <a href='core.html#ID-1004215813'><code>ProcessingInstruction</code></a>
+        nodes.
+	</dd><dt><b><a name='dt-implementation'>hosting implementation</a></b></dt>
+<dd>A [hosting] implementation is a software module that
+	  provides an implementation of the DOM interfaces so that a
+	  client application can use them. Some examples of hosting
+	  implementations are browsers, editors and document
+	  repositories.</dd><dt><b><a name='dt-HTML'>HTML</a></b></dt>
+<dd>The HyperText Markup Language (<i>HTML</i>) is a
+	  simple markup language used to create hypertext documents
+	  that are portable from one platform to another. HTML
+	  documents are SGML documents with generic semantics that are
+	  appropriate for representing information from a wide range
+	  of applications. [<cite><a class='noxref informative' href='references.html#HTML40'>HTML 4.01</a></cite>]</dd><dt><b><a name='dt-inheritance'>inheritance</a></b></dt>
+<dd>In object-oriented programming, the ability to create new
+	  classes (or interfaces) that contain all the methods and properties
+	  of another class (or interface), plus additional methods and
+	  properties. If class (or interface) D inherits from class (or
+	  interface) B, then D is said to be <i>derived</i> from B. B is
+	  said to be a <i>base</i> class (or interface) for D. Some
+	  programming languages allow for multiple inheritance, that is,
+	  inheritance from more than one class or interface.</dd><dt><b><a name='dt-interface'>interface</a></b></dt>
+<dd>An <i>interface</i> is a declaration of a set of
+          methods with no information given about their implementation.
+	  In object systems that support interfaces and inheritance,
+	  interfaces can usually inherit from one another.
+        </dd><dt><b><a name='dt-lang-binding'>language binding</a></b></dt>
+<dd>A programming <i>language binding</i> for an IDL
+	  specification is an implementation of the interfaces in the
+	  specification for the given language. For example, a Java
+	  language binding for the Document Object Model IDL
+	  specification would implement the concrete Java classes that
+	  provide the functionality exposed by the
+	  interfaces.</dd><dt><b><a name='dt-localname'>local name</a></b></dt>
+<dd>A <i>local name</i> is the local part of a <i>qualified
+	    name</i>.
+	  This is called the local
+	    part in Namespaces in XML [<cite><a class='noxref informative' href='references.html#Namespaces'>XML Namespaces</a></cite>].</dd><dt><b><a name='dt-method'>method</a></b></dt>
+<dd>A <i>method</i> is an operation or function that is
+	  associated with an object and is allowed to manipulate the
+	  object's data.
+        </dd><dt><b><a name='dt-model'>model</a></b></dt>
+<dd>A <i>model</i> is the actual data representation
+	  for the information at hand. Examples are the structural
+	  model and the style model representing the parse structure
+	  and the style information associated with a document. The
+	  model might be a tree, or a directed graph, or something
+	  else.</dd><dt><b><a name='dt-namespaceprefix'>namespace prefix</a></b></dt>
+<dd>A <i>namespace prefix</i> is a string that associates
+	  an element or attribute name with a <i>namespace URI</i> in
+	  XML. See namespace
+	    prefix in Namespaces in XML [<cite><a class='noxref informative' href='references.html#Namespaces'>XML Namespaces</a></cite>].</dd><dt><b><a name='dt-namespaceURI'>namespace URI</a></b></dt>
+<dd>
+	  A <i>namespace URI</i> is a URI that identifies an XML
+	  namespace. This is called the namespace name in
+	  Namespaces in XML [<cite><a class='noxref informative' href='references.html#Namespaces'>XML Namespaces</a></cite>]. See also sections 1.3.2 "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#baseURIs-Considerations'><em>DOM
+	  URIs</em></a>" and 1.3.3 "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations'><em>XML
+	  Namespaces</em></a>" regarding URIs and namespace URIs
+	  handling and comparison in the DOM APIs.
+	</dd><dt><b><a name='dt-namespace-well-formed'>namespace well-formed</a></b></dt>
+<dd>
+	  A node is a <i>namespace well-formed</i> XML node if it
+	  is a <a href='glossary.html#dt-well-formed'>well-formed</a> node,
+	  and follows the productions and namespace constraints. If
+	  [<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>] is used, the constraints are defined in
+	  [<cite><a class='noxref normative' href='references.html#Namespaces'>XML Namespaces</a></cite>]. If [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>] is used,
+	  the constraints are defined in [<cite><a class='noxref normative' href='references.html#Namespaces11'>XML Namespaces 1.1</a></cite>].
+	</dd><dt><b><a name='dt-object-model'>object model</a></b></dt>
+<dd>An <i>object model</i>
+	  is a collection of
+	  descriptions of classes or interfaces,
+	  together with their member data, member functions,
+	  and class-static operations.
+	</dd><dt><b><a name='dt-parent'>parent</a></b></dt>
+<dd>A <i>parent</i> is an immediate ancestor node of a
+	  node.</dd><dt><b><a name='dt-partially-valid'>partially valid</a></b></dt>
+<dd>A node in a DOM tree is <i>partially valid</i> if it is
+	<a href='glossary.html#dt-well-formed'>well formed</a> (this part is for
+	comments and processing instructions) and its immediate children are
+	those expected by the content model. The node may be missing trailing
+	required children yet still be considered <i>partially
+	valid</i>.
+	</dd><dt><b><a name='dt-qualifiedname'>qualified name</a></b></dt>
+<dd>A <i>qualified name</i> is the name of an element or
+	  attribute defined as the concatenation of a <i>local name</i>
+	  (as defined in this specification), optionally preceded by a
+	  <i>namespace prefix</i> and colon character. See <a class='normative' href='http://www.w3.org/TR/1999/REC-xml-names-19990114/#ns-qualnames'><em>Qualified Names</em></a> in
+	  Namespaces in XML [<cite><a class='noxref informative' href='references.html#Namespaces'>XML Namespaces</a></cite>].</dd><dt><b><a name='dt-readonly-node'>read only node</a></b></dt>
+<dd>A <i>read only node</i> is a node that is immutable. This
+          means its list of children, its content, and its attributes, when it
+          is an element, cannot be changed in any way. However, a read only node
+          can possibly be moved, when it is not itself contained in a read only
+          node.</dd><dt><b><a name='dt-root-node'>root node</a></b></dt>
+<dd>The <i>root node</i> is a node that is not a child of any
+	other node. All other nodes are children or other descendants of the
+	root node.</dd><dt><b><a name='dt-schema'>schema</a></b></dt>
+<dd>
+	  A <i>schema</i> defines a set of structural and value
+	  constraints applicable to XML documents. Schemas can be
+	  expressed in schema languages, such as DTD, XML Schema, etc.
+	</dd><dt><b><a name='dt-sibling'>sibling</a></b></dt>
+<dd>Two nodes are <i>siblings</i> if they have the
+	  same parent node.</dd><dt><b><a name='dt-string-compare'>string comparison</a></b></dt>
+<dd>When string matching is required, it is to occur as
+	  though the comparison was between 2 sequences of code points
+	  from [<cite><a class='noxref informative' href='references.html#Unicode'>Unicode</a></cite>].</dd><dt><b><a name='dt-token'>token</a></b></dt>
+<dd>An information item such as an
+          XML Name which has been
+          <a href='glossary.html#dt-tokenized'>tokenized</a>.</dd><dt><b><a name='dt-tokenized'>tokenized</a></b></dt>
+<dd>The description given to various information items (for example,
+          attribute values of various types, but not including the StringType
+          CDATA) after having been processed by the XML processor. The process
+          includes stripping leading and trailing white space, and replacing
+          multiple space characters by one. See the definition of
+          tokenized type.</dd><dt><b><a name='dt-well-formed'>well-formed</a></b></dt>
+<dd>
+	  A node is a <i>well-formed</i> XML node if its
+	  serialized form, without doing any transformation during its
+	  serialization, matches its respective production in [<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>] or [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>] (depending on the XML
+	  version in use) with all well-formedness constraints related
+	  to that production, and if the entities which are referenced
+	  within the node are also well-formed. If namespaces for XML
+	  are in use, the node must also be <a href='glossary.html#dt-namespace-well-formed'>namespace
+	  well-formed</a>.
+	</dd><dt><b><a name='dt-XML'>XML</a></b></dt>
+<dd>Extensible Markup Language (<i>XML</i>) is an
+	  extremely simple dialect of SGML which is completely
+	  described in this document. The goal is to enable generic
+	  SGML to be served, received, and processed on the Web in the
+	  way that is now possible with HTML. XML has been designed
+	  for ease of implementation and for interoperability with
+	  both SGML and HTML. [<cite><a class='noxref informative' href='references.html#XML'>XML 1.0</a></cite>]</dd></dl>
+</div> <!-- div1 glossary --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Acknowledgements' href='acknowledgements.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='References' href='references.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

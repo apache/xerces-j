@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Feb 23 16:43:32 EST 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>ECMAScript Language Binding</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-WG-NOTE.css'>
+  <link rel='next' href='acknowledgements.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='java-binding.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Java Language Binding' accesskey='p' href='java-binding.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Acknowledgements' accesskey='n' href='acknowledgements.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>26 February 2004</p>
+</div>
+
+<div class='div1'><a name='ecma-binding'></a>
+<h1 id='ecma-binding-h1' class='adiv1'>Appendix C: ECMAScript Language Binding</h1>
+<p class='first'>This appendix contains the complete ECMAScript [<cite><a class='noxref normative' href='references.html#ECMAScript'>ECMAScript</a></cite>] binding for the Level 3 Document Object Model XPath
+  definitions.</p><div class='ecma-block'>
+
+<dl>
+
+<dt>Properties of the <b>XPathException</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>XPathException.INVALID_EXPRESSION_ERR</b></dt>
+<dd>
+The value of the constant <b>XPathException.INVALID_EXPRESSION_ERR</b> is <b>51</b>.</dd>
+<dt><b>XPathException.TYPE_ERR</b></dt>
+<dd>
+The value of the constant <b>XPathException.TYPE_ERR</b> is <b>52</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>XPathException</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>XPathException</b> interface:</dt>
+<dd><dl>
+<dt><b>code</b></dt>
+<dd>
+ This property is 
+a <b>Number</b>.</dd></dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>XPathEvaluator</b> interface:</dt>
+<dd>
+<dl>
+<dt>Functions of objects that implement the <b>XPathEvaluator</b> interface:</dt>
+<dd><dl>
+<dt><b>createExpression(expression, resolver)</b></dt>
+<dd>This function returns an object that implements the <b>XPathExpression</b> interface.<br>The <b>expression</b> parameter is a <b>String</b>.
+<br>The <b>resolver</b> parameter is an object that implements the <b>XPathNSResolver</b> interface.
+<br>This function can raise an object that implements the <b>XPathException</b> interface or the <b>DOMException</b> interface.</dd>
+<dt><b>createNSResolver(nodeResolver)</b></dt>
+<dd>This function returns an object that implements the <b>XPathNSResolver</b> interface.<br>The <b>nodeResolver</b> parameter is an object that implements the <b>Node</b> interface.
+</dd>
+<dt><b>evaluate(expression, contextNode, resolver, type, result)</b></dt>
+<dd>This function returns an object that implements the <b>Object</b> interface.<br>The <b>expression</b> parameter is a <b>String</b>.
+<br>The <b>contextNode</b> parameter is an object that implements the <b>Node</b> interface.
+<br>The <b>resolver</b> parameter is an object that implements the <b>XPathNSResolver</b> interface.
+<br>The <b>type</b> parameter is a <b>Number</b>.
+<br>The <b>result</b> parameter is an object that implements the <b>Object</b> interface.
+<br>This function can raise an object that implements the <b>XPathException</b> interface or the <b>DOMException</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>XPathExpression</b> interface:</dt>
+<dd>
+<dl>
+<dt>Functions of objects that implement the <b>XPathExpression</b> interface:</dt>
+<dd><dl>
+<dt><b>evaluate(contextNode, type, result)</b></dt>
+<dd>This function returns an object that implements the <b>Object</b> interface.<br>The <b>contextNode</b> parameter is an object that implements the <b>Node</b> interface.
+<br>The <b>type</b> parameter is a <b>Number</b>.
+<br>The <b>result</b> parameter is an object that implements the <b>Object</b> interface.
+<br>This function can raise an object that implements the <b>XPathException</b> interface or the <b>DOMException</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>XPathNSResolver</b> interface:</dt>
+<dd>
+<dl>
+<dt>Functions of objects that implement the <b>XPathNSResolver</b> interface:</dt>
+<dd><dl>
+<dt><b>lookupNamespaceURI(prefix)</b></dt>
+<dd>This function returns a <b>String</b>.<br>The <b>prefix</b> parameter is a <b>String</b>.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Properties of the <b>XPathResult</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>XPathResult.ANY_TYPE</b></dt>
+<dd>
+The value of the constant <b>XPathResult.ANY_TYPE</b> is <b>0</b>.</dd>
+<dt><b>XPathResult.NUMBER_TYPE</b></dt>
+<dd>
+The value of the constant <b>XPathResult.NUMBER_TYPE</b> is <b>1</b>.</dd>
+<dt><b>XPathResult.STRING_TYPE</b></dt>
+<dd>
+The value of the constant <b>XPathResult.STRING_TYPE</b> is <b>2</b>.</dd>
+<dt><b>XPathResult.BOOLEAN_TYPE</b></dt>
+<dd>
+The value of the constant <b>XPathResult.BOOLEAN_TYPE</b> is <b>3</b>.</dd>
+<dt><b>XPathResult.UNORDERED_NODE_ITERATOR_TYPE</b></dt>
+<dd>
+The value of the constant <b>XPathResult.UNORDERED_NODE_ITERATOR_TYPE</b> is <b>4</b>.</dd>
+<dt><b>XPathResult.ORDERED_NODE_ITERATOR_TYPE</b></dt>
+<dd>
+The value of the constant <b>XPathResult.ORDERED_NODE_ITERATOR_TYPE</b> is <b>5</b>.</dd>
+<dt><b>XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE</b></dt>
+<dd>
+The value of the constant <b>XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE</b> is <b>6</b>.</dd>
+<dt><b>XPathResult.ORDERED_NODE_SNAPSHOT_TYPE</b></dt>
+<dd>
+The value of the constant <b>XPathResult.ORDERED_NODE_SNAPSHOT_TYPE</b> is <b>7</b>.</dd>
+<dt><b>XPathResult.ANY_UNORDERED_NODE_TYPE</b></dt>
+<dd>
+The value of the constant <b>XPathResult.ANY_UNORDERED_NODE_TYPE</b> is <b>8</b>.</dd>
+<dt><b>XPathResult.FIRST_ORDERED_NODE_TYPE</b></dt>
+<dd>
+The value of the constant <b>XPathResult.FIRST_ORDERED_NODE_TYPE</b> is <b>9</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>XPathResult</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>XPathResult</b> interface:</dt>
+<dd><dl>
+<dt><b>resultType</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+<dt><b>numberValue</b></dt>
+<dd>
+This read-only property is a <b>Number</b> and can raise an object that implements the <b>XPathException</b> interface on retrieval.</dd>
+<dt><b>stringValue</b></dt>
+<dd>
+This read-only property is a <b>String</b> and can raise an object that implements the <b>XPathException</b> interface on retrieval.</dd>
+<dt><b>booleanValue</b></dt>
+<dd>
+This read-only property is a <b>Boolean</b> and can raise an object that implements the <b>XPathException</b> interface on retrieval.</dd>
+<dt><b>singleNodeValue</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Node</b> interface and can raise an object that implements the <b>XPathException</b> interface on retrieval.</dd>
+<dt><b>invalidIteratorState</b></dt>
+<dd>
+This read-only property is a <b>Boolean</b>.</dd>
+<dt><b>snapshotLength</b></dt>
+<dd>
+This read-only property is a <b>Number</b> and can raise an object that implements the <b>XPathException</b> interface on retrieval.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>XPathResult</b> interface:</dt>
+<dd><dl>
+<dt><b>iterateNext()</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>This function can raise an object that implements the <b>XPathException</b> interface or the <b>DOMException</b> interface.</dd>
+<dt><b>snapshotItem(index)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>index</b> parameter is a <b>Number</b>.
+<br>This function can raise an object that implements the <b>XPathException</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Properties of the <b>XPathNamespace</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>XPathNamespace.XPATH_NAMESPACE_NODE</b></dt>
+<dd>
+The value of the constant <b>XPathNamespace.XPATH_NAMESPACE_NODE</b> is <b>13</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>XPathNamespace</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>XPathNamespace</b> interface have all properties and functions of the <b>Node</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>XPathNamespace</b> interface:</dt>
+<dd><dl>
+<dt><b>ownerElement</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Element</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+
+</dl>
+
+</div> <!-- ecma-block -->
+<p><b>Note:</b> 
+	  The parameter <code>resolver</code> of the method
+	  <a href='xpath.html#XPathEvaluator-evaluate'><code>XPathEvaluator.evaluate</code></a> is specified as an object
+	  that implements the <a href='xpath.html#XPathNSResolver'><code>XPathNSResolver</code></a>
+	  interface. ECMAScript users can also pass to this method a
+	  function which returns a <code>String</code> and takes a
+	  <code>String</code> parameter instead of the
+	  <code>resolver</code> parameter.
+	</p>
+</div> <!-- div1 ecma-binding --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Java Language Binding' href='java-binding.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Acknowledgements' href='acknowledgements.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

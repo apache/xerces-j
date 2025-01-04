@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Apr 05 15:05:43 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>IDL Definitions</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='java-binding.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='load-save.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Document Object Model Load and Save' accesskey='p' href='load-save.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Java Language Binding' accesskey='n' href='java-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='idl'></a>
+<h1 id='idl-h1' class='adiv1'>Appendix A: IDL Definitions</h1>
+<p class='first'>
+    This appendix contains the complete OMG IDL [<cite><a class='noxref normative' href='references.html#OMGIDL'>OMG IDL</a></cite>] for the
+    Level 3 Document Object Model Abstract Schemas and Load and Save
+    definitions.
+  </p><p>The IDL files are also available as: <a class='normative' href='idl.zip'>http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/idl.zip</a></p><h3 id='idl-ls.idl'><a href='idl/ls.idl'>ls.idl</a>:</h3>
+<div class='idl-code'>
+<pre>
+// File: ls.idl
+
+#ifndef _LS_IDL_
+#define _LS_IDL_
+
+#include "dom.idl"
+#include "events.idl"
+#include "traversal.idl"
+
+#pragma prefix "dom.w3c.org"
+module ls
+{
+
+  typedef   Object <a class='noxref' href='load-save.html#LSInputStream'>LSInputStream</a>;
+
+  typedef   Object <a class='noxref' href='load-save.html#LSOutputStream'>LSOutputStream</a>;
+
+  typedef   Object <a class='noxref' href='load-save.html#LSReader'>LSReader</a>;
+
+  typedef   Object <a class='noxref' href='load-save.html#LSWriter'>LSWriter</a>;
+
+  typedef dom::DOMString DOMString;
+  typedef dom::DOMConfiguration DOMConfiguration;
+  typedef dom::Node Node;
+  typedef dom::Document Document;
+  typedef dom::Element Element;
+
+  interface LSParser;
+  interface LSSerializer;
+  interface LSInput;
+  interface LSOutput;
+  interface LSParserFilter;
+  interface LSSerializerFilter;
+
+  exception <a class='noxref' href='load-save.html#LS-LSException'>LSException</a> {
+    unsigned short   code;
+  };
+  // LSExceptionCode
+  const unsigned short      <a class='noxref' href='load-save.html#PARSE_ERR'>PARSE_ERR</a>                      = 81;
+  const unsigned short      <a class='noxref' href='load-save.html#SERIALIZE_ERR'>SERIALIZE_ERR</a>                  = 82;
+
+
+  interface <a class='noxref' href='load-save.html#LS-DOMImplementation'>DOMImplementationLS</a> {
+
+    // DOMImplementationLSMode
+    const unsigned short      <a class='noxref' href='load-save.html#LS-DOMImplementationLS-MODE_SYNC'>MODE_SYNCHRONOUS</a>               = 1;
+    const unsigned short      <a class='noxref' href='load-save.html#LS-DOMImplementationLS-MODE_ASYNCH'>MODE_ASYNCHRONOUS</a>              = 2;
+
+    <a class='noxref' href='load-save.html#LS-LSParser'>LSParser</a>           <a class='noxref' href='load-save.html#LS-DOMImplementationLS-createLSParser'>createLSParser</a>(in unsigned short mode, 
+                                      in DOMString schemaType)
+                                        raises(dom::DOMException);
+    <a class='noxref' href='load-save.html#LS-LSSerializer'>LSSerializer</a>       <a class='noxref' href='load-save.html#LS-DOMImplementationLS-createLSSerializer'>createLSSerializer</a>();
+    <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a>            <a class='noxref' href='load-save.html#LS-DOMImplementationLS-createLSInput'>createLSInput</a>();
+    <a class='noxref' href='load-save.html#LS-LSOutput'>LSOutput</a>           <a class='noxref' href='load-save.html#LS-DOMImplementationLS-createLSOutput'>createLSOutput</a>();
+  };
+
+  interface <a class='noxref' href='load-save.html#LS-LSParser'>LSParser</a> {
+    readonly attribute DOMConfiguration <a class='noxref' href='load-save.html#LS-LSParser-config'>domConfig</a>;
+             attribute <a class='noxref' href='load-save.html#LS-LSParserFilter'>LSParserFilter</a>  <a class='noxref' href='load-save.html#LS-LSParser-filter'>filter</a>;
+    readonly attribute boolean         <a class='noxref' href='load-save.html#LS-LSParser-async'>async</a>;
+    readonly attribute boolean         <a class='noxref' href='load-save.html#LS-LSParser-busy'>busy</a>;
+    Document           <a class='noxref' href='load-save.html#LS-LSParser-parse'>parse</a>(in <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a> input)
+                                        raises(dom::DOMException, 
+                                               <a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+    Document           <a class='noxref' href='load-save.html#LS-LSParser-parseURI'>parseURI</a>(in DOMString uri)
+                                        raises(dom::DOMException, 
+                                               <a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+
+    // ACTION_TYPES
+    const unsigned short      <a class='noxref' href='load-save.html#LS-LSParser-ACTION_APPEND_AS_CHILDREN'>ACTION_APPEND_AS_CHILDREN</a>      = 1;
+    const unsigned short      <a class='noxref' href='load-save.html#LS-LSParser-ACTION_REPLACE_CHILDREN'>ACTION_REPLACE_CHILDREN</a>        = 2;
+    const unsigned short      <a class='noxref' href='load-save.html#LS-LSParser-ACTION_INSERT_BEFORE'>ACTION_INSERT_BEFORE</a>           = 3;
+    const unsigned short      <a class='noxref' href='load-save.html#LS-LSParser-ACTION_INSERT_AFTER'>ACTION_INSERT_AFTER</a>            = 4;
+    const unsigned short      <a class='noxref' href='load-save.html#LS-LSParser-ACTION_REPLACE'>ACTION_REPLACE</a>                 = 5;
+
+    Node               <a class='noxref' href='load-save.html#LS-LSParser-parseWithContext'>parseWithContext</a>(in <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a> input, 
+                                        in Node contextArg, 
+                                        in unsigned short action)
+                                        raises(dom::DOMException, 
+                                               <a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+    void               <a class='noxref' href='load-save.html#LS-LSParser-abort'>abort</a>();
+  };
+
+  interface <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a> {
+    // Depending on the language binding in use,
+    // this attribute may not be available.
+             attribute <a class='noxref' href='load-save.html#LSReader'>LSReader</a>        <a class='noxref' href='load-save.html#LS-LSInput-characterStream'>characterStream</a>;
+             attribute <a class='noxref' href='load-save.html#LSInputStream'>LSInputStream</a>   <a class='noxref' href='load-save.html#LS-LSInput-byteStream'>byteStream</a>;
+             attribute DOMString       <a class='noxref' href='load-save.html#LS-LSInput-stringData'>stringData</a>;
+             attribute DOMString       <a class='noxref' href='load-save.html#LS-LSInput-systemId'>systemId</a>;
+             attribute DOMString       <a class='noxref' href='load-save.html#LS-LSInput-publicId'>publicId</a>;
+             attribute DOMString       <a class='noxref' href='load-save.html#LS-LSInput-baseURI'>baseURI</a>;
+             attribute DOMString       <a class='noxref' href='load-save.html#LS-LSInput-encoding'>encoding</a>;
+             attribute boolean         <a class='noxref' href='load-save.html#LS-LSInput-certifiedText'>certifiedText</a>;
+  };
+
+  interface <a class='noxref' href='load-save.html#LS-LSResourceResolver'>LSResourceResolver</a> {
+    <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a>            <a class='noxref' href='load-save.html#LS-LSResourceResolver-resolveResource'>resolveResource</a>(in DOMString type, 
+                                       in DOMString namespaceURI, 
+                                       in DOMString publicId, 
+                                       in DOMString systemId, 
+                                       in DOMString baseURI);
+  };
+
+  interface <a class='noxref' href='load-save.html#LS-LSParserFilter'>LSParserFilter</a> {
+
+    // Constants returned by startElement and acceptNode
+    const short               <a class='noxref' href='load-save.html#LS-LSParserFilter-FILTER_ACCEPT'>FILTER_ACCEPT</a>                  = 1;
+    const short               <a class='noxref' href='load-save.html#LS-LSParserFilter-FILTER_REJECT'>FILTER_REJECT</a>                  = 2;
+    const short               <a class='noxref' href='load-save.html#LS-LSParserFilter-FILTER_SKIP'>FILTER_SKIP</a>                    = 3;
+    const short               <a class='noxref' href='load-save.html#LS-LSParserFilter-FILTER_INTERRUPT'>FILTER_INTERRUPT</a>               = 4;
+
+    unsigned short     <a class='noxref' href='load-save.html#LS-LSParserFilter-startElement'>startElement</a>(in Element elementArg);
+    unsigned short     <a class='noxref' href='load-save.html#LS-LSParserFilter-acceptNode'>acceptNode</a>(in Node nodeArg);
+    readonly attribute unsigned long   <a class='noxref' href='load-save.html#LS-LSParserFilter-whatToShow'>whatToShow</a>;
+  };
+
+  interface <a class='noxref' href='load-save.html#LS-LSSerializer'>LSSerializer</a> {
+    readonly attribute DOMConfiguration <a class='noxref' href='load-save.html#LS-LSSerializer-config'>domConfig</a>;
+             attribute DOMString       <a class='noxref' href='load-save.html#LS-LSSerializer-newLine'>newLine</a>;
+             attribute <a class='noxref' href='load-save.html#LS-LSSerializerFilter'>LSSerializerFilter</a> <a class='noxref' href='load-save.html#LS-LSSerializer-LSSerializerFilter'>filter</a>;
+    boolean            <a class='noxref' href='load-save.html#LS-LSSerializer-write'>write</a>(in Node nodeArg, 
+                             in <a class='noxref' href='load-save.html#LS-LSOutput'>LSOutput</a> destination)
+                                        raises(<a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+    boolean            <a class='noxref' href='load-save.html#LS-LSSerializer-writeToURI'>writeToURI</a>(in Node nodeArg, 
+                                  in DOMString uri)
+                                        raises(<a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+    DOMString          <a class='noxref' href='load-save.html#LS-LSSerializer-writeToString'>writeToString</a>(in Node nodeArg)
+                                        raises(dom::DOMException, 
+                                               <a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+  };
+
+  interface <a class='noxref' href='load-save.html#LS-LSOutput'>LSOutput</a> {
+    // Depending on the language binding in use,
+    // this attribute may not be available.
+             attribute <a class='noxref' href='load-save.html#LSWriter'>LSWriter</a>        <a class='noxref' href='load-save.html#LS-LSOutput-characterStream'>characterStream</a>;
+             attribute <a class='noxref' href='load-save.html#LSOutputStream'>LSOutputStream</a>  <a class='noxref' href='load-save.html#LS-LSOutput-byteStream'>byteStream</a>;
+             attribute DOMString       <a class='noxref' href='load-save.html#LS-LSOutput-systemId'>systemId</a>;
+             attribute DOMString       <a class='noxref' href='load-save.html#LS-LSOutput-encoding'>encoding</a>;
+  };
+
+  interface <a class='noxref' href='load-save.html#LS-LSProgressEvent'>LSProgressEvent</a> : events::Event {
+    readonly attribute <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a>         <a class='noxref' href='load-save.html#LS-LSProgressEvent-input'>input</a>;
+    readonly attribute unsigned long   <a class='noxref' href='load-save.html#LS-LSProgressEvent-position'>position</a>;
+    readonly attribute unsigned long   <a class='noxref' href='load-save.html#LS-LSProgressEvent-totalSize'>totalSize</a>;
+  };
+
+  interface <a class='noxref' href='load-save.html#LS-LSLoadEvent'>LSLoadEvent</a> : events::Event {
+    readonly attribute Document        <a class='noxref' href='load-save.html#LS-LSLoadEvent-document'>newDocument</a>;
+    readonly attribute <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a>         <a class='noxref' href='load-save.html#LS-LSLoadEvent-input'>input</a>;
+  };
+
+  interface <a class='noxref' href='load-save.html#LS-LSSerializerFilter'>LSSerializerFilter</a> : traversal::NodeFilter {
+    readonly attribute unsigned long   <a class='noxref' href='load-save.html#LS-LSSerializerFilter-whatToShow'>whatToShow</a>;
+  };
+};
+
+#endif // _LS_IDL_
+
+</pre>
+</div>
+</div> <!-- div1 idl --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Document Object Model Load and Save' href='load-save.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Java Language Binding' href='java-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

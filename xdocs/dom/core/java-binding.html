@@ -1,0 +1,1189 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Wed Apr 07 13:11:29 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Java Language Binding</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='ecma-script-binding.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='idl-definitions.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='IDL Definitions' accesskey='p' href='idl-definitions.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='ECMAScript Language Binding' accesskey='n' href='ecma-script-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='java-binding'></a>
+<h1 id='java-binding-h1' class='adiv1'>Appendix G: Java Language Binding</h1>
+<p class='first'>This appendix contains the complete Java [<cite><a class='noxref normative' href='references.html#Java'>Java</a></cite>] bindings
+  for the Level 3 Document Object Model Core.</p><p>The Java files are also available as <a class='normative' href='java-binding.zip'>http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/java-binding.zip</a></p>
+<div class='div2'><a name='Level-3-Java-Binding-Extension'></a>
+<h2 id='Level-3-Java-Binding-Extension-h2' class='adiv2'>G.1 Java Binding Extension</h2>
+<p><b>Note:</b> 
+      This section is informative.
+    </p>
+<p>This section defines the <code>DOMImplementationRegistry</code> object,
+    discussed in <a href='core.html#Bootstrap'>Bootstrapping</a>, for Java.<p>The <code>DOMImplementationRegistry</code> is first initialized by the
+    application or the implementation, depending on the context, through the
+    Java system property "org.w3c.dom.DOMImplementationSourceList". The value
+    of this property is a space separated list of names of available classes
+    implementing the <a href='core.html#DOMImplementationSource'><code>DOMImplementationSource</code></a> interface.<h3 id='DOMImplementationRegistry'>org/w3c/dom/bootstrap/DOMImplementationRegistry.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.bootstrap;
+
+import java.util.StringTokenizer;
+import java.util.Vector;
+import org.w3c.dom.DOMImplementationSource;
+import org.w3c.dom.DOMImplementationList;
+import org.w3c.dom.DOMImplementation;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+
+/**
+ * A factory that enables applications to obtain instances of
+ * &lt;code&gt;DOMImplementation&lt;/code&gt;.
+ *
+ * &lt;p&gt;
+ * Example:
+ * &lt;/p&gt;
+ *
+ * &lt;pre class='example'&gt;
+ *  // get an instance of the DOMImplementation registry
+ *  DOMImplementationRegistry registry =
+ *       DOMImplementationRegistry.newInstance();
+ *  // get a DOM implementation the Level 3 XML module
+ *  DOMImplementation domImpl =
+ *       registry.getDOMImplementation("XML 3.0");
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;
+ * This provides an application with an implementation-independent starting
+ * point. DOM implementations may modify this class to meet new security
+ * standards or to provide *additional* fallbacks for the list of
+ * DOMImplementationSources.
+ * &lt;/p&gt;
+ *
+ * @see DOMImplementation
+ * @see DOMImplementationSource
+ * @since DOM Level 3
+ */
+public final class DOMImplementationRegistry {
+    /**
+     * The system property to specify the
+     * DOMImplementationSource class names.
+     */
+    public static final String PROPERTY =
+	"org.w3c.dom.DOMImplementationSourceList";
+    
+    /**
+     * Default columns per line.
+     */
+    private static final int DEFAULT_LINE_LENGTH = 80;
+    
+    /**
+     * The list of DOMImplementationSources.
+     */
+    private Vector sources;
+    
+    /**
+     * Private constructor.
+     * @param srcs Vector List of DOMImplementationSources
+     */
+    private DOMImplementationRegistry(final Vector srcs) {
+	sources = srcs;
+    }
+    
+    /**
+     * Obtain a new instance of a &lt;code&gt;DOMImplementationRegistry&lt;/code&gt;.
+     *
+
+     * The &lt;code&gt;DOMImplementationRegistry&lt;/code&gt; is initialized by the
+     * application or the implementation, depending on the context, by
+     * first checking the value of the Java system property
+     * &lt;code&gt;org.w3c.dom.DOMImplementationSourceList&lt;/code&gt; and
+     * the the service provider whose contents are at
+     * "&lt;code&gt;META_INF/services/org.w3c.dom.DOMImplementationSourceList&lt;/code&gt;"
+     * The value of this property is a white-space separated list of
+     * names of availables classes implementing the
+     * &lt;code&gt;DOMImplementationSource&lt;/code&gt; interface. Each class listed
+     * in the class name list is instantiated and any exceptions
+     * encountered are thrown to the application.
+     *
+     * @return an initialized instance of DOMImplementationRegistry
+     * @throws ClassNotFoundException
+     *     If any specified class can not be found
+     * @throws InstantiationException
+     *     If any specified class is an interface or abstract class
+     * @throws IllegalAccessException
+     *     If the default constructor of a specified class is not accessible
+     * @throws ClassCastException
+     *     If any specified class does not implement
+     * &lt;code&gt;DOMImplementationSource&lt;/code&gt;
+     */
+    public static DOMImplementationRegistry newInstance()
+	throws
+	ClassNotFoundException,
+	InstantiationException,
+	IllegalAccessException,
+	ClassCastException {
+	Vector sources = new Vector();
+	
+	ClassLoader classLoader = getClassLoader();
+	// fetch system property:
+	String p = getSystemProperty(PROPERTY);
+	
+	//
+	// if property is not specified then use contents of
+        // META_INF/org.w3c.dom.DOMImplementationSourceList from classpath
+	if (p == null) {
+	    p = getServiceValue(classLoader);
+	} 
+        if (p == null) {
+	    //
+	    // DOM Implementations can modify here to add *additional* fallback
+	    // mechanisms to access a list of default DOMImplementationSources.
+	    
+	}
+	if (p != null) {
+	    StringTokenizer st = new StringTokenizer(p);
+	    while (st.hasMoreTokens()) {
+		String sourceName = st.nextToken();
+		// Use context class loader, falling back to Class.forName
+		// if and only if this fails...
+		Class sourceClass = null;
+		if (classLoader != null) {
+		    sourceClass = classLoader.loadClass(sourceName);
+		} else {
+		    sourceClass = Class.forName(sourceName);
+		}
+		DOMImplementationSource source =
+		    (DOMImplementationSource) sourceClass.newInstance();
+		sources.addElement(source);
+	    }
+	}
+	return new DOMImplementationRegistry(sources);
+    }
+    
+    /**
+     * Return the first implementation that has the desired
+     * features, or &lt;code&gt;null&lt;/code&gt; if none is found.
+     *
+     * @param features
+     *            A string that specifies which features are required. This is
+     *            a space separated list in which each feature is specified by
+     *            its name optionally followed by a space and a version number.
+     *            This is something like: "XML 1.0 Traversal +Events 2.0"
+     * @return An implementation that has the desired features,
+     *         or &lt;code&gt;null&lt;/code&gt; if none found.
+     */
+    public DOMImplementation getDOMImplementation(final String features) {
+	int size = sources.size();
+	String name = null;
+	for (int i = 0; i &lt; size; i++) {
+	    DOMImplementationSource source =
+		(DOMImplementationSource) sources.elementAt(i);
+	    DOMImplementation impl = source.getDOMImplementation(features);
+	    if (impl != null) {
+		return impl;
+	    }
+	}
+	return null;
+    }
+    
+    /**
+     * Return a list of implementations that support the
+     * desired features.
+     *
+     * @param features
+     *            A string that specifies which features are required. This is
+     *            a space separated list in which each feature is specified by
+     *            its name optionally followed by a space and a version number.
+     *            This is something like: "XML 1.0 Traversal +Events 2.0"
+     * @return A list of DOMImplementations that support the desired features.
+     */
+    public DOMImplementationList getDOMImplementationList(final String features) {
+	final Vector implementations = new Vector();
+	int size = sources.size();
+	for (int i = 0; i &lt; size; i++) {
+	    DOMImplementationSource source =
+		(DOMImplementationSource) sources.elementAt(i);
+	    DOMImplementationList impls =
+		source.getDOMImplementationList(features);
+	    for (int j = 0; j &lt; impls.getLength(); j++) {
+		DOMImplementation impl = impls.item(j);
+		implementations.addElement(impl);
+	    }
+	}
+	return new DOMImplementationList() {
+		public DOMImplementation item(final int index) {
+		    if (index &gt;= 0 &amp;&amp; index &lt; implementations.size()) {
+			try {
+			    return (DOMImplementation)
+				implementations.elementAt(index);
+			} catch (ArrayIndexOutOfBoundsException e) {
+			    return null;
+			}
+		    }
+		    return null;
+		}
+		
+		public int getLength() {
+		    return implementations.size();
+		}
+	    };
+    }
+    
+    /**
+     * Register an implementation.
+     *
+     * @param s The source to be registered, may not be &lt;code&gt;null&lt;/code&gt;
+     */
+    public void addSource(final DOMImplementationSource s) {
+	if (s == null) {
+	    throw new NullPointerException();
+	}
+	if (!sources.contains(s)) {
+	    sources.addElement(s);
+	}
+    }
+    
+    /**
+     *
+     * Gets a class loader.
+     *
+     * @return A class loader, possibly &lt;code&gt;null&lt;/code&gt;
+     */
+    private static ClassLoader getClassLoader() {
+	try {
+	    ClassLoader contextClassLoader = getContextClassLoader();
+	    
+	    if (contextClassLoader != null) {
+		return contextClassLoader;
+	    }
+	} catch (Exception e) {
+	    // Assume that the DOM application is in a JRE 1.1, use the
+	    // current ClassLoader
+	    return DOMImplementationRegistry.class.getClassLoader();
+	}
+	return DOMImplementationRegistry.class.getClassLoader();
+    }
+    
+    /**
+     * This method attempts to return the first line of the resource
+     * META_INF/services/org.w3c.dom.DOMImplementationSourceList
+     * from the provided ClassLoader.
+     *
+     * @param classLoader classLoader, may not be &lt;code&gt;null&lt;/code&gt;.
+     * @return first line of resource, or &lt;code&gt;null&lt;/code&gt;
+     */
+    private static String getServiceValue(final ClassLoader classLoader) {
+	String serviceId = "META-INF/services/" + PROPERTY;
+	// try to find services in CLASSPATH
+	try {
+	    InputStream is = getResourceAsStream(classLoader, serviceId);
+	    
+	    if (is != null) {
+		BufferedReader rd;
+		try {
+		    rd =
+			new BufferedReader(new InputStreamReader(is, "UTF-8"),
+					   DEFAULT_LINE_LENGTH);
+		} catch (java.io.UnsupportedEncodingException e) {
+		    rd =
+			new BufferedReader(new InputStreamReader(is),
+					   DEFAULT_LINE_LENGTH);
+		}		
+		String serviceValue = rd.readLine();
+		rd.close();
+		if (serviceValue != null &amp;&amp; serviceValue.length() &gt; 0) {
+		    return serviceValue;
+		}
+	    }
+	} catch (Exception ex) {
+	    return null;
+	}
+	return null;
+    }
+    
+    /**
+     * A simple JRE (Java Runtime Environment) 1.1 test
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if JRE 1.1 
+     */
+    private static boolean isJRE11() {
+	try {
+	    Class c = Class.forName("java.security.AccessController");
+	    // java.security.AccessController existed since 1.2 so, if no
+	    // exception was thrown, the DOM application is running in a JRE
+	    // 1.2 or higher
+	    return false;
+	} catch (Exception ex) {
+	    // ignore 
+	}
+	return true;
+    }
+    
+    /**
+     * This method returns the ContextClassLoader or &lt;code&gt;null&lt;/code&gt; if
+     * running in a JRE 1.1
+     *
+     * @return The Context Classloader
+     */
+    private static ClassLoader getContextClassLoader() {
+	return isJRE11()
+	    ? null
+	    : (ClassLoader)
+ 	      AccessController.doPrivileged(new PrivilegedAction() {
+		    public Object run() {
+			ClassLoader classLoader = null;
+			try {
+			    classLoader =
+				Thread.currentThread().getContextClassLoader();
+			} catch (SecurityException ex) {
+			}
+			return classLoader;
+		    }
+		});
+    }
+    
+    /**
+     * This method returns the system property indicated by the specified name
+     * after checking access control privileges. For a JRE 1.1, this check is
+     * not done.
+     * 	 
+     * @param name the name of the system property	 
+     * @return the system property
+     */
+    private static String getSystemProperty(final String name) {
+	return isJRE11()
+	    ? (String) System.getProperty(name)
+	    : (String) AccessController.doPrivileged(new PrivilegedAction() {
+		    public Object run() {
+			return System.getProperty(name);
+		    }
+		});
+    }
+    
+    /**
+     * This method returns an Inputstream for the reading resource
+     * META_INF/services/org.w3c.dom.DOMImplementationSourceList after checking
+     * access control privileges. For a JRE 1.1, this check is not done.
+     *
+     * @param classLoader classLoader	 
+     * @param name the resource 	 
+     * @return an Inputstream for the resource specified
+     */
+    private static InputStream getResourceAsStream(final ClassLoader classLoader,
+						   final String name) {
+	if (isJRE11()) {
+	    InputStream ris;
+	    if (classLoader == null) {
+		ris = ClassLoader.getSystemResourceAsStream(name);
+	    } else {
+		ris = classLoader.getResourceAsStream(name);
+	    }    
+	    return ris;
+	} else {
+	    return (InputStream)
+		AccessController.doPrivileged(new PrivilegedAction() {
+			public Object run() {
+			    InputStream ris;
+			    if (classLoader == null) {
+				ris =
+				    ClassLoader.getSystemResourceAsStream(name);
+			    } else {
+				ris = classLoader.getResourceAsStream(name);
+			    }
+			    return ris;
+			}
+		    });
+	}
+    }
+}
+</pre>
+</div>
+</div> <!-- div2 Level-3-Java-Binding-Extension -->
+<div class='div2'><a name='JavaCoreInterfaces'></a>
+<h2 id='JavaCoreInterfaces-h2' class='adiv2'>G.2 Other Core interfaces</h2>
+<h3 id='org.w3c.dom.DOMException'>org/w3c/dom/DOMException.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public class DOMException extends RuntimeException {
+    public DOMException(short code, String message) {
+       super(message);
+       this.code = code;
+    }
+    public short   code;
+    // ExceptionCode
+    public static final short INDEX_SIZE_ERR            = 1;
+    public static final short DOMSTRING_SIZE_ERR        = 2;
+    public static final short HIERARCHY_REQUEST_ERR     = 3;
+    public static final short WRONG_DOCUMENT_ERR        = 4;
+    public static final short INVALID_CHARACTER_ERR     = 5;
+    public static final short NO_DATA_ALLOWED_ERR       = 6;
+    public static final short NO_MODIFICATION_ALLOWED_ERR = 7;
+    public static final short NOT_FOUND_ERR             = 8;
+    public static final short NOT_SUPPORTED_ERR         = 9;
+    public static final short INUSE_ATTRIBUTE_ERR       = 10;
+    public static final short INVALID_STATE_ERR         = 11;
+    public static final short SYNTAX_ERR                = 12;
+    public static final short INVALID_MODIFICATION_ERR  = 13;
+    public static final short NAMESPACE_ERR             = 14;
+    public static final short INVALID_ACCESS_ERR        = 15;
+    public static final short VALIDATION_ERR            = 16;
+    public static final short TYPE_MISMATCH_ERR         = 17;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.DOMStringList'>org/w3c/dom/DOMStringList.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface DOMStringList {
+    public String item(int index);
+
+    public int getLength();
+
+    public boolean contains(String str);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.NameList'>org/w3c/dom/NameList.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface NameList {
+    public String getName(int index);
+
+    public String getNamespaceURI(int index);
+
+    public int getLength();
+
+    public boolean contains(String str);
+
+    public boolean containsNS(String namespaceURI, 
+                              String name);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.DOMImplementationList'>org/w3c/dom/DOMImplementationList.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface DOMImplementationList {
+    public DOMImplementation item(int index);
+
+    public int getLength();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.DOMImplementationSource'>org/w3c/dom/DOMImplementationSource.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface DOMImplementationSource {
+    public DOMImplementation getDOMImplementation(String features);
+
+    public DOMImplementationList getDOMImplementationList(String features);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.DOMImplementation'>org/w3c/dom/DOMImplementation.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface DOMImplementation {
+    public boolean hasFeature(String feature, 
+                              String version);
+
+    public DocumentType createDocumentType(String qualifiedName, 
+                                           String publicId, 
+                                           String systemId)
+                                           throws DOMException;
+
+    public Document createDocument(String namespaceURI, 
+                                   String qualifiedName, 
+                                   DocumentType doctype)
+                                   throws DOMException;
+
+    public Object getFeature(String feature, 
+                             String version);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.DocumentFragment'>org/w3c/dom/DocumentFragment.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface DocumentFragment extends Node {
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.Document'>org/w3c/dom/Document.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface Document extends Node {
+    public DocumentType getDoctype();
+
+    public DOMImplementation getImplementation();
+
+    public Element getDocumentElement();
+
+    public Element createElement(String tagName)
+                                 throws DOMException;
+
+    public DocumentFragment createDocumentFragment();
+
+    public Text createTextNode(String data);
+
+    public Comment createComment(String data);
+
+    public CDATASection createCDATASection(String data)
+                                           throws DOMException;
+
+    public ProcessingInstruction createProcessingInstruction(String target, 
+                                                             String data)
+                                                             throws DOMException;
+
+    public Attr createAttribute(String name)
+                                throws DOMException;
+
+    public EntityReference createEntityReference(String name)
+                                                 throws DOMException;
+
+    public NodeList getElementsByTagName(String tagname);
+
+    public Node importNode(Node importedNode, 
+                           boolean deep)
+                           throws DOMException;
+
+    public Element createElementNS(String namespaceURI, 
+                                   String qualifiedName)
+                                   throws DOMException;
+
+    public Attr createAttributeNS(String namespaceURI, 
+                                  String qualifiedName)
+                                  throws DOMException;
+
+    public NodeList getElementsByTagNameNS(String namespaceURI, 
+                                           String localName);
+
+    public Element getElementById(String elementId);
+
+    public String getInputEncoding();
+
+    public String getXmlEncoding();
+
+    public boolean getXmlStandalone();
+    public void setXmlStandalone(boolean xmlStandalone)
+                                  throws DOMException;
+
+    public String getXmlVersion();
+    public void setXmlVersion(String xmlVersion)
+                                  throws DOMException;
+
+    public boolean getStrictErrorChecking();
+    public void setStrictErrorChecking(boolean strictErrorChecking);
+
+    public String getDocumentURI();
+    public void setDocumentURI(String documentURI);
+
+    public Node adoptNode(Node source)
+                          throws DOMException;
+
+    public DOMConfiguration getDomConfig();
+
+    public void normalizeDocument();
+
+    public Node renameNode(Node n, 
+                           String namespaceURI, 
+                           String qualifiedName)
+                           throws DOMException;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.Node'>org/w3c/dom/Node.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface Node {
+    // NodeType
+    public static final short ELEMENT_NODE              = 1;
+    public static final short ATTRIBUTE_NODE            = 2;
+    public static final short TEXT_NODE                 = 3;
+    public static final short CDATA_SECTION_NODE        = 4;
+    public static final short ENTITY_REFERENCE_NODE     = 5;
+    public static final short ENTITY_NODE               = 6;
+    public static final short PROCESSING_INSTRUCTION_NODE = 7;
+    public static final short COMMENT_NODE              = 8;
+    public static final short DOCUMENT_NODE             = 9;
+    public static final short DOCUMENT_TYPE_NODE        = 10;
+    public static final short DOCUMENT_FRAGMENT_NODE    = 11;
+    public static final short NOTATION_NODE             = 12;
+
+    public String getNodeName();
+
+    public String getNodeValue()
+                           throws DOMException;
+    public void setNodeValue(String nodeValue)
+                           throws DOMException;
+
+    public short getNodeType();
+
+    public Node getParentNode();
+
+    public NodeList getChildNodes();
+
+    public Node getFirstChild();
+
+    public Node getLastChild();
+
+    public Node getPreviousSibling();
+
+    public Node getNextSibling();
+
+    public NamedNodeMap getAttributes();
+
+    public Document getOwnerDocument();
+
+    public Node insertBefore(Node newChild, 
+                             Node refChild)
+                             throws DOMException;
+
+    public Node replaceChild(Node newChild, 
+                             Node oldChild)
+                             throws DOMException;
+
+    public Node removeChild(Node oldChild)
+                            throws DOMException;
+
+    public Node appendChild(Node newChild)
+                            throws DOMException;
+
+    public boolean hasChildNodes();
+
+    public Node cloneNode(boolean deep);
+
+    public void normalize();
+
+    public boolean isSupported(String feature, 
+                               String version);
+
+    public String getNamespaceURI();
+
+    public String getPrefix();
+    public void setPrefix(String prefix)
+                               throws DOMException;
+
+    public String getLocalName();
+
+    public boolean hasAttributes();
+
+    public String getBaseURI();
+
+    // DocumentPosition
+    public static final short DOCUMENT_POSITION_DISCONNECTED = 0x01;
+    public static final short DOCUMENT_POSITION_PRECEDING = 0x02;
+    public static final short DOCUMENT_POSITION_FOLLOWING = 0x04;
+    public static final short DOCUMENT_POSITION_CONTAINS = 0x08;
+    public static final short DOCUMENT_POSITION_CONTAINED_BY = 0x10;
+    public static final short DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20;
+
+    public short compareDocumentPosition(Node other)
+                                         throws DOMException;
+
+    public String getTextContent()
+                                         throws DOMException;
+    public void setTextContent(String textContent)
+                                         throws DOMException;
+
+    public boolean isSameNode(Node other);
+
+    public String lookupPrefix(String namespaceURI);
+
+    public boolean isDefaultNamespace(String namespaceURI);
+
+    public String lookupNamespaceURI(String prefix);
+
+    public boolean isEqualNode(Node arg);
+
+    public Object getFeature(String feature, 
+                             String version);
+
+    public Object setUserData(String key, 
+                              Object data, 
+                              UserDataHandler handler);
+
+    public Object getUserData(String key);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.NodeList'>org/w3c/dom/NodeList.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface NodeList {
+    public Node item(int index);
+
+    public int getLength();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.NamedNodeMap'>org/w3c/dom/NamedNodeMap.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface NamedNodeMap {
+    public Node getNamedItem(String name);
+
+    public Node setNamedItem(Node arg)
+                             throws DOMException;
+
+    public Node removeNamedItem(String name)
+                                throws DOMException;
+
+    public Node item(int index);
+
+    public int getLength();
+
+    public Node getNamedItemNS(String namespaceURI, 
+                               String localName)
+                               throws DOMException;
+
+    public Node setNamedItemNS(Node arg)
+                               throws DOMException;
+
+    public Node removeNamedItemNS(String namespaceURI, 
+                                  String localName)
+                                  throws DOMException;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.CharacterData'>org/w3c/dom/CharacterData.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface CharacterData extends Node {
+    public String getData()
+                                  throws DOMException;
+    public void setData(String data)
+                                  throws DOMException;
+
+    public int getLength();
+
+    public String substringData(int offset, 
+                                int count)
+                                throws DOMException;
+
+    public void appendData(String arg)
+                           throws DOMException;
+
+    public void insertData(int offset, 
+                           String arg)
+                           throws DOMException;
+
+    public void deleteData(int offset, 
+                           int count)
+                           throws DOMException;
+
+    public void replaceData(int offset, 
+                            int count, 
+                            String arg)
+                            throws DOMException;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.Attr'>org/w3c/dom/Attr.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface Attr extends Node {
+    public String getName();
+
+    public boolean getSpecified();
+
+    public String getValue();
+    public void setValue(String value)
+                            throws DOMException;
+
+    public Element getOwnerElement();
+
+    public TypeInfo getSchemaTypeInfo();
+
+    public boolean isId();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.Element'>org/w3c/dom/Element.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface Element extends Node {
+    public String getTagName();
+
+    public String getAttribute(String name);
+
+    public void setAttribute(String name, 
+                             String value)
+                             throws DOMException;
+
+    public void removeAttribute(String name)
+                                throws DOMException;
+
+    public Attr getAttributeNode(String name);
+
+    public Attr setAttributeNode(Attr newAttr)
+                                 throws DOMException;
+
+    public Attr removeAttributeNode(Attr oldAttr)
+                                    throws DOMException;
+
+    public NodeList getElementsByTagName(String name);
+
+    public String getAttributeNS(String namespaceURI, 
+                                 String localName)
+                                 throws DOMException;
+
+    public void setAttributeNS(String namespaceURI, 
+                               String qualifiedName, 
+                               String value)
+                               throws DOMException;
+
+    public void removeAttributeNS(String namespaceURI, 
+                                  String localName)
+                                  throws DOMException;
+
+    public Attr getAttributeNodeNS(String namespaceURI, 
+                                   String localName)
+                                   throws DOMException;
+
+    public Attr setAttributeNodeNS(Attr newAttr)
+                                   throws DOMException;
+
+    public NodeList getElementsByTagNameNS(String namespaceURI, 
+                                           String localName)
+                                           throws DOMException;
+
+    public boolean hasAttribute(String name);
+
+    public boolean hasAttributeNS(String namespaceURI, 
+                                  String localName)
+                                  throws DOMException;
+
+    public TypeInfo getSchemaTypeInfo();
+
+    public void setIdAttribute(String name, 
+                               boolean isId)
+                               throws DOMException;
+
+    public void setIdAttributeNS(String namespaceURI, 
+                                 String localName, 
+                                 boolean isId)
+                                 throws DOMException;
+
+    public void setIdAttributeNode(Attr idAttr, 
+                                   boolean isId)
+                                   throws DOMException;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.Text'>org/w3c/dom/Text.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface Text extends CharacterData {
+    public Text splitText(int offset)
+                          throws DOMException;
+
+    public boolean isElementContentWhitespace();
+
+    public String getWholeText();
+
+    public Text replaceWholeText(String content)
+                                 throws DOMException;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.Comment'>org/w3c/dom/Comment.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface Comment extends CharacterData {
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.TypeInfo'>org/w3c/dom/TypeInfo.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface TypeInfo {
+    public String getTypeName();
+
+    public String getTypeNamespace();
+
+    // DerivationMethods
+    public static final int DERIVATION_RESTRICTION    = 0x00000001;
+    public static final int DERIVATION_EXTENSION      = 0x00000002;
+    public static final int DERIVATION_UNION          = 0x00000004;
+    public static final int DERIVATION_LIST           = 0x00000008;
+
+    public boolean isDerivedFrom(String typeNamespaceArg, 
+                                 String typeNameArg, 
+                                 int derivationMethod);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.UserDataHandler'>org/w3c/dom/UserDataHandler.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface UserDataHandler {
+    // OperationType
+    public static final short NODE_CLONED               = 1;
+    public static final short NODE_IMPORTED             = 2;
+    public static final short NODE_DELETED              = 3;
+    public static final short NODE_RENAMED              = 4;
+    public static final short NODE_ADOPTED              = 5;
+
+    public void handle(short operation, 
+                       String key, 
+                       Object data, 
+                       Node src, 
+                       Node dst);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.DOMError'>org/w3c/dom/DOMError.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface DOMError {
+    // ErrorSeverity
+    public static final short SEVERITY_WARNING          = 1;
+    public static final short SEVERITY_ERROR            = 2;
+    public static final short SEVERITY_FATAL_ERROR      = 3;
+
+    public short getSeverity();
+
+    public String getMessage();
+
+    public String getType();
+
+    public Object getRelatedException();
+
+    public Object getRelatedData();
+
+    public DOMLocator getLocation();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.DOMErrorHandler'>org/w3c/dom/DOMErrorHandler.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface DOMErrorHandler {
+    public boolean handleError(DOMError error);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.DOMLocator'>org/w3c/dom/DOMLocator.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface DOMLocator {
+    public int getLineNumber();
+
+    public int getColumnNumber();
+
+    public int getByteOffset();
+
+    public int getUtf16Offset();
+
+    public Node getRelatedNode();
+
+    public String getUri();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.DOMConfiguration'>org/w3c/dom/DOMConfiguration.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface DOMConfiguration {
+    public void setParameter(String name, 
+                             Object value)
+                             throws DOMException;
+
+    public Object getParameter(String name)
+                               throws DOMException;
+
+    public boolean canSetParameter(String name, 
+                                   Object value);
+
+    public DOMStringList getParameterNames();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.CDATASection'>org/w3c/dom/CDATASection.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface CDATASection extends Text {
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.DocumentType'>org/w3c/dom/DocumentType.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface DocumentType extends Node {
+    public String getName();
+
+    public NamedNodeMap getEntities();
+
+    public NamedNodeMap getNotations();
+
+    public String getPublicId();
+
+    public String getSystemId();
+
+    public String getInternalSubset();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.Notation'>org/w3c/dom/Notation.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface Notation extends Node {
+    public String getPublicId();
+
+    public String getSystemId();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.Entity'>org/w3c/dom/Entity.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface Entity extends Node {
+    public String getPublicId();
+
+    public String getSystemId();
+
+    public String getNotationName();
+
+    public String getInputEncoding();
+
+    public String getXmlEncoding();
+
+    public String getXmlVersion();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.EntityReference'>org/w3c/dom/EntityReference.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface EntityReference extends Node {
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ProcessingInstruction'>org/w3c/dom/ProcessingInstruction.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom;
+
+public interface ProcessingInstruction extends Node {
+    public String getTarget();
+
+    public String getData();
+    public void setData(String data)
+                                   throws DOMException;
+
+}
+</pre>
+</div>
+</div> <!-- div2 JavaCoreInterfaces --></div> <!-- div1 java-binding --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='IDL Definitions' href='idl-definitions.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='ECMAScript Language Binding' href='ecma-script-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

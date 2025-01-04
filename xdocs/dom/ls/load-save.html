@@ -1,0 +1,2747 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Apr 05 15:05:40 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Document Object Model Load and Save</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='idl-definitions.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='copyright-notice.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='W3C Copyright Notices and Licenses' accesskey='p' href='copyright-notice.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='IDL Definitions' accesskey='n' href='idl-definitions.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='Load-Save'></a>
+<h1 id='Load-Save-h1' class='div1'>1. 
+Document Object Model Load and Save</h1><dl>
+<dt><i>Editors</i>:
+</dt><dd>Johnny Stenback, Netscape</dd>
+<dd>Andy Heninger, IBM (until March 2001)</dd>
+</dl>
+<div class='noprint'>
+<h2 id='table-of-contents'>Table of contents</h2>
+<ul class='toc'>
+<li class='tocline3'><a class='tocxref' href='#Level-3-LS-Interface'>1.1 Overview of the Interfaces</a>
+</li>
+<li class='tocline3'><a class='tocxref' href='#LS-BasicTypes'>1.2 Basic Types</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#LS-LSInputStream'>1.2.1 The LSInputStream Type</a>
+<ul>
+<li class='tocline5'><a href='#LSInputStream'>LSInputStream</a></ul>
+<li class='tocline4'><a class='tocxref' href='#LS-LSOutputStream'>1.2.2 The LSOutputStream Type</a>
+<ul>
+<li class='tocline5'><a href='#LSOutputStream'>LSOutputStream</a></ul>
+<li class='tocline4'><a class='tocxref' href='#LS-LSReader'>1.2.3 The LSReader Type</a>
+<ul>
+<li class='tocline5'><a href='#LSReader'>LSReader</a></ul>
+<li class='tocline4'><a class='tocxref' href='#LS-LSWriter'>1.2.4 The LSWriter Type</a>
+<ul>
+<li class='tocline5'><a href='#LSWriter'>LSWriter</a></ul>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#LS-fundamental'>1.3 Fundamental Interfaces</a>
+<ul class='toc'>
+<li class='tocline4'><a href='#LS-LSException'>LSException</a>,
+<a href='#LS-LSException-LSExceptionCode'>LSExceptionCode</a>,
+<a href='#LS-DOMImplementation'>DOMImplementationLS</a>,
+<a href='#LS-LSParser'>LSParser</a>,
+<a href='#LS-LSInput'>LSInput</a>,
+<a href='#LS-LSResourceResolver'>LSResourceResolver</a>,
+<a href='#LS-LSParserFilter'>LSParserFilter</a>,
+<a href='#LS-LSProgressEvent'>LSProgressEvent</a>,
+<a href='#LS-LSLoadEvent'>LSLoadEvent</a>,
+<a href='#LS-LSSerializer'>LSSerializer</a>,
+<a href='#LS-LSOutput'>LSOutput</a>,
+<a href='#LS-LSSerializerFilter'>LSSerializerFilter</a></ul></li>
+</ul>
+</div>
+<p class='first'>
+    This section defines a set of interfaces for loading and saving
+    document objects as defined in [<cite><a class='noxref normative' href='references.html#DOM2Core'>DOM Level 2 Core</a></cite>] or
+    newer. The functionality specified in this section (the <em>Load
+    and Save</em> functionality) is sufficient to allow software
+    developers and Web script authors to load and save XML content
+    inside conforming products. The DOM Load and Save <a href='glossary.html#dt-API'>API</a> also allows filtering of XML content
+    using only DOM API calls; access and manipulation of the
+    <code>Document</code> is defined in [<cite><a class='noxref normative' href='references.html#DOM2Core'>DOM Level 2 Core</a></cite>] or
+    newer.
+  </p><p>
+    The proposal for loading is influenced by the Java APIs for XML
+    Processing [<cite><a class='noxref informative' href='references.html#JAXP'>JAXP</a></cite>] and by SAX2
+    [<cite><a class='noxref informative' href='references.html#SAX'>SAX</a></cite>].
+  </p>
+<div class='div2'><a name='Level-3-LS-Interface'></a>
+<h2 id='Level-3-LS-Interface-h2' class='div2'>1.1 
+Overview of the Interfaces</h2><p>
+      The interfaces involved with the loading and saving of XML
+      documents are:
+    <ul>
+<li>
+
+	  <a href='load-save.html#LS-DOMImplementation'><code>DOMImplementationLS</code></a> -- An extended
+	  <code>DOMImplementation</code> interface that provides the
+	  factory methods for creating the objects required for
+	  loading and saving.
+	</li>
+<li>
+
+	  <a href='load-save.html#LS-LSParser'><code>LSParser</code></a> -- An interface for parsing data into
+	  DOM documents.
+	</li>
+<li>
+
+	  <a href='load-save.html#LS-LSInput'><code>LSInput</code></a> -- Encapsulates information about the
+	  data to be loaded.
+	</li>
+<li>
+
+	  <a href='load-save.html#LS-LSResourceResolver'><code>LSResourceResolver</code></a> -- Provides a way for
+	  applications to redirect references to external resources
+	  when parsing.
+	</li>
+<li>
+
+	  <a href='load-save.html#LS-LSParserFilter'><code>LSParserFilter</code></a> -- Provides the ability to
+	  examine and optionally remove nodes as they are being
+	  processed while parsing.
+	</li>
+<li>
+
+	  <a href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a> -- An interface for serializing
+	  DOM documents or nodes.
+	</li>
+<li>
+
+	  <a href='load-save.html#LS-LSOutput'><code>LSOutput</code></a> -- Encapsulates information about the
+	  destination for the data to be output.
+	</li>
+<li>
+
+	  <a href='load-save.html#LS-LSSerializerFilter'><code>LSSerializerFilter</code></a> -- Provides the ability to
+	  examine and filter DOM nodes as they are being processed for
+	  the serialization.
+	</li>
+</ul>
+</div> <!-- div2 Level-3-LS-Interface -->
+<div class='div2'><a name='LS-BasicTypes'></a>
+<h2 id='LS-BasicTypes-h2' class='div2'>1.2 
+Basic Types</h2><p>
+      To ensure interoperability, this specification specifies the
+      following basic types used in various DOM modules. Even though
+      the DOM uses the basic types in the interfaces, bindings may
+      use different types and normative bindings are only given for Java
+      and ECMAScript in this specification. 
+    
+<div class='div3'><a name='LS-LSInputStream'></a>
+<h3 id='LS-LSInputStream-h3' class='div3'>1.2.1 
+The <a href='load-save.html#LSInputStream'><code>LSInputStream</code></a> Type</h3><p>
+	This type is used to represent a sequence of input bytes.
+      
+<dl><dt><b>Type Definition <i><a name='LSInputStream'>LSInputStream</a></i></b></dt><dd>
+<p>A <a href='load-save.html#LSInputStream'><code>LSInputStream</code></a> represents a reference to a
+	      byte stream source of an XML input.
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+typedef Object <a class='noxref' href='load-save.html#LSInputStream'>LSInputStream</a>;
+</pre>
+</div><br>
+</dd></dl>
+</dd></dl>
+<p><b>Note:</b> 
+	  For Java, <a href='load-save.html#LSInputStream'><code>LSInputStream</code></a> is bound to the
+	  <code>java.io.InputStream</code> type. For ECMAScript,
+	  <a class='noxref' href='load-save.html#LSInputStream'><code>LSInputStream</code></a> is bound to <code>Object</code>.
+	</p>
+</div> <!-- div3 LS-LSInputStream -->
+<div class='div3'><a name='LS-LSOutputStream'></a>
+<h3 id='LS-LSOutputStream-h3' class='div3'>1.2.2 
+The <a href='load-save.html#LSOutputStream'><code>LSOutputStream</code></a> Type</h3><p>
+	This type is used to represent a sequence of output bytes.
+      
+<dl><dt><b>Type Definition <i><a name='LSOutputStream'>LSOutputStream</a></i></b></dt><dd>
+<p>A <a href='load-save.html#LSOutputStream'><code>LSOutputStream</code></a> represents a byte
+	      stream destination for the XML output.
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+typedef Object <a class='noxref' href='load-save.html#LSOutputStream'>LSOutputStream</a>;
+</pre>
+</div><br>
+</dd></dl>
+</dd></dl>
+<p><b>Note:</b> 
+	  For Java, <a href='load-save.html#LSOutputStream'><code>LSOutputStream</code></a> is bound to the
+	  <code>java.io.OutputStream</code> type. For ECMAScript,
+	  <a class='noxref' href='load-save.html#LSOutputStream'><code>LSOutputStream</code></a> is bound to <code>Object</code>.
+	</p>
+</div> <!-- div3 LS-LSOutputStream -->
+<div class='div3'><a name='LS-LSReader'></a>
+<h3 id='LS-LSReader-h3' class='div3'>1.2.3 
+The <a href='load-save.html#LSReader'><code>LSReader</code></a> Type</h3><p>
+	This type is used to represent a sequence of input characters
+	in <a href='glossary.html#dt-16-bit-unit'>16-bit units</a>. The
+	encoding used for the characters is UTF-16, as defined in
+	[<cite><a class='noxref normative' href='references.html#Unicode'>Unicode</a></cite>] and in [<cite><a class='noxref normative' href='references.html#ISO10646'>ISO/IEC 10646</a></cite>]).
+      
+<dl><dt><b>Type Definition <i><a name='LSReader'>LSReader</a></i></b></dt><dd>
+<p>A <a href='load-save.html#LSReader'><code>LSReader</code></a> represents a character
+	      stream for the XML input.
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+typedef Object <a class='noxref' href='load-save.html#LSReader'>LSReader</a>;
+</pre>
+</div><br>
+</dd></dl>
+</dd></dl>
+<p><b>Note:</b> 
+	  For Java, <a href='load-save.html#LSReader'><code>LSReader</code></a> is bound to the
+	  <code>java.io.Reader</code> type. For ECMAScript,
+	  <a class='noxref' href='load-save.html#LSReader'><code>LSReader</code></a> is <em>not</em> bound, and
+	  therefore has no recommended meaning in ECMAScript.
+	</p>
+</div> <!-- div3 LS-LSReader -->
+<div class='div3'><a name='LS-LSWriter'></a>
+<h3 id='LS-LSWriter-h3' class='div3'>1.2.4 
+The <a href='load-save.html#LSWriter'><code>LSWriter</code></a> Type</h3><p>
+	This type is used to represent a sequence of output characters
+	in <a href='glossary.html#dt-16-bit-unit'>16-bit units</a>. The
+	encoding used for the characters is UTF-16, as defined in
+	[<cite><a class='noxref normative' href='references.html#Unicode'>Unicode</a></cite>] and in [<cite><a class='noxref normative' href='references.html#ISO10646'>ISO/IEC 10646</a></cite>]).
+      
+<dl><dt><b>Type Definition <i><a name='LSWriter'>LSWriter</a></i></b></dt><dd>
+<p>A <a href='load-save.html#LSWriter'><code>LSWriter</code></a> represents a character
+	      stream for the XML output.
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+typedef Object <a class='noxref' href='load-save.html#LSWriter'>LSWriter</a>;
+</pre>
+</div><br>
+</dd></dl>
+</dd></dl>
+<p><b>Note:</b> 
+	  For Java, <a href='load-save.html#LSWriter'><code>LSWriter</code></a> is bound to the
+	  <code>java.io.Writer</code> type. For ECMAScript,
+	  <a class='noxref' href='load-save.html#LSWriter'><code>LSWriter</code></a> is <em>not</em> bound, and
+	  therefore has no recommended meaning in ECMAScript.
+	</p>
+</div> <!-- div3 LS-LSWriter --></div> <!-- div2 LS-BasicTypes -->
+<div class='div2'><a name='LS-fundamental'></a>
+<h2 id='LS-fundamental-h2' class='div2'>1.3 
+Fundamental Interfaces</h2><p>
+	The interfaces within this section are considered fundamental,
+	and must be fully implemented by all conforming implementations
+	of the DOM Load and Save module.
+      <p>
+	A DOM application may use the <code>hasFeature(feature,
+	version)</code> method of the <code>DOMImplementation</code>
+	interface with parameter values <code>"LS"</code> (or
+	<code>"LS-Async"</code>) and <code>"3.0"</code> (respectively)
+	to determine whether or not these interfaces are supported by
+	the implementation.  In order to fully support them, an
+	implementation must also support the "Core" feature defined in
+	[<cite><a class='noxref normative' href='references.html#DOM2Core'>DOM Level 2 Core</a></cite>].
+      <p>
+	A DOM application may use the <code>hasFeature(feature,
+	version)</code> method of the <code>DOMImplementation</code>
+	interface with parameter values <code>"LS-Async"</code> and
+	<code>"3.0"</code> (respectively) to determine whether or not
+	the asynchronous mode is supported by the implementation. In
+	order to fully support the asynchronous mode, an
+	implementation must also support the <code>"LS"</code> feature
+	defined in this section.
+      <p>
+	For additional information about <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance'><em>conformance</em></a>,
+	please see the DOM Level 3 Core specification [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>].
+      
+<dl><dt><b>Exception <i><a name='LS-LSException'>LSException</a></i></b></dt>
+<dd>
+<p>
+      Parser or write operations may throw an <a href='load-save.html#LS-LSException'><code>LSException</code></a>
+      if the processing is stopped. The processing can be stopped due to
+      a <code>DOMError</code> with a severity of
+      <code>DOMError.SEVERITY_FATAL_ERROR</code> or a non recovered
+      <code>DOMError.SEVERITY_ERROR</code>, or if
+      <code>DOMErrorHandler.handleError()</code> returned
+      <code>false</code>.
+    <p><b>Note:</b> 
+	As suggested in the definition of the constants in the
+	<code>DOMError</code> interface, a DOM implementation may choose
+	to continue after a fatal error, but the resulting DOM tree is
+	then implementation dependent.
+      </p>
+
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+exception <a class='noxref' href='load-save.html#LS-LSException'>LSException</a> {
+  unsigned short   code;
+};
+// LSExceptionCode
+const unsigned short      <a class='noxref' href='load-save.html#PARSE_ERR'>PARSE_ERR</a>                      = 81;
+const unsigned short      <a class='noxref' href='load-save.html#SERIALIZE_ERR'>SERIALIZE_ERR</a>                  = 82;
+</pre>
+</div><br>
+</dd>
+<dt><b>Definition group <i><a name='LS-LSException-LSExceptionCode'>LSExceptionCode</a></i></b></dt>
+<dd><p>
+      An integer indicating the type of error generated.
+    <dl>
+<dt><b>Defined Constants</b></dt>
+<dd><dl>
+<dt><a name='PARSE_ERR'><code class='constant-name'>PARSE_ERR</code></a></dt><dd>
+
+	If an attempt was made to load a document, or an XML Fragment,
+	using <a href='load-save.html#LS-LSParser'><code>LSParser</code></a> and the processing has been stopped.
+      </dd>
+<dt><a name='SERIALIZE_ERR'><code class='constant-name'>SERIALIZE_ERR</code></a></dt><dd>
+
+	If an attempt was made to serialize a <code>Node</code> using
+	<a href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a> and the processing has been stopped.
+      </dd>
+</dl>
+</dd></dl>
+</dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='LS-DOMImplementation'>DOMImplementationLS</a></i></b></dt>
+<dd>
+<p>
+      <code>DOMImplementationLS</code> contains the factory methods for
+      creating Load and Save objects.
+    <p>
+      The expectation is that an instance of the
+      <code>DOMImplementationLS</code> interface can be obtained by
+      using binding-specific casting methods on an instance of the
+      <code>DOMImplementation</code> interface or, if the
+      <code>Document</code> supports the feature <code>"Core"</code>
+      version <code>"3.0"</code> defined in [<cite><a class='noxref informative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], by using the method
+      <code>DOMImplementation.getFeature</code> with parameter values
+      <code>"LS"</code> (or <code>"LS-Async"</code>) and
+      <code>"3.0"</code> (respectively).
+    
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='load-save.html#LS-DOMImplementation'>DOMImplementationLS</a> {
+
+  // DOMImplementationLSMode
+  const unsigned short      <a class='noxref' href='load-save.html#LS-DOMImplementationLS-MODE_SYNC'>MODE_SYNCHRONOUS</a>               = 1;
+  const unsigned short      <a class='noxref' href='load-save.html#LS-DOMImplementationLS-MODE_ASYNCH'>MODE_ASYNCHRONOUS</a>              = 2;
+
+  <a class='noxref' href='load-save.html#LS-LSParser'>LSParser</a>           <a class='noxref' href='load-save.html#LS-DOMImplementationLS-createLSParser'>createLSParser</a>(in unsigned short mode, 
+                                    in DOMString schemaType)
+                                        raises(DOMException);
+  <a class='noxref' href='load-save.html#LS-LSSerializer'>LSSerializer</a>       <a class='noxref' href='load-save.html#LS-DOMImplementationLS-createLSSerializer'>createLSSerializer</a>();
+  <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a>            <a class='noxref' href='load-save.html#LS-DOMImplementationLS-createLSInput'>createLSInput</a>();
+  <a class='noxref' href='load-save.html#LS-LSOutput'>LSOutput</a>           <a class='noxref' href='load-save.html#LS-DOMImplementationLS-createLSOutput'>createLSOutput</a>();
+};
+</pre>
+</div><br>
+</dd>
+<dt><b>Definition group <i><a name='LS-DOMImplementationLS-DOMImplementationLSMode'>DOMImplementationLSMode</a></i></b></dt>
+<dd><p>Integer parser mode constants.<dl>
+<dt><b>Defined Constants</b></dt>
+<dd><dl>
+<dt><a name='LS-DOMImplementationLS-MODE_ASYNCH'><code class='constant-name'>MODE_ASYNCHRONOUS</code></a></dt><dd>
+Create an asynchronous <a href='load-save.html#LS-LSParser'><code>LSParser</code></a>.</dd>
+<dt><a name='LS-DOMImplementationLS-MODE_SYNC'><code class='constant-name'>MODE_SYNCHRONOUS</code></a></dt><dd>
+Create a synchronous <a href='load-save.html#LS-LSParser'><code>LSParser</code></a>.</dd>
+</dl>
+</dd></dl>
+</dd>
+
+<dt><b>Methods</b></dt>
+<dd><dl>
+
+<dt><code class='method-name'><a name='LS-DOMImplementationLS-createLSInput'>createLSInput</a></code></dt>
+<dd>
+<div class='method'>
+
+        Create a new empty input source object where
+        <a href='load-save.html#LS-LSInput-characterStream'><code>LSInput.characterStream</code></a>,
+        <a href='load-save.html#LS-LSInput-byteStream'><code>LSInput.byteStream</code></a>,
+        <a href='load-save.html#LS-LSInput-stringData'><code>LSInput.stringData</code></a>
+        <a href='load-save.html#LS-LSInput-systemId'><code>LSInput.systemId</code></a>,
+        <a href='load-save.html#LS-LSInput-publicId'><code>LSInput.publicId</code></a>, <a href='load-save.html#LS-LSInput-baseURI'><code>LSInput.baseURI</code></a>,
+        and <a href='load-save.html#LS-LSInput-encoding'><code>LSInput.encoding</code></a> are null, and
+        <a href='load-save.html#LS-LSInput-certifiedText'><code>LSInput.certifiedText</code></a> is false.
+      
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><a href='load-save.html#LS-LSInput'><code>LSInput</code></a></p></td><td>
+<p>
+
+	  The newly created input object.
+        </td></tr></table>
+</div></div> <!-- return -->
+<div><b>No Parameters</b></div>
+<div><b>No Exceptions</b></div>
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='LS-DOMImplementationLS-createLSOutput'>createLSOutput</a></code></dt>
+<dd>
+<div class='method'>
+
+        Create a new empty output destination object where
+        <a href='load-save.html#LS-LSOutput-characterStream'><code>LSOutput.characterStream</code></a>,
+        <a href='load-save.html#LS-LSOutput-byteStream'><code>LSOutput.byteStream</code></a>,
+        <a href='load-save.html#LS-LSOutput-systemId'><code>LSOutput.systemId</code></a>,
+        <a href='load-save.html#LS-LSOutput-encoding'><code>LSOutput.encoding</code></a> are null.
+      
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><a href='load-save.html#LS-LSOutput'><code>LSOutput</code></a></p></td><td>
+<p>
+
+	  The newly created output object.
+        </td></tr></table>
+</div></div> <!-- return -->
+<div><b>No Parameters</b></div>
+<div><b>No Exceptions</b></div>
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='LS-DOMImplementationLS-createLSParser'>createLSParser</a></code></dt>
+<dd>
+<div class='method'>
+Create a new <a href='load-save.html#LS-LSParser'><code>LSParser</code></a>.  The newly constructed
+      parser may then be configured by means of its
+      <code>DOMConfiguration</code> object, and used to parse documents by
+      means of its <code>parse</code> method.  <div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>mode</code> of type 
+<code>unsigned short</code></dt><dd>
+ The <code>mode</code> argument is either
+        <code>MODE_SYNCHRONOUS</code> or <code>MODE_ASYNCHRONOUS</code>,
+        if <code>mode</code> is <code>MODE_SYNCHRONOUS</code> then the
+        <a href='load-save.html#LS-LSParser'><code>LSParser</code></a> that is created will operate in
+        synchronous mode, if it's <code>MODE_ASYNCHRONOUS</code> then
+        the <a class='noxref' href='load-save.html#LS-LSParser'><code>LSParser</code></a> that is created will operate in
+        asynchronous mode.  <br>
+</dd>
+<dt><code class='parameter-name'>schemaType</code> of type 
+<code>DOMString</code></dt><dd>
+
+	    An absolute URI representing the type of the <a href='glossary.html#dt-schema'>schema</a> language used during the
+	    load of a <code>Document</code> using the newly created
+	    <a href='load-save.html#LS-LSParser'><code>LSParser</code></a>. Note that no lexical checking is
+	    done on the absolute URI. In order to create a
+	    <a class='noxref' href='load-save.html#LS-LSParser'><code>LSParser</code></a> for any kind of schema types
+	    (i.e. the LSParser will be free to use any schema found),
+	    use the value <code>null</code>.
+	  <p><b>Note:</b> 
+	      For W3C XML Schema [<cite><a class='noxref informative' href='references.html#XMLSchema1'>XML Schema Part 1</a></cite>], applications must use the value
+	      <code>"http://www.w3.org/2001/XMLSchema"</code>.  For XML
+	      DTD [<cite><a class='noxref informative' href='references.html#XML'>XML 1.0</a></cite>], applications
+	      must use the value
+	      <code>"http://www.w3.org/TR/REC-xml"</code>. Other Schema
+	      languages are outside the scope of the W3C and therefore
+	      should recommend an absolute URI in order to use this
+	      method.
+	    </p>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><a href='load-save.html#LS-LSParser'><code>LSParser</code></a></p></td><td>
+<p>
+
+	  The newly created <a class='noxref' href='load-save.html#LS-LSParser'><code>LSParser</code></a> object. This
+	  <a class='noxref' href='load-save.html#LS-LSParser'><code>LSParser</code></a> is either synchronous or asynchronous
+	  depending on the value of the <code>mode</code> argument.
+	<p><b>Note:</b> 
+	    By default, the newly created <a class='noxref' href='load-save.html#LS-LSParser'><code>LSParser</code></a> does
+	    not contain a <code>DOMErrorHandler</code>, i.e. the value
+	    of the "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-error-handler'><em>error-handler</em></a>"
+	    configuration parameter is <code>null</code>. However,
+	    implementations may provide a default error handler at
+	    creation time. In that case, the initial value of the
+	    <code>"error-handler"</code> configuration parameter on the
+	    new <a class='noxref' href='load-save.html#LS-LSParser'><code>LSParser</code></a> object contains a reference to
+	    the default error handler.
+	  </p>
+</td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><code>DOMException</code></p></td><td>
+<p>
+	    NOT_SUPPORTED_ERR: Raised if the requested mode or schema
+	    type is not supported.
+	  </td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='LS-DOMImplementationLS-createLSSerializer'>createLSSerializer</a></code></dt>
+<dd>
+<div class='method'>
+
+        Create a new <a href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a> object.
+      
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><a href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a></p></td><td>
+<p>
+The newly created <a class='noxref' href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a> object.<p><b>Note:</b> 
+	    By default, the newly created <a class='noxref' href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a>
+	    has no <code>DOMErrorHandler</code>, i.e. the value of the
+	    <code>"error-handler"</code> configuration parameter is
+	    <code>null</code>. However, implementations may provide a
+	    default error handler at creation time. In that case, the
+	    initial value of the <code>"error-handler"</code>
+	    configuration parameter on the new
+	    <a class='noxref' href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a> object contains a reference to the
+	    default error handler.
+	  </p>
+</td></tr></table>
+</div></div> <!-- return -->
+<div><b>No Parameters</b></div>
+<div><b>No Exceptions</b></div>
+</div> <!-- method -->
+</dd>
+</dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='LS-LSParser'>LSParser</a></i></b></dt>
+<dd>
+<p>
+      An interface to an object that is able to build, or augment, a
+      DOM tree from various input sources.
+    <p>
+      <code>LSParser</code> provides an API for parsing XML and
+      building the corresponding DOM document structure. A
+      <code>LSParser</code> instance can be obtained by invoking the
+      <a href='load-save.html#LS-DOMImplementationLS-createLSParser'><code>DOMImplementationLS.createLSParser()</code></a> method.
+    <p>
+      As specified in [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], when a document is
+      first made available via the LSParser:
+    <ul>
+<li>
+
+	  there will never be two adjacent nodes of type NODE_TEXT,
+	  and there will never be empty text nodes.
+	</li>
+<li>
+
+	  it is expected that the <code>value</code> and
+	  <code>nodeValue</code> attributes of an <code>Attr</code>
+	  node initially return the <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-20040204#AVNormalize'><em>XML 1.0 normalized
+	  value</em></a>. However, if the parameters "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-validate-if-schema'><em>validate-if-schema</em></a>"
+	  and "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-datatype-normalization'><em>datatype-normalization</em></a>"
+	  are set to <code>true</code>, depending on the attribute
+	  normalization used, the attribute values may differ from the
+	  ones obtained by the XML 1.0 attribute
+	  normalization. <a name='infoset-attribute'></a>If the parameters "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-datatype-normalization'><em>datatype-normalization</em></a>"
+	  is set to <code>false</code>, the XML 1.0 attribute
+	  normalization is guaranteed to occur, and if the attributes
+	  list does not contain namespace declarations, the
+	  <code>attributes</code> attribute on <code>Element</code>
+	  node represents the property
+	  <b>[attributes]</b> defined in [<cite><a class='noxref normative' href='references.html#InfoSet'>XML Information Set</a></cite>].
+	</li>
+</ul>
+<p>
+      Asynchronous <code>LSParser</code> objects are expected to also
+      implement the <code>events::EventTarget</code> interface so that
+      event listeners can be registered on asynchronous
+      <code>LSParser</code> objects.
+    <p>
+      Events supported by asynchronous <code>LSParser</code> objects are:
+    <dl>
+<dt><a name='event-load'>load</a></dt>
+<dd>
+	    The <code>LSParser</code> finishes to load the
+	    document. See also the definition of the
+	    <a href='load-save.html#LS-LSLoadEvent'><code>LSLoadEvent</code></a> interface.
+	  </dd><dt><a name='event-progress'>progress</a></dt>
+<dd>
+	    The <code>LSParser</code> signals progress as data is
+	    parsed.
+	  <br>
+
+	    This specification does not attempt to define exactly when
+	    progress events should be dispatched. That is intentionally
+	    left as implementation-dependent. Here is one example of how
+	    an application might dispatch progress events: Once the
+	    parser starts receiving data, a progress event is dispatched
+	    to indicate that the parsing starts. From there on, a
+	    progress event is dispatched for every 4096 bytes of data
+	    that is received and processed. This is only one example,
+	    though, and implementations can choose to dispatch progress
+	    events at any time while parsing, or not dispatch them at
+	    all.
+	  <br>
+
+	    See also the definition of the <a href='load-save.html#LS-LSProgressEvent'><code>LSProgressEvent</code></a>
+	    interface.
+	  </dd></dl>
+<p><b>Note:</b> 
+	All events defined in this specification use the namespace URI
+	<code>"http://www.w3.org/2002/DOMLS"</code>.
+      </p>
+<p>
+      While parsing an input source, errors are reported to the
+      application through the error handler
+      (<a href='load-save.html#LS-LSParser-config'><code>LSParser.domConfig</code></a>'s "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-error-handler'><em>error-handler</em></a>"
+      parameter). This specification does in no way try to define all
+      possible errors that can occur while parsing XML, or any other
+      markup, but some common error cases are defined. The types
+      (<code>DOMError.type</code>) of errors and warnings defined by
+      this specification are:
+
+      <dl>
+<dt>
+	    <code>"check-character-normalization-failure" [error]</code>
+	  </dt>
+<dd>
+              Raised if the parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-check-character-normalization'><em>check-character-normalization</em></a>"
+              is set to true and a string is encountered that fails
+              normalization checking.
+            </dd><dt><code>"doctype-not-allowed" [fatal]</code></dt>
+<dd>
+              Raised if the configuration parameter "<a href='load-save.html#parameter-disallow-doctype'>disallow-doctype</a>"
+              is set to <code>true</code> and a doctype is encountered.
+            </dd><dt><code>"no-input-specified" [fatal]</code></dt>
+<dd>
+              Raised when loading a document and no input is specified
+              in the <a href='load-save.html#LS-LSInput'><code>LSInput</code></a> object.
+            </dd><dt><code>"pi-base-uri-not-preserved" [warning]</code></dt>
+<dd>
+              Raised if a processing instruction is encountered in a
+              location where the base URI of the processing
+              instruction can not be preserved.
+            <br>
+
+              One example of a case where this warning will be raised is
+              if the configuration parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-entities'><em>entities</em></a>"
+              is set to <code>false</code> and the following XML file is
+              parsed:
+            <div class='code-block'>
+<pre>&lt;!DOCTYPE root [
+&lt;!ENTITY e SYSTEM 'subdir/myentity.ent'
+]&gt;
+
+&lt;root&gt;
+&amp;e;
+&lt;/root&gt;</pre>
+</div><br>
+
+              And <code>subdir/myentity.ent</code> contains:
+            <div class='code-block'>
+<pre>&lt;one&gt;
+  &lt;two/&gt;
+&lt;/one&gt;
+&lt;?pi 3.14159?&gt;
+&lt;more/&gt;</pre>
+</div></dd><dt><code>"unbound-prefix-in-entity" [warning]</code></dt>
+<dd>
+              An implementation dependent warning that may be raised
+              if the configuration parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-namespaces'><em>namespaces</em></a>"
+              is set to <code>true</code> and an unbound namespace
+              prefix is encountered in an entity's replacement
+              text. Raising this warning is not enforced since some
+              existing parsers may not recognize unbound namespace
+              prefixes in the replacement text of entities.
+            </dd><dt><code>"unknown-character-denormalization" [fatal]</code></dt>
+<dd>
+              Raised if the configuration parameter "<a href='load-save.html#parameter-ignore-unknown-character-denormalizations'>ignore-unknown-character-denormalizations</a>"
+              is set to <code>false</code> and a character is
+              encountered for which the processor cannot determine the
+              normalization properties.
+            </dd><dt><code>"unsupported-encoding" [fatal]</code></dt>
+<dd>
+              Raised if an unsupported encoding is encountered.
+            </dd><dt><code>"unsupported-media-type" [fatal]</code></dt>
+<dd>
+              Raised if the configuration parameter "<a href='load-save.html#parameter-supported-media-types-only'>supported-media-types-only</a>"
+              is set to <code>true</code> and an unsupported media type
+              is encountered.
+            </dd></dl>
+
+    <p>
+      In addition to raising the defined errors and warnings,
+      implementations are expected to raise implementation specific
+      errors and warnings for any other error and warning cases such
+      as IO errors (file not found, permission denied,...), XML
+      well-formedness errors, and so on.
+    
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='load-save.html#LS-LSParser'>LSParser</a> {
+  readonly attribute DOMConfiguration <a class='noxref' href='load-save.html#LS-LSParser-config'>domConfig</a>;
+           attribute <a class='noxref' href='load-save.html#LS-LSParserFilter'>LSParserFilter</a>  <a class='noxref' href='load-save.html#LS-LSParser-filter'>filter</a>;
+  readonly attribute boolean         <a class='noxref' href='load-save.html#LS-LSParser-async'>async</a>;
+  readonly attribute boolean         <a class='noxref' href='load-save.html#LS-LSParser-busy'>busy</a>;
+  Document           <a class='noxref' href='load-save.html#LS-LSParser-parse'>parse</a>(in <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a> input)
+                                        raises(DOMException, 
+                                               <a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+  Document           <a class='noxref' href='load-save.html#LS-LSParser-parseURI'>parseURI</a>(in DOMString uri)
+                                        raises(DOMException, 
+                                               <a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+
+  // ACTION_TYPES
+  const unsigned short      <a class='noxref' href='load-save.html#LS-LSParser-ACTION_APPEND_AS_CHILDREN'>ACTION_APPEND_AS_CHILDREN</a>      = 1;
+  const unsigned short      <a class='noxref' href='load-save.html#LS-LSParser-ACTION_REPLACE_CHILDREN'>ACTION_REPLACE_CHILDREN</a>        = 2;
+  const unsigned short      <a class='noxref' href='load-save.html#LS-LSParser-ACTION_INSERT_BEFORE'>ACTION_INSERT_BEFORE</a>           = 3;
+  const unsigned short      <a class='noxref' href='load-save.html#LS-LSParser-ACTION_INSERT_AFTER'>ACTION_INSERT_AFTER</a>            = 4;
+  const unsigned short      <a class='noxref' href='load-save.html#LS-LSParser-ACTION_REPLACE'>ACTION_REPLACE</a>                 = 5;
+
+  Node               <a class='noxref' href='load-save.html#LS-LSParser-parseWithContext'>parseWithContext</a>(in <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a> input, 
+                                      in Node contextArg, 
+                                      in unsigned short action)
+                                        raises(DOMException, 
+                                               <a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+  void               <a class='noxref' href='load-save.html#LS-LSParser-abort'>abort</a>();
+};
+</pre>
+</div><br>
+</dd>
+<dt><b>Definition group <i><a name='LS-LSParser-ACTION_TYPES'>ACTION_TYPES</a></i></b></dt>
+<dd><p>A set of possible actions for the <code>parseWithContext</code>
+	method.<dl>
+<dt><b>Defined Constants</b></dt>
+<dd><dl>
+<dt><a name='LS-LSParser-ACTION_APPEND_AS_CHILDREN'><code class='constant-name'>ACTION_APPEND_AS_CHILDREN</code></a></dt><dd>
+
+          Append the result of the parse operation as children of the
+          context node. For this action to work, the context node must
+          be an <code>Element</code> or a
+          <code>DocumentFragment</code>.
+        </dd>
+<dt><a name='LS-LSParser-ACTION_INSERT_AFTER'><code class='constant-name'>ACTION_INSERT_AFTER</code></a></dt><dd>
+
+          Insert the result of the parse operation as the immediately
+          following sibling of the context node. For this action to
+          work the context node's parent must be an
+          <code>Element</code> or a <code>DocumentFragment</code>.
+        </dd>
+<dt><a name='LS-LSParser-ACTION_INSERT_BEFORE'><code class='constant-name'>ACTION_INSERT_BEFORE</code></a></dt><dd>
+
+          Insert the result of the parse operation as the immediately
+          preceding sibling of the context node. For this action to
+          work the context node's parent must be an
+          <code>Element</code> or a <code>DocumentFragment</code>.
+        </dd>
+<dt><a name='LS-LSParser-ACTION_REPLACE'><code class='constant-name'>ACTION_REPLACE</code></a></dt><dd>
+
+          Replace the context node with the result of the parse
+          operation. For this action to work, the context node must
+          have a parent, and the parent must be an
+          <code>Element</code> or a <code>DocumentFragment</code>.
+        </dd>
+<dt><a name='LS-LSParser-ACTION_REPLACE_CHILDREN'><code class='constant-name'>ACTION_REPLACE_CHILDREN</code></a></dt><dd>
+
+          Replace all the children of the context node with the result
+          of the parse operation. For this action to work, the context
+          node must be an <code>Element</code>, a
+          <code>Document</code>, or a <code>DocumentFragment</code>.
+        </dd>
+</dl>
+</dd></dl>
+</dd>
+
+<dt><b>Attributes</b></dt>
+<dd><dl>
+
+<dt><code class='attribute-name'><a name='LS-LSParser-async'>async</a></code> of type <code>boolean</code>, readonly</dt>
+<dd>
+        <code>true</code> if the <code>LSParser</code> is asynchronous,
+        <code>false</code> if it is synchronous.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSParser-busy'>busy</a></code> of type <code>boolean</code>, readonly</dt>
+<dd>
+        <code>true</code> if the <code>LSParser</code> is currently
+        busy loading a document, otherwise <code>false</code>.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSParser-config'>domConfig</a></code> of type <code>DOMConfiguration</code>, readonly</dt>
+<dd>
+	The <code>DOMConfiguration</code> object used when parsing an
+	input source. This <code>DOMConfiguration</code> is specific to
+	the parse operation. No parameter values from this
+	<code>DOMConfiguration</code> object are passed automatically to
+	the <code>DOMConfiguration</code> object on the
+	<code>Document</code> that is created, or used, by the parse
+	operation. The DOM application is responsible for passing any
+	needed parameter values from this <code>DOMConfiguration</code>
+	object to the <code>DOMConfiguration</code> object referenced by
+	the <code>Document</code> object.
+      <br>
+
+	In addition to the parameters recognized in on the <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#DOMConfiguration'><em>DOMConfiguration</em></a>
+	interface defined in [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], the
+	<code>DOMConfiguration</code> objects for <code>LSParser</code>
+	add or modify the following parameters:
+      <dl>
+<dt><a name='parameter-charset-overrides-xml-encoding'><code>"charset-overrides-xml-encoding"</code></a></dt>
+<dd><dl>
+<dt><code>true</code></dt>
+<dd>[<em>optional</em>] (<em>default</em>)<br>
+
+		    If a higher level protocol such as HTTP [<cite><a class='noxref informative' href='references.html#RFC2616'>IETF RFC 2616</a></cite>] provides an
+		    indication of the character encoding of the input
+		    stream being processed, that will override any
+		    encoding specified in the XML declaration or the
+		    Text declaration (see also section 4.3.3, "Character
+		    Encoding in Entities", in [<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>]). Explicitly setting an encoding in the
+		    <a href='load-save.html#LS-LSInput'><code>LSInput</code></a> overrides any encoding from
+		    the protocol.
+		  </dd><dt><code>false</code></dt>
+<dd>[<em>required</em>]<br>
+
+		    The parser ignores any character set encoding
+		    information from higher-level protocols.
+		  </dd></dl>
+</dd><dt><a name='parameter-disallow-doctype'><code>"disallow-doctype"</code></a></dt>
+<dd><dl>
+<dt><code>true</code></dt>
+<dd>[<em>optional</em>]<br>
+
+		    Throw a fatal <b>"doctype-not-allowed"</b> error
+		    if a doctype node is found while parsing the
+		    document. This is useful when dealing with
+		    things like SOAP envelopes where doctype nodes are
+		    not allowed.
+		  </dd><dt><code>false</code></dt>
+<dd>[<em>required</em>] (<em>default</em>)<br>
+
+		    Allow doctype nodes in the document.
+		  </dd></dl>
+</dd><dt><a name='parameter-ignore-unknown-character-denormalizations'><code>"ignore-unknown-character-denormalizations"</code></a></dt>
+<dd><dl>
+<dt><code>true</code></dt>
+<dd>[<em>required</em>] (<em>default</em>)<br>
+
+		    If, while verifying full normalization when [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>] is supported, a processor encounters
+		    characters for which it cannot determine the
+		    normalization properties, then the processor will
+		    ignore any possible denormalizations caused by these
+		    characters.
+		  <br>
+
+                    This parameter is ignored for [<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>].
+                  </dd><dt><code>false</code></dt>
+<dd>[<em>optional</em>]<br>
+
+		    Report an fatal
+		    <b>"unknown-character-denormalization"</b> error if
+		    a character is encountered for which the processor
+		    cannot determine the normalization properties.
+		  </dd></dl>
+</dd><dt><a name='parameter-infoset'><code>"infoset"</code></a></dt>
+<dd>
+	      See the definition of <code>DOMConfiguration</code> for
+	      a description of this parameter. Unlike in [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], this parameter will default to
+	      <code>true</code> for <code>LSParser</code>.
+	    </dd><dt><a name='parameter-namespaces'><code>"namespaces"</code></a></dt>
+<dd><dl>
+<dt><code>true</code></dt>
+<dd>[<em>required</em>] (<em>default</em>)<br>
+
+		  Perform the namespace processing as defined in
+		  [<cite><a class='noxref normative' href='references.html#Namespaces'>XML Namespaces</a></cite>] and [<cite><a class='noxref normative' href='references.html#Namespaces11'>XML Namespaces 1.1</a></cite>].
+		</dd><dt><code>false</code></dt>
+<dd>[<em>optional</em>]<br>
+
+		  Do not perform the namespace processing.
+		</dd></dl>
+</dd><dt><a name='parameter-resource-resolver'><code>"resource-resolver"</code></a></dt>
+<dd>[<em>required</em>]<br>
+
+	      A reference to a <a href='load-save.html#LS-LSResourceResolver'><code>LSResourceResolver</code></a>
+	      object, or null. If the value of this parameter is not
+	      null when an external resource (such as an external XML
+	      entity or an XML schema location) is encountered, the
+	      implementation will request that the
+	      <a class='noxref' href='load-save.html#LS-LSResourceResolver'><code>LSResourceResolver</code></a> referenced in this
+	      parameter resolves the resource.
+	    </dd><dt><a name='parameter-supported-media-types-only'><code>"supported-media-types-only"</code></a></dt>
+<dd><dl>
+<dt><code>true</code></dt>
+<dd>[<em>optional</em>]<br>
+
+                    Check that the media type of the parsed resource
+                    is a supported media type. If an unsupported media
+                    type is encountered, a fatal error of type
+                    <b>"unsupported-media-type"</b> will be
+                    raised. The media types defined in [<cite><a class='noxref normative' href='references.html#RFC3023'>IETF RFC 3023</a></cite>] must always be accepted.
+		  </dd><dt><code>false</code></dt>
+<dd>[<em>required</em>] (<em>default</em>)<br>
+
+		    Accept any media type.
+		  </dd></dl>
+</dd><dt><a name='parameter-validate'><code>"validate"</code></a></dt>
+<dd>
+	      See the definition of <code>DOMConfiguration</code> for a
+	      description of this parameter. Unlike in [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], the processing of the internal subset is
+	      always accomplished, even if this parameter is set to
+	      <code>false</code>.
+	    </dd><dt><a name='parameter-validate-if-schema'><code>"validate-if-schema"</code></a></dt>
+<dd>
+	      See the definition of <code>DOMConfiguration</code> for a
+	      description of this parameter. Unlike in [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], the processing of the internal subset is
+	      always accomplished, even if this parameter is set to
+	      <code>false</code>.
+	    </dd><dt><a name='parameter-well-formed'><code>"well-formed"</code></a></dt>
+<dd>
+	      See the definition of <code>DOMConfiguration</code> for a
+	      description of this parameter. Unlike in [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], this parameter cannot be set to
+	      <code>false</code>.
+	    </dd></dl>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSParser-filter'>filter</a></code> of type <a href='load-save.html#LS-LSParserFilter'><code>LSParserFilter</code></a></dt>
+<dd>
+	When a filter is provided, the implementation will call out to
+	the filter as it is constructing the DOM tree structure. The
+	filter can choose to remove elements from the document being
+	constructed, or to terminate the parsing early.
+      <br>
+
+	The filter is invoked after the operations requested by the
+	<code>DOMConfiguration</code> parameters have been applied. For
+	example, if "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-validate'><em>validate</em></a>"
+	is set to <code>true</code>, the validation is done before
+	invoking the filter.
+      <br>
+
+</dd></dl></dd>
+
+<dt><b>Methods</b></dt>
+<dd><dl>
+
+<dt><code class='method-name'><a name='LS-LSParser-abort'>abort</a></code></dt>
+<dd>
+<div class='method'>
+
+        Abort the loading of the document that is currently being
+        loaded by the <code>LSParser</code>. If the
+        <code>LSParser</code> is currently not busy, a call to this
+        method does nothing.
+      <div><b>No Parameters</b></div>
+<div><b>No Return Value</b></div>
+<div><b>No Exceptions</b></div>
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='LS-LSParser-parse'>parse</a></code></dt>
+<dd>
+<div class='method'>
+Parse an XML document from a resource identified by a
+        <a href='load-save.html#LS-LSInput'><code>LSInput</code></a>.<div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>input</code> of type 
+<a href='load-save.html#LS-LSInput'><code>LSInput</code></a></dt><dd>
+
+            The <a class='noxref' href='load-save.html#LS-LSInput'><code>LSInput</code></a> from which the source of
+            the document is to be read.
+	  <br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>Document</code></p></td><td>
+<p>
+
+          If the <code>LSParser</code> is a synchronous
+          <code>LSParser</code>, the newly created and populated
+          <code>Document</code> is returned. If the
+          <code>LSParser</code> is asynchronous, <code>null</code> is
+          returned since the document object may not yet be constructed
+          when this method returns.
+        </td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><code>DOMException</code></p></td><td>
+<p>
+            INVALID_STATE_ERR: Raised if the <code>LSParser</code>'s
+            <a href='load-save.html#LS-LSParser-busy'><code>LSParser.busy</code></a> attribute is <code>true</code>.
+          </td></tr>
+<tr><td valign='top'><p><a href='load-save.html#LS-LSException'><code>LSException</code></a></p></td><td>
+<p>
+            PARSE_ERR: Raised if the <code>LSParser</code> was unable to
+            load the XML document. DOM applications should attach a
+            <code>DOMErrorHandler</code> using the parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-error-handler'><em>error-handler</em></a>"
+            if they wish to get details on the error.
+          </td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='LS-LSParser-parseURI'>parseURI</a></code></dt>
+<dd>
+<div class='method'>
+
+	Parse an XML document from a location identified by a
+	URI reference [<cite><a class='noxref normative' href='references.html#URIRef'>IETF RFC 2396</a></cite>]. If the URI
+	contains a fragment identifier (see section 4.1 in
+	[<cite><a class='noxref normative' href='references.html#URIRef'>IETF RFC 2396</a></cite>]), the behavior is not defined by
+	this specification, future versions of this
+	specification may define the behavior.
+      <div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>uri</code> of type 
+<code>DOMString</code></dt><dd>
+The location of the XML document to be read.<br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>Document</code></p></td><td>
+<p>
+
+          If the <code>LSParser</code> is a synchronous
+          <code>LSParser</code>, the newly created and populated
+          <code>Document</code> is returned, or <code>null</code> if an
+          error occured. If the <code>LSParser</code> is asynchronous,
+          <code>null</code> is returned since the document object may
+          not yet be constructed when this method returns.
+        </td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><code>DOMException</code></p></td><td>
+<p>
+            INVALID_STATE_ERR: Raised if the <a href='load-save.html#LS-LSParser-busy'><code>LSParser.busy</code></a>
+            attribute is <code>true</code>.
+          </td></tr>
+<tr><td valign='top'><p><a href='load-save.html#LS-LSException'><code>LSException</code></a></p></td><td>
+<p>
+            PARSE_ERR: Raised if the <code>LSParser</code> was unable to
+            load the XML document. DOM applications should attach a
+            <code>DOMErrorHandler</code> using the parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-error-handler'><em>error-handler</em></a>"
+            if they wish to get details on the error.
+          </td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='LS-LSParser-parseWithContext'>parseWithContext</a></code></dt>
+<dd>
+<div class='method'>
+
+        Parse an XML fragment from a resource identified by a
+        <a href='load-save.html#LS-LSInput'><code>LSInput</code></a> and insert the content into an existing
+        document at the position specified with the
+        <code>context</code> and <code>action</code> arguments. When
+        parsing the input stream, the context node (or its parent,
+        depending on where the result will be inserted) is used for
+        resolving unbound namespace prefixes. The context node's
+        <code>ownerDocument</code> node (or the node itself if the
+        node of type <code>DOCUMENT_NODE</code>) is used to resolve
+        default attributes and entity references.
+      <br>
+
+        As the new data is inserted into the document, at least one
+        mutation event is fired per new immediate child or sibling of
+        the context node.
+      <br>
+
+        If the context node is a <code>Document</code> node and the
+        action is <code>ACTION_REPLACE_CHILDREN</code>, then the
+        document that is passed as the context node will be changed
+        such that its <code>xmlEncoding</code>,
+        <code>documentURI</code>, <code>xmlVersion</code>,
+        <code>inputEncoding</code>, <code>xmlStandalone</code>, and all
+        other such attributes are set to what they would be set to if
+        the input source was parsed using
+        <a href='load-save.html#LS-LSParser-parse'><code>LSParser.parse()</code></a>.
+      <br>
+
+        This method is always synchronous, even if the
+        <code>LSParser</code> is asynchronous
+        (<a href='load-save.html#LS-LSParser-async'><code>LSParser.async</code></a> is <code>true</code>).
+      <br>
+
+        If an error occurs while parsing, the caller is notified through
+        the <code>ErrorHandler</code> instance associated with the
+        "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-error-handler'><em>error-handler</em></a>"
+        parameter of the <code>DOMConfiguration</code>.
+      <br>
+
+        When calling <code>parseWithContext</code>, the values of the
+        following configuration parameters will be ignored and their
+        default values will always be used instead: "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-validate'><em>validate</em></a>",
+        "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-validate-if-schema'><em>validate-if-schema</em></a>",
+        and "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-element-content-whitespace'><em>element-content-whitespace</em></a>". Other
+        parameters will be treated normally, and the parser is
+        expected to call the <a href='load-save.html#LS-LSParserFilter'><code>LSParserFilter</code></a> just as if a
+        whole document was parsed.
+      <div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>input</code> of type 
+<a href='load-save.html#LS-LSInput'><code>LSInput</code></a></dt><dd>
+
+	    The <a class='noxref' href='load-save.html#LS-LSInput'><code>LSInput</code></a> from which the source document is
+	    to be read. The source document must be an XML fragment,
+	    i.e. anything except a complete XML document (except in the
+	    case where the context node of type
+	    <code>DOCUMENT_NODE</code>, and the action is
+	    <code>ACTION_REPLACE_CHILDREN</code>), a DOCTYPE (internal
+	    subset), entity declaration(s), notation declaration(s), or
+	    XML or text declaration(s).
+	  <br>
+</dd>
+<dt><code class='parameter-name'>contextArg</code> of type 
+<code>Node</code></dt><dd>
+
+	    The node that is used as the context for the data that is
+	    being parsed. This node must be a <code>Document</code>
+	    node, a <code>DocumentFragment</code> node, or a node of a
+	    type that is allowed as a child of an <code>Element</code>
+	    node, e.g. it cannot be an <code>Attribute</code> node.
+	  <br>
+</dd>
+<dt><code class='parameter-name'>action</code> of type 
+<code>unsigned short</code></dt><dd>
+
+            This parameter describes which action should be taken
+	    between the new set of nodes being inserted and the
+	    existing children of the context node. The set of possible
+	    actions is defined in <code>ACTION_TYPES</code> above.
+          <br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>Node</code></p></td><td>
+<p>
+
+          Return the node that is the result of the parse
+          operation. If the result is more than one top-level node,
+          the first one is returned.
+        </td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><code>DOMException</code></p></td><td>
+<p>HIERARCHY_REQUEST_ERR: Raised if the content cannot
+          replace, be inserted before, after, or as a
+          child of the context node (see also
+          <code>Node.insertBefore</code> or
+          <code>Node.replaceChild</code> in [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>]).<p>
+            NOT_SUPPORTED_ERR: Raised if the <code>LSParser</code>
+            doesn't support this method, or if the context node is of
+            type <code>Document</code> and the DOM implementation
+            doesn't support the replacement of the
+            <code>DocumentType</code> child or <code>Element</code>
+            child.
+          <p>
+            NO_MODIFICATION_ALLOWED_ERR: Raised if the context node is a
+            <a href='glossary.html#dt-readonly-node'>read only node</a> and
+            the content is being appended to its child list, or if the
+            parent node of the context node is <a href='glossary.html#dt-readonly-node'>read only node</a> and the
+            content is being inserted in its child list.<p>
+            INVALID_STATE_ERR: Raised if the <a href='load-save.html#LS-LSParser-busy'><code>LSParser.busy</code></a>
+            attribute is <code>true</code>.
+          </td></tr>
+<tr><td valign='top'><p><a href='load-save.html#LS-LSException'><code>LSException</code></a></p></td><td>
+<p>
+            PARSE_ERR: Raised if the <code>LSParser</code> was unable to
+            load the XML fragment. DOM applications should attach a
+            <code>DOMErrorHandler</code> using the parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-error-handler'><em>error-handler</em></a>"
+            if they wish to get details on the error.
+          </td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+</dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='LS-LSInput'>LSInput</a></i></b></dt>
+<dd>
+<p>
+      This interface represents an input source for data.
+    <p>
+      This interface allows an application to encapsulate information
+      about an input source in a single object, which may include a
+      public identifier, a system identifier, a byte stream (possibly
+      with a specified encoding), a base URI, and/or a character
+      stream.
+    <p>
+      The exact definitions of a byte stream and a character stream
+      are binding dependent.
+    <p>
+      The application is expected to provide objects that implement
+      this interface whenever such objects are needed. The application
+      can either provide its own objects that implement this
+      interface, or it can use the generic factory method
+      <a href='load-save.html#LS-DOMImplementationLS-createLSInput'><code>DOMImplementationLS.createLSInput()</code></a> to create
+      objects that implement this interface.
+    <p>
+      The <a href='load-save.html#LS-LSParser'><code>LSParser</code></a> will use the <code>LSInput</code>
+      object to determine how to read data. The <a class='noxref' href='load-save.html#LS-LSParser'><code>LSParser</code></a>
+      will look at the different inputs specified in the
+      <code>LSInput</code> in the following order to know which one
+      to read from, the first one that is not null and not an empty
+      string will be used:
+      <ol>
+<li>
+
+            <a href='load-save.html#LS-LSInput-characterStream'><code>LSInput.characterStream</code></a>
+          </li>
+<li>
+
+            <a href='load-save.html#LS-LSInput-byteStream'><code>LSInput.byteStream</code></a>
+          </li>
+<li>
+
+            <a href='load-save.html#LS-LSInput-stringData'><code>LSInput.stringData</code></a>
+          </li>
+<li>
+
+            <a href='load-save.html#LS-LSInput-systemId'><code>LSInput.systemId</code></a>
+          </li>
+<li>
+
+            <a href='load-save.html#LS-LSInput-publicId'><code>LSInput.publicId</code></a>
+          </li>
+</ol>
+
+    <p>
+      If all inputs are null, the <a href='load-save.html#LS-LSParser'><code>LSParser</code></a> will report a
+      <code>DOMError</code> with its <code>DOMError.type</code> set to
+      <code>"no-input-specified"</code> and its
+      <code>DOMError.severity</code> set to
+      <code>DOMError.SEVERITY_FATAL_ERROR</code>.
+    <p>
+      <code>LSInput</code> objects belong to the application. The DOM
+      implementation will never modify them (though it may make copies
+      and modify the copies, if necessary).
+    
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a> {
+  // Depending on the language binding in use,
+  // this attribute may not be available.
+           attribute <a class='noxref' href='load-save.html#LSReader'>LSReader</a>        <a class='noxref' href='load-save.html#LS-LSInput-characterStream'>characterStream</a>;
+           attribute <a class='noxref' href='load-save.html#LSInputStream'>LSInputStream</a>   <a class='noxref' href='load-save.html#LS-LSInput-byteStream'>byteStream</a>;
+           attribute DOMString       <a class='noxref' href='load-save.html#LS-LSInput-stringData'>stringData</a>;
+           attribute DOMString       <a class='noxref' href='load-save.html#LS-LSInput-systemId'>systemId</a>;
+           attribute DOMString       <a class='noxref' href='load-save.html#LS-LSInput-publicId'>publicId</a>;
+           attribute DOMString       <a class='noxref' href='load-save.html#LS-LSInput-baseURI'>baseURI</a>;
+           attribute DOMString       <a class='noxref' href='load-save.html#LS-LSInput-encoding'>encoding</a>;
+           attribute boolean         <a class='noxref' href='load-save.html#LS-LSInput-certifiedText'>certifiedText</a>;
+};
+</pre>
+</div><br>
+</dd>
+
+<dt><b>Attributes</b></dt>
+<dd><dl>
+
+<dt><code class='attribute-name'><a name='LS-LSInput-baseURI'>baseURI</a></code> of type <code>DOMString</code></dt>
+<dd>
+        The base URI to be used (see section 5.1.4 in [<cite><a class='noxref normative' href='references.html#URIRef'>IETF RFC 2396</a></cite>]) for resolving a relative <code>systemId</code>
+        to an absolute URI.
+      <br>
+
+        If, when used, the base URI is itself a relative URI, an empty
+        string, or null, the behavior is implementation dependent.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSInput-byteStream'>byteStream</a></code> of type <a href='load-save.html#LSInputStream'><code>LSInputStream</code></a></dt>
+<dd>
+        An attribute of a language and binding dependent type that
+        represents a stream of bytes.
+      <br>
+
+        If the application knows the character encoding of the byte
+        stream, it should set the encoding attribute. Setting the
+        encoding in this way will override any encoding specified in
+        an XML declaration in the data.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSInput-certifiedText'>certifiedText</a></code> of type <code>boolean</code></dt>
+<dd>
+        If set to true, assume that the input is certified (see
+        section 2.13 in [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>]) when parsing [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>].
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSInput-characterStream'>characterStream</a></code> of type <a href='load-save.html#LSReader'><code>LSReader</code></a><br />Depending on the language binding in use, this attribute may not be available.</dt>
+<dd>
+        An attribute of a language and binding dependent type that
+        represents a stream of <a href='glossary.html#dt-16-bit-unit'>16-bit
+        units</a>. The application must encode the stream using
+        UTF-16 (defined in [<cite><a class='noxref normative' href='references.html#Unicode'>Unicode</a></cite>] and in [<cite><a class='noxref normative' href='references.html#ISO10646'>ISO/IEC 10646</a></cite>]). It is not a requirement to have an XML
+        declaration when using character streams. If an XML declaration
+        is present, the value of the encoding attribute will be ignored.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSInput-encoding'>encoding</a></code> of type <code>DOMString</code></dt>
+<dd>
+        The character encoding, if known. The encoding must be a
+        string acceptable for an XML encoding declaration ([<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>] section 4.3.3 "Character Encoding in Entities").
+      <br>
+
+        This attribute has no effect when the application provides a
+        character stream or string data. For other sources of input, an
+        encoding specified by means of this attribute will override
+        any encoding specified in the XML declaration or the Text
+        declaration, or an encoding obtained from a higher level
+        protocol, such as HTTP [<cite><a class='noxref informative' href='references.html#RFC2616'>IETF RFC 2616</a></cite>].
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSInput-publicId'>publicId</a></code> of type <code>DOMString</code></dt>
+<dd>
+        The public identifier for this input source. This may be
+        mapped to an input source using an implementation dependent
+        mechanism (such as catalogues or other mappings). The public
+        identifier, if specified, may also be reported as part of the
+        location information when errors are reported.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSInput-stringData'>stringData</a></code> of type <code>DOMString</code></dt>
+<dd>
+        String data to parse. If provided, this will always be treated
+        as a sequence of <a href='glossary.html#dt-16-bit-unit'>16-bit
+        units</a> (UTF-16 encoded characters). It is not a
+        requirement to have an XML declaration when using
+        <code>stringData</code>. If an XML declaration is present, the
+        value of the encoding attribute will be ignored.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSInput-systemId'>systemId</a></code> of type <code>DOMString</code></dt>
+<dd>
+        The system identifier, a URI reference [<cite><a class='noxref normative' href='references.html#URIRef'>IETF RFC 2396</a></cite>],
+        for this input source. The system identifier is optional if
+        there is a byte stream, a character stream, or string data. It
+        is still useful to provide one, since the application will use
+        it to resolve any relative URIs and can include it in error
+        messages and warnings. (The LSParser will only attempt to fetch
+        the resource identified by the URI reference if there is no
+        other input available in the input source.)
+      <br>
+
+        If the application knows the character encoding of the object
+        pointed to by the system identifier, it can set the encoding
+        using the <code>encoding</code> attribute.
+      <br>
+
+        If the specified system ID is a relative URI reference (see
+        section 5 in [<cite><a class='noxref normative' href='references.html#URIRef'>IETF RFC 2396</a></cite>]), the DOM implementation
+        will attempt to resolve the relative URI with the
+        <code>baseURI</code> as the base, if that fails, the behavior is
+        implementation dependent.
+      <br>
+
+</dd></dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='LS-LSResourceResolver'>LSResourceResolver</a></i></b></dt>
+<dd>
+<p>
+      <code>LSResourceResolver</code> provides a way for applications
+      to redirect references to external resources.
+    <p>
+      Applications needing to implement custom handling for external
+      resources can implement this interface and register their
+      implementation by setting the "resource-resolver" parameter of
+      <code>DOMConfiguration</code> objects attached to
+      <a href='load-save.html#LS-LSParser'><code>LSParser</code></a> and <a href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a>. It can also
+      be register on <code>DOMConfiguration</code> objects attached to
+      <code>Document</code> if the "LS" feature is supported.
+    <p>
+      The <a href='load-save.html#LS-LSParser'><code>LSParser</code></a> will then allow the application to
+      intercept any external entities, including the external DTD subset
+      and external parameter entities, before including them. The
+      top-level document entity is never passed to the
+      <code>resolveResource</code> method.
+    <p>
+      Many DOM applications will not need to implement this interface,
+      but it will be especially useful for applications that build XML
+      documents from databases or other specialized input sources, or
+      for applications that use URNs.
+    <p><b>Note:</b> 
+	<code>LSResourceResolver</code> is based on the SAX2 [<cite><a class='noxref normative' href='references.html#SAX'>SAX</a></cite>] <code>EntityResolver</code> interface.
+      </p>
+
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='load-save.html#LS-LSResourceResolver'>LSResourceResolver</a> {
+  <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a>            <a class='noxref' href='load-save.html#LS-LSResourceResolver-resolveResource'>resolveResource</a>(in DOMString type, 
+                                     in DOMString namespaceURI, 
+                                     in DOMString publicId, 
+                                     in DOMString systemId, 
+                                     in DOMString baseURI);
+};
+</pre>
+</div><br>
+</dd>
+
+<dt><b>Methods</b></dt>
+<dd><dl>
+
+<dt><code class='method-name'><a name='LS-LSResourceResolver-resolveResource'>resolveResource</a></code></dt>
+<dd>
+<div class='method'>
+
+        Allow the application to resolve external resources.
+      <br>
+
+        The <a href='load-save.html#LS-LSParser'><code>LSParser</code></a> will call this method before opening
+        any external resource, including the external DTD subset,
+        external entities referenced within the DTD, and external
+        entities referenced within the document element (however, the
+        top-level document entity is not passed to this method). The
+        application may then request that the <a class='noxref' href='load-save.html#LS-LSParser'><code>LSParser</code></a>
+        resolve the external resource itself, that it use an alternative
+        URI, or that it use an entirely different input source.
+      <br>
+
+        Application writers can use this method to redirect external
+	system identifiers to secure and/or local URI, to look up
+	public identifiers in a catalogue, or to read an entity from a
+	database or other input source (including, for example, a
+	dialog box).
+      <div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>type</code> of type 
+<code>DOMString</code></dt><dd>
+
+            The type of the resource being resolved. For XML [<cite><a class='noxref informative' href='references.html#XML'>XML 1.0</a></cite>] resources (i.e. entities),
+	    applications must use the value
+	    <code>"http://www.w3.org/TR/REC-xml"</code>. For XML
+	    Schema [<cite><a class='noxref informative' href='references.html#XMLSchema1'>XML Schema Part 1</a></cite>],
+	    applications must use the value
+	    <code>"http://www.w3.org/2001/XMLSchema"</code>. Other
+	    types of resources are outside the scope of this
+	    specification and therefore should recommend an absolute
+	    URI in order to use this method.
+          <br>
+</dd>
+<dt><code class='parameter-name'>namespaceURI</code> of type 
+<code>DOMString</code></dt><dd>
+
+            The namespace of the resource being resolved, e.g. the
+            target namespace of the XML Schema [<cite><a class='noxref informative' href='references.html#XMLSchema1'>XML Schema Part 1</a></cite>] when resolving XML Schema resources.
+          <br>
+</dd>
+<dt><code class='parameter-name'>publicId</code> of type 
+<code>DOMString</code></dt><dd>
+
+            The public identifier of the external entity being
+	    referenced, or <code>null</code> if no public identifier
+	    was supplied or if the resource is not an entity.
+          <br>
+</dd>
+<dt><code class='parameter-name'>systemId</code> of type 
+<code>DOMString</code></dt><dd>
+
+            The system identifier, a URI reference [<cite><a class='noxref normative' href='references.html#URIRef'>IETF RFC 2396</a></cite>], of the external resource being referenced,
+	    or <code>null</code> if no system identifier was supplied.
+	  <br>
+</dd>
+<dt><code class='parameter-name'>baseURI</code> of type 
+<code>DOMString</code></dt><dd>
+
+            The absolute base URI of the resource being parsed, or
+	    <code>null</code> if there is no base URI.
+	  <br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><a href='load-save.html#LS-LSInput'><code>LSInput</code></a></p></td><td>
+<p>
+
+          A <a class='noxref' href='load-save.html#LS-LSInput'><code>LSInput</code></a> object describing the new input
+	  source, or <code>null</code> to request that the parser open
+	  a regular URI connection to the resource.
+	</td></tr></table>
+</div></div> <!-- return -->
+<div><b>No Exceptions</b></div>
+</div> <!-- method -->
+</dd>
+</dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='LS-LSParserFilter'>LSParserFilter</a></i></b></dt>
+<dd>
+<p>
+      <code>LSParserFilter</code>s provide applications the ability to
+      examine nodes as they are being constructed while parsing.
+      As each node is examined, it may be modified or removed,
+      or the entire parse may be terminated early.
+    <p>
+      At the time any of the filter methods are called by the parser,
+      the owner Document and DOMImplementation objects exist and are
+      accessible. The document element is never passed to the
+      <code>LSParserFilter</code> methods, i.e. it is not possible to
+      filter out the document element. <code>Document</code>,
+      <code>DocumentType</code>, <code>Notation</code>,
+      <code>Entity</code>, and <code>Attr</code> nodes are never passed
+      to the <code>acceptNode</code> method on the filter. The child
+      nodes of an <code>EntityReference</code> node are passed to the
+      filter if the parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-entities'><em>entities</em></a>"
+      is set to <code>false</code>. Note that, as described by the
+      parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-entities'><em>entities</em></a>",
+      unexpanded entity reference nodes are never discarded and are
+      always passed to the filter.
+    <p>
+      All validity checking while parsing a document occurs on the
+      source document as it appears on the input stream, not on the
+      DOM document as it is built in memory.  With filters, the
+      document in memory may be a subset of the document on the
+      stream, and its validity may have been affected by the
+      filtering.
+    <p>
+      All default attributes must be present on elements when the
+      elements are passed to the filter methods. All other default
+      content must be passed to the filter methods.
+    <p>
+      DOM applications must not raise exceptions in a filter. The
+      effect of throwing exceptions from a filter is DOM implementation
+      dependent.
+    
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='load-save.html#LS-LSParserFilter'>LSParserFilter</a> {
+
+  // Constants returned by startElement and acceptNode
+  const short               <a class='noxref' href='load-save.html#LS-LSParserFilter-FILTER_ACCEPT'>FILTER_ACCEPT</a>                  = 1;
+  const short               <a class='noxref' href='load-save.html#LS-LSParserFilter-FILTER_REJECT'>FILTER_REJECT</a>                  = 2;
+  const short               <a class='noxref' href='load-save.html#LS-LSParserFilter-FILTER_SKIP'>FILTER_SKIP</a>                    = 3;
+  const short               <a class='noxref' href='load-save.html#LS-LSParserFilter-FILTER_INTERRUPT'>FILTER_INTERRUPT</a>               = 4;
+
+  unsigned short     <a class='noxref' href='load-save.html#LS-LSParserFilter-startElement'>startElement</a>(in Element elementArg);
+  unsigned short     <a class='noxref' href='load-save.html#LS-LSParserFilter-acceptNode'>acceptNode</a>(in Node nodeArg);
+  readonly attribute unsigned long   <a class='noxref' href='load-save.html#LS-LSParserFilter-whatToShow'>whatToShow</a>;
+};
+</pre>
+</div><br>
+</dd>
+<dt><b>Definition group <i><a name='LS-LSParserFilter-acceptNode-constants'>Constants returned by startElement and acceptNode</a></i></b></dt>
+<dd><p>
+	Constants returned by <code>startElement</code> and
+	<code>acceptNode</code>.
+      <dl>
+<dt><b>Defined Constants</b></dt>
+<dd><dl>
+<dt><a name='LS-LSParserFilter-FILTER_ACCEPT'><code class='constant-name'>FILTER_ACCEPT</code></a></dt><dd>
+Accept the node.</dd>
+<dt><a name='LS-LSParserFilter-FILTER_INTERRUPT'><code class='constant-name'>FILTER_INTERRUPT</code></a></dt><dd>
+
+	  Interrupt the normal processing of the document.
+	</dd>
+<dt><a name='LS-LSParserFilter-FILTER_REJECT'><code class='constant-name'>FILTER_REJECT</code></a></dt><dd>
+Reject the node and its children.</dd>
+<dt><a name='LS-LSParserFilter-FILTER_SKIP'><code class='constant-name'>FILTER_SKIP</code></a></dt><dd>
+Skip this single node. The children of
+	  this node will still be considered. </dd>
+</dl>
+</dd></dl>
+</dd>
+
+<dt><b>Attributes</b></dt>
+<dd><dl>
+
+<dt><code class='attribute-name'><a name='LS-LSParserFilter-whatToShow'>whatToShow</a></code> of type <code>unsigned long</code>, readonly</dt>
+<dd>
+	Tells the <a href='load-save.html#LS-LSParser'><code>LSParser</code></a> what types of nodes to show to
+	the method <a href='load-save.html#LS-LSParserFilter-acceptNode'><code>LSParserFilter.acceptNode</code></a>. If a node is
+	not shown to the filter using this attribute, it is
+	automatically included in the DOM document being built. See
+	<code>NodeFilter</code> for definition of the constants. The
+	constants <code>SHOW_ATTRIBUTE</code>,
+	<code>SHOW_DOCUMENT</code>, <code>SHOW_DOCUMENT_TYPE</code>,
+	<code>SHOW_NOTATION</code>, <code>SHOW_ENTITY</code>, and
+	<code>SHOW_DOCUMENT_FRAGMENT</code> are meaningless here. Those
+	nodes will never be passed to
+	<a class='noxref' href='load-save.html#LS-LSParserFilter-acceptNode'><code>LSParserFilter.acceptNode</code></a>.
+      <br>
+
+        The constants used here are defined in [<cite><a class='noxref normative' href='references.html#DOM2Traversal-Range'>DOM Level 2 Traversal and      Range</a></cite>].
+      <br>
+
+</dd></dl></dd>
+
+<dt><b>Methods</b></dt>
+<dd><dl>
+
+<dt><code class='method-name'><a name='LS-LSParserFilter-acceptNode'>acceptNode</a></code></dt>
+<dd>
+<div class='method'>
+This method will be called by the parser at the
+	completion of the parsing of each node. The node and all
+	of its descendants will exist and be complete. The parent
+	node will also exist, although it may be incomplete,
+	i.e. it may have additional children that have not yet
+	been parsed. Attribute nodes are never passed to this
+	function.<br>
+From within this method, the new node may be freely
+	modified - children may be added or removed, text nodes
+	modified, etc. The state of the rest of the document
+	outside this node is not defined, and the affect of any
+	attempt to navigate to, or to modify any other part of the
+	document is undefined. <br>
+For validating parsers, the checks are made on the
+	original document, before any modification by the filter.
+	No validity checks are made on any document modifications
+	made by the filter.<br>
+If this new node is rejected, the parser might reuse
+	the new node and any of its descendants.<div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>nodeArg</code> of type 
+<code>Node</code></dt><dd>
+The newly constructed element.  At the time
+	    this method is called, the element is complete - it
+	    has all of its children (and their children,
+	    recursively) and attributes, and is attached as a
+	    child to its parent.
+	  <br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>unsigned short</code></p></td><td>
+<ul>
+<li>
+
+	      <code>FILTER_ACCEPT</code> if this
+	      <code>Node</code> should be included in the DOM
+	      document being built.
+	    </li>
+<li>
+
+	      <code>FILTER_REJECT</code> if the
+	      <code>Node</code> and all of its children should
+	      be rejected.
+	    </li>
+<li>
+
+	      <code>FILTER_SKIP</code> if the <code>Node</code>
+	      should be skipped and the <code>Node</code> should
+	      be replaced by all the children of the
+	      <code>Node</code>.
+	    </li>
+<li>
+
+	      <code>FILTER_INTERRUPT</code> if the filter wants to
+	      stop the processing of the document. Interrupting the
+	      processing of the document does no longer guarantee that
+	      the resulting DOM tree is <a href='glossary.html#dt-well-formed'>XML well-formed</a>. The
+	      <code>Node</code> is accepted and will be the last
+	      completely parsed node.
+	    </li>
+</ul>
+</td></tr></table>
+</div></div> <!-- return -->
+<div><b>No Exceptions</b></div>
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='LS-LSParserFilter-startElement'>startElement</a></code></dt>
+<dd>
+<div class='method'>
+
+        The parser will call this method after each
+	<code>Element</code> start tag has been scanned, but before
+	the remainder of the <code>Element</code> is processed.  The
+	intent is to allow the element, including any children, to be
+	efficiently skipped. Note that only element nodes are passed
+	to the <code>startElement</code> function.
+      <br>
+The element node passed to <code>startElement</code> for
+	filtering will include all of the Element's attributes,
+	but none of the children nodes.  The Element may not yet be
+	in place in the document being constructed (it may not have
+	a parent node.) <br>
+A <code>startElement</code> filter function may access or change the
+	attributes for the Element.  Changing Namespace declarations will
+	have no effect on namespace resolution by the parser.<br>
+For efficiency, the Element node passed to the filter may not
+	be the same one as is actually placed in the tree if the node
+	is accepted.  And the actual node (node object identity) may
+	be reused during the process of reading in and filtering a
+	document.<div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>elementArg</code> of type 
+<code>Element</code></dt><dd>
+The newly encountered element.  At the time
+	    this method is called, the element is incomplete - it
+	    will have its attributes, but no children.
+	  <br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>unsigned short</code></p></td><td>
+<ul>
+<li>
+
+	      <code>FILTER_ACCEPT</code> if the <code>Element</code>
+	      should be included in the DOM document being built.
+	    </li>
+<li>
+
+	      <code>FILTER_REJECT</code> if the <code>Element</code>
+	      and all of its children should be rejected.
+	    </li>
+<li>
+
+	      <code>FILTER_SKIP</code> if the <code>Element</code>
+	      should be skipped. All of its children are inserted in
+	      place of the skipped <code>Element</code> node.
+	    </li>
+<li>
+
+	      <code>FILTER_INTERRUPT</code> if the filter wants to
+	      stop the processing of the document. Interrupting the
+	      processing of the document does no longer guarantee that
+	      the resulting DOM tree is <a href='glossary.html#dt-well-formed'>XML well-formed</a>. The
+	      <code>Element</code> is rejected.
+	    </li>
+</ul>
+<br>
+
+	  Returning any other values will result in unspecified
+	  behavior.
+	</td></tr></table>
+</div></div> <!-- return -->
+<div><b>No Exceptions</b></div>
+</div> <!-- method -->
+</dd>
+</dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='LS-LSProgressEvent'>LSProgressEvent</a></i></b></dt>
+<dd>
+<p>
+      This interface represents a progress event object that notifies
+      the application about progress as a document is parsed. It extends
+      the <code>Event</code> interface defined in [<cite><a class='noxref informative' href='references.html#DOMEvents'>DOM Level 3 Events</a></cite>].
+    <p>
+      The units used for the attributes <code>position</code> and
+      <code>totalSize</code> are not specified and can be implementation
+      and input dependent.
+    
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='load-save.html#LS-LSProgressEvent'>LSProgressEvent</a> : events::Event {
+  readonly attribute <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a>         <a class='noxref' href='load-save.html#LS-LSProgressEvent-input'>input</a>;
+  readonly attribute unsigned long   <a class='noxref' href='load-save.html#LS-LSProgressEvent-position'>position</a>;
+  readonly attribute unsigned long   <a class='noxref' href='load-save.html#LS-LSProgressEvent-totalSize'>totalSize</a>;
+};
+</pre>
+</div><br>
+</dd>
+
+<dt><b>Attributes</b></dt>
+<dd><dl>
+
+<dt><code class='attribute-name'><a name='LS-LSProgressEvent-input'>input</a></code> of type <a href='load-save.html#LS-LSInput'><code>LSInput</code></a>, readonly</dt>
+<dd>The input source that is being parsed.<br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSProgressEvent-position'>position</a></code> of type <code>unsigned long</code>, readonly</dt>
+<dd>The current position in the input source, including all
+      external entities and other resources that have been read.<br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSProgressEvent-totalSize'>totalSize</a></code> of type <code>unsigned long</code>, readonly</dt>
+<dd>The total size of the document including all external
+      resources, this number might change as a document is being
+      parsed if references to more external resources are seen. A value
+	of <code>0</code> is returned if the total size cannot be
+	determined or estimated.<br>
+
+</dd></dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='LS-LSLoadEvent'>LSLoadEvent</a></i></b></dt>
+<dd>
+<p>
+      This interface represents a load event object that signals
+      the completion of a document load.
+    
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='load-save.html#LS-LSLoadEvent'>LSLoadEvent</a> : events::Event {
+  readonly attribute Document        <a class='noxref' href='load-save.html#LS-LSLoadEvent-document'>newDocument</a>;
+  readonly attribute <a class='noxref' href='load-save.html#LS-LSInput'>LSInput</a>         <a class='noxref' href='load-save.html#LS-LSLoadEvent-input'>input</a>;
+};
+</pre>
+</div><br>
+</dd>
+
+<dt><b>Attributes</b></dt>
+<dd><dl>
+
+<dt><code class='attribute-name'><a name='LS-LSLoadEvent-input'>input</a></code> of type <a href='load-save.html#LS-LSInput'><code>LSInput</code></a>, readonly</dt>
+<dd>The input source that was parsed.<br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSLoadEvent-document'>newDocument</a></code> of type <code>Document</code>, readonly</dt>
+<dd>The document that finished loading.<br>
+
+</dd></dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='LS-LSSerializer'>LSSerializer</a></i></b></dt>
+<dd>
+<p>
+      A <code>LSSerializer</code> provides an API for serializing
+      (writing) a DOM document out into XML. The XML data is written to
+      a string or an output stream. Any changes or fixups made during
+      the serialization affect only the serialized data. The
+      <code>Document</code> object and its children are never altered by
+      the serialization operation.
+    <p>
+      During serialization of XML data, namespace fixup is done as
+      defined in [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], Appendix B. [<cite><a class='noxref normative' href='references.html#DOM2Core'>DOM Level 2 Core</a></cite>] allows empty strings as a real namespace
+      URI. If the <code>namespaceURI</code> of a <code>Node</code> is
+      empty string, the serialization will treat them as
+      <code>null</code>, ignoring the prefix if any.
+    <p>
+      <code>LSSerializer</code> accepts any node type for
+      serialization.  For nodes of type <code>Document</code> or
+      <code>Entity</code>, well-formed XML will be created when
+      possible (well-formedness is guaranteed if the document or
+      entity comes from a parse operation and is unchanged since it
+      was created). The serialized output for these node types is
+      either as a XML document or an External XML Entity,
+      respectively, and is acceptable input for an XML parser. For all
+      other types of nodes the serialized form is implementation
+      dependent.
+    <p>Within a <code>Document</code>, <code>DocumentFragment</code>, or
+    <code>Entity</code> being serialized, <code>Nodes</code> are
+    processed as follows<ul>
+<li>
+
+	  <code>Document</code> nodes are written, including the XML
+	  declaration (unless the parameter "<a href='load-save.html#parameter-xml-declaration'>xml-declaration</a>"
+	  is set to <code>false</code>) and a DTD subset, if one exists
+	  in the DOM. Writing a <code>Document</code> node serializes
+	  the entire document.
+	</li>
+<li>
+
+	  <code>Entity</code> nodes, when written directly by
+	  <a href='load-save.html#LS-LSSerializer-write'><code>LSSerializer.write</code></a>, outputs the entity expansion
+	  but no namespace fixup is done. The resulting output will be
+	  valid as an external entity.
+	</li>
+<li>
+
+	  If the parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-entities'><em>entities</em></a>"
+	  is set to <code>true</code>, <code>EntityReference</code>
+	  nodes are serialized as an entity reference of the form
+	  "<code>&amp;entityName;</code>" in the output. Child nodes
+	  (the expansion) of the entity reference are ignored. If the
+	  parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-entities'><em>entities</em></a>"
+	  is set to <code>false</code>, only the children of the entity
+	  reference are serialized. <code>EntityReference</code> nodes
+	  with no children (no corresponding <code>Entity</code> node or
+	  the corresponding <code>Entity</code> nodes have no children)
+	  are always serialized.
+	</li>
+<li>
+
+	  <code>CDATAsections</code> containing content characters that
+	  cannot be represented in the specified output encoding are
+	  handled according to the "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-split-cdata-sections'><em>split-cdata-sections</em></a>"
+	  parameter.
+	<br>
+
+	  If the parameter is set to <code>true</code>,
+	  <code>CDATAsections</code> are split, and the unrepresentable
+	  characters are serialized as numeric character references in
+	  ordinary content. The exact position and number of splits is
+	  not specified.
+	<br>
+
+	  If the parameter is set to <code>false</code>, unrepresentable
+	  characters in a <code>CDATAsection</code> are reported as
+	  <code>"wf-invalid-character"</code> errors if the parameter
+	  "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-well-formed'><em>well-formed</em></a>"
+	  is set to <code>true</code>. The error is not recoverable -
+	  there is no mechanism for supplying alternative characters and
+	  continuing with the serialization.
+	</li>
+<li>
+
+	  <code>DocumentFragment</code> nodes are serialized by
+	  serializing the children of the document fragment in the order
+	  they appear in the document fragment.
+	</li>
+<li>
+
+	  All other node types (Element, Text, etc.) are serialized to
+	  their corresponding XML source form.
+	</li>
+</ul>
+<p><b>Note:</b> 
+	The serialization of a <code>Node</code> does not always
+	generate a <a href='glossary.html#dt-well-formed'>well-formed</a>
+	XML document, i.e. a <a href='load-save.html#LS-LSParser'><code>LSParser</code></a> might throw fatal
+	errors when parsing the resulting serialization.
+      </p>
+<p>
+      Within the character data of a document (outside of markup), any
+      characters that cannot be represented directly are replaced with
+      character references.  Occurrences of '&lt;' and '&amp;' are
+      replaced by the predefined entities &amp;lt; and &amp;amp;. The
+      other predefined entities (&amp;gt;, &amp;apos;, and &amp;quot;)
+      might not be used, except where needed (e.g. using &amp;gt; in
+      cases such as ']]&gt;'). Any characters that cannot be
+      represented directly in the output character encoding are
+      serialized as numeric character references (and since character
+      encoding standards commonly use hexadecimal representations of
+      characters, using the hexadecimal representation when
+      serializing character references is encouraged).
+    <p>
+      To allow attribute values to contain both single and double
+      quotes, the apostrophe or single-quote character (') may be
+      represented as "&amp;apos;", and the double-quote character (")
+       as "&amp;quot;".  New line characters and
+      other characters that cannot be represented directly in
+      attribute values in the output character encoding are serialized
+      as a numeric character reference.
+    <p>
+      Within markup, but outside of attributes, any occurrence of a
+      character that cannot be represented in the output character
+      encoding is reported as a <code>DOMError</code> fatal error. An
+      example would be serializing the element &lt;LaCa&#xf1;ada/&gt; with
+      <code>encoding="us-ascii"</code>. This will result with a
+      generation of a <code>DOMError</code>
+      "wf-invalid-character-in-node-name" (as proposed in "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-well-formed'><em>well-formed</em></a>").
+    <p>
+      When requested by setting the parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-normalize-characters'><em>normalize-characters</em></a>"
+      on <code>LSSerializer</code> to true, character normalization is
+      performed according to the definition of <a class='normative' href='http://www.w3.org/TR/2004/REC-xml11-20040204/#dt-fullnorm'>fully normalized</a> characters
+      included in appendix E of [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>] on all data to be
+      serialized, both markup and character data. The character
+      normalization process affects only the data as it is being
+      written; it does not alter the DOM's view of the document after
+      serialization has completed.
+    <p>
+      Implementations are required to support the encodings "UTF-8",
+      "UTF-16", "UTF-16BE", and "UTF-16LE" to guarantee that data is
+      serializable in all encodings that are required to be supported by
+      all XML parsers. When the encoding is UTF-8, whether or not a byte
+      order mark is serialized, or if the output is big-endian or
+      little-endian, is implementation dependent. When the encoding is
+      UTF-16, whether or not the output is big-endian or little-endian
+      is implementation dependent, but a Byte Order Mark must be
+      generated for non-character outputs, such as
+      <a href='load-save.html#LS-LSOutput-byteStream'><code>LSOutput.byteStream</code></a> or
+      <a href='load-save.html#LS-LSOutput-systemId'><code>LSOutput.systemId</code></a>. If the Byte Order Mark is not
+      generated, a "byte-order-mark-needed" warning is reported. When
+      the encoding is UTF-16LE or UTF-16BE, the output is big-endian
+      (UTF-16BE) or little-endian (UTF-16LE) and the Byte Order Mark is
+      not be generated. In all cases, the encoding declaration, if
+      generated, will correspond to the encoding used during the
+      serialization (e.g. <code>encoding="UTF-16"</code> will appear if
+      UTF-16 was requested).
+    <p>
+      Namespaces are fixed up during serialization, the serialization
+      process will verify that namespace declarations, namespace
+      prefixes and the namespace URI associated with elements and
+      attributes are consistent. If inconsistencies are found, the
+      serialized form of the document will be altered to remove
+      them. The method used for doing the namespace fixup while
+      serializing a document is the algorithm defined in Appendix B.1,
+      "Namespace normalization", of [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>].
+    <p>
+      While serializing a document, the parameter "<a href='load-save.html#parameter-discard-default-content'>discard-default-content</a>"
+      controls whether or not non-specified data is serialized.
+    <p>
+      While serializing, errors and warnings are reported to the
+      application through the error handler
+      (<a href='load-save.html#LS-LSSerializer-config'><code>LSSerializer.domConfig</code></a>'s "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-error-handler'><em>error-handler</em></a>"
+      parameter). This specification does in no way try to define all
+      possible errors and warnings that can occur while serializing a
+      DOM node, but some common error and warning cases are
+      defined. The types (<code>DOMError.type</code>) of errors and
+      warnings defined by this specification are:
+
+      <dl>
+<dt><code>"no-output-specified" [fatal]</code></dt>
+<dd>
+              Raised when writing to a <a href='load-save.html#LS-LSOutput'><code>LSOutput</code></a> if no
+              output is specified in the <a class='noxref' href='load-save.html#LS-LSOutput'><code>LSOutput</code></a>.
+            </dd><dt>
+            <code>"unbound-prefix-in-entity-reference" [fatal]</code>
+	  </dt>
+<dd>
+              Raised if the configuration parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-namespaces'><em>namespaces</em></a>"
+              is set to <code>true</code> and an entity whose
+              replacement text contains unbound namespace prefixes is
+              referenced in a location where there are no bindings for
+              the namespace prefixes.
+            </dd><dt><code>"unsupported-encoding" [fatal]</code></dt>
+<dd>
+              Raised if an unsupported encoding is encountered.
+            </dd></dl>
+
+    <p>
+      In addition to raising the defined errors and warnings,
+      implementations are expected to raise implementation specific
+      errors and warnings for any other error and warning cases such
+      as IO errors (file not found, permission denied,...) and so on.
+    
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='load-save.html#LS-LSSerializer'>LSSerializer</a> {
+  readonly attribute DOMConfiguration <a class='noxref' href='load-save.html#LS-LSSerializer-config'>domConfig</a>;
+           attribute DOMString       <a class='noxref' href='load-save.html#LS-LSSerializer-newLine'>newLine</a>;
+           attribute <a class='noxref' href='load-save.html#LS-LSSerializerFilter'>LSSerializerFilter</a> <a class='noxref' href='load-save.html#LS-LSSerializer-LSSerializerFilter'>filter</a>;
+  boolean            <a class='noxref' href='load-save.html#LS-LSSerializer-write'>write</a>(in Node nodeArg, 
+                           in <a class='noxref' href='load-save.html#LS-LSOutput'>LSOutput</a> destination)
+                                        raises(<a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+  boolean            <a class='noxref' href='load-save.html#LS-LSSerializer-writeToURI'>writeToURI</a>(in Node nodeArg, 
+                                in DOMString uri)
+                                        raises(<a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+  DOMString          <a class='noxref' href='load-save.html#LS-LSSerializer-writeToString'>writeToString</a>(in Node nodeArg)
+                                        raises(DOMException, 
+                                               <a class='noxref' href='load-save.html#LS-LSException'>LSException</a>);
+};
+</pre>
+</div><br>
+</dd>
+
+<dt><b>Attributes</b></dt>
+<dd><dl>
+
+<dt><code class='attribute-name'><a name='LS-LSSerializer-config'>domConfig</a></code> of type <code>DOMConfiguration</code>, readonly</dt>
+<dd>
+        The <code>DOMConfiguration</code> object used by the
+        <code>LSSerializer</code> when serializing a DOM node.
+      <br>
+
+	In addition to the parameters recognized by the <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#DOMConfiguration'><em>DOMConfiguration</em></a>
+	interface defined in [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], the
+	<code>DOMConfiguration</code> objects for
+	<code>LSSerializer</code> adds, or modifies, the following
+	parameters:
+      <dl>
+<dt><a name='parameter-canonical-form'><code>"canonical-form"</code></a></dt>
+<dd><dl>
+<dt><code>true</code></dt>
+<dd>[<em>optional</em>]<br>
+
+		    Writes the document according to the rules specified
+		    in [<cite><a class='noxref informative' href='references.html#c14n'>Canonical XML</a></cite>]. In
+		    addition to the behavior described in "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-canonical-form'><em>canonical-form</em></a>"
+		    [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], setting this parameter to
+		    <code>true</code> will set the parameters "<a href='load-save.html#parameter-format-pretty-print'>format-pretty-print</a>",
+		    "<a href='load-save.html#parameter-discard-default-content'>discard-default-content</a>",
+		    and "<a href='load-save.html#parameter-xml-declaration'>xml-declaration</a>",
+		    to <code>false</code>. Setting one of those
+		    parameters to <code>true</code> will set this
+		    parameter to <code>false</code>. Serializing an XML
+		    1.1 document when "canonical-form" is
+		    <code>true</code> will generate a fatal error.
+		  </dd><dt><code>false</code></dt>
+<dd>[<em>required</em>] (<em>default</em>)<br>
+
+		    Do not canonicalize the output.
+		  </dd></dl>
+</dd><dt><a name='parameter-discard-default-content'><code>"discard-default-content"</code></a></dt>
+<dd><dl>
+<dt><code>true</code></dt>
+<dd>[<em>required</em>] (<em>default</em>)<br>
+
+                    Use the <code>Attr.specified</code> attribute to
+                    decide what attributes should be discarded. Note
+                    that some implementations might use whatever
+                    information available to the implementation
+                    (i.e. XML schema, DTD, the
+                    <code>Attr.specified</code> attribute, and so on) to
+                    determine what attributes and content to discard if
+                    this parameter is set to <code>true</code>.
+                  </dd><dt><code>false</code></dt>
+<dd>[<em>required</em>]<br>
+Keep all attributes and all content.</dd></dl>
+</dd><dt><a name='parameter-format-pretty-print'><code>"format-pretty-print"</code></a></dt>
+<dd><dl>
+<dt><code>true</code></dt>
+<dd>[<em>optional</em>]<br>
+
+		    Formatting the output by adding whitespace to
+		    produce a pretty-printed, indented, human-readable
+		    form. The exact form of the transformations is not
+		    specified by this specification. Pretty-printing
+		    changes the content of the document and may affect
+		    the validity of the document, validating
+		    implementations should preserve validity.
+		  </dd><dt><code>false</code></dt>
+<dd>[<em>required</em>] (<em>default</em>)<br>
+
+		    Don't pretty-print the result.
+		  </dd></dl>
+</dd><dt><a name='parameter-ignore-unknown-character-denormalizations-lsserializer'>
+            <code>"ignore-unknown-character-denormalizations"</code>
+          </a></dt>
+<dd><dl>
+<dt><code>true</code></dt>
+<dd>[<em>required</em>] (<em>default</em>)<br>
+
+		    If, while verifying full normalization when
+		    [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>] is supported, a character is
+		    encountered for which the normalization properties
+		    cannot be determined, then raise a
+		    <code>"unknown-character-denormalization"</code>
+		    warning (instead of raising an error, if this
+		    parameter is not set) and ignore any possible
+		    denormalizations caused by these characters.
+		  </dd><dt><code>false</code></dt>
+<dd>[<em>optional</em>]<br>
+
+		    Report a fatal error if a character is encountered
+		    for which the processor cannot determine the
+		    normalization properties.
+		  </dd></dl>
+</dd><dt><a name='parameter-normalize-characters'><code>"normalize-characters"</code></a></dt>
+<dd>
+	      This parameter is equivalent to the one defined by
+	      <code>DOMConfiguration</code> in [<cite><a class='noxref normative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>]. Unlike in the Core, the default value for
+	      this parameter is <code>true</code>. While DOM
+	      implementations are not required to support <a class='normative' href='http://www.w3.org/TR/2004/REC-xml11-20040204/#dt-fullnorm'>fully normalizing</a>
+	      the characters in the document according to appendix E of
+	      [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>], this parameter must be activated by
+	      default if supported.
+	    </dd><dt><a name='parameter-xml-declaration'><code>"xml-declaration"</code></a></dt>
+<dd><dl>
+<dt><code>true</code></dt>
+<dd>[<em>required</em>] (<em>default</em>)<br>
+
+		    If a <code>Document</code>, <code>Element</code>,
+		    or <code>Entity</code> node is serialized, the XML
+		    declaration, or text declaration, should be
+		    included. The version
+		    (<code>Document.xmlVersion</code> if the document
+		    is a Level 3 document and the version is non-null,
+		    otherwise use the value "1.0"), and the output
+		    encoding (see <a href='load-save.html#LS-LSSerializer-write'><code>LSSerializer.write</code></a> for
+		    details on how to find the output encoding) are
+		    specified in the serialized XML declaration.
+		  </dd><dt><code>false</code></dt>
+<dd>[<em>required</em>]<br>
+
+		    Do not serialize the XML and text
+		    declarations. Report a
+		    <code>"xml-declaration-needed"</code> warning if
+		    this will cause problems (i.e. the serialized data
+		    is of an XML version other than [<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>],
+		    or an encoding would be needed to be able to
+		    re-parse the serialized data).
+		  </dd></dl>
+</dd></dl>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSSerializer-LSSerializerFilter'>filter</a></code> of type <a href='load-save.html#LS-LSSerializerFilter'><code>LSSerializerFilter</code></a></dt>
+<dd>
+	When the application provides a filter, the serializer will call
+	out to the filter before serializing each Node. The filter
+	implementation can choose to remove the node from the stream or
+	to terminate the serialization early.
+      <br>
+
+	The filter is invoked after the operations requested by the
+	<code>DOMConfiguration</code> parameters have been applied. For
+	example, CDATA sections won't be passed to the filter if
+	"<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-cdata-sections'><em>cdata-sections</em></a>"
+	is set to <code>false</code>.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSSerializer-newLine'>newLine</a></code> of type <code>DOMString</code></dt>
+<dd>
+	The end-of-line sequence of characters to be used in the XML
+	being written out. Any string is supported, but XML treats only
+	a certain set of characters sequence as end-of-line (See section
+	2.11, "End-of-Line Handling" in [<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>], if the
+	serialized content is XML 1.0 or section 2.11, "End-of-Line
+	Handling" in [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>], if the serialized content is
+	XML 1.1). Using
+	other character sequences than the recommended ones can result
+	in a document that is either not serializable or not
+	well-formed).
+      <br>
+
+	On retrieval, the default value of this attribute is the
+	implementation specific default end-of-line sequence. DOM
+	implementations should choose the default to match the usual
+	convention for text files in the environment being used.
+	Implementations must choose a default sequence that matches one
+	of those allowed by XML 1.0 or XML 1.1, depending on the
+	serialized content. Setting this attribute to <code>null</code>
+	will reset its value to the default value.
+      <br>
+
+	
+      <br>
+
+</dd></dl></dd>
+
+<dt><b>Methods</b></dt>
+<dd><dl>
+
+<dt><code class='method-name'><a name='LS-LSSerializer-write'>write</a></code></dt>
+<dd>
+<div class='method'>
+
+        Serialize the specified node as described above in the general
+        description of the <code>LSSerializer</code> interface. The
+        output is written to the supplied <a href='load-save.html#LS-LSOutput'><code>LSOutput</code></a>.
+      <br>
+
+        When writing to a <a href='load-save.html#LS-LSOutput'><code>LSOutput</code></a>, the encoding is found
+        by looking at the encoding information that is reachable through
+        the <a class='noxref' href='load-save.html#LS-LSOutput'><code>LSOutput</code></a> and the item to be written (or its
+        owner document) in this order:
+      <ol>
+<li>
+
+            <a href='load-save.html#LS-LSOutput-encoding'><code>LSOutput.encoding</code></a>,
+          </li>
+<li>
+
+            <code>Document.inputEncoding</code>,
+          </li>
+<li>
+
+            <code>Document.xmlEncoding</code>.
+          </li>
+</ol>
+<br>
+
+        If no encoding is reachable through the above properties, a
+        default encoding of "UTF-8" will be used. If the specified
+        encoding is not supported an "unsupported-encoding" fatal error
+        is raised.
+      <br>
+
+        If no output is specified in the <a href='load-save.html#LS-LSOutput'><code>LSOutput</code></a>, a
+        "no-output-specified" fatal error is raised.
+      <br>
+
+        The implementation is responsible of associating the
+        appropriate media type with the serialized data.
+      <br>
+
+        When writing to a HTTP URI, a HTTP PUT is performed. When
+        writing to other types of URIs, the mechanism for writing the
+        data to the URI is implementation dependent.
+      <div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>nodeArg</code> of type 
+<code>Node</code></dt><dd>
+
+	    The node to serialize.
+	  <br>
+</dd>
+<dt><code class='parameter-name'>destination</code> of type 
+<a href='load-save.html#LS-LSOutput'><code>LSOutput</code></a></dt><dd>
+The destination for the serialized DOM.<br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>boolean</code></p></td><td>
+<p>
+
+	  Returns <code>true</code> if <code>node</code> was
+	  successfully serialized. Return <code>false</code> in case  the
+	  normal processing stopped but the implementation kept
+	  serializing the document; the result of the serialization
+	  being implementation dependent then.
+        </td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='load-save.html#LS-LSException'><code>LSException</code></a></p></td><td>
+<p>
+            SERIALIZE_ERR: Raised if the <code>LSSerializer</code> was
+            unable to serialize the node. DOM applications should attach
+            a <code>DOMErrorHandler</code> using the parameter
+            "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-error-handler'><em>error-handler</em></a>"
+            if they wish to get details on the error.
+          </td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='LS-LSSerializer-writeToString'>writeToString</a></code></dt>
+<dd>
+<div class='method'>
+
+        Serialize the specified node as described above in the general
+        description of the <code>LSSerializer</code> interface. The
+        output is written to a <code>DOMString</code> that is returned
+        to the caller. The encoding used is the encoding of the
+        <code>DOMString</code> type, i.e. UTF-16. Note that no Byte
+        Order Mark is generated in a <code>DOMString</code> object.
+      <div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>nodeArg</code> of type 
+<code>Node</code></dt><dd>
+
+	    The node to serialize.
+	  <br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>DOMString</code></p></td><td>
+<p>
+
+	  Returns the serialized data.
+	</td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><code>DOMException</code></p></td><td>
+<p>
+            DOMSTRING_SIZE_ERR: Raised if the resulting string is too long to
+            fit in a <code>DOMString</code>.
+          </td></tr>
+<tr><td valign='top'><p><a href='load-save.html#LS-LSException'><code>LSException</code></a></p></td><td>
+<p>
+            SERIALIZE_ERR: Raised if the <code>LSSerializer</code> was unable to
+            serialize the node. DOM applications should attach a
+            <code>DOMErrorHandler</code> using the parameter "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-error-handler'><em>error-handler</em></a>"
+            if they wish to get details on the error.
+          </td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='LS-LSSerializer-writeToURI'>writeToURI</a></code></dt>
+<dd>
+<div class='method'>
+
+        A convenience method that acts as if
+        <a href='load-save.html#LS-LSSerializer-write'><code>LSSerializer.write</code></a> was called with a
+        <a href='load-save.html#LS-LSOutput'><code>LSOutput</code></a> with no encoding specified and
+        <a href='load-save.html#LS-LSOutput-systemId'><code>LSOutput.systemId</code></a> set to the <code>uri</code>
+        argument.
+      <div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>nodeArg</code> of type 
+<code>Node</code></dt><dd>
+
+	    The node to serialize.
+	  <br>
+</dd>
+<dt><code class='parameter-name'>uri</code> of type 
+<code>DOMString</code></dt><dd>
+The URI to write to.<br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>boolean</code></p></td><td>
+<p>
+
+	  Returns <code>true</code> if <code>node</code> was
+	  successfully serialized. Return <code>false</code> in case  the
+	  normal processing stopped but the implementation kept
+	  serializing the document; the result of the serialization
+	  being implementation dependent then.
+        </td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='load-save.html#LS-LSException'><code>LSException</code></a></p></td><td>
+<p>
+            SERIALIZE_ERR: Raised if the <code>LSSerializer</code> was
+            unable to serialize the node. DOM applications should attach
+            a <code>DOMErrorHandler</code> using the parameter
+            "<a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#parameter-error-handler'><em>error-handler</em></a>"
+            if they wish to get details on the error.
+          </td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+</dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='LS-LSOutput'>LSOutput</a></i></b></dt>
+<dd>
+<p>
+      This interface represents an output destination for data.
+    <p>
+      This interface allows an application to encapsulate information
+      about an output destination in a single object, which may
+      include a URI, a byte stream (possibly with a specified
+      encoding), a base URI, and/or a character stream.
+    <p>
+      The exact definitions of a byte stream and a character stream
+      are binding dependent.
+    <p>
+      The application is expected to provide objects that implement
+      this interface whenever such objects are needed. The application
+      can either provide its own objects that implement this
+      interface, or it can use the generic factory method
+      <a href='load-save.html#LS-DOMImplementationLS-createLSOutput'><code>DOMImplementationLS.createLSOutput()</code></a> to create
+      objects that implement this interface.
+    <p>
+      The <a href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a> will use the
+      <code>LSOutput</code> object to determine where to serialize
+      the output to. The <a class='noxref' href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a> will look at the
+      different outputs specified in the <code>LSOutput</code> in the
+      following order to know which one to output to, the first one
+      that is not null and not an empty string will be used:
+
+      <ol>
+<li>
+
+            <a href='load-save.html#LS-LSOutput-characterStream'><code>LSOutput.characterStream</code></a>
+          </li>
+<li>
+
+            <a href='load-save.html#LS-LSOutput-byteStream'><code>LSOutput.byteStream</code></a>
+          </li>
+<li>
+
+            <a href='load-save.html#LS-LSOutput-systemId'><code>LSOutput.systemId</code></a>
+          </li>
+</ol>
+
+    <p>
+      <code>LSOutput</code> objects belong to the application. The
+      DOM implementation will never modify them (though it may make
+      copies and modify the copies, if necessary).
+    
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='load-save.html#LS-LSOutput'>LSOutput</a> {
+  // Depending on the language binding in use,
+  // this attribute may not be available.
+           attribute <a class='noxref' href='load-save.html#LSWriter'>LSWriter</a>        <a class='noxref' href='load-save.html#LS-LSOutput-characterStream'>characterStream</a>;
+           attribute <a class='noxref' href='load-save.html#LSOutputStream'>LSOutputStream</a>  <a class='noxref' href='load-save.html#LS-LSOutput-byteStream'>byteStream</a>;
+           attribute DOMString       <a class='noxref' href='load-save.html#LS-LSOutput-systemId'>systemId</a>;
+           attribute DOMString       <a class='noxref' href='load-save.html#LS-LSOutput-encoding'>encoding</a>;
+};
+</pre>
+</div><br>
+</dd>
+
+<dt><b>Attributes</b></dt>
+<dd><dl>
+
+<dt><code class='attribute-name'><a name='LS-LSOutput-byteStream'>byteStream</a></code> of type <a href='load-save.html#LSOutputStream'><code>LSOutputStream</code></a></dt>
+<dd>
+        An attribute of a language and binding dependent type that
+        represents a writable stream of bytes.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSOutput-characterStream'>characterStream</a></code> of type <a href='load-save.html#LSWriter'><code>LSWriter</code></a><br />Depending on the language binding in use, this attribute may not be available.</dt>
+<dd>
+        An attribute of a language and binding dependent type that
+        represents a writable stream to which <a href='glossary.html#dt-16-bit-unit'>16-bit units</a> can be output.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSOutput-encoding'>encoding</a></code> of type <code>DOMString</code></dt>
+<dd>
+        The character encoding to use for the output. The encoding
+        must be a string acceptable for an XML encoding declaration
+        ([<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>] section 4.3.3 "Character Encoding in
+        Entities"), it is recommended that character encodings
+        registered (as charsets) with the Internet Assigned Numbers
+        Authority [<cite><a class='noxref normative' href='references.html#IANA-CHARSETS'>IANA-CHARSETS</a></cite>] should be referred to
+        using their registered names.
+      <br>
+
+</dd>
+<dt><code class='attribute-name'><a name='LS-LSOutput-systemId'>systemId</a></code> of type <code>DOMString</code></dt>
+<dd>
+        The system identifier, a URI reference [<cite><a class='noxref normative' href='references.html#URIRef'>IETF RFC 2396</a></cite>],
+        for this output destination.
+      <br>
+
+        If the system ID is a relative URI reference (see section 5 in
+        [<cite><a class='noxref normative' href='references.html#URIRef'>IETF RFC 2396</a></cite>]), the behavior is implementation
+        dependent.
+      <br>
+
+</dd></dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='LS-LSSerializerFilter'>LSSerializerFilter</a></i></b></dt>
+<dd>
+<p>
+      <code>LSSerializerFilter</code>s provide applications the
+      ability to examine nodes as they are being serialized and decide
+      what nodes should be serialized or not. The
+      <code>LSSerializerFilter</code> interface is based on the
+      <code>NodeFilter</code> interface defined in [<cite><a class='noxref normative' href='references.html#DOM2Traversal-Range'>DOM Level 2 Traversal and      Range</a></cite>].
+    <p>
+      <code>Document</code>, <code>DocumentType</code>,
+      <code>DocumentFragment</code>, <code>Notation</code>,
+      <code>Entity</code>, and children of <code>Attr</code> nodes are
+      not passed to the filter. The child nodes of an
+      <code>EntityReference</code> node are only passed to the filter if
+      the <code>EntityReference</code> node is skipped by the method
+      <a href='load-save.html#LS-LSParserFilter-acceptNode'><code>LSParserFilter.acceptNode()</code></a>.
+    <p>
+      When serializing an <code>Element</code>, the element is passed
+      to the filter before any of its attributes are passed to the
+      filter. Namespace declaration attributes, and default attributes
+      (except in the case when "<a href='load-save.html#parameter-discard-default-content'>discard-default-content</a>"
+      is set to <code>false</code>), are never passed to the filter.
+    <p>
+      The result of any attempt to modify a node passed to a
+      <code>LSSerializerFilter</code> is implementation dependent.
+    <p>
+      DOM applications must not raise exceptions in a filter. The
+      effect of throwing exceptions from a filter is DOM implementation
+      dependent.
+    <p>
+      For efficiency, a node passed to the filter may not be the same as
+      the one that is actually in the tree. And the actual node (node
+      object identity) may be reused during the process of filtering and
+      serializing a document.
+    
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='load-save.html#LS-LSSerializerFilter'>LSSerializerFilter</a> : traversal::NodeFilter {
+  readonly attribute unsigned long   <a class='noxref' href='load-save.html#LS-LSSerializerFilter-whatToShow'>whatToShow</a>;
+};
+</pre>
+</div><br>
+</dd>
+
+<dt><b>Attributes</b></dt>
+<dd><dl>
+
+<dt><code class='attribute-name'><a name='LS-LSSerializerFilter-whatToShow'>whatToShow</a></code> of type <code>unsigned long</code>, readonly</dt>
+<dd>
+        Tells the <a href='load-save.html#LS-LSSerializer'><code>LSSerializer</code></a> what types of nodes to show
+        to the filter. If a node is not shown to the filter using this
+        attribute, it is automatically serialized. See
+        <code>NodeFilter</code> for definition of the constants. The
+        constants <code>SHOW_DOCUMENT</code>,
+        <code>SHOW_DOCUMENT_TYPE</code>,
+        <code>SHOW_DOCUMENT_FRAGMENT</code>, <code>SHOW_NOTATION</code>,
+        and <code>SHOW_ENTITY</code> are meaningless here, such nodes
+        will never be passed to a <code>LSSerializerFilter</code>.
+      <br>
+
+	Unlike [<cite><a class='noxref normative' href='references.html#DOM2Traversal-Range'>DOM Level 2 Traversal and      Range</a></cite>], the
+	<code>SHOW_ATTRIBUTE</code> constant indicates that the
+	<code>Attr</code> nodes are shown and passed to the filter.
+      <br>
+
+        The constants used here are defined in [<cite><a class='noxref normative' href='references.html#DOM2Traversal-Range'>DOM Level 2 Traversal and      Range</a></cite>].
+      <br>
+
+</dd></dl></dd>
+</dl></dd>
+</dl>
+</div> <!-- div2 LS-fundamental --></div> <!-- div1 Load-Save --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='W3C Copyright Notices and Licenses' href='copyright-notice.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='IDL Definitions' href='idl-definitions.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

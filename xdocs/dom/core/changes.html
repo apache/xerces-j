@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Wed Apr 07 13:11:02 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Changes</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='namespaces-algorithms.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='core.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Document Object Model Core' accesskey='p' href='core.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Namespaces Algorithms' accesskey='n' href='namespaces-algorithms.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='Changes'></a>
+<h1 id='Changes-h1' class='adiv1'>Appendix A: Changes</h1>
+<dl>
+<dt><i>Editor</i>:
+</dt><dd>Philippe Le H&#xe9;garet, W3C</dd>
+</dl>
+<div class='noprint'>
+<h2 id='table-of-contents'>Table of contents</h2>
+<ul class='toc'>
+<li class='tocline3'><a class='tocxref' href='#DOMLevel3Sections'>A.1 New sections</a>
+</li>
+<li class='tocline3'><a class='tocxref' href='#DOMLevel2Changes'>A.2 Changes to DOM Level 2 Core interfaces and exceptions</a>
+</li>
+<li class='tocline3'><a class='tocxref' href='#DOMLevel3Addons-features'>A.3 New DOM features</a>
+</li>
+<li class='tocline3'><a class='tocxref' href='#DOMLevel3Addons-types'>A.4 New types</a>
+</li>
+<li class='tocline3'><a class='tocxref' href='#DOMLevel3Addons-interfaces'>A.5 New interfaces</a>
+</li>
+<li class='tocline3'><a class='tocxref' href='#DOMLevel3Addons-objectss'>A.6 Objects</a>
+</li>
+</ul>
+</div>
+<p class='first'>
+    This section summarizes the changes between [<cite><a class='noxref informative' href='references.html#DOM2Core'>DOM Level 2 Core</a></cite>] and this new version of the Core
+    specification.
+  </p>
+<div class='div2'><a name='DOMLevel3Sections'></a>
+<h2 id='DOMLevel3Sections-h2' class='adiv2'>A.1 New sections</h2>
+<p>
+      The following new sections have been added:
+    <ul>
+<li>
+
+	  <a href='introduction.html#DOMArchitecture'>DOM Architecture</a>: a global overview of the DOM
+	  Level 3 modules;
+	</li>
+<li>
+
+	  <a href='core.html#domURIs'>DOM URIs</a>: general considerations on the URI
+	  handling in DOM Level 3;
+	</li>
+<li>
+
+	  <a href='core.html#baseURIs-Considerations'>Base URIs</a>: How the <b>[base URI]</b> property defined in [<cite><a class='noxref normative' href='references.html#InfoSet'>XML Information Set</a></cite>] has been exposed in DOM Level 3;
+	</li>
+<li>
+
+	  <a href='core.html#Embedded-DOM'>Mixed DOM Implementations</a>: general considerations on DOM
+	  implementation extensions;
+	</li>
+<li>
+
+	  <a href='core.html#DOMFeatures'>DOM Features</a>: overview of the DOM features and how
+	  they relate to the DOM modules;
+	</li>
+<li>
+
+	  <a href='core.html#Bootstrap'>Bootstrapping</a>: general introduction to the DOM
+	  Level 3 bootstrapping mechanisms;
+	</li>
+<li>
+
+	  <a href='namespaces-algorithms.html#Algorithms'>Namespaces Algorithms</a>: how namespace URIs and prefixes
+	  are resolved in DOM Level 3;
+	</li>
+<li>
+
+	  <a href='infoset-mapping.html#InfosetMapping'>Infoset Mapping</a>: relation between DOM Level 3
+	  and [<cite><a class='noxref normative' href='references.html#InfoSet'>XML Information Set</a></cite>];
+	</li>
+<li>
+
+	  <a href='configuration-settings.html#Parameters'>Configuration Settings</a>: relations between parameters as
+	  used in <a href='core.html#DOMConfiguration'><code>DOMConfiguration</code></a>;
+	</li>
+</ul>
+</div> <!-- div2 DOMLevel3Sections -->
+<div class='div2'><a name='DOMLevel2Changes'></a>
+<h2 id='DOMLevel2Changes-h2' class='adiv2'>A.2 Changes to DOM Level 2 Core interfaces and exceptions</h2>
+<dl>
+<dt>Interface <a href='core.html#ID-637646024'><code>Attr</code></a></dt>
+<dd>The <a href='core.html#ID-637646024'><code>Attr</code></a> interface has two new attributes,
+	    <a href='core.html#Attr-schemaTypeInfo'><code>Attr.schemaTypeInfo</code></a>, and 
+	    <a href='core.html#Attr-isId'><code>Attr.isId</code></a>.</dd><dt>Interface <a href='core.html#i-Document'><code>Document</code></a></dt>
+<dd>The <a href='core.html#i-Document'><code>Document</code></a> interface has seven new
+	    attributes: <a href='core.html#Document3-inputEncoding'><code>Document.inputEncoding</code></a>,
+	    <a href='core.html#Document3-encoding'><code>Document.xmlEncoding</code></a>,
+	    <a href='core.html#Document3-standalone'><code>Document.xmlStandalone</code></a>,
+	    <a href='core.html#Document3-version'><code>Document.xmlVersion</code></a>,
+	    <a href='core.html#Document3-strictErrorChecking'><code>Document.strictErrorChecking</code></a>,
+	    <a href='core.html#Document3-documentURI'><code>Document.documentURI</code></a>, and
+	    <a href='core.html#Document3-domConfig'><code>Document.domConfig</code></a>. It has three new methods:
+	    <a href='core.html#Document3-adoptNode'><code>Document.adoptNode(source)</code></a>,
+	    <a href='core.html#Document3-normalizeDocument'><code>Document.normalizeDocument()</code></a>, and
+	    <a href='core.html#Document3-renameNode'><code>Document.renameNode(n, namespaceURI,
+	      qualifiedName)</code></a>. The attribute
+	    <a href='core.html#ID-B63ED1A31'><code>Document.doctype</code></a> has been modified.
+	  </dd><dt>Exception <a href='core.html#ID-17189187'><code>DOMException</code></a></dt>
+<dd>
+	    The <a href='core.html#ID-17189187'><code>DOMException</code></a> has two new exception codes:
+	    <a href='core.html#DOMException-VALIDATION_ERR'><code>VALIDATION_ERR</code></a> and
+	    <a href='core.html#DOMException-TYPE_MISMATCH_ERR'><code>TYPE_MISMATCH_ERR</code></a>.
+	  </dd><dt>Interface <a href='core.html#ID-102161490'><code>DOMImplementation</code></a></dt>
+<dd>The <a href='core.html#ID-102161490'><code>DOMImplementation</code></a> interface has one new
+	    method, <a href='core.html#DOMImplementation3-getFeature'><code>DOMImplementation.getFeature(feature,
+	      version)</code></a>.</dd><dt>Interface <a href='core.html#ID-527DCFF2'><code>Entity</code></a></dt>
+<dd>The <a href='core.html#ID-527DCFF2'><code>Entity</code></a> interface has three new
+	    attributes: <a href='core.html#Entity3-inputEncoding'><code>Entity.inputEncoding</code></a>,
+	    <a href='core.html#Entity3-encoding'><code>Entity.xmlEncoding</code></a>, and
+	    <a href='core.html#Entity3-version'><code>Entity.xmlVersion</code></a>.
+	  </dd><dt>Interface <a href='core.html#ID-745549614'><code>Element</code></a></dt>
+<dd>
+	    The <a href='core.html#ID-745549614'><code>Element</code></a> interface has one new attribute,
+	    <a href='core.html#Element-schemaTypeInfo'><code>Element.schemaTypeInfo</code></a>, and three new methods:
+	    <a href='core.html#ID-ElSetIdAttr'><code>Element.setIdAttribute(name, isId)</code></a>,
+	    <a href='core.html#ID-ElSetIdAttrNS'><code>Element.setIdAttributeNS(namespaceURI, localName,
+	      isId)</code></a>, and <a href='core.html#ID-ElSetIdAttrNode'><code>Element.setIdAttributeNode(idAttr,
+	      isId)</code></a>.
+	  </dd><dt>Interface <a href='core.html#ID-1950641247'><code>Node</code></a></dt>
+<dd>The <a href='core.html#ID-1950641247'><code>Node</code></a> interface has two new attributes,
+	    <a href='core.html#Node3-baseURI'><code>Node.baseURI</code></a> and <a href='core.html#Node3-textContent'><code>Node.textContent</code></a>.
+	    It has nine new methods:
+	    <a href='core.html#Node3-compareDocumentPosition'><code>Node.compareDocumentPosition(other)</code></a>,
+	    <a href='core.html#Node3-isSameNode'><code>Node.isSameNode(other)</code></a>,
+	    <a href='core.html#Node3-lookupNamespacePrefix'><code>Node.lookupPrefix(namespaceURI)</code></a>,
+	    <a href='core.html#Node3-isDefaultNamespace'><code>Node.isDefaultNamespace(namespaceURI)</code></a>,
+	    <a href='core.html#Node3-lookupNamespaceURI'><code>Node.lookupNamespaceURI(prefix)</code></a>,
+	    <a href='core.html#Node3-isEqualNode'><code>Node.isEqualNode(arg)</code></a>,
+	    <a href='core.html#Node3-getFeature'><code>Node.getFeature(feature, version)</code></a>,
+	    <a href='core.html#Node3-setUserData'><code>Node.setUserData(key, data, handler)</code></a>,
+	    <a href='core.html#Node3-getUserData'><code>Node.getUserData(key)</code></a>. It introduced 6 new
+	    constants: <a href='core.html#Node-DOCUMENT_POSITION_DISCONNECTED'><code>Node.DOCUMENT_POSITION_DISCONNECTED</code></a>,
+	    <a href='core.html#Node-DOCUMENT_POSITION_PRECEDING'><code>Node.DOCUMENT_POSITION_PRECEDING</code></a>,
+	    <a href='core.html#Node-DOCUMENT_POSITION_FOLLOWING'><code>Node.DOCUMENT_POSITION_FOLLOWING</code></a>,
+	    <a href='core.html#Node-DOCUMENT_POSITION_CONTAINS'><code>Node.DOCUMENT_POSITION_CONTAINS</code></a>,
+	    <a href='core.html#Node-DOCUMENT_POSITION_CONTAINED_BY'><code>Node.DOCUMENT_POSITION_CONTAINED_BY</code></a>, and
+	    <a href='core.html#Node-DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC'><code>Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</code></a>. The
+	    methods <a href='core.html#ID-952280727'><code>Node.insertBefore(newChild, refChild)</code></a>,
+	    <a href='core.html#ID-785887307'><code>Node.replaceChild(newChild, oldChild)</code></a> and
+	    <a href='core.html#ID-1734834066'><code>Node.removeChild(oldChild)</code></a> have been modified.
+	  </dd><dt>Interface <a href='core.html#ID-1312295772'><code>Text</code></a></dt>
+<dd>
+	    The <a href='core.html#ID-1312295772'><code>Text</code></a> interface has two new attributes,
+	    <a href='core.html#Text3-wholeText'><code>Text.wholeText</code></a> and
+	    <a href='core.html#Text3-isElementContentWhitespace'><code>Text.isElementContentWhitespace</code></a>, and one new
+	    method, <a href='core.html#Text3-replaceWholeText'><code>Text.replaceWholeText(content)</code></a>.
+	  </dd></dl>
+</div> <!-- div2 DOMLevel2Changes -->
+<div class='div2'><a name='DOMLevel3Addons-features'></a>
+<h2 id='DOMLevel3Addons-features-h2' class='adiv2'>A.3 New DOM features</h2>
+<dl>
+<dt>"XMLVersion"</dt>
+<dd>
+	    The "XMLVersion" DOM feature was introduced to represent if
+	    an implementation is able to support [<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>] or
+	    [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>]. See <a href='core.html#Document3-version'><code>Document.xmlVersion</code></a>.
+	  </dd></dl>
+</div> <!-- div2 DOMLevel3Addons-features -->
+<div class='div2'><a name='DOMLevel3Addons-types'></a>
+<h2 id='DOMLevel3Addons-types-h2' class='adiv2'>A.4 New types</h2>
+<dl>
+<dt><a href='core.html#DOMUserData'><code>DOMUserData</code></a></dt>
+<dd>The <a href='core.html#DOMUserData'><code>DOMUserData</code></a> type was added to the Core
+	    module.</dd><dt><a href='core.html#DOMObject'><code>DOMObject</code></a></dt>
+<dd>The <a href='core.html#DOMObject'><code>DOMObject</code></a> type was added to the Core
+	    module.</dd></dl>
+</div> <!-- div2 DOMLevel3Addons-types -->
+<div class='div2'><a name='DOMLevel3Addons-interfaces'></a>
+<h2 id='DOMLevel3Addons-interfaces-h2' class='adiv2'>A.5 New interfaces</h2>
+<dl>
+<dt><a href='core.html#DOMStringList'><code>DOMStringList</code></a></dt>
+<dd>
+	    The <a href='core.html#DOMStringList'><code>DOMStringList</code></a> interface has one
+	    attribute, <a href='core.html#DOMStringList-length'><code>DOMStringList.length</code></a>, and one
+	    method, <a href='core.html#DOMStringList-item'><code>DOMStringList.item(index)</code></a>.
+	  </dd><dt><a href='core.html#NameList'><code>NameList</code></a></dt>
+<dd>
+	    The <a href='core.html#NameList'><code>NameList</code></a> interface has one attribute,
+	    <a href='core.html#NameList-length'><code>NameList.length</code></a>, and two methods,
+	    <a href='core.html#NameList-getName'><code>NameList.getName(index)</code></a> and
+	    <a href='core.html#NameList-getNamespaceURI'><code>NameList.getNamespaceURI(index)</code></a>.
+	  </dd><dt><a href='core.html#DOMImplementationList'><code>DOMImplementationList</code></a></dt>
+<dd>
+	    The <a href='core.html#DOMImplementationList'><code>DOMImplementationList</code></a> interface has one
+	    attribute, <a href='core.html#DOMImplementationList-length'><code>DOMImplementationList.length</code></a>, and
+	    one method,
+	    <a href='core.html#DOMImplementationList-item'><code>DOMImplementationList.item(index)</code></a>.
+	  </dd><dt><a href='core.html#DOMImplementationSource'><code>DOMImplementationSource</code></a></dt>
+<dd>
+	    The <a href='core.html#DOMImplementationSource'><code>DOMImplementationSource</code></a> interface has two
+	    methods,
+	    <a href='core.html#ID-getDOMImpl'><code>DOMImplementationSource.getDOMImplementation(features)</code></a>,
+	    and
+	    <a href='core.html#ID-getDOMImpls'><code>DOMImplementationSource.getDOMImplementationList(features)</code></a>.
+	  </dd><dt><a href='core.html#TypeInfo'><code>TypeInfo</code></a></dt>
+<dd>
+	    The <a href='core.html#TypeInfo'><code>TypeInfo</code></a> interface has two attributes,
+	    <a href='core.html#TypeInfo-typeName'><code>TypeInfo.typeName</code></a>, and
+	    <a href='core.html#TypeInfo-typeNamespace'><code>TypeInfo.typeNamespace</code></a>.
+	  </dd><dt><a href='core.html#UserDataHandler'><code>UserDataHandler</code></a></dt>
+<dd>
+	    The <a href='core.html#UserDataHandler'><code>UserDataHandler</code></a> interface has one method,
+	    <a href='core.html#ID-handleUserDataEvent'><code>UserDataHandler.handle(operation, key, data, src,
+	      dst)</code></a>, and four constants:
+	    <a href='core.html#UserDataHandler-CLONED'><code>UserDataHandler.NODE_CLONED</code></a>,
+	    <a href='core.html#UserDataHandler-IMPORTED'><code>UserDataHandler.NODE_IMPORTED</code></a>,
+	    <a href='core.html#UserDataHandler-DELETED'><code>UserDataHandler.NODE_DELETED</code></a>, and
+	    <a href='core.html#UserDataHandler-RENAMED'><code>UserDataHandler.NODE_RENAMED</code></a>.
+	  </dd><dt><a href='core.html#ERROR-Interfaces-DOMError'><code>DOMError</code></a></dt>
+<dd>
+	    The <a href='core.html#ERROR-Interfaces-DOMError'><code>DOMError</code></a> interface has six attributes:
+	    <a href='core.html#ERROR-DOMError-severity'><code>DOMError.severity</code></a>,
+	    <a href='core.html#ERROR-DOMError-message'><code>DOMError.message</code></a>,
+	    <a href='core.html#ERROR-DOMError-type'><code>DOMError.type</code></a>,
+	    <a href='core.html#ERROR-DOMError-relatedException'><code>DOMError.relatedException</code></a>,
+	    <a href='core.html#ERROR-DOMError-relatedData'><code>DOMError.relatedData</code></a>, and
+	    <a href='core.html#ERROR-DOMError-location'><code>DOMError.location</code></a>. It has four constants:
+	    <a href='core.html#ERROR-DOMError-severity-warning'><code>DOMError.SEVERITY_WARNING</code></a>,
+	    <a href='core.html#ERROR-DOMError-severity-error'><code>DOMError.SEVERITY_ERROR</code></a>, and
+	    <a href='core.html#ERROR-DOMError-severity-fatal-error'><code>DOMError.SEVERITY_FATAL_ERROR</code></a>.
+	  </dd><dt><a href='core.html#ERROR-Interfaces-DOMErrorHandler'><code>DOMErrorHandler</code></a></dt>
+<dd>
+	    The <a href='core.html#ERROR-Interfaces-DOMErrorHandler'><code>DOMErrorHandler</code></a> interface has one method:
+	    <a href='core.html#ID-ERRORS-DOMErrorHandler-handleError'><code>DOMErrorHandler.handleError(error)</code></a>.
+	  </dd><dt><a href='core.html#Interfaces-DOMLocator'><code>DOMLocator</code></a></dt>
+<dd>
+	    The <a href='core.html#Interfaces-DOMLocator'><code>DOMLocator</code></a> interface has seven attributes:
+	    <a href='core.html#DOMLocator-line-number'><code>DOMLocator.lineNumber</code></a>,
+	    <a href='core.html#DOMLocator-column-number'><code>DOMLocator.columnNumber</code></a>,
+	    <a href='core.html#DOMLocator-byteOffset'><code>DOMLocator.byteOffset</code></a>,
+	    <a href='core.html#DOMLocator-utf16Offset'><code>DOMLocator.utf16Offset</code></a>,
+	    <a href='core.html#DOMLocator-node'><code>DOMLocator.relatedNode</code></a>,
+	    <a href='core.html#DOMLocator-uri'><code>DOMLocator.uri</code></a>, and
+	    <a class='noxref' href='core.html#DOMLocator-line-number'><code>DOMLocator.lineNumber</code></a>.
+	  </dd><dt><a href='core.html#DOMConfiguration'><code>DOMConfiguration</code></a></dt>
+<dd>
+	    The <a href='core.html#DOMConfiguration'><code>DOMConfiguration</code></a> interface has one attribute:
+	    <a href='core.html#DOMConfiguration-parameterNames'><code>DOMConfiguration.parameterNames</code></a>.	    
+	    It also has three methods:
+	    <a href='core.html#DOMConfiguration-property'><code>DOMConfiguration.setParameter(name, value)</code></a>,
+	    <a href='core.html#DOMConfiguration-getParameter'><code>DOMConfiguration.getParameter(name)</code></a>, and
+	    <a href='core.html#DOMConfiguration-canSetParameter'><code>DOMConfiguration.canSetParameter(name,
+	      value)</code></a>.
+	  </dd></dl>
+</div> <!-- div2 DOMLevel3Addons-interfaces -->
+<div class='div2'><a name='DOMLevel3Addons-objectss'></a>
+<h2 id='DOMLevel3Addons-objectss-h2' class='adiv2'>A.6 Objects</h2>
+<p>
+      This specification defines one object, only provided in the bindings:
+    <dl>
+<dt><code>DOMImplementationRegistry</code></dt>
+<dd>
+	    The <code>DOMImplementationRegistry</code> object has two methods,
+	    <code>DOMImplementationRegistry.getDOMImplementation(features)</code>,
+	    and
+	    <code>DOMImplementationRegistry.getDOMImplementationList(features)</code>.
+	  </dd></dl>
+</div> <!-- div2 DOMLevel3Addons-objectss --></div> <!-- div1 Changes --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Document Object Model Core' href='core.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Namespaces Algorithms' href='namespaces-algorithms.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

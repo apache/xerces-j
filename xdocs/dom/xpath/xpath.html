@@ -1,0 +1,1068 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Feb 23 16:43:28 EST 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Document Object Model XPath</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-WG-NOTE.css'>
+  <link rel='next' href='idl-definitions.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='copyright-notice.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='W3C Copyright Notices and Licenses' accesskey='p' href='copyright-notice.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='IDL Definitions' accesskey='n' href='idl-definitions.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>26 February 2004</p>
+</div>
+
+<div class='div1'><a name='XPath'></a>
+<h1 id='XPath-h1' class='div1'>1. 
+Document Object Model XPath</h1><dl>
+<dt><i>Editor</i>:
+</dt><dd>Ray Whitmer, Netscape/AOL</dd>
+</dl>
+<div class='noprint'>
+<h2 id='table-of-contents'>Table of contents</h2>
+<ul class='toc'>
+<li class='tocline3'><a class='tocxref' href='#Introduction'>1.1 Introduction</a>
+</li>
+<li class='tocline3'><a class='tocxref' href='#Mapping'>1.2 Mapping DOM to XPath</a>
+<ul class='toc'>
+<li class='tocline4'><a class='tocxref' href='#ElementNodes'>1.2.1 Element Nodes</a>
+<li class='tocline4'><a class='tocxref' href='#AttributeNodes'>1.2.2 Attribute Nodes</a>
+<li class='tocline4'><a class='tocxref' href='#NamespaceNodes'>1.2.3 Namespace Nodes</a>
+<li class='tocline4'><a class='tocxref' href='#TextNodes'>1.2.4 Text Nodes</a>
+<li class='tocline4'><a class='tocxref' href='#EntityReferences'>1.2.5 Entity Reference Nodes</a>
+<li class='tocline4'><a class='tocxref' href='#CommentNodes'>1.2.6 Comment Nodes</a>
+<li class='tocline4'><a class='tocxref' href='#PINodes'>1.2.7 Processing Instruction Nodes</a>
+<li class='tocline4'><a class='tocxref' href='#DocumentOrder'>1.2.8 Document order</a>
+</ul></li>
+<li class='tocline3'><a class='tocxref' href='#Conformance'>1.3 Conformance</a>
+</li>
+<li class='tocline3'><a class='tocxref' href='#Interfaces'>1.4 Interfaces</a>
+<ul class='toc'>
+<li class='tocline4'><a href='#XPathException'>XPathException</a>,
+<a href='#XPathExceptionCode'>XPathExceptionCode</a>,
+<a href='#XPathEvaluator'>XPathEvaluator</a>,
+<a href='#XPathExpression'>XPathExpression</a>,
+<a href='#XPathNSResolver'>XPathNSResolver</a>,
+<a href='#XPathResult'>XPathResult</a>,
+<a href='#XPathNamespace'>XPathNamespace</a></ul></li>
+</ul>
+</div>
+
+<div class='div2'><a name='Introduction'></a>
+<h2 id='Introduction-h2' class='div2'>1.1 
+Introduction</h2><p>
+      XPath 1.0 [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>] is becoming an important part of a
+      variety of many specifications including XForms, XPointer, XSL, XML
+      Query, and so on.  It is also a clear advantage for user applications
+      which use DOM to be able to use XPath expressions to locate nodes
+      automatically and declaratively. <p>
+      This specification was created to map between the Document Object
+      Model's representation of the W3C Information Set and XPath's
+      <a href='glossary.html#dt-model'>model</a> to permit XPath functions to be 
+      supplied and results returned within the framework of DOM 
+      <a href='glossary.html#dt-API'>API</a>s in a standard, interoperable way, 
+      allowing also for <a href='glossary.html#dt-live'>liveness</a> of data,
+      which is not addressed by the XPath specification but is present in
+      results coming from the DOM hierarchy.
+    </div> <!-- div2 Introduction -->
+<div class='div2'><a name='Mapping'></a>
+<h2 id='Mapping-h2' class='div2'>1.2 
+Mapping DOM to XPath</h2><p>This section presents a mapping between the Document Object Model
+      [<cite><a class='noxref normative' href='references.html#DOM2Core'>DOM Level 2 Core</a></cite>] and the XPath 1.0 [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>]
+      model for the purposes of implementing the APIs.
+<div class='div3'><a name='ElementNodes'></a>
+<h3 id='ElementNodes-h3' class='div3'>1.2.1 
+Element Nodes</h3><p>The DOM model uses <code>Element</code> nodes to represent <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.element'><em>Element Information Items</em></a>.
+        These nodes of a document are directly used to represent the elements of 
+        an XPath result.</div> <!-- div3 ElementNodes -->
+<div class='div3'><a name='AttributeNodes'></a>
+<h3 id='AttributeNodes-h3' class='div3'>1.2.2 
+Attribute Nodes</h3><p>The DOM model uses <code>Attr</code> nodes to represent <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.attribute'><em>Attribute Information 
+        Items</em></a> of attribute and namespace attribute
+        properties of <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.element'><em>Element
+        Information Item</em></a>.  These nodes have no parent, but
+        have an <code>ownerElement</code> which can be used as XPath
+        defines an attribute's parent.<p>XPath 1.0 does not make available the namespace attributes of an
+        element.  The DOM implementation of XPath 1.0 using these defined 
+        interfaces never directly returns <code>Attr</code> nodes of namespace
+        attributes, but returned <code>Element</code> nodes still contain them.</div> <!-- div3 AttributeNodes -->
+<div class='div3'><a name='NamespaceNodes'></a>
+<h3 id='NamespaceNodes-h3' class='div3'>1.2.3 
+Namespace Nodes</h3><p>The XPath model expects namespace nodes for each in-scope namespace to
+      be attached to each <a href='glossary.html#dt-element'>element</a>. DOM only
+      maintains the namespace attributes instead of replicating in-scope
+      namespaces on each <code>Element</code> where they are in-scope.  The DOM
+      implementation of XPath produces a new node of type
+      <code>XPATH_NAMESPACE_NODE</code>, defined in the
+      <a href='xpath.html#XPathNamespace'><code>XPathNamespace</code></a> interface, to properly preserve identity and
+      ordering in a way that is compatible with XPath.  This node type is only 
+      visible using the XPath evaluation methods.<p>The set of in-scope namespaces of an element is the default xml 
+      namespace combined with the contributions of namespace attributes of the 
+      current and all ancestor elements.  In addition to explicit namespace 
+      attributes, any element has an implicit declaration of its own prefix, 
+      if any, or if no prefix then of the default namespace, which is enforced 
+      during namespace serialization, fixup, and lookup, which must be added to 
+      the set of in-scope namespaces when generating namespace nodes for an
+      element.  This causes the set of namespace nodes to be consistent with
+      serialization, fixup, and lookup of namespaces in DOM Level 3.
+      </div> <!-- div3 NamespaceNodes -->
+<div class='div3'><a name='TextNodes'></a>
+<h3 id='TextNodes-h3' class='div3'>1.2.4 
+Text Nodes</h3><p>The XPath model relies on the XML Information Set [<cite><a class='noxref normative' href='references.html#InfoSet'>XML Information Set</a></cite>] ands represents <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.character'><em>Character Information
+      Items</em></a> in a single logical text node where DOM may have
+      multiple fragmented <code>Text</code> nodes due to cdata sections, entity
+      references, etc. Instead of returning multiple nodes where XPath sees a
+      single logical text node, only the first non-empty DOM <code>Text</code>
+      or <code>CDATASection</code> node of any logical XPath text will be
+      returned in the node set.  Applications using XPath in an environment
+      with fragmented text nodes must manually gather the text of a single
+      logical text node possibly from multiple nodes beginning with the first
+      <code>Text</code> node or <code>CDATASection</code> node returned by the
+      implementation.<p><b>Note:</b> In an attempt to better implement the XML Information Set, DOM Level
+	3 Core [<cite><a class='noxref informative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>] adds the attribute
+	<code>wholeText</code> on the <code>Text</code> interface for
+	retrieving the whole text for <a href='glossary.html#dt-logically-adjacent-text-nodes'>logically-adjacent Text
+	nodes</a> and the method <code>replaceWholeText</code> for
+	replacing those nodes.</p>
+</div> <!-- div3 TextNodes -->
+<div class='div3'><a name='EntityReferences'></a>
+<h3 id='EntityReferences-h3' class='div3'>1.2.5 
+Entity Reference Nodes</h3><p>The DOM model may represent <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.rse'><em>Unexpanded Entity Reference
+      Information Items</em></a> or may provide the position and URI of 
+      expanded entity hierarchies by using <code>EntityReference</code> nodes.
+      XPath 1.0 does not preserve corresponding information.<p>Where the node represents an unexpanded entity reference, it is
+      skipped as dictated by the XPath specifications for all infoset items
+      besides those specifically processed.<p>Where there is a hierarchy underneath the node, these nodes are
+      processed as though they were siblings of the entity reference, as
+      is consistent with the rest of the DOM specification.<p><code>EntityReference</code> nodes found within a DOM hierarchy are 
+      never returned as a node of the result, but returned nodes may contain
+      or be contained within an <code>EntityReference</code> node.  Text may be 
+      split partially inside and partially outside of an 
+      <code>EntityReference</code> node, but this is solved by handling 
+      <code>Text</code> nodes as described in the previous section.</div> <!-- div3 EntityReferences -->
+<div class='div3'><a name='CommentNodes'></a>
+<h3 id='CommentNodes-h3' class='div3'>1.2.6 
+Comment Nodes</h3><p>The DOM model uses <code>Comment</code> nodes to represent <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.comment'><em>Comment Information Items</em></a>.
+      These nodes of a document are directly used to represent the comments of 
+      an XPath result.</div> <!-- div3 CommentNodes -->
+<div class='div3'><a name='PINodes'></a>
+<h3 id='PINodes-h3' class='div3'>1.2.7 
+Processing Instruction Nodes</h3><p>The DOM model uses <code>ProcessingInstruction</code> nodes to 
+        represent <a class='normative' href='http://www.w3.org/TR/2004/REC-xml-infoset-20040204/#infoitem.pi'><em>Processing Instruction 
+        Information Items</em></a>.  These nodes of a document are directly used 
+        to represent the processing instructions of an XPath result.</div> <!-- div3 PINodes -->
+<div class='div3'><a name='DocumentOrder'></a>
+<h3 id='DocumentOrder-h3' class='div3'>1.2.8 
+Document order</h3><p>The <a href='glossary.html#dt-document-order'>document order</a> of nodes
+      in the DOM Core has been defined to be compatible with the <a class='normative' href='http://www.w3.org/TR/1999/REC-xpath-19991116#dt-document-order'><em>XPath document order</em></a>.
+      The XPath DOM extends the document order of the DOM Core to include
+      the <a href='xpath.html#XPathNamespace'><code>XPathNamespace</code></a> nodes. Element nodes occur before their
+      children. The attribute nodes and namespace nodes of an element occur
+      before the children of the element. The namespace nodes are defined to
+      occur before the attribute nodes. The relative order of namespace nodes
+      is implementation-dependent. The relative order of attribute nodes is
+      implementation-dependent. The <code>compareTreePosition</code> method on
+      the <code>Node</code> interface defined in the DOM Core must compare the
+      <a class='noxref' href='xpath.html#XPathNamespace'><code>XPathNamespace</code></a> nodes using this extended document order if
+      the XPath DOM module is supported.<p><b>Note:</b> It is possible that in future versions of XPath, the order of namespace
+      nodes or other aspects of document order may change incompatibly.</p>
+</div> <!-- div3 DocumentOrder --></div> <!-- div2 Mapping -->
+<div class='div2'><a name='Conformance'></a>
+<h2 id='Conformance-h2' class='div2'>1.3 
+Conformance</h2><p>This section explains conformance to DOM Level 3 XPath Module.<p>A DOM implementation must not return <code>true</code> to
+    <code>hasFeature("xpath", "3.0")</code> unless the implementation
+    conforms to that module. As documented in [<cite><a class='noxref informative' href='references.html#DOMCore'>DOM Level 3 Core</a></cite>], if a <code>null</code> or empty string is
+    passed in for the second parameter, then conformance is still
+    required to some version of the DOM XPath Module or
+    <code>false</code> must be returned.<p>A conformant
+    implementation is DOM Level 3 XPath must support all the interfaces
+    as specified in that specification.  In addition to implementing the
+    interfaces in the DOM XPath Module, a conforming implementation must
+    correctly implement each part of the XPath 1.0 specification when
+    evaluating expressions including Location Paths, Expressions, the
+    Core Function Library, and the mapping between DOM and the XPath 1.0
+    data model described in the DOM Level 3 XPath Module.  The XPath
+    <code>id()</code>function must return the corresponding element, if
+    any, returned by the DOM method
+    <code>Document.getElementById</code>.<p>After meeting the
+    requirements for conformance, a conforming implementation may
+    implement additional functions and variables.  Applications which
+    evaluate expressions using these extensions will not necessarily be
+    portable to other implementations of the DOM Level 3 XPath
+    Module.</div> <!-- div2 Conformance -->
+<div class='div2'><a name='Interfaces'></a>
+<h2 id='Interfaces-h2' class='div2'>1.4 
+Interfaces</h2><p>
+      An implementation is DOM Level 3 XPath conformant if it supports
+      the Core module defined in [<cite><a class='noxref normative' href='references.html#DOM2Core'>DOM Level 2 Core</a></cite>] and the module
+      defined in this specification. An implementation conforms to a DOM
+      module if it supports all the interfaces for that module and the
+      associated semantics.
+    <p>
+      A DOM application may use the <code>hasFeature(feature,
+      version)</code> method of the <code>DOMImplementation</code>
+      interface with parameter values "XPath" and "3.0" (respectively)
+      to determine whether or not the XPath module is supported by the
+      implementation. In order to fully support this module, an
+      implementation must also support the "Core" feature defined in the
+      DOM Level 2 Core specification [<cite><a class='noxref normative' href='references.html#DOM2Core'>DOM Level 2 Core</a></cite>].
+    <p>
+      A DOM implementation must not return <code>true</code> to the
+      <code>hasFeature(feature, version)</code> method of the
+      DOMImplementation interface for that feature unless the
+      implementation conforms to that module. The version number for the
+      feature used in this document is <code>"3.0"</code>.
+    
+<dl><dt><b>Exception <i><a name='XPathException'>XPathException</a></i></b></dt>
+<dd>
+<p>A new exception has been created for exceptions specific 
+          to these XPath interfaces.
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+exception <a class='noxref' href='xpath.html#XPathException'>XPathException</a> {
+  unsigned short   code;
+};
+// XPathExceptionCode
+const unsigned short      <a class='noxref' href='xpath.html#INVALID_EXPRESSION_ERR'>INVALID_EXPRESSION_ERR</a>         = 51;
+const unsigned short      <a class='noxref' href='xpath.html#TYPE_ERR'>TYPE_ERR</a>                       = 52;
+</pre>
+</div><br>
+</dd>
+<dt><b>Definition group <i><a name='XPathExceptionCode'>XPathExceptionCode</a></i></b></dt>
+<dd><dl>
+<dt><b>Defined Constants</b></dt>
+<dd><dl>
+<dt><a name='INVALID_EXPRESSION_ERR'><code class='constant-name'>INVALID_EXPRESSION_ERR</code></a></dt><dd>
+If the expression has a syntax error or otherwise is not a legal 
+            expression according to the rules of the specific 
+            <a href='xpath.html#XPathEvaluator'><code>XPathEvaluator</code></a> or contains specialized extension functions
+            or variables not supported by this implementation.</dd>
+<dt><a name='TYPE_ERR'><code class='constant-name'>TYPE_ERR</code></a></dt><dd>
+If the expression cannot be converted to return the specified type.</dd>
+</dl>
+</dd></dl>
+</dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='XPathEvaluator'>XPathEvaluator</a></i></b></dt>
+<dd>
+<p>
+	    The evaluation of XPath expressions is provided by
+            <code>XPathEvaluator</code>.  In a DOM
+            implementation which supports the XPath 3.0 feature, as described
+            above, the <code>XPathEvaluator</code> interface will be implemented 
+            on the same object which implements the <code>Document</code> 
+            interface permitting it to be obtained by the usual binding-specific
+            method such as casting or by using the DOM Level 3 getInterface method.  
+            In this case the implementation obtained from the Document supports the 
+            XPath DOM module and is compatible with the XPath 1.0 specification. <p>Evaluation of expressions with specialized extension functions or 
+            variables may not work in all implementations and is, therefore, not 
+            portable.  <code>XPathEvaluator</code> implementations may be available 
+            from other sources that could provide specific support for specialized 
+            extension functions or variables as would be defined by other 
+            specifications.
+          
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='xpath.html#XPathEvaluator'>XPathEvaluator</a> {
+  <a class='noxref' href='xpath.html#XPathExpression'>XPathExpression</a>    <a class='noxref' href='xpath.html#XPathEvaluator-createExpression'>createExpression</a>(in DOMString expression, 
+                                      in <a class='noxref' href='xpath.html#XPathNSResolver'>XPathNSResolver</a> resolver)
+                                        raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>, 
+                                               DOMException);
+  <a class='noxref' href='xpath.html#XPathNSResolver'>XPathNSResolver</a>    <a class='noxref' href='xpath.html#XPathEvaluator-createNSResolver'>createNSResolver</a>(in Node nodeResolver);
+  DOMObject          <a class='noxref' href='xpath.html#XPathEvaluator-evaluate'>evaluate</a>(in DOMString expression, 
+                              in Node contextNode, 
+                              in <a class='noxref' href='xpath.html#XPathNSResolver'>XPathNSResolver</a> resolver, 
+                              in unsigned short type, 
+                              in DOMObject result)
+                                        raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>, 
+                                               DOMException);
+};
+</pre>
+</div><br>
+</dd>
+
+<dt><b>Methods</b></dt>
+<dd><dl>
+
+<dt><code class='method-name'><a name='XPathEvaluator-createExpression'>createExpression</a></code></dt>
+<dd>
+<div class='method'>
+Creates a parsed XPath expression with resolved namespaces.
+	    This is useful when an expression will be reused in an application
+	    since it makes it possible to compile the expression string into a
+	    more efficient internal form and preresolve all <a href='glossary.html#dt-namespaceprefix'>namespace prefixes</a> which occur
+	    within the expression.<div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>expression</code> of type 
+<code>DOMString</code></dt><dd>
+The XPath expression string to be parsed.<br>
+</dd>
+<dt><code class='parameter-name'>resolver</code> of type 
+<a href='xpath.html#XPathNSResolver'><code>XPathNSResolver</code></a></dt><dd>
+The <code>resolver</code> permits translation of all 
+                prefixes, including the <code>xml</code> namespace prefix,
+                within the XPath expression into appropriate <a href='glossary.html#dt-namespaceURI'>namespace URIs</a>.  If this is
+		specified as <code>null</code>, any <a href='glossary.html#dt-namespaceprefix'>namespace prefix</a> within the
+		expression will result in <code>DOMException</code> being
+		thrown with the code <code>NAMESPACE_ERR</code>.<br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><a href='xpath.html#XPathExpression'><code>XPathExpression</code></a></p></td><td>
+<p>
+The compiled form of the XPath expression.</td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='xpath.html#XPathException'><code>XPathException</code></a></p></td><td>
+<p>INVALID_EXPRESSION_ERR: Raised if the expression is not
+		legal according to the rules of the 
+                <code>XPathEvaluator</code>.</td></tr>
+<tr><td valign='top'><p><code>DOMException</code></p></td><td>
+<p>NAMESPACE_ERR: Raised if the expression contains
+		<a href='glossary.html#dt-namespaceprefix'>namespace prefixes</a>
+                which cannot be resolved by the specified 
+                <a href='xpath.html#XPathNSResolver'><code>XPathNSResolver</code></a>.</td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='XPathEvaluator-createNSResolver'>createNSResolver</a></code></dt>
+<dd>
+<div class='method'>
+Adapts any DOM node to resolve namespaces so that an XPath
+            expression can be easily evaluated relative to the context of
+            the node where it appeared within the document. This adapter
+            works like the DOM Level 3 method <code>lookupNamespaceURI</code>
+            on nodes in resolving the namespaceURI from a given prefix 
+            using the current information available in the node's 
+            hierarchy at the time lookupNamespaceURI is called. also 
+            correctly resolving the implicit xml prefix.<div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>nodeResolver</code> of type 
+<code>Node</code></dt><dd>
+The node to be used as a context for namespace resolution.<br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><a href='xpath.html#XPathNSResolver'><code>XPathNSResolver</code></a></p></td><td>
+<p>
+<a class='noxref' href='xpath.html#XPathNSResolver'><code>XPathNSResolver</code></a> which resolves namespaces with respect to
+	      the definitions in scope for a specified node.</td></tr></table>
+</div></div> <!-- return -->
+<div><b>No Exceptions</b></div>
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='XPathEvaluator-evaluate'>evaluate</a></code></dt>
+<dd>
+<div class='method'>
+Evaluates an XPath expression string and returns a result of the
+	    specified type if possible.<div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>expression</code> of type 
+<code>DOMString</code></dt><dd>
+The XPath expression string to be parsed and evaluated.<br>
+</dd>
+<dt><code class='parameter-name'>contextNode</code> of type 
+<code>Node</code></dt><dd>
+The <code>context</code> is context node for the evaluation 
+	       of this XPath expression.  If the XPathEvaluator was obtained
+              by casting the <code>Document</code> then this must be owned by
+              the same document and must be a <code>Document</code>, 
+              <code>Element</code>, <code>Attribute</code>, <code>Text</code>, 
+              <code>CDATASection</code>, <code>Comment</code>,
+              <code>ProcessingInstruction</code>, or <a href='xpath.html#XPathNamespace'><code>XPathNamespace</code></a>
+              node.  If the context node is a <code>Text</code> or a
+              <code>CDATASection</code>, then the context is interpreted as the
+              whole logical text node as seen by XPath, unless the node is
+              empty in which case it may not serve as the XPath context.<br>
+</dd>
+<dt><code class='parameter-name'>resolver</code> of type 
+<a href='xpath.html#XPathNSResolver'><code>XPathNSResolver</code></a></dt><dd>
+The <code>resolver</code> permits translation of all 
+                prefixes, including the <code>xml</code> namespace prefix,
+                within the XPath expression into appropriate <a href='glossary.html#dt-namespaceURI'>namespace URIs</a>.  If this is
+		specified as <code>null</code>, any <a href='glossary.html#dt-namespaceprefix'>namespace prefix</a> within the
+		expression will result in <code>DOMException</code> being
+		thrown with the code <code>NAMESPACE_ERR</code>.<br>
+</dd>
+<dt><code class='parameter-name'>type</code> of type 
+<code>unsigned short</code></dt><dd>
+If a specific <code>type</code> is specified, then the
+                result will be returned as the corresponding type.<br>
+For XPath 1.0 results, this must be one of the codes of the
+                <a href='xpath.html#XPathResult'><code>XPathResult</code></a> interface.<br>
+</dd>
+<dt><code class='parameter-name'>result</code> of type 
+<code>DOMObject</code></dt><dd>
+The <code>result</code> specifies a specific result object 
+		which may be reused and returned by this method.  If this is specified
+                as <code>null</code>or the implementation does not reuse the specified 
+                result, a new result object will be constructed and returned.<br>
+For XPath 1.0 results, this object will be of type 
+                  <a href='xpath.html#XPathResult'><code>XPathResult</code></a>.<br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>DOMObject</code></p></td><td>
+<p>
+The result of the evaluation of the XPath expression.<br>
+For XPath 1.0 results, this object will be of type 
+                  <a href='xpath.html#XPathResult'><code>XPathResult</code></a>.</td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='xpath.html#XPathException'><code>XPathException</code></a></p></td><td>
+<p>INVALID_EXPRESSION_ERR: Raised if the expression is not
+		legal according to the rules of the 
+                <code>XPathEvaluator</code>i<p>TYPE_ERR: Raised if the result cannot be converted to 
+		return the specified type.</td></tr>
+<tr><td valign='top'><p><code>DOMException</code></p></td><td>
+<p>NAMESPACE_ERR: Raised if the expression contains
+		<a href='glossary.html#dt-namespaceprefix'>namespace prefixes</a>
+                which cannot be resolved by the specified 
+                <a href='xpath.html#XPathNSResolver'><code>XPathNSResolver</code></a>.<p>WRONG_DOCUMENT_ERR:  The Node is from a document that is 
+                  not supported by this <code>XPathEvaluator</code>.<p>NOT_SUPPORTED_ERR:  The Node is not a type permitted as an
+                XPath context node or the request type is not permitted by this
+                <code>XPathEvaluator</code>.</td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+</dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='XPathExpression'>XPathExpression</a></i></b></dt>
+<dd>
+<p>The <code>XPathExpression</code> interface represents a parsed 
+          and resolved XPath expression.
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='xpath.html#XPathExpression'>XPathExpression</a> {
+  DOMObject          <a class='noxref' href='xpath.html#XPathExpression-evaluate'>evaluate</a>(in Node contextNode, 
+                              in unsigned short type, 
+                              in DOMObject result)
+                                        raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>, 
+                                               DOMException);
+};
+</pre>
+</div><br>
+</dd>
+
+<dt><b>Methods</b></dt>
+<dd><dl>
+
+<dt><code class='method-name'><a name='XPathExpression-evaluate'>evaluate</a></code></dt>
+<dd>
+<div class='method'>
+Evaluates this XPath expression and returns a result.<div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>contextNode</code> of type 
+<code>Node</code></dt><dd>
+The <code>context</code> is context node for the evaluation 
+	       of this XPath expression.<br>
+If the XPathEvaluator was obtained
+              by casting the <code>Document</code> then this must be owned by
+              the same document and must be a <code>Document</code>, 
+              <code>Element</code>, <code>Attribute</code>, <code>Text</code>, 
+              <code>CDATASection</code>, <code>Comment</code>,
+              <code>ProcessingInstruction</code>, or <a href='xpath.html#XPathNamespace'><code>XPathNamespace</code></a>
+              node.<br>
+If the context node is a <code>Text</code> or a
+              <code>CDATASection</code>, then the context is interpreted as the
+              whole logical text node as seen by XPath, unless the node is
+              empty in which case it may not serve as the XPath context.<br>
+</dd>
+<dt><code class='parameter-name'>type</code> of type 
+<code>unsigned short</code></dt><dd>
+If a specific <code>type</code> is specified, then the
+               result will be coerced to return the specified type relying
+                 on XPath conversions and fail if the desired coercion is not 
+                 possible.  This must be one of the type codes of
+               <a href='xpath.html#XPathResult'><code>XPathResult</code></a>.<br>
+</dd>
+<dt><code class='parameter-name'>result</code> of type 
+<code>DOMObject</code></dt><dd>
+The <code>result</code> specifies a specific result object 
+		which may be reused and returned by this method.  If this is specified
+                as <code>null</code>or the implementation does not reuse the specified 
+                result, a new result object will be constructed and returned.<br>
+For XPath 1.0 results, this object will be of type 
+                  <a href='xpath.html#XPathResult'><code>XPathResult</code></a>.<br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>DOMObject</code></p></td><td>
+<p>
+The result of the evaluation of the XPath expression.<br>
+For XPath 1.0 results, this object will be of type 
+                <a href='xpath.html#XPathResult'><code>XPathResult</code></a>.</td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='xpath.html#XPathException'><code>XPathException</code></a></p></td><td>
+<p>TYPE_ERR: Raised if the result cannot be converted to 
+                return the specified type.</td></tr>
+<tr><td valign='top'><p><code>DOMException</code></p></td><td>
+<p>WRONG_DOCUMENT_ERR:  The Node is from a document that is 
+                not supported by the XPathEvaluator that created this
+                <code>XPathExpression</code>.<p>NOT_SUPPORTED_ERR:  The Node is not a type permitted as an
+                XPath context node or the request type is not permitted by this
+                <code>XPathExpression</code>.</td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+</dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='XPathNSResolver'>XPathNSResolver</a></i></b></dt>
+<dd>
+<p>The <code>XPathNSResolver</code> interface permit
+	  <code>prefix</code> strings in the expression to be properly bound to
+	  <code>namespaceURI</code> strings.  <a href='xpath.html#XPathEvaluator'><code>XPathEvaluator</code></a> can
+	  construct an implementation of <code>XPathNSResolver</code> from a 
+	  node, or the interface may be implemented by any application.
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='xpath.html#XPathNSResolver'>XPathNSResolver</a> {
+  DOMString          <a class='noxref' href='xpath.html#XPathNSResolver-lookupNamespaceURI'>lookupNamespaceURI</a>(in DOMString prefix);
+};
+</pre>
+</div><br>
+</dd>
+
+<dt><b>Methods</b></dt>
+<dd><dl>
+
+<dt><code class='method-name'><a name='XPathNSResolver-lookupNamespaceURI'>lookupNamespaceURI</a></code></dt>
+<dd>
+<div class='method'>
+Look up the <a href='glossary.html#dt-namespaceURI'>namespace
+	    URI</a> associated to the given <a href='glossary.html#dt-namespaceprefix'>namespace prefix</a>.  The
+            XPath evaluator must never call this with a <code>null</code> or
+            empty argument, because the result of doing this is undefined.<div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>prefix</code> of type 
+<code>DOMString</code></dt><dd>
+The prefix to look for.<br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>DOMString</code></p></td><td>
+<p>
+Returns the associated <a href='glossary.html#dt-namespaceURI'>namespace URI</a> or
+	      <code>null</code> if none is found.</td></tr></table>
+</div></div> <!-- return -->
+<div><b>No Exceptions</b></div>
+</div> <!-- method -->
+</dd>
+</dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='XPathResult'>XPathResult</a></i></b></dt>
+<dd>
+<p>The <code>XPathResult</code> interface represents the result
+          of the evaluation of an XPath 1.0 expression within the context 
+          of a particular node.  Since
+	  evaluation of an XPath expression can result in various result
+	  types, this object makes it possible to discover and manipulate
+	  the type and value of the result.
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='xpath.html#XPathResult'>XPathResult</a> {
+
+  // XPathResultType
+  const unsigned short      <a class='noxref' href='xpath.html#XPathResult-ANY-TYPE'>ANY_TYPE</a>                       = 0;
+  const unsigned short      <a class='noxref' href='xpath.html#XPathResult-NUMBER-TYPE'>NUMBER_TYPE</a>                    = 1;
+  const unsigned short      <a class='noxref' href='xpath.html#XPathResult-STRING-TYPE'>STRING_TYPE</a>                    = 2;
+  const unsigned short      <a class='noxref' href='xpath.html#XPathResult-BOOLEAN-TYPE'>BOOLEAN_TYPE</a>                   = 3;
+  const unsigned short      <a class='noxref' href='xpath.html#XPathResult-UNORDERED-NODE-ITERATOR-TYPE'>UNORDERED_NODE_ITERATOR_TYPE</a>   = 4;
+  const unsigned short      <a class='noxref' href='xpath.html#XPathResult-ORDERED-NODE-ITERATOR-TYPE'>ORDERED_NODE_ITERATOR_TYPE</a>     = 5;
+  const unsigned short      <a class='noxref' href='xpath.html#XPathResult-UNORDERED-NODE-SNAPSHOT-TYPE'>UNORDERED_NODE_SNAPSHOT_TYPE</a>   = 6;
+  const unsigned short      <a class='noxref' href='xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE'>ORDERED_NODE_SNAPSHOT_TYPE</a>     = 7;
+  const unsigned short      <a class='noxref' href='xpath.html#XPathResult-ANY-UNORDERED-NODE-TYPE'>ANY_UNORDERED_NODE_TYPE</a>        = 8;
+  const unsigned short      <a class='noxref' href='xpath.html#XPathResult-FIRST-ORDERED-NODE-TYPE'>FIRST_ORDERED_NODE_TYPE</a>        = 9;
+
+  readonly attribute unsigned short  <a class='noxref' href='xpath.html#XPathResult-resultType'>resultType</a>;
+  readonly attribute double          <a class='noxref' href='xpath.html#XPathResult-numberValue'>numberValue</a>;
+                                        // raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>) on retrieval
+
+  readonly attribute DOMString       <a class='noxref' href='xpath.html#XPathResult-stringValue'>stringValue</a>;
+                                        // raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>) on retrieval
+
+  readonly attribute boolean         <a class='noxref' href='xpath.html#XPathResult-booleanValue'>booleanValue</a>;
+                                        // raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>) on retrieval
+
+  readonly attribute Node            <a class='noxref' href='xpath.html#XPathResult-singleNodeValue'>singleNodeValue</a>;
+                                        // raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>) on retrieval
+
+  readonly attribute boolean         <a class='noxref' href='xpath.html#XPathResult-invalid-iterator-state'>invalidIteratorState</a>;
+  readonly attribute unsigned long   <a class='noxref' href='xpath.html#XPathResult-snapshot-length'>snapshotLength</a>;
+                                        // raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>) on retrieval
+
+  Node               <a class='noxref' href='xpath.html#XPathResult-iterateNext'>iterateNext</a>()
+                                        raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>, 
+                                               DOMException);
+  Node               <a class='noxref' href='xpath.html#XPathResult-snapshotItem'>snapshotItem</a>(in unsigned long index)
+                                        raises(<a class='noxref' href='xpath.html#XPathException'>XPathException</a>);
+};
+</pre>
+</div><br>
+</dd>
+<dt><b>Definition group <i><a name='XPathResultType'>XPathResultType</a></i></b></dt>
+<dd><p>An integer indicating what type of result this is.<p>If a specific <code>type</code> is specified, then the
+            result will be returned as the corresponding type, using
+            <a class='normative' href='http://www.w3.org/TR/1999/REC-xpath-19991116#section-Expressions'><em>XPath type 
+            conversions</em></a> where required and possible.<dl>
+<dt><b>Defined Constants</b></dt>
+<dd><dl>
+<dt><a name='XPathResult-ANY-TYPE'><code class='constant-name'>ANY_TYPE</code></a></dt><dd>
+This code does not represent a specific type.  An
+	      evaluation of an XPath expression will never produce this
+	      type.  If this type is requested, then the evaluation
+	      returns whatever type naturally results from evaluation of
+	      the expression. <br>
+If the natural result is a node
+	      set when <code>ANY_TYPE</code> was requested, then
+	      <code>UNORDERED_NODE_ITERATOR_TYPE</code> is always the
+	      resulting type.  Any other representation of a node set
+	      must be explicitly requested.</dd>
+<dt><a name='XPathResult-ANY-UNORDERED-NODE-TYPE'><code class='constant-name'>ANY_UNORDERED_NODE_TYPE</code></a></dt><dd>
+The result is a <a class='normative' href='http://www.w3.org/TR/1999/REC-xpath-19991116#node-sets'><em>node set</em></a> as defined
+	    by [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>] and will be accessed as a single
+	    node, which may be <code>null</code>if the node set is empty.  Document
+	    modification does not invalidate the node, but may mean that
+	    the result node no longer corresponds to the current
+	    document.  This is a convenience that permits optimization
+	    since the implementation can stop once any node in
+	    the resulting set has been found.<br>
+If there is more
+	    than one node in the actual result, the single node returned
+	    might not be the first in document order.</dd>
+<dt><a name='XPathResult-BOOLEAN-TYPE'><code class='constant-name'>BOOLEAN_TYPE</code></a></dt><dd>
+The result is a <a class='normative' href='http://www.w3.org/TR/1999/REC-xpath-19991116#booleans'><em>boolean</em></a> as defined
+              by [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>]. Document modification does not
+              invalidate the boolean, but may mean that reevaluation
+              would not yield the same boolean.</dd>
+<dt><a name='XPathResult-FIRST-ORDERED-NODE-TYPE'><code class='constant-name'>FIRST_ORDERED_NODE_TYPE</code></a></dt><dd>
+The result is a <a class='normative' href='http://www.w3.org/TR/1999/REC-xpath-19991116#node-sets'><em>node set</em></a> as defined
+	    by [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>] and will be accessed as a single
+	    node, which may be <code>null</code> if the node set is
+	    empty.  Document modification does not invalidate the node,
+	    but may mean that the result node no longer corresponds to
+	    the current document.  This is a convenience that permits
+	    optimization since the implementation can stop once the
+	    first node in document order of the resulting set has been
+	    found.<br>
+If there are more than one node in the actual
+	    result, the single node returned will be the first in
+	    document order.</dd>
+<dt><a name='XPathResult-NUMBER-TYPE'><code class='constant-name'>NUMBER_TYPE</code></a></dt><dd>
+The result is a <a class='normative' href='http://www.w3.org/TR/1999/REC-xpath-19991116#numbers'><em>number</em></a> as defined by
+	      [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>]. Document modification does not
+	      invalidate the number, but may mean that reevaluation
+	      would not yield the same number.</dd>
+<dt><a name='XPathResult-ORDERED-NODE-ITERATOR-TYPE'><code class='constant-name'>ORDERED_NODE_ITERATOR_TYPE</code></a></dt><dd>
+The result is a node set as defined by [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>] that will be accessed iteratively, which
+	      will produce document-ordered nodes.  Document
+	      modification invalidates the iteration.</dd>
+<dt><a name='XPathResult-ORDERED-NODE-SNAPSHOT-TYPE'><code class='constant-name'>ORDERED_NODE_SNAPSHOT_TYPE</code></a></dt><dd>
+The result is a <a class='normative' href='http://www.w3.org/TR/1999/REC-xpath-19991116#node-sets'><em>node set</em></a> as
+	      defined by [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>] that will be accessed
+	      as a snapshot list of nodes that will be in original
+	      document order.  Document modification does not invalidate
+	      the snapshot but may mean that reevaluation would not
+	      yield the same snapshot and nodes in the snapshot may have
+	      been altered, moved, or removed from the document.</dd>
+<dt><a name='XPathResult-STRING-TYPE'><code class='constant-name'>STRING_TYPE</code></a></dt><dd>
+The result is a <a class='normative' href='http://www.w3.org/TR/1999/REC-xpath-19991116#strings'><em>string</em></a> as defined by
+	      [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>].  Document modification does not
+	      invalidate the string, but may mean that the string no
+	      longer corresponds to the current document.</dd>
+<dt><a name='XPathResult-UNORDERED-NODE-ITERATOR-TYPE'><code class='constant-name'>UNORDERED_NODE_ITERATOR_TYPE</code></a></dt><dd>
+The result is a <a class='normative' href='http://www.w3.org/TR/1999/REC-xpath-19991116#node-sets'><em>node set</em></a> as
+	      defined by [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>] that will be accessed
+	      iteratively, which may not produce nodes in a particular
+	      order.  Document modification invalidates the
+	      iteration.<br>
+This is the default type returned if the result is a
+	      node set and <code>ANY_TYPE</code> is requested.</dd>
+<dt><a name='XPathResult-UNORDERED-NODE-SNAPSHOT-TYPE'><code class='constant-name'>UNORDERED_NODE_SNAPSHOT_TYPE</code></a></dt><dd>
+The result is a <a class='normative' href='http://www.w3.org/TR/1999/REC-xpath-19991116#node-sets'><em>node set</em></a> as
+	      defined by [<cite><a class='noxref normative' href='references.html#XPath10'>XPath 1.0</a></cite>] that will be accessed
+	      as a snapshot list of nodes that may not be in a
+	      particular order.  Document modification does not
+	      invalidate the snapshot but may mean that reevaluation
+	      would not yield the same snapshot and nodes in the
+	      snapshot may have been altered, moved, or removed from the
+	      document.</dd>
+</dl>
+</dd></dl>
+</dd>
+
+<dt><b>Attributes</b></dt>
+<dd><dl>
+
+<dt><code class='attribute-name'><a name='XPathResult-booleanValue'>booleanValue</a></code> of type <code>boolean</code>, readonly</dt>
+<dd>The value of this boolean result.<br>
+
+<div class='exceptions'>
+<b>Exceptions on retrieval</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='xpath.html#XPathException'><code>XPathException</code></a></p></td><td>
+<p>TYPE_ERR: raised if <code>resultType</code> is not <code>BOOLEAN_TYPE</code>.</td></tr>
+</table>
+</div></div> <!-- exceptions -->
+
+</dd>
+<dt><code class='attribute-name'><a name='XPathResult-invalid-iterator-state'>invalidIteratorState</a></code> of type <code>boolean</code>, readonly</dt>
+<dd>Signifies that the iterator has become invalid.  
+	    True if <code>resultType</code> is
+	    <code>UNORDERED_NODE_ITERATOR_TYPE</code> or
+	    <code>ORDERED_NODE_ITERATOR_TYPE</code> and the
+	    document has been modified since this result was
+	    returned.<br>
+
+</dd>
+<dt><code class='attribute-name'><a name='XPathResult-numberValue'>numberValue</a></code> of type <code>double</code>, readonly</dt>
+<dd>The value of this number result.  If the native double type of the DOM binding does 
+            not directly support the exact IEEE 754 result of the XPath expression, then it is up to
+            the definition of the binding to specify how the XPath number is converted to the
+            native binding number.<br>
+
+<div class='exceptions'>
+<b>Exceptions on retrieval</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='xpath.html#XPathException'><code>XPathException</code></a></p></td><td>
+<p>TYPE_ERR: raised if <code>resultType</code> is not <code>NUMBER_TYPE</code>.</td></tr>
+</table>
+</div></div> <!-- exceptions -->
+
+</dd>
+<dt><code class='attribute-name'><a name='XPathResult-resultType'>resultType</a></code> of type <code>unsigned short</code>, readonly</dt>
+<dd>A code representing the type of this result, as defined
+            by the type constants.<br>
+
+</dd>
+<dt><code class='attribute-name'><a name='XPathResult-singleNodeValue'>singleNodeValue</a></code> of type <code>Node</code>, readonly</dt>
+<dd>The value of this single node result, which may be <code>null</code>.<br>
+
+<div class='exceptions'>
+<b>Exceptions on retrieval</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='xpath.html#XPathException'><code>XPathException</code></a></p></td><td>
+<p>TYPE_ERR: raised if <code>resultType</code> is not 
+		<code>ANY_UNORDERED_NODE_TYPE</code> or
+		<code>FIRST_ORDERED_NODE_TYPE</code>.</td></tr>
+</table>
+</div></div> <!-- exceptions -->
+
+</dd>
+<dt><code class='attribute-name'><a name='XPathResult-snapshot-length'>snapshotLength</a></code> of type <code>unsigned long</code>, readonly</dt>
+<dd>The number of nodes in the result snapshot.  Valid values
+	    for snapshotItem indices are <code>0</code> to 
+            <code>snapshotLength-1</code> inclusive.<br>
+
+<div class='exceptions'>
+<b>Exceptions on retrieval</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='xpath.html#XPathException'><code>XPathException</code></a></p></td><td>
+<p>TYPE_ERR: raised if <code>resultType</code> is not 
+	        <code>UNORDERED_NODE_SNAPSHOT_TYPE</code> or
+	        <code>ORDERED_NODE_SNAPSHOT_TYPE</code>.</td></tr>
+</table>
+</div></div> <!-- exceptions -->
+
+</dd>
+<dt><code class='attribute-name'><a name='XPathResult-stringValue'>stringValue</a></code> of type <code>DOMString</code>, readonly</dt>
+<dd>The value of this string result.<br>
+
+<div class='exceptions'>
+<b>Exceptions on retrieval</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='xpath.html#XPathException'><code>XPathException</code></a></p></td><td>
+<p>TYPE_ERR: raised if <code>resultType</code> is not <code>STRING_TYPE</code>.</td></tr>
+</table>
+</div></div> <!-- exceptions -->
+
+</dd></dl></dd>
+
+<dt><b>Methods</b></dt>
+<dd><dl>
+
+<dt><code class='method-name'><a name='XPathResult-iterateNext'>iterateNext</a></code></dt>
+<dd>
+<div class='method'>
+Iterates and returns the next node from the node set
+	    or <code>null</code>if there are no more nodes.
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>Node</code></p></td><td>
+<p>
+Returns the next node.</td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='xpath.html#XPathException'><code>XPathException</code></a></p></td><td>
+<p>TYPE_ERR: raised if <code>resultType</code> is not 
+	        <code>UNORDERED_NODE_ITERATOR_TYPE</code> or
+	        <code>ORDERED_NODE_ITERATOR_TYPE</code>.</td></tr>
+<tr><td valign='top'><p><code>DOMException</code></p></td><td>
+<p>INVALID_STATE_ERR: The document has been mutated since the
+	        result was returned.</td></tr>
+</table>
+</div></div> <!-- exceptions -->
+<div><b>No Parameters</b></div>
+</div> <!-- method -->
+</dd>
+
+<dt><code class='method-name'><a name='XPathResult-snapshotItem'>snapshotItem</a></code></dt>
+<dd>
+<div class='method'>
+Returns the <code>index</code>th item in the snapshot collection. 
+	    If <code>index</code> is greater than or equal to the number of nodes
+	    in the list, this method returns <code>null</code>.  Unlike the
+            iterator result, the snapshot does not become invalid, but may
+            not correspond to the current document if it is mutated.<div class='parameters'>
+<b>Parameters</b>
+<div class='paramtable'>
+<dl>
+<dt><code class='parameter-name'>index</code> of type 
+<code>unsigned long</code></dt><dd>
+Index into the snapshot collection.<br>
+</dd>
+</dl>
+</div></div> <!-- parameters -->
+
+<div class='return'>
+<b>Return Value</b>
+<div class='returntable'>
+<table  summary='Layout table: the first cell contains
+ the type of the return value, the second contains a short description'
+ border='0'><tr><td valign='top'><p><code>Node</code></p></td><td>
+<p>
+The node at the <code>index</code>th position in the
+	      <code>NodeList</code>, or <code>null</code> if that is not a
+	      valid index.</td></tr></table>
+</div></div> <!-- return -->
+
+<div class='exceptions'>
+<b>Exceptions</b>
+<div class='exceptiontable'>
+<table  summary='Layout table: the first cell contains
+ the type of the exception, the second contains
+the specific error code and a short description'
+border='0'>
+<tr><td valign='top'><p><a href='xpath.html#XPathException'><code>XPathException</code></a></p></td><td>
+<p>TYPE_ERR: raised if <code>resultType</code> is not 
+	        <code>UNORDERED_NODE_SNAPSHOT_TYPE</code> or
+	        <code>ORDERED_NODE_SNAPSHOT_TYPE</code>.</td></tr>
+</table>
+</div></div> <!-- exceptions -->
+</div> <!-- method -->
+</dd>
+</dl></dd>
+</dl></dd>
+
+<dt><b>Interface <i><a name='XPathNamespace'>XPathNamespace</a></i></b></dt>
+<dd>
+<p>The <code>XPathNamespace</code> interface is returned by 
+          <a href='xpath.html#XPathResult'><code>XPathResult</code></a> interfaces to represent 
+          the XPath namespace node type that DOM lacks.
+          There is no public constructor for this node type.  Attempts to 
+          place it into a hierarchy or a NamedNodeMap result in a 
+          <code>DOMException</code> with the code 
+          <code>HIERARCHY_REQUEST_ERR</code>.  This node is 
+	    <a href='glossary.html#dt-readonly-node'>read only</a>, so methods or setting of attributes that would mutate 
+          the node result in a DOMException with the code 
+          <code>NO_MODIFICATION_ALLOWED_ERR</code>.<p>The core specification describes attributes of the
+          <code>Node</code> interface that are different for different
+          node types but does not describe <code>XPATH_NAMESPACE_NODE</code>, 
+          so here is a description of those attributes for this node type.
+          All attributes of <code>Node</code> not described in this section 
+          have a <code>null</code> or <code>false</code> value.<p><code>ownerDocument</code> matches the <code>ownerDocument</code> of the 
+	  <code>ownerElement</code> even if the element is later adopted.<p><code>nodeName</code> is always the string "<code>#namespace</code>".<p><code>prefix</code> is the prefix of the namespace
+	  represented by the node.<p><code>localName</code> is the same as <code>prefix</code>.<p><code>nodeType</code> is equal to <code>XPATH_NAMESPACE_NODE</code>.<p><code>namespaceURI</code> is the namespace URI of the namespace
+	  represented by the node.<p><code>nodeValue</code> is the same as <code>namespaceURI</code>.<p><code>adoptNode</code>, <code>cloneNode</code>, and 
+          <code>importNode</code> fail on this node type by raising a
+          <code>DOMException</code> with the code <code>NOT_SUPPORTED_ERR</code>.<p><b>Note:</b> In future versions of the XPath specification, the definition of a 
+          namespace node may be changed incomatibly, in which case incompatible 
+          changes to field values may be required to implement versions beyond
+          XPath 1.0.</p>
+
+<dl>
+<dt><br><b>IDL Definition</b></dt>
+<dd>
+<div class='idl-code'>
+<pre>
+interface <a class='noxref' href='xpath.html#XPathNamespace'>XPathNamespace</a> : Node {
+
+  // XPathNodeType
+  const unsigned short      <a class='noxref' href='xpath.html#XPATH_NAMESPACE_NODE'>XPATH_NAMESPACE_NODE</a>           = 13;
+
+  readonly attribute Element         <a class='noxref' href='xpath.html#XPathNamespace-ownerElement'>ownerElement</a>;
+};
+</pre>
+</div><br>
+</dd>
+<dt><b>Definition group <i><a name='XPathNodeType'>XPathNodeType</a></i></b></dt>
+<dd><p>An integer indicating which type of node this is.<p><b>Note:</b> There is currently only one type of node which is specific to 
+	      XPath.  The numbers in this list must not collide with the 
+	      values assigned to core node types.</p>
+<dl>
+<dt><b>Defined Constants</b></dt>
+<dd><dl>
+<dt><a name='XPATH_NAMESPACE_NODE'><code class='constant-name'>XPATH_NAMESPACE_NODE</code></a></dt><dd>
+The node is a <code>Namespace</code>.</dd>
+</dl>
+</dd></dl>
+</dd>
+
+<dt><b>Attributes</b></dt>
+<dd><dl>
+
+<dt><code class='attribute-name'><a name='XPathNamespace-ownerElement'>ownerElement</a></code> of type <code>Element</code>, readonly</dt>
+<dd>The <code>Element</code> on which the namespace was in scope
+	    when it was requested.  This does not change on a returned
+	      namespace node
+	    even if the document changes such that the namespace goes out of
+	    scope on that <a href='glossary.html#dt-element'>element</a> and this
+              node is no longer found there by XPath.<br>
+
+</dd></dl></dd>
+</dl></dd>
+</dl>
+</div> <!-- div2 Interfaces --></div> <!-- div1 XPath --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='W3C Copyright Notices and Licenses' href='copyright-notice.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='IDL Definitions' href='idl-definitions.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

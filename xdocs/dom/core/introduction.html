@@ -1,0 +1,414 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Wed Apr 07 13:10:49 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>What is the Document Object Model?</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='core.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='copyright-notice.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='W3C Copyright Notices and Licenses' accesskey='p' href='copyright-notice.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Document Object Model Core' accesskey='n' href='core.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='Introduction'></a>
+<h1 id='Introduction-h1' class='div1'>What is the Document Object Model?</h1>
+<dl>
+<dt><i>Editors</i>:
+</dt><dd>Philippe Le H&#xe9;garet, W3C</dd>
+<dd>Lauren Wood, SoftQuad Software Inc. (for DOM Level 2)</dd>
+<dd>Jonathan Robie, Texcel (for DOM Level 1)</dd>
+</dl>
+
+<div class='div2'><a name='ID-E7C3082'></a>
+<h2 id='ID-E7C3082-h2' class='div2'>Introduction</h2>
+<p>The Document Object Model (DOM) is an application programming interface 
+      (<a href='glossary.html#dt-API'>API</a>) for valid <a href='glossary.html#dt-HTML'>HTML</a> and
+      well-formed <a href='glossary.html#dt-XML'>XML</a> documents. It defines the logical structure of documents and
+      the way a document is accessed and manipulated. In the DOM specification,
+      the term "document" is used in the broad sense - increasingly, XML is being used as a
+      way of representing many different kinds of information that may
+      be stored in diverse systems, and much of this would traditionally
+      be seen as data rather than as documents. Nevertheless, XML presents
+      this data as documents, and the DOM may be used to manage this data.<p>With the Document
+      Object Model, programmers can build documents, navigate
+      their structure, and add, modify, or delete elements and content.
+      Anything found in an HTML or XML document can be accessed,
+      changed, deleted, or added using the Document Object Model,
+      with a few exceptions - in particular, the DOM <a href='glossary.html#dt-interface'>interfaces</a> for
+      the XML internal and external subsets have not yet been specified.<p>As a W3C specification, one important objective for the Document
+      Object Model is to provide a standard programming interface that
+      can be used in a wide variety of environments and <a href='glossary.html#dt-application'>applications</a>.
+      The DOM is designed to be used with any programming
+      language. In order to provide a precise, language-independent
+      specification of the DOM interfaces, we have chosen to define
+      the specifications in Object Management Group (OMG) IDL [<cite><a class='noxref normative' href='references.html#OMGIDL'>OMG IDL</a></cite>], as defined in the CORBA 2.3.1 specification [<cite><a class='noxref informative' href='references.html#CORBA'>CORBA</a></cite>]. In addition to the OMG IDL specification, we provide
+      <a href='glossary.html#dt-lang-binding'>language bindings</a> for Java [<cite><a class='noxref normative' href='references.html#Java'>Java</a></cite>] and ECMAScript [<cite><a class='noxref normative' href='references.html#ECMAScript'>ECMAScript</a></cite>] (an industry-standard scripting
+      language based on JavaScript [<cite><a class='noxref informative' href='references.html#JavaScript'>JavaScript</a></cite>] and JScript
+      [<cite><a class='noxref informative' href='references.html#JScript'>JScript</a></cite>]). Because of language
+      binding restrictions, a mapping has to be applied between the OMG
+      IDL and the programming language in used. For example, while the
+      DOM uses IDL attributes in the definition of interfaces, Java does
+    not allow interfaces to contain attributes:</p>
+<div class='code-block'>
+<pre>// example 1: removing the first child of an element using ECMAScript
+mySecondTrElement.removeChild(mySecondTrElement.firstChild);
+
+// example 2: removing the first child of an element using Java
+mySecondTrElement.removeChild(mySecondTrElement.getFirstChild());</pre>
+</div><p><b>Note:</b> OMG IDL is used only as a language-independent and
+	implementation-neutral way to specify <a href='glossary.html#dt-interface'>interfaces</a>. Various other
+	IDLs could have been used ([<cite><a class='noxref informative' href='references.html#COM'>COM</a></cite>], [<cite><a class='noxref informative' href='references.html#JavaIDL'>Java IDL</a></cite>], [<cite><a class='noxref informative' href='references.html#MSIDL'>MIDL</a></cite>], ...). In general, IDLs 
+	are designed for specific computing environments. The Document Object
+	Model can be implemented in any computing environment, and does not 
+	require the object binding runtimes generally associated with 
+	such IDLs.
+      </p>
+</div> <!-- div2 ID-E7C3082 -->
+<div class='div2'><a name='ID-E7C30821'></a>
+<h2 id='ID-E7C30821-h2' class='div2'>What the Document Object Model is</h2>
+<p>The DOM is a programming <a href='glossary.html#dt-API'>API</a> for documents.
+      It is based on an object structure that closely resembles the structure of the
+      documents it <a href='glossary.html#dt-model'>models</a>. For instance, consider this table, taken
+      from an XHTML document: </p>
+<div class='code-block'>
+<pre>&lt;table&gt;
+  &lt;tbody&gt; 
+    &lt;tr&gt; 
+      &lt;td&gt;Shady Grove&lt;/td&gt;
+      &lt;td&gt;Aeolian&lt;/td&gt; 
+    &lt;/tr&gt; 
+    &lt;tr&gt;
+      &lt;td&gt;Over the River, Charlie&lt;/td&gt;        
+      &lt;td&gt;Dorian&lt;/td&gt; 
+    &lt;/tr&gt; 
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+</div><p>
+      A graphical representation of the DOM of the example table, with
+      whitespaces in element content (often abusively called "ignorable
+      whitespace") removed, is:      
+    <div class='figure' style='text-align: center'>
+<img src='./images/table.png' alt='graphical representation of the DOM of the example table' title='graphical representation of the DOM of the example table'>
+<p style='text-align:left'><i>Figure: graphical representation of the DOM of the example table
+</i> [<a href='./images/table'>SVG 1.0 version</a>]
+</p>
+</div>
+
+<p>
+      An example of DOM manipulation using ECMAScript would be:
+    </p>
+<div class='code-block'>
+<pre>// access the tbody element from the table element
+var myTbodyElement = myTableElement.firstChild;
+
+// access its second tr element
+// The list of children starts at 0 (and not 1).
+var mySecondTrElement = myTbodyElement.childNodes[1];
+
+// remove its first td element
+mySecondTrElement.removeChild(mySecondTrElement.firstChild);
+
+// change the text content of the remaining td element
+mySecondTrElement.firstChild.firstChild.data = "Peter";</pre>
+</div><p>In the DOM, documents have a logical
+      structure which is very much like a tree; to be more precise, which is
+      like a "forest" or "grove",
+      which can contain more than one tree. Each document contains zero or one
+      doctype nodes, one document element node,
+      and zero or more comments 
+		or processing instructions; the document element serves as the root
+		of the element tree for the document. However, the DOM
+      does not specify that documents must be <em>implemented</em> as a
+      tree or a grove, nor
+      does it specify how the relationships among objects be
+      implemented. The DOM is a logical model that may be implemented in any
+      convenient manner. In this
+      specification, we use the term <em>structure model</em> to
+      describe the tree-like representation of a document.
+      We also use the term "tree" when referring to the arrangement of 
+      those information items which can be reached by using "tree-walking" 
+      methods; (this does not include attributes).
+      One important property of DOM structure models
+      is <em>structural isomorphism</em>: if any two Document
+      Object Model implementations are used to create a representation
+      of the same document, they will create the same structure model,
+      in accordance with the XML Information Set [<cite><a class='noxref informative' href='references.html#InfoSet'>XML Information Set</a></cite>].<p><b>Note:</b> There may be some variations depending on the parser being
+	used to build the DOM. For instance, the DOM may not contain
+	white spaces in element content if the parser discards them.</p>
+<p>The name "Document Object Model" was chosen because
+      it is an "<a href='glossary.html#dt-object-model'>object model</a>" in the traditional
+      object oriented design sense: documents are modeled using
+      objects, and the model encompasses not only the structure of a
+      document, but also the behavior of a document and the objects
+      of which it is composed. In other words, the nodes in the
+      above diagram do not represent a data structure, they
+      represent objects, which have functions and identity. As an
+      object model, the DOM identifies:<ul>
+<li>
+the interfaces and objects used to represent and manipulate
+	  a document</li>
+<li>
+the semantics of these interfaces and objects - including
+	  both behavior and attributes</li>
+<li>
+the relationships and collaborations among these interfaces
+	  and objects</li>
+</ul>
+<p>The structure of SGML documents has traditionally been
+      represented by an abstract <a href='glossary.html#dt-datamodel'>data model</a>, not by an object model.
+      In an abstract <a href='glossary.html#dt-datamodel'>data model</a>, the model is centered around the
+      data. In object oriented programming languages, the data itself
+      is encapsulated in objects that hide the data, protecting it
+      from direct external manipulation. The functions associated with
+      these objects determine how the objects may be manipulated, and
+      they are part of the object model.</div> <!-- div2 ID-E7C30821 -->
+<div class='div2'><a name='ID-E7C30822'></a>
+<h2 id='ID-E7C30822-h2' class='div2'>What the Document Object Model is not</h2>
+<p>This section is designed to give a more precise understanding
+      of the DOM by distinguishing it from other
+      systems that may seem to be like it.<ul>
+<li>
+The Document Object Model is not a binary specification.
+	  DOM programs written in the same language binding will be
+	  source code compatible across platforms, but the DOM
+	  does not define any form of binary interoperability.</li>
+<li>
+The Document Object Model is not a way of persisting objects
+	  to XML or HTML. Instead of specifying how objects may be
+	  represented in XML, the DOM specifies how
+	  XML and HTML documents are represented as objects, so that
+	  they may be used in object oriented programs.</li>
+<li>
+The Document Object Model is not a set of data structures;
+	  it is an <a href='glossary.html#dt-object-model'>object model</a> that specifies interfaces. Although this
+	  document contains diagrams showing parent/child relationships,
+	  these are logical relationships defined by the programming
+	  interfaces, not representations of any particular internal
+	  data structures.</li>
+<li>
+The Document Object Model does not define what information in a
+	  document is relevant or how information in a document is structured. For
+	  XML, this is specified by the XML Information Set [<cite><a class='noxref informative' href='references.html#InfoSet'>XML Information Set</a></cite>]. The DOM is simply an <a href='glossary.html#dt-API'>API</a> to this information set. </li>
+<li>
+The Document Object Model, despite its name, is not a
+	  competitor to the Component Object Model [<cite><a class='noxref informative' href='references.html#COM'>COM</a></cite>]. COM, like
+	  CORBA, is a language independent way to specify interfaces and
+	  objects; the DOM is a set of interfaces and
+	  objects designed for managing HTML and XML documents. The DOM
+	  may be implemented using language-independent systems like COM
+	  or CORBA; it may also be implemented using language-specific
+	  bindings like the Java or ECMAScript bindings specified in
+	  this document.</li>
+</ul>
+</div> <!-- div2 ID-E7C30822 -->
+<div class='div2'><a name='ID-E7C30823'></a>
+<h2 id='ID-E7C30823-h2' class='div2'>Where the Document Object Model came from</h2>
+<p>The DOM originated as a specification to
+      allow JavaScript scripts and Java programs to be portable among
+      Web browsers.  "Dynamic HTML" was  the immediate ancestor of the
+      Document Object Model, and it was originally thought of largely
+      in terms of  browsers. However, when the DOM
+      Working Group was formed at W3C, it was also joined by vendors in other
+      domains, including HTML or XML editors and document
+      repositories. Several of these vendors had worked with SGML
+      before XML was developed; as a result, the DOM
+      has been influenced by SGML Groves and the HyTime standard. Some
+      of these vendors had also developed their own object models for
+      documents in order to provide an API for SGML/XML
+      editors or document repositories, and these object models have
+      also influenced the DOM.</div> <!-- div2 ID-E7C30823 -->
+<div class='div2'><a name='ID-E7C30824'></a>
+<h2 id='ID-E7C30824-h2' class='div2'>Entities and the DOM Core</h2>
+<p>In the fundamental DOM interfaces, there are no objects representing
+      entities. Numeric character references, and references to the
+      pre-defined entities in HTML and XML, are replaced by the
+      single character that makes up the entity's replacement.
+      For example, in:   
+    </p>
+<div class='code-block'>
+<pre>
+        &lt;p&gt;This is a dog &amp;amp; a cat&lt;/p&gt;        
+      </pre>
+</div><p>
+      the "&amp;amp;" will be replaced by the character "&amp;", and the text
+      in the P element will form a single continuous sequence of
+      characters. Since numeric character references and pre-defined entities
+      are not recognized as such in CDATA sections, or in the SCRIPT and STYLE
+      elements in HTML, they are not replaced by the single character they
+      appear to refer to. If the example above were enclosed in a CDATA
+      section, the "&amp;amp;" would not be replaced by "&amp;"; neither would
+      the &lt;p&gt; be recognized as a start tag. The representation of general
+      entities, both internal and external, are defined within the
+      extended (XML) interfaces of <a href='core.html#Core'>Document Object Model Core</a>.<p>
+      Note: When a DOM representation of a document is serialized
+      as XML or HTML text, applications will need to check each
+      character in text data to see if it needs to be escaped
+      using a numeric or pre-defined entity. Failing to do so
+      could result in invalid HTML or XML. Also, <a href='glossary.html#dt-implementation'>implementations</a> should be
+      aware of the fact that serialization into a character encoding
+      ("charset") that does not fully cover ISO 10646 may fail if there are
+      characters in markup or CDATA sections that are not present in the
+      encoding.</div> <!-- div2 ID-E7C30824 -->
+<div class='div2'><a name='DOMArchitecture'></a>
+<h2 id='DOMArchitecture-h2' class='div2'>DOM Architecture</h2>
+<p>
+      The DOM specifications provide a set of APIs that forms the DOM
+      API. Each DOM specification defines one or more modules and each
+      module is associated with one feature name. For example, the DOM
+      Core specification (this specification) defines two modules:
+    <ul>
+<li>
+The Core module, which contains the fundamental interfaces
+	  that must be implemented by all DOM conformant
+	  implementations, is associated with the feature name "Core";</li>
+<li>
+
+	  The XML module, which contains the interfaces that must be
+	  implemented by all conformant XML 1.0 [<cite><a class='noxref informative' href='references.html#XML'>XML 1.0</a></cite>] (and higher) DOM implementations, is
+	  associated with the feature name "XML".
+	</li>
+</ul>
+<p>
+      The following representation contains all DOM modules, represented
+      using their feature names, defined along the DOM specifications:
+    <div class='figure' style='text-align: center'>
+<img src='./images/dom-architecture.png' alt='A view of the DOM Architecture' title='A view of the DOM Architecture'>
+<p style='text-align:left'><i>Figure: A view of the DOM Architecture
+</i> [<a href='./images/dom-architecture'>SVG 1.0 version</a>]
+</p>
+</div>
+
+<p>
+      A DOM implementation can then implement one (i.e. only the Core
+      module) or more modules depending on the host application. A Web
+      user agent is very likely to implement the "MouseEvents" module,
+      while a server-side application will have no use of this module
+      and will probably not implement it.
+    </div> <!-- div2 DOMArchitecture -->
+<div class='div2'><a name='ID-Conformance'></a>
+<h2 id='ID-Conformance-h2' class='div2'>Conformance</h2>
+<p>
+      This section explains the different levels of conformance to DOM Level 3.
+      DOM Level 3 consists of 16 modules. It is possible to conform to DOM
+      Level 3, or to a DOM Level 3 module.
+    <p>
+      An implementation is DOM Level 3 conformant if it supports the Core
+      module defined in this document (see <a href='core.html#ID-BBACDC08'>Fundamental Interfaces: Core Module</a>). An
+      implementation conforms to a DOM Level 3 module if it supports all the
+      interfaces for that module and the associated semantics.
+    <p>
+      Here is the complete list of DOM Level 3.0 modules and the features used
+      by them.  Feature names are case-insensitive.
+    <dl>
+<dt>Core module</dt>
+<dd>
+	    defines the feature <a class='normative' href='core.html#ID-BBACDC08'><em>"Core"</em></a>.
+	  </dd><dt>XML module</dt>
+<dd>
+	    Defines the feature <a class='normative' href='core.html#ID-E067D597'><em>"XML"</em></a>.
+	  </dd><dt>Events module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Events/events.html'><em>"Events"</em></a> in [<cite><a class='noxref informative' href='references.html#DOMEvents'>DOM Level 3 Events</a></cite>].</dd><dt>User interface Events module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Events/events.html'><em>"UIEvents"</em></a> in
+	  [<cite><a class='noxref informative' href='references.html#DOMEvents'>DOM Level 3 Events</a></cite>].</dd><dt>Mouse Events module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Events/events.html'><em>"MouseEvents"</em></a> in
+	  [<cite><a class='noxref informative' href='references.html#DOMEvents'>DOM Level 3 Events</a></cite>].</dd><dt>Text Events module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Events/events.html'><em>"TextEvents"</em></a> in
+	  [<cite><a class='noxref informative' href='references.html#DOMEvents'>DOM Level 3 Events</a></cite>].</dd><dt>Keyboard Events module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Events/events.html'><em>"KeyboardEvents"</em></a> in
+	  [<cite><a class='noxref informative' href='references.html#DOMEvents'>DOM Level 3 Events</a></cite>].</dd><dt>Mutation Events module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Events/events.html'><em>"MutationEvents"</em></a> in
+	  [<cite><a class='noxref informative' href='references.html#DOMEvents'>DOM Level 3 Events</a></cite>].</dd><dt>Mutation name Events module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Events/events.html'><em>"MutationNameEvents"</em></a> in
+	  [<cite><a class='noxref informative' href='references.html#DOMEvents'>DOM Level 3 Events</a></cite>].</dd><dt>HTML Events module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Events/events.html'><em>"HTMLEvents"</em></a> in
+	  [<cite><a class='noxref informative' href='references.html#DOMEvents'>DOM Level 3 Events</a></cite>].</dd><dt>Load and Save module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-LS/load-save.html'><em>"LS"</em></a> in [<cite><a class='noxref informative' href='references.html#DOMLS'>DOM Level 3 Load and Save</a></cite>].</dd><dt>Asynchronous load module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-LS/load-save.html'><em>"LS-Async"</em></a>
+	  in [<cite><a class='noxref informative' href='references.html#DOMLS'>DOM Level 3 Load and Save</a></cite>].</dd><dt>Validation module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Val/validation.html'><em>"Validation"</em></a>
+	  in [<cite><a class='noxref informative' href='references.html#DOMVal'>DOM Level 3 Validation</a></cite>].</dd><dt>XPath module</dt>
+<dd>defines the feature <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html'><em>"XPath"</em></a> in
+	   [<cite><a class='noxref informative' href='references.html#DOMXPath'>DOM Level 3 XPath</a></cite>].</dd></dl>
+<p>
+      A DOM implementation must not return <code>true</code> to the
+      <a href='core.html#ID-5CED94D7'><code>DOMImplementation.hasFeature(feature, version)</code></a> <a href='glossary.html#dt-method'>method</a> of the <a href='core.html#ID-102161490'><code>DOMImplementation</code></a>
+      interface for that feature unless the implementation conforms to that
+      module. The <code>version</code> number for all features used in DOM
+      Level 3.0 is <code>"3.0"</code>.
+    </div> <!-- div2 ID-Conformance -->
+<div class='div2'><a name='ID-E7C30826'></a>
+<h2 id='ID-E7C30826-h2' class='div2'>DOM Interfaces and DOM Implementations</h2>
+<p>The DOM specifies interfaces which may be used to manage XML or
+      HTML documents. It is important to realize that these interfaces
+      are an abstraction - much like "abstract base classes" in C++,
+      they are a means of specifying a way to access and manipulate an
+      application's internal representation of a document. Interfaces 
+	do not imply a particular concrete
+      implementation. Each DOM application is free to maintain
+      documents in any convenient representation, as long as the
+      interfaces shown in this specification are supported. Some
+      DOM implementations will be existing programs that use the
+      DOM interfaces to access software written long before the
+      DOM specification existed. Therefore, the DOM is designed
+      to avoid implementation dependencies; in particular,<ol>
+<li>
+Attributes defined in the IDL do not imply concrete
+	  objects which must have specific data members - in the
+	  language bindings, they are translated to a pair of
+	  get()/set() functions, not to a data member. Read-only
+	  attributes have only a get() function in the language
+	  bindings.  </li>
+<li>
+DOM applications may provide additional interfaces
+	  and objects not found in this specification and still be
+	  considered DOM conformant.</li>
+<li>
+Because we specify interfaces and not the actual
+	  objects that are to be created, the DOM cannot know what
+	  constructors to call for an implementation.  In general,
+	  DOM users call the createX() methods on the Document
+	  class to create document structures, and DOM
+	  implementations create their own internal representations
+	  of these structures in their implementations of the
+	  createX() functions.
+	</li>
+</ol>
+<p>
+      The Level 2 interfaces were extended to provide both Level 2 and Level 3
+      functionality.
+    <p>
+      DOM implementations in languages other than Java or ECMAScript may choose
+      bindings that are appropriate and natural for their language and run time
+      environment.  For example, some systems may need to create a Document3
+      class which inherits from a Document class and contains the new methods
+      and attributes.
+    <p>DOM Level 3 does not specify multithreading mechanisms.</div> <!-- div2 ID-E7C30826 --></div> <!-- div1 Introduction --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='W3C Copyright Notices and Licenses' href='copyright-notice.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Document Object Model Core' href='core.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

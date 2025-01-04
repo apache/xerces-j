@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Feb 23 16:43:30 EST 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Java Language Binding</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-WG-NOTE.css'>
+  <link rel='next' href='ecma-script-binding.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='idl-definitions.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='IDL Definitions' accesskey='p' href='idl-definitions.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='ECMAScript Language Binding' accesskey='n' href='ecma-script-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>26 February 2004</p>
+</div>
+
+<div class='div1'><a name='java-binding'></a>
+<h1 id='java-binding-h1' class='adiv1'>Appendix B: Java Language Binding</h1>
+<p class='first'>This appendix contains the complete Java [<cite><a class='noxref normative' href='references.html#Java'>Java</a></cite>] bindings
+  for the Level 3 Document Object Model XPath.</p><p>The Java files are also available as <a class='normative' href='java-binding.zip'>http://www.w3.org/TR/2004/NOTE-DOM-Level-3-XPath-20040226/java-binding.zip</a></p>
+<div class='div2'><a name='JavaXPathInterfaces'></a>
+<h2 id='JavaXPathInterfaces-h2' class='adiv2'>B.1 Other XPath interfaces</h2>
+<h3 id='org.w3c.dom.xpath.XPathException'>org/w3c/dom/xpath/XPathException.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.xpath;
+
+public class XPathException extends RuntimeException {
+    public XPathException(short code, String message) {
+       super(message);
+       this.code = code;
+    }
+    public short   code;
+    // XPathExceptionCode
+    public static final short INVALID_EXPRESSION_ERR    = 51;
+    public static final short TYPE_ERR                  = 52;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.xpath.XPathEvaluator'>org/w3c/dom/xpath/XPathEvaluator.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.xpath;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.DOMException;
+
+public interface XPathEvaluator {
+    public XPathExpression createExpression(String expression, 
+                                            XPathNSResolver resolver)
+                                            throws XPathException, DOMException;
+
+    public XPathNSResolver createNSResolver(Node nodeResolver);
+
+    public Object evaluate(String expression, 
+                           Node contextNode, 
+                           XPathNSResolver resolver, 
+                           short type, 
+                           Object result)
+                           throws XPathException, DOMException;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.xpath.XPathExpression'>org/w3c/dom/xpath/XPathExpression.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.xpath;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.DOMException;
+
+public interface XPathExpression {
+    public Object evaluate(Node contextNode, 
+                           short type, 
+                           Object result)
+                           throws XPathException, DOMException;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.xpath.XPathNSResolver'>org/w3c/dom/xpath/XPathNSResolver.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.xpath;
+
+public interface XPathNSResolver {
+    public String lookupNamespaceURI(String prefix);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.xpath.XPathResult'>org/w3c/dom/xpath/XPathResult.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.xpath;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.DOMException;
+
+public interface XPathResult {
+    // XPathResultType
+    public static final short ANY_TYPE                  = 0;
+    public static final short NUMBER_TYPE               = 1;
+    public static final short STRING_TYPE               = 2;
+    public static final short BOOLEAN_TYPE              = 3;
+    public static final short UNORDERED_NODE_ITERATOR_TYPE = 4;
+    public static final short ORDERED_NODE_ITERATOR_TYPE = 5;
+    public static final short UNORDERED_NODE_SNAPSHOT_TYPE = 6;
+    public static final short ORDERED_NODE_SNAPSHOT_TYPE = 7;
+    public static final short ANY_UNORDERED_NODE_TYPE   = 8;
+    public static final short FIRST_ORDERED_NODE_TYPE   = 9;
+
+    public short getResultType();
+
+    public double getNumberValue()
+                                     throws XPathException;
+
+    public String getStringValue()
+                                     throws XPathException;
+
+    public boolean getBooleanValue()
+                                     throws XPathException;
+
+    public Node getSingleNodeValue()
+                                     throws XPathException;
+
+    public boolean getInvalidIteratorState();
+
+    public int getSnapshotLength()
+                                     throws XPathException;
+
+    public Node iterateNext()
+                            throws XPathException, DOMException;
+
+    public Node snapshotItem(int index)
+                             throws XPathException;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.xpath.XPathNamespace'>org/w3c/dom/xpath/XPathNamespace.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.xpath;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+public interface XPathNamespace extends Node {
+    // XPathNodeType
+    public static final short XPATH_NAMESPACE_NODE      = 13;
+
+    public Element getOwnerElement();
+
+}
+</pre>
+</div>
+</div> <!-- div2 JavaXPathInterfaces --></div> <!-- div1 java-binding --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='IDL Definitions' href='idl-definitions.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='ECMAScript Language Binding' href='ecma-script-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

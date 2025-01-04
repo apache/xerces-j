@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Apr 05 15:05:49 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Glossary</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='references.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='acknowledgements.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Acknowledgements' accesskey='p' href='acknowledgements.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='References' accesskey='n' href='references.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='glossary'></a>
+<h1 id='role-glossary' class='glossary'>
+Glossary</h1>
+<dl>
+<dt><i>Editors</i>:
+</dt><dd>Arnaud Le Hors, W3C</dd>
+<dd>Robert S. Sutor, IBM Research (for DOM Level 1)</dd>
+</dl>
+<p class='first'>Some of the following term definitions have been borrowed or
+    modified from similar definitions in other W3C or standards documents.
+    See the links within the definitions for more information.</p><dl>
+<dt><b><a name='dt-16-bit-unit'>16-bit unit</a></b></dt>
+<dd>The base unit of a <code>DOMString</code>. This indicates that
+          indexing on a <code>DOMString</code> occurs in units of 16 bits. 
+          This must not be misunderstood to mean that a <code>DOMString</code>
+          can store arbitrary 16-bit units. A <code>DOMString</code> is a 
+          character string encoded in UTF-16; this means that the restrictions
+          of UTF-16 as well as the other relevant restrictions on character strings
+          must be maintained. A single character, for example in the form of a 
+          numeric character reference, may correspond to one or two 16-bit units.</dd><dt><b><a name='dt-API'>API</a></b></dt>
+<dd>An <i>API</i> is an Application Programming
+	  Interface, a set of functions or methods used to access some
+	  functionality.</dd><dt><b><a name='dt-namespace-well-formed'>namespace well-formed</a></b></dt>
+<dd>
+	  A node is a <i>namespace well-formed</i> XML node if it
+	  is a <a href='glossary.html#dt-well-formed'>well-formed</a> node,
+	  and follows the productions and namespace constraints. If
+	  [<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>] is used, the constraints are defined in
+	  [<cite><a class='noxref normative' href='references.html#Namespaces'>XML Namespaces</a></cite>]. If [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>] is used,
+	  the constraints are defined in [<cite><a class='noxref normative' href='references.html#Namespaces11'>XML Namespaces 1.1</a></cite>].
+	</dd><dt><b><a name='dt-readonly-node'>read only node</a></b></dt>
+<dd>A <i>read only node</i> is a node that is immutable. This
+          means its list of children, its content, and its attributes, when it
+          is an element, cannot be changed in any way. However, a read only node
+          can possibly be moved, when it is not itself contained in a read only
+          node.</dd><dt><b><a name='dt-schema'>schema</a></b></dt>
+<dd>
+	  A <i>schema</i> defines a set of structural and value
+	  constraints applicable to XML documents. Schemas can be
+	  expressed in schema languages, such as DTD, XML Schema, etc.
+	</dd><dt><b><a name='dt-well-formed'>well-formed</a></b></dt>
+<dd>
+	  A node is a <i>well-formed</i> XML node if its
+	  serialized form, without doing any transformation during its
+	  serialization, matches its respective production in [<cite><a class='noxref normative' href='references.html#XML'>XML 1.0</a></cite>] or [<cite><a class='noxref normative' href='references.html#XML11'>XML 1.1</a></cite>] (depending on the XML
+	  version in use) with all well-formedness constraints related
+	  to that production, and if the entities which are referenced
+	  within the node are also well-formed. If namespaces for XML
+	  are in use, the node must also be <a href='glossary.html#dt-namespace-well-formed'>namespace
+	  well-formed</a>.
+	</dd></dl>
+</div> <!-- div1 glossary --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Acknowledgements' href='acknowledgements.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='References' href='references.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

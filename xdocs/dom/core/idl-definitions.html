@@ -1,0 +1,586 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Wed Apr 07 13:11:22 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>IDL Definitions</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='java-binding.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='accessing-code-point-boundaries.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Accessing code point boundaries' accesskey='p' href='accessing-code-point-boundaries.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Java Language Binding' accesskey='n' href='java-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='idl'></a>
+<h1 id='idl-h1' class='adiv1'>Appendix F: IDL Definitions</h1>
+<p class='first'>This appendix contains the complete OMG IDL [<cite><a class='noxref normative' href='references.html#OMGIDL'>OMG IDL</a></cite>] for
+  the Level 3 Document Object Model Core definitions.</p><p>The IDL files are also available as: <a class='normative' href='idl.zip'>http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/idl.zip</a></p><h3 id='idl-dom.idl'><a href='idl/dom.idl'>dom.idl</a>:</h3>
+<div class='idl-code'>
+<pre>
+// File: dom.idl
+
+#ifndef _DOM_IDL_
+#define _DOM_IDL_
+
+#pragma prefix "w3c.org"
+module dom
+{
+
+  valuetype <a class='noxref' href='core.html#DOMString'>DOMString</a> sequence&lt;unsigned short&gt;;
+
+  typedef   unsigned long long <a class='noxref' href='core.html#DOMTimeStamp'>DOMTimeStamp</a>;
+
+  typedef   any <a class='noxref' href='core.html#DOMUserData'>DOMUserData</a>;
+
+  typedef   Object <a class='noxref' href='core.html#DOMObject'>DOMObject</a>;
+
+  interface DOMImplementation;
+  interface DocumentType;
+  interface Document;
+  interface NodeList;
+  interface NamedNodeMap;
+  interface UserDataHandler;
+  interface Element;
+  interface TypeInfo;
+  interface DOMLocator;
+
+  exception <a class='noxref' href='core.html#ID-17189187'>DOMException</a> {
+    unsigned short   code;
+  };
+  // ExceptionCode
+  const unsigned short      <a class='noxref' href='core.html#DOMException-INDEX_SIZE_ERR'>INDEX_SIZE_ERR</a>                 = 1;
+  const unsigned short      <a class='noxref' href='core.html#DOMException-DOMSTRING_SIZE_ERR'>DOMSTRING_SIZE_ERR</a>             = 2;
+  const unsigned short      <a class='noxref' href='core.html#DOMException-HIERARCHY_REQUEST_ERR'>HIERARCHY_REQUEST_ERR</a>          = 3;
+  const unsigned short      <a class='noxref' href='core.html#DOMException-WRONG_DOCUMENT_ERR'>WRONG_DOCUMENT_ERR</a>             = 4;
+  const unsigned short      <a class='noxref' href='core.html#DOMException-INVALID_CHARACTER_ERR'>INVALID_CHARACTER_ERR</a>          = 5;
+  const unsigned short      <a class='noxref' href='core.html#DOMException-NO_DATA_ALLOWED_ERR'>NO_DATA_ALLOWED_ERR</a>            = 6;
+  const unsigned short      <a class='noxref' href='core.html#DOMException-NO_MODIFICATION_ALLOWED_ERR'>NO_MODIFICATION_ALLOWED_ERR</a>    = 7;
+  const unsigned short      <a class='noxref' href='core.html#DOMException-NOT_FOUND_ERR'>NOT_FOUND_ERR</a>                  = 8;
+  const unsigned short      <a class='noxref' href='core.html#DOMException-NOT_SUPPORTED_ERR'>NOT_SUPPORTED_ERR</a>              = 9;
+  const unsigned short      <a class='noxref' href='core.html#DOMException-INUSE_ATTRIBUTE_ERR'>INUSE_ATTRIBUTE_ERR</a>            = 10;
+  // Introduced in DOM Level 2:
+  const unsigned short      <a class='noxref' href='core.html#DOMException-INVALID_STATE_ERR'>INVALID_STATE_ERR</a>              = 11;
+  // Introduced in DOM Level 2:
+  const unsigned short      <a class='noxref' href='core.html#DOMException-SYNTAX_ERR'>SYNTAX_ERR</a>                     = 12;
+  // Introduced in DOM Level 2:
+  const unsigned short      <a class='noxref' href='core.html#DOMException-INVALID_MODIFICATION_ERR'>INVALID_MODIFICATION_ERR</a>       = 13;
+  // Introduced in DOM Level 2:
+  const unsigned short      <a class='noxref' href='core.html#DOMException-NAMESPACE_ERR'>NAMESPACE_ERR</a>                  = 14;
+  // Introduced in DOM Level 2:
+  const unsigned short      <a class='noxref' href='core.html#DOMException-INVALID_ACCESS_ERR'>INVALID_ACCESS_ERR</a>             = 15;
+  // Introduced in DOM Level 3:
+  const unsigned short      <a class='noxref' href='core.html#DOMException-VALIDATION_ERR'>VALIDATION_ERR</a>                 = 16;
+  // Introduced in DOM Level 3:
+  const unsigned short      <a class='noxref' href='core.html#DOMException-TYPE_MISMATCH_ERR'>TYPE_MISMATCH_ERR</a>              = 17;
+
+
+  // Introduced in DOM Level 3:
+  interface <a class='noxref' href='core.html#DOMStringList'>DOMStringList</a> {
+    <a class='noxref' href='core.html#DOMString'>DOMString</a>          <a class='noxref' href='core.html#DOMStringList-item'>item</a>(in unsigned long index);
+    readonly attribute unsigned long   <a class='noxref' href='core.html#DOMStringList-length'>length</a>;
+    boolean            <a class='noxref' href='core.html#DOMStringList-contains'>contains</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> str);
+  };
+
+  // Introduced in DOM Level 3:
+  interface <a class='noxref' href='core.html#NameList'>NameList</a> {
+    <a class='noxref' href='core.html#DOMString'>DOMString</a>          <a class='noxref' href='core.html#NameList-getName'>getName</a>(in unsigned long index);
+    <a class='noxref' href='core.html#DOMString'>DOMString</a>          <a class='noxref' href='core.html#NameList-getNamespaceURI'>getNamespaceURI</a>(in unsigned long index);
+    readonly attribute unsigned long   <a class='noxref' href='core.html#NameList-length'>length</a>;
+    boolean            <a class='noxref' href='core.html#NameList-contains'>contains</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> str);
+    boolean            <a class='noxref' href='core.html#NameList-containsNS'>containsNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                  in <a class='noxref' href='core.html#DOMString'>DOMString</a> name);
+  };
+
+  // Introduced in DOM Level 3:
+  interface <a class='noxref' href='core.html#DOMImplementationList'>DOMImplementationList</a> {
+    <a class='noxref' href='core.html#ID-102161490'>DOMImplementation</a>  <a class='noxref' href='core.html#DOMImplementationList-item'>item</a>(in unsigned long index);
+    readonly attribute unsigned long   <a class='noxref' href='core.html#DOMImplementationList-length'>length</a>;
+  };
+
+  // Introduced in DOM Level 3:
+  interface <a class='noxref' href='core.html#DOMImplementationSource'>DOMImplementationSource</a> {
+    <a class='noxref' href='core.html#ID-102161490'>DOMImplementation</a>  <a class='noxref' href='core.html#ID-getDOMImpl'>getDOMImplementation</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> features);
+    <a class='noxref' href='core.html#DOMImplementationList'>DOMImplementationList</a> <a class='noxref' href='core.html#ID-getDOMImpls'>getDOMImplementationList</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> features);
+  };
+
+  interface <a class='noxref' href='core.html#ID-102161490'>DOMImplementation</a> {
+    boolean            <a class='noxref' href='core.html#ID-5CED94D7'>hasFeature</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> feature, 
+                                  in <a class='noxref' href='core.html#DOMString'>DOMString</a> version);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-412266927'>DocumentType</a>       <a class='noxref' href='core.html#Level-2-Core-DOM-createDocType'>createDocumentType</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> qualifiedName, 
+                                          in <a class='noxref' href='core.html#DOMString'>DOMString</a> publicId, 
+                                          in <a class='noxref' href='core.html#DOMString'>DOMString</a> systemId)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#i-Document'>Document</a>           <a class='noxref' href='core.html#Level-2-Core-DOM-createDocument'>createDocument</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                      in <a class='noxref' href='core.html#DOMString'>DOMString</a> qualifiedName, 
+                                      in <a class='noxref' href='core.html#ID-412266927'>DocumentType</a> doctype)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 3:
+    <a class='noxref' href='core.html#DOMObject'>DOMObject</a>          <a class='noxref' href='core.html#DOMImplementation3-getFeature'>getFeature</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> feature, 
+                                  in <a class='noxref' href='core.html#DOMString'>DOMString</a> version);
+  };
+
+  interface <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+
+    // NodeType
+    const unsigned short      <a class='noxref' href='core.html#Node-ELEMENT_NODE'>ELEMENT_NODE</a>                   = 1;
+    const unsigned short      <a class='noxref' href='core.html#Node-ATTRIBUTE_NODE'>ATTRIBUTE_NODE</a>                 = 2;
+    const unsigned short      <a class='noxref' href='core.html#Node-TEXT_NODE'>TEXT_NODE</a>                      = 3;
+    const unsigned short      <a class='noxref' href='core.html#Node-CDATA_SECTION_NODE'>CDATA_SECTION_NODE</a>             = 4;
+    const unsigned short      <a class='noxref' href='core.html#Node-ENTITY_REFERENCE_NODE'>ENTITY_REFERENCE_NODE</a>          = 5;
+    const unsigned short      <a class='noxref' href='core.html#Node-ENTITY_NODE'>ENTITY_NODE</a>                    = 6;
+    const unsigned short      <a class='noxref' href='core.html#Node-PROCESSING_INSTRUCTION_NODE'>PROCESSING_INSTRUCTION_NODE</a>    = 7;
+    const unsigned short      <a class='noxref' href='core.html#Node-COMMENT_NODE'>COMMENT_NODE</a>                   = 8;
+    const unsigned short      <a class='noxref' href='core.html#Node-DOCUMENT_NODE'>DOCUMENT_NODE</a>                  = 9;
+    const unsigned short      <a class='noxref' href='core.html#Node-DOCUMENT_TYPE_NODE'>DOCUMENT_TYPE_NODE</a>             = 10;
+    const unsigned short      <a class='noxref' href='core.html#Node-DOCUMENT_FRAGMENT_NODE'>DOCUMENT_FRAGMENT_NODE</a>         = 11;
+    const unsigned short      <a class='noxref' href='core.html#Node-NOTATION_NODE'>NOTATION_NODE</a>                  = 12;
+
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-F68D095'>nodeName</a>;
+             attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-F68D080'>nodeValue</a>;
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on setting
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on retrieval
+
+    readonly attribute unsigned short  <a class='noxref' href='core.html#ID-111237558'>nodeType</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-1950641247'>Node</a>            <a class='noxref' href='core.html#ID-1060184317'>parentNode</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-536297177'>NodeList</a>        <a class='noxref' href='core.html#ID-1451460987'>childNodes</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-1950641247'>Node</a>            <a class='noxref' href='core.html#ID-169727388'>firstChild</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-1950641247'>Node</a>            <a class='noxref' href='core.html#ID-61AD09FB'>lastChild</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-1950641247'>Node</a>            <a class='noxref' href='core.html#ID-640FB3C8'>previousSibling</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-1950641247'>Node</a>            <a class='noxref' href='core.html#ID-6AC54C2F'>nextSibling</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-1780488922'>NamedNodeMap</a>    <a class='noxref' href='core.html#ID-84CF096'>attributes</a>;
+    // Modified in DOM Level 2:
+    readonly attribute <a class='noxref' href='core.html#i-Document'>Document</a>        <a class='noxref' href='core.html#node-ownerDoc'>ownerDocument</a>;
+    // Modified in DOM Level 3:
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-952280727'>insertBefore</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> newChild, 
+                                    in <a class='noxref' href='core.html#ID-1950641247'>Node</a> refChild)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Modified in DOM Level 3:
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-785887307'>replaceChild</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> newChild, 
+                                    in <a class='noxref' href='core.html#ID-1950641247'>Node</a> oldChild)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Modified in DOM Level 3:
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-1734834066'>removeChild</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> oldChild)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Modified in DOM Level 3:
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-184E7107'>appendChild</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> newChild)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    boolean            <a class='noxref' href='core.html#ID-810594187'>hasChildNodes</a>();
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-3A0ED0A4'>cloneNode</a>(in boolean deep);
+    // Modified in DOM Level 3:
+    void               <a class='noxref' href='core.html#ID-normalize'>normalize</a>();
+    // Introduced in DOM Level 2:
+    boolean            <a class='noxref' href='core.html#Level-2-Core-Node-supports'>isSupported</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> feature, 
+                                   in <a class='noxref' href='core.html#DOMString'>DOMString</a> version);
+    // Introduced in DOM Level 2:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-NodeNSname'>namespaceURI</a>;
+    // Introduced in DOM Level 2:
+             attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-NodeNSPrefix'>prefix</a>;
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on setting
+
+    // Introduced in DOM Level 2:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-NodeNSLocalN'>localName</a>;
+    // Introduced in DOM Level 2:
+    boolean            <a class='noxref' href='core.html#ID-NodeHasAttrs'>hasAttributes</a>();
+    // Introduced in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#Node3-baseURI'>baseURI</a>;
+
+    // DocumentPosition
+    const unsigned short      <a class='noxref' href='core.html#Node-DOCUMENT_POSITION_DISCONNECTED'>DOCUMENT_POSITION_DISCONNECTED</a> = 0x01;
+    const unsigned short      <a class='noxref' href='core.html#Node-DOCUMENT_POSITION_PRECEDING'>DOCUMENT_POSITION_PRECEDING</a>    = 0x02;
+    const unsigned short      <a class='noxref' href='core.html#Node-DOCUMENT_POSITION_FOLLOWING'>DOCUMENT_POSITION_FOLLOWING</a>    = 0x04;
+    const unsigned short      <a class='noxref' href='core.html#Node-DOCUMENT_POSITION_CONTAINS'>DOCUMENT_POSITION_CONTAINS</a>     = 0x08;
+    const unsigned short      <a class='noxref' href='core.html#Node-DOCUMENT_POSITION_CONTAINED_BY'>DOCUMENT_POSITION_CONTAINED_BY</a> = 0x10;
+    const unsigned short      <a class='noxref' href='core.html#Node-DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC'>DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</a> = 0x20;
+
+    // Introduced in DOM Level 3:
+    unsigned short     <a class='noxref' href='core.html#Node3-compareDocumentPosition'>compareDocumentPosition</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> other)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 3:
+             attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#Node3-textContent'>textContent</a>;
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on setting
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on retrieval
+
+    // Introduced in DOM Level 3:
+    boolean            <a class='noxref' href='core.html#Node3-isSameNode'>isSameNode</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> other);
+    // Introduced in DOM Level 3:
+    <a class='noxref' href='core.html#DOMString'>DOMString</a>          <a class='noxref' href='core.html#Node3-lookupNamespacePrefix'>lookupPrefix</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI);
+    // Introduced in DOM Level 3:
+    boolean            <a class='noxref' href='core.html#Node3-isDefaultNamespace'>isDefaultNamespace</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI);
+    // Introduced in DOM Level 3:
+    <a class='noxref' href='core.html#DOMString'>DOMString</a>          <a class='noxref' href='core.html#Node3-lookupNamespaceURI'>lookupNamespaceURI</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> prefix);
+    // Introduced in DOM Level 3:
+    boolean            <a class='noxref' href='core.html#Node3-isEqualNode'>isEqualNode</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> arg);
+    // Introduced in DOM Level 3:
+    <a class='noxref' href='core.html#DOMObject'>DOMObject</a>          <a class='noxref' href='core.html#Node3-getFeature'>getFeature</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> feature, 
+                                  in <a class='noxref' href='core.html#DOMString'>DOMString</a> version);
+    // Introduced in DOM Level 3:
+    <a class='noxref' href='core.html#DOMUserData'>DOMUserData</a>        <a class='noxref' href='core.html#Node3-setUserData'>setUserData</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> key, 
+                                   in <a class='noxref' href='core.html#DOMUserData'>DOMUserData</a> data, 
+                                   in <a class='noxref' href='core.html#UserDataHandler'>UserDataHandler</a> handler);
+    // Introduced in DOM Level 3:
+    <a class='noxref' href='core.html#DOMUserData'>DOMUserData</a>        <a class='noxref' href='core.html#Node3-getUserData'>getUserData</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> key);
+  };
+
+  interface <a class='noxref' href='core.html#ID-536297177'>NodeList</a> {
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-844377136'>item</a>(in unsigned long index);
+    readonly attribute unsigned long   <a class='noxref' href='core.html#ID-203510337'>length</a>;
+  };
+
+  interface <a class='noxref' href='core.html#ID-1780488922'>NamedNodeMap</a> {
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-1074577549'>getNamedItem</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name);
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-1025163788'>setNamedItem</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> arg)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-D58B193'>removeNamedItem</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-349467F9'>item</a>(in unsigned long index);
+    readonly attribute unsigned long   <a class='noxref' href='core.html#ID-6D0FB19E'>length</a>;
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-getNamedItemNS'>getNamedItemNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                      in <a class='noxref' href='core.html#DOMString'>DOMString</a> localName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-setNamedItemNS'>setNamedItemNS</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> arg)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#ID-removeNamedItemNS'>removeNamedItemNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                         in <a class='noxref' href='core.html#DOMString'>DOMString</a> localName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+  };
+
+  interface <a class='noxref' href='core.html#ID-FF21A306'>CharacterData</a> : <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+             attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-72AB8359'>data</a>;
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on setting
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on retrieval
+
+    readonly attribute unsigned long   <a class='noxref' href='core.html#ID-7D61178C'>length</a>;
+    <a class='noxref' href='core.html#DOMString'>DOMString</a>          <a class='noxref' href='core.html#ID-6531BCCF'>substringData</a>(in unsigned long offset, 
+                                     in unsigned long count)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    void               <a class='noxref' href='core.html#ID-32791A2F'>appendData</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> arg)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    void               <a class='noxref' href='core.html#ID-3EDB695F'>insertData</a>(in unsigned long offset, 
+                                  in <a class='noxref' href='core.html#DOMString'>DOMString</a> arg)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    void               <a class='noxref' href='core.html#ID-7C603781'>deleteData</a>(in unsigned long offset, 
+                                  in unsigned long count)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    void               <a class='noxref' href='core.html#ID-E5CBA7FB'>replaceData</a>(in unsigned long offset, 
+                                   in unsigned long count, 
+                                   in <a class='noxref' href='core.html#DOMString'>DOMString</a> arg)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+  };
+
+  interface <a class='noxref' href='core.html#ID-637646024'>Attr</a> : <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-1112119403'>name</a>;
+    readonly attribute boolean         <a class='noxref' href='core.html#ID-862529273'>specified</a>;
+             attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-221662474'>value</a>;
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on setting
+
+    // Introduced in DOM Level 2:
+    readonly attribute <a class='noxref' href='core.html#ID-745549614'>Element</a>         <a class='noxref' href='core.html#Attr-ownerElement'>ownerElement</a>;
+    // Introduced in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#TypeInfo'>TypeInfo</a>        <a class='noxref' href='core.html#Attr-schemaTypeInfo'>schemaTypeInfo</a>;
+    // Introduced in DOM Level 3:
+    readonly attribute boolean         <a class='noxref' href='core.html#Attr-isId'>isId</a>;
+  };
+
+  interface <a class='noxref' href='core.html#ID-745549614'>Element</a> : <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-104682815'>tagName</a>;
+    <a class='noxref' href='core.html#DOMString'>DOMString</a>          <a class='noxref' href='core.html#ID-666EE0F9'>getAttribute</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name);
+    void               <a class='noxref' href='core.html#ID-F68F082'>setAttribute</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name, 
+                                    in <a class='noxref' href='core.html#DOMString'>DOMString</a> value)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    void               <a class='noxref' href='core.html#ID-6D6AC0F9'>removeAttribute</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#ID-637646024'>Attr</a>               <a class='noxref' href='core.html#ID-217A91B8'>getAttributeNode</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name);
+    <a class='noxref' href='core.html#ID-637646024'>Attr</a>               <a class='noxref' href='core.html#ID-887236154'>setAttributeNode</a>(in <a class='noxref' href='core.html#ID-637646024'>Attr</a> newAttr)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#ID-637646024'>Attr</a>               <a class='noxref' href='core.html#ID-D589198'>removeAttributeNode</a>(in <a class='noxref' href='core.html#ID-637646024'>Attr</a> oldAttr)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#ID-536297177'>NodeList</a>           <a class='noxref' href='core.html#ID-1938918D'>getElementsByTagName</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#DOMString'>DOMString</a>          <a class='noxref' href='core.html#ID-ElGetAttrNS'>getAttributeNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                      in <a class='noxref' href='core.html#DOMString'>DOMString</a> localName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    void               <a class='noxref' href='core.html#ID-ElSetAttrNS'>setAttributeNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                      in <a class='noxref' href='core.html#DOMString'>DOMString</a> qualifiedName, 
+                                      in <a class='noxref' href='core.html#DOMString'>DOMString</a> value)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    void               <a class='noxref' href='core.html#ID-ElRemAtNS'>removeAttributeNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                         in <a class='noxref' href='core.html#DOMString'>DOMString</a> localName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-637646024'>Attr</a>               <a class='noxref' href='core.html#ID-ElGetAtNodeNS'>getAttributeNodeNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                          in <a class='noxref' href='core.html#DOMString'>DOMString</a> localName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-637646024'>Attr</a>               <a class='noxref' href='core.html#ID-ElSetAtNodeNS'>setAttributeNodeNS</a>(in <a class='noxref' href='core.html#ID-637646024'>Attr</a> newAttr)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-536297177'>NodeList</a>           <a class='noxref' href='core.html#ID-A6C90942'>getElementsByTagNameNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                              in <a class='noxref' href='core.html#DOMString'>DOMString</a> localName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    boolean            <a class='noxref' href='core.html#ID-ElHasAttr'>hasAttribute</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name);
+    // Introduced in DOM Level 2:
+    boolean            <a class='noxref' href='core.html#ID-ElHasAttrNS'>hasAttributeNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                      in <a class='noxref' href='core.html#DOMString'>DOMString</a> localName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#TypeInfo'>TypeInfo</a>        <a class='noxref' href='core.html#Element-schemaTypeInfo'>schemaTypeInfo</a>;
+    // Introduced in DOM Level 3:
+    void               <a class='noxref' href='core.html#ID-ElSetIdAttr'>setIdAttribute</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name, 
+                                      in boolean isId)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 3:
+    void               <a class='noxref' href='core.html#ID-ElSetIdAttrNS'>setIdAttributeNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                        in <a class='noxref' href='core.html#DOMString'>DOMString</a> localName, 
+                                        in boolean isId)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 3:
+    void               <a class='noxref' href='core.html#ID-ElSetIdAttrNode'>setIdAttributeNode</a>(in <a class='noxref' href='core.html#ID-637646024'>Attr</a> idAttr, 
+                                          in boolean isId)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+  };
+
+  interface <a class='noxref' href='core.html#ID-1312295772'>Text</a> : <a class='noxref' href='core.html#ID-FF21A306'>CharacterData</a> {
+    <a class='noxref' href='core.html#ID-1312295772'>Text</a>               <a class='noxref' href='core.html#ID-38853C1D'>splitText</a>(in unsigned long offset)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 3:
+    readonly attribute boolean         <a class='noxref' href='core.html#Text3-isElementContentWhitespace'>isElementContentWhitespace</a>;
+    // Introduced in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#Text3-wholeText'>wholeText</a>;
+    // Introduced in DOM Level 3:
+    <a class='noxref' href='core.html#ID-1312295772'>Text</a>               <a class='noxref' href='core.html#Text3-replaceWholeText'>replaceWholeText</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> content)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+  };
+
+  interface <a class='noxref' href='core.html#ID-1728279322'>Comment</a> : <a class='noxref' href='core.html#ID-FF21A306'>CharacterData</a> {
+  };
+
+  // Introduced in DOM Level 3:
+  interface <a class='noxref' href='core.html#TypeInfo'>TypeInfo</a> {
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#TypeInfo-typeName'>typeName</a>;
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#TypeInfo-typeNamespace'>typeNamespace</a>;
+
+    // DerivationMethods
+    const unsigned long       <a class='noxref' href='core.html#TypeInfo-DERIVATION_RESTRICTION'>DERIVATION_RESTRICTION</a>         = 0x00000001;
+    const unsigned long       <a class='noxref' href='core.html#TypeInfo-DERIVATION_EXTENSION'>DERIVATION_EXTENSION</a>           = 0x00000002;
+    const unsigned long       <a class='noxref' href='core.html#TypeInfo-DERIVATION_UNION'>DERIVATION_UNION</a>               = 0x00000004;
+    const unsigned long       <a class='noxref' href='core.html#TypeInfo-DERIVATION_LIST'>DERIVATION_LIST</a>                = 0x00000008;
+
+    boolean            <a class='noxref' href='core.html#TypeInfo-isDerivedFrom'>isDerivedFrom</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> typeNamespaceArg, 
+                                     in <a class='noxref' href='core.html#DOMString'>DOMString</a> typeNameArg, 
+                                     in unsigned long derivationMethod);
+  };
+
+  // Introduced in DOM Level 3:
+  interface <a class='noxref' href='core.html#UserDataHandler'>UserDataHandler</a> {
+
+    // OperationType
+    const unsigned short      <a class='noxref' href='core.html#UserDataHandler-CLONED'>NODE_CLONED</a>                    = 1;
+    const unsigned short      <a class='noxref' href='core.html#UserDataHandler-IMPORTED'>NODE_IMPORTED</a>                  = 2;
+    const unsigned short      <a class='noxref' href='core.html#UserDataHandler-DELETED'>NODE_DELETED</a>                   = 3;
+    const unsigned short      <a class='noxref' href='core.html#UserDataHandler-RENAMED'>NODE_RENAMED</a>                   = 4;
+    const unsigned short      <a class='noxref' href='core.html#UserDataHandler-ADOPTED'>NODE_ADOPTED</a>                   = 5;
+
+    void               <a class='noxref' href='core.html#ID-handleUserDataEvent'>handle</a>(in unsigned short operation, 
+                              in <a class='noxref' href='core.html#DOMString'>DOMString</a> key, 
+                              in <a class='noxref' href='core.html#DOMUserData'>DOMUserData</a> data, 
+                              in <a class='noxref' href='core.html#ID-1950641247'>Node</a> src, 
+                              in <a class='noxref' href='core.html#ID-1950641247'>Node</a> dst);
+  };
+
+  // Introduced in DOM Level 3:
+  interface <a class='noxref' href='core.html#ERROR-Interfaces-DOMError'>DOMError</a> {
+
+    // ErrorSeverity
+    const unsigned short      <a class='noxref' href='core.html#ERROR-DOMError-severity-warning'>SEVERITY_WARNING</a>               = 1;
+    const unsigned short      <a class='noxref' href='core.html#ERROR-DOMError-severity-error'>SEVERITY_ERROR</a>                 = 2;
+    const unsigned short      <a class='noxref' href='core.html#ERROR-DOMError-severity-fatal-error'>SEVERITY_FATAL_ERROR</a>           = 3;
+
+    readonly attribute unsigned short  <a class='noxref' href='core.html#ERROR-DOMError-severity'>severity</a>;
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ERROR-DOMError-message'>message</a>;
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ERROR-DOMError-type'>type</a>;
+    readonly attribute <a class='noxref' href='core.html#DOMObject'>DOMObject</a>       <a class='noxref' href='core.html#ERROR-DOMError-relatedException'>relatedException</a>;
+    readonly attribute <a class='noxref' href='core.html#DOMObject'>DOMObject</a>       <a class='noxref' href='core.html#ERROR-DOMError-relatedData'>relatedData</a>;
+    readonly attribute <a class='noxref' href='core.html#Interfaces-DOMLocator'>DOMLocator</a>      <a class='noxref' href='core.html#ERROR-DOMError-location'>location</a>;
+  };
+
+  // Introduced in DOM Level 3:
+  interface <a class='noxref' href='core.html#ERROR-Interfaces-DOMErrorHandler'>DOMErrorHandler</a> {
+    boolean            <a class='noxref' href='core.html#ID-ERRORS-DOMErrorHandler-handleError'>handleError</a>(in <a class='noxref' href='core.html#ERROR-Interfaces-DOMError'>DOMError</a> error);
+  };
+
+  // Introduced in DOM Level 3:
+  interface <a class='noxref' href='core.html#Interfaces-DOMLocator'>DOMLocator</a> {
+    readonly attribute long            <a class='noxref' href='core.html#DOMLocator-line-number'>lineNumber</a>;
+    readonly attribute long            <a class='noxref' href='core.html#DOMLocator-column-number'>columnNumber</a>;
+    readonly attribute long            <a class='noxref' href='core.html#DOMLocator-byteOffset'>byteOffset</a>;
+    readonly attribute long            <a class='noxref' href='core.html#DOMLocator-utf16Offset'>utf16Offset</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-1950641247'>Node</a>            <a class='noxref' href='core.html#DOMLocator-node'>relatedNode</a>;
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#DOMLocator-uri'>uri</a>;
+  };
+
+  // Introduced in DOM Level 3:
+  interface <a class='noxref' href='core.html#DOMConfiguration'>DOMConfiguration</a> {
+    void               <a class='noxref' href='core.html#DOMConfiguration-property'>setParameter</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name, 
+                                    in <a class='noxref' href='core.html#DOMUserData'>DOMUserData</a> value)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#DOMUserData'>DOMUserData</a>        <a class='noxref' href='core.html#DOMConfiguration-getParameter'>getParameter</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    boolean            <a class='noxref' href='core.html#DOMConfiguration-canSetParameter'>canSetParameter</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name, 
+                                       in <a class='noxref' href='core.html#DOMUserData'>DOMUserData</a> value);
+    readonly attribute <a class='noxref' href='core.html#DOMStringList'>DOMStringList</a>   <a class='noxref' href='core.html#DOMConfiguration-parameterNames'>parameterNames</a>;
+  };
+
+  interface <a class='noxref' href='core.html#ID-667469212'>CDATASection</a> : <a class='noxref' href='core.html#ID-1312295772'>Text</a> {
+  };
+
+  interface <a class='noxref' href='core.html#ID-412266927'>DocumentType</a> : <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-1844763134'>name</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-1780488922'>NamedNodeMap</a>    <a class='noxref' href='core.html#ID-1788794630'>entities</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-1780488922'>NamedNodeMap</a>    <a class='noxref' href='core.html#ID-D46829EF'>notations</a>;
+    // Introduced in DOM Level 2:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-Core-DocType-publicId'>publicId</a>;
+    // Introduced in DOM Level 2:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-Core-DocType-systemId'>systemId</a>;
+    // Introduced in DOM Level 2:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-Core-DocType-internalSubset'>internalSubset</a>;
+  };
+
+  interface <a class='noxref' href='core.html#ID-5431D1B9'>Notation</a> : <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-54F2B4D0'>publicId</a>;
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-E8AAB1D0'>systemId</a>;
+  };
+
+  interface <a class='noxref' href='core.html#ID-527DCFF2'>Entity</a> : <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-D7303025'>publicId</a>;
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-D7C29F3E'>systemId</a>;
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-6ABAEB38'>notationName</a>;
+    // Introduced in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#Entity3-inputEncoding'>inputEncoding</a>;
+    // Introduced in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#Entity3-encoding'>xmlEncoding</a>;
+    // Introduced in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#Entity3-version'>xmlVersion</a>;
+  };
+
+  interface <a class='noxref' href='core.html#ID-11C98490'>EntityReference</a> : <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+  };
+
+  interface <a class='noxref' href='core.html#ID-1004215813'>ProcessingInstruction</a> : <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-1478689192'>target</a>;
+             attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#ID-837822393'>data</a>;
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on setting
+
+  };
+
+  interface <a class='noxref' href='core.html#ID-B63ED1A3'>DocumentFragment</a> : <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+  };
+
+  interface <a class='noxref' href='core.html#i-Document'>Document</a> : <a class='noxref' href='core.html#ID-1950641247'>Node</a> {
+    // Modified in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#ID-412266927'>DocumentType</a>    <a class='noxref' href='core.html#ID-B63ED1A31'>doctype</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-102161490'>DOMImplementation</a> <a class='noxref' href='core.html#ID-1B793EBA'>implementation</a>;
+    readonly attribute <a class='noxref' href='core.html#ID-745549614'>Element</a>         <a class='noxref' href='core.html#ID-87CD092'>documentElement</a>;
+    <a class='noxref' href='core.html#ID-745549614'>Element</a>            <a class='noxref' href='core.html#ID-2141741547'>createElement</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> tagName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#ID-B63ED1A3'>DocumentFragment</a>   <a class='noxref' href='core.html#ID-35CB04B5'>createDocumentFragment</a>();
+    <a class='noxref' href='core.html#ID-1312295772'>Text</a>               <a class='noxref' href='core.html#ID-1975348127'>createTextNode</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> data);
+    <a class='noxref' href='core.html#ID-1728279322'>Comment</a>            <a class='noxref' href='core.html#ID-1334481328'>createComment</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> data);
+    <a class='noxref' href='core.html#ID-667469212'>CDATASection</a>       <a class='noxref' href='core.html#ID-D26C0AF8'>createCDATASection</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> data)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#ID-1004215813'>ProcessingInstruction</a> <a class='noxref' href='core.html#ID-135944439'>createProcessingInstruction</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> target, 
+                                                      in <a class='noxref' href='core.html#DOMString'>DOMString</a> data)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#ID-637646024'>Attr</a>               <a class='noxref' href='core.html#ID-1084891198'>createAttribute</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#ID-11C98490'>EntityReference</a>    <a class='noxref' href='core.html#ID-392B75AE'>createEntityReference</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> name)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    <a class='noxref' href='core.html#ID-536297177'>NodeList</a>           <a class='noxref' href='core.html#ID-A6C9094'>getElementsByTagName</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> tagname);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#Core-Document-importNode'>importNode</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> importedNode, 
+                                  in boolean deep)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-745549614'>Element</a>            <a class='noxref' href='core.html#ID-DocCrElNS'>createElementNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                       in <a class='noxref' href='core.html#DOMString'>DOMString</a> qualifiedName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-637646024'>Attr</a>               <a class='noxref' href='core.html#ID-DocCrAttrNS'>createAttributeNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                         in <a class='noxref' href='core.html#DOMString'>DOMString</a> qualifiedName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-536297177'>NodeList</a>           <a class='noxref' href='core.html#ID-getElBTNNS'>getElementsByTagNameNS</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                              in <a class='noxref' href='core.html#DOMString'>DOMString</a> localName);
+    // Introduced in DOM Level 2:
+    <a class='noxref' href='core.html#ID-745549614'>Element</a>            <a class='noxref' href='core.html#ID-getElBId'>getElementById</a>(in <a class='noxref' href='core.html#DOMString'>DOMString</a> elementId);
+    // Introduced in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#Document3-inputEncoding'>inputEncoding</a>;
+    // Introduced in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#Document3-encoding'>xmlEncoding</a>;
+    // Introduced in DOM Level 3:
+             attribute boolean         <a class='noxref' href='core.html#Document3-standalone'>xmlStandalone</a>;
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on setting
+
+    // Introduced in DOM Level 3:
+             attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#Document3-version'>xmlVersion</a>;
+                                        // raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>) on setting
+
+    // Introduced in DOM Level 3:
+             attribute boolean         <a class='noxref' href='core.html#Document3-strictErrorChecking'>strictErrorChecking</a>;
+    // Introduced in DOM Level 3:
+             attribute <a class='noxref' href='core.html#DOMString'>DOMString</a>       <a class='noxref' href='core.html#Document3-documentURI'>documentURI</a>;
+    // Introduced in DOM Level 3:
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#Document3-adoptNode'>adoptNode</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> source)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+    // Introduced in DOM Level 3:
+    readonly attribute <a class='noxref' href='core.html#DOMConfiguration'>DOMConfiguration</a> <a class='noxref' href='core.html#Document3-domConfig'>domConfig</a>;
+    // Introduced in DOM Level 3:
+    void               <a class='noxref' href='core.html#Document3-normalizeDocument'>normalizeDocument</a>();
+    // Introduced in DOM Level 3:
+    <a class='noxref' href='core.html#ID-1950641247'>Node</a>               <a class='noxref' href='core.html#Document3-renameNode'>renameNode</a>(in <a class='noxref' href='core.html#ID-1950641247'>Node</a> n, 
+                                  in <a class='noxref' href='core.html#DOMString'>DOMString</a> namespaceURI, 
+                                  in <a class='noxref' href='core.html#DOMString'>DOMString</a> qualifiedName)
+                                        raises(<a class='noxref' href='core.html#ID-17189187'>DOMException</a>);
+  };
+};
+
+#endif // _DOM_IDL_
+
+</pre>
+</div>
+</div> <!-- div1 idl --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Accessing code point boundaries' href='accessing-code-point-boundaries.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Java Language Binding' href='java-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

@@ -1,5 +1,4 @@
 @echo off
-
 rem
 rem ==========================================================================
 rem = Licensed to the Apache Software Foundation (ASF) under one or more
@@ -18,27 +17,25 @@ rem = See the License for the specific language governing permissions and
 rem = limitations under the License.
 rem ==========================================================================
 rem
-
-echo Xerces-Java Build System
-echo ------------------------
+rem     build.bat: Build xml-commons using Ant 
+rem     Usage: build [ant-options] [targets]
+rem     Setup:
+rem         - you should set JAVA_HOME
+echo xml-commons Build
+echo -----------------
 
 if "%JAVA_HOME%" == "" goto error
 
-rem Keep this classpath to the minimum required to run ant
-rem Application dependent classpaths are specified in build.xml 
 set LOCALCLASSPATH=%JAVA_HOME%\lib\tools.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;%JAVA_HOME%\lib\classes.zip
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant-nodeps.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant-launcher.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant-junit.jar
-set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\xml-apis.jar
-set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\xercesImpl.jar
-set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\bin\xjavac.jar
 
 echo Building with ant classpath %LOCALCLASSPATH%
 echo Starting Ant...
-"%JAVA_HOME%\bin\java.exe" -Dant.home="./tools" -classpath "%LOCALCLASSPATH%" org.apache.tools.ant.Main %1 %2 %3 %4 %5
+"%JAVA_HOME%\bin\java.exe" -Dant.home="./tools" -classpath "%LOCALCLASSPATH%" org.apache.tools.ant.Main %1 %2 %3 %4 %5 %6 %7 %8 %9
 goto end
 
 :error

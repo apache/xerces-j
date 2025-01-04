@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Apr 05 15:05:48 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>ECMAScript Language Binding</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='acknowledgements.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='java-binding.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='Java Language Binding' accesskey='p' href='java-binding.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Acknowledgements' accesskey='n' href='acknowledgements.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='ecma-binding'></a>
+<h1 id='ecma-binding-h1' class='adiv1'>Appendix C: ECMAScript Language Binding</h1>
+<p class='first'>This appendix contains the complete ECMAScript [<cite><a class='noxref normative' href='references.html#ECMAScript'>ECMAScript</a></cite>] binding for the Level 3 Document Object Model Load
+  and Save definitions.</p><div class='ecma-block'>
+
+<dl>
+
+<dt>Properties of the <b>LSException</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>LSException.PARSE_ERR</b></dt>
+<dd>
+The value of the constant <b>LSException.PARSE_ERR</b> is <b>81</b>.</dd>
+<dt><b>LSException.SERIALIZE_ERR</b></dt>
+<dd>
+The value of the constant <b>LSException.SERIALIZE_ERR</b> is <b>82</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>LSException</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>LSException</b> interface:</dt>
+<dd><dl>
+<dt><b>code</b></dt>
+<dd>
+ This property is 
+a <b>Number</b>.</dd></dl></dd>
+</dl>
+</dd>
+<dt>Properties of the <b>DOMImplementationLS</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>DOMImplementationLS.MODE_SYNCHRONOUS</b></dt>
+<dd>
+The value of the constant <b>DOMImplementationLS.MODE_SYNCHRONOUS</b> is <b>1</b>.</dd>
+<dt><b>DOMImplementationLS.MODE_ASYNCHRONOUS</b></dt>
+<dd>
+The value of the constant <b>DOMImplementationLS.MODE_ASYNCHRONOUS</b> is <b>2</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>DOMImplementationLS</b> interface:</dt>
+<dd>
+<dl>
+<dt>Functions of objects that implement the <b>DOMImplementationLS</b> interface:</dt>
+<dd><dl>
+<dt><b>createLSParser(mode, schemaType)</b></dt>
+<dd>This function returns an object that implements the <b>LSParser</b> interface.<br>The <b>mode</b> parameter is a <b>Number</b>.
+<br>The <b>schemaType</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface.</dd>
+<dt><b>createLSSerializer()</b></dt>
+<dd>This function returns an object that implements the <b>LSSerializer</b> interface.</dd>
+<dt><b>createLSInput()</b></dt>
+<dd>This function returns an object that implements the <b>LSInput</b> interface.</dd>
+<dt><b>createLSOutput()</b></dt>
+<dd>This function returns an object that implements the <b>LSOutput</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Properties of the <b>LSParser</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>LSParser.ACTION_APPEND_AS_CHILDREN</b></dt>
+<dd>
+The value of the constant <b>LSParser.ACTION_APPEND_AS_CHILDREN</b> is <b>1</b>.</dd>
+<dt><b>LSParser.ACTION_REPLACE_CHILDREN</b></dt>
+<dd>
+The value of the constant <b>LSParser.ACTION_REPLACE_CHILDREN</b> is <b>2</b>.</dd>
+<dt><b>LSParser.ACTION_INSERT_BEFORE</b></dt>
+<dd>
+The value of the constant <b>LSParser.ACTION_INSERT_BEFORE</b> is <b>3</b>.</dd>
+<dt><b>LSParser.ACTION_INSERT_AFTER</b></dt>
+<dd>
+The value of the constant <b>LSParser.ACTION_INSERT_AFTER</b> is <b>4</b>.</dd>
+<dt><b>LSParser.ACTION_REPLACE</b></dt>
+<dd>
+The value of the constant <b>LSParser.ACTION_REPLACE</b> is <b>5</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>LSParser</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>LSParser</b> interface:</dt>
+<dd><dl>
+<dt><b>domConfig</b></dt>
+<dd>
+This read-only property is an object that implements the <b>DOMConfiguration</b> interface.</dd>
+<dt><b>filter</b></dt>
+<dd>
+This property is an object that implements the <b>LSParserFilter</b> interface.</dd>
+<dt><b>async</b></dt>
+<dd>
+This read-only property is a <b>Boolean</b>.</dd>
+<dt><b>busy</b></dt>
+<dd>
+This read-only property is a <b>Boolean</b>.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>LSParser</b> interface:</dt>
+<dd><dl>
+<dt><b>parse(input)</b></dt>
+<dd>This function returns an object that implements the <b>Document</b> interface.<br>The <b>input</b> parameter is an object that implements the <b>LSInput</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface or the <b>LSException</b> interface.</dd>
+<dt><b>parseURI(uri)</b></dt>
+<dd>This function returns an object that implements the <b>Document</b> interface.<br>The <b>uri</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface or the <b>LSException</b> interface.</dd>
+<dt><b>parseWithContext(input, contextArg, action)</b></dt>
+<dd>This function returns an object that implements the <b>Node</b> interface.<br>The <b>input</b> parameter is an object that implements the <b>LSInput</b> interface.
+<br>The <b>contextArg</b> parameter is an object that implements the <b>Node</b> interface.
+<br>The <b>action</b> parameter is a <b>Number</b>.
+<br>This function can raise an object that implements the <b>DOMException</b> interface or the <b>LSException</b> interface.</dd>
+<dt><b>abort()</b></dt>
+<dd>This function has no return value.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>LSInput</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>LSInput</b> interface:</dt>
+<dd><dl>
+<dt><b>byteStream</b></dt>
+<dd>
+This property is an object that implements the <b>Object</b> interface.</dd>
+<dt><b>stringData</b></dt>
+<dd>
+This property is a <b>String</b>.</dd>
+<dt><b>systemId</b></dt>
+<dd>
+This property is a <b>String</b>.</dd>
+<dt><b>publicId</b></dt>
+<dd>
+This property is a <b>String</b>.</dd>
+<dt><b>baseURI</b></dt>
+<dd>
+This property is a <b>String</b>.</dd>
+<dt><b>encoding</b></dt>
+<dd>
+This property is a <b>String</b>.</dd>
+<dt><b>certifiedText</b></dt>
+<dd>
+This property is a <b>Boolean</b>.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt><b>LSResourceResolver</b> function:</dt>
+<dd>
+<dd>This function returns an object that implements the <b>LSInput</b> interface. The first parameter is a <b>String</b>.
+ The second parameter is a <b>String</b>.
+ The third parameter is a <b>String</b>.
+ The fourth parameter is a <b>String</b>.
+ The fifth parameter is a <b>String</b>.
+</dd>
+<dt>Properties of the <b>LSParserFilter</b> Constructor function:</dt>
+<dd>
+<dl>
+<dt><b>LSParserFilter.FILTER_ACCEPT</b></dt>
+<dd>
+The value of the constant <b>LSParserFilter.FILTER_ACCEPT</b> is <b>1</b>.</dd>
+<dt><b>LSParserFilter.FILTER_REJECT</b></dt>
+<dd>
+The value of the constant <b>LSParserFilter.FILTER_REJECT</b> is <b>2</b>.</dd>
+<dt><b>LSParserFilter.FILTER_SKIP</b></dt>
+<dd>
+The value of the constant <b>LSParserFilter.FILTER_SKIP</b> is <b>3</b>.</dd>
+<dt><b>LSParserFilter.FILTER_INTERRUPT</b></dt>
+<dd>
+The value of the constant <b>LSParserFilter.FILTER_INTERRUPT</b> is <b>4</b>.</dd>
+</dl></dd>
+<dt>Objects that implement the <b>LSParserFilter</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>LSParserFilter</b> interface:</dt>
+<dd><dl>
+<dt><b>whatToShow</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>LSParserFilter</b> interface:</dt>
+<dd><dl>
+<dt><b>startElement(elementArg)</b></dt>
+<dd>This function returns a <b>Number</b>.<br>The <b>elementArg</b> parameter is an object that implements the <b>Element</b> interface.
+</dd>
+<dt><b>acceptNode(nodeArg)</b></dt>
+<dd>This function returns a <b>Number</b>.<br>The <b>nodeArg</b> parameter is an object that implements the <b>Node</b> interface.
+</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>LSProgressEvent</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>LSProgressEvent</b> interface have all properties and functions of the <b>Event</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>LSProgressEvent</b> interface:</dt>
+<dd><dl>
+<dt><b>input</b></dt>
+<dd>
+This read-only property is an object that implements the <b>LSInput</b> interface.</dd>
+<dt><b>position</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+<dt><b>totalSize</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>LSLoadEvent</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>LSLoadEvent</b> interface have all properties and functions of the <b>Event</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>LSLoadEvent</b> interface:</dt>
+<dd><dl>
+<dt><b>newDocument</b></dt>
+<dd>
+This read-only property is an object that implements the <b>Document</b> interface.</dd>
+<dt><b>input</b></dt>
+<dd>
+This read-only property is an object that implements the <b>LSInput</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>LSSerializer</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>LSSerializer</b> interface:</dt>
+<dd><dl>
+<dt><b>domConfig</b></dt>
+<dd>
+This read-only property is an object that implements the <b>DOMConfiguration</b> interface.</dd>
+<dt><b>newLine</b></dt>
+<dd>
+This property is a <b>String</b>.</dd>
+<dt><b>filter</b></dt>
+<dd>
+This property is an object that implements the <b>LSSerializerFilter</b> interface.</dd>
+</dl></dd>
+<dt>Functions of objects that implement the <b>LSSerializer</b> interface:</dt>
+<dd><dl>
+<dt><b>write(nodeArg, destination)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>nodeArg</b> parameter is an object that implements the <b>Node</b> interface.
+<br>The <b>destination</b> parameter is an object that implements the <b>LSOutput</b> interface.
+<br>This function can raise an object that implements the <b>LSException</b> interface.</dd>
+<dt><b>writeToURI(nodeArg, uri)</b></dt>
+<dd>This function returns a <b>Boolean</b>.<br>The <b>nodeArg</b> parameter is an object that implements the <b>Node</b> interface.
+<br>The <b>uri</b> parameter is a <b>String</b>.
+<br>This function can raise an object that implements the <b>LSException</b> interface.</dd>
+<dt><b>writeToString(nodeArg)</b></dt>
+<dd>This function returns a <b>String</b>.<br>The <b>nodeArg</b> parameter is an object that implements the <b>Node</b> interface.
+<br>This function can raise an object that implements the <b>DOMException</b> interface or the <b>LSException</b> interface.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>LSOutput</b> interface:</dt>
+<dd>
+<dl>
+<dt>Properties of objects that implement the <b>LSOutput</b> interface:</dt>
+<dd><dl>
+<dt><b>byteStream</b></dt>
+<dd>
+This property is an object that implements the <b>Object</b> interface.</dd>
+<dt><b>systemId</b></dt>
+<dd>
+This property is a <b>String</b>.</dd>
+<dt><b>encoding</b></dt>
+<dd>
+This property is a <b>String</b>.</dd>
+</dl></dd>
+</dl>
+</dd>
+<dt>Objects that implement the <b>LSSerializerFilter</b> interface:</dt>
+<dd>
+<dl>
+<dt>Objects that implement the <b>LSSerializerFilter</b> interface have all properties and functions of the <b>NodeFilter</b> interface as well as the properties and functions defined below.</dt>
+<dt>Properties of objects that implement the <b>LSSerializerFilter</b> interface:</dt>
+<dd><dl>
+<dt><b>whatToShow</b></dt>
+<dd>
+This read-only property is a <b>Number</b>.</dd>
+</dl></dd>
+</dl>
+</dd>
+
+</dl>
+
+</div> <!-- ecma-block -->
+</div> <!-- div1 ecma-binding --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='Java Language Binding' href='java-binding.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='Acknowledgements' href='acknowledgements.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

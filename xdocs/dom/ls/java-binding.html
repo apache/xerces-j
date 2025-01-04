@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+ Generated: Mon Apr 05 15:05:44 EDT 2004 jfouffa.w3.org
+ -->
+<html lang='en-US'>
+<head>
+  <title>Java Language Binding</title>
+  <link rel='stylesheet' type='text/css' href='./spec.css'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel='stylesheet' type='text/css' href='W3C-REC.css'>
+  <link rel='next' href='ecma-script-binding.html'>
+  <link rel='contents' href='Overview.html#contents'>
+  <link rel='copyright' href='copyright-notice.html'>
+  <link rel='glossary' href='glossary.html'>
+  <link rel='Start' href='Overview.html'>
+  <link rel='index' href='def-index.html'>
+  <link rel='author' href='mailto:www-dom@w3.org'>
+  <link rel='help' href='http://www.w3.org/DOM/'>
+  <link rel='prev' href='idl-definitions.html'>
+</head>
+<body>
+<div class='navbar' style='text-align: center'>
+<map id='navbar-top' name='navbar-top' title='Navigation Bar'><p>
+[<a title='IDL Definitions' accesskey='p' href='idl-definitions.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='ECMAScript Language Binding' accesskey='n' href='ecma-script-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' accesskey='c' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+accesskey='i' href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+<hr title='Navigation area separator'>
+</map></div>
+<div class='noprint' style='text-align: right'>
+<p style='font-family: monospace;font-size:small'>07 April 2004</p>
+</div>
+
+<div class='div1'><a name='java-binding'></a>
+<h1 id='java-binding-h1' class='adiv1'>Appendix B: Java Language Binding</h1>
+<p class='first'>This appendix contains the complete Java [<cite><a class='noxref normative' href='references.html#Java'>Java</a></cite>] bindings for
+  the Level 3 Document Object Model Load and Save.</p><p>The Java files are also available as <a class='normative' href='java-binding.zip'>http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/java-binding.zip</a></p><h3 id='org.w3c.dom.ls.LSException'>org/w3c/dom/ls/LSException.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+public class LSException extends RuntimeException {
+    public LSException(short code, String message) {
+       super(message);
+       this.code = code;
+    }
+    public short   code;
+    // LSExceptionCode
+    public static final short PARSE_ERR                 = 81;
+    public static final short SERIALIZE_ERR             = 82;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ls.DOMImplementationLS'>org/w3c/dom/ls/DOMImplementationLS.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+import org.w3c.dom.DOMException;
+
+public interface DOMImplementationLS {
+    // DOMImplementationLSMode
+    public static final short MODE_SYNCHRONOUS          = 1;
+    public static final short MODE_ASYNCHRONOUS         = 2;
+
+    public LSParser createLSParser(short mode, 
+                                   String schemaType)
+                                   throws DOMException;
+
+    public LSSerializer createLSSerializer();
+
+    public LSInput createLSInput();
+
+    public LSOutput createLSOutput();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ls.LSParser'>org/w3c/dom/ls/LSParser.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.DOMConfiguration;
+import org.w3c.dom.Node;
+import org.w3c.dom.DOMException;
+
+public interface LSParser {
+    public DOMConfiguration getDomConfig();
+
+    public LSParserFilter getFilter();
+    public void setFilter(LSParserFilter filter);
+
+    public boolean getAsync();
+
+    public boolean getBusy();
+
+    public Document parse(LSInput input)
+                          throws DOMException, LSException;
+
+    public Document parseURI(String uri)
+                             throws DOMException, LSException;
+
+    // ACTION_TYPES
+    public static final short ACTION_APPEND_AS_CHILDREN = 1;
+    public static final short ACTION_REPLACE_CHILDREN   = 2;
+    public static final short ACTION_INSERT_BEFORE      = 3;
+    public static final short ACTION_INSERT_AFTER       = 4;
+    public static final short ACTION_REPLACE            = 5;
+
+    public Node parseWithContext(LSInput input, 
+                                 Node contextArg, 
+                                 short action)
+                                 throws DOMException, LSException;
+
+    public void abort();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ls.LSInput'>org/w3c/dom/ls/LSInput.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+public interface LSInput {
+    public java.io.Reader getCharacterStream();
+    public void setCharacterStream(java.io.Reader characterStream);
+
+    public java.io.InputStream getByteStream();
+    public void setByteStream(java.io.InputStream byteStream);
+
+    public String getStringData();
+    public void setStringData(String stringData);
+
+    public String getSystemId();
+    public void setSystemId(String systemId);
+
+    public String getPublicId();
+    public void setPublicId(String publicId);
+
+    public String getBaseURI();
+    public void setBaseURI(String baseURI);
+
+    public String getEncoding();
+    public void setEncoding(String encoding);
+
+    public boolean getCertifiedText();
+    public void setCertifiedText(boolean certifiedText);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ls.LSResourceResolver'>org/w3c/dom/ls/LSResourceResolver.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+public interface LSResourceResolver {
+    public LSInput resolveResource(String type, 
+                                   String namespaceURI, 
+                                   String publicId, 
+                                   String systemId, 
+                                   String baseURI);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ls.LSParserFilter'>org/w3c/dom/ls/LSParserFilter.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+
+public interface LSParserFilter {
+    // Constants returned by startElement and acceptNode
+    public static final short FILTER_ACCEPT             = 1;
+    public static final short FILTER_REJECT             = 2;
+    public static final short FILTER_SKIP               = 3;
+    public static final short FILTER_INTERRUPT          = 4;
+
+    public short startElement(Element elementArg);
+
+    public short acceptNode(Node nodeArg);
+
+    public int getWhatToShow();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ls.LSProgressEvent'>org/w3c/dom/ls/LSProgressEvent.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+import org.w3c.dom.events.Event;
+
+public interface LSProgressEvent extends Event {
+    public LSInput getInput();
+
+    public int getPosition();
+
+    public int getTotalSize();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ls.LSLoadEvent'>org/w3c/dom/ls/LSLoadEvent.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.events.Event;
+
+public interface LSLoadEvent extends Event {
+    public Document getNewDocument();
+
+    public LSInput getInput();
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ls.LSSerializer'>org/w3c/dom/ls/LSSerializer.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+import org.w3c.dom.DOMConfiguration;
+import org.w3c.dom.Node;
+import org.w3c.dom.DOMException;
+
+public interface LSSerializer {
+    public DOMConfiguration getDomConfig();
+
+    public String getNewLine();
+    public void setNewLine(String newLine);
+
+    public LSSerializerFilter getFilter();
+    public void setFilter(LSSerializerFilter filter);
+
+    public boolean write(Node nodeArg, 
+                         LSOutput destination)
+                         throws LSException;
+
+    public boolean writeToURI(Node nodeArg, 
+                              String uri)
+                              throws LSException;
+
+    public String writeToString(Node nodeArg)
+                                throws DOMException, LSException;
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ls.LSOutput'>org/w3c/dom/ls/LSOutput.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+public interface LSOutput {
+    public java.io.Writer getCharacterStream();
+    public void setCharacterStream(java.io.Writer characterStream);
+
+    public java.io.OutputStream getByteStream();
+    public void setByteStream(java.io.OutputStream byteStream);
+
+    public String getSystemId();
+    public void setSystemId(String systemId);
+
+    public String getEncoding();
+    public void setEncoding(String encoding);
+
+}
+</pre>
+</div>
+<h3 id='org.w3c.dom.ls.LSSerializerFilter'>org/w3c/dom/ls/LSSerializerFilter.java:</h3>
+<div class='java-code'>
+<pre>
+package org.w3c.dom.ls;
+
+import org.w3c.dom.traversal.NodeFilter;
+
+public interface LSSerializerFilter extends NodeFilter {
+    public int getWhatToShow();
+
+}
+</pre>
+</div>
+</div> <!-- div1 java-binding --><div class='navbar' style='text-align: center'>
+<map id='navbar-bottom' name='navbar-bottom' title='Navigation Bar'><hr title='Navigation area separator'><p>
+[<a title='IDL Definitions' href='idl-definitions.html'><strong><u>p</u></strong>revious</a>]
+ &nbsp; [<a title='ECMAScript Language Binding' href='ecma-script-binding.html'><strong><u>n</u></strong>ext</a>] &nbsp; [<a title='Table of Contents' href='Overview.html#contents'><strong><u>c</u></strong>ontents</a>] &nbsp; [<a title='Index' 
+href='def-index.html'><strong><u>i</u></strong>ndex</a>]</p>
+</map></div>
+</body>
+</html>

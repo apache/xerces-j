@@ -1,0 +1,59 @@
+SAX 2.0.2 (sax2r3)
+2004-04-27
+
+This is another bugfix release for SAX2.  It makes minimal changes
+(mostly in features and properties) to make SAX2 compliant with the
+new XML 1.1 and Namespaces 1.1 recommendations, including Unicode
+normalization.  The changes are minor and should not affect most
+applications.
+
+One significant point is that this release flags a conflict (which
+already existed) between the JavaDoc for fatalError() and the JavaDoc
+for endDocument().  It is not currently clear whether a SAX
+implementation must invoke the endDocument() callback after reporting
+a fatal error, and the documentation simply mentions this fact and
+advises application writers not to rely on either behaviour until the
+ambiguity is resolved in the next major release.
+
+See CHANGES and ChangeLog for more details.
+
+
+- David Megginson (temporarily filling in for David Brownell)
+
+
+SAX 2.0.1 (sax2r2)
+29-January-2002
+
+This is a bugfix release for SAX2, the second generation of the Simple
+API for XML.  Changes from the SAX 2.0 release can be summarized as:
+
+    - Numerous documentation improvements and clarifications.
+    - Bundling the optional "SAX2 Extensions 1.0" support.
+    - Bugfixes:
+	* Bugfixed classes include ParserAdapter, AttributesImpl
+	* Factory classes use the correct class loader (JDK 1.2 and later)
+	* Some exceptions were missing default constructors
+	* DefaultHandler was missing an exception spec
+	* Resetting handlers to their default values is legal
+    - Slightly less memory use in NamespaceSupport, AttributesImpl.
+    - Better configurability for the default XMLReader.
+    - NamespaceSupport enforces its declare-before-use constraint
+
+Other than bugfixes, the APIs have not been changed.  This is intended to
+be a drop-in replacement for the previous SAX2 release.  API-conformant
+code will not notice any differences.
+
+If you are using JDK 1.4, you should be able to copy "sax.jar" into
+the $JAVA_HOME/jre/lib/endorsed directory to have it replace the older
+version of SAX2 that is distributed with that JVM.  If you're using
+JRE 1.4, that path won't include the "jre".
+
+For more information, see the current home for SAX on the web:
+
+    http://www.saxproject.org
+
+As a SourceForge project, SAX now has public CVS access, a database
+for bugs and RFEs, mailing lists, and a web site.
+
+- David Brownell
+  dbrownell@users.sourceforge.net

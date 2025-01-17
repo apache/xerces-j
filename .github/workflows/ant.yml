@@ -1,0 +1,67 @@
+name: Java CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    branches: [main]
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths-ignore:
+      - '**.md'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build with Java ${{ matrix.jdk }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: ['8', '11', '17', '21']
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK ${{ matrix.jdk }}
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.jdk }}
+
+    # use Ant directly to ensure targets work as expected
+    - name: Ant Build (target jars)
+      run: ant -noinput -buildfile build.xml jars
+
+    - name: Ant Build (target dtdjars)
+      run: ant -noinput -buildfile build.xml dtdjars
+
+    # test fails on JDK 8 due to java.lang.NoSuchFieldError
+    # test fails in JDK 11+ as -Xbootclasspath/p is no longer a supported option
+    #- name: Ant Test (target test)
+    #  run: ant -noinput -buildfile build.xml test
+
+    # cannot target 'all' with any JDK due to NoClassDefFoundError: com/sun/image/codec/jpeg/JPEGCodec
+    #- name: Ant Build (target all)
+    #  run: ant -noinput -buildfile build.xml all
+
+    # clean up before running via build script
+    - name: Ant Clean
+      run: ant -noinput -buildfile build.xml clean
+
+    # The README suggests to use a build script to call ant
+    # so we do this as well to make sure it also works this way
+    - name: Run build script (target jars)
+      run: . ./build.sh jars
+
+    - name: Run build script (target dtdjars)
+      run: . ./build.sh dtdjars
+
+    # When issues fixed as per above, these steps can be enabled:
+    #- name: Run build script (target test)
+    #  run: . ./build.sh test
+    #- name: Run build script (target all)
+    #  run: . ./build.sh all

@@ -56,8 +56,7 @@ import org.w3c.dom.Node;
  * @version $Id$
  * @since  PR-DOM-Level-1-19980818.
  */
-public class NamedNodeMapImpl
-    implements NamedNodeMap, Serializable {
+public class NamedNodeMapImpl implements NamedNodeMap, Serializable {
 
     //
     // Constants
@@ -77,7 +76,7 @@ public class NamedNodeMapImpl
     protected final static short HASDEFAULTS  = 0x1<<2;
 
     /** Nodes. */
-    protected List nodes;
+    protected List<Node> nodes;
 
     protected NodeImpl ownerNode; // the node this map belongs to
 
@@ -119,8 +118,7 @@ public class NamedNodeMapImpl
      * is greater than or equal to getLength().
      */
     public Node item(int index) {
-    	return (nodes != null && index < nodes.size()) ?
-                    (Node)(nodes.get(index)) : null;
+    	return (nodes != null && index < nodes.size()) ? (Node)(nodes.get(index)) : null;
     }
 
     /**
@@ -131,10 +129,8 @@ public class NamedNodeMapImpl
      * null if no value has been assigned to that name.
      */
     public Node getNamedItem(String name) {
-
     	int i = findNamePoint(name,0);
         return (i < 0) ? null : (Node)(nodes.get(i));
-
     } // getNamedItem(String):Node
 
     /**
@@ -149,10 +145,8 @@ public class NamedNodeMapImpl
      *                      name did not identify any node in the map.
      */
     public Node getNamedItemNS(String namespaceURI, String localName) {
-
     	int i = findNamePoint(namespaceURI, localName);
         return (i < 0) ? null : (Node)(nodes.get(i));
-
     } // getNamedItemNS(String,String):Node
 
     /**
@@ -172,10 +166,8 @@ public class NamedNodeMapImpl
      *      one.
      * @exception org.w3c.dom.DOMException The exception description.
      */
-    public Node setNamedItem(Node arg)
-    throws DOMException {
-        
-        CoreDocumentImpl ownerDocument = ownerNode.ownerDocument();
+    public Node setNamedItem(Node arg) throws DOMException {
+        final CoreDocumentImpl ownerDocument = ownerNode.ownerDocument();
         if (ownerDocument.errorChecking) {
             if (isReadOnly()) {
                 String msg = DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "NO_MODIFICATION_ALLOWED_ERR", null);
@@ -195,7 +187,7 @@ public class NamedNodeMapImpl
         } else {
             i = -1 - i; // Insert point (may be end of list)
             if (null == nodes) {
-                nodes = new ArrayList(5);
+                nodes = new ArrayList<>(5);
             }
             nodes.add(i, arg);
         }
@@ -214,10 +206,9 @@ public class NamedNodeMapImpl
      *      local name is already present in the map, it is replaced by the new
      *      one.
      */
-    public Node setNamedItemNS(Node arg)
-    throws DOMException {
-        
-        CoreDocumentImpl ownerDocument = ownerNode.ownerDocument();
+    public Node setNamedItemNS(Node arg) throws DOMException {
+        final CoreDocumentImpl ownerDocument = ownerNode.ownerDocument();
+
         if (ownerDocument.errorChecking) {
             if (isReadOnly()) {
                 String msg = DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "NO_MODIFICATION_ALLOWED_ERR", null);
@@ -231,7 +222,7 @@ public class NamedNodeMapImpl
         }
         
         int i = findNamePoint(arg.getNamespaceURI(), arg.getLocalName());
-        NodeImpl previous = null;
+        Node previous = null;
         if (i >= 0) {
             previous = (NodeImpl) nodes.get(i);
             nodes.set(i, arg);
@@ -245,7 +236,7 @@ public class NamedNodeMapImpl
             } else {
                 i = -1 - i; // Insert point (may be end of list)
                 if (null == nodes) {
-                    nodes = new ArrayList(5);
+                    nodes = new ArrayList<>(5);
                 }
                 nodes.add(i, arg);
             }
@@ -334,19 +325,19 @@ public class NamedNodeMapImpl
     }
 
     protected void cloneContent(NamedNodeMapImpl srcmap) {
-        List srcnodes = srcmap.nodes;
+        List<Node> srcnodes = srcmap.nodes;
         if (srcnodes != null) {
             int size = srcnodes.size();
             if (size != 0) {
                 if (nodes == null) {
-                    nodes = new ArrayList(size);
+                    nodes = new ArrayList<>(size);
                 }
                 else {
                     nodes.clear();
                 }
                 for (int i = 0; i < size; ++i) {
-                    NodeImpl n = (NodeImpl) srcmap.nodes.get(i);
-                    NodeImpl clone = (NodeImpl) n.cloneNode(true);
+                    final NodeImpl n = (NodeImpl) srcmap.nodes.get(i);
+                    final NodeImpl clone = (NodeImpl) n.cloneNode(true);
                     clone.isSpecified(n.isSpecified());
                     nodes.add(clone);
                 }
@@ -560,7 +551,7 @@ public class NamedNodeMapImpl
             else {
                 i = -1 - i; // Insert point (may be end of list)
                 if (null == nodes) {
-                    nodes = new ArrayList(5);
+                    nodes = new ArrayList<>(5);
                 }
                 nodes.add(i, arg);
             }
@@ -571,12 +562,12 @@ public class NamedNodeMapImpl
     /**
      * NON-DOM: copy content of this map into the specified ArrayList
      * 
-     * @param list   ArrayList to copy information into.
+     * @param list a list of nodes to copy information into, or null a new list will be created
      * @return A copy of this node named map
      */
-    protected ArrayList cloneMap(ArrayList list) {
+    protected List<Node> cloneMap(List<Node> list) {
         if (list == null) {
-            list = new ArrayList(5);
+            list = new ArrayList<Node>(5);
         }
         list.clear();
         if (nodes != null) {
@@ -601,20 +592,19 @@ public class NamedNodeMapImpl
         }
     }
     
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         if (nodes != null) {
             // cast to Vector is required
-            nodes = new ArrayList((Vector)nodes);
+            nodes = new ArrayList<Node>((Vector<Node>)nodes);
         }
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
-        List oldNodes = this.nodes;
+        final List<Node> oldNodes = this.nodes;
         try {
             if (oldNodes != null) {
-                this.nodes = new Vector(oldNodes);
+                this.nodes = new Vector<Node>(oldNodes);
             }
             out.defaultWriteObject();
         }

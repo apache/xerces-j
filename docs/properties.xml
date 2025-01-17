@@ -61,7 +61,7 @@ SAXParser parser = /* created from SAXParserFactory */;
 XMLReader reader = parser.getXMLReader();
 
 String id    = "http://apache.org/xml/properties/input-buffer-size";
-Object value = new Integer(2048);
+Object value = Integer.valueOf(2048);
 try {
     reader.setProperty(id, value);
 } 

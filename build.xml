@@ -811,15 +811,6 @@ Authors:
         <arg value="${data.dir}/personal-schema.xml"/>
     </java>
 
-
-
-    <!--
-    <echo message="Running DOMFilter ..." />
-    <java fork="yes"
-          classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes"
-          classname="dom.DOMFilter"
-          args="-p dom.wrappers.DOMParser ${data.dir}/personal.xml"/>
-    -->
     <!-- The following are samples but not command-line applications.
     <echo message="Running IteratorView ..." />
     <java fork="yes"

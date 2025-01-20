@@ -824,12 +824,6 @@ Authors:
           classname="dom.traversal.TreeWalkerView"
           failOnError="yes"
           args="${data.dir}/personal.xml"/>
-    <echo message="Running TreeViewer ..." />
-    <java fork="yes"
-          classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes"
-          classname="dom.TreeViewer"
-          failOnError="yes"
-          args="${data.dir}/personal.xml"/>
      -->
     <echo message="Running dom.DTest ..." />
     <java fork="yes"

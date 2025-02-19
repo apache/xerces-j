@@ -35,6 +35,7 @@ import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import org.xml.sax.Locator;
 
 /**
  * NodeImpl provides the basic structure of a DOM tree. It is never used
@@ -144,6 +145,8 @@ public abstract class NodeImpl
     //
     // Data
     //
+
+    public Locator locator;
 
     // links
 

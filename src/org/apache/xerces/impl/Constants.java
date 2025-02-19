@@ -332,6 +332,9 @@ public final class Constants {
     /** Feature to ignore errors caused by unparsed entities ("validation/unparsed-entity-checking") */
     public static final String UNPARSED_ENTITY_CHECKING_FEATURE = "validation/unparsed-entity-checking";
     
+    /** Feature to cause nodes to populate location (file, line, column) information. */
+    public static final String LOCATION_INFO_FEATURE = "dom/include-location-info";
+
     /**
      * Internal feature. When set to true the schema validator will only use
      * schema components from the grammar pool provided.

@@ -57,6 +57,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
 import org.w3c.dom.DOMError;
+import org.w3c.dom.DOMLocator;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
@@ -115,7 +116,6 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
     protected static final String DEFER_NODE_EXPANSION =
     Constants.XERCES_FEATURE_PREFIX + Constants.DEFER_NODE_EXPANSION_FEATURE;
 
-
     /** Recognized features. */
     private static final String[] RECOGNIZED_FEATURES = {
         NAMESPACES,
@@ -123,7 +123,9 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
         INCLUDE_COMMENTS_FEATURE,
         CREATE_CDATA_NODES_FEATURE,
         INCLUDE_IGNORABLE_WHITESPACE,
-        DEFER_NODE_EXPANSION
+        DEFER_NODE_EXPANSION,
+            // Why are all the other feature flags not also defined in XML11Configuration?
+        XML11Configuration.LOCATION_INFO_FEATURE
     };
 
     // property ids
@@ -207,6 +209,9 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
 
     /** Whether to store PSVI information in DOM tree. */
     protected boolean fStorePSVI;
+
+    /** Whether to save location info in DOM tree */
+    protected boolean fIncludeLocationInfo = false;
 
     /** The document class name to use. */
     protected String  fDocumentClassName;
@@ -419,6 +424,8 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
         fIncludeComments = fConfiguration.getFeature (INCLUDE_COMMENTS_FEATURE);
 
         fCreateCDATANodes = fConfiguration.getFeature (CREATE_CDATA_NODES_FEATURE);
+
+        fIncludeLocationInfo = fConfiguration.getFeature(XML11Configuration.LOCATION_INFO_FEATURE);
 
         // get property
         setDocumentClassName ((String)
@@ -927,12 +934,19 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
         if (DEBUG_EVENTS) {
             System.out.println ("==>startElement ("+element.rawname+")");
         }
+
+        // Extract location info if feature is enabled
+        DOMLocator loc = null;
+        if (fIncludeLocationInfo && augs != null) {
+            loc = (DOMLocator) augs.getItem("location");
+        }
+
         if (!fDeferNodeExpansion) {
             if (fFilterReject) {
                 ++fRejectedElementDepth;
                 return;
             }
-            Element el = createElementNode (element);
+            Element el = createElementNode (element, loc);
             int attrCount = attributes.getLength ();
             boolean seenSchemaDefault = false;
             for (int i = 0; i < attrCount; i++) {
@@ -2535,7 +2549,7 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
 
     // method to create an element node.
     // subclasses can override this method to create element nodes in other ways.
-    protected Element createElementNode (QName element) {
+    protected Element createElementNode (QName element, DOMLocator loc) {
         Element el = null;
 
         if (fNamespaceAware) {
@@ -2551,6 +2565,12 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
         }
         else {
             el = fDocument.createElement (element.rawname);
+        }
+
+        if (fIncludeLocationInfo) {
+            if (loc != null) {
+                el.setUserData("location", loc, null);
+            }
         }
 
         return el;

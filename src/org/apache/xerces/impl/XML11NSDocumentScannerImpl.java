@@ -19,14 +19,13 @@ package org.apache.xerces.impl;
 
 import java.io.IOException;
 
+import org.apache.xerces.dom.DOMLocatorImpl;
 import org.apache.xerces.impl.dtd.XMLDTDValidatorFilter;
 import org.apache.xerces.impl.msg.XMLMessageFormatter;
+import org.apache.xerces.util.AugmentationsImpl;
 import org.apache.xerces.util.XMLAttributesImpl;
 import org.apache.xerces.util.XMLSymbols;
-import org.apache.xerces.xni.NamespaceContext;
-import org.apache.xerces.xni.QName;
-import org.apache.xerces.xni.XMLDocumentHandler;
-import org.apache.xerces.xni.XNIException;
+import org.apache.xerces.xni.*;
 import org.apache.xerces.xni.parser.XMLComponentManager;
 import org.apache.xerces.xni.parser.XMLConfigurationException;
 import org.apache.xerces.xni.parser.XMLDocumentSource;
@@ -93,6 +92,9 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
      */
     private boolean fSawSpace;
 
+    /** cache whether we're capturing location info */
+    protected boolean fIncludeLocationInfo = false;
+
     /**
      * The scanner is responsible for removing DTD validator
      * from the pipeline if it is not needed.
@@ -130,6 +132,20 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
 
         // Note: namespace processing is on by default
         fEntityScanner.scanQName(fElementQName);
+
+        // capture location information (if requested feature is true)
+        // Prepare Augmentations object only if location tracking is enabled
+        Augmentations augs = null;
+        if (fIncludeLocationInfo) {
+            int lineNumber = fEntityScanner.getLineNumber();
+            int columnNumber = fEntityScanner.getColumnNumber();
+            String systemId = fEntityScanner.getExpandedSystemId();
+            // Question: Do I need to capture the literal system Id also, or only if the systemID is null, or not at all?
+
+            augs = new AugmentationsImpl();
+            augs.putItem("location", new DOMLocatorImpl(lineNumber, columnNumber, systemId));
+        }
+
         // REVISIT - [Q] Why do we need this local variable? -- mrglavas
         String rawname = fElementQName.rawname;
         if (fBindNamespaces) {
@@ -299,7 +315,7 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
                         new Object[] { fCurrentElement.rawname });
                 }
 
-                fDocumentHandler.emptyElement(fElementQName, fAttributes, null);
+                fDocumentHandler.emptyElement(fElementQName, fAttributes, augs);
 
                 if (fBindNamespaces) {
                     fNamespaceContext.popContext();
@@ -307,7 +323,7 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
                 //pop the element off the stack..
                 fElementStack.popElement(fElementQName);
             } else {
-                fDocumentHandler.startElement(fElementQName, fAttributes, null);
+                fDocumentHandler.startElement(fElementQName, fAttributes, augs);
             }
         }
 
@@ -765,6 +781,12 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
         super.reset(componentManager);
         fPerformValidation = false;
         fBindNamespaces = false;
+
+        try {
+            fIncludeLocationInfo = componentManager.getFeature(Constants.LOCATION_INFO_FEATURE);
+        } catch (XMLConfigurationException e) {
+            fIncludeLocationInfo = false;
+        }
     }
 
     /** Creates a content dispatcher. */

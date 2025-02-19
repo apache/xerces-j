@@ -21,6 +21,7 @@ import java.io.CharConversionException;
 import java.io.EOFException;
 import java.io.IOException;
 
+import org.apache.xerces.dom.DOMLocatorImpl;
 import org.apache.xerces.impl.io.MalformedByteSequenceException;
 import org.apache.xerces.impl.msg.XMLMessageFormatter;
 import org.apache.xerces.util.AugmentationsImpl;
@@ -223,6 +224,9 @@ public class XMLDocumentFragmentScannerImpl
 
     // features
 
+    /** cache whether we're capturing location info */
+    protected boolean fIncludeLocationInfo = false;
+
     /** Notify built-in references. */
     protected boolean fNotifyBuiltInRefs = false;
 
@@ -375,7 +379,12 @@ public class XMLDocumentFragmentScannerImpl
 		// setup dispatcher
 		setScannerState(SCANNER_STATE_CONTENT);
 		setDispatcher(fContentDispatcher);
-        
+
+        try {
+            fIncludeLocationInfo = componentManager.getFeature(Constants.LOCATION_INFO_FEATURE);
+        } catch (XMLConfigurationException e) {
+            fIncludeLocationInfo = false;
+        }
 
         if (fParserSettings) {
             // parser settings have changed. reset them.
@@ -770,6 +779,19 @@ public class XMLDocumentFragmentScannerImpl
         }
         String rawname = fElementQName.rawname;
 
+        // capture location information (if requested feature is true)
+        // Prepare Augmentations object only if location tracking is enabled
+        Augmentations augs = null;
+        if (fIncludeLocationInfo) {
+            int lineNumber = fEntityScanner.getLineNumber();
+            int columnNumber = fEntityScanner.getColumnNumber();
+            String systemId = fEntityScanner.getExpandedSystemId();
+            // Question: Do I need to capture the literal system Id also, or only if the systemID is null, or not at all?
+
+            augs = new AugmentationsImpl();
+            augs.putItem("location", new DOMLocatorImpl(lineNumber, columnNumber, systemId));
+        }
+
         // push element stack
         fCurrentElement = fElementStack.pushElement(fElementQName);
 
@@ -821,13 +843,13 @@ public class XMLDocumentFragmentScannerImpl
                                      new Object[]{fCurrentElement.rawname});
                 }
 
-                fDocumentHandler.emptyElement(fElementQName, fAttributes, null);
+                fDocumentHandler.emptyElement(fElementQName, fAttributes, augs);
 
                 //pop the element off the stack..
                 fElementStack.popElement(fElementQName);
             }
             else {
-                fDocumentHandler.startElement(fElementQName, fAttributes, null);
+                fDocumentHandler.startElement(fElementQName, fAttributes, augs);
             }
         }
 

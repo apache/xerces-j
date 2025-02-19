@@ -123,7 +123,7 @@ public class StandardParserConfiguration
     /** Feature identifier: whether to ignore unparsed entity errors */
     protected static final String UNPARSED_ENTITY_CHECKING =
         Constants.XERCES_FEATURE_PREFIX + Constants.UNPARSED_ENTITY_CHECKING_FEATURE;
-    
+
     /** Feature identifier: whether to ignore identity constraint errors */
     protected static final String IDENTITY_CONSTRAINT_CHECKING =
         Constants.XERCES_FEATURE_PREFIX + Constants.IDC_CHECKING_FEATURE;

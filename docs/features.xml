@@ -588,6 +588,21 @@ catch (SAXException e) {
     This feature is relevant only when the grammar is <strong>DTD</strong>. 
    </note>
   </feature>
+  <feature name='http://apache.org/xml/features/dom/include-location-info'
+           id='dom.include-location-info'>
+   <true>
+    Include a DOMLocator for each DOM Element giving its line and column
+    information.
+   </true>
+   <false>Do not include a DOMLocator for each DOM Element.</false>
+   <default value='false'/>
+   <note>
+    DOM Elements must be downcast to <code>NodeImpl</code> to access
+    the <code>getLocator():DOMLocator</code> method since it is not part of the standard w3c API.
+    This feature is incompatible with the defer-node-expansion feature.
+    Nodes are always expanded if location info is included.
+   </note>
+  </feature>
  </fcategory>
  <fcategory name='SAX Features'>
   <feature name='http://xml.org/sax/features/namespace-prefixes'

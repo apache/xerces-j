@@ -82,6 +82,10 @@ public class XML11Configuration extends ParserConfigurationSettings
 
     // feature identifiers
 
+    /** Feature identifier: whether to capture location info onto nodes */
+    public static final String LOCATION_INFO_FEATURE =
+            Constants.XERCES_FEATURE_PREFIX + Constants.LOCATION_INFO_FEATURE;
+
     /** Feature identifier: warn on duplicate attribute definition. */
     protected static final String WARN_ON_DUPLICATE_ATTDEF =
         Constants.XERCES_FEATURE_PREFIX + Constants.WARN_ON_DUPLICATE_ATTDEF_FEATURE;
@@ -503,7 +507,7 @@ public class XML11Configuration extends ParserConfigurationSettings
 		        EXTERNAL_GENERAL_ENTITIES,  
 		        EXTERNAL_PARAMETER_ENTITIES,
 		        PARSER_SETTINGS,
-		        
+                LOCATION_INFO_FEATURE
 		};
         addRecognizedFeatures(recognizedFeatures);
         // set state for default features
@@ -527,6 +531,7 @@ public class XML11Configuration extends ParserConfigurationSettings
         fFeatures.put(UNPARSED_ENTITY_CHECKING, Boolean.TRUE);
         fFeatures.put(USE_GRAMMAR_POOL_ONLY, Boolean.FALSE);
         fFeatures.put(PARSER_SETTINGS, Boolean.TRUE);
+        fFeatures.put(LOCATION_INFO_FEATURE, Boolean.FALSE);
 
         // add default recognized properties
         final String[] recognizedProperties =

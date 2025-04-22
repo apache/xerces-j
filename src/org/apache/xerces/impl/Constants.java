@@ -332,6 +332,9 @@ public final class Constants {
     /** Feature to ignore errors caused by unparsed entities ("validation/unparsed-entity-checking") */
     public static final String UNPARSED_ENTITY_CHECKING_FEATURE = "validation/unparsed-entity-checking";
     
+    /** Feature to cause nodes to populate location (file, line, column) information. */
+    public static final String LOCATION_INFO_FEATURE = "dom/include-location-info";
+
     /**
      * Internal feature. When set to true the schema validator will only use
      * schema components from the grammar pool provided.
@@ -465,7 +468,7 @@ public final class Constants {
      * probable white space and/or was not included from a character reference.
      */
     public final static String CHAR_REF_PROBABLE_WS = "CHAR_REF_PROBABLE_WS";
-    
+
     // XML version constants 
     public final static short XML_VERSION_ERROR = -1;
     public final static short XML_VERSION_1_0 = 1;

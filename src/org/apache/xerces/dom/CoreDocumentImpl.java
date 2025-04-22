@@ -2439,10 +2439,9 @@ extends ParentNode implements Document  {
         if (userData == null) {
             return;
         }
-        //Hashtable t = (Hashtable) userData.get(n);
 		if(n instanceof NodeImpl){
-			Hashtable t = ((NodeImpl)n).getUserDataRecord();
-			if (t == null || t.isEmpty()) {
+			Hashtable userDataRecord = ((NodeImpl) n).getUserDataRecord();
+			if (userDataRecord == null || userDataRecord.isEmpty()) {
 				return;
 			}
 			callUserDataHandlers(n, c, operation,t);

@@ -23,6 +23,7 @@ import java.util.Stack;
 import org.apache.xerces.dom.AttrImpl;
 import org.apache.xerces.dom.CoreDocumentImpl;
 import org.apache.xerces.dom.DOMErrorImpl;
+import org.apache.xerces.dom.DOMLocatorImpl;
 import org.apache.xerces.dom.DOMMessageFormatter;
 import org.apache.xerces.dom.DeferredDocumentImpl;
 import org.apache.xerces.dom.DocumentImpl;
@@ -57,6 +58,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
 import org.w3c.dom.DOMError;
+import org.w3c.dom.DOMLocator;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
@@ -123,7 +125,8 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
         INCLUDE_COMMENTS_FEATURE,
         CREATE_CDATA_NODES_FEATURE,
         INCLUDE_IGNORABLE_WHITESPACE,
-        DEFER_NODE_EXPANSION
+        DEFER_NODE_EXPANSION,
+        XML11Configuration.LOCATION_INFO_FEATURE
     };
 
     // property ids
@@ -207,6 +210,9 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
 
     /** Whether to store PSVI information in DOM tree. */
     protected boolean fStorePSVI;
+
+    /** Whether to save location info in DOM tree */
+    private boolean fIncludeLocationInfo = false;
 
     /** The document class name to use. */
     protected String  fDocumentClassName;
@@ -362,7 +368,8 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
 
         // set document class name
         fDocumentClassName = documentClassName;
-        if (!documentClassName.equals (DEFAULT_DOCUMENT_CLASS_NAME)) {
+        if (!documentClassName.equals (DEFAULT_DOCUMENT_CLASS_NAME) ||
+             fIncludeLocationInfo) { // deferred nodes are not compatible with location info capture.
             fDeferNodeExpansion = false;
         }
 
@@ -419,6 +426,8 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
         fIncludeComments = fConfiguration.getFeature (INCLUDE_COMMENTS_FEATURE);
 
         fCreateCDATANodes = fConfiguration.getFeature (CREATE_CDATA_NODES_FEATURE);
+
+        fIncludeLocationInfo = fConfiguration.getFeature(XML11Configuration.LOCATION_INFO_FEATURE);
 
         // get property
         setDocumentClassName ((String)
@@ -933,6 +942,18 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
                 return;
             }
             Element el = createElementNode (element);
+            // Extract location info if feature is enabled
+            if (fIncludeLocationInfo) {
+                DOMLocator elemLoc = new DOMLocatorImpl(
+                        fLocator.getLineNumber(),
+                        fLocator.getColumnNumber(),
+                        0, // byteOffset
+                        el, // relatedNode
+                        fLocator.getExpandedSystemId(), // uri
+                        fLocator.getCharacterOffset() // utf16Offset
+                );
+                ((NodeImpl) el).setLocator(elemLoc);
+            }
             int attrCount = attributes.getLength ();
             boolean seenSchemaDefault = false;
             for (int i = 0; i < attrCount; i++) {

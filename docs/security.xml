@@ -32,4 +32,13 @@ Results from source code security analyzers are not accepted without additional 
 </p>
 
 </s2>
+<s2 title="CVE-2017-7503">
+<p>
+In 2017, Red Hat published <jump href="https://www.cve.org/CVERecord?id=CVE-2017-7503">CVE-2017-7503</jump>.
+Note that they do not mark Xerces as affected, only their own 'JBoss Enterprise Application Platform'.
+Sadly, the exact specifics of the issue appear to have been lost to time.
+It looks like it's simply describing that options for features like loading external entities and DTDs are enabled by default, which we (as documented above) consider expected and well-known behavior.
+Possibly JBoss did not correctly take this into account at the time.
+</p>
+</s2>
 </s1>

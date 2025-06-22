@@ -781,7 +781,6 @@ Authors:
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
         <arg value="${data.dir}/personal.xml"/>
     </java>
--->
     <echo message="Running dom.Writer ..." />
     <java fork="yes"
           classname="dom.Writer"
@@ -789,6 +788,7 @@ Authors:
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
         <arg value="${data.dir}/personal.xml"/>
     </java>
+-->
     <echo message="Running thread.Test dom" />
     <java fork="yes"
           classname="thread.Test"

@@ -32,7 +32,10 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.jdk }}
 
-    # use Ant directly to ensure targets work as expected
+    # c heck ant version
+    - name: Ant Version
+      run: ant -version
+
     - name: Ant Build (target jars)
       run: ant -noinput -buildfile build.xml jars
 

@@ -778,7 +778,8 @@ Authors:
     </java>
     <!-- fails in CI on Java 8 due to NoSuchFieldError; fix this -->
     <echo if:set="java9OrLater" message="Running dom.Counter ..." />
-    <java fork="yes"
+    <java if:set="java9OrLater" 
+          fork="yes"
           classname="dom.Counter"
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
@@ -863,7 +864,8 @@ Authors:
       <arg value="all"/>
     </java>
     <echo if:set="java9OrLater" message="Running dom.ids.Test ..." />
-    <java if:set="java9OrLater" fork="yes"
+    <java if:set="java9OrLater"
+          fork="yes"
           classname="dom.ids.Test"
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>

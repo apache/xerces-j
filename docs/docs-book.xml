@@ -26,6 +26,8 @@
            id='charter' source='charter.xml'/>
  <releases label='Release Info' title='Release Information'
            id='releases' source='releases.xml'/>
+ <document label='Security' title='Security'
+           id='security' source='security.xml'/>
  <separator/>
  <document label='Installation' title='Installation Instructions'
            id='install' source='install.xml'/>

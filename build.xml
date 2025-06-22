@@ -27,7 +27,7 @@ Authors:
    $Id$
 
 ==================================================================== -->
-<project default="usage" basedir=".">
+<project default="usage" basedir="." xmlns:if="ant:if">
 	
   <!-- Xerces Java directories -->
   <property name="build.dir" value="./build"/>
@@ -127,6 +127,9 @@ Authors:
     <filter token="log" value="true"/>
     <filter token="verbose" value="true"/>
 
+    <condition property="java9OrLater">
+      <javaversion atleast="9" />
+    </condition>
   </target>
 
   <!-- =================================================================== -->
@@ -773,23 +776,25 @@ Authors:
        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
        <arg value="${data.dir}/personal.xml"/>
     </java>
-<!-- fails in CI on Java 8 due to NoSuchFieldError; fix this
-    <echo message="Running dom.Counter ..." />
+    <!-- fails in CI on Java 8 due to NoSuchFieldError; fix this -->
+    <echo if:set="java9OrLater" message="Running dom.Counter ..." />
     <java fork="yes"
           classname="dom.Counter"
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
         <arg value="${data.dir}/personal.xml"/>
     </java>
-    <echo message="Running dom.Writer ..." />
-    <java fork="yes"
+    <echo if:set="java9OrLater" message="Running dom.Writer ..." />
+    <java if:set="java9OrLater"
+          fork="yes"
           classname="dom.Writer"
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
         <arg value="${data.dir}/personal.xml"/>
     </java>
-    <echo message="Running thread.Test dom" />
-    <java fork="yes"
+    <echo if:set="java9OrLater" message="Running thread.Test dom" />
+    <java if:set="java9OrLater"
+          fork="yes"
           classname="thread.Test"
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
@@ -800,7 +805,6 @@ Authors:
         <arg value="10"/>
         <arg value="${data.dir}/personal-schema.xml"/>
     </java>
--->
     <echo message="Running thread.Test sax" />
     <java fork="yes"
           classname="thread.Test"
@@ -813,15 +817,12 @@ Authors:
         <arg value="${data.dir}/personal-schema.xml"/>
     </java>
 
-
-
-    <!--
-    <echo message="Running DOMFilter ..." />
-    <java fork="yes"
+    <echo if:set="java9OrLater" message="Running DOMFilter ..." />
+    <java if:set="java9OrLater" 
+          fork="yes"
           classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes"
           classname="dom.DOMFilter"
           args="-p dom.wrappers.DOMParser ${data.dir}/personal.xml"/>
-    -->
     <!-- The following are samples but not command-line applications.
     <echo message="Running IteratorView ..." />
     <java fork="yes"
@@ -854,21 +855,7 @@ Authors:
           failOnError="yes">
        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
-<!--
-    <echo message="Running dom.range.Test ..." />
-    <java fork="yes"
-          classname="dom.range.Test"
-          failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
-        <arg value="all"/>
-    </java>
-    <echo message="Running dom.ids.Test ..." />
-    <java fork="yes"
-          classname="dom.ids.Test"
-          failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
-    </java>
--->
+
     <echo message="Running dom.serialization.Test ..." />
     <java fork="yes"
           classname="dom.serialization.Test"
@@ -916,6 +903,19 @@ Authors:
         <arg value="testSchemaSourceSAX"/>
         <arg value="testSchemaLanguageDOM"/>
         <arg value="testSchemaSourceDOM"/>
+    </java>
+    <java if:set="java9OrLater"
+          fork="yes"
+          classname="dom.range.Test"
+          failOnError="yes">
+      <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
+      <arg value="all"/>
+    </java>
+    <echo if:set="java9OrLater" message="Running dom.ids.Test ..." />
+    <java if:set="java9OrLater" fork="yes"
+          classname="dom.ids.Test"
+          failOnError="yes">
+        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo message="Running xinclude.Test ..." />
     <java fork="yes"

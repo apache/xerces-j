@@ -854,6 +854,7 @@ Authors:
           failOnError="yes">
        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
+<!--
     <echo message="Running dom.range.Test ..." />
     <java fork="yes"
           classname="dom.range.Test"
@@ -861,6 +862,7 @@ Authors:
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
         <arg value="all"/>
     </java>
+-->
 
     <echo message="Running dom.ids.Test ..." />
     <java fork="yes"

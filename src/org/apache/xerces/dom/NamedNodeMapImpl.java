@@ -250,7 +250,6 @@ public class NamedNodeMapImpl implements NamedNodeMap, Serializable {
      * @param name The name of a node to remove.
      * @return The node removed from the map if a node with such a name exists.
      */
-    /***/
     public Node removeNamedItem(String name)
         throws DOMException {
 
@@ -283,7 +282,7 @@ public class NamedNodeMapImpl implements NamedNodeMap, Serializable {
      * @param name          The local name of the node to remove.
      * @return Node         The node removed from the map if a node with such
      *                      a local name and namespace URI exists.
-     * @throws              NOT_FOUND_ERR: Raised if there is no node named
+     * @throws              DOMException (NOT_FOUND_ERR): Raised if there is no node named
      *                      name in the map.
 
      */
@@ -562,7 +561,7 @@ public class NamedNodeMapImpl implements NamedNodeMap, Serializable {
     /**
      * NON-DOM: copy content of this map into the specified ArrayList
      * 
-     * @param list a list of nodes to copy information into, or null a new list will be created
+     * @param list a list of nodes to copy information into, or null to create a new list
      * @return A copy of this node named map
      */
     protected List<Node> cloneMap(List<Node> list) {

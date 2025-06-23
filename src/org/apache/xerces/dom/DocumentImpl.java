@@ -568,19 +568,21 @@ public class DocumentImpl
      * This is another place where we could use weak references! Indeed, the
      * node here won't be GC'ed as long as some listener is registered on it,
      * since the eventsListeners table will have a reference to the node.
+     * @param node The node to add/remove from the hashtable depending on listeners being null or not
+     * @param listeners A vector of LEntry or null. If this arg has a value then the node will be put in the table
      */
-    protected void setEventListeners(NodeImpl n, Vector<LEntry> listeners) {
+    protected void setEventListeners(NodeImpl node, Vector<LEntry> listeners) {
         if (eventListeners == null) {
             eventListeners = new Hashtable<>();
         }
         if (listeners == null) {
-            eventListeners.remove(n);
+            eventListeners.remove(node);
             if (eventListeners.isEmpty()) {
                 // stop firing events when there isn't any listener
                 mutationEvents = false;
             }
         } else {
-            eventListeners.put(n, listeners);
+            eventListeners.put(node, listeners);
             // turn mutation events on
             mutationEvents = true;
         }
@@ -624,7 +626,7 @@ public class DocumentImpl
         /** NON-DOM INTERNAL: Constructor for Listener list Entry 
          * @param type Event name (NOT event group!) to listen for.
          * @param listener Who gets called when event is dispatched
-         * @param useCaptue True iff listener is registered on
+         * @param useCapture True iff listener is registered on
          *  capturing phase rather than at-target or bubbling
          */
         LEntry(String type, EventListener listener, boolean useCapture)
@@ -652,7 +654,7 @@ public class DocumentImpl
     {
         // We can't dispatch to blank type-name, and of course we need
         // a listener to dispatch to
-        if (type == null || type.length() == 0 || listener == null)
+        if (type == null || type.isEmpty() || listener == null)
             return;
       
         // Each listener may be registered only once per type per phase.
@@ -796,7 +798,7 @@ public class DocumentImpl
 
         // VALIDATE -- must have been initialized at least once, must have
         // a non-null non-blank name.
-        if (!evt.initialized || evt.type == null || evt.type.length() == 0) {
+        if (!evt.initialized || evt.type == null || evt.type.isEmpty()) {
             String msg = DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "UNSPECIFIED_EVENT_TYPE_ERR", null);
             throw new EventException(EventException.UNSPECIFIED_EVENT_TYPE_ERR, msg);
         }

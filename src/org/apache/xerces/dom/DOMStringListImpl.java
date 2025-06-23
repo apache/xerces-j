@@ -45,16 +45,16 @@ public class DOMStringListImpl implements DOMStringList {
     }
 
     /** 
-     * Construct a DOMStringListImpl from an ArrayList
+     * Construct a DOMStringListImpl from an ArrayList of String values
      */ 
-    public DOMStringListImpl(final List<String> params) {
+    public DOMStringListImpl(final List params) {
         fStrings = params;    
     }
     
     /** 
-     * Construct a DOMStringListImpl from a Vector
+     * Construct a DOMStringListImpl from a Vector of String values
      */ 
-    public DOMStringListImpl(Vector<String> params) {
+    public DOMStringListImpl(Vector params) {
         fStrings = new ArrayList<>(params);
     }
         

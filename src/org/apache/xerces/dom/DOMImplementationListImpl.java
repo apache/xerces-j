@@ -45,16 +45,16 @@ public class DOMImplementationListImpl implements DOMImplementationList {
     }
     
     /** 
-     * Construct a list of DOMImplementations from an ArrayList
+     * Construct a list of DOMImplementations from a List of DOMImplementation
      */ 
-    public DOMImplementationListImpl(List<DOMImplementation> params) {
+    public DOMImplementationListImpl(List params) {
         fImplementations = params;    
     }
 
     /** 
-     * Construct a list of DOMImplementations from a Vector
+     * Construct a list of DOMImplementations from a Vector of DOMImplementation
      */ 
-    public DOMImplementationListImpl(Vector<DOMImplementation> params) {
+    public DOMImplementationListImpl(Vector params) {
         fImplementations = new ArrayList<>(params);
     }
 

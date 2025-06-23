@@ -20,6 +20,7 @@ package org.apache.xerces.dom;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
@@ -229,7 +230,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
     protected SymbolTable fSymbolTable;
 
     /** Components. */
-    protected ArrayList fComponents;
+    protected List<XMLComponent> fComponents;
 
     protected ValidationManager fValidationManager;
 
@@ -239,8 +240,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
     /** Error reporter */
     protected XMLErrorReporter fErrorReporter;
 
-    protected final DOMErrorHandlerWrapper fErrorHandlerWrapper =
-                new DOMErrorHandlerWrapper();
+    protected final DOMErrorHandlerWrapper fErrorHandlerWrapper = new DOMErrorHandlerWrapper();
     
     /** Current Datatype validator factory. */
     protected DTDDVFactory fCurrentDVFactory;
@@ -371,7 +371,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
         }
         fSymbolTable = symbolTable;
 
-        fComponents = new ArrayList();
+        fComponents = new ArrayList<>();
 
         setProperty(SYMBOL_TABLE, fSymbolTable);
         fErrorReporter = new XMLErrorReporter();
@@ -766,7 +766,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
                             // tokenize location string
                             StringTokenizer t = new StringTokenizer(fSchemaLocation, " \n\t\r");
                             if (t.hasMoreTokens()) {
-                                ArrayList locations = new ArrayList();
+                                final List<String> locations = new ArrayList<>();
                                 locations.add(t.nextToken());
                                 while (t.hasMoreTokens()) {
                                     locations.add (t.nextToken());
@@ -1051,7 +1051,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
      */
 	public DOMStringList getParameterNames() {
 	    if (fRecognizedParameters == null){
-	        ArrayList parameters = new ArrayList();
+	        List<String> parameters = new ArrayList<>();
 
 	        //Add DOM recognized parameters
 	        //REVISIT: Would have been nice to have a list of
@@ -1087,7 +1087,6 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
 	        parameters.add(SEND_PSVI);
 
 	        fRecognizedParameters = new DOMStringListImpl(parameters);
-
 	    }
 
 	    return fRecognizedParameters;
@@ -1107,7 +1106,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
 
         int count = fComponents.size();
         for (int i = 0; i < count; i++) {
-            XMLComponent c = (XMLComponent) fComponents.get(i);
+            XMLComponent c = fComponents.get(i);
             c.reset(this);
         }
 

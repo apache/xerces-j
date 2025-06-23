@@ -18,6 +18,7 @@
 package org.apache.xerces.dom;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.DOMException;
@@ -113,8 +114,7 @@ public class RangeImpl implements Range {
                 DOMException.INVALID_STATE_ERR, 
                 DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "INVALID_STATE_ERR", null));
         }
-        return (fStartContainer == fEndContainer 
-             && fStartOffset == fEndOffset);
+        return (fStartContainer == fEndContainer && fStartOffset == fEndOffset);
     }
     
     public Node getCommonAncestorContainer() {
@@ -123,19 +123,18 @@ public class RangeImpl implements Range {
                 DOMException.INVALID_STATE_ERR, 
                 DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "INVALID_STATE_ERR", null));
         }
-        ArrayList startV = new ArrayList();
+
+        List<Node> startV = new ArrayList<>();
         Node node;
-        for (node=fStartContainer; node != null; 
-             node=node.getParentNode()) 
-        {
+        for (node=fStartContainer; node != null; node=node.getParentNode()) {
             startV.add(node);
         }
-        ArrayList endV = new ArrayList();
-        for (node=fEndContainer; node != null; 
-             node=node.getParentNode()) 
-        {
+
+        List<Node> endV = new ArrayList<>();
+        for (node=fEndContainer; node != null; node=node.getParentNode()) {
             endV.add(node);
         }
+
         int s = startV.size()-1;
         int e = endV.size()-1;
         Object result = null;
@@ -152,9 +151,7 @@ public class RangeImpl implements Range {
     }
     
     
-    public void setStart(Node refNode, int offset)
-                         throws RangeException, DOMException
-    {
+    public void setStart(Node refNode, int offset) throws RangeException, DOMException {
         if (fDocument.errorChecking) {
             if ( fDetach) {
                 throw new DOMException(
@@ -189,9 +186,7 @@ public class RangeImpl implements Range {
         } 
     }
     
-    public void setEnd(Node refNode, int offset)
-                       throws RangeException, DOMException
-    {
+    public void setEnd(Node refNode, int offset) throws RangeException, DOMException {
         if (fDocument.errorChecking) {
             if (fDetach) {
                 throw new DOMException(
@@ -226,9 +221,7 @@ public class RangeImpl implements Range {
         } 
     }
 
-    public void setStartBefore(Node refNode) 
-        throws RangeException 
-    {
+    public void setStartBefore(Node refNode) throws RangeException {
         if (fDocument.errorChecking) {
             if (fDetach) {
                 throw new DOMException(
@@ -261,15 +254,12 @@ public class RangeImpl implements Range {
         // than the current one for the Range, the Range should be collapsed to
         // the new position.
         // The start position of a Range should never be after the end position.
-        if (getCommonAncestorContainer() == null
-                || (fStartContainer == fEndContainer && fEndOffset < fStartOffset)) {
+        if (getCommonAncestorContainer() == null || (fStartContainer == fEndContainer && fEndOffset < fStartOffset)) {
             collapse(true);
         }  
     }
     
-    public void setStartAfter(Node refNode)
-        throws RangeException
-    {
+    public void setStartAfter(Node refNode) throws RangeException {
         if (fDocument.errorChecking) {
             if (fDetach) {
                 throw new DOMException(
@@ -306,9 +296,7 @@ public class RangeImpl implements Range {
         } 
     }
     
-    public void setEndBefore(Node refNode)
-        throws RangeException
-    {
+    public void setEndBefore(Node refNode) throws RangeException {
         if (fDocument.errorChecking) {
             if (fDetach) {
                 throw new DOMException(
@@ -345,9 +333,7 @@ public class RangeImpl implements Range {
         } 
     }
                                             
-    public void setEndAfter(Node refNode)
-        throws RangeException
-    {
+    public void setEndAfter(Node refNode) throws RangeException {
         if (fDocument.errorChecking) {
             if( fDetach) {
                 throw new DOMException(
@@ -385,8 +371,7 @@ public class RangeImpl implements Range {
     }
     
     public void collapse(boolean toStart) {
-        
-    	if( fDetach) {
+    	if(fDetach) {
     		throw new DOMException(
     		DOMException.INVALID_STATE_ERR, 
                 DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "INVALID_STATE_ERR", null));
@@ -401,9 +386,7 @@ public class RangeImpl implements Range {
         }
     }
     
-    public void selectNode(Node refNode)
-        throws RangeException
-    {
+    public void selectNode(Node refNode) throws RangeException {
         if (fDocument.errorChecking) {
             if (fDetach) {
                 throw new DOMException(
@@ -436,9 +419,7 @@ public class RangeImpl implements Range {
         }
     }
         
-    public void selectNodeContents(Node refNode)
-        throws RangeException
-    {
+    public void selectNodeContents(Node refNode) throws RangeException {
         if (fDocument.errorChecking) {
             if( fDetach) {
                 throw new DOMException(

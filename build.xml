@@ -885,7 +885,8 @@ Authors:
        haltonfailure="no" 
        haltonerror="no" 
        failureproperty="test.failed" 
-       errorproperty="test.failed">
+       errorproperty="test.failed"
+       includeantruntime="true">
         <bootclasspath refid="test.boot.classpath"/>
         <test name="schema.config.AllTests"/>
     </junit>

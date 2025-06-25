@@ -46,7 +46,7 @@ import org.w3c.dom.ls.LSSerializer;
 import dom.util.Assertion;
 
 /**
- * The program tests vacarious DOM Level 3 functionality
+ * The program tests various DOM Level 3 functionality
  * 
  * @version $Id$
  */

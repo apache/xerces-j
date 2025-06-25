@@ -760,6 +760,14 @@ Authors:
   <!-- Do a sanity test using samples                                      -->
   <!-- =================================================================== -->
   <target name="test" depends="tests">
+    <path id="test.classpath">
+        <pathelement location="${tools.dir}/${jar.apis}"/>
+        <pathelement location="${tools.dir}/${jar.resolver}"/>
+        <pathelement location="${tools.dir}/${jar.serializer}"/>
+        <pathelement location="${tools.dir}/${jar.junit}"/>
+        <pathelement location="${build.dir}/classes"/>
+        <pathelement location="${build.dir}/tests"/>
+    </path>
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
     <echo message="Using classpath=&apos;${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes&apos;" />
     <echo message="Running sax.Counter ..." />
@@ -873,14 +881,6 @@ Authors:
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo message="Running schema.config.AllTests ..." />
-    <path id="test.classpath">
-        <pathelement location="${tools.dir}/${jar.apis}"/>
-        <pathelement location="${tools.dir}/${jar.resolver}"/>
-        <pathelement location="${tools.dir}/${jar.serializer}"/>
-        <pathelement location="${tools.dir}/${jar.junit}"/>
-        <pathelement location="${build.dir}/classes"/>
-        <pathelement location="${build.dir}/tests"/>
-    </path>
     <junit fork="yes"
            haltonfailure="no" 
            haltonerror="no" 
@@ -936,16 +936,11 @@ Authors:
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo message="Running dom.dom3.Test..." />
-    <junit fork="yes"
-           haltonfailure="no" 
-           haltonerror="no" 
-           failureproperty="test.failed" 
-           errorproperty="test.failed"
-           showoutput="yes">
-        <classpath refid="test.classpath"/>
-        <test name="dom.dom3.Test"/>
-        <formatter type="brief" usefile="false"/>
-    </junit>
+    <java fork="yes"
+          classname="dom.dom3.Test"
+          failOnError="yes">
+        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
+    </java>
     <echo message="Running idc.AllTests ..." />
     <java fork="yes"
           classname="idc.AllTests"

@@ -824,13 +824,13 @@ Authors:
           classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes"
           classname="dom.DOMFilter"
           args="-p dom.wrappers.DOMParser ${data.dir}/personal.xml"/>
-    <echo message="Running dom.DTest ..." />
+    <echo message="Running dom.DTest..." />
     <java fork="yes"
           classname="dom.DTest"
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>    	
     </java>
-    <echo message="Running dom.mem.Test ..." />
+    <echo message="Running dom.mem.Test..." />
     <java fork="yes"
           classname="dom.mem.Test"
           failOnError="yes">

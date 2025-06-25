@@ -824,26 +824,6 @@ Authors:
           classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes"
           classname="dom.DOMFilter"
           args="-p dom.wrappers.DOMParser ${data.dir}/personal.xml"/>
-    <!-- The following are samples but not command-line applications.
-    <echo message="Running IteratorView ..." />
-    <java fork="yes"
-          classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes"
-          classname="dom.traversal.IteratorView"
-          failOnError="yes"
-          args="${data.dir}/personal.xml"/>
-    <echo message="Running TreeWalkerView ..." />
-    <java fork="yes"
-          classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes"
-          classname="dom.traversal.TreeWalkerView"
-          failOnError="yes"
-          args="${data.dir}/personal.xml"/>
-    <echo message="Running TreeViewer ..." />
-    <java fork="yes"
-          classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes"
-          classname="dom.TreeViewer"
-          failOnError="yes"
-          args="${data.dir}/personal.xml"/>
-     -->
     <echo message="Running dom.DTest ..." />
     <java fork="yes"
           classname="dom.DTest"
@@ -863,7 +843,7 @@ Authors:
       <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
       <arg value="all"/>
     </java>
-    <echo if:set="java9OrLater" message="Running dom.ids.Test ..." />
+    <echo if:set="java9OrLater" message="Running dom.ids.Test..." />
     <java if:set="java9OrLater"
           fork="yes"
           classname="dom.ids.Test"
@@ -878,8 +858,9 @@ Authors:
         <arg value="${data.dir}/personal-schema.xml"/>
         <arg value="out.xml"/>
     </java>
-    <echo message="Running dom.traversal.AllTests ..." />
-    <java fork="yes"
+    <echo  if:set="java9OrLater" message="Running dom.traversal.AllTests..." />
+    <java if:set="java9OrLater"
+          fork="yes"
           classname="dom.traversal.AllTests"
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${tools.dir}/${jar.junit}${path.separator}${build.dir}/classes${path.separator}${build.dir}/tests"/>

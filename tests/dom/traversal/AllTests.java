@@ -33,7 +33,7 @@ public class AllTests {
     public static void main(String[] args) {
         TestResult result = TestRunner.run(AllTests.suite());
         if (!result.wasSuccessful()) {
-            System.exit(1);
+            throw new RuntimeException("Tests failed!");
         }
     }
     

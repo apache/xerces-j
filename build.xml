@@ -886,9 +886,10 @@ Authors:
            haltonerror="no" 
            failureproperty="test.failed" 
            errorproperty="test.failed"
-           includeantruntime="yes">
+           showoutput="yes">
         <classpath refid="test.classpath"/>
         <test name="schema.config.AllTests"/>
+        <formatter type="brief" usefile="false"/>
     </junit>
     <echo message="Running schema.annotations.AllTests ..." />
     <java fork="yes"

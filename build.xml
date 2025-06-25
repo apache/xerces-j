@@ -861,7 +861,7 @@ Authors:
     </java>
 
 <!--  
-     TODP fix this test
+     TODO fix this test
      [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
      [java] org.xml.sax.SAXNotRecognizedException: Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
 -->
@@ -886,8 +886,9 @@ Authors:
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
-    <echo message="Running schema.config.AllTests ..." />
-    <junit fork="yes"
+    <echo  if:set="java9OrLater" message="Running schema.config.AllTests ..." />
+    <junit if:set="java9OrLater"
+           fork="yes"
            haltonfailure="no" 
            haltonerror="no" 
            failureproperty="test.failed" 

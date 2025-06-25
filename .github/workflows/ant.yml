@@ -45,7 +45,7 @@ jobs:
     # test fails on JDK 8 due to java.lang.NoSuchFieldError
     # test fails in JDK 11+ as -Xbootclasspath/p is no longer a supported option
     - name: Ant Test (target test)
-      run: ant -noinput -buildfile build.xml test
+      run: ant -noinput -buildfile build.xml ci-test
 
     # cannot target 'all' with any JDK due to NoClassDefFoundError: com/sun/image/codec/jpeg/JPEGCodec
     #- name: Ant Build (target all)

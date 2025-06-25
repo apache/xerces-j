@@ -935,6 +935,9 @@ Authors:
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${tools.dir}/${jar.junit}${path.separator}${build.dir}/classes${path.separator}${build.dir}/tests"/>
     </java>
+  </target>
+
+  <target name="ci-test" depends="test">
     <fail message="One or more tests failed. See reports for details." if="test.failed"/>
   </target>
 

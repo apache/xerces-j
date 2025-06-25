@@ -859,7 +859,7 @@ Authors:
         <arg value="${data.dir}/personal-schema.xml"/>
         <arg value="out.xml"/>
     </java>
-    <echo  if:set="java9OrLater" message="Running dom.traversal.AllTests..." />
+    <echo if:set="java9OrLater" message="Running dom.traversal.AllTests..." />
     <java if:set="java9OrLater"
           fork="yes"
           classname="dom.traversal.AllTests"
@@ -873,11 +873,18 @@ Authors:
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo message="Running schema.config.AllTests ..." />
-    <java fork="yes"
-          classname="schema.config.AllTests"
-          failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${tools.dir}/${jar.junit}${path.separator}${build.dir}/classes${path.separator}${build.dir}/tests"/>
-    </java>
+    <path id="test.boot.classpath">
+        <pathelement location="${tools.dir}/${jar.apis}"/>
+        <pathelement location="${tools.dir}/${jar.resolver}"/>
+        <pathelement location="${tools.dir}/${jar.serializer}"/>
+        <pathelement location="${tools.dir}/${jar.junit}"/>
+        <pathelement location="${build.dir}/classes"/>
+        <pathelement location="${build.dir}/tests"/>
+    </path>
+    <junit fork="yes">
+        <bootclasspath refid="test.boot.classpath"/>
+        <test name="schema.config.AllTests"/>
+    </junit>
     <echo message="Running schema.annotations.AllTests ..." />
     <java fork="yes"
           classname="schema.annotations.AllTests"

@@ -881,7 +881,11 @@ Authors:
         <pathelement location="${build.dir}/classes"/>
         <pathelement location="${build.dir}/tests"/>
     </path>
-    <junit fork="yes">
+    <junit fork="yes"
+       haltonfailure="no" 
+       haltonerror="no" 
+       failureproperty="test.failed" 
+       errorproperty="test.failed">
         <bootclasspath refid="test.boot.classpath"/>
         <test name="schema.config.AllTests"/>
     </junit>
@@ -930,7 +934,8 @@ Authors:
           classname="idc.AllTests"
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${tools.dir}/${jar.junit}${path.separator}${build.dir}/classes${path.separator}${build.dir}/tests"/>
-    </java>    
+    </java>
+    <fail message="One or more tests failed. See reports for details." if="test.failed"/>
   </target>
 
   <!-- =================================================================== -->

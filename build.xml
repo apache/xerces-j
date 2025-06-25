@@ -903,16 +903,11 @@ Authors:
         <formatter type="brief" usefile="false"/>
     </junit>
     <echo message="Running jaxp.PropertyTest..." />
-    <junit fork="yes"
-           haltonfailure="no" 
-           haltonerror="no" 
-           failureproperty="test.failed" 
-           errorproperty="test.failed"
-           showoutput="yes">
-        <classpath refid="test.classpath"/>
-        <test name="jaxp.PropertyTest"/>
-        <formatter type="brief" usefile="false"/>
-    </junit>
+    <java fork="yes"
+          classname="jaxp.PropertyTest"
+          failOnError="yes">
+        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
+    </java>
     <echo message="Running jaxp.JAXPSpecTest..." />
     <java fork="yes"
           classname="jaxp.JAXPSpecTest"

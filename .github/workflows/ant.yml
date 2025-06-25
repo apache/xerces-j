@@ -32,7 +32,7 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.jdk }}
 
-    # c heck ant version
+    # check ant version
     - name: Ant Version
       run: ant -version
 

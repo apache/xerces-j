@@ -886,7 +886,7 @@ Authors:
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
-    <echo  if:set="java9OrLater" message="Running schema.config.AllTests ..." />
+    <echo if:set="java9OrLater" message="Running schema.config.AllTests..." />
     <!-- TODO some of these tests pass on java 8 so I need to split them in such a way that we can enable them -->
     <junit if:set="java9OrLater"
            fork="yes"
@@ -899,8 +899,8 @@ Authors:
         <test name="schema.config.AllTests"/>
         <formatter type="brief" usefile="false"/>
     </junit>
-    <echo message="Running schema.annotations.AllTests ..." />
-    <junit fork="yes"
+    <echo if:set="java9OrLater" message="Running schema.annotations.AllTests..." />
+    <junit if:set="java9OrLater" fork="yes"
            haltonfailure="no" 
            haltonerror="no" 
            failureproperty="test.failed" 
@@ -944,7 +944,7 @@ Authors:
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
-    <echo message="Running idc.AllTests ..." />
+    <echo message="Running idc.AllTests..." />
     <java fork="yes"
           classname="idc.AllTests"
           failOnError="yes">

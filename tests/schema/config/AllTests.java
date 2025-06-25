@@ -19,16 +19,15 @@ package schema.config;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import junit.textui.TestRunner;
 
 /**
  * @author Peter McCracken, IBM
  * @version $Id$
  */
 public class AllTests {
-
+    
     public static void main(String[] args) {
-        TestRunner.run(AllTests.suite());
+        junit.textui.TestRunner.run(AllTests.suite());
     }
     
     public static Test suite() {

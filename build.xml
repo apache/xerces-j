@@ -873,7 +873,7 @@ Authors:
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo message="Running schema.config.AllTests ..." />
-    <path id="test.boot.classpath">
+    <path id="test.classpath">
         <pathelement location="${tools.dir}/${jar.apis}"/>
         <pathelement location="${tools.dir}/${jar.resolver}"/>
         <pathelement location="${tools.dir}/${jar.serializer}"/>
@@ -882,12 +882,12 @@ Authors:
         <pathelement location="${build.dir}/tests"/>
     </path>
     <junit fork="yes"
-       haltonfailure="no" 
-       haltonerror="no" 
-       failureproperty="test.failed" 
-       errorproperty="test.failed"
-       includeantruntime="true">
-        <bootclasspath refid="test.boot.classpath"/>
+           haltonfailure="no" 
+           haltonerror="no" 
+           failureproperty="test.failed" 
+           errorproperty="test.failed"
+           includeantruntime="yes">
+        <classpath refid="test.classpath"/>
         <test name="schema.config.AllTests"/>
     </junit>
     <echo message="Running schema.annotations.AllTests ..." />

@@ -892,17 +892,27 @@ Authors:
         <formatter type="brief" usefile="false"/>
     </junit>
     <echo message="Running schema.annotations.AllTests ..." />
-    <java fork="yes"
-          classname="schema.annotations.AllTests"
-          failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${tools.dir}/${jar.junit}${path.separator}${build.dir}/classes${path.separator}${build.dir}/tests"/>
-    </java>
+    <junit fork="yes"
+           haltonfailure="no" 
+           haltonerror="no" 
+           failureproperty="test.failed" 
+           errorproperty="test.failed"
+           showoutput="yes">
+        <classpath refid="test.classpath"/>
+        <test name="schema.annotations.AllTests"/>
+        <formatter type="brief" usefile="false"/>
+    </junit>
     <echo message="Running jaxp.PropertyTest..." />
-    <java fork="yes"
-          classname="jaxp.PropertyTest"
-          failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
-    </java>
+    <junit fork="yes"
+           haltonfailure="no" 
+           haltonerror="no" 
+           failureproperty="test.failed" 
+           errorproperty="test.failed"
+           showoutput="yes">
+        <classpath refid="test.classpath"/>
+        <test name="jaxp.PropertyTest"/>
+        <formatter type="brief" usefile="false"/>
+    </junit>
     <echo message="Running jaxp.JAXPSpecTest..." />
     <java fork="yes"
           classname="jaxp.JAXPSpecTest"
@@ -926,11 +936,16 @@ Authors:
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo message="Running dom.dom3.Test..." />
-    <java fork="yes"
-          classname="dom.dom3.Test"
-          failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
-    </java>
+    <junit fork="yes"
+           haltonfailure="no" 
+           haltonerror="no" 
+           failureproperty="test.failed" 
+           errorproperty="test.failed"
+           showoutput="yes">
+        <classpath refid="test.classpath"/>
+        <test name="dom.dom3.Test"/>
+        <formatter type="brief" usefile="false"/>
+    </junit>
     <echo message="Running idc.AllTests ..." />
     <java fork="yes"
           classname="idc.AllTests"

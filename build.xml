@@ -887,6 +887,7 @@ Authors:
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo  if:set="java9OrLater" message="Running schema.config.AllTests ..." />
+    <!-- TODO some of these tests pass on java 8 so I need to split them in such a way that we can enable them -->
     <junit if:set="java9OrLater"
            fork="yes"
            haltonfailure="no" 

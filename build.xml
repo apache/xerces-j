@@ -771,11 +771,6 @@ Authors:
         <pathelement location="${build.dir}/tests"/>
     </path>
 
-    <!-- ugly hack because code doesn't load test resources properly; fix this -->
-    <copy todir="${build.dest}/schema/annotations" verbose='true'>
-      <fileset dir="tests/schema/annotations" includes="**/*.xsd" />
-    </copy>
-
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
     <echo message="Using classpath=&apos;${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes&apos;" />
     <echo message="Running sax.Counter ..." />

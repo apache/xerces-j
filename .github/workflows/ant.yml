@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['8', '11', '17', '21']
+        jdk: ['8']
 
     steps:
     - uses: actions/checkout@v4
@@ -32,7 +32,10 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.jdk }}
 
-    # use Ant directly to ensure targets work as expected
+    # check ant version
+    - name: Ant Version
+      run: ant -version
+
     - name: Ant Build (target jars)
       run: ant -noinput -buildfile build.xml jars
 
@@ -41,8 +44,8 @@ jobs:
 
     # test fails on JDK 8 due to java.lang.NoSuchFieldError
     # test fails in JDK 11+ as -Xbootclasspath/p is no longer a supported option
-    #- name: Ant Test (target test)
-    #  run: ant -noinput -buildfile build.xml test
+    - name: Ant Test (target test)
+      run: ant -noinput -buildfile build.xml ci-test
 
     # cannot target 'all' with any JDK due to NoClassDefFoundError: com/sun/image/codec/jpeg/JPEGCodec
     #- name: Ant Build (target all)

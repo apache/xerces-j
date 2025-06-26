@@ -88,15 +88,10 @@ Authors:
     <property name="copyright" value="Copyright &#169; ${year} The Apache Software Foundation. All Rights Reserved."/>
 
     <echo message= "---------------- ${parser.Name} ${parser.Version} [${year}] ---------------"/>
-    <!-- changed made to synchronize with a patch from Sam Ruby (<rubys@apache.org>) to Xerces1
-    <property name="build.compiler" value="classic"/> -->
     <property name="debug" value="true"/>  <!-- make this 'false' during releases -->
     <property name="debuglevel" value="lines,source"/>
     <property name="optimize" value="on"/>
     <property name="deprecation" value="off"/>
-  	
-    <!--<property name="javac.source" value="${ant.java.version}"/>
-    <property name="javac.target" value="${ant.java.version}"/>-->
     
     <property name="javac.source" value="1.8"/>
     <property name="javac.target" value="1.8"/>
@@ -775,6 +770,12 @@ Authors:
         <pathelement location="${build.dir}/classes"/>
         <pathelement location="${build.dir}/tests"/>
     </path>
+    <java classname="dom.ClassPathDebugger" fork="true" failonerror="true">
+        <arg value="org.apache.xerces.dom.ElementNSImpl"/>
+        <classpath>
+            <path refid="run.classpath"/> 
+        </classpath>
+    </java>
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
     <echo message="Using classpath=&apos;${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes&apos;" />
     <echo message="Running sax.Counter ..." />

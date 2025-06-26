@@ -792,10 +792,8 @@ Authors:
           failOnError="yes">
        <arg value="${data.dir}/personal.xml"/>
     </java>
-    <!-- fails in CI on Java 8 due to NoSuchFieldError; fix this -->
-    <echo if:set="java9OrLater" message="Running dom.Counter ..." />
-    <java if:set="java9OrLater" 
-          fork="yes"
+    <echo message="Running dom.Counter ..." />
+    <java fork="yes"
           classname="dom.Counter"
           classpathref="run.classpath"
           failOnError="yes">

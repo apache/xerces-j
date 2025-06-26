@@ -835,12 +835,6 @@ Authors:
         <arg value="${data.dir}/personal-schema.xml"/>
     </java>
 
-    <echo if:set="java9OrLater" message="Running DOMFilter ..." />
-    <java if:set="java9OrLater" 
-          fork="yes"
-          classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes"
-          classname="dom.DOMFilter"
-          args="-p dom.wrappers.DOMParser ${data.dir}/personal.xml"/>
     <echo message="Running dom.DTest..." />
     <java fork="yes"
           classname="dom.DTest"

@@ -27,7 +27,7 @@ Authors:
    $Id$
 
 ==================================================================== -->
-<project default="usage" basedir="." xmlns:if="ant:if">
+<project default="usage" basedir=".">
 	
   <!-- Xerces Java directories -->
   <property name="build.dir" value="./build"/>
@@ -770,12 +770,12 @@ Authors:
         <pathelement location="${build.dir}/classes"/>
         <pathelement location="${build.dir}/tests"/>
     </path>
-    <java classname="dom.ClassPathDebugger" fork="true" failonerror="true">
-        <arg value="org.apache.xerces.dom.ElementNSImpl"/>
-        <classpath>
-            <path refid="run.classpath"/> 
-        </classpath>
-    </java>
+
+    <!-- ugly hack because code doesn't load test resources properly; fix this -->
+    <copy todir="${build.dest}/schema/annotations" verbose='true'>
+      <fileset dir="tests/schema/annotations" includes="**/*.xsd" />
+    </copy>
+
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
     <echo message="Using classpath=&apos;${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes&apos;" />
     <echo message="Running sax.Counter ..." />
@@ -800,8 +800,7 @@ Authors:
         <arg value="${data.dir}/personal.xml"/>
     </java>
     <echo message="Running dom.Writer ..." />
-    <java if:set="java9OrLater"
-          fork="yes"
+    <java fork="yes"
           classname="dom.Writer"
           classpathref="run.classpath"
           failOnError="yes">
@@ -901,7 +900,10 @@ Authors:
            failureproperty="test.failed" 
            errorproperty="test.failed"
            showoutput="yes">
-        <classpath refid="test.classpath"/>
+        <classpath>
+          <path refid="test.classpath"/>
+          <pathelement location="tests"/>
+        </classpath>
         <test name="schema.annotations.AllTests"/>
         <formatter type="brief" usefile="false"/>
     </junit>

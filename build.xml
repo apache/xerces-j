@@ -759,13 +759,15 @@ Authors:
         <pathelement location="${tools.dir}/${jar.junit}"/>
         <pathelement location="${build.dir}/classes"/>
     </path>
+    <pathconvert property="run.classpath.string" refid="run.classpath" pathsep="${path.separator}"/>
     <path id="test.classpath">
           <path refid="run.classpath"/>
         <pathelement location="${build.dir}/tests"/>
     </path>
+    <pathconvert property="test.classpath.string" refid="test.classpath" pathsep="${path.separator}"/>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
-    <echo message="Using classpath=&apos;${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes&apos;" />
+    <echo message="Using classpath='${run.classpath.string}'" />
     <echo message="Running sax.Counter ..." />
     <java fork="yes"
           classname="sax.Counter"
@@ -796,6 +798,7 @@ Authors:
     </java>
     <!-- TODO These should be run using the junit tasks, not java -->
     <echo message="Running thread.Test dom" />
+    <echo message="Using classpath='${test.classpath.string}'" />
     <java fork="yes"
           classname="thread.Test"
           classpathref="test.classpath"

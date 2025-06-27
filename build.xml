@@ -751,9 +751,6 @@ Authors:
 
   </target>
 
-  <!-- =================================================================== -->
-  <!-- Do a sanity test using samples                                      -->
-  <!-- =================================================================== -->
   <target name="test" depends="tests">
     <path id="run.classpath">
         <pathelement location="${tools.dir}/${jar.apis}"/>
@@ -763,11 +760,7 @@ Authors:
         <pathelement location="${build.dir}/classes"/>
     </path>
     <path id="test.classpath">
-        <pathelement location="${tools.dir}/${jar.apis}"/>
-        <pathelement location="${tools.dir}/${jar.resolver}"/>
-        <pathelement location="${tools.dir}/${jar.serializer}"/>
-        <pathelement location="${tools.dir}/${jar.junit}"/>
-        <pathelement location="${build.dir}/classes"/>
+          <path refid="run.classpath"/>
         <pathelement location="${build.dir}/tests"/>
     </path>
 

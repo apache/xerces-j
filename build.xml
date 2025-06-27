@@ -121,10 +121,6 @@ Authors:
     <filter token="date" value="${TODAY}"/>
     <filter token="log" value="true"/>
     <filter token="verbose" value="true"/>
-
-    <condition property="java9OrLater">
-      <javaversion atleast="9" />
-    </condition>
   </target>
 
   <!-- =================================================================== -->

@@ -40,8 +40,7 @@ public class TestCase extends junit.framework.TestCase {
         String documentPath = packageDir + "/" + path;
         URL url = this.getClass().getClassLoader().getResource(documentPath);
         if (url == null) {
-            String message = "Current working directory: " + System.getProperty("user.dir");
-            message += "\nCouldn't find xml file for test: " + documentPath;
+            String message = "Couldn't find xml file for test: " + documentPath;
             fail (message);
         }
         return url.toExternalForm();

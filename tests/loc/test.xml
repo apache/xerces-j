@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <child>Hello</child>
+  <selfClosing />
+  <!--
+    This comment takes up 3 lines
+    -->
+  <another>World</another>
+</root>

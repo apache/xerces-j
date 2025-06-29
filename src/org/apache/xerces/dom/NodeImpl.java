@@ -25,6 +25,7 @@ import java.util.Hashtable;
 import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.DOMLocator;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
@@ -151,6 +152,8 @@ public abstract class NodeImpl
 
     // data
 
+    private DOMLocator locator;
+
     protected short flags;
 
     protected final static short READONLY     = 0x1<<0;
@@ -239,6 +242,13 @@ public abstract class NodeImpl
     	return insertBefore(newChild, null);
     }
 
+    public DOMLocator getLocator() {
+        return locator;
+    }
+
+    public void setLocator(DOMLocator locator) {
+        this.locator = locator;
+    }
     /**
      * Returns a duplicate of a given node. You can consider this a
      * generic "copy constructor" for nodes. The newly returned object should
@@ -288,6 +298,8 @@ public abstract class NodeImpl
 
         ownerDocument().callUserDataHandlers(this, newnode,
                                              UserDataHandler.NODE_CLONED);
+
+        newnode.locator = locator;
 
     	return newnode;
 

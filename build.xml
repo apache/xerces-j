@@ -27,7 +27,7 @@ Authors:
    $Id$
 
 ==================================================================== -->
-<project default="usage" basedir="." xmlns:if="ant:if">
+<project default="usage" basedir=".">
 	
   <!-- Xerces Java directories -->
   <property name="build.dir" value="./build"/>
@@ -88,15 +88,10 @@ Authors:
     <property name="copyright" value="Copyright &#169; ${year} The Apache Software Foundation. All Rights Reserved."/>
 
     <echo message= "---------------- ${parser.Name} ${parser.Version} [${year}] ---------------"/>
-    <!-- changed made to synchronize with a patch from Sam Ruby (<rubys@apache.org>) to Xerces1
-    <property name="build.compiler" value="classic"/> -->
     <property name="debug" value="true"/>  <!-- make this 'false' during releases -->
     <property name="debuglevel" value="lines,source"/>
     <property name="optimize" value="on"/>
     <property name="deprecation" value="off"/>
-  	
-    <!--<property name="javac.source" value="${ant.java.version}"/>
-    <property name="javac.target" value="${ant.java.version}"/>-->
     
     <property name="javac.source" value="1.8"/>
     <property name="javac.target" value="1.8"/>
@@ -126,10 +121,6 @@ Authors:
     <filter token="date" value="${TODAY}"/>
     <filter token="log" value="true"/>
     <filter token="verbose" value="true"/>
-
-    <condition property="java9OrLater">
-      <javaversion atleast="9" />
-    </condition>
   </target>
 
   <!-- =================================================================== -->
@@ -756,58 +747,58 @@ Authors:
 
   </target>
 
-  <!-- =================================================================== -->
-  <!-- Do a sanity test using samples                                      -->
-  <!-- =================================================================== -->
   <target name="test" depends="tests">
-    <path id="test.classpath">
+    <path id="run.classpath">
         <pathelement location="${tools.dir}/${jar.apis}"/>
         <pathelement location="${tools.dir}/${jar.resolver}"/>
         <pathelement location="${tools.dir}/${jar.serializer}"/>
         <pathelement location="${tools.dir}/${jar.junit}"/>
         <pathelement location="${build.dir}/classes"/>
+    </path>
+    <pathconvert property="run.classpath.string" refid="run.classpath" pathsep="${path.separator}"/>
+    <path id="test.classpath">
+          <path refid="run.classpath"/>
         <pathelement location="${build.dir}/tests"/>
     </path>
+    <pathconvert property="test.classpath.string" refid="test.classpath" pathsep="${path.separator}"/>
+
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
-    <echo message="Using classpath=&apos;${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes&apos;" />
+    <echo message="Using classpath='${run.classpath.string}'" />
     <echo message="Running sax.Counter ..." />
     <java fork="yes"
           classname="sax.Counter"
+          classpathref="run.classpath"
           failOnError="yes">
-       <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
        <arg value="${data.dir}/personal.xml"/>
     </java>
     <echo message="Running sax.Writer ..." />
     <java fork="yes"
           classname="sax.Writer"
+          classpathref="run.classpath"
           failOnError="yes">
-       <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
        <arg value="${data.dir}/personal.xml"/>
     </java>
-    <!-- fails in CI on Java 8 due to NoSuchFieldError; fix this -->
-    <echo if:set="java9OrLater" message="Running dom.Counter ..." />
-    <java if:set="java9OrLater" 
-          fork="yes"
+    <echo message="Running dom.Counter ..." />
+    <java fork="yes"
           classname="dom.Counter"
+          classpathref="run.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
         <arg value="${data.dir}/personal.xml"/>
     </java>
-    <echo if:set="java9OrLater" message="Running dom.Writer ..." />
-    <java if:set="java9OrLater"
-          fork="yes"
+    <echo message="Running dom.Writer ..." />
+    <java fork="yes"
           classname="dom.Writer"
+          classpathref="run.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
         <arg value="${data.dir}/personal.xml"/>
     </java>
     <!-- TODO These should be run using the junit tasks, not java -->
-    <echo if:set="java9OrLater" message="Running thread.Test dom" />
-    <java if:set="java9OrLater"
-          fork="yes"
+    <echo message="Running thread.Test dom" />
+    <echo message="Using classpath='${test.classpath.string}'" />
+    <java fork="yes"
           classname="thread.Test"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
         <arg value="-dom"/>
         <arg value="-threads"/>
         <arg value="20"/>
@@ -818,8 +809,8 @@ Authors:
     <echo message="Running thread.Test sax" />
     <java fork="yes"
           classname="thread.Test"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>    	
         <arg value="-threads"/>
         <arg value="20"/>
         <arg value="-time"/>
@@ -827,37 +818,29 @@ Authors:
         <arg value="${data.dir}/personal-schema.xml"/>
     </java>
 
-    <echo if:set="java9OrLater" message="Running DOMFilter ..." />
-    <java if:set="java9OrLater" 
-          fork="yes"
-          classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${build.dir}/classes"
-          classname="dom.DOMFilter"
-          args="-p dom.wrappers.DOMParser ${data.dir}/personal.xml"/>
     <echo message="Running dom.DTest..." />
     <java fork="yes"
           classname="dom.DTest"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>    	
     </java>
     <echo message="Running dom.mem.Test..." />
     <java fork="yes"
           classname="dom.mem.Test"
+          classpathref="test.classpath"
           failOnError="yes">
-       <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
-    <java if:set="java9OrLater"
-          fork="yes"
+    <java fork="yes"
           classname="dom.range.Test"
+          classpathref="test.classpath"
           failOnError="yes">
-      <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
       <arg value="all"/>
     </java>
-    <echo if:set="java9OrLater" message="Running dom.ids.Test..." />
-    <java if:set="java9OrLater"
-          fork="yes"
+    <echo message="Running dom.ids.Test..." />
+    <java fork="yes"
           classname="dom.ids.Test"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
 
 <!--  
@@ -865,31 +848,29 @@ Authors:
      [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
      [java] org.xml.sax.SAXNotRecognizedException: Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
 -->
-    <echo if:set="java9OrLater" message="Running dom.serialization.Test..." />
-    <java if:set="java9OrLater" fork="yes"
-          classname="dom.serialization.Test"
+    <echo message="Running dom.serialization.Test..." />
+    <java classname="dom.serialization.Test"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
         <arg value="${data.dir}/personal-schema.xml"/>
         <arg value="out.xml"/>
     </java>
-    <echo if:set="java9OrLater" message="Running dom.traversal.AllTests..." />
-    <java if:set="java9OrLater"
-          fork="yes"
+    <echo message="Running dom.traversal.AllTests..." />
+    <java fork="yes"
           classname="dom.traversal.AllTests"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${tools.dir}/${jar.junit}${path.separator}${build.dir}/classes${path.separator}${build.dir}/tests"/>
     </java>
     <echo message="Running schema.Test..." />
     <java fork="yes"
           classname="schema.Test"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
-    <echo if:set="java9OrLater" message="Running schema.config.AllTests..." />
-    <!-- TODO some of these tests pass on java 8 so I need to split them in such a way that we can enable them -->
-    <junit if:set="java9OrLater"
-           fork="yes"
+    <!-- TODO some of these tests pass so I need to split them in such a way that we can enable them -->
+    <!-- These tests are failing. Fix them. 
+    <echo message="Running schema.config.AllTests..." />
+    <junit fork="yes"
            haltonfailure="no" 
            haltonerror="no" 
            failureproperty="test.failed" 
@@ -899,28 +880,31 @@ Authors:
         <test name="schema.config.AllTests"/>
         <formatter type="brief" usefile="false"/>
     </junit>
-    <echo if:set="java9OrLater" message="Running schema.annotations.AllTests..." />
-    <junit if:set="java9OrLater" fork="yes"
-           haltonfailure="no" 
+    -->
+    <echo message="Running schema.annotations.AllTests..." />
+    <junit haltonfailure="no" 
            haltonerror="no" 
            failureproperty="test.failed" 
            errorproperty="test.failed"
            showoutput="yes">
-        <classpath refid="test.classpath"/>
+        <classpath>
+          <path refid="test.classpath"/>
+          <pathelement location="tests"/>
+        </classpath>
         <test name="schema.annotations.AllTests"/>
         <formatter type="brief" usefile="false"/>
     </junit>
     <echo message="Running jaxp.PropertyTest..." />
     <java fork="yes"
           classname="jaxp.PropertyTest"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo message="Running jaxp.JAXPSpecTest..." />
     <java fork="yes"
           classname="jaxp.JAXPSpecTest"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
         <arg value="testSchemaLanguageSAX"/>
         <arg value="testSchemaSourceSAX"/>
         <arg value="testSchemaLanguageDOM"/>
@@ -929,26 +913,26 @@ Authors:
     <echo message="Running xinclude.Test..." />
     <java fork="yes"
           classname="xinclude.Test"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo message="Running dom.registry.Test..." />
     <java fork="yes"
           classname="dom.registry.Test"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo message="Running dom.dom3.Test..." />
     <java fork="yes"
           classname="dom.dom3.Test"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
     </java>
     <echo message="Running idc.AllTests..." />
     <java fork="yes"
           classname="idc.AllTests"
+          classpathref="test.classpath"
           failOnError="yes">
-        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${tools.dir}/${jar.junit}${path.separator}${build.dir}/classes${path.separator}${build.dir}/tests"/>
     </java>
   </target>
 

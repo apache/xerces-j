@@ -33,27 +33,19 @@ public class TestCase extends junit.framework.TestCase {
         super(test);
     }
 
-    /**
-     * 
-     */
     protected String getResourceURL(String path) {
         // build the location URL of the document
         String packageDir = this.getClass().getPackage().getName().replace('.',
                 File.separatorChar);
         String documentPath = packageDir + "/" + path;
-        URL url = ClassLoader.getSystemResource(documentPath);
+        URL url = this.getClass().getClassLoader().getResource(documentPath);
         if (url == null) {
-            fail ("Couldn't find xml file for test: " + documentPath);
+            String message = "Couldn't find xml file for test: " + documentPath;
+            fail (message);
         }
-        // = getClass().getClassLoader().getResource(path);
-        
-        // System.out.println(url.toExternalForm());
         return url.toExternalForm();
     }
 
-    /**
-     * 
-     */
     protected String trim(String toTrim) {
         String replaced = toTrim.replace('\t', ' ');
         replaced =  replaced.replace('\n', ' ');

@@ -39,7 +39,7 @@ repos has Java language maximum source/target level requirement of 1.8.
 Before initiating any part of the build, set the JAVA_HOME environment 
 variable to the installation directory of your JDK.
 
-An Ant (https://ant.apache.org/) build tool is needed to build everything in Xerces-J, including
+Ant (https://ant.apache.org/) 1.10.2 or later is needed to build everything in Xerces-J, including
 the documentation. This tool, and the others needed (besides the
 pre-requisite JDK) are contained within the tools package. To
 make building Xerces-J packages easier, Windows batch file and a Linux 

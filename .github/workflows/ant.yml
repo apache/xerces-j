@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['8']
+        jdk: ['8', '11', '17', '21']
 
     steps:
     - uses: actions/checkout@v4
@@ -42,10 +42,8 @@ jobs:
     - name: Ant Build (target dtdjars)
       run: ant -noinput -buildfile build.xml dtdjars
 
-    # test fails on JDK 8 due to java.lang.NoSuchFieldError
-    # test fails in JDK 11+ as -Xbootclasspath/p is no longer a supported option
-    - name: Ant Test (target test)
-      run: ant -noinput -buildfile build.xml ci-test
+    - name: Ant Test (target ci-test)
+      run: ant -noinput -buildfile build.xml clean ci-test
 
     # cannot target 'all' with any JDK due to NoClassDefFoundError: com/sun/image/codec/jpeg/JPEGCodec
     #- name: Ant Build (target all)

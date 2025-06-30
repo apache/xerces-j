@@ -1011,8 +1011,7 @@ Authors:
     <jar jarfile="${build.dir}/dtd-${jar.parser}"
          basedir="${build.dest}"
          compress="true"
-         includes="org/apache/**, META-INF/**
-                   org/w3c/dom/html/HTMLDOMImplementation.class"
+         includes="org/apache/**, META-INF/**"
          manifest="${build.dir}/manifest.xerces">
       <manifest>
         <attribute name="Ant-Version" value="${ant.version}"/>

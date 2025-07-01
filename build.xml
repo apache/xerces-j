@@ -78,7 +78,6 @@ Authors:
     <property name='jar.serializer' value='serializer.jar'/>
     <property name='jar.junit' value='junit.jar'/>
     <property name='jar.ant' value='ant.jar'/>
-    <property name='jar.ant.nodeps' value='ant-nodeps.jar'/>
     <property name='jar.xjavac' value='xjavac.jar'/>
     
     <property name='default.parser.config.name' value='XIncludeAwareParserConfiguration'/>
@@ -1559,7 +1558,7 @@ Authors:
            destdir="${build.dest}"
            source="${javac.source}"
            target="${javac.target}"
-           classpath="${build.dir}/classes:${tools.dir}/${jar.ant}:${tools.dir}/${jar.ant.nodeps}"
+           classpath="${build.dir}/classes:${tools.dir}/${jar.ant}"
            debug="${debug}"
            debuglevel="${debuglevel}"
            deprecation="${deprecation}"

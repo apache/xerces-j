@@ -2,7 +2,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:param name="stylebook.project"/>
+  <xsl:param name="stylebook.project" select="'docs-book.xml'"/>
   <xsl:param name="sourceFilePath"/>
   <xsl:param name="id" select="substring-before($sourceFilePath, '.')"/>
 

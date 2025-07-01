@@ -459,7 +459,7 @@ Authors:
     </xslt>
 
     <copy file="${docs.dir}/download.cgi" tofile="${build.docs}/download.cgi"/>
-    <!-- TODO ridiculous that we need to copy the resources directory twice but we do
+    <!-- TODO ridiculous that we need to copy the resources and graphics directories twice but we do
           because there are links to both resources/foo.gif and images/resources/foo.gif.
           Fix this. 
     --> 
@@ -471,7 +471,10 @@ Authors:
     </copy>
     <copy todir="build/docs/images/graphics">
         <fileset dir="docs/style/graphics"/>
-    </copy>   
+    </copy>
+    <copy todir="build/docs/graphics">
+        <fileset dir="docs/style/graphics"/>
+    </copy>     
   </target>
 
 

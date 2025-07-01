@@ -70,7 +70,6 @@ Authors:
     <property name='parser_version' value='2_12_3'/>
 
     <property name='deprecatedjar.parser' value='xerces.jar'/>
-    <property name='jar.apis' value='xml-apis.jar'/>
     <property name='jar.parser' value='xercesImpl.jar'/>
     <property name='jar.samples' value='xercesSamples.jar'/>
     <property name='jar.dv' value='xercesDV.jar'/>
@@ -157,7 +156,7 @@ Authors:
     <echo message=" deprecatedjar  --> generates the xerces.jar file"/>
     <echo message=" tests    --> compiles the tests source code"/>
     <echo message=" deprecatedjars --> generates xerces.jar and samples jar"/>
-    <echo message=" dtdjars --> generates xercesImpl containing no schema support or WML/HTML DOM and xercesSamples &amp; xml-apis jars"/>
+    <echo message=" dtdjars --> generates xercesImpl containing no schema support or WML/HTML DOM and xercesSamples jars"/>
     <echo message=" dvjar --> generates a Schema datatype jar"/>
     <echo message=" pack-tools --> generates the tools distributions (zip and tar.gz)"/>
     <echo message=" pack-src   --> generates the source distributions (zip and tar.gz)"/>
@@ -967,11 +966,9 @@ Authors:
   </target>
 
   <!-- =================================================================== -->
-  <!-- Builds xercesImpl, xml-apis and sample jar files                    -->
+  <!-- Builds xercesImpl and sample jar files                    -->
   <!-- =================================================================== -->
   <target name="jars" depends="jar, sampjar">
-    <!-- include the xml-commons APIs -->
-    <copy file="${tools.dir}/${jar.apis}" tofile="${build.dir}/${jar.apis}"/>
     <!-- include the xml-commons resolver -->
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
@@ -1297,11 +1294,9 @@ Authors:
   </target>
 
   <!-- =================================================================== -->
-  <!-- Builds xercesImpl (dtd), xml-apis, and sample jars                  -->
+  <!-- Builds xercesImpl (dtd) and sample jars                  -->
   <!-- =================================================================== -->
   <target name="dtdjars" depends="dtdjar, sampjar">
-    <!-- include the xml-commons APIs -->
-    <copy file="${tools.dir}/${jar.apis}" tofile="${build.dir}/${jar.apis}"/>
     <!-- include the xml-commons resolver -->
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
@@ -1534,11 +1529,9 @@ Authors:
   </target>	
 
   <!-- =================================================================== -->
-  <!-- Builds xercesImpl, xml-apis and sample jars with Schema 1.1 support -->
+  <!-- Builds xercesImpl and sample jars with Schema 1.1 support -->
   <!-- =================================================================== -->
   <target name="jars-schema11" depends="jar-schema11, sampjar">
-    <!-- include the xml-commons APIs -->
-    <copy file="${tools.dir}/${jar.apis}" tofile="${build.dir}/${jar.apis}"/>
     <!-- include the xml-commons resolver -->
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->

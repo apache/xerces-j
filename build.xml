@@ -624,7 +624,7 @@ Authors:
         <fileset
             dir="${tools.dir}"  
             includes="**/*.txt, **/*.html, **/*.bat, **/*.jar, **/*.zip, **/*.opt"
-            excludes="**/CVS*, **/.#*, **/*.class, **/icu4j*"
+            excludes="**/CVS*, **/.#*, **/*.class"
         />
     </copy>
 

@@ -116,12 +116,20 @@
 
   <xsl:template match="document|faqs|releases|settings">
     <xsl:if test="@id=$id">
-      <img src="graphics/{@id}-label-1.jpg" width="120" height="12" hspace="0" vspace="0" border="0" alt="{@label}"/>
+      <img src="graphics/{@id}-label-1.jpg" width="120" height="12" hspace="0" vspace="0" border="0"">
+        <xsl:attribute name="alt">
+          <xsl:value-of select="@label"/>
+        </xsl:attribute>
+      </img>
     </xsl:if>
     <xsl:if test="@id!=$id">
       <a href="{@id}.html" onMouseOver="rolloverOn('side-{@id}');" onMouseOut="rolloverOff('side-{@id}');">
         <img onLoad="rolloverLoad('side-{@id}','graphics/{@id}-label-2.jpg','graphics/{@id}-label-3.jpg');"
-             name="side-{@id}" src="graphics/{@id}-label-3.jpg" width="120" height="12" hspace="0" vspace="0" border="0" alt="{@label}"/>
+             name="side-{@id}" src="graphics/{@id}-label-3.jpg" width="120" height="12" hspace="0" vspace="0" border="0">
+          <xsl:attribute name="alt">
+            <xsl:value-of select="@label"/>
+          </xsl:attribute>
+        </img>
       </a>
     </xsl:if>
     <br/>
@@ -131,7 +139,11 @@
     <xsl:variable name="extid" select="concat('ext-',position())"/>
     <a href="{@href}" onMouseOver="rolloverOn('side-{$extid}');" onMouseOut="rolloverOff('side-{$extid}');">
       <img onLoad="rolloverLoad('side-{$extid}','graphics/{$extid}-label-2.jpg','graphics/{$extid}-label-3.jpg');"
-           name="side-{$extid}" src="graphics/{$extid}-label-3.jpg" width="120" height="12" hspace="0" vspace="0" border="0" alt="{@label}"/>
+           name="side-{$extid}" src="graphics/{$extid}-label-3.jpg" width="120" height="12" hspace="0" vspace="0" border="0"/>
+          <xsl:attribute name="alt">
+            <xsl:value-of select="@label"/>
+          </xsl:attribute>
+        </img>
     </a>
     <br/>
   </xsl:template>

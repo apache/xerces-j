@@ -447,20 +447,34 @@ Authors:
           extension=".xml">
         <outputproperty name="method" value="xml"/>
     </xslt>
+    <xslt destdir="build/intermediate"
+          basedir="build/xdocs" 
+          includes="releases.xml"
+          style="docs/style/stylesheets/releases2document.xsl"
+          extension=".xml">
+        <outputproperty name="method" value="xml"/>
+    </xslt>
     <xslt destdir="build/docs"
           basedir="build/intermediate" 
-          includes="faq-*.xml,features.xml,properties.xml"
+          includes="faq-*.xml,features.xml,properties.xml,releases.xml"
           filenameparameter="sourceFilePath"
           style="docs/style/stylesheets/document2html.xsl">
     </xslt>
     <xslt destdir="build/docs"
           basedir="build/xdocs" 
           filenameparameter="sourceFilePath"
-          includes="api.xml, bugzilla.xml, charter.xml, dom.xml, dom3.xml, download.xml, install.xml, limitations.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples-*.xml, xni-*.xml"
+          includes="api.xml, charter.xml, dom.xml, dom3.xml, download.xml, install.xml, limitations.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples-*.xml, xni-*.xml"
           style="docs/style/stylesheets/document2html.xsl">
     </xslt>
     <xslt in="build/xdocs/readme.xml"
           out="build/docs/index.html"
+          style="docs/style/stylesheets/document2html.xsl">
+      <param name="id" expression="'index'"/>
+    </xslt>
+
+    <!-- TODO this xml file should simply be renamed -->
+    <xslt in="build/xdocs/bugzilla.xml"
+          out="build/docs/jira.html"
           style="docs/style/stylesheets/document2html.xsl">
       <param name="id" expression="'index'"/>
     </xslt>

@@ -447,12 +447,28 @@ Authors:
     </xslt>
     <xslt destdir="build/docs"
           basedir="build/xdocs" 
-          includes="api.xml, bugzilla.xml, charter.xml, docs-book.xml, dom.xml, dom3.xml, download.xml, install.xml, limitations.xml, properties.xml, readme.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples-*.xml, xni-*.xml"
+          includes="api.xml, bugzilla.xml, charter.xml, docs-book.xml, dom.xml, dom3.xml, download.xml, install.xml, limitations.xml, properties.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples-*.xml, xni-*.xml"
+          style="docs/style/stylesheets/document2html.xsl">
+    </xslt>
+    <xslt in="build/xdocs/readme.xml"
+          out="build/docs/index.html"
           style="docs/style/stylesheets/document2html.xsl">
     </xslt>
 
     <copy file="${docs.dir}/download.cgi" tofile="${build.docs}/download.cgi"/>
-    
+    <!-- TODO ridiculous that we need to copy the resources directory twice but we do
+          because there are links to both resources/foo.gif and images/resources/foo.gif.
+          Fix this. 
+    --> 
+    <copy todir="build/docs/resources">
+        <fileset dir="docs/style/resources"/>
+    </copy>
+    <copy todir="build/docs/images/resources">
+        <fileset dir="docs/style/resources"/>
+    </copy>
+    <copy todir="build/docs/images/graphics">
+        <fileset dir="docs/style/graphics"/>
+    </copy>   
   </target>
 
 

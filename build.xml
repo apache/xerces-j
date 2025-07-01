@@ -433,16 +433,16 @@ Authors:
   <target name="docs" depends="prepare, prepare-docs">
     <echo message="Building docs for ${parser.Name} ${parser.Version} ..." />
 
-    <!-- TODO process all FAQs -->
-    <xslt destdir="build/docs"
-          in="build/xdocs/faq-common.xml"
-          out="build/xdocs/faq-common-document.xml"
-          style="docs/style/stylesheets/faqs2document.xsl">
+    <!-- TODO process other document types -->
+    <xslt destdir="intermediate"
+          includes="build/xdocs/faq-*.xml"
+          style="docs/style/stylesheets/faqs2document.xsl"
+          extension="xml">
+        <outputproperty name="method" value="xml"/>
     </xslt>
     <!-- TODO now run the doc stylesheet on the converted FAQs -->
     <xslt destdir="build/docs"
-          in="build/xdocs/faq-common-document.xml"
-          out="build/xdocs/faq-common.html"
+          includes="build/xdocs/intermediate/faq-*.xml"
           style="docs/style/stylesheets/document2html.xsl">
     </xslt>
 

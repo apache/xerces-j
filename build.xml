@@ -440,16 +440,23 @@ Authors:
           extension=".xml">
         <outputproperty name="method" value="xml"/>
     </xslt>
+    <xslt destdir="build/intermediate"
+          basedir="build/xdocs" 
+          includes="properties.xml,features.xml"
+          style="docs/style/stylesheets/settings2document.xsl"
+          extension=".xml">
+        <outputproperty name="method" value="xml"/>
+    </xslt>
     <xslt destdir="build/docs"
           basedir="build/intermediate" 
-          includes="faq-*.xml"
+          includes="faq-*.xml,features.xml,properties.xml"
           filenameparameter="sourceFilePath"
           style="docs/style/stylesheets/document2html.xsl">
     </xslt>
     <xslt destdir="build/docs"
           basedir="build/xdocs" 
           filenameparameter="sourceFilePath"
-          includes="api.xml, bugzilla.xml, charter.xml, dom.xml, dom3.xml, download.xml, install.xml, limitations.xml, properties.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples-*.xml, xni-*.xml"
+          includes="api.xml, bugzilla.xml, charter.xml, dom.xml, dom3.xml, download.xml, install.xml, limitations.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples-*.xml, xni-*.xml"
           style="docs/style/stylesheets/document2html.xsl">
     </xslt>
     <xslt in="build/xdocs/readme.xml"
@@ -888,7 +895,7 @@ Authors:
 
 <!--  
      TODO fix this test
-     [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
+     [java] error: Error occurred - Feature 'http://apache.org/xml/fs/validation/schema' is not recognized.
      [java] org.xml.sax.SAXNotRecognizedException: Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
 -->
     <echo if:set="java9OrLater" message="Running dom.serialization.Test..." />

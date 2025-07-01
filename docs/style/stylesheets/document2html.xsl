@@ -116,7 +116,7 @@
 
   <xsl:template match="document|faqs|releases|settings">
     <xsl:if test="@id=$id">
-      <img src="graphics/{@id}-label-1.jpg" width="120" height="12" hspace="0" vspace="0" border="0"">
+      <img src="graphics/{@id}-label-1.jpg" width="120" height="12" hspace="0" vspace="0" border="0">
         <xsl:attribute name="alt">
           <xsl:value-of select="@label"/>
         </xsl:attribute>
@@ -139,7 +139,7 @@
     <xsl:variable name="extid" select="concat('ext-',position())"/>
     <a href="{@href}" onMouseOver="rolloverOn('side-{$extid}');" onMouseOut="rolloverOff('side-{$extid}');">
       <img onLoad="rolloverLoad('side-{$extid}','graphics/{$extid}-label-2.jpg','graphics/{$extid}-label-3.jpg');"
-           name="side-{$extid}" src="graphics/{$extid}-label-3.jpg" width="120" height="12" hspace="0" vspace="0" border="0"/>
+           name="side-{$extid}" src="graphics/{$extid}-label-3.jpg" width="120" height="12" hspace="0" vspace="0" border="0">
           <xsl:attribute name="alt">
             <xsl:value-of select="@label"/>
           </xsl:attribute>

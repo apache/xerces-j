@@ -449,7 +449,7 @@ Authors:
     <xslt destdir="build/docs"
           basedir="build/xdocs" 
           filenameparameter="sourceFilePath"
-          includes="api.xml, bugzilla.xml, charter.xml, docs-book.xml, dom.xml, dom3.xml, download.xml, install.xml, limitations.xml, properties.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples-*.xml, xni-*.xml"
+          includes="api.xml, bugzilla.xml, charter.xml, dom.xml, dom3.xml, download.xml, install.xml, limitations.xml, properties.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples-*.xml, xni-*.xml"
           style="docs/style/stylesheets/document2html.xsl">
     </xslt>
     <xslt in="build/xdocs/readme.xml"

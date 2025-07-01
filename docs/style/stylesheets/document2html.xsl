@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-    xmlns:str="http://exslt.org/strings"
-    extension-element-prefixes="str">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
   <xsl:param name="stylebook.project"/>
   <xsl:param name="sourceFilePath"/>
@@ -491,12 +489,4 @@
     <xsl:copy-of select="." />
   </xsl:template>
 
-<!-- copy
-
-  <xsl:template match="@*|node()">
-    <xsl:copy>
-      <xsl:apply-templates select="@*|node()"/>
-    </xsl:copy>
-  </xsl:template>
--->
 </xsl:stylesheet>

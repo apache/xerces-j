@@ -41,7 +41,12 @@
                </xsl:when>
                <xsl:otherwise>
                   <td width="456" height="35" valign="top" align="left" colspan="4" bgcolor="#0086b2">
-                    <img src="images/graphics/{$id}-header.jpg" width="456" height="35" hspace="0" vspace="0" border="0" alt="{s1/@title}"/>
+                    <!-- TODO this is inaccessible. we shouldn't use an img here at all; just text -->
+                    <img src="images/graphics/{$id}-header.jpg" width="456" height="35" hspace="0" vspace="0" border="0">
+                      <xsl:attribute name="alt">
+                        <xsl:value-of select="/s1/@title"/>
+                      </xsl:attribute>
+                    </img>
                   </td>
                </xsl:otherwise>
             </xsl:choose>

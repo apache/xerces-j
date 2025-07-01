@@ -2,7 +2,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:param name="stylebook.project" select="'docs-book.xml'"/>
+  <xsl:param name="sidebar" select="'docs-book.xml'"/>
   <xsl:param name="sourceFilePath"/>
   <xsl:param name="id" select="substring-before($sourceFilePath, '.')"/>
 
@@ -81,7 +81,7 @@
             <!-- THE SIDE BAR -->
             <td width="120" valign="top" align="left">
               <img width="120" height="14" src="resources/join.gif" hspace="0" vspace="0" border="0"/><br/>
-                <xsl:apply-templates select="document($stylebook.project)"/>
+                <xsl:apply-templates select="document($sidebar)"/>
               <img width="120" height="14" src="resources/close.gif" hspace="0" vspace="0" border="0"/><br/>
             </td>
             <!-- THE CONTENT PANEL -->
@@ -114,6 +114,7 @@
 
   <xsl:template match="document|faqs|releases|settings">
     <xsl:if test="@id=$id">
+      <!-- TODO inaccessible; don't use images for text -->
       <img src="graphics/{@id}-label-1.jpg" width="120" height="12" hspace="0" vspace="0" border="0">
         <xsl:attribute name="alt">
           <xsl:value-of select="@label"/>
@@ -463,7 +464,7 @@
 
   <xsl:template match="resource-ref">
     <xsl:variable name="resourceFile"
-          select="document($stylebook.project)/book/resources/@source"/>
+          select="document($sidebar)/book/resources/@source"/>
     <xsl:variable name="xref" select="@idref"/>
     <xsl:variable name="href"
           select="document($resourceFile)/resources/resource[@id=$xref]/@location"/>
@@ -474,7 +475,7 @@
 
   <xsl:template match="human-resource-ref">
     <xsl:variable name="resourceFile"
-          select="document($stylebook.project)/book/resources/@source"/>
+          select="document($sidebar)/book/resources/@source"/>
     <xsl:variable name="ref"  select="@idref"/>
     <xsl:variable name="mailto"
           select="document($resourceFile)/resources/human-resource[@id=$ref]/@mailto"/>

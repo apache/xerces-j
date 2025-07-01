@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 -->
-<!DOCTYPE book SYSTEM 'dtd/book.dtd'>
+<!DOCTYPE book SYSTEM '../../dtd/book.dtd'>
 <book title='&ParserName; Documentation' 
       copyright='1999-2022 The Apache Software Foundation'>
  <external label='Home' href='http://xerces.apache.org/'/>

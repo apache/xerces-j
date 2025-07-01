@@ -3,7 +3,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
   <xsl:param name="stylebook.project"/>
-  <xsl:param name="copyright"/>
   <xsl:param name="id"/>
 
   <xsl:template match="/">
@@ -92,7 +91,7 @@
           <tr><td bgcolor="#0086b2"><img src="images/dot.gif" width="1" height="1"/></td></tr>
           <tr>
             <td align="center"><font size="-1" color="#0086b2"><i>
-              Copyright &#169; <xsl:value-of select="$copyright"/>.
+              Copyright &#169; <a href="http://www.apache.org/licenses/">The Apache Software Foundation</a>.
               All Rights Reserved.
             </i></font></td>
           </tr>

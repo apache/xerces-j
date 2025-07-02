@@ -421,6 +421,8 @@ Authors:
   <target name="docs" depends="prepare, prepare-docs">
     <echo message="Building docs for ${parser.Name} ${parser.Version} ..." />
 
+    <!-- first process the files that need two-phase transformations
+         to produce files in the document syntax -->
     <xslt destdir="build/intermediate"
           basedir="build/xdocs" 
           includes="faq-*.xml"
@@ -429,7 +431,7 @@ Authors:
         <outputproperty name="method" value="xml"/>
     </xslt>
     <xslt destdir="build/intermediate"
-          in="docs/style/stylesheets/docs-book.xml"
+          in="docs/docs-book.xml"
           out="build/intermediate/groupfaqs.xml"
           style="docs/style/stylesheets/book2group.xsl"
           extension=".xml">
@@ -457,6 +459,8 @@ Authors:
           extension=".xml">
         <outputproperty name="method" value="xml"/>
     </xslt>
+
+    <!-- now process all the XML documents to produce HTML documents -->
     <xslt destdir="build/docs"
           basedir="build/intermediate" 
           includes="faq*.xml,features.xml,properties.xml,releases.xml"
@@ -475,6 +479,7 @@ Authors:
       <param name="id" expression="'index'"/>
     </xslt>
 
+    <!-- copy literal files that don't require transformation -->
     <copy file="${docs.dir}/download.cgi" tofile="${build.docs}/download.cgi"/>
     <copy todir="build/docs/resources">
         <fileset dir="docs/style/resources"/>

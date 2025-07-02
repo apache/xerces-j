@@ -2,7 +2,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:param name="sidebar" select="'docs-book.xml'"/>
+  <xsl:param name="sidebar" select="'../../docs-book.xml'"/>
   <xsl:param name="sourceFilePath"/>
   <xsl:param name="id" select="substring-before($sourceFilePath, '.')"/>
 
@@ -81,7 +81,7 @@
             <!-- THE SIDE BAR -->
             <td width="120" valign="top" align="left">
               <img width="120" height="14" src="resources/join.gif" hspace="0" vspace="0" border="0"/><br/>
-                <xsl:apply-templates select="document($sidebar)"/>
+                <xsl:apply-templates select="document('../../docs-book.xml')"/>
               <img width="120" height="14" src="resources/close.gif" hspace="0" vspace="0" border="0"/><br/>
             </td>
             <!-- THE CONTENT PANEL -->

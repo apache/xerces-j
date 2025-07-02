@@ -446,6 +446,7 @@ Authors:
           style="docs/style/stylesheets/book2group.xsl"
           extension=".xml">
         <outputproperty name="method" value="xml"/>
+        <outputproperty name="indent" value="yes"/>
     </xslt>
     <xslt destdir="build/intermediate"
           in="build/intermediate/groupfaqs.xml"

@@ -9,9 +9,9 @@
   </xsl:template>
 
   <xsl:template match="faq">
-    <entry title="{@title}" id="{@id}">
+    <entry title="{@title}" id="{@id}" source="{@source}">
       <xsl:apply-templates 
-          select="document(@source)"
+          select="document(concat('../../', @source))"
 	      mode='faqs-faq'/>
     </entry>
   </xsl:template>

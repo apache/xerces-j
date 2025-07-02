@@ -42,8 +42,6 @@ jobs:
     - name: Ant Build (target dtdjars)
       run: ant -noinput -buildfile build.xml dtdjars
 
-    # test fails on JDK 8 due to java.lang.NoSuchFieldError
-    # test fails in JDK 11+ as -Xbootclasspath/p is no longer a supported option
     - name: Ant Test (target test)
       run: ant -noinput -buildfile build.xml ci-test
 
@@ -63,6 +61,7 @@ jobs:
       run: . ./build.sh dtdjars
 
     # clean up before running via build script
+    # TODO might want to make the clean step a part of build.sh
     - name: Ant Clean
       run: ant -noinput -buildfile build.xml clean
 

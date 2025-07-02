@@ -62,7 +62,16 @@ jobs:
     - name: Run build script (target dtdjars)
       run: . ./build.sh dtdjars
 
+    # clean up before running via build script
+    - name: Ant Clean
+      run: ant -noinput -buildfile build.xml clean
+
     - name: Run build script (target test)
       run: . ./build.sh test
+
+    # clean up before running via build script
+    - name: Ant Clean
+      run: ant -noinput -buildfile build.xml clean
+
     - name: Run build script (target all)
       run: . ./build.sh all

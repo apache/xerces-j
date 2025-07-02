@@ -2,7 +2,6 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:param name="sidebar" select="'../../docs-book.xml'"/>
   <xsl:param name="sourceFilePath"/>
   <xsl:param name="id" select="substring-before($sourceFilePath, '.')"/>
 
@@ -464,7 +463,7 @@
 
   <xsl:template match="resource-ref">
     <xsl:variable name="resourceFile"
-          select="document($sidebar)/book/resources/@source"/>
+          select="document('../../docs-book.xml')/book/resources/@source"/>
     <xsl:variable name="xref" select="@idref"/>
     <xsl:variable name="href"
           select="document($resourceFile)/resources/resource[@id=$xref]/@location"/>
@@ -475,7 +474,7 @@
 
   <xsl:template match="human-resource-ref">
     <xsl:variable name="resourceFile"
-          select="document($sidebar)/book/resources/@source"/>
+          select="document('../../docs-book.xml')/book/resources/@source"/>
     <xsl:variable name="ref"  select="@idref"/>
     <xsl:variable name="mailto"
           select="document($resourceFile)/resources/human-resource[@id=$ref]/@mailto"/>

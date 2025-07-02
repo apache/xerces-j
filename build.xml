@@ -441,6 +441,20 @@ Authors:
         <outputproperty name="method" value="xml"/>
     </xslt>
     <xslt destdir="build/intermediate"
+          in="docs/style/stylesheets/docs-book.xml"
+          out="build/intermediate/groupfaqs.xml"
+          style="docs/style/stylesheets/book2group.xsl"
+          extension=".xml">
+        <outputproperty name="method" value="xml"/>
+    </xslt>
+    <xslt destdir="build/intermediate"
+          in="build/intermediate/groupfaqs.xml"
+          out="build/intermediate/faqs.xml"
+          style="docs/style/stylesheets/group2document.xsl"
+          extension=".xml">
+        <outputproperty name="method" value="xml"/>
+    </xslt>
+    <xslt destdir="build/intermediate"
           basedir="build/xdocs" 
           includes="properties.xml,features.xml"
           style="docs/style/stylesheets/settings2document.xsl"
@@ -456,7 +470,7 @@ Authors:
     </xslt>
     <xslt destdir="build/docs"
           basedir="build/intermediate" 
-          includes="faq-*.xml,features.xml,properties.xml,releases.xml"
+          includes="faq*.xml,features.xml,properties.xml,releases.xml"
           filenameparameter="sourceFilePath"
           style="docs/style/stylesheets/document2html.xsl">
     </xslt>
@@ -472,7 +486,7 @@ Authors:
       <param name="id" expression="'index'"/>
     </xslt>
 
-    <!-- TODO this xml file should simply be renamed -->
+    <!-- TODO bugzilla.xml file should simply be renamed to jira.xml -->
     <xslt in="build/xdocs/bugzilla.xml"
           out="build/docs/jira.html"
           style="docs/style/stylesheets/document2html.xsl">

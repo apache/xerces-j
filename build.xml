@@ -469,18 +469,11 @@ Authors:
     <xslt destdir="build/docs"
           basedir="build/xdocs" 
           filenameparameter="sourceFilePath"
-          includes="api.xml, charter.xml, dom.xml, dom3.xml, download.xml, install.xml, limitations.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples*.xml, xni*.xml"
+          includes="api.xml, charter.xml, dom.xml, dom3.xml, download.xml, install.xml, jira.xml, limitations.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples*.xml, xni*.xml"
           style="docs/style/stylesheets/document2html.xsl">
     </xslt>
     <xslt in="build/xdocs/readme.xml"
           out="build/docs/index.html"
-          style="docs/style/stylesheets/document2html.xsl">
-      <param name="id" expression="'index'"/>
-    </xslt>
-
-    <!-- TODO bugzilla.xml file should simply be renamed to jira.xml -->
-    <xslt in="build/xdocs/bugzilla.xml"
-          out="build/docs/jira.html"
           style="docs/style/stylesheets/document2html.xsl">
       <param name="id" expression="'index'"/>
     </xslt>

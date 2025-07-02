@@ -29,7 +29,6 @@ rem Application dependent classpaths are specified in build.xml
 set LOCALCLASSPATH=%JAVA_HOME%\lib\tools.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;%JAVA_HOME%\lib\classes.zip
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant.jar
-set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant-nodeps.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant-launcher.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant-junit.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\xml-apis.jar

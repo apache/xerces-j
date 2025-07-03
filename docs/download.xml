@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 -->
-<!DOCTYPE s1 SYSTEM "sbk:/sources/dtd/document.dtd">
+<!DOCTYPE s1 SYSTEM "dtd/document.dtd">
 
 <s1 title="Downloading">
 

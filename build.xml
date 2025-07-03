@@ -892,7 +892,7 @@ Authors:
 
 <!--  
      TODO fix this test
-     [java] error: Error occurred - Feature 'http://apache.org/xml/fs/validation/schema' is not recognized.
+     [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
      [java] org.xml.sax.SAXNotRecognizedException: Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
 -->
     <echo message="Running dom.serialization.Test..." />

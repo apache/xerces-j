@@ -36,10 +36,10 @@ public interface XMLLocator {
     /** Returns the literal system identifier. */
     public String getLiteralSystemId();
     
-    /** Returns the base system identifier. */
+    /** Returns the URI against which the system identifier should be resolved. */
     public String getBaseSystemId();
     
-    /** Returns the expanded system identifier. */
+    /** Returns the system identifier after resolution against the base system identifier. */
     public String getExpandedSystemId();
     
     /** Returns the line number, or <code>-1</code> if no line number is available. */

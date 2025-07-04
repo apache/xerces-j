@@ -84,7 +84,7 @@ public class XMLEntityScanner implements XMLLocator {
     //
 
     /**
-     * Returns the base system identifier of the currently scanned
+     * Returns the base URL of the currently scanned
      * entity, or null if none is available.
      */
     public final String getBaseSystemId() {

@@ -103,17 +103,14 @@ public class XMLInputSource {
     /**
      * Constructs an input source from a byte stream.
      *
-     * @param publicId     The public identifier, if known.
-     * @param systemId     The system identifier. This value should
+     * @param publicId     the public identifier, if known
+     * @param systemId     the system identifier. This value should
      *                     always be set, if possible, and can be
      *                     relative or absolute. If the system identifier
-     *                     is relative, then the base system identifier
-     *                     should be set.
-     * @param baseSystemId The base system identifier. This value should
-     *                     always be set to the fully expanded URI of the
-     *                     base system identifier, if possible.
-     * @param byteStream   The byte stream.
-     * @param encoding     The encoding of the byte stream, if known.
+     *                     is relative, then the baseSystemId should be set.
+     * @param baseSystemId the URI against which the system identifier should be resolved
+     * @param byteStream   the byte stream
+     * @param encoding     the encoding of the byte stream, if known
      */
     public XMLInputSource(String publicId, String systemId,  
                           String baseSystemId, InputStream byteStream,
@@ -128,18 +125,15 @@ public class XMLInputSource {
     /**
      * Constructs an input source from a character stream.
      *
-     * @param publicId     The public identifier, if known.
-     * @param systemId     The system identifier. This value should
+     * @param publicId     the public identifier, if known
+     * @param systemId     the system identifier. This value should
      *                     always be set, if possible, and can be
      *                     relative or absolute. If the system identifier
-     *                     is relative, then the base system identifier
-     *                     should be set.
-     * @param baseSystemId The base system identifier. This value should
-     *                     always be set to the fully expanded URI of the
-     *                     base system identifier, if possible.
-     * @param charStream   The character stream.
-     * @param encoding     The original encoding of the byte stream
-     *                     used by the reader, if known.
+     *                     is relative, then the baseSystemId should be set.
+     * @param baseSystemId the URI against which the system identifier should be resolved
+     * @param charStream   the character stream
+     * @param encoding     the original encoding of the byte stream
+     *                     used by the reader, if known
      */
     public XMLInputSource(String publicId, String systemId,  
                           String baseSystemId, Reader charStream,
@@ -184,15 +178,15 @@ public class XMLInputSource {
     } // getSystemId():String
 
     /** 
-     * Sets the base system identifier. 
+     * Sets the URI against which the system identifier should be resolved.
      *
-     * @param baseSystemId The new base system identifier.
+     * @param baseSystemId the URI against which the system identifier should be resolved
      */
     public void setBaseSystemId(String baseSystemId) {
         fBaseSystemId = baseSystemId;
     } // setBaseSystemId(String)
 
-    /** Returns the base system identifier. */
+    /** Returns the URI against which the system identifier should be resolved. */
     public String getBaseSystemId() {
         return fBaseSystemId;
     } // getBaseSystemId():String

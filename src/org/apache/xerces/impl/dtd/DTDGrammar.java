@@ -365,12 +365,10 @@ public class DTDGrammar
      *                 location cannot be reported during the parsing of
      *                 the document DTD. However, it is <em>strongly</em>
      *                 recommended that a locator be supplied that can
-     *                 at least report the base system identifier of the
-     *                 DTD.
+     *                 at least report the base URI of the DTD.
      *
-     * @param augs Additional information that may include infoset
-     *                      augmentations.
-     * @throws XNIException Thrown by handler to signal an error.
+     * @param augs additional information that may include infoset augmentations
+     * @throws XNIException thrown by handler to signal an error
      */
     public void startDTD(XMLLocator locator, Augmentations augs) throws XNIException {
         //Initialize stack

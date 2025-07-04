@@ -496,7 +496,7 @@
         which this object relates to.  
       </li>
       <li> expandedSystemId:  The value of the systemId (or
-        <code>schemaLocation</code>) after being subjects to relative
+        <code>schemaLocation</code>) after relative
         URI expansion.  SAX programmers will be familiar with this
         concept from the SAX Locator interface, for example; this
         property maps to the <code>systemId</code> property of that

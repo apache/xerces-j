@@ -63,10 +63,10 @@ public interface XMLLocator {
     
     /** 
      * Returns the XML version of the current entity. This will normally be the
-     * value from the XML or text declaration or defaulted by the parser. Note that
+     * value from the XML or text declaration or defaulted by the parser. Note
      * that this value may be different than the version of the processing rules 
      * applied to the current entity. For instance, an XML 1.1 document may refer to
-     * XML 1.0 entities. In such a case the rules of XML 1.1 are applied to the entire 
+     * XML 1.0 entities. In such a case, the rules of XML 1.1 are applied to the entire
      * document. Also note that, for a given entity, this value can only be considered
      * final once the XML or text declaration has been read or once it has been
      * determined that there is no such declaration.

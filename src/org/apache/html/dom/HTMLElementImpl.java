@@ -132,7 +132,7 @@ public class HTMLElementImpl
     /**
      * Convenience method used to set a boolean attribute. If the value is true,
      * the attribute is set to an empty string. If the value is false, the attribute
-     * is removed.  HTML 4.0 understands empty strings as set attributes.
+     * is removed. HTML 4.0 understands empty strings as set attributes.
      * 
      * @param name The name of the attribute
      * @param value The value of the attribute

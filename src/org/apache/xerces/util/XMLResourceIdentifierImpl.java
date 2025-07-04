@@ -60,10 +60,10 @@ public class XMLResourceIdentifierImpl
     /**
      * Constructs a resource identifier.
      *
-     * @param publicId The public identifier.
-     * @param literalSystemId The literal system identifier.
-     * @param baseSystemId The base system identifier.
-     * @param expandedSystemId The expanded system identifier.
+     * @param publicId the public identifier
+     * @param literalSystemId the literal system identifier
+     * @param baseSystemId the URI against which the system identifier should be resolved
+     * @param expandedSystemId the literalSystemId resolved against baseSystemId
      */
     public XMLResourceIdentifierImpl(String publicId,
                                      String literalSystemId, String baseSystemId,
@@ -75,11 +75,11 @@ public class XMLResourceIdentifierImpl
     /**
      * Constructs a resource identifier.
      *
-     * @param publicId The public identifier.
-     * @param literalSystemId The literal system identifier.
-     * @param baseSystemId The base system identifier.
-     * @param expandedSystemId The expanded system identifier.
-     * @param namespace The namespace.
+     * @param publicId the public identifier
+     * @param literalSystemId the literal system identifier
+     * @param baseSystemId the URI against which the system identifier should be resolved
+     * @param expandedSystemId the literalSystemId resolved against baseSystemId
+     * @param namespace the namespace
      */
     public XMLResourceIdentifierImpl(String publicId, String literalSystemId,
                                      String baseSystemId, String expandedSystemId,
@@ -129,7 +129,11 @@ public class XMLResourceIdentifierImpl
         fLiteralSystemId = literalSystemId;
     } // setLiteralSystemId(String)
 
-    /** Sets the base system identifier. */
+    /**
+     * Sets the base of the system identifier.
+     *
+     * @param baseSystemId the URI against which the system identifier should be resolved
+     */
     public void setBaseSystemId(String baseSystemId) {
         fBaseSystemId = baseSystemId;
     } // setBaseSystemId(String)

@@ -351,7 +351,7 @@ Authors:
                    org/w3c/dom/html/HTMLDOMImplementation.class"
          manifest="${build.dir}/manifest.xerces">
       <manifest>
-        <attribute name="Automatic-Module-Name" value="org.apache.xerces.impl"/>
+        <attribute name="Automatic-Module-Name" value="org.apache.xerces"/>
         <attribute name="Ant-Version" value="${ant.version}"/>
       </manifest>
       <metainf dir="." includes="LICENSE,NOTICE"/>

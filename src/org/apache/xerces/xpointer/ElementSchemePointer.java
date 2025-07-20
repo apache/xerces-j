@@ -770,7 +770,7 @@ final class ElementSchemePointer implements XPointerPart {
                     // An invalid child sequence character
                     if (child == 0) {
                         reportError("InvalidChildSequenceCharacter",
-                                new Object[] { new Character((char) ch) });
+                                new Object[] { Character.valueOf((char) ch) });
                         return false;
                     }
 

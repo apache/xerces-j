@@ -62,6 +62,7 @@ import org.w3c.dom.html.HTMLDocument;
  * @see Method
  * @see LineSeparator
  */
+@Deprecated(since = "2.9.0")
 public class OutputFormat
 {
     /** 
@@ -70,6 +71,7 @@ public class OutputFormat
      * API for XML (TrAX) for serializing XML and HTML. See the Xerces documentation for 
      * more information.
      */
+    @Deprecated(since = "2.9.0")
     public static class DTD
     {
 
@@ -104,6 +106,7 @@ public class OutputFormat
      * API for XML (TrAX) for serializing XML and HTML. See the Xerces documentation for 
      * more information.
      */
+    @Deprecated(since = "2.9.0")
     public static class Defaults
     {
 

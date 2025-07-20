@@ -36,6 +36,7 @@ import java.io.Writer;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @see Serializer
  */
+@Deprecated(since = "2.6.2")
 public class XHTMLSerializer
     extends HTMLSerializer
 {

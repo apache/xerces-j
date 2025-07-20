@@ -514,6 +514,7 @@ public class AttrImpl
      * @deprecated Previous working draft of DOM Level 2. New method
      *             is <tt>getOwnerElement()</tt>.
      */
+    @Deprecated
     public Element getElement() {
         // if we have an owner, ownerNode is our ownerElement, otherwise it's
         // our ownerDocument and we don't have an ownerElement

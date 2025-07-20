@@ -60,6 +60,7 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @see Serializer
  */
+@Deprecated(since = "2.9.0")
 public class TextSerializer
     extends BaseMarkupSerializer
 {

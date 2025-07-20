@@ -28,6 +28,7 @@ package org.apache.xml.serialize;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @see OutputFormat
  */
+@Deprecated(since = "2.9.0")
 public final class Method
 {
     

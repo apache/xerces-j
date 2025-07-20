@@ -33,6 +33,7 @@ import java.util.Hashtable;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @see BaseMarkupSerializer
  */
+@Deprecated(since = "2.9.0")
 public class ElementState
 {
 

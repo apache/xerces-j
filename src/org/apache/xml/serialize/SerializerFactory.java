@@ -32,6 +32,7 @@ import java.util.StringTokenizer;
  * @author <a href="mailto:Scott_Boag/CAM/Lotus@lotus.com">Scott Boag</a>
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  */
+@Deprecated(since = "2.9.0")
 public abstract class SerializerFactory {
     
     public static final String FactoriesProperty = "org.apache.xml.serialize.factories";

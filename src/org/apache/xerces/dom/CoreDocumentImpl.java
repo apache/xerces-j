@@ -825,6 +825,7 @@ extends ParentNode implements Document  {
      * compatibility with older applications. New applications
      * should never call this method.
      */
+    @Deprecated
     public void setEncoding(String value) {
         setXmlEncoding(value);
     }
@@ -842,6 +843,7 @@ extends ParentNode implements Document  {
      * compatibility with older applications. New applications
      * should never call this method.
      */
+    @Deprecated
     public String getEncoding() {
         return getXmlEncoding();
     }
@@ -883,6 +885,7 @@ extends ParentNode implements Document  {
      * compatibility with older applications. New applications
      * should never call this method.
      */
+    @Deprecated
     public void setVersion(String value) {
         setXmlVersion(value);
     }
@@ -900,6 +903,7 @@ extends ParentNode implements Document  {
      * compatibility with older applications. New applications
      * should never call this method.
      */
+    @Deprecated
     public String getVersion() {
         return getXmlVersion();
     }
@@ -924,6 +928,7 @@ extends ParentNode implements Document  {
      * compatibility with older applications. New applications
      * should never call this method.
      */
+    @Deprecated
     public void setStandalone(boolean value) {
         setXmlStandalone(value);
     }
@@ -942,6 +947,7 @@ extends ParentNode implements Document  {
      * compatibility with older applications. New applications
      * should never call this method.
      */
+    @Deprecated
     public boolean getStandalone() {
         return getXmlStandalone();
     }

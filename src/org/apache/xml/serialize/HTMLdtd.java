@@ -45,6 +45,7 @@ import org.apache.xerces.dom.DOMMessageFormatter;
  * @version $Revision$ $Date$
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  */
+@Deprecated(since = "2.9.0")
 public final class HTMLdtd
 {
 

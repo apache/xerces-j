@@ -71,6 +71,7 @@ import org.w3c.dom.ls.LSSerializerFilter;
  * 
  * @deprecated Replaced by org.apache.xml.serializer.dom3.LSSerializerImpl in Xerces 2.9.0.
  */
+@Deprecated
 public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
 
     // TODO: When DOM Level 3 goes to REC replace method calls using

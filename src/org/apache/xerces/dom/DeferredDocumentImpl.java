@@ -367,8 +367,8 @@ public class DeferredDocumentImpl
      * Creates an element node with a URI in the table and type information.
      * @deprecated
      */
-    public int createDeferredElement(String elementURI, String elementName, 
-                                      Object type) {
+    @Deprecated
+    public int createDeferredElement(String elementURI, String elementName, Object type) {
 
         // create node
         int elementNodeIndex = createNode(Node.ELEMENT_NODE);
@@ -387,6 +387,7 @@ public class DeferredDocumentImpl
      * Creates an element node in the table.
      * @deprecated 
      */
+    @Deprecated
     public int createDeferredElement(String elementName) {
         return createDeferredElement(null, elementName);
     }
@@ -472,6 +473,7 @@ public class DeferredDocumentImpl
      * Sets an attribute on an element node.
      * @deprecated
      */
+    @Deprecated
     public int setDeferredAttribute(int elementNodeIndex,
                                     String attrName, String attrURI,
                                     String attrValue, boolean specified) {

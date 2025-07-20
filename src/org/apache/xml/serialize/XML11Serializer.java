@@ -149,8 +149,8 @@ extends XMLSerializer {
      * using the specified output format. If <tt>format</tt> is null,
      * will use a default output format.
      *
-     * @param writer The writer to use
-     * @param format The output format to use, null for the default
+     * @param writer the writer to use
+     * @param format the output format to use, null for the default
      */
     public XML11Serializer( Writer writer, OutputFormat format ) {
         super( writer, format );
@@ -163,8 +163,8 @@ extends XMLSerializer {
      * stream using the specified output format. If <tt>format</tt>
      * is null, will use a default output format.
      *
-     * @param output The output stream to use
-     * @param format The output format to use, null for the default
+     * @param output the output stream to use
+     * @param format the output format to use, null for the default
      */
     public XML11Serializer( OutputStream output, OutputFormat format ) {
         super( output, format != null ? format : new OutputFormat( Method.XML, null, false ) );

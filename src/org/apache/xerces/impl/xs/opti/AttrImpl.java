@@ -49,9 +49,9 @@ public class AttrImpl extends NodeImpl
      * Constructs an attribute.
      *
      * @param element Element which owns this attribute
-     * @param prefix The QName prefix.
-     * @param localpart The QName localpart.
-     * @param rawname The QName rawname.
+     * @param prefix The QName prefix
+     * @param localpart The QName local part
+     * @param rawname The QName raw name
      * @param uri The uri binding for the associated prefix.
      * @param value The value of the attribute.
      */

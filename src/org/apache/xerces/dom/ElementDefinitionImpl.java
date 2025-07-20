@@ -100,10 +100,11 @@ public class ElementDefinitionImpl
     /**
      * Query the attributes defined on this Element.
      * <p>
-     * In the base implementation this Map simply contains Attribute objects
+     * In the base implementation, this Map simply contains Attribute objects
      * representing the defaults. In a more serious implementation, it would
      * contain AttributeDefinitionImpl objects for all declared Attributes,
      * indicating which are Default, DefaultFixed, Implicit and/or Required.
+     * </p>
      * 
      * @return org.w3c.dom.NamedNodeMap containing org.w3c.dom.Attribute
      */

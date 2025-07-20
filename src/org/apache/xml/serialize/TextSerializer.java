@@ -301,7 +301,7 @@ public class TextSerializer
     /**
      * Serialize the DOM node. This method is unique to the Text serializer.
      *
-     * @param node The node to serialize
+     * @param node the node to serialize
      */
     protected void serializeNode( Node node )
         throws IOException

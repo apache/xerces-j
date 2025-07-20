@@ -266,7 +266,7 @@ public class HTMLTableCellElementImpl
     /**
      * Constructor requires owner document.
      * 
-     * @param owner The owner HTML document
+     * @param owner the HTML document in which this element appears
      */
     public HTMLTableCellElementImpl( HTMLDocumentImpl owner, String name )
     {

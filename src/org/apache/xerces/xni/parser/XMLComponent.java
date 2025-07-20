@@ -46,11 +46,11 @@ public interface XMLComponent {
      *
      * @throws XNIException Thrown by component on initialization error.
      */
-    public void reset(XMLComponentManager componentManager) 
+    public void reset(XMLComponentManager componentManager)
         throws XMLConfigurationException;
 
     /**
-     * Returns a list of feature identifiers that are recognized by
+     * @return A list of feature identifiers that are recognized by
      * this component. This method may return null if no features
      * are recognized by this component.
      */
@@ -62,6 +62,7 @@ public interface XMLComponent {
      * <p>
      * <strong>Note:</strong> Components should silently ignore features
      * that do not affect the operation of the component.
+     * </p>
      * 
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
@@ -72,11 +73,10 @@ public interface XMLComponent {
      *                                   it is <strong>really</strong>
      *                                   a critical error.
      */
-    public void setFeature(String featureId, boolean state)
-        throws XMLConfigurationException;
+    public void setFeature(String featureId, boolean state) throws XMLConfigurationException;
 
     /**
-     * Returns a list of property identifiers that are recognized by
+     * @return A list of property identifiers that are recognized by
      * this component. This method may return null if no properties
      * are recognized by this component.
      */
@@ -98,8 +98,7 @@ public interface XMLComponent {
      *                                   it is <strong>really</strong>
      *                                   a critical error.
      */
-    public void setProperty(String propertyId, Object value)
-       throws XMLConfigurationException;
+    public void setProperty(String propertyId, Object value) throws XMLConfigurationException;
 
     /** 
      * Returns the default state for a feature, or null if this

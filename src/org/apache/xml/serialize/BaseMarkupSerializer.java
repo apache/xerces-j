@@ -396,9 +396,8 @@ public abstract class BaseMarkupSerializer
      * writer and output format. Throws an exception only if
      * an I/O exception occured while serializing.
      *
-     * @param elem The element to serialize
-     * @throws IOException An I/O exception occured while
-     *   serializing
+     * @param elem the element to serialize
+     * @throws IOException an I/O exception occured while serializing
      */
     public void serialize( Element elem )
         throws IOException
@@ -418,9 +417,8 @@ public abstract class BaseMarkupSerializer
      * writer and output format. Throws an exception only if
      * an I/O exception occured while serializing.
      *
-     * @param frag The document fragment to serialize
-     * @throws IOException An I/O exception occured while
-     *   serializing
+     * @param frag the document fragment to serialize
+     * @throws IOException an I/O exception occured while serializing
      */
     public void serialize( DocumentFragment frag )
         throws IOException
@@ -440,9 +438,8 @@ public abstract class BaseMarkupSerializer
      * writer and output format. Throws an exception only if
      * an I/O exception occured while serializing.
      *
-     * @param doc The document to serialize
-     * @throws IOException An I/O exception occured while
-     *   serializing
+     * @param doc the document to serialize
+     * @throws IOException an I/O exception occured while serializing
      */
     public void serialize( Document doc )
         throws IOException
@@ -987,10 +984,9 @@ public abstract class BaseMarkupSerializer
      * serializers and the differences are masked out in a separate {@link
      * #serializeElement}.
      *
-     * @param node The node to serialize
+     * @param node the node to serialize
      * @see #serializeElement
-     * @throws IOException An I/O exception occured while
-     *   serializing
+     * @throws IOException an I/O exception occured while serializing
      */
     protected void serializeNode( Node node )
         throws IOException
@@ -1294,9 +1290,8 @@ public abstract class BaseMarkupSerializer
      * current element state. In addition, the output format can dictate
      * whether the text is printed as CDATA or unescaped.
      *
-     * @param text The text to print
-     * @throws IOException An I/O exception occured while
-     *   serializing
+     * @param text the text to print
+     * @throws IOException an I/O exception occured while serializing
      */
     protected void characters( String text )
         throws IOException
@@ -1346,7 +1341,7 @@ public abstract class BaseMarkupSerializer
      * or null if no such entity exists. Calling this method with <tt>'&amp;'</tt>
      * will return <tt>"&amp;amp;"</tt>.
      *
-     * @param ch Character value
+     * @param ch character value
      * @return Character entity name, or null
      */
     protected abstract String getEntityRef( int ch );
@@ -1356,9 +1351,8 @@ public abstract class BaseMarkupSerializer
      * Called to serializee the DOM element. The element is serialized based on
      * the serializer's method (XML, HTML, XHTML).
      *
-     * @param elem The element to serialize
-     * @throws IOException An I/O exception occured while
-     *   serializing
+     * @param elem the element to serialize
+     * @throws IOException an I/O exception occured while serializing
      */
     protected abstract void serializeElement( Element elem )
         throws IOException;
@@ -1507,11 +1501,11 @@ public abstract class BaseMarkupSerializer
      * Multiple spaces are printed as such, but spaces at beginning
      * of line are removed.
      *
-     * @param chars The text to print
-     * @param start The start offset
-     * @param length The number of characters
-     * @param preserveSpace Space preserving flag
-     * @param unescaped Print unescaped
+     * @param chars the text to print
+     * @param start the start offset
+     * @param length the number of characters
+     * @param preserveSpace space preserving flag
+     * @param unescaped print unescaped
      */
     protected void printText( char[] chars, int start, int length,
                                     boolean preserveSpace, boolean unescaped )

@@ -68,7 +68,7 @@ public class HTMLLabelElementImpl
     /**
      * Constructor requires owner document.
      * 
-     * @param owner The owner HTML document
+     * @param owner the HTML document in which this element appears
      */
     public HTMLLabelElementImpl( HTMLDocumentImpl owner, String name )
     {

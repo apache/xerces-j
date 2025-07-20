@@ -87,12 +87,12 @@ final class ObjectFactory {
      *
      * @return Class object of factory, never null
      *
-     * @param factoryId             Name of the factory to find, same as
+     * @param factoryId             name of the factory to find, same as
      *                              a property name
-     * @param fallbackClassName     Implementation class name, if nothing else
-     *                              is found.  Use null to mean no fallback.
+     * @param fallbackClassName     implementation class name, if nothing else
+     *                              is found.  Use null to mean no fallback
      *
-     * @exception ObjectFactory.ConfigurationError
+     * @exception ObjectFactory.ConfigurationError if cannot create an instance
      */
     static Object createObject(String factoryId, String fallbackClassName)
         throws ConfigurationError {
@@ -115,11 +115,11 @@ final class ObjectFactory {
      *                              a property name
      * @param propertiesFilename The filename in the $java.home/lib directory
      *                           of the properties file.  If none specified,
-     *                           ${java.home}/lib/xerces.properties will be used.
+     *                           ${java.home}/lib/xerces.properties will be used
      * @param fallbackClassName     Implementation class name, if nothing else
-     *                              is found.  Use null to mean no fallback.
+     *                              is found.  Use null to mean no fallback
      *
-     * @exception ObjectFactory.ConfigurationError
+     * @exception ObjectFactory.ConfigurationError if cannot create an instance
      */
     static Object createObject(String factoryId,
                                       String propertiesFilename,
@@ -409,9 +409,9 @@ final class ObjectFactory {
     }
 
     /*
-     * Try to find provider using Jar Service Provider Mechanism
+     * Try to find the provider for a given factory id using Jar Service Provider Mechanism
      *
-     * @return instance of provider class if found or null
+     * @return an instance of provider class if found or null
      */
     private static Object findJarServiceProvider(String factoryId)
         throws ConfigurationError

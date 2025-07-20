@@ -164,8 +164,8 @@ extends BaseMarkupSerializer {
      * using the specified output format. If <tt>format</tt> is null,
      * will use a default output format.
      *
-     * @param writer The writer to use
-     * @param format The output format to use, null for the default
+     * @param writer the writer to use
+     * @param format the output format to use, null for the default
      */
     public XMLSerializer( Writer writer, OutputFormat format ) {
         super( format != null ? format : new OutputFormat( Method.XML, null, false ) );
@@ -179,8 +179,8 @@ extends BaseMarkupSerializer {
      * stream using the specified output format. If <tt>format</tt>
      * is null, will use a default output format.
      *
-     * @param output The output stream to use
-     * @param format The output format to use, null for the default
+     * @param output the output stream to use
+     * @param format the output format to use, null for the default
      */
     public XMLSerializer( OutputStream output, OutputFormat format ) {
         super( format != null ? format : new OutputFormat( Method.XML, null, false ) );
@@ -195,11 +195,10 @@ extends BaseMarkupSerializer {
 
 
     /**
-     * This methods turns on namespace fixup algorithm during
-     * DOM serialization.
+     * This method turns on namespace fixup algorithm during DOM serialization.
      * @see org.w3c.dom.ls.LSSerializer
      * 
-     * @param namespaces
+     * @param namespaces set to true to enable namespace fixup algorithm
      */
     public void setNamespaces (boolean namespaces){
         fNamespaces = namespaces;
@@ -1099,9 +1098,9 @@ extends BaseMarkupSerializer {
      * Serializes a namespace attribute with the given prefix and value for URI.
      * In case prefix is empty will serialize default namespace declaration.
      * 
-     * @param prefix
-     * @param uri
-     * @exception IOException
+     * @param prefix the namespace prefix. If empty the default namespace declaration will be used
+     * @param uri the uri value
+     * @exception IOException will be thrown if cannot write the attribute
      */
 
     private void printNamespaceAttr(String prefix, String uri) throws IOException{
@@ -1131,7 +1130,7 @@ extends BaseMarkupSerializer {
      * @param name
      * @param value
      * @param isSpecified
-     * @exception IOException
+     * @exception IOException will be thrown if cannot write the attribute
      */
     private void printAttribute (String name, String value, boolean isSpecified, Attr attr) throws IOException{
 
@@ -1388,7 +1387,7 @@ extends BaseMarkupSerializer {
     * DOM Level 3:
     * Check a node to determine if it contains unbound namespace prefixes.
     *
-    * @param node The node to check for unbound namespace prefices
+    * @param node the node to check for unbound namespace prefices
     */
 	protected void checkUnboundNamespacePrefixedNode (Node node) throws IOException{
 

@@ -115,7 +115,7 @@ public class HTMLTableColElementImpl
     /**
      * Constructor requires owner document.
      * 
-     * @param owner The owner HTML document
+     * @param owner the HTML document in which this element appears
      */
     public HTMLTableColElementImpl( HTMLDocumentImpl owner, String name )
     {

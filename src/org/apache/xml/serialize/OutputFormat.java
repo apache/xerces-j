@@ -261,9 +261,9 @@ public class OutputFormat
      * is true, the document will be pretty printed with the default
      * indentation level and default line wrapping.
      *
-     * @param method The specified output method
-     * @param encoding The specified encoding
-     * @param indenting True for pretty printing
+     * @param method the specified output method
+     * @param encoding the specified encoding
+     * @param indenting true for pretty printing
      * @see #setEncoding
      * @see #setIndenting
      * @see #setMethod
@@ -281,7 +281,7 @@ public class OutputFormat
      * document type identifiers and media type for the specified
      * document.
      *
-     * @param doc The document to output
+     * @param doc the document to output
      * @see #whichMethod
      */
     public OutputFormat( Document doc )
@@ -299,9 +299,9 @@ public class OutputFormat
      * is true, the document will be pretty printed with the default
      * indentation level and default line wrapping.
      *
-     * @param doc The document to output
-     * @param encoding The specified encoding
-     * @param indenting True for pretty printing
+     * @param doc the document to output
+     * @param encoding the specified encoding
+     * @param indenting true for pretty printing
      * @see #setEncoding
      * @see #setIndenting
      * @see #whichMethod
@@ -334,7 +334,7 @@ public class OutputFormat
      * Sets the method for this output format.
      *
      * @see #getMethod
-     * @param method The output method, or null
+     * @param method the output method, or null
      */
     public void setMethod( String method )
     {
@@ -363,7 +363,7 @@ public class OutputFormat
      * it would be "4.0".
      *
      * @see #getVersion
-     * @param version The output method version, or null
+     * @param version the output method version, or null
      */
     public void setVersion( String version )
     {
@@ -400,7 +400,7 @@ public class OutputFormat
      * Calling {@link #setIndenting} will reset this
      * value to zero (off) or the default (on).
      *
-     * @param indent The indentation, or zero
+     * @param indent the indentation, or zero
      */
     public void setIndent( int indent )
     {
@@ -418,7 +418,7 @@ public class OutputFormat
      * To specify a different indentation level or line wrapping,
      * use {@link #setIndent} and {@link #setLineWidth}.
      *
-     * @param on True if indentation should be on
+     * @param on set to true for indentation to be used
      */
     public void setIndenting( boolean on )
     {
@@ -451,7 +451,7 @@ public class OutputFormat
      * used by the {@link java.io.Writer}.
      *
      * @see #getEncoding
-     * @param encoding The encoding, or null
+     * @param encoding the encoding, or null
      */
     public void setEncoding( String encoding )
     {
@@ -510,7 +510,7 @@ public class OutputFormat
      * Sets the media type.
      *
      * @see #getMediaType
-     * @param mediaType The specified media type
+     * @param mediaType the specified media type
      */
     public void setMediaType( String mediaType )
     {

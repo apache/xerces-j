@@ -92,7 +92,7 @@ public interface Serializer
      * called while the serializer is in the process of serializing
      * a document.
      *
-     * @param format The output format to use
+     * @param format the output format to use
      */
     public void setOutputFormat( OutputFormat format );
 

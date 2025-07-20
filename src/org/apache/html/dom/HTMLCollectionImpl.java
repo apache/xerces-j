@@ -176,7 +176,7 @@ class HTMLCollectionImpl
      * Returns the length of the collection. This method might traverse the
      * entire document tree.
      * 
-     * @return Length of the collection
+     * @return the length of the collection
      */
     public final int getLength()
     {
@@ -190,8 +190,8 @@ class HTMLCollectionImpl
      * tree order - depth-first traversal order. This method might traverse
      * the entire document tree.
      * 
-     * @param index The index of the node to return
-     * @return The specified node or null if no such node found
+     * @param index the index of the node to return
+     * @return the specified node or null if no such node found
      */
     public final Node item( int index )
     {
@@ -208,8 +208,8 @@ class HTMLCollectionImpl
      * collection, returning the first match. The tree is traversed in
      * depth-first order. This method might traverse the entire document tree.
      * 
-     * @param name The name of the node to return
-     * @return The specified node or null if no such node found
+     * @param name the name of the node to return
+     * @return the specified node or null if no such node found
      */
     public final Node namedItem( String name )
     {
@@ -226,7 +226,7 @@ class HTMLCollectionImpl
      * and the top level element is passed along.
      * 
      * @param topLevel Top level element from which to scan
-     * @return Number of elements
+     * @return the number of elements
      */
     private int getLength( Element topLevel )
     {
@@ -272,7 +272,7 @@ class HTMLCollectionImpl
      * 
      * @param topLevel Top level element from which to scan
      * @param index The index of the item to retreive
-     * @return Number of elements
+     * @return the number of elements
      * @see CollectionIndex
      */
     private Node item( Element topLevel, CollectionIndex index )
@@ -317,9 +317,9 @@ class HTMLCollectionImpl
      * Recursive function returns an element of a particular type with the
      * specified name (<TT>id</TT> attribute).
      * 
-     * @param topLevel Top level element from which to scan
-     * @param name The named element to look for
-     * @return The first named element found
+     * @param topLevel the top level element from which to scan
+     * @param name the named element to look for
+     * @return the first named element found
      */
     private  Node namedItem( Element topLevel, String name )
     {
@@ -361,7 +361,7 @@ class HTMLCollectionImpl
      * the full document tree. When looking inside a specific element (e.g. for a
      * cell inside a row), recursing can lead to erroneous results.
      * 
-     * @return True if methods should recurse to traverse entire tree
+     * @return true if methods should recurse to traverse the entire tree
      */
     protected boolean recurse()
     {
@@ -370,15 +370,15 @@ class HTMLCollectionImpl
     
 
     /**
-     * Determines if current element matches based on what we're looking for.
+     * Determines if the current element matches based on what we're looking for.
      * The element is passed along with an optional identifier name. If the
      * element is the one we're looking for, return true. If the name is also
      * specified, the name must match the <code>id</code> attribute
      * (match <code>name</code> first for anchors).
      * 
-     * @param elem The current element
-     * @param name The identifier name or null
-     * @return The element matches what we're looking for
+     * @param elem the current element
+     * @param name the identifier name or null
+     * @return the element matches what we're looking for
      */
     protected boolean collectionMatch( Element elem, String name )
     {
@@ -487,7 +487,7 @@ class CollectionIndex
     /**
      * Returns the current index.
      * 
-     * @return Current index
+     * @return the current index
      */
     int getIndex()
     {
@@ -507,7 +507,7 @@ class CollectionIndex
     /**
      * Returns true if index is zero (or negative).
      * 
-     * @return True if index is zero
+     * @return true if index is zero
      */
     boolean isZero()
     {

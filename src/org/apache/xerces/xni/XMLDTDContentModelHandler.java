@@ -205,7 +205,7 @@ public interface XMLDTDContentModelHandler {
      *
      * @throws XNIException Thrown by handler to signal an error.
      */
-    public void element(String elementName, Augmentations augmentations) 
+    public void element(String elementName, Augmentations augmentations)
         throws XNIException;
 
     /**
@@ -221,7 +221,7 @@ public interface XMLDTDContentModelHandler {
      * @see #SEPARATOR_CHOICE
      * @see #SEPARATOR_SEQUENCE
      */
-    public void separator(short separator, Augmentations augmentations) 
+    public void separator(short separator, Augmentations augmentations)
         throws XNIException;
 
     /**
@@ -239,7 +239,7 @@ public interface XMLDTDContentModelHandler {
      * @see #OCCURS_ZERO_OR_MORE
      * @see #OCCURS_ONE_OR_MORE
      */
-    public void occurrence(short occurrence, Augmentations augmentations) 
+    public void occurrence(short occurrence, Augmentations augmentations)
         throws XNIException;
 
     /**
@@ -262,10 +262,16 @@ public interface XMLDTDContentModelHandler {
      */
     public void endContentModel(Augmentations augmentations) throws XNIException;
 
-    // set content model source
+    /**
+     * @param source content model source
+     * @see XMLDTDContentModelSource
+     */
     public void setDTDContentModelSource(XMLDTDContentModelSource source);
 
-    // get content model source
+    /**
+     * @return content model source
+     * @see XMLDTDContentModelSource
+     */
     public XMLDTDContentModelSource getDTDContentModelSource();
 
 } // interface XMLDTDContentModelHandler

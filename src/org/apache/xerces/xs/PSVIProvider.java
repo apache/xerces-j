@@ -66,8 +66,9 @@ public interface PSVIProvider {
      * called while in the scope of the document handler's 
      * <code>startElement</code> call. If the method is called outside of 
      * the specified scope, the return value is undefined.
-     * @param index The attribute index. 
-     * @return The post schema validation properties of the attribute.
+     *
+     * @param index the attribute index
+     * @return the post-schema validation properties of the attribute
      */
     public AttributePSVI getAttributePSVI(int index);
 
@@ -80,9 +81,10 @@ public interface PSVIProvider {
      * SAX the method must be called while in the scope of the document 
      * handler's <code>startElement</code> call. If the method is called 
      * outside of the specified scope, the return value is undefined.
-     * @param uri The namespace name of an attribute. 
-     * @param localname The local name of an attribute. 
-     * @return The post schema validation properties of the attribute.
+     *
+     * @param uri The namespace name of an attribute
+     * @param localname The local name of an attribute
+     * @return The post-schema validation properties of the attribute
      */
     public AttributePSVI getAttributePSVIByName(String uri, 
                                                 String localname);

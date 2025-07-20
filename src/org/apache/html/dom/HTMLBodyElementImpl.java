@@ -107,7 +107,7 @@ public class HTMLBodyElementImpl
       /**
      * Constructor requires owner document.
      * 
-     * @param owner The owner HTML document
+     * @param owner the HTML document in which this element appears
      */
     public HTMLBodyElementImpl( HTMLDocumentImpl owner, String name )
     {

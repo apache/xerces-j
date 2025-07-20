@@ -452,8 +452,8 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
      * produces a fragment of text in a form that is not fully defined by
      * this document, but that should be useful to a human for debugging or
      * diagnostic purposes.
-     * @param wnode  The node to be written.
-     * @return  Returns the serialized data
+     * @param wnode the node to be written
+     * @return returns the serialized data
      * @exception DOMException
      *    DOMSTRING_SIZE_ERR: The resulting string is too long to fit in a
      *   <code>DOMString</code>.
@@ -652,11 +652,11 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
       * "unsupported-encoding" error is raised.
       * <br> If no output is specified in the <code>LSOutput</code>, a
       * "no-output-specified" error is raised.
-      * @param node  The node to serialize.
-      * @param destination The destination for the serialized DOM.
+      * @param node the node to serialize
+      * @param destination the destination for the serialized DOM
       * @return  Returns <code>true</code> if <code>node</code> was
       *   successfully serialized and <code>false</code> in case the node
-      *   couldn't be serialized.
+      *   couldn't be serialized
       */
     public boolean write(Node node, LSOutput destination) throws LSException{
 
@@ -796,11 +796,11 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
       * default encoding of "UTF-8" will be used.
       * <br> If the specified encoding is not supported an
       * "unsupported-encoding" error is raised.
-      * @param node  The node to serialize.
-      * @param URI The URI to write to.
-      * @return  Returns <code>true</code> if <code>node</code> was
+      * @param node the node to serialize
+      * @param URI the URI to write to
+      * @return returns <code>true</code> if <code>node</code> was
       *   successfully serialized and <code>false</code> in case the node
-      *   couldn't be serialized.
+      *   couldn't be serialized
       */
     public boolean writeToURI(Node node, String URI) throws LSException{
         if (node == null){

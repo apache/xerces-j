@@ -171,8 +171,8 @@ public final class HTMLdtd
      * Returns true if element is declared to be empty. HTML elements are
      * defines as empty in the DTD, not by the document syntax.
      *
-     * @param tagName The element tag name (upper case)
-     * @return True if element is empty
+     * @param tagName the element tag name (upper case)
+     * @return true if element is empty
      */
     public static boolean isEmptyTag( String tagName )
     {
@@ -185,8 +185,8 @@ public final class HTMLdtd
      * Whitespaces appearing inside element content will be ignored,
      * other text will simply report an error.
      *
-     * @param tagName The element tag name (upper case)
-     * @return True if element content
+     * @param tagName the element tag name (upper case)
+     * @return true if element content
      */
     public static boolean isElementContent( String tagName )
     {
@@ -199,8 +199,8 @@ public final class HTMLdtd
      * This only applies to PRE and TEXTAREA, all other HTML elements
      * do not preserve space.
      *
-     * @param tagName The element tag name (upper case)
-     * @return True if element's text content preserves spaces
+     * @param tagName the element tag name (upper case)
+     * @return true if element's text content preserves spaces
      */
     public static boolean isPreserveSpace( String tagName )
     {
@@ -213,8 +213,8 @@ public final class HTMLdtd
      * exist. An error will not be reported for such elements if they
      * are not closed. For example, <tt>LI</tt> is most often not closed.
      *
-     * @param tagName The element tag name (upper case)
-     * @return True if closing tag implied
+     * @param tagName the element tag name (upper case)
+     * @return true if closing tag implied
      */
     public static boolean isOptionalClosing( String tagName )
     {
@@ -226,8 +226,8 @@ public final class HTMLdtd
      * Returns true if element's closing tag is generally not printed.
      * For example, <tt>LI</tt> should not print the closing tag.
      *
-     * @param tagName The element tag name (upper case)
-     * @return True if only opening tag should be printed
+     * @param tagName the element tag name (upper case)
+     * @return true if only opening tag should be printed
      */
     public static boolean isOnlyOpening( String tagName )
     {
@@ -241,9 +241,9 @@ public final class HTMLdtd
      * every opening <tt>LI</tt> will close the previously open <tt>LI</tt>,
      * and every opening <tt>BODY</tt> will close the previously open <tt>HEAD</tt>.
      *
-     * @param tagName The newly opened element
-     * @param openTag The already opened element
-     * @return True if closing tag closes opening tag
+     * @param tagName the newly opened element
+     * @param openTag the already opened element
+     * @return true if closing tag closes opening tag
      */
     public static boolean isClosing( String tagName, String openTag )
     {
@@ -276,8 +276,8 @@ public final class HTMLdtd
      * escaped appropriately. In HTML URIs are escaped differently
      * than normal attributes.
      *
-     * @param tagName The element's tag name
-     * @param attrName The attribute's name
+     * @param tagName the element's tag name
+     * @param attrName the attribute's name
      */
     public static boolean isURI( String tagName, String attrName )
     {
@@ -291,8 +291,8 @@ public final class HTMLdtd
      * printed without the value. This applies to attributes that are true
      * if they exist, such as selected (OPTION/INPUT).
      *
-     * @param tagName The element's tag name
-     * @param attrName The attribute's name
+     * @param tagName the element's tag name
+     * @param attrName the attribute's name
      */
     public static boolean isBoolean( String tagName, String attrName )
     {
@@ -313,8 +313,8 @@ public final class HTMLdtd
      * reference is not found or was not defined as a character reference,
      * returns EOF (-1).
      *
-     * @param name Name of character reference
-     * @return Character code or EOF (-1)
+     * @param name name of character reference
+     * @return a character code or EOF (-1)
      */
     public static int charFromName( String name )
     {

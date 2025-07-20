@@ -114,7 +114,7 @@ public class HTMLSerializer
      * <tt>xhtml</tt>. The serializer cannot be used without calling
      * {@link #setOutputCharStream} or {@link #setOutputByteStream} first.
      *
-     * @param xhtml True if XHTML serializing
+     * @param xhtml true if XHTML serializing
      */
     protected HTMLSerializer( boolean xhtml, OutputFormat format )
     {
@@ -151,8 +151,8 @@ public class HTMLSerializer
      * using the specified output format. If <tt>format</tt> is null,
      * will use a default output format.
      *
-     * @param writer The writer to use
-     * @param format The output format to use, null for the default
+     * @param writer the writer to use
+     * @param format the output format to use, null for the default
      */
     public HTMLSerializer( Writer writer, OutputFormat format )
     {
@@ -166,8 +166,8 @@ public class HTMLSerializer
      * stream using the specified output format. If <tt>format</tt>
      * is null, will use a default output format.
      *
-     * @param output The output stream to use
-     * @param format The output format to use, null for the default
+     * @param output the output stream to use
+     * @param format the output format to use, null for the default
      */
     public HTMLSerializer( OutputStream output, OutputFormat format )
     {

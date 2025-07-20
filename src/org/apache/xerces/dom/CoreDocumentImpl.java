@@ -309,8 +309,8 @@ extends ParentNode implements Document  {
      * protection. I've chosen to implement it by calling importNode
      * which is DOM Level 2.
      *
-     * @return org.w3c.dom.Node
-     * @param deep boolean, iff true replicate children
+     * @param deep boolean, if true replicate children
+     * @return a clone of this {@link org.w3c.dom.Node}
      */
     public Node cloneNode(boolean deep) {
 

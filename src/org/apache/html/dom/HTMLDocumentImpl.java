@@ -210,7 +210,7 @@ public class HTMLDocumentImpl
      * {@link #setBody} to assure the document has the &lt;HEAD&gt; element
      * correctly placed.
      *
-     * @return The &lt;HEAD&gt; element
+     * @return the &lt;HEAD&gt; element
      */
     public synchronized HTMLElement getHead()
     {
@@ -434,14 +434,12 @@ public class HTMLDocumentImpl
      * Xerces-specific constructor. "localName" is passed in, so we don't need
      * to create a new String for it.
      *
-     * @param namespaceURI The namespace URI of the element to
-     *                     create.
-     * @param qualifiedName The qualified name of the element type to
-     *                      instantiate.
-     * @param localpart     The local name of the element to instantiate.
-     * @return Element A new Element object with the following attributes:
+     * @param namespaceURI the namespace URI of the element to create
+     * @param qualifiedName the qualified name of the element type to instantiate
+     * @param localpart the local name of the element to instantiate
+     * @return a new {@link Element} object with the following attributes:
      * @throws DOMException INVALID_CHARACTER_ERR: Raised if the specified
-     *                      name contains an invalid character.
+     *                      name contains an invalid character
      */
     public Element createElementNS(String namespaceURI, String qualifiedName,
                                    String localpart)
@@ -660,8 +658,8 @@ public class HTMLDocumentImpl
      * Recursive method retreives an element by its <code>id</code> attribute.
      * Called by {@link #getElementById(String)}.
      *
-     * @param elementId The <code>id</code> value to look for
-     * @return The node in which to look for
+     * @param elementId the <code>id</code> value to look for
+     * @return the node in which to look for
      */
     private Element getElementById( String elementId, Node node )
     {

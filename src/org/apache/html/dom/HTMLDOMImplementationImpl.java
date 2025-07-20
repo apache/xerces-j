@@ -62,7 +62,7 @@ public class HTMLDOMImplementationImpl
      * Create a new HTML document of the specified <TT>TITLE</TT> text.
      *
      * @param title The document title text
-     * @return New HTML document
+     * @return a new HTML document
      */
     public final HTMLDocument createHTMLDocument( String title )
         throws DOMException
@@ -82,7 +82,7 @@ public class HTMLDOMImplementationImpl
      * used to perform operations that are not specific to a particular
      * document instance, e.g. to create a new document.
      *
-     * @return Reference to a valid DOM implementation
+     * @return a singleton reference to a valid DOM implementation
      */
     public static HTMLDOMImplementation getHTMLDOMImplementation()
     {

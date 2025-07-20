@@ -128,6 +128,8 @@ public class Printer
      * This method may be called any number of time but will only
      * have affect the first time it's called. To exist DTD state
      * and get the accumulated DTD, call {@link #leaveDTD}.
+     *
+     * @throws IOException can be thrown by underlying call to {@link Printer#flushLine(boolean)}
      */
     public void enterDTD()
         throws IOException
@@ -148,6 +150,9 @@ public class Printer
      * Called by the root element to leave DTD mode and if any
      * DTD parts were printer, will return a string with their
      * textual content.
+     *
+     * @return The {@link StringWriter#toString()} value or <code>null</code>
+     * @throws IOException can be thrown by underlying call to {@link Printer#flushLine(boolean)}
      */
     public String leaveDTD()
         throws IOException
@@ -162,7 +167,10 @@ public class Printer
         return null;
     }
 
-
+    /**
+     * @param text the string value to write to the buffer
+     * @throws IOException can be thrown by underlying call to {@link Writer#write(char[])}
+     */
     public void printText( String text )
         throws IOException
     {
@@ -185,7 +193,10 @@ public class Printer
         }
     }
 
-
+    /**
+     * @param text the StringBuffer value to write to the buffer
+     * @throws IOException can be thrown by underlying call to {@link Writer#write(char[])}
+     */
     public void printText( StringBuffer text )
         throws IOException
     {

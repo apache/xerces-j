@@ -47,8 +47,8 @@ interface DOMDocumentHandler extends XMLDocumentHandler {
      * A document type declaration.
      * 
      * @param node a DocumentType node
-     *                 
-     * @exception XNIException Thrown by handler to signal an error.
+     *
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void doctypeDecl(DocumentType node) throws XNIException;
     
@@ -77,8 +77,8 @@ interface DOMDocumentHandler extends XMLDocumentHandler {
      * responsible for parsing the data.
      * 
      * @param node a ProcessingInstruction node
-     *               
-     * @exception XNIException Thrown by handler to signal an error.
+     *
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void processingInstruction(ProcessingInstruction node) throws XNIException;
     

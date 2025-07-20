@@ -82,77 +82,77 @@ public interface XSModel {
     /**
      * Convenience method. Returns a top-level element declaration. 
      * @param name The name of the declaration.
-     * @param namespace The namespace of the declaration, otherwise 
-     *   <code>null</code>.
-     * @return A top-level element declaration or <code>null</code> if such a 
-     *   declaration does not exist. 
+     *
+     * @param namespace the namespace of the declaration, otherwise
+     *   <code>null</code>
+     * @return a top-level element declaration or <code>null</code> if such a
+     *   declaration does not exist
      */
     public XSElementDeclaration getElementDeclaration(String name, 
                                                       String namespace);
 
     /**
-     * Convenience method. Returns a top-level attribute declaration. 
-     * @param name The name of the declaration.
-     * @param namespace The namespace of the declaration, otherwise 
-     *   <code>null</code>.
-     * @return A top-level attribute declaration or <code>null</code> if such 
-     *   a declaration does not exist. 
+     * Convenience method. Returns a top-level attribute declaration.
+     *
+     * @param name the name of the declaration
+     * @param namespace the namespace of the declaration, otherwise <code>null</code>
+     * @return a top-level attribute declaration or <code>null</code> if such
+     *   a declaration does not exist
      */
     public XSAttributeDeclaration getAttributeDeclaration(String name, 
                                                           String namespace);
 
     /**
-     * Convenience method. Returns a top-level simple or complex type 
-     * definition. 
-     * @param name The name of the definition.
-     * @param namespace The namespace of the declaration, otherwise 
-     *   <code>null</code>.
-     * @return An <code>XSTypeDefinition</code> or <code>null</code> if such 
-     *   a definition does not exist. 
+     * Convenience method. Returns a top-level simple or complex type definition.
+     *
+     * @param name the name of the definition
+     * @param namespace the namespace of the declaration, otherwise <code>null</code>
+     * @return an <code>XSTypeDefinition</code> or <code>null</code> if such
+     *   a definition does not exist
      */
     public XSTypeDefinition getTypeDefinition(String name, 
                                               String namespace);
 
     /**
-     * Convenience method. Returns a top-level attribute group definition. 
-     * @param name The name of the definition.
-     * @param namespace The namespace of the definition, otherwise 
-     *   <code>null</code>.
-     * @return A top-level attribute group definition or <code>null</code> if 
-     *   such a definition does not exist. 
+     * Convenience method. Returns a top-level attribute group definition.
+     *
+     * @param name the name of the definition
+     * @param namespace the namespace of the definition, otherwise <code>null</code>
+     * @return a top-level attribute group definition or <code>null</code> if
+     *   such a definition does not exist
      */
     public XSAttributeGroupDefinition getAttributeGroup(String name, 
                                                         String namespace);
 
     /**
-     * Convenience method. Returns a top-level model group definition. 
-     * @param name The name of the definition.
-     * @param namespace The namespace of the definition, otherwise 
-     *   <code>null</code>.
-     * @return A top-level model group definition or <code>null</code> if 
-     *   such a definition does not exist. 
+     * Convenience method. Returns a top-level model group definition.
+     *
+     * @param name the name of the definition
+     * @param namespace the namespace of the definition, otherwise <code>null</code>
+     * @return a top-level model group definition or <code>null</code> if
+     *   such a definition does not exist
      */
     public XSModelGroupDefinition getModelGroupDefinition(String name, 
                                                           String namespace);
 
     /**
-     * Convenience method. Returns a top-level notation declaration. 
-     * @param name The name of the declaration.
-     * @param namespace The namespace of the declaration, otherwise 
-     *   <code>null</code>.
+     * Convenience method. Returns a top-level notation declaration.
+     *
+     * @param name The name of the declaration
+     * @param namespace The namespace of the declaration, otherwise <code>null</code>
      * @return A top-level notation declaration or <code>null</code> if such 
-     *   a declaration does not exist. 
+     *   a declaration does not exist
      */
     public XSNotationDeclaration getNotationDeclaration(String name, 
                                                         String namespace);
     
     /**
      * Convenience method. Returns an identity-constraint definition.
-     * @param name The name of the definition.
-     * @param namespace The namespace of the definition, otherwise 
-     *   <code>null</code>.
+     *
+     * @param name The name of the definition
+     * @param namespace The namespace of the definition, otherwise <code>null</code>
      * @return An identity-constraint definition or <code>null</code> if such 
-     *   a declaration does not exist. 
+     *   a declaration does not exist
      */
     public XSIDCDefinition getIDCDefinition(String name,
                                             String namespace);
@@ -162,11 +162,12 @@ public interface XSModel {
      * substitution group for the given <code>XSElementDeclaration</code>
      * or an empty <code>XSObjectList</code> if the substitution group
      * contains no members.
-     * @param head The substitution group head.
+     *
+     * @param head The substitution group head
      * @return A list containing the members of the substitution group 
      *  for the given <code>XSElementDeclaration</code> or an empty 
      *  <code>XSObjectList</code> if the substitution group contains 
-     *  no members.
+     *  no members
      */
     public XSObjectList getSubstitutionGroup(XSElementDeclaration head);
 

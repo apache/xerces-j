@@ -138,7 +138,7 @@ public class IndentPrinter
      * added to the accumulate line. When a line is long enough, it can
      * be broken at its text boundary.
      *
-     * @param text The text to print
+     * @param text the text to print
      */
     public void printText( String text )
     {

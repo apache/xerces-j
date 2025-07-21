@@ -140,7 +140,7 @@ public class EncodingInfo {
         // Attempt to use the CharsetEncoder to determine whether the character is printable.
         if (fCharsetEncoder != null) {
             try {
-                fArgsForMethod[0] = new Character(ch);
+                fArgsForMethod[0] = Character.valueOf(ch);
                 return ((Boolean) CharsetMethods.fgCharsetEncoderCanEncodeMethod.invoke(fCharsetEncoder, fArgsForMethod)).booleanValue();
             } 
             catch (Exception e) {
@@ -173,7 +173,7 @@ public class EncodingInfo {
             }
         }
         try {
-            fArgsForMethod[0] = new Character(ch);
+            fArgsForMethod[0] = Character.valueOf(ch);
             return ((Boolean) CharToByteConverterMethods.fgCanConvertMethod.invoke(fCharToByteConverter, fArgsForMethod)).booleanValue();
         } 
         catch (Exception e) {

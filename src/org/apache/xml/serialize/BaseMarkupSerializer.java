@@ -121,7 +121,7 @@ import org.xml.sax.ext.LexicalHandler;
  * @see Serializer
  * @see org.w3c.dom.ls.LSSerializer
  */
-@Deprecated(since = "2.9.0")
+@Deprecated
 public abstract class BaseMarkupSerializer
     implements ContentHandler, DocumentHandler, LexicalHandler,
                DTDHandler, DeclHandler, DOMSerializer, Serializer

@@ -91,7 +91,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * @version $Revision$ $Date$
  * @see Serializer
  */
-@Deprecated(since = "2.9.0")
+@Deprecated
 public class XMLSerializer
 extends BaseMarkupSerializer {
 

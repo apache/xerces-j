@@ -37,7 +37,7 @@ import org.apache.xerces.dom.DOMMessageFormatter;
  * @author <a href="mailto:Scott_Boag/CAM/Lotus@lotus.com">Scott Boag</a>
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  */
-@Deprecated(since = "2.9.0")
+@Deprecated
 final class SerializerFactoryImpl
     extends SerializerFactory
 {

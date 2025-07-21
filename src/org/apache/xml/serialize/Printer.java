@@ -43,7 +43,7 @@ import java.io.Writer;
  * @version $Revision$ $Date$
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  */
-@Deprecated(since = "2.9.0")
+@Deprecated
 public class Printer
 {
 

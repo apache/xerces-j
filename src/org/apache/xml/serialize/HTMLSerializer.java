@@ -91,7 +91,7 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @see Serializer
  */
-@Deprecated(since = "2.6.2")
+@Deprecated
 public class HTMLSerializer
     extends BaseMarkupSerializer
 {

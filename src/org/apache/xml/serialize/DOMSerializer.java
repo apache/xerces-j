@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
  * @author <a href="mailto:Scott_Boag/CAM/Lotus@lotus.com">Scott Boag</a>
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  */
-@Deprecated(since = "2.9.0")
+@Deprecated
 public interface DOMSerializer
 {
 

@@ -245,7 +245,7 @@ public class XIncludeHandler
         { ERROR_REPORTER, ENTITY_RESOLVER, SECURITY_MANAGER, BUFFER_SIZE };
 
     /** Property defaults. */
-    private static final Object[] PROPERTY_DEFAULTS = { null, null, null, new Integer(XMLEntityManager.DEFAULT_BUFFER_SIZE) };
+    private static final Object[] PROPERTY_DEFAULTS = { null, null, null, Integer.valueOf(XMLEntityManager.DEFAULT_BUFFER_SIZE) };
 
     // instance variables
 
@@ -1604,7 +1604,7 @@ public class XIncludeHandler
                 if (fErrorReporter != null) fChildConfig.setProperty(ERROR_REPORTER, fErrorReporter);
                 if (fEntityResolver != null) fChildConfig.setProperty(ENTITY_RESOLVER, fEntityResolver);
                 fChildConfig.setProperty(SECURITY_MANAGER, fSecurityManager);
-                fChildConfig.setProperty(BUFFER_SIZE, new Integer(fBufferSize));
+                fChildConfig.setProperty(BUFFER_SIZE, Integer.valueOf(fBufferSize));
                 
                 // features must be copied to child configuration
                 fNeedCopyFeatures = true;

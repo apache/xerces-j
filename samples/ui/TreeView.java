@@ -392,7 +392,7 @@ public class TreeView extends JFrame implements ActionListener, TextListener {
         try{
             readline: while ((line = dis.readLine()) != null) {
                 sb.append(line+nl);
-                textLine.addElement(new Integer(len));
+                textLine.addElement(Integer.valueOf(len));
                 len += line.length()+nllen;
             }
             ta.append(sb.toString());

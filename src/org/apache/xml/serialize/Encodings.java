@@ -36,6 +36,7 @@ import org.apache.xerces.util.EncodingMap;
  * @version $Id$
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  */
+@Deprecated
 public class Encodings
 {
 

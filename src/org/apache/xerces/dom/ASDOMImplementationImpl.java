@@ -42,6 +42,7 @@ import org.w3c.dom.DOMImplementation;
  * @version $Id$
  * @since PR-DOM-Level-1-19980818.
  */
+@Deprecated
 public class ASDOMImplementationImpl extends DOMImplementationImpl 
     implements DOMImplementationAS {
 

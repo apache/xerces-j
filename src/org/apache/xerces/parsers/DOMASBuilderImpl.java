@@ -44,7 +44,7 @@ import org.w3c.dom.ls.LSInput;
  * @version $Id$
  *
  */
-
+@Deprecated
 public class DOMASBuilderImpl
     extends DOMParserImpl implements DOMASBuilder {
 

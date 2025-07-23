@@ -961,6 +961,7 @@ public class EncodingMap {
      * effect is JVM wide and may cause unforeseen behaviour
      * for other applications running in the system.
      */
+    @Deprecated
     public static void putIANA2JavaMapping(String ianaEncoding, 
                                            String javaEncoding) {
         fIANA2JavaMap.put(ianaEncoding, javaEncoding);
@@ -984,6 +985,7 @@ public class EncodingMap {
      * effect is JVM wide and may cause unforeseen behaviour
      * for other applications running in the system.
      */
+    @Deprecated
     public static String removeIANA2JavaMapping(String ianaEncoding) {
         return (String)fIANA2JavaMap.remove(ianaEncoding);
     } // removeIANA2JavaMapping(String):String
@@ -998,6 +1000,7 @@ public class EncodingMap {
      * effect is JVM wide and may cause unforeseen behaviour
      * for other applications running in the system.
      */
+    @Deprecated
     public static void putJava2IANAMapping(String javaEncoding, 
                                            String ianaEncoding) {
         fJava2IANAMap.put(javaEncoding, ianaEncoding);
@@ -1021,6 +1024,7 @@ public class EncodingMap {
      * effect is JVM wide and may cause unforeseen behaviour
      * for other applications running in the system.
      */
+    @Deprecated
     public static String removeJava2IANAMapping(String javaEncoding) {
         return (String)fJava2IANAMap.remove(javaEncoding);
     } // removeJava2IANAMapping

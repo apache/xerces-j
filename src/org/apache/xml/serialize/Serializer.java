@@ -64,6 +64,7 @@ import org.xml.sax.DocumentHandler;
  * @see OutputFormat
  * @see DOMSerializer
  */
+@Deprecated
 public interface Serializer
 {
 

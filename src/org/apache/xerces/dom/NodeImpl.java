@@ -765,6 +765,7 @@ public abstract class NodeImpl
      * @since DOM Level 3
      * @deprecated
      */
+    @Deprecated
     public short compareTreePosition(Node other) {
         // Questions of clarification for this method - to be answered by the
         // DOM WG.   Current assumptions listed - LM

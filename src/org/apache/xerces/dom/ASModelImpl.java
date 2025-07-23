@@ -57,6 +57,7 @@ import org.w3c.dom.DOMException;
  * @author Neil Graham
  * @version $Id$
  */
+@Deprecated
 public class ASModelImpl implements ASModel {
 
     //

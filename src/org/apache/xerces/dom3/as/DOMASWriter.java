@@ -30,6 +30,7 @@ import org.w3c.dom.ls.LSSerializer;
  * <p>See also the <a href='http://www.w3.org/TR/2001/WD-DOM-Level-3-ASLS-20011025'>Document Object Model (DOM) Level 3 Abstract Schemas and Load
 and Save Specification</a>.
  */
+@Deprecated
 public interface DOMASWriter extends LSSerializer {
     /**
      *  Write out the specified Abstract Schema to the specified destination. 

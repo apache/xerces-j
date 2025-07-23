@@ -80,6 +80,7 @@ import org.xml.sax.SAXException;
  * @version $Revision$ $Date$
  * @see Serializer
  */
+@Deprecated
 public class XML11Serializer 
 extends XMLSerializer {
 

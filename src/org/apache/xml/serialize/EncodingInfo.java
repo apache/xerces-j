@@ -33,6 +33,7 @@ import org.apache.xerces.util.EncodingMap;
  * information.
  * @version $Id$
  */
+@Deprecated
 public class EncodingInfo {
     
     // An array to hold the argument for a method of Charset, CharsetEncoder or CharToByteConverter.

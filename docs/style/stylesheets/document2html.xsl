@@ -35,7 +35,7 @@
                <xsl:when test="$id = 'index'">
                   <!-- revisit : get the value 'Xerces2 Java XML Parser' from file entities.ent --> 
                   <td align="center" bgcolor="#0086b2" colspan="4" height="35" valign="middle" width="456">
-                    <font color="#f8fefd" face="arial,helvetica,sanserif" size="+2">Xerces2 Java XML Parser Readme</font>
+                    <font color="#f8fefd" face="arial,helvetica,sans-serif" size="+2">Xerces2 Java XML Parser Readme</font>
                   </td>
                </xsl:when>
                <xsl:otherwise>
@@ -151,7 +151,7 @@
             <tr>
               <td bgcolor="#039acc" width="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
               <td bgcolor="#0086b2"  width="492">
-                <font size="+1" face="arial,helvetica,sanserif" color="#ffffff">
+                <font size="+1" face="arial,helvetica,sans-serif" color="#ffffff">
                   <img src="resources/void.gif" width="2" height="2" vspace="0" hspace="0" border="0"/>
                   <b><xsl:value-of select="@title"/></b>
                 </font>
@@ -169,7 +169,7 @@
       <tr>
         <td width="10">&#160;</td>
         <td width="484">
-          <font face="arial,helvetica,sanserif" color="#000000">
+          <font face="arial,helvetica,sans-serif" color="#000000">
             <xsl:apply-templates/>
           </font>
         </td>
@@ -191,7 +191,7 @@
           <tr>
             <td bgcolor="#039acc" width="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
             <td bgcolor="#0086b2"  width="482">
-              <font face="arial,helvetica,sanserif" color="#ffffff">
+              <font face="arial,helvetica,sans-serif" color="#ffffff">
                 <img src="resources/void.gif" width="2" height="2" vspace="0" hspace="0" border="0"/>
                 <b><xsl:value-of select="@title"/></b>
               </font>
@@ -209,7 +209,7 @@
       <tr>
         <td width="10">&#160;</td>
         <td width="474">
-          <font size="-1" face="arial,helvetica,sanserif" color="#000000">
+          <font size="-1" face="arial,helvetica,sans-serif" color="#000000">
             <xsl:apply-templates/>
           </font>
         </td>
@@ -231,7 +231,7 @@
           <tr>
             <td bgcolor="#039acc" width="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
             <td bgcolor="#0086b2"  width="472">
-              <font size="-1" face="arial,helvetica,sanserif" color="#ffffff">
+              <font size="-1" face="arial,helvetica,sans-serif" color="#ffffff">
                 <img src="resources/void.gif" width="2" height="2" vspace="0" hspace="0" border="0"/>
                 <b><xsl:value-of select="@title"/></b>
               </font>
@@ -249,7 +249,7 @@
       <tr>
         <td width="10">&#160;</td>
         <td width="464">
-          <font size="-1" face="arial,helvetica,sanserif" color="#000000">
+          <font size="-1" face="arial,helvetica,sans-serif" color="#000000">
             <xsl:apply-templates/>
           </font>
         </td>
@@ -272,7 +272,7 @@
           <img src="resources/note.gif" width="20" height="24" vspace="0" hspace="0" border="0" alt="Note:"/>
         </td>
         <td valign="top">
-          <font size="-1" face="arial,helvetica,sanserif" color="#000000">
+          <font size="-1" face="arial,helvetica,sans-serif" color="#000000">
             <i>
               <xsl:apply-templates/>
             </i>
@@ -348,7 +348,7 @@
 
   <xsl:template match="th">
     <td bgcolor="#039acc" colspan="{@colspan}" rowspan="{@rowspan}" valign="center" align="center">
-      <font color="#ffffff" size="-1" face="arial,helvetica,sanserif">
+      <font color="#ffffff" size="-1" face="arial,helvetica,sans-serif">
         <b><xsl:apply-templates/></b>&#160;
       </font>
     </td>
@@ -356,7 +356,7 @@
 
   <xsl:template match="td">
     <td bgcolor="#a0ddf0" colspan="{@colspan}" rowspan="{@rowspan}" valign="top" align="{@align}">
-      <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+      <font color="#000000" size="-1" face="arial,helvetica,sans-serif">
         <xsl:apply-templates/>&#160;
       </font>
     </td>

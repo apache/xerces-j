@@ -62,6 +62,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * output format (defaults to <tt>UTF-8</tt>). If a writer is
  * used, make sure the writer uses the same encoding (if applies)
  * as specified in the output format.
+ * </p>
  * <p>
  * The serializer supports both DOM and SAX. SAX serializing is done by firing
  * SAX events and using the serializer as a document handler. DOM serializing is done
@@ -69,17 +70,20 @@ import org.xml.sax.helpers.AttributesImpl;
  * {@link org.w3c.dom.ls.LSSerializer} and
  * serializing with {@link org.w3c.dom.ls.LSSerializer#write},
  * {@link org.w3c.dom.ls.LSSerializer#writeToString}.
+ * </p>
  * <p>
  * If an I/O exception occurs while serializing, the serializer
  * will not throw an exception directly, but only throw it
  * at the end of serializing (either DOM or SAX's {@link
  * org.xml.sax.DocumentHandler#endDocument}.
+ * </p>
  * <p>
  * For elements that are not specified as whitespace preserving,
  * the serializer will potentially break long text lines at space
  * boundaries, indent lines, and serialize elements on separate
  * lines. Line terminators will be regarded as spaces, and
  * spaces at beginning of line will be stripped.
+ * </p>
  * 
  * @deprecated This class was deprecated in Xerces 2.9.0. It is recommended 
  * that new applications use the DOM Level 3 LSSerializer or JAXP's Transformation 
@@ -545,6 +549,7 @@ extends BaseMarkupSerializer {
      * pre-root comments and PIs that were accumulated in the document
      * (see {@link #serializePreRoot}). Pre-root will be serialized even if
      * this is not the first root element of the document.
+     * </p>
      */
     protected void startDocument( String rootTagName )
     throws IOException

@@ -35,14 +35,14 @@ import org.w3c.dom.TypeInfo;
  * document.  They contain both the data for the element itself
  * (element name and attributes), and any contained nodes, including
  * document text (as children).
- * <P>
+ * <p>
  * Elements may have Attributes associated with them; the API for this is
  * defined in Node, but the function is implemented here. In general, XML
  * applications should retrive Attributes as Nodes, since they may contain
  * entity references and hence be a fairly complex sub-tree. HTML users will
  * be dealing with simple string values, and convenience methods are provided
  * to work in terms of Strings.
- * <P>
+ * <p>
  * ElementImpl does not support Namespaces. ElementNSImpl, which inherits from
  * it, does.
  * 
@@ -410,11 +410,11 @@ public class ElementImpl
     /**
      * Remove the named attribute from this Element. If the removed
      * Attribute has a default value, it is immediately replaced thereby.
-     * <P>
+     * <p>
      * The default logic is actually implemented in NamedNodeMapImpl.
      * PR-DOM-Level-1-19980818 doesn't fully address the DTD, so some
      * of this behavior is likely to change in future versions. ?????
-     * <P>
+     * <p>
      * Note that this call "succeeds" even if no attribute by this name
      * existed -- unlike removeAttributeNode, which will throw a not-found
      * exception in that case.
@@ -533,7 +533,7 @@ public class ElementImpl
     /**
      * Add a new attribute/value pair, or replace the value of the
      * existing attribute with that name.
-     * <P>
+     * <p>
      * This method allows you to add an Attribute that has already been
      * constructed, and hence avoids the limitations of the simple
      * setAttribute() call. It can handle attribute values that have

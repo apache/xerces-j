@@ -34,10 +34,11 @@ import org.apache.xerces.dom.DOMMessageFormatter;
  * The HTML DTD is expressed as three utility function groups. Two methods
  * allow for checking whether an element requires an open tag on printing
  * ({@link #isEmptyTag}) or on parsing ({@link #isOptionalClosing}).
- * <P>
+ * <p>
  * Two other methods translate character references from name to value and
  * from value to name. A small entities resource is loaded into memory the
  * first time any of these methods is called for fast and efficient access.
+ * </p>
  *
  * @deprecated This class was deprecated in Xerces 2.9.0. It is recommended 
  * that new applications use JAXP's Transformation API for XML (TrAX) for 
@@ -420,11 +421,12 @@ public final class HTMLdtd
     /**
      * Defines a new character reference. The reference's name and value are
      * supplied. Nothing happens if the character reference is already defined.
-     * <P>
+     * <p>
      * Unlike internal entities, character references are a string to single
      * character mapping. They are used to map non-ASCII characters both on
      * parsing and printing, primarily for HTML documents. '&lt;amp;' is an
      * example of a character reference.
+     * </p>
      *
      * @param name The entity's name
      * @param value The entity's value

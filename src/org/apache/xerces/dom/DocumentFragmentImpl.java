@@ -34,12 +34,12 @@ import org.w3c.dom.Text;
  * implementation... and in DOM Level 1, nodes aren't allowed to cross
  * Document boundaries anyway. What is really needed for this is a
  * very lightweight object.  DocumentFragment is such an object.
- * <P>
+ * <p>
  * Furthermore, various operations -- such as inserting nodes as
  * children of another Node -- may take DocumentFragment objects as
  * arguments; this results in all the child nodes of the
  * DocumentFragment being moved to the child list of this node.
- * <P>
+ * <p>
  * The children of a DocumentFragment node are zero or more nodes
  * representing the tops of any sub-trees defining the structure of
  * the document.  DocumentFragment do not need to be well-formed XML
@@ -48,7 +48,7 @@ import org.w3c.dom.Text;
  * nodes). For example, a DocumentFragment might have only one child
  * and that child node could be a Text node. Such a structure model
  * represents neither an HTML document nor a well-formed XML document.
- * <P>
+ * <p>
  * When a DocumentFragment is inserted into a Document (or indeed any
  * other Node that may take children) the children of the
  * DocumentFragment and not the DocumentFragment itself are inserted

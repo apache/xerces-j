@@ -27,25 +27,25 @@ import org.w3c.dom.ls.LSInput;
  * <p> This Class allows an application to encapsulate information about
  * an input source in a single object, which may include a public
  * identifier, a system identifier, a byte stream (possibly with a specified
- * encoding), and/or a character stream.
+ * encoding), and/or a character stream.</p>
  * <p> The exact definitions of a byte stream and a character stream are
- * binding dependent.
+ * binding dependent.</p>
  * <p> There are two places that the application will deliver this input
  * source to the parser: as the argument to the <code>parse</code> method,
  * or as the return value of the <code>DOMResourceResolver.resolveEntity</code>
- *  method.
+ *  method.</p>
  * <p> The <code>DOMParser</code> will use the <code>LSInput</code>
  * object to determine how to read XML input. If there is a character stream
  * available, the parser will read that stream directly; if not, the parser
  * will use a byte stream, if available; if neither a character stream nor a
  * byte stream is available, the parser will attempt to open a URI
- * connection to the resource identified by the system identifier.
- * <p> An <code>LSInput</code> object belongs to the application: the
+ * connection to the resource identified by the system identifier.</p>
+ * <p>An <code>LSInput</code> object belongs to the application: the
  * parser shall never modify it in any way (it may modify a copy if
  * necessary).  Eventhough all attributes in this interface are writable the
- * DOM implementation is expected to never mutate a LSInput.
+ * DOM implementation is expected to never mutate a LSInput.</p>
  * <p>See also the <a href='http://www.w3.org/TR/2001/WD-DOM-Level-3-ASLS-20011025'>Document Object Model (DOM) Level 3 Abstract Schemas and Load
-and Save Specification</a>.
+and Save Specification</a>.</p>
  *
  * @xerces.internal
  *

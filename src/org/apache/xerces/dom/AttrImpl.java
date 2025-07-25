@@ -34,25 +34,25 @@ import org.w3c.dom.TypeInfo;
  * Element. Typically, the allowable values are controlled by its
  * declaration in the Document Type Definition (DTD) governing this
  * kind of document.
- * <P>
+ * <p>
  * If the attribute has not been explicitly assigned a value, but has
  * been declared in the DTD, it will exist and have that default. Only
  * if neither the document nor the DTD specifies a value will the
  * Attribute really be considered absent and have no value; in that
  * case, querying the attribute will return null.
- * <P>
+ * <p>
  * Attributes may have multiple children that contain their data. (XML
  * allows attributes to contain entity references, and tokenized
  * attribute types such as NMTOKENS may have a child for each token.)
  * For convenience, the Attribute object's getValue() method returns
  * the string version of the attribute's value.
- * <P>
+ * <p>
  * Attributes are not children of the Elements they belong to, in the
  * usual sense, and have no valid Parent reference. However, the spec
  * says they _do_ belong to a specific Element, and an INUSE exception
  * is to be thrown if the user attempts to explicitly share them
  * between elements.
- * <P>
+ * <p>
  * Note that Elements do not permit attributes to appear to be shared
  * (see the INUSE exception), so this object's mutability is
  * officially not an issue.
@@ -61,7 +61,7 @@ import org.w3c.dom.TypeInfo;
  * node is associated with. Attr nodes do not have parent nodes.
  * Besides, the getOwnerElement() method can be used to get the element node
  * this attribute is associated with.
- * <P>
+ * <p>
  * AttrImpl does not support Namespaces. AttrNSImpl, which inherits from
  * it, does.
  *
@@ -1101,7 +1101,7 @@ public class AttrImpl
      * Override default behavior so that if deep is true, children are also
      * toggled.
      * @see Node
-     * <P>
+     * <p>
      * Note: this will not change the state of an EntityReference or its
      * children, which are always read-only.
      */

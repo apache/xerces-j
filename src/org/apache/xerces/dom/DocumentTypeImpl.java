@@ -29,14 +29,14 @@ import org.w3c.dom.UserDataHandler;
  * This class represents a Document Type <em>declaraction</em> in
  * the document itself, <em>not</em> a Document Type Definition (DTD).
  * An XML document may (or may not) have such a reference.
- * <P>
+ * <p>
  * DocumentType is an Extended DOM feature, used in XML documents but
  * not in HTML.
- * <P>
+ * <p>
  * Note that Entities and Notations are no longer children of the
  * DocumentType, but are parentless nodes hung only in their
  * appropriate NamedNodeMaps.
- * <P>
+ * <p>
  * This area is UNDERSPECIFIED IN REC-DOM-Level-1-19981001
  * Most notably, absolutely no provision was made for storing
  * and using Element and Attribute information. Nor was the linkage

@@ -22,7 +22,7 @@ import org.apache.xerces.impl.dv.InvalidDatatypeValueException;
 import org.apache.xerces.impl.dv.ValidationContext;
 
 /**
- * <P>ENTITYDatatypeValidator implements the
+ * <p>ENTITYDatatypeValidator implements the
  * DatattypeValidator interface.
  * This validator embodies the ENTITY attribute type
  * from XML1.0 recommendation.
@@ -33,7 +33,7 @@ import org.apache.xerces.impl.dv.ValidationContext;
  * The Lexical space of Entity is the set of all
  * strings that match the NCName production.
  * The value space of ENTITY is scoped to a specific
- * instance document.</P>
+ * instance document.</p>
  * 
  * @xerces.internal  
  *

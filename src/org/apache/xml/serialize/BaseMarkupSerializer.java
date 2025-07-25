@@ -79,36 +79,43 @@ import org.xml.sax.ext.LexicalHandler;
  * output format before it can be used by calling {@link #setOutputCharStream} 
  * or {@link #setOutputByteStream} for the writer and {@link #setOutputFormat}
  * for the output format.
+ * </p>
  * <p>
  * The serializer can be reused any number of times, but cannot
  * be used concurrently by two threads.
+ * </p>
  * <p>
  * If an output stream is used, the encoding is taken from the
  * output format (defaults to <tt>UTF-8</tt>). If a writer is
  * used, make sure the writer uses the same encoding (if applies)
  * as specified in the output format.
+ * </p>
  * <p>
  * The serializer supports both DOM and SAX. DOM serializing is done
  * by calling {@link #serialize(Document)} and SAX serializing is done by firing
  * SAX events and using the serializer as a document handler.
  * This also applies to derived class.
+ * </p>
  * <p>
  * If an I/O exception occurs while serializing, the serializer
  * will not throw an exception directly, but only throw it
  * at the end of serializing (either DOM or SAX's {@link
  * org.xml.sax.DocumentHandler#endDocument}.
+ * </p>
  * <p>
  * For elements that are not specified as whitespace preserving,
  * the serializer will potentially break long text lines at space
  * boundaries, indent lines, and serialize elements on separate
  * lines. Line terminators will be regarded as spaces, and
  * spaces at beginning of line will be stripped.
+ * </p>
  * <p>
  * When indenting, the serializer is capable of detecting seemingly
  * element content, and serializing these elements indented on separate
  * lines. An element is serialized indented when it is the first or
  * last child of an element, or immediate following or preceding
  * another element.
+ * </p>
  *
  * @deprecated This class was deprecated in Xerces 2.9.0. It is recommended 
  * that new applications use the DOM Level 3 LSSerializer or JAXP's Transformation 

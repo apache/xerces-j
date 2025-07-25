@@ -42,16 +42,18 @@ import org.w3c.dom.html.HTMLTitleElement;
 /**
  * Implements an HTML document. Provides access to the top level element in the
  * document, its body and title.
- * <P>
+ * <p>
  * Several methods create new nodes of all basic types (comment, text, element,
  * etc.). These methods create new nodes but do not place them in the document
  * tree. The nodes may be placed in the document tree using {@link
  * org.w3c.dom.Node#appendChild} or {@link org.w3c.dom.Node#insertBefore}, or
  * they may be placed in some other document tree.
- * <P>
+ * </p>
+ * <p>
  * Note: &lt;FRAMESET&gt; documents are not supported at the moment, neither
  * are direct document writing ({@link #open}, {@link #write}) and HTTP attribute
  * methods ({@link #getURL}, {@link #getCookie}).
+ * </p>
  *
  * @xerces.internal
  *
@@ -205,10 +207,11 @@ public class HTMLDocumentImpl
      * &lt;HTML&gt; in the document. The &lt;HTML&gt; element is obtained by
      * calling {@link #getDocumentElement}. If the element does not exist, one
      * is created.
-     * <P>
+     * <p>
      * Called by {@link #getTitle}, {@link #setTitle}, {@link #getBody} and
      * {@link #setBody} to assure the document has the &lt;HEAD&gt; element
      * correctly placed.
+     * </p>
      *
      * @return the &lt;HEAD&gt; element
      */

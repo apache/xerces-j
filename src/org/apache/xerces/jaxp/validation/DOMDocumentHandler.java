@@ -60,7 +60,7 @@ interface DOMDocumentHandler extends XMLDocumentHandler {
      * A comment.
      * 
      * @param node a Comment node
-     *               
+     *
      * @exception XNIException Thrown by application to signal an error.
      */
     public void comment(Comment node) throws XNIException;

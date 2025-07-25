@@ -57,13 +57,14 @@ import org.w3c.dom.traversal.TreeWalker;
  * The Document interface represents the entire HTML or XML document.
  * Conceptually, it is the root of the document tree, and provides the
  * primary access to the document's data.
- * <P>
+ * <p>
  * Since elements, text nodes, comments, processing instructions,
  * etc. cannot exist outside the context of a Document, the Document
  * interface also contains the factory methods needed to create these
  * objects. The Node objects created have a ownerDocument attribute
  * which associates them with the Document within whose context they
  * were created.
+ * </p>
  * <p>
  * The DocumentImpl class also implements the DOM Level 2 DocumentTraversal
  * interface. This interface is comprised of factory methods needed to
@@ -72,9 +73,11 @@ import org.w3c.dom.traversal.TreeWalker;
  * After finishing with an iterator it is important to remove the object
  * using the remove methods in this implementation. This allows the release of
  * the references from the iterator objects to the DOM Nodes.
+ * </p>
  * <p>
  * <b>Note:</b> When any node in the document is serialized, the
  * entire document is serialized along with it.
+ * </p>
  * 
  * @xerces.internal
  *

@@ -32,7 +32,7 @@ import org.w3c.dom.UserDataHandler;
  * ParentNode inherits from ChildNode and adds the capability of having child
  * nodes. Not every node in the DOM can have children, so only nodes that can
  * should inherit from this class and pay the price for it.
- * <P>
+ * <p>
  * ParentNode, just like NodeImpl, also implements NodeList, so it can
  * return itself in response to the getChildNodes() query. This eliminiates
  * the need for a separate ChildNodeList object. Note that this is an
@@ -40,11 +40,11 @@ import org.w3c.dom.UserDataHandler;
  * this identity exists. On the other hand, subclasses may need to override
  * this, in case of conflicting names. This is the case for the classes
  * HTMLSelectElementImpl and HTMLFormElementImpl of the HTML DOM.
- * <P>
+ * <p>
  * While we have a direct reference to the first child, the last child is
  * stored as the previous sibling of the first child. First child nodes are
  * marked as being so, and getNextSibling hides this fact.
- * <P>Note: Not all parent nodes actually need to also be a child. At some
+ * <p>Note: Not all parent nodes actually need to also be a child. At some
  * point we used to have ParentNode inheriting from NodeImpl and another class
  * called ChildAndParentNode that inherited from ChildNode. But due to the lack
  * of multiple inheritance a lot of code had to be duplicated which led to a
@@ -921,7 +921,7 @@ public abstract class ParentNode
      * Override default behavior so that if deep is true, children are also
      * toggled.
      * @see Node
-     * <P>
+     * <p>
      * Note: this will not change the state of an EntityReference or its
      * children, which are always read-only.
      */

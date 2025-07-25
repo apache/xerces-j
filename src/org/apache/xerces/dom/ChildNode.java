@@ -73,7 +73,7 @@ public abstract class ChildNode
      * generic "copy constructor" for nodes. The newly returned object should
      * be completely independent of the source object's subtree, so changes
      * in one after the clone has been made will not affect the other.
-     * <P>
+     * <p>
      * Note: since we never have any children deep is meaningless here,
      * ParentNode overrides this behavior.
      * @see ParentNode

@@ -39,11 +39,11 @@ import org.w3c.dom.ls.LSSerializer;
  * The DOMImplementation class is description of a particular
  * implementation of the Document Object Model. As such its data is
  * static, shared by all instances of this implementation.
- * <P>
+ * <p>
  * The DOM API requires that it be a real object rather than static
  * methods. However, there's nothing that says it can't be a singleton,
  * so that's how I've implemented it.
- * <P>
+ * <p>
  * This particular class, along with CoreDocumentImpl, supports the DOM
  * Core and Load/Save (Experimental). Optional modules are supported by
  * the more complete DOMImplementation class along with DocumentImpl.

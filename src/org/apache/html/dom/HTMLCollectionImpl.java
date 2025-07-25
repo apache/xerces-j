@@ -47,12 +47,14 @@ import org.w3c.dom.html.HTMLTableSectionElement;
  * three traversing functions. As a result, operations on large documents will
  * result in traversal of the entire document tree and consume a considerable
  * amount of time.
+ * </p>
  * <p>
  * Note that synchronization on the traversed document cannot be achieved.
  * The document itself cannot be locked, and locking each traversed node is
  * likely to lead to a dead lock condition. Therefore, there is a chance of the
  * document being changed as results are fetched; in all likelihood, the results
  * might be out dated, but not erroneous.
+ * </p>
  * 
  * @xerces.internal
  * 
@@ -269,6 +271,7 @@ class HTMLCollectionImpl
      * for any like element found. Since integers are only passed by value,
      * this function makes use of a separate class ({@link CollectionIndex})
      * to hold that index.
+     * </p>
      * 
      * @param topLevel Top level element from which to scan
      * @param index The index of the item to retreive

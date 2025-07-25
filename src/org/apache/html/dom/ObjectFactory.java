@@ -35,7 +35,7 @@ import java.util.Properties;
  * later, and to compile on JDK 1.2 and onward.
  * The code also runs both as part of an unbundled jar file and
  * when bundled as part of the JDK.
- * <p>
+ * </p>
  * 
  * @xerces.internal
  *

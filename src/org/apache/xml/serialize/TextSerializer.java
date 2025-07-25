@@ -42,15 +42,18 @@ import org.xml.sax.SAXException;
  * output format (defaults to <tt>UTF-8</tt>). If a writer is
  * used, make sure the writer uses the same encoding (if applies)
  * as specified in the output format.
+ * </p>
  * <p>
  * The serializer supports both DOM and SAX. DOM serializing is done
  * by calling {@link #serialize} and SAX serializing is done by firing
  * SAX events and using the serializer as a document handler.
+ * </p>
  * <p>
  * If an I/O exception occurs while serializing, the serializer
  * will not throw an exception directly, but only throw it
  * at the end of serializing (either DOM or SAX's {@link
  * org.xml.sax.DocumentHandler#endDocument}.
+ * </p>
  *
  * @deprecated This class was deprecated in Xerces 2.9.0. It is recommended 
  * that new applications use the DOM Level 3 LSSerializer or JAXP's Transformation 
@@ -229,6 +232,7 @@ public class TextSerializer
      * pre-root comments and PIs that were accumulated in the document
      * (see {@link #serializePreRoot}). Pre-root will be serialized even if
      * this is not the first root element of the document.
+     * </p>
      */
     protected void startDocument( String rootTagName )
         throws IOException

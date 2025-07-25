@@ -26,7 +26,7 @@ package org.apache.xerces.xs;
  * <code>PSVIProvider</code> interface. Within the scope of the methods 
  * handling the start and end of an element, applications may use the 
  * <code>PSVIProvider</code> to retrieve the PSVI related to the element and 
- * its attributes.
+ * its attributes.</p>
  */
 public interface PSVIProvider {
     /**

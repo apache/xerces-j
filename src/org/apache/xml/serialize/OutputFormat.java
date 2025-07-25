@@ -42,6 +42,7 @@ import org.w3c.dom.html.HTMLDocument;
  * document should be formatted on output.
  * <p>
  * The two interesting constructors are:
+ * </p>
  * <ul>
  * <li>{@link #OutputFormat(String,String,boolean)} creates a format
  *  for the specified method (XML, HTML, Text, etc), encoding and indentation

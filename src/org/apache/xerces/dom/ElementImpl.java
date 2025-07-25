@@ -42,9 +42,11 @@ import org.w3c.dom.TypeInfo;
  * entity references and hence be a fairly complex sub-tree. HTML users will
  * be dealing with simple string values, and convenience methods are provided
  * to work in terms of Strings.
+ * </p>
  * <p>
  * ElementImpl does not support Namespaces. ElementNSImpl, which inherits from
  * it, does.
+ * </p>
  * 
  * @xerces.internal
  * 
@@ -268,6 +270,7 @@ public class ElementImpl
      * Note: Attributes may contain complex node trees. This method
      * returns the "flattened" string obtained from Attribute.getValue().
      * If you need the structure information, see getAttributeNode().
+     * </p>
      */
     public String getAttribute(String name) {
 
@@ -289,6 +292,7 @@ public class ElementImpl
      * XML, where the string rendering may not be sufficient information.
      * <p>
      * If no matching attribute is available, returns null.
+     * </p>
      */
     public Attr getAttributeNode(String name) {
 
@@ -311,10 +315,11 @@ public class ElementImpl
      * Note: NodeList is a "live" view of the DOM. Its contents will
      * change as the DOM changes, and alterations made to the NodeList
      * will be reflected in the DOM.
+     * </p>
      *
-     * @param tagname The type of element to gather. To obtain a list of
+     * @param tagname the type of element to gather. To obtain a list of
      * all elements no matter what their names, use the wild-card tag
-     * name "*".
+     * name "*"
      *
      * @see DeepNodeListImpl
      */
@@ -328,6 +333,7 @@ public class ElementImpl
      * <p>
      * This is case-preserving in XML. HTML should uppercasify it on the
      * way in.
+     * </p>
      */
     public String getTagName() {
         if (needsSyncData()) {
@@ -345,10 +351,12 @@ public class ElementImpl
      * functions that may want to assume that the document is in standard form.
      * <p>
      * To normalize a Document, normalize its top-level Element child.
+     * </p>
      * <p>
      * As of PR-DOM-Level-1-19980818, CDATA -- despite being a subclass of
      * Text -- is considered "markup" and will _not_ be merged either with
      * normal Text or with other CDATASections.
+     * </p>
      */
     public void normalize() {
         // No need to normalize if already normalized.
@@ -414,10 +422,12 @@ public class ElementImpl
      * The default logic is actually implemented in NamedNodeMapImpl.
      * PR-DOM-Level-1-19980818 doesn't fully address the DTD, so some
      * of this behavior is likely to change in future versions. ?????
+     * </p>
      * <p>
      * Note that this call "succeeds" even if no attribute by this name
      * existed -- unlike removeAttributeNode, which will throw a not-found
      * exception in that case.
+     * </p>
      *
      * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if the node is
      * readonly.
@@ -451,12 +461,13 @@ public class ElementImpl
      * object passed in is not stored in this Element, we throw a
      * DOMException.  If you really want to remove an attribute by name,
      * use removeAttribute().
+     * </p>
      *
-     * @return the Attribute object that was removed.
+     * @return the Attribute object that was removed
      * @throws DOMException(NOT_FOUND_ERR) if oldattr is not an attribute of
-     * this Element.
+     * this Element
      * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if the node is
-     * readonly.
+     * readonly
      */
     public Attr removeAttributeNode(Attr oldAttr)
         throws DOMException {
@@ -539,9 +550,10 @@ public class ElementImpl
      * setAttribute() call. It can handle attribute values that have
      * arbitrarily complex tree structure -- in particular, those which
      * had entity references mixed into their text.
+     * </p>
      *
      * @throws DOMException(INUSE_ATTRIBUTE_ERR) if the Attribute object
-     * has already been assigned to another Element.
+     * has already been assigned to another Element
      */
     public Attr setAttributeNode(Attr newAttr)
         throws DOMException
@@ -578,17 +590,16 @@ public class ElementImpl
     //
 
     /**
-     * Introduced in DOM Level 2. <p>
+     * Introduced in DOM Level 2.
      *
+     * <p>
      * Retrieves an attribute value by local name and namespace URI.
+     * </p>
      *
-     * @param namespaceURI
-     *                      The namespace URI of the attribute to
-     *                      retrieve.
-     * @param localName     The local name of the attribute to retrieve.
-     * @return String       The Attr value as a string, or empty string
-     *                      if that attribute
-     *                      does not have a specified or default value.
+     * @param namespaceURI the namespace URI of the attribute to retrieve
+     * @param localName    the local name of the attribute to retrieve
+     * @return String      the Attr value as a string, or an empty string if
+     *                     that attribute does not have a specified or default value
      * @since WD-DOM-Level-2-19990923
      */
     public String getAttributeNS(String namespaceURI, String localName) {
@@ -607,8 +618,8 @@ public class ElementImpl
     } // getAttributeNS(String,String):String
 
     /**
-     * Introduced in DOM Level 2. <p>
-     *
+     * Introduced in DOM Level 2.
+     * <p>
      *  Adds a new attribute.
      *  If the given namespaceURI is null or an empty string and the
      *  qualifiedName has a prefix that is "xml", the new attribute is bound to
@@ -624,17 +635,18 @@ public class ElementImpl
      *  user must create an Attr node plus any Text and EntityReference nodes,
      *  build the appropriate subtree, and use setAttributeNodeNS or
      *  setAttributeNode to assign it as the value of an attribute.
+     * </p>
      *
-     * @param namespaceURI      The namespace URI of the attribute to create
-     *                          or alter.
-     * @param qualifiedName     The qualified name of the attribute to create or
-     *                          alter.
-     * @param value             The value to set in string form.
+     * @param namespaceURI      the namespace URI of the attribute to create
+     *                          or alter
+     * @param qualifiedName     the qualified name of the attribute to create or
+     *                          alter
+     * @param value             the value to set in string form
      * @throws                  INVALID_CHARACTER_ERR: Raised if the specified
-     *                          name contains an invalid character.
+     *                          name contains an invalid character
      *
      * @throws                  NO_MODIFICATION_ALLOWED_ERR: Raised if this
-     *                          node is readonly.
+     *                          node is readonly
      *
      * @throws                  NAMESPACE_ERR: Raised if the qualifiedName
      *                          has a prefix that is "xml" and the namespaceURI
@@ -644,7 +656,7 @@ public class ElementImpl
      *                          but the namespaceURI is neither null nor an
      *                          empty string, or if if the qualifiedName has a
      *                          prefix different from "xml" and "xmlns" and the
-     *                          namespaceURI is null or an empty string.
+     *                          namespaceURI is null or an empty string
      * @since WD-DOM-Level-2-19990923
      */
      public void setAttributeNS(String namespaceURI,String qualifiedName,
@@ -708,18 +720,19 @@ public class ElementImpl
 
 
     /**
-     * Introduced in DOM Level 2. <p>
-     *
+     * Introduced in DOM Level 2.
+     * <p>
      * Removes an attribute by local name and namespace URI. If the removed
      * attribute has a default value it is immediately replaced.
      * The replacing attribute has the same namespace URI and local name,
      * as well as the original prefix.<p>
+     * </p>
      *
-     * @param namespaceURI  The namespace URI of the attribute to remove.
+     * @param namespaceURI  the namespace URI of the attribute to remove
      *
-     * @param localName     The local name of the attribute to remove.
+     * @param localName     the local name of the attribute to remove
      * @throws                  NO_MODIFICATION_ALLOWED_ERR: Raised if this
-     *                          node is readonly.
+     *                          node is readonly
      * @since WD-DOM-Level-2-19990923
      */
     public void removeAttributeNS(String namespaceURI, String localName) {
@@ -765,11 +778,12 @@ public class ElementImpl
     } // getAttributeNodeNS(String,String):Attr
 
     /**
-     * Introduced in DOM Level 2. <p>
-     *
+     * Introduced in DOM Level 2.
+     * <p>
      * Adds a new attribute. If an attribute with that local name and
      * namespace URI is already present in the element, it is replaced
      * by the new one.
+     * </p>
      *
      * @param newAttr   The Attr node to add to the attribute list. When
      *                  the Node has no namespaceURI, this method behaves
@@ -875,11 +889,12 @@ public class ElementImpl
     }
 
     /**
-     * Introduced in DOM Level 2. <p>
-     *
+     * Introduced in DOM Level 2.
+     * <p>
      * Returns a NodeList of all the Elements with a given local name and
      * namespace URI in the order in which they would be encountered in a
      * preorder traversal of the Document tree, starting from this node.
+     * </p>
      *
      * @param namespaceURI The namespace URI of the elements to match
      *                     on. The special value "*" matches all
@@ -1146,19 +1161,17 @@ public class ElementImpl
     }
 
     /**
-     * Introduced in DOM Level 3. <p>
+     * Introduced in DOM Level 3.
+     * <p>
      * Checks if a type is derived from another by restriction. See:
-     * http://www.w3.org/TR/DOM-Level-3-Core/core.html#TypeInfo-isDerivedFrom
-     * 
-     * @param typeNamespaceArg 
-     *        The namspace of the ancestor type declaration
-     * @param typeNameArg
-     *        The name of the ancestor type declaration
-     * @param derivationMethod
-     *        The derivation method
-     * 
-     * @return boolean True if the type is derived by restriciton for the
-     *         reference type
+     * <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#TypeInfo-isDerivedFrom">http://www.w3.org/TR/DOM-Level-3-Core/core.html#TypeInfo-isDerivedFrom</a>
+     * </p>
+     *
+     * @param typeNamespaceArg the namespace of the ancestor type declaration
+     * @param typeNameArg the name of the ancestor type declaration
+     * @param derivationMethod the derivation method
+     *
+     * @return boolean True if the type is derived by restriction for the reference type
      */
     public boolean isDerivedFrom(String typeNamespaceArg, 
                                  String typeNameArg, 

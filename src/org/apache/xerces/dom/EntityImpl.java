@@ -30,10 +30,12 @@ import org.w3c.dom.Node;
  * <p>
  * Note that this object models the actual entity, _not_ the entity
  * declaration or the entity reference.
+ * </p>
  * <p>
  * An XML processor may choose to completely expand entities before
  * the structure model is passed to the DOM; in this case, there will
  * be no EntityReferences in the DOM tree.
+ * </p>
  * <p>
  * Quoting the 10/01 DOM Proposal,
  * <BLOCKQUOTE>
@@ -49,6 +51,7 @@ import org.w3c.dom.Node;
  * the Entity. Since the DOM explicitly decided not to deal with this,
  * _any_ answer will involve a non-DOM operation, and this is the
  * simplest solution.
+ * </p>
  * 
  * @xerces.internal
  * 

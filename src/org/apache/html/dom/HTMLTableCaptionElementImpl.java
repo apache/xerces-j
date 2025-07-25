@@ -48,6 +48,7 @@ public class HTMLTableCaptionElementImpl
      * Constructor requires owner document.
      * 
      * @param owner the HTML document in which this element appears
+     * @param name the tag name of the element
      */
     public HTMLTableCaptionElementImpl( HTMLDocumentImpl owner, String name )
     {

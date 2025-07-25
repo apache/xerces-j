@@ -85,6 +85,7 @@ public class HTMLMetaElementImpl
      * Constructor requires owner document.
      * 
      * @param owner the HTML document in which this element appears
+     * @param name the tag name of the element
      */
     public HTMLMetaElementImpl( HTMLDocumentImpl owner, String name )
     {

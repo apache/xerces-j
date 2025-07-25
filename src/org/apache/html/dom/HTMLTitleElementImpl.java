@@ -75,6 +75,7 @@ public class HTMLTitleElementImpl
      * Constructor requires owner document.
      * 
      * @param owner the HTML document in which this element appears
+     * @param name the tag name of the element
      */
     public HTMLTitleElementImpl( HTMLDocumentImpl owner, String name )
     {

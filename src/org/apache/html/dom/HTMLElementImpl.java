@@ -119,23 +119,25 @@ public class HTMLElementImpl
     /**
      * Convenience method used to translate an attribute value into a boolean
      * value. If the attribute has an associated value (even an empty string),
-     * it is set and true is returned. If the attribute does not exist, false
-     * is returend.
+     * true is returned. If the element does not have this attribute, false
+     * is returned.
      * 
-     * @param value The value of the attribute
-     * @return True or false depending on whether the attribute has been set
+     * @param name the name of the attribute
+     * @return true or false depending on whether the attribute has been set
      */
     boolean getBinary( String name ) {
-        return ( getAttributeNode( name ) != null );
+        return getAttributeNode( name ) != null;
     }
     
     /**
      * Convenience method used to set a boolean attribute. If the value is true,
-     * the attribute is set to an empty string. If the value is false, the attribute
-     * is removed. HTML 4.0 understands empty strings as set attributes.
-     * 
-     * @param name The name of the attribute
-     * @param value The value of the attribute
+     * the attribute value is set to the attribute's name. For example,
+     * {@code checked="checked"} or {disabled="disabled"}.
+     * If the value is false, the attribute is removed. As long as the
+     * attribute is present, regardless of value, HTML considers a boolean attribute to be true.
+     *
+     * @param name the name of the attribute
+     * @param value the truth value of the attribute
      */
     void setAttribute( String name, boolean value ) {
         if ( value ) {

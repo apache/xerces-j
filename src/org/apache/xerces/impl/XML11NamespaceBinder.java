@@ -54,7 +54,7 @@ public class XML11NamespaceBinder extends XMLNamespaceBinder {
     // Protected methods
     //
 
-    // returns true iff the given prefix is bound to "" *and*
+    // returns true if the given prefix is bound to "" *and*
     // this is disallowed by the version of XML namespaces in use.
     protected boolean prefixBoundToNullURI(String uri, String localpart) {
         return false;

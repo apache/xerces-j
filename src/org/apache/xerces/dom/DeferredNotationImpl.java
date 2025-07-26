@@ -24,15 +24,15 @@ package org.apache.xerces.dom;
  * may wish to consult when manipulating the document. A Notation
  * represents a name-value pair, with its nodeName being set to the
  * declared name of the notation.
- * <P>
+ * <p>
  * Notations are also used to formally declare the "targets" of
  * Processing Instructions.
- * <P>
+ * <p>
  * Note that the Notation's data is non-DOM information; the DOM only
  * records what and where it is.
- * <P>
+ * <p>
  * See the XML 1.0 spec, sections 4.7 and 2.6, for more info.
- * <P>
+ * <p>
  * Level 1 of the DOM does not support editing Notation contents.
  * 
  * @xerces.internal

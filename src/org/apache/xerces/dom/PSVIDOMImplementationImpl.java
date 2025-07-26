@@ -24,7 +24,7 @@ import org.w3c.dom.DocumentType;
  * The DOMImplementation class is description of a particular
  * implementation of the Document Object Model. As such its data is
  * static, shared by all instances of this implementation.
- * <P>
+ * <p>
  * The DOM API requires that it be a real object rather than static
  * methods. However, there's nothing that says it can't be a singleton,
  * so that's how I've implemented it.
@@ -70,7 +70,7 @@ public class PSVIDOMImplementationImpl extends DOMImplementationImpl {
      * This is interpreted as "Version of the DOM API supported for the
      * specified Feature", and in Level 1 should be "1.0"
      *
-     * @return    true iff this implementation is compatable with the specified
+     * @return    true if this implementation is compatible with the specified
      * feature and version.
      */
     public boolean hasFeature(String feature, String version) {

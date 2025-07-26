@@ -56,26 +56,31 @@ import org.xml.sax.SAXException;
  * constructor.  For usage instructions see {@link Serializer}.
  * <p>
  * If an output stream is used, the encoding is taken from the
- * output format (defaults to <tt>UTF-8</tt>). If a writer is
+ * output format (defaults to <code>UTF-8</code>). If a writer is
  * used, make sure the writer uses the same encoding (if applies)
  * as specified in the output format.
+ * </p>
  * <p>
  * The serializer supports both DOM and SAX. DOM serializing is done
  * by calling {@link #serialize} and SAX serializing is done by firing
  * SAX events and using the serializer as a document handler.
+ * </p>
  * <p>
  * If an I/O exception occurs while serializing, the serializer
  * will not throw an exception directly, but only throw it
  * at the end of serializing (either DOM or SAX's {@link
  * org.xml.sax.DocumentHandler#endDocument}.
+ * </p>
  * <p>
  * For elements that are not specified as whitespace preserving,
  * the serializer will potentially break long text lines at space
  * boundaries, indent lines, and serialize elements on separate
  * lines. Line terminators will be regarded as spaces, and
  * spaces at beginning of line will be stripped.
+ * </p>
  * <p>
  * XHTML is slightly different than HTML:
+ * </p>
  * <ul>
  * <li>Element/attribute names are lower case and case matters
  * <li>Attributes must specify value, even if empty string
@@ -111,10 +116,10 @@ public class HTMLSerializer
 
     /**
      * Constructs a new HTML/XHTML serializer depending on the value of
-     * <tt>xhtml</tt>. The serializer cannot be used without calling
+     * <code>xhtml</code>. The serializer cannot be used without calling
      * {@link #setOutputCharStream} or {@link #setOutputByteStream} first.
      *
-     * @param xhtml True if XHTML serializing
+     * @param xhtml true if XHTML serializing
      */
     protected HTMLSerializer( boolean xhtml, OutputFormat format )
     {
@@ -148,11 +153,11 @@ public class HTMLSerializer
 
     /**
      * Constructs a new serializer that writes to the specified writer
-     * using the specified output format. If <tt>format</tt> is null,
+     * using the specified output format. If <code>format</code> is null,
      * will use a default output format.
      *
-     * @param writer The writer to use
-     * @param format The output format to use, null for the default
+     * @param writer the writer to use
+     * @param format the output format to use, null for the default
      */
     public HTMLSerializer( Writer writer, OutputFormat format )
     {
@@ -163,11 +168,11 @@ public class HTMLSerializer
 
     /**
      * Constructs a new serializer that writes to the specified output
-     * stream using the specified output format. If <tt>format</tt>
+     * stream using the specified output format. If <code>format</code>
      * is null, will use a default output format.
      *
-     * @param output The output stream to use
-     * @param format The output format to use, null for the default
+     * @param output the output stream to use
+     * @param format the output format to use, null for the default
      */
     public HTMLSerializer( OutputStream output, OutputFormat format )
     {
@@ -623,6 +628,7 @@ public class HTMLSerializer
      * pre-root comments and PIs that were accumulated in the document
      * (see {@link #serializePreRoot}). Pre-root will be serialized even if
      * this is not the first root element of the document.
+     * </p>
      */
     protected void startDocument( String rootTagName )
         throws IOException

@@ -39,6 +39,7 @@ import org.xml.sax.DocumentHandler;
  * be thrown by {@link DocumentHandler#endDocument}. The SAX serializer
  * may also be used as {@link org.xml.sax.DTDHandler}, {@link org.xml.sax.ext.DeclHandler} and
  * {@link org.xml.sax.ext.LexicalHandler}.
+ * </p>
  * <p>
  * To serialize a DOM document or DOM element, create a compatible
  * serializer and call it's {@link
@@ -46,11 +47,13 @@ import org.xml.sax.DocumentHandler;
  * Both methods would produce a full XML document, to serizlie only
  * the portion of the document use {@link OutputFormat#setOmitXMLDeclaration}
  * and specify no document type.
+ * </p>
  * <p>
  * The {@link OutputFormat} dictates what underlying serialized is used
  * to serialize the document based on the specified method. If the output
  * format or method are missing, the default is an XML serializer with
  * UTF-8 encoding and now indentation.
+ * </p>
  * 
  * @deprecated This class was deprecated in Xerces 2.9.0. It is recommended 
  * that new applications use the DOM Level 3 LSSerializer or JAXP's Transformation 
@@ -92,7 +95,7 @@ public interface Serializer
      * called while the serializer is in the process of serializing
      * a document.
      *
-     * @param format The output format to use
+     * @param format the output format to use
      */
     public void setOutputFormat( OutputFormat format );
 
@@ -100,7 +103,7 @@ public interface Serializer
     /**
      * Return a {@link DocumentHandler} interface into this serializer.
      * If the serializer does not support the {@link DocumentHandler}
-     * interface, it should return null.
+     * interface, it should return <code>null</code>.
      */
     public DocumentHandler asDocumentHandler()
         throws IOException;
@@ -109,7 +112,7 @@ public interface Serializer
     /**
      * Return a {@link ContentHandler} interface into this serializer.
      * If the serializer does not support the {@link ContentHandler}
-     * interface, it should return null.
+     * interface, it should return <code>null</code>.
      */
     public ContentHandler asContentHandler()
         throws IOException;
@@ -118,7 +121,7 @@ public interface Serializer
     /**
      * Return a {@link DOMSerializer} interface into this serializer.
      * If the serializer does not support the {@link DOMSerializer}
-     * interface, it should return null.
+     * interface, it should return <code>null</code>.
      */
     public DOMSerializer asDOMSerializer()
         throws IOException;

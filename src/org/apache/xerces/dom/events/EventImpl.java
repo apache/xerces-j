@@ -62,7 +62,7 @@ public class EventImpl implements Event {
     }
 
     /** 
-     * @return true iff this Event is of a class and type which supports
+     * @return true if this Event is of a class and type which supports
      * bubbling. In the generic case, this is True.
      */
     public boolean getBubbles() {
@@ -70,7 +70,7 @@ public class EventImpl implements Event {
     }
 
     /** 
-     * @return true iff this Event is of a class and type which (a) has a
+     * @return true if this Event is of a class and type which (a) has a
      * Default Behavior in this DOM, and (b)allows cancellation (blocking)
      * of that behavior. In the generic case, this is False.
      */

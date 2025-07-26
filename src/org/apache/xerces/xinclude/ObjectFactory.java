@@ -377,7 +377,7 @@ final class ObjectFactory {
             // in both JDK 1.1 and Java 2.  However, this should still
             // work b/c the following should be true:
             //
-            // (cl == null) iff current ClassLoader == null
+            // (cl == null) if current ClassLoader == null
             //
             // Thus Class.forName(String) will use the current
             // ClassLoader which will be the bootstrap ClassLoader.

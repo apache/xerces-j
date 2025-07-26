@@ -43,7 +43,7 @@ import org.w3c.dom.events.EventTarget;
  * the tree. Only its subclasses should be instantiated -- and those,
  * with the exception of Document itself, only through a specific
  * Document's factory methods.
- * <P>
+ * <p>
  * The Node interface provides shared behaviors such as siblings and
  * children, both for consistancy and so that the most common tree
  * operations may be performed without constantly having to downcast
@@ -51,18 +51,18 @@ import org.w3c.dom.events.EventTarget;
  * these queries, it will respond with null.
  * Note that the default behavior is that children are forbidden. To
  * permit them, the subclass ParentNode overrides several methods.
- * <P>
+ * <p>
  * NodeImpl also implements NodeList, so it can return itself in
  * response to the getChildNodes() query. This eliminiates the need
  * for a separate ChildNodeList object. Note that this is an
  * IMPLEMENTATION DETAIL; applications should _never_ assume that
  * this identity exists.
- * <P>
+ * <p>
  * All nodes in a single document must originate
  * in that document. (Note that this is much tighter than "must be
  * same implementation") Nodes are all aware of their ownerDocument,
  * and attempts to mismatch will throw WRONG_DOCUMENT_ERR.
- * <P>
+ * <p>
  * However, to save memory not all nodes always have a direct reference
  * to their ownerDocument. When a node is owned by another node it relies
  * on its owner to store its ownerDocument. Parent nodes always store it
@@ -199,7 +199,8 @@ public abstract class NodeImpl
     
     /**
      * Returns the node value.
-     * @throws DOMException(DOMSTRING_SIZE_ERR)
+     * @return this implementation will always return <code>null</code>
+     * @throws DOMException DOMSTRING_SIZE_ERR is not thrown by this implementation
      */
     public String getNodeValue()
         throws DOMException {
@@ -208,7 +209,8 @@ public abstract class NodeImpl
 
     /**
      * Sets the node value.
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR)
+     * @param x will not be used by this class but can be used in subclasses
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR may be thrown by subclasses
      */
     public void setNodeValue(String x) 
         throws DOMException {
@@ -219,21 +221,20 @@ public abstract class NodeImpl
      * Adds a child node to the end of the list of children for this node.
      * Convenience shorthand for insertBefore(newChild,null).
      * @see #insertBefore(Node, Node)
-     * <P>
+     * <p>
      * By default we do not accept any children, ParentNode overrides this.
      * @see ParentNode
      *
      * @return newChild, in its new state (relocated, or emptied in the case of
      * DocumentNode.)
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
-     * read-only.
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is read-only.
      */
     public Node appendChild(Node newChild) throws DOMException {
     	return insertBefore(newChild, null);
@@ -244,7 +245,7 @@ public abstract class NodeImpl
      * generic "copy constructor" for nodes. The newly returned object should
      * be completely independent of the source object's subtree, so changes
      * in one after the clone has been made will not affect the other.
-     * <P>
+     * <p>
      * Note: since we never have any children deep is meaningless here,
      * ParentNode overrides this behavior.
      * @see ParentNode
@@ -403,7 +404,7 @@ public abstract class NodeImpl
     /**
      * Test whether this node has any children. Convenience shorthand
      * for (Node.getFirstChild()!=null)
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
      * @see ParentNode
      */
@@ -429,7 +430,7 @@ public abstract class NodeImpl
     }
 
     /** The first child of this Node, or null if none.
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
      * @see ParentNode
      */
@@ -438,7 +439,7 @@ public abstract class NodeImpl
     }
 
     /** The first child of this Node, or null if none.
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
      * @see ParentNode
      */
@@ -449,7 +450,7 @@ public abstract class NodeImpl
     /**
      * Move one or more node(s) to our list of children. Note that this
      * implicitly removes them from their previous parent.
-     * <P>
+     * <p>
      * By default we do not accept any children, ParentNode overrides this.
      * @see ParentNode
      *
@@ -464,17 +465,17 @@ public abstract class NodeImpl
      * @return newChild, in its new state (relocated, or emptied in the case of
      * DocumentNode.)
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node, or if newChild is an
      * ancestor of this node.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NOT_FOUND_ERR) if refChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if refChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node insertBefore(Node newChild, Node refChild) 
@@ -487,16 +488,16 @@ public abstract class NodeImpl
     /**
      * Remove a child from this Node. The removed child's subtree
      * remains intact so it may be re-inserted elsewhere.
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
      * @see ParentNode
      *
      * @return oldChild, in its new state (removed).
      *
-     * @throws DOMException(NOT_FOUND_ERR) if oldChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if oldChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node removeChild(Node oldChild) 
@@ -511,23 +512,23 @@ public abstract class NodeImpl
      * have. Note that newChild will first be removed from its previous
      * parent, if any. Equivalent to inserting newChild before oldChild,
      * then removing oldChild.
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
      * @see ParentNode
      *
      * @return oldChild, in its new state (removed).
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node, or if newChild is
      * one of our ancestors.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NOT_FOUND_ERR) if oldChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if oldChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node replaceChild(Node newChild, Node oldChild)
@@ -543,7 +544,7 @@ public abstract class NodeImpl
 
     /**
      * NodeList method: Count the immediate children of this node
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
      * @see ParentNode
      *
@@ -556,7 +557,7 @@ public abstract class NodeImpl
     /**
      * NodeList method: Return the Nth immediate child of this node, or
      * null if the index is out of bounds.
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
      * @see ParentNode
      *
@@ -1911,12 +1912,12 @@ public abstract class NodeImpl
     /**
      * NON-DOM: PR-DOM-Level-1-19980818 mentions readonly nodes in conjunction
      * with Entities, but provides no API to support this.
-     * <P>
+     * <p>
      * Most DOM users should not touch this method. Its anticpated use
      * is during construction of EntityRefernces, where it will be used to
      * lock the contents replicated from Entity so they can't be casually
      * altered. It _could_ be published as a DOM extension, if desired.
-     * <P>
+     * <p>
      * Note: since we never have any children deep is meaningless here,
      * ParentNode overrides this behavior.
      * @see ParentNode

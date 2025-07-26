@@ -59,9 +59,10 @@ import org.xml.sax.helpers.AttributesImpl;
  * serializing. For usage instructions see {@link Serializer}.
  * <p>
  * If an output stream is used, the encoding is taken from the
- * output format (defaults to <tt>UTF-8</tt>). If a writer is
+ * output format (defaults to <code>UTF-8</code>). If a writer is
  * used, make sure the writer uses the same encoding (if applies)
  * as specified in the output format.
+ * </p>
  * <p>
  * The serializer supports both DOM and SAX. SAX serializing is done by firing
  * SAX events and using the serializer as a document handler. DOM serializing is done
@@ -69,17 +70,20 @@ import org.xml.sax.helpers.AttributesImpl;
  * {@link org.w3c.dom.ls.LSSerializer} and
  * serializing with {@link org.w3c.dom.ls.LSSerializer#write},
  * {@link org.w3c.dom.ls.LSSerializer#writeToString}.
+ * </p>
  * <p>
  * If an I/O exception occurs while serializing, the serializer
  * will not throw an exception directly, but only throw it
  * at the end of serializing (either DOM or SAX's {@link
  * org.xml.sax.DocumentHandler#endDocument}.
+ * </p>
  * <p>
  * For elements that are not specified as whitespace preserving,
  * the serializer will potentially break long text lines at space
  * boundaries, indent lines, and serialize elements on separate
  * lines. Line terminators will be regarded as spaces, and
  * spaces at beginning of line will be stripped.
+ * </p>
  * 
  * @deprecated This class was deprecated in Xerces 2.9.0. It is recommended 
  * that new applications use the DOM Level 3 LSSerializer or JAXP's Transformation 
@@ -161,11 +165,11 @@ extends BaseMarkupSerializer {
 
     /**
      * Constructs a new serializer that writes to the specified writer
-     * using the specified output format. If <tt>format</tt> is null,
+     * using the specified output format. If <code>format</code> is null,
      * will use a default output format.
      *
-     * @param writer The writer to use
-     * @param format The output format to use, null for the default
+     * @param writer the writer to use
+     * @param format the output format to use, null for the default
      */
     public XMLSerializer( Writer writer, OutputFormat format ) {
         super( format != null ? format : new OutputFormat( Method.XML, null, false ) );
@@ -176,11 +180,11 @@ extends BaseMarkupSerializer {
 
     /**
      * Constructs a new serializer that writes to the specified output
-     * stream using the specified output format. If <tt>format</tt>
+     * stream using the specified output format. If <code>format</code>
      * is null, will use a default output format.
      *
-     * @param output The output stream to use
-     * @param format The output format to use, null for the default
+     * @param output the output stream to use
+     * @param format the output format to use, null for the default
      */
     public XMLSerializer( OutputStream output, OutputFormat format ) {
         super( format != null ? format : new OutputFormat( Method.XML, null, false ) );
@@ -195,11 +199,10 @@ extends BaseMarkupSerializer {
 
 
     /**
-     * This methods turns on namespace fixup algorithm during
-     * DOM serialization.
+     * This method turns on namespace fixup algorithm during DOM serialization.
      * @see org.w3c.dom.ls.LSSerializer
      * 
-     * @param namespaces
+     * @param namespaces set to true to enable namespace fixup algorithm
      */
     public void setNamespaces (boolean namespaces){
         fNamespaces = namespaces;
@@ -546,6 +549,7 @@ extends BaseMarkupSerializer {
      * pre-root comments and PIs that were accumulated in the document
      * (see {@link #serializePreRoot}). Pre-root will be serialized even if
      * this is not the first root element of the document.
+     * </p>
      */
     protected void startDocument( String rootTagName )
     throws IOException
@@ -1099,9 +1103,9 @@ extends BaseMarkupSerializer {
      * Serializes a namespace attribute with the given prefix and value for URI.
      * In case prefix is empty will serialize default namespace declaration.
      * 
-     * @param prefix
-     * @param uri
-     * @exception IOException
+     * @param prefix the namespace prefix. If empty the default namespace declaration will be used
+     * @param uri the namespace uri value
+     * @exception IOException will be thrown if the attribute cannot be printed
      */
 
     private void printNamespaceAttr(String prefix, String uri) throws IOException{
@@ -1131,7 +1135,7 @@ extends BaseMarkupSerializer {
      * @param name
      * @param value
      * @param isSpecified
-     * @exception IOException
+     * @exception IOException will be thrown if the attribute cannot be printed
      */
     private void printAttribute (String name, String value, boolean isSpecified, Attr attr) throws IOException{
 
@@ -1388,7 +1392,7 @@ extends BaseMarkupSerializer {
     * DOM Level 3:
     * Check a node to determine if it contains unbound namespace prefixes.
     *
-    * @param node The node to check for unbound namespace prefices
+    * @param node the node to check for unbound namespace prefices
     */
 	protected void checkUnboundNamespacePrefixedNode (Node node) throws IOException{
 

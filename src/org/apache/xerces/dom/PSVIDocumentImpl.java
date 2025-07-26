@@ -68,7 +68,7 @@ public class PSVIDocumentImpl extends DocumentImpl {
      * which is DOM Level 2.
      *
      * @return org.w3c.dom.Node
-     * @param deep boolean, iff true replicate children
+     * @param deep boolean, if true replicate children
      */
     public Node cloneNode(boolean deep) {
 

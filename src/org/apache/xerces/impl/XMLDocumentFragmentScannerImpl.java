@@ -1561,7 +1561,7 @@ public class XMLDocumentFragmentScannerImpl
          * @throws IOException  Thrown on i/o error.
          * @throws XNIException Thrown on parse error.
          */
-        public boolean dispatch(boolean complete) 
+        public boolean dispatch(boolean complete)
             throws IOException, XNIException;
 
     } // interface Dispatcher

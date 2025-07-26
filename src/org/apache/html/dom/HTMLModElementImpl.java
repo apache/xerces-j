@@ -59,7 +59,8 @@ public class HTMLModElementImpl
     /**
      * Constructor requires owner document and tag name.
      * 
-     * @param owner The owner HTML document
+     * @param owner the HTML document in which this element appears
+     * @param name the tag name of the element
      */
     public HTMLModElementImpl( HTMLDocumentImpl owner, String name )
     {

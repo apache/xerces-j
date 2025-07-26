@@ -60,19 +60,22 @@ import org.w3c.dom.ls.LSSerializer;
  * The Document interface represents the entire HTML or XML document.
  * Conceptually, it is the root of the document tree, and provides the
  * primary access to the document's data.
- * <P>
+ * <p>
  * Since elements, text nodes, comments, processing instructions,
  * etc. cannot exist outside the context of a Document, the Document
  * interface also contains the factory methods needed to create these
  * objects. The Node objects created have a ownerDocument attribute
  * which associates them with the Document within whose context they
  * were created.
+ * </p>
  * <p>
  * The CoreDocumentImpl class only implements the DOM Core. Additional modules
  * are supported by the more complete DocumentImpl subclass.
+ * </p>
  * <p>
  * <b>Note:</b> When any node in the document is serialized, the
  * entire document is serialized along with it.
+ * </p>
  * 
  * @xerces.internal 
  *
@@ -309,8 +312,8 @@ extends ParentNode implements Document  {
      * protection. I've chosen to implement it by calling importNode
      * which is DOM Level 2.
      *
-     * @return org.w3c.dom.Node
-     * @param deep boolean, iff true replicate children
+     * @param deep boolean, if true replicate children
+     * @return a clone of this {@link org.w3c.dom.Node}
      */
     public Node cloneNode(boolean deep) {
 
@@ -548,8 +551,7 @@ extends ParentNode implements Document  {
      * @param name The name of the attribute. Note that the attribute's value is
      * _not_ established at the factory; remember to set it!
      * 
-     * @throws DOMException(INVALID_NAME_ERR)
-     * if the attribute name is not acceptable.
+     * @throws DOMException INVALID_NAME_ERR if the attribute name is not acceptable.
      */
     public Attr createAttribute(String name)
         throws DOMException {
@@ -572,8 +574,8 @@ extends ParentNode implements Document  {
      *
      * @param data The initial contents of the CDATA
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents. (HTML
-     * not yet implemented.)
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents.
+     *         (HTML not yet implemented)
      */
     public CDATASection createCDATASection(String data)
     throws DOMException {
@@ -606,8 +608,7 @@ extends ParentNode implements Document  {
      * be provided in any case, but it must be mapped to the canonical
      * uppercase form by the DOM implementation.
      *
-     * @throws DOMException(INVALID_NAME_ERR) if the tag name is not
-     * acceptable.
+     * @throws DOMException INVALID_NAME_ERR if the tag name is not acceptable
      */
     public Element createElement(String tagName)
     throws DOMException {
@@ -626,7 +627,7 @@ extends ParentNode implements Document  {
      *
      * @param name The name of the Entity we wish to refer to
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents, where
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * nonstandard entities are not permitted. (HTML not yet
      * implemented.)
      */
@@ -648,11 +649,10 @@ extends ParentNode implements Document  {
      * @param target The target "processor channel"
      * @param data Parameter string to be passed to the target.
      *
-     * @throws DOMException(INVALID_NAME_ERR) if the target name is not
-     * acceptable.
+     * @throws DOMException INVALID_NAME_ERR if the target name is not acceptable.
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents. (HTML
-     * not yet implemented.)
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents.
+     *          (HTML not yet implemented.)
      */
     public ProcessingInstruction createProcessingInstruction(String target,
     String data)
@@ -1374,7 +1374,7 @@ extends ParentNode implements Document  {
      * @param publicID
      * @param systemID
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents, where
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * DTDs are not permitted. (HTML not yet implemented.)
      */
     public DocumentType createDocumentType(String qualifiedName,
@@ -1394,7 +1394,7 @@ extends ParentNode implements Document  {
      *
      * @param name The name of the Entity we wish to provide a value for.
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents, where
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * nonstandard entities are not permitted. (HTML not yet
      * implemented.)
      */
@@ -1418,7 +1418,7 @@ extends ParentNode implements Document  {
      *
      * @param name The name of the Notation we wish to describe
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents, where
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * notations are not permitted. (HTML not yet
      * implemented.)
      */

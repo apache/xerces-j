@@ -1030,7 +1030,7 @@ public class XMLSchemaValidator
      *                 parsed from a java.io.Reader).
      * @param augs     Additional information that may include infoset augmentations
      *
-     * @exception XNIException Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}.
      */
     public void startGeneralEntity(
         String name,

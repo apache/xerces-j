@@ -359,7 +359,7 @@ public class XMLNamespaceBinder
      *                 parsed from a java.io.Reader).
      * @param augs     Additional information that may include infoset augmentations
      *                 
-     * @exception XNIException Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}.
      */
     public void startGeneralEntity(String name,
                                    XMLResourceIdentifier identifier,
@@ -844,7 +844,7 @@ public class XMLNamespaceBinder
 
     } // handleEndElement(QName,boolean)
 
-    // returns true iff the given prefix is bound to "" *and*
+    // returns true if the given prefix is bound to "" *and*
     // this is disallowed by the version of XML namespaces in use.
     protected boolean prefixBoundToNullURI(String uri, String localpart) {
         return (uri == XMLSymbols.EMPTY_STRING && localpart != XMLSymbols.PREFIX_XMLNS); 

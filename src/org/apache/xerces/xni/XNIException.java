@@ -82,7 +82,11 @@ public class XNIException
     // Public methods
     //
 
-    /** Returns the wrapped exception. */
+    /**
+     * Returns the wrapped exception.
+     *
+     * @return the wrapped exception
+     */
     public Exception getException() {
         return fException != this ? fException : null;
     } // getException():Exception

@@ -512,7 +512,7 @@ public class AttrImpl
      * @see #getOwnerElement
      *
      * @deprecated Previous working draft of DOM Level 2. New method
-     *             is <tt>getOwnerElement()</tt>.
+     *             is <code>getOwnerElement()</code>.
      */
     @Deprecated
     public Element getElement() {

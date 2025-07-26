@@ -56,7 +56,7 @@ import org.xml.sax.SAXException;
  * constructor.  For usage instructions see {@link Serializer}.
  * <p>
  * If an output stream is used, the encoding is taken from the
- * output format (defaults to <tt>UTF-8</tt>). If a writer is
+ * output format (defaults to <code>UTF-8</code>). If a writer is
  * used, make sure the writer uses the same encoding (if applies)
  * as specified in the output format.
  * </p>
@@ -116,7 +116,7 @@ public class HTMLSerializer
 
     /**
      * Constructs a new HTML/XHTML serializer depending on the value of
-     * <tt>xhtml</tt>. The serializer cannot be used without calling
+     * <code>xhtml</code>. The serializer cannot be used without calling
      * {@link #setOutputCharStream} or {@link #setOutputByteStream} first.
      *
      * @param xhtml true if XHTML serializing
@@ -153,7 +153,7 @@ public class HTMLSerializer
 
     /**
      * Constructs a new serializer that writes to the specified writer
-     * using the specified output format. If <tt>format</tt> is null,
+     * using the specified output format. If <code>format</code> is null,
      * will use a default output format.
      *
      * @param writer the writer to use
@@ -168,7 +168,7 @@ public class HTMLSerializer
 
     /**
      * Constructs a new serializer that writes to the specified output
-     * stream using the specified output format. If <tt>format</tt>
+     * stream using the specified output format. If <code>format</code>
      * is null, will use a default output format.
      *
      * @param output the output stream to use

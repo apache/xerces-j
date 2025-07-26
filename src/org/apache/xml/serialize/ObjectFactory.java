@@ -88,7 +88,7 @@ final class ObjectFactory {
      * @param factoryId             the name of the factory to find, same as
      *                              a property name
      * @param fallbackClassName     an implementation class name, if nothing else
-     *                              is found.  Use null to mean no fallback
+     *                              is found. Use <code>null</code> to mean no fallback.
      *
      * @exception ObjectFactory.ConfigurationError will be thrown if cannot create an instance
      */
@@ -115,7 +115,7 @@ final class ObjectFactory {
      *                           of the properties file.  If none specified,
      *                           ${java.home}/lib/xerces.properties will be used
      * @param fallbackClassName     an implementation class name, if nothing else
-     *                              is found.  Use null to mean no fallback
+     *                              is found. Use <code>null</code> to mean no fallback.
      *
      * @exception ObjectFactory.ConfigurationError will be thrown if cannot create an instance
      */

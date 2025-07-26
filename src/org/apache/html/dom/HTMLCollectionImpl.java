@@ -206,7 +206,7 @@ class HTMLCollectionImpl
     
     /**
      * Retrieves the named node from the collection. The name is matched case
-     * sensitive against the <TT>id</TT> attribute of each element in the
+     * sensitive against the <code>id</code> attribute of each element in the
      * collection, returning the first match. The tree is traversed in
      * depth-first order. This method might traverse the entire document tree.
      * 
@@ -318,7 +318,7 @@ class HTMLCollectionImpl
     
     /**
      * Recursive function returns an element of a particular type with the
-     * specified name (<TT>id</TT> attribute).
+     * specified name (<code>id</code> attribute).
      * 
      * @param topLevel the top level element from which to scan
      * @param name the named element to look for

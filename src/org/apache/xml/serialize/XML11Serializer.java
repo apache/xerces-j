@@ -48,7 +48,7 @@ import org.xml.sax.SAXException;
  * serializing. For usage instructions see {@link Serializer}.
  * <p>
  * If an output stream is used, the encoding is taken from the
- * output format (defaults to <tt>UTF-8</tt>). If a writer is
+ * output format (defaults to <code>UTF-8</code>). If a writer is
  * used, make sure the writer uses the same encoding (if applies)
  * as specified in the output format.
  * </p>
@@ -150,11 +150,11 @@ extends XMLSerializer {
 
     /**
      * Constructs a new serializer that writes to the specified writer
-     * using the specified output format. If <tt>format</tt> is null,
+     * using the specified output format. If <code>format</code> is null,
      * will use a default output format.
      *
      * @param writer the writer to use
-     * @param format the output format to use, null for the default
+     * @param format the output format to use, <code>null</code> for the default
      */
     public XML11Serializer( Writer writer, OutputFormat format ) {
         super( writer, format );
@@ -164,11 +164,11 @@ extends XMLSerializer {
 
     /**
      * Constructs a new serializer that writes to the specified output
-     * stream using the specified output format. If <tt>format</tt>
+     * stream using the specified output format. If <code>format</code>
      * is null, will use a default output format.
      *
      * @param output the output stream to use
-     * @param format the output format to use, null for the default
+     * @param format the output format to use, <code>null</code> for the default
      */
     public XML11Serializer( OutputStream output, OutputFormat format ) {
         super( output, format != null ? format : new OutputFormat( Method.XML, null, false ) );

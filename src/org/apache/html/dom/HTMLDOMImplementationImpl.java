@@ -59,7 +59,7 @@ public class HTMLDOMImplementationImpl
 
 
     /**
-     * Create a new HTML document of the specified <TT>TITLE</TT> text.
+     * Create a new HTML document of the specified <code>TITLE</code> text.
      *
      * @param title the document title text
      * @return a new HTML document

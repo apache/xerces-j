@@ -58,7 +58,7 @@ import org.w3c.dom.ls.LSSerializerFilter;
 
 /**
  * EXPERIMENTAL: Implemenatation of DOM Level 3 org.w3c.ls.LSSerializer  by delegating serialization
- * calls to <CODE>XMLSerializer</CODE>.
+ * calls to <code>XMLSerializer</code>.
  * LSSerializer provides an API for serializing (writing) a DOM document out in an
  * XML document. The XML data is written to an output stream.
  * During serialization of XML data, namespace fixup is done when possible as

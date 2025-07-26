@@ -103,7 +103,7 @@ public interface Serializer
     /**
      * Return a {@link DocumentHandler} interface into this serializer.
      * If the serializer does not support the {@link DocumentHandler}
-     * interface, it should return null.
+     * interface, it should return <code>null</code>.
      */
     public DocumentHandler asDocumentHandler()
         throws IOException;
@@ -112,7 +112,7 @@ public interface Serializer
     /**
      * Return a {@link ContentHandler} interface into this serializer.
      * If the serializer does not support the {@link ContentHandler}
-     * interface, it should return null.
+     * interface, it should return <code>null</code>.
      */
     public ContentHandler asContentHandler()
         throws IOException;
@@ -121,7 +121,7 @@ public interface Serializer
     /**
      * Return a {@link DOMSerializer} interface into this serializer.
      * If the serializer does not support the {@link DOMSerializer}
-     * interface, it should return null.
+     * interface, it should return <code>null</code>.
      */
     public DOMSerializer asDOMSerializer()
         throws IOException;

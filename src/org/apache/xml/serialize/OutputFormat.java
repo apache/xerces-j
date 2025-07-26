@@ -137,7 +137,7 @@ public class OutputFormat
 
     /**
      * Holds the output method specified for this document,
-     * or null if no method was specified.
+     * or <code>null</code> if no method was specified.
      */
     private String _method;
 
@@ -258,7 +258,7 @@ public class OutputFormat
 
     /**
      * Constructs a new output format with the default values for
-     * the specified method and encoding. If <tt>indent</tt>
+     * the specified method and encoding. If <code>indent</code>
      * is true, the document will be pretty printed with the default
      * indentation level and default line wrapping.
      *
@@ -296,7 +296,7 @@ public class OutputFormat
     /**
      * Constructs a new output format with the proper method,
      * document type identifiers and media type for the specified
-     * document, and with the specified encoding. If <tt>indent</tt>
+     * document, and with the specified encoding. If <code>indent</code>
      * is true, the document will be pretty printed with the default
      * indentation level and default line wrapping.
      *
@@ -317,8 +317,8 @@ public class OutputFormat
 
     /**
      * Returns the method specified for this output format.
-     * Typically the method will be <tt>xml</tt>, <tt>html</tt>
-     * or <tt>text</tt>, but it might be other values.
+     * Typically the method will be <code>xml</code>, <code>html</code>
+     * or <code>text</code>, but it might be other values.
      * If no method was specified, null will be returned
      * and the most suitable method will be determined for
      * the document by calling {@link #whichMethod}.
@@ -733,7 +733,7 @@ public class OutputFormat
 
     /**
      * Returns a specific line separator to use. The default is the
-     * Web line separator (<tt>\n</tt>). A string is returned to
+     * Web line separator (<code>\n</code>). A string is returned to
      * support double codes (CR + LF).
      *
      * @return The specified line separator
@@ -746,8 +746,8 @@ public class OutputFormat
 
     /**
      * Sets the line separator. The default is the Web line separator
-     * (<tt>\n</tt>). The machine's line separator can be obtained
-     * from the system property <tt>line.separator</tt>, but is only
+     * (<code>\n</code>). The machine's line separator can be obtained
+     * from the system property <code>line.separator</code>, but is only
      * useful if the document is edited on machines of the same type.
      * For general documents, use the Web line separator.
      *
@@ -846,10 +846,10 @@ public class OutputFormat
     /**
      * Determine the output method for the specified document.
      * If the document is an instance of {@link org.w3c.dom.html.HTMLDocument}
-     * then the method is said to be <tt>html</tt>. If the root
+     * then the method is said to be <code>html</code>. If the root
      * element is 'html' and all text nodes preceding the root
      * element are all whitespace, then the method is said to be
-     * <tt>html</tt>. Otherwise the method is <tt>xml</tt>.
+     * <code>html</code>. Otherwise the method is <code>xml</code>.
      *
      * @param doc The document to check
      * @return The suitable method

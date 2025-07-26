@@ -86,7 +86,7 @@ import org.xml.sax.ext.LexicalHandler;
  * </p>
  * <p>
  * If an output stream is used, the encoding is taken from the
- * output format (defaults to <tt>UTF-8</tt>). If a writer is
+ * output format (defaults to <code>UTF-8</code>). If a writer is
  * used, make sure the writer uses the same encoding (if applies)
  * as specified in the output format.
  * </p>
@@ -1252,7 +1252,7 @@ public abstract class BaseMarkupSerializer
      * Must be called by a method about to print any type of content.
      * If the element was just opened, the opening tag is closed and
      * will be matched to a closing tag. Returns the current element
-     * state with <tt>empty</tt> and <tt>afterElement</tt> set to false.
+     * state with <code>empty</code> and <code>afterElement</code> set to false.
      *
      * @return The current element state
      * @throws IOException An I/O exception occurred while
@@ -1345,8 +1345,8 @@ public abstract class BaseMarkupSerializer
 
     /**
      * Returns the suitable entity reference for this character value,
-     * or null if no such entity exists. Calling this method with <tt>'&amp;'</tt>
-     * will return <tt>"&amp;amp;"</tt>.
+     * or null if no such entity exists. Calling this method with <code>'&amp;'</code>
+     * will return <code>"&amp;amp;"</code>.
      *
      * @param ch character value
      * @return Character entity name, or null
@@ -1664,7 +1664,7 @@ public abstract class BaseMarkupSerializer
      * Escapes a string so it may be printed as text content or attribute
      * value. Non printable characters are escaped using character references.
      * Where the format specifies a deault entity reference, that reference
-     * is used (e.g. <tt>&amp;lt;</tt>).
+     * is used (e.g. <code>&amp;lt;</code>).
      *
      * @param source The string to escape
      */

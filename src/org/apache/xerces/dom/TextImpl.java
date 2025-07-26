@@ -591,18 +591,15 @@ public class TextImpl
      * has no parent, they won't wind up as "siblings" -- they'll both be
      * orphans.)
      * 
-     * @param offset
-     *            The offset at which to split. If offset is at the end of the
+     * @param offset the offset at which to split. If offset is at the end of the
      *            available data, the second node will be empty.
      * 
-     * @return A reference to the new node (containing data after the offset
+     * @return a reference to the new node (containing data after the offset
      *         point). The original node will contain data up to that point.
      * 
-     * @throws DOMException(INDEX_SIZE_ERR)
-     *             if offset is <0 or >length.
-     * 
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR)
-     *             if node is read-only.
+     * @throws DOMException INDEX_SIZE_ERR if offset is <0 or >length.
+     *
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if node is read-only.
      */
     public Text splitText(int offset) 
         throws DOMException {

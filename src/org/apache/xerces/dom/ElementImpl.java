@@ -429,8 +429,7 @@ public class ElementImpl
      * exception in that case.
      * </p>
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if the node is
-     * readonly.
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if the node is readonly.
      */
     public void removeAttribute(String name) {
 
@@ -464,10 +463,8 @@ public class ElementImpl
      * </p>
      *
      * @return the Attribute object that was removed
-     * @throws DOMException(NOT_FOUND_ERR) if oldattr is not an attribute of
-     * this Element
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if the node is
-     * readonly
+     * @throws DOMException NOT_FOUND_ERR if oldattr is not an attribute of this Element
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if the node is readonly
      */
     public Attr removeAttributeNode(Attr oldAttr)
         throws DOMException {
@@ -503,11 +500,10 @@ public class ElementImpl
      * explicit value rather than inherited from the DTD as a default.
      * Again, setAttributeNode can be used to achieve other results.
      *
-     * @throws DOMException(INVALID_NAME_ERR) if the name is not acceptable.
+     * @throws DOMException INVALID_NAME_ERR if the name is not acceptable.
      * (Attribute factory will do that test for us.)
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if the node is
-     * readonly.
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if the node is readonly.
      */
 	public void setAttribute(String name, String value) {
 
@@ -552,7 +548,7 @@ public class ElementImpl
      * had entity references mixed into their text.
      * </p>
      *
-     * @throws DOMException(INUSE_ATTRIBUTE_ERR) if the Attribute object
+     * @throws DOMException INUSE_ATTRIBUTE_ERR if the Attribute object
      * has already been assigned to another Element
      */
     public Attr setAttributeNode(Attr newAttr)

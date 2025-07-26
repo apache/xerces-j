@@ -627,7 +627,7 @@ extends ParentNode implements Document  {
      *
      * @param name The name of the Entity we wish to refer to
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents, where
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * nonstandard entities are not permitted. (HTML not yet
      * implemented.)
      */
@@ -649,11 +649,10 @@ extends ParentNode implements Document  {
      * @param target The target "processor channel"
      * @param data Parameter string to be passed to the target.
      *
-     * @throws DOMException(INVALID_NAME_ERR) if the target name is not
-     * acceptable.
+     * @throws DOMException INVALID_NAME_ERR if the target name is not acceptable.
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents. (HTML
-     * not yet implemented.)
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents.
+     *          (HTML not yet implemented.)
      */
     public ProcessingInstruction createProcessingInstruction(String target,
     String data)
@@ -1375,7 +1374,7 @@ extends ParentNode implements Document  {
      * @param publicID
      * @param systemID
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents, where
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * DTDs are not permitted. (HTML not yet implemented.)
      */
     public DocumentType createDocumentType(String qualifiedName,
@@ -1395,7 +1394,7 @@ extends ParentNode implements Document  {
      *
      * @param name The name of the Entity we wish to provide a value for.
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents, where
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * nonstandard entities are not permitted. (HTML not yet
      * implemented.)
      */
@@ -1419,7 +1418,7 @@ extends ParentNode implements Document  {
      *
      * @param name The name of the Notation we wish to describe
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents, where
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * notations are not permitted. (HTML not yet
      * implemented.)
      */

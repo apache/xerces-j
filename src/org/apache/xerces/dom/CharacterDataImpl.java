@@ -180,7 +180,7 @@ public abstract class CharacterDataImpl
      * by which a DOM could wind up accumulating more data than the
      * language's strings can easily handle. (See above discussion.)
      * 
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if node is readonly.
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if node is readonly.
      */
     public void appendData(String data) {
 
@@ -205,10 +205,10 @@ public abstract class CharacterDataImpl
      * string. However, a deletion _count_ that exceeds the available
      * data is accepted as a delete-to-end request.
      * 
-     * @throws DOMException(INDEX_SIZE_ERR) if offset is negative or
+     * @throws DOMException INDEX_SIZE_ERR if offset is negative or
      * greater than length, or if count is negative.
      * 
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if node is
      * readonly.  
      */
     public void deleteData(int offset, int count) 
@@ -263,10 +263,10 @@ public abstract class CharacterDataImpl
      * Insert additional characters into the data stored in this node,
      * at the offset specified.
      *
-     * @throws DOMException(INDEX_SIZE_ERR) if offset is negative or
+     * @throws DOMException INDEX_SIZE_ERR if offset is negative or
      * greater than length.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if node is readonly.  
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if node is readonly.
      */
     public void insertData(int offset, String data) 
         throws DOMException {
@@ -332,11 +332,10 @@ public abstract class CharacterDataImpl
      * insertion, and the new data may be longer or shorter
      * than the substring it replaces.
      * 
-     * @throws DOMException(INDEX_SIZE_ERR) if offset is negative or
+     * @throws DOMException INDEX_SIZE_ERR if offset is negative or
      * greater than length, or if count is negative.
      * 
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if node is
-     * readonly.  
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if node is readonly.
      */
     public void replaceData(int offset, int count, String data) 
     throws DOMException {
@@ -374,7 +373,7 @@ public abstract class CharacterDataImpl
     /**
      * Store character data into this node.
      * 
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if node is readonly.
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if node is readonly.
      */
     public void setData(String value) 
         throws DOMException {
@@ -393,10 +392,10 @@ public abstract class CharacterDataImpl
      * If the sum of offset and count exceeds the length, all characters
      * to end of data are returned.
      *
-     * @throws DOMException(INDEX_SIZE_ERR) if offset is negative or
+     * @throws DOMException INDEX_SIZE_ERR if offset is negative or
      * greater than length, or if count is negative.
      *
-     * @throws DOMException(WSTRING_SIZE_ERR) In some implementations,
+     * @throws DOMException WSTRING_SIZE_ERR In some implementations,
      * count may exceed the permitted length of strings. If so,
      * substring() will throw this DOMException advising the user to
      * instead retrieve the data in smaller chunks.  

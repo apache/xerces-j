@@ -507,8 +507,7 @@ public class HTMLDocumentImpl
      *
      * @param name the name of the attribute
      * @return an attribute whose name is all lower case
-     * @throws DOMException(INVALID_NAME_ERR) if the attribute name
-     *   is not acceptable
+     * @throws DOMException INVALID_NAME_ERR if the attribute name is not acceptable
      */
     public Attr createAttribute( String name )
         throws DOMException

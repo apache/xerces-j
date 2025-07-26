@@ -199,7 +199,8 @@ public abstract class NodeImpl
     
     /**
      * Returns the node value.
-     * @throws DOMException(DOMSTRING_SIZE_ERR)
+     * @return this implementation will always return <code>null</code>
+     * @throws DOMException DOMSTRING_SIZE_ERR is not thrown by this implementation
      */
     public String getNodeValue()
         throws DOMException {
@@ -208,7 +209,8 @@ public abstract class NodeImpl
 
     /**
      * Sets the node value.
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR)
+     * @param x will not be used by this class but can be used in subclasses
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR may be thrown by subclasses
      */
     public void setNodeValue(String x) 
         throws DOMException {
@@ -226,14 +228,13 @@ public abstract class NodeImpl
      * @return newChild, in its new state (relocated, or emptied in the case of
      * DocumentNode.)
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
-     * read-only.
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is read-only.
      */
     public Node appendChild(Node newChild) throws DOMException {
     	return insertBefore(newChild, null);
@@ -464,17 +465,17 @@ public abstract class NodeImpl
      * @return newChild, in its new state (relocated, or emptied in the case of
      * DocumentNode.)
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node, or if newChild is an
      * ancestor of this node.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NOT_FOUND_ERR) if refChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if refChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node insertBefore(Node newChild, Node refChild) 
@@ -493,10 +494,10 @@ public abstract class NodeImpl
      *
      * @return oldChild, in its new state (removed).
      *
-     * @throws DOMException(NOT_FOUND_ERR) if oldChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if oldChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node removeChild(Node oldChild) 
@@ -517,17 +518,17 @@ public abstract class NodeImpl
      *
      * @return oldChild, in its new state (removed).
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node, or if newChild is
      * one of our ancestors.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NOT_FOUND_ERR) if oldChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if oldChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node replaceChild(Node newChild, Node oldChild)

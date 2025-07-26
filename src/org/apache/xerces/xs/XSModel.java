@@ -44,15 +44,15 @@ public interface XSModel {
      * attribute declarations, etc. Identity-constraint definitions are also
      * considered top-level.
      * 
-     * @param objectType The type of the declaration, i.e. 
+     * @param objectType the type of the declaration, i.e.
      *   <code>ELEMENT_DECLARATION</code>. Note that 
      *   <code>XSTypeDefinition.SIMPLE_TYPE</code> and 
      *   <code>XSTypeDefinition.COMPLEX_TYPE</code> can also be used as the 
      *   <code>objectType</code> to retrieve only complex types or simple 
-     *   types, instead of all types.
-     * @return  A list of top-level definitions of the specified type in 
+     *   types, instead of all types
+     * @return a list of top-level definitions of the specified type in
      *   <code>objectType</code> or an empty <code>XSNamedMap</code> if no 
-     *   such definitions exist. 
+     *   such definitions exist
      */
     public XSNamedMap getComponents(short objectType);
 
@@ -62,13 +62,12 @@ public interface XSModel {
      * declarations, attribute declarations, etc. Identity-constraint
      * definitions are also considered top-level.
      * 
-     * @param objectType The type of the declaration, i.e. 
-     *   <code>ELEMENT_DECLARATION</code>.
-     * @param namespace The namespace to which the declaration belongs or 
-     *   <code>null</code> (for components with no target namespace).
-     * @return  A list of top-level definitions of the specified type in 
+     * @param objectType the type of the declaration, i.e. <code>ELEMENT_DECLARATION</code>
+     * @param namespace the namespace to which the declaration belongs or
+     *   <code>null</code> (for components with no target namespace)
+     * @return a collection of top-level definitions of the specified type in
      *   <code>objectType</code> and defined in the specified 
-     *   <code>namespace</code> or an empty <code>XSNamedMap</code>. 
+     *   <code>namespace</code> or an empty <code>XSNamedMap</code>
      */
     public XSNamedMap getComponentsByNamespace(short objectType, 
                                                String namespace);
@@ -138,9 +137,9 @@ public interface XSModel {
     /**
      * Convenience method. Returns a top-level notation declaration.
      *
-     * @param name The name of the declaration
-     * @param namespace The namespace of the declaration, otherwise <code>null</code>
-     * @return A top-level notation declaration or <code>null</code> if such 
+     * @param name the name of the declaration
+     * @param namespace the namespace of the declaration, otherwise <code>null</code>
+     * @return a top-level notation declaration or <code>null</code> if such
      *   a declaration does not exist
      */
     public XSNotationDeclaration getNotationDeclaration(String name, 
@@ -149,9 +148,9 @@ public interface XSModel {
     /**
      * Convenience method. Returns an identity-constraint definition.
      *
-     * @param name The name of the definition
-     * @param namespace The namespace of the definition, otherwise <code>null</code>
-     * @return An identity-constraint definition or <code>null</code> if such 
+     * @param name the name of the definition
+     * @param namespace the namespace of the definition, otherwise <code>null</code>
+     * @return an identity-constraint definition or <code>null</code> if such
      *   a declaration does not exist
      */
     public XSIDCDefinition getIDCDefinition(String name,
@@ -163,8 +162,8 @@ public interface XSModel {
      * or an empty <code>XSObjectList</code> if the substitution group
      * contains no members.
      *
-     * @param head The substitution group head
-     * @return A list containing the members of the substitution group 
+     * @param head the substitution group head
+     * @return a list containing the members of the substitution group
      *  for the given <code>XSElementDeclaration</code> or an empty 
      *  <code>XSObjectList</code> if the substitution group contains 
      *  no members

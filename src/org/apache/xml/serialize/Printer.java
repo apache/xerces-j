@@ -151,7 +151,7 @@ public class Printer
      * DTD parts were printer, will return a string with their
      * textual content.
      *
-     * @return The {@link StringWriter#toString()} value or <code>null</code>
+     * @return a string of DTD content or <code>null</code>
      * @throws IOException can be thrown by underlying call to {@link Printer#flushLine(boolean)}
      */
     public String leaveDTD()
@@ -168,7 +168,7 @@ public class Printer
     }
 
     /**
-     * @param text the string value to write to the buffer
+     * @param text the value to write to the buffer
      * @throws IOException can be thrown by underlying call to {@link Writer#write(char[])}
      */
     public void printText( String text )
@@ -194,7 +194,7 @@ public class Printer
     }
 
     /**
-     * @param text the StringBuffer value to write to the buffer
+     * @param text the value to write to the buffer
      * @throws IOException can be thrown by underlying call to {@link Writer#write(char[])}
      */
     public void printText( StringBuffer text )

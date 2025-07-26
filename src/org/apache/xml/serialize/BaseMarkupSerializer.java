@@ -1814,9 +1814,9 @@ public abstract class BaseMarkupSerializer
     /**
      * The method modifies global DOM error object
      * 
-     * @param message
-     * @param severity
-     * @param type
+     * @param message string describing the error that occurred
+     * @param severity the severity of the error, either {@link DOMError.SEVERITY_WARNING}, {@link DOMError.SEVERITY_ERROR}, or {@link DOMError.SEVERITY_FATAL_ERROR}
+     * @param type a string representing the error type or null if not required
      * @return a DOMError
      */
     protected DOMError modifyDOMError(String message, short severity, String type, Node node){
@@ -1844,7 +1844,7 @@ public abstract class BaseMarkupSerializer
 	 * DOM level 3: 
 	 * Check a node to determine if it contains unbound namespace prefixes.
 	 *
-	 * @param node The node to check for unbound namespace prefices
+	 * @param node The node to check for unbound namespace prefixes
 	 */
 	 protected void checkUnboundNamespacePrefixedNode (Node node) throws IOException{
 	 	

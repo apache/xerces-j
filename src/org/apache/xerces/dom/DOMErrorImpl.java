@@ -82,7 +82,7 @@ public class DOMErrorImpl implements DOMError {
     }
 
     /**
-     * An implementation specific string describing the error that occured.
+     * An implementation-specific string describing the error that occurred.
      */
 
     public String getMessage() {

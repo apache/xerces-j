@@ -1104,8 +1104,8 @@ extends BaseMarkupSerializer {
      * In case prefix is empty will serialize default namespace declaration.
      * 
      * @param prefix the namespace prefix. If empty the default namespace declaration will be used
-     * @param uri the uri value
-     * @exception IOException will be thrown if cannot write the attribute
+     * @param uri the namespace uri value
+     * @exception IOException will be thrown if the attribute cannot be printed
      */
 
     private void printNamespaceAttr(String prefix, String uri) throws IOException{
@@ -1135,7 +1135,7 @@ extends BaseMarkupSerializer {
      * @param name
      * @param value
      * @param isSpecified
-     * @exception IOException will be thrown if cannot write the attribute
+     * @exception IOException will be thrown if the attribute cannot be printed
      */
     private void printAttribute (String name, String value, boolean isSpecified, Attr attr) throws IOException{
 

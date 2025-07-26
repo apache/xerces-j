@@ -551,8 +551,7 @@ extends ParentNode implements Document  {
      * @param name The name of the attribute. Note that the attribute's value is
      * _not_ established at the factory; remember to set it!
      * 
-     * @throws DOMException(INVALID_NAME_ERR)
-     * if the attribute name is not acceptable.
+     * @throws DOMException INVALID_NAME_ERR if the attribute name is not acceptable.
      */
     public Attr createAttribute(String name)
         throws DOMException {
@@ -575,8 +574,8 @@ extends ParentNode implements Document  {
      *
      * @param data The initial contents of the CDATA
      *
-     * @throws DOMException(NOT_SUPPORTED_ERR) for HTML documents. (HTML
-     * not yet implemented.)
+     * @throws DOMException NOT_SUPPORTED_ERR for HTML documents.
+     *         (HTML not yet implemented)
      */
     public CDATASection createCDATASection(String data)
     throws DOMException {
@@ -609,8 +608,7 @@ extends ParentNode implements Document  {
      * be provided in any case, but it must be mapped to the canonical
      * uppercase form by the DOM implementation.
      *
-     * @throws DOMException(INVALID_NAME_ERR) if the tag name is not
-     * acceptable.
+     * @throws DOMException INVALID_NAME_ERR if the tag name is not acceptable
      */
     public Element createElement(String tagName)
     throws DOMException {

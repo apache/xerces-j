@@ -675,11 +675,11 @@ public class AttrImpl
      * Move one or more node(s) to our list of children. Note that this
      * implicitly removes them from their previous parent.
      *
-     * @param newChild The Node to be moved to our subtree. As a
+     * @param newChild the Node to be moved to our subtree. As a
      * convenience feature, inserting a DocumentNode will instead insert
      * all its children.
      *
-     * @param refChild Current child which newChild should be placed
+     * @param refChild current child which newChild should be placed
      * immediately before. If refChild is null, the insertion occurs
      * after all existing Nodes, like appendChild().
      *

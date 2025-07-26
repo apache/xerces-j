@@ -428,8 +428,8 @@ public final class HTMLdtd
      * example of a character reference.
      * </p>
      *
-     * @param name The entity's name
-     * @param value The entity's value
+     * @param name the entity's name
+     * @param value the entity's value
      */
     private static void defineEntity( String name, char value )
     {

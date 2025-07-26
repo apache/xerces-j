@@ -42,7 +42,7 @@ public class DurationDV extends AbstractDateTimeDV {
 	public static final int DAYTIMEDURATION_TYPE = 2;
     // order-relation on duration is a partial order. The dates below are used to
     // for comparison of 2 durations, based on the fact that
-    // duration x and y is x<=y iff s+x<=s+y
+    // duration x and y is x<=y if s+x<=s+y
     // see 3.2.6 duration W3C schema datatype specs
     //
     // the dates are in format: {CCYY,MM,DD, H, S, M, MS, timezone}

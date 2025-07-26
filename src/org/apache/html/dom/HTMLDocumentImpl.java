@@ -505,8 +505,8 @@ public class HTMLDocumentImpl
      * Overrides {@link DocumentImpl#createAttribute} and returns
      * and attribute whose name is lower case.
      *
-     * @param name The name of the attribute
-     * @return An attribute whose name is all lower case
+     * @param name the name of the attribute
+     * @return an attribute whose name is all lower case
      * @throws DOMException(INVALID_NAME_ERR) if the attribute name
      *   is not acceptable
      */

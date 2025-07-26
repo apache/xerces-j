@@ -53,7 +53,7 @@ public class HTMLElementImpl
      * Assures that the owner document is an HTML element.
      * 
      * @param owner the HTML document in which this element appears
-     * @param tagName The element's tag name
+     * @param tagName the element's tag name
      */
     public HTMLElementImpl( HTMLDocumentImpl owner, String tagName ) {
         super( owner, tagName.toUpperCase(Locale.ENGLISH) );

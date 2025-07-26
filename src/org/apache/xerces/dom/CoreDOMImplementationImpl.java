@@ -107,15 +107,15 @@ public class CoreDOMImplementationImpl
 	 * Test if the DOM implementation supports a specific "feature" --
 	 * currently meaning language and level thereof.
 	 *
-	 * @param feature The package name of the feature to test.
+	 * @param feature the package name of the feature to test.
 	 * In Level 1, supported values are "HTML" and "XML" (case-insensitive).
 	 * At this writing, org.apache.xerces.dom supports only XML.
 	 *
-	 * @param version The version number of the feature being tested.
+	 * @param version the version number of the feature being tested.
 	 * This is interpreted as "Version of the DOM API supported for the
 	 * specified Feature", and in Level 1 should be "1.0"
 	 *
-	 * @return true iff this implementation is compatible with the specified
+	 * @return true if this implementation is compatible with the specified
 	 * feature and version.
 	 */
 	public boolean hasFeature(String feature, String version) {

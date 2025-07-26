@@ -1061,7 +1061,7 @@ public class XMLDTDValidator
      *                 parsed from a java.io.Reader).
      * @param augs     Additional information that may include infoset augmentations
      *                 
-     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}.
      */
     public void startGeneralEntity(String name, 
                                    XMLResourceIdentifier identifier,

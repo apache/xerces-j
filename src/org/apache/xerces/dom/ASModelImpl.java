@@ -385,12 +385,12 @@ public class ASModelImpl implements ASModel {
     
     /**
      * Creates an element declaration for the element type specified.
-     * @param namespaceURI The <code>namespace URI</code> of the element type 
+     * @param namespaceURI the <code>namespace URI</code> of the element type
      *   being declared. 
-     * @param name The name of the element. The format of the name could be 
+     * @param name the name of the element. The format of the name could be
      *   an NCName as defined by XML Namespaces or a Name as defined by XML 
      *   1.0; it's ASModel-dependent. 
-     * @return A new <code>ASElementDeclaration</code> object with 
+     * @return a new <code>ASElementDeclaration</code> object with
      *   <code>name</code> attribute set to <code>tagname</code> and 
      *   <code>namespaceURI</code> set to <code>systemId</code>. Other 
      *   attributes of the element declaration are set through 
@@ -408,11 +408,11 @@ public class ASModelImpl implements ASModel {
 
     /**
      * Creates an attribute declaration.
-     * @param namespaceURI The namespace URI of the attribute being declared.
-     * @param name The name of the attribute. The format of the name could be 
+     * @param namespaceURI the namespace URI of the attribute being declared.
+     * @param name the name of the attribute. The format of the name could be
      *   an NCName as defined by XML Namespaces or a Name as defined by XML 
      *   1.0; it's ASModel-dependent. 
-     * @return A new <code>ASAttributeDeclaration</code> object with 
+     * @return a new <code>ASAttributeDeclaration</code> object with
      *   appropriate attributes set by input parameters.
      * @exception DOMException
      *   INVALID_CHARACTER_ERR: Raised if the input <code>name</code> 

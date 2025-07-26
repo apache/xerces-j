@@ -625,9 +625,9 @@ public class DocumentImpl
         boolean useCapture;
 	    
         /** NON-DOM INTERNAL: Constructor for Listener list Entry 
-         * @param type Event name (NOT event group!) to listen for.
-         * @param listener Who gets called when event is dispatched
-         * @param useCaptue True iff listener is registered on
+         * @param type event name (NOT event group!) to listen for.
+         * @param listener who gets called when event is dispatched
+         * @param useCapture true if listener is registered on
          *  capturing phase rather than at-target or bubbling
          */
         LEntry(String type, EventListener listener, boolean useCapture)
@@ -645,9 +645,9 @@ public class DocumentImpl
      * Bubbling, but may only be registered once per role; redundant
      * registrations are ignored.
      * @param node node to add listener to
-     * @param type Event name (NOT event group!) to listen for.
-     * @param listener Who gets called when event is dispatched
-     * @param useCapture True iff listener is registered on
+     * @param type event name (NOT event group!) to listen for.
+     * @param listener who gets called when event is dispatched
+     * @param useCapture true if listener is registered on
      *  capturing phase rather than at-target or bubbling
      */
     protected void addEventListener(NodeImpl node, String type,
@@ -688,9 +688,9 @@ public class DocumentImpl
      * from the Capturing and Bubbling roles. Redundant removals (of listeners
      * not currently registered for this role) are ignored.
      * @param node node to remove listener from
-     * @param type Event name (NOT event group!) to listen for.
-     * @param listener Who gets called when event is dispatched
-     * @param useCapture True iff listener is registered on
+     * @param type event name (NOT event group!) to listen for.
+     * @param listener who gets called when event is dispatched
+     * @param useCapture true if listener is registered on
      *  capturing phase rather than at-target or bubbling
      */
     protected void removeEventListener(NodeImpl node, String type,

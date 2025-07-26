@@ -162,8 +162,8 @@ class HTMLCollectionImpl
      * (<code>lookingFor</code>) from the specific document portion
      * (<code>topLevel</code>).
      * 
-     * @param topLevel The element underneath which the collection exists
-     * @param lookingFor Code indicating what elements to look for
+     * @param topLevel the element underneath which the collection exists
+     * @param lookingFor code indicating what elements to look for
      */
     HTMLCollectionImpl( HTMLElement topLevel, short lookingFor )
     {
@@ -273,8 +273,8 @@ class HTMLCollectionImpl
      * to hold that index.
      * </p>
      * 
-     * @param topLevel Top level element from which to scan
-     * @param index The index of the item to retreive
+     * @param topLevel top level element from which to scan
+     * @param index the index of the item to retrieve
      * @return the number of elements
      * @see CollectionIndex
      */
@@ -522,7 +522,7 @@ class CollectionIndex
      * Constructs a new index with the specified initial value. The index will
      * then be decremeneted until it reaches zero.
      * 
-     * @param index The initial value
+     * @param index the initial value
      */
     CollectionIndex( int index )
     {

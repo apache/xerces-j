@@ -17,10 +17,9 @@
 package org.apache.wml;
 
 /**
- * <p>The interface is modeled after DOM1 Spec for HTML from W3C.
+ * The interface is modeled after DOM1 Spec for HTML from W3C.
  * The DTD used in this DOM model is from 
- * <a href="http://www.wapforum.org/DTD/wml_1.1.xml">
- * http://www.wapforum.org/DTD/wml_1.1.xml</a></p>
+ * <a href="https://www.wapforum.org/DTD/wml_1.1.xml">https://www.wapforum.org/DTD/wml_1.1.xml</a>
  *
  * <p>'wml' is the root oot of a WML document.
  * (Section 11.2, WAP WML Version 16-Jun-1999)</p>

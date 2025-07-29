@@ -57,7 +57,7 @@ public interface XMLGrammarPool {
      *  <code>org.apache.xerces.xni.grammars.Grammar</code> interface.
      * @return the set of grammars the validator may put in its "bucket"
      */
-    public Grammar[] retrieveInitialGrammarSet(String grammarType);
+    Grammar[] retrieveInitialGrammarSet(String grammarType);
 
     /** 
      * <p>return the final set of grammars that the validator ended up

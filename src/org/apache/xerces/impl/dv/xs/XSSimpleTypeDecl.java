@@ -2616,7 +2616,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
      * http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#TypeInfo-isDerivedFrom
      * 
      * @param ancestorNS
-     *            The namspace of the ancestor type declaration
+     *            The namespace of the ancestor type declaration
      * @param ancestorName
      *            The name of the ancestor type declaration
      * @param derivationMethod
@@ -2686,7 +2686,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
      * http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#TypeInfo-isDerivedFrom
      * 
      * @param ancestorNS
-     *            The namspace of the ancestor type declaration
+     *            The namespace of the ancestor type declaration
      * @param ancestorName
      *            The name of the ancestor type declaration
      * @param type
@@ -2743,7 +2743,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
      * http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#TypeInfo-isDerivedFrom
      * 
      * @param ancestorNS
-     *            The namspace of the ancestor type declaration
+     *            The namespace of the ancestor type declaration
      * @param ancestorName
      *            The name of the ancestor type declaration
      * @param type
@@ -2773,7 +2773,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
      * http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#TypeInfo-isDerivedFrom
      * 
      * @param ancestorNS
-     *            The namspace of the ancestor type declaration
+     *            The namespace of the ancestor type declaration
      * @param ancestorName
      *            The name of the ancestor type declaration
      * @param type
@@ -2805,7 +2805,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
      * http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#TypeInfo-isDerivedFrom
      * 
      * @param ancestorNS
-     *            The namspace of the ancestor type declaration
+     *            The namespace of the ancestor type declaration
      * @param ancestorName
      *            The name of the ancestor type declaration
      * @param type

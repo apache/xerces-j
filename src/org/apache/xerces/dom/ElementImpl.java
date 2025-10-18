@@ -1151,7 +1151,7 @@ public class ElementImpl
      * http://www.w3.org/TR/DOM-Level-3-Core/core.html#TypeInfo-isDerivedFrom
      * 
      * @param typeNamespaceArg 
-     *        The namspace of the ancestor type declaration
+     *        The namespace of the ancestor type declaration
      * @param typeNameArg
      *        The name of the ancestor type declaration
      * @param derivationMethod

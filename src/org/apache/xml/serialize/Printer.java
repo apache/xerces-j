@@ -128,6 +128,8 @@ public class Printer
      * This method may be called any number of time but will only
      * have affect the first time it's called. To exist DTD state
      * and get the accumulated DTD, call {@link #leaveDTD}.
+     *
+     * @throws IOException can be thrown by underlying call to {@link Printer#flushLine(boolean)}
      */
     public void enterDTD()
         throws IOException
@@ -148,6 +150,9 @@ public class Printer
      * Called by the root element to leave DTD mode and if any
      * DTD parts were printer, will return a string with their
      * textual content.
+     *
+     * @return a string of DTD content or <code>null</code>
+     * @throws IOException can be thrown by underlying call to {@link Printer#flushLine(boolean)}
      */
     public String leaveDTD()
         throws IOException
@@ -162,7 +167,16 @@ public class Printer
         return null;
     }
 
-
+    /**
+     * Called to print additional text. Each time this method is called
+     * it accumulates more text. When a space is printed ({@link #printSpace})
+     * all the accumulated text becomes one part and is added to the
+     * accumulate line. When a line is long enough, it can be broken at
+     * its text boundary.
+     *
+     * @param text the value to write to the buffer
+     * @throws IOException can be thrown by underlying call to {@link Writer#write(char[])}
+     */
     public void printText( String text )
         throws IOException
     {
@@ -185,7 +199,12 @@ public class Printer
         }
     }
 
-
+    /**
+     * Same as {@link #printText(String)} but this method takes a {@link StringBuffer}.
+     *
+     * @param text the value to write to the buffer
+     * @throws IOException can be thrown by underlying call to {@link Writer#write(char[])}
+     */
     public void printText( StringBuffer text )
         throws IOException
     {
@@ -318,6 +337,8 @@ public class Printer
     /**
      * Flush the output stream. Must be called when done printing
      * the document, otherwise some text might be buffered.
+     *
+     * @throws IOException if an I/O exception occurs while writing/flushing
      */
     public void flush()
         throws IOException

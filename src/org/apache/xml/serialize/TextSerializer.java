@@ -39,18 +39,21 @@ import org.xml.sax.SAXException;
  * serializing. For usage instructions see {@link Serializer}.
  * <p>
  * If an output stream is used, the encoding is taken from the
- * output format (defaults to <tt>UTF-8</tt>). If a writer is
+ * output format (defaults to UTF-8). If a writer is
  * used, make sure the writer uses the same encoding (if applies)
  * as specified in the output format.
+ * </p>
  * <p>
  * The serializer supports both DOM and SAX. DOM serializing is done
  * by calling {@link #serialize} and SAX serializing is done by firing
  * SAX events and using the serializer as a document handler.
+ * </p>
  * <p>
  * If an I/O exception occurs while serializing, the serializer
  * will not throw an exception directly, but only throw it
  * at the end of serializing (either DOM or SAX's {@link
  * org.xml.sax.DocumentHandler#endDocument}.
+ * </p>
  *
  * @deprecated This class was deprecated in Xerces 2.9.0. It is recommended 
  * that new applications use the DOM Level 3 LSSerializer or JAXP's Transformation 
@@ -229,6 +232,10 @@ public class TextSerializer
      * pre-root comments and PIs that were accumulated in the document
      * (see {@link #serializePreRoot}). Pre-root will be serialized even if
      * this is not the first root element of the document.
+     * </p>
+     *
+     * @param rootTagName unused
+     * @throws IOException if an I/O error occurred while serializing
      */
     protected void startDocument( String rootTagName )
         throws IOException
@@ -246,7 +253,7 @@ public class TextSerializer
     /**
      * Called to serialize a DOM element. Equivalent to calling {@link
      * #startElement}, {@link #endElement} and serializing everything
-     * inbetween, but better optimized.
+     * in between, but better optimized.
      */
     protected void serializeElement( Element elem )
         throws IOException
@@ -301,7 +308,7 @@ public class TextSerializer
     /**
      * Serialize the DOM node. This method is unique to the Text serializer.
      *
-     * @param node The node to serialize
+     * @param node the node to serialize
      */
     protected void serializeNode( Node node )
         throws IOException

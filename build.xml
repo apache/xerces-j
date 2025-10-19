@@ -446,11 +446,11 @@ Authors:
 
   <target name="javadoc-replace" unless="additional.param">
     <replace token="@xerces.internal" dir="${build.src}">
-      <replacevalue><![CDATA[<DL><DT><H1 style="font-size:110%">INTERNAL:</H1><DD>Usage of this class is not supported. It may be altered or removed at any time.</DD></DT></DL>]]></replacevalue>
+      <replacevalue><![CDATA[<dl><dt><strong>INTERNAL:</strong></dt><dd>Usage of this class is not supported. It may be altered or removed at any time.</dd></dl>]]></replacevalue>
     </replace>
   	
     <replace token="@xerces.experimental" dir="${build.src}">
-      <replacevalue><![CDATA[<DL><DT><H1 style="font-size:150%">EXPERIMENTAL:</H1><DD>This class should not be considered stable. It is likely to be altered or replaced in the future.</DD></DT></DL>]]></replacevalue>
+      <replacevalue><![CDATA[<dl><dt><strong>EXPERIMENTAL:</strong></dt><dd>This class should not be considered stable. It is likely to be altered or replaced in the future.</dd></dl>]]></replacevalue>
     </replace>
   </target>
 	

@@ -66,11 +66,11 @@ public class XHTMLSerializer
 
     /**
      * Constructs a new serializer that writes to the specified writer
-     * using the specified output format. If <tt>format</tt> is null,
+     * using the specified output format. If <code>format</code> is null,
      * will use a default output format.
      *
-     * @param writer The writer to use
-     * @param format The output format to use, null for the default
+     * @param writer the writer to use
+     * @param format the output format to use, null for the default
      */
     public XHTMLSerializer( Writer writer, OutputFormat format )
     {
@@ -81,11 +81,11 @@ public class XHTMLSerializer
 
     /**
      * Constructs a new serializer that writes to the specified output
-     * stream using the specified output format. If <tt>format</tt>
+     * stream using the specified output format. If <code>format</code>
      * is null, will use a default output format.
      *
-     * @param output The output stream to use
-     * @param format The output format to use, null for the default
+     * @param output the output stream to use
+     * @param format the output format to use, null for the default
      */
     public XHTMLSerializer( OutputStream output, OutputFormat format )
     {

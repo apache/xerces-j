@@ -73,6 +73,8 @@ public interface Augmentations {
 
     
     /**
+     * Returns an enumeration of the keys in the Augmentations structure.
+     *
      * @return an {@link Enumeration} of the keys in the Augmentations structure
      */
     public Enumeration keys ();

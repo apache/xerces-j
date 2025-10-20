@@ -559,9 +559,9 @@ final class ElementSchemePointer implements XPointerPart {
         }
 
         /**
-         * Add the specified string as a token
+         * Add the specified string as a token.
          *  
-         * @param token The token string
+         * @param tokenStr The token string
          */
         private void addToken(String tokenStr) {
             Integer tokenInt = (Integer) fTokenNames.get(tokenStr);
@@ -573,7 +573,7 @@ final class ElementSchemePointer implements XPointerPart {
         }
 
         /**
-         * Add the specified int token
+         * Add the specified int token.
          *  
          * @param token The int specifying the token
          */

@@ -47,6 +47,8 @@ package org.apache.xerces.xni.grammars;
 public interface Grammar {
 
     /**
+     * Get the <code>XMLGrammarDescription</code> associated with this object.
+     *
      * @return the <code>XMLGrammarDescription</code> associated with this object
      */
     public XMLGrammarDescription getGrammarDescription ();

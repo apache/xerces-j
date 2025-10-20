@@ -40,7 +40,11 @@ public interface XMLResourceIdentifier {
      */
     public String getPublicId();
     
-    /** @param systemId Sets the expanded system identifier. */
+    /**
+     * Sets the expanded system identifier.
+     *
+     * @param systemId Sets the expanded system identifier.
+     */
     public void setExpandedSystemId(String systemId);
     
     /**
@@ -50,7 +54,11 @@ public interface XMLResourceIdentifier {
      */
     public String getExpandedSystemId();
     
-    /** @param systemId Sets the literal system identifier. */
+    /**
+     * Sets the literal system identifier.
+     *
+     * @param systemId Sets the literal system identifier
+     */
     public void setLiteralSystemId(String systemId);
      
     /**
@@ -84,7 +92,7 @@ public interface XMLResourceIdentifier {
     /**
      * Returns the namespace of the resource.
      *
-     * @return the namespace of the resource.
+     * @return the namespace of the resource
      */
     public String getNamespace();
     

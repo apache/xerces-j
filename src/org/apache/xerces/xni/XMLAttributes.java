@@ -86,11 +86,13 @@ public interface XMLAttributes {
     public void removeAttributeAt(int attrIndex);
 
     /**
-     * @return the number of attributes in the list.
+     * Returns the number of attributes in the list.
      * <p>
      * Once you know the number of attributes, you can iterate
      * through the list.
      * </p>
+     *
+     * @return the number of attributes in the list
      *
      * @see #getURI(int)
      * @see #getLocalName(int)
@@ -140,9 +142,10 @@ public interface XMLAttributes {
     public void getName(int attrIndex, QName attrName);
 
     /**
-     * @return the prefix of the attribute at the specified index.
+     * Returns the prefix of the attribute at the specified index.
      *
-     * @param index The index of the attribute.
+     * @param index the index of the attribute
+     * @return the prefix of the attribute at the specified index
      */
     public String getPrefix(int index);
 

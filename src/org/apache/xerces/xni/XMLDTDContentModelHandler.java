@@ -259,12 +259,16 @@ public interface XMLDTDContentModelHandler {
     public void endContentModel(Augmentations augmentations) throws XNIException;
 
     /**
+     * Set content model source.
+     *
      * @param source content model source
      * @see XMLDTDContentModelSource
      */
     public void setDTDContentModelSource(XMLDTDContentModelSource source);
 
     /**
+     * Get content model source.
+     *
      * @return content model source
      * @see XMLDTDContentModelSource
      */

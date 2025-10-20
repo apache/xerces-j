@@ -79,7 +79,7 @@ interface DOMDocumentHandler extends XMLDocumentHandler {
      *
      * @param node a ProcessingInstruction node
      *
-     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void processingInstruction(ProcessingInstruction node) throws XNIException;
     

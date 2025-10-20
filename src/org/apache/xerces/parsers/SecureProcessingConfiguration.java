@@ -199,21 +199,21 @@ public final class SecureProcessingConfiguration extends
         if (fTotalEntitySize > TOTAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE) {
             fErrorReporter.reportError(XMLMessageFormatter.XML_DOMAIN,
                     "TotalEntitySizeLimitExceeded",
-                    new Object[] {new Integer(TOTAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
+                    new Object[] {Integer.valueOf(TOTAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
                     XMLErrorReporter.SEVERITY_FATAL_ERROR);
         }
         if (isPE) {
             if (sizeOfEntity > MAX_PARAMETER_ENTITY_SIZE_LIMIT_SYSTEM_VALUE) {
                 fErrorReporter.reportError(XMLMessageFormatter.XML_DOMAIN,
                         "MaxParameterEntitySizeLimitExceeded",
-                        new Object[] {new Integer(MAX_PARAMETER_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
+                        new Object[] {Integer.valueOf(MAX_PARAMETER_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
                         XMLErrorReporter.SEVERITY_FATAL_ERROR);
             }
         }
         else if (sizeOfEntity > MAX_GENERAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE) {
             fErrorReporter.reportError(XMLMessageFormatter.XML_DOMAIN,
                     "MaxGeneralEntitySizeLimitExceeded",
-                    new Object[] {new Integer(MAX_GENERAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
+                    new Object[] {Integer.valueOf(MAX_GENERAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
                     XMLErrorReporter.SEVERITY_FATAL_ERROR);
         }
     }

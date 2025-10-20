@@ -816,30 +816,30 @@ public void testCharacterData(org.w3c.dom.Document document)
 
 //!! Throws INDEX_SIZE_ERR ********************
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "deleteData", new Class[]{int.class, int.class}, 
-			new Object[]{new Integer(-1),new Integer(5) }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(-1),Integer.valueOf(5) }, DOMException.INDEX_SIZE_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "deleteData", new Class[]{int.class, int.class}, 
-			new Object[]{new Integer(2),new Integer(-1) }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(2),Integer.valueOf(-1) }, DOMException.INDEX_SIZE_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "deleteData", new Class[]{int.class, int.class}, 
-			new Object[]{new Integer(100),new Integer(5) }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(100),Integer.valueOf(5) }, DOMException.INDEX_SIZE_ERR ));
 	
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "insertData", new Class[]{int.class, String.class}, 
-			new Object[]{new Integer(-1),"Stuff inserted" }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(-1),"Stuff inserted" }, DOMException.INDEX_SIZE_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "insertData", new Class[]{int.class, String.class}, 
-			new Object[]{new Integer(100),"Stuff inserted" }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(100),"Stuff inserted" }, DOMException.INDEX_SIZE_ERR ));
 	
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "replaceData", new Class[]{int.class, int.class, String.class}, 
-			new Object[]{new Integer(-1),new Integer(5),"Replacement stuff" }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(-1),Integer.valueOf(5),"Replacement stuff" }, DOMException.INDEX_SIZE_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "replaceData", new Class[]{int.class, int.class, String.class}, 
-			new Object[]{new Integer(100),new Integer(5),"Replacement stuff" }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(100),Integer.valueOf(5),"Replacement stuff" }, DOMException.INDEX_SIZE_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "replaceData", new Class[]{int.class, int.class, String.class}, 
-			new Object[]{new Integer(2),new Integer(-1),"Replacement stuff" }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(2),Integer.valueOf(-1),"Replacement stuff" }, DOMException.INDEX_SIZE_ERR ));
 	
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "substringData", new Class[]{int.class, int.class}, 
-			new Object[]{new Integer(-1),new Integer(5) }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(-1),Integer.valueOf(5) }, DOMException.INDEX_SIZE_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "substringData", new Class[]{int.class, int.class}, 
-			new Object[]{new Integer(100),new Integer(5) }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(100),Integer.valueOf(5) }, DOMException.INDEX_SIZE_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "substringData", new Class[]{int.class, int.class}, 
-			new Object[]{new Integer(2),new Integer(-1) }, DOMException.INDEX_SIZE_ERR ));
+			new Object[]{Integer.valueOf(2),Integer.valueOf(-1) }, DOMException.INDEX_SIZE_ERR ));
 	
 
 //!! Throws NO_MODIFICATION_ALLOWED_ERR ******** 
@@ -848,11 +848,11 @@ public void testCharacterData(org.w3c.dom.Document document)
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(node, "appendData", new Class[]{String.class}, 
 			new Object[]{"new data" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(node, "deleteData", new Class[]{int.class, int.class}, 
-			new Object[]{new Integer(5),new Integer(10) }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
+			new Object[]{Integer.valueOf(5),Integer.valueOf(10) }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(node, "insertData", new Class[]{int.class, String.class}, 
-			new Object[]{new Integer(5),"Stuff inserted" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
+			new Object[]{Integer.valueOf(5),"Stuff inserted" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(node, "replaceData", new Class[]{int.class, int.class, String.class}, 
-			new Object[]{new Integer(5),new Integer(10),"Replacementstuff" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
+			new Object[]{Integer.valueOf(5),Integer.valueOf(10),"Replacementstuff" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
 	OK &= Assertion.verify(DTest.DOMExceptionsTest(node, "setData", new Class[]{String.class}, 
 			new Object[]{"New setdata stuff"}, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
 	

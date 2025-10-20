@@ -199,47 +199,43 @@ public interface XMLDTDContentModelHandler {
     /**
      * A referenced element in a mixed or children content model.
      * 
-     * @param elementName The name of the referenced element.
-     * @param augmentations Additional information that may include infoset
-     *                      augmentations.
+     * @param elementName the name of the referenced element
+     * @param augmentations additional information that may include infoset augmentations
      *
-     * @throws XNIException Thrown by handler to signal an error.
+     * @throws XNIException thrown by handler to signal an error
      */
-    public void element(String elementName, Augmentations augmentations) 
+    public void element(String elementName, Augmentations augmentations)
         throws XNIException;
 
     /**
      * The separator between choices or sequences of a mixed or children
      * content model.
      * 
-     * @param separator The type of children separator.
-     * @param augmentations Additional information that may include infoset
-     *                      augmentations.
+     * @param separator the type of children separator
+     * @param augmentations additional information that may include infoset augmentations
      *
-     * @throws XNIException Thrown by handler to signal an error.
+     * @throws XNIException thrown by handler to signal an error
      *
      * @see #SEPARATOR_CHOICE
      * @see #SEPARATOR_SEQUENCE
      */
-    public void separator(short separator, Augmentations augmentations) 
+    public void separator(short separator, Augmentations augmentations)
         throws XNIException;
 
     /**
      * The occurrence count for a child in a children content model or
      * for the mixed content model group.
      * 
-     * @param occurrence The occurrence count for the last element
-     *                   or group.
-     * @param augmentations Additional information that may include infoset
-     *                      augmentations.
+     * @param occurrence the occurrence count for the last element or group
+     * @param augmentations additional information that may include infoset augmentations
      *
-     * @throws XNIException Thrown by handler to signal an error.
+     * @throws XNIException thrown by handler to signal an error
      *
      * @see #OCCURS_ZERO_OR_ONE
      * @see #OCCURS_ZERO_OR_MORE
      * @see #OCCURS_ONE_OR_MORE
      */
-    public void occurrence(short occurrence, Augmentations augmentations) 
+    public void occurrence(short occurrence, Augmentations augmentations)
         throws XNIException;
 
     /**
@@ -262,10 +258,16 @@ public interface XMLDTDContentModelHandler {
      */
     public void endContentModel(Augmentations augmentations) throws XNIException;
 
-    // set content model source
+    /**
+     * @param source content model source
+     * @see XMLDTDContentModelSource
+     */
     public void setDTDContentModelSource(XMLDTDContentModelSource source);
 
-    // get content model source
+    /**
+     * @return content model source
+     * @see XMLDTDContentModelSource
+     */
     public XMLDTDContentModelSource getDTDContentModelSource();
 
 } // interface XMLDTDContentModelHandler

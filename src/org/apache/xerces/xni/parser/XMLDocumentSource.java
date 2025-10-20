@@ -41,7 +41,11 @@ public interface XMLDocumentSource {
     /** Sets the document handler. */
     public void setDocumentHandler(XMLDocumentHandler handler);
 
-    /** Returns the document handler */
+    /**
+     * Returns the document handler.
+     *
+     * @return the document handler
+     */
     public XMLDocumentHandler getDocumentHandler();
 
 } // interface XMLDocumentSource

@@ -26,6 +26,7 @@ package org.apache.xerces.xni;
  * <code>RuntimeException</code>, XNI handlers and components are 
  * not required to catch XNI exceptions but may explicitly catch
  * them, if so desired.
+ * </p>
  *
  * @author Andy Clark, IBM
  *
@@ -82,7 +83,11 @@ public class XNIException
     // Public methods
     //
 
-    /** Returns the wrapped exception. */
+    /**
+     * Returns the wrapped exception.
+     *
+     * @return the wrapped exception
+     */
     public Exception getException() {
         return fException != this ? fException : null;
     } // getException():Exception

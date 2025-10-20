@@ -566,7 +566,7 @@ public final class XPointerHandler extends XIncludeHandler implements
          * the current position by one.
          * 
          * throws If there's no such next token, this method throws
-         * <tt>new XNIException("XPointerProcessingError");</tt>.
+         * <code>new XNIException("XPointerProcessingError");</code>.
          */
         private int nextToken() throws XNIException {
             if (fCurrentTokenIndex == fTokenCount) {
@@ -578,9 +578,10 @@ public final class XPointerHandler extends XIncludeHandler implements
         /**
          * Obtains the token at the current position, without advancing
          * the current position.
-         * 
+         * <p>
          * If there's no such next token, this method throws
-         * <tt>new XNIException("XPointerProcessingError");</tt>.
+         * <code>new XNIException("XPointerProcessingError");</code>.
+         * </p>
          */
         private int peekToken() throws XNIException {
             if (fCurrentTokenIndex == fTokenCount) {
@@ -591,11 +592,12 @@ public final class XPointerHandler extends XIncludeHandler implements
 
         /**
          * Obtains the token at the current position as a String.
-         * 
+         * <p>
          * If there's no current token or if the current token
          * is not a string token, this method throws 
          * If there's no such next token, this method throws
-         * <tt>new XNIException("XPointerProcessingError");</tt>.
+         * <code>new XNIException("XPointerProcessingError");</code>.
+         * </p>
          */
         private String nextTokenAsString() throws XNIException {
             String tokenStrint = getTokenString(nextToken());

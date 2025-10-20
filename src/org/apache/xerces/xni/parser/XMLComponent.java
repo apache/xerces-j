@@ -46,11 +46,11 @@ public interface XMLComponent {
      *
      * @throws XNIException Thrown by component on initialization error.
      */
-    public void reset(XMLComponentManager componentManager) 
+    public void reset(XMLComponentManager componentManager)
         throws XMLConfigurationException;
 
     /**
-     * Returns a list of feature identifiers that are recognized by
+     * @return an array of feature identifiers that are recognized by
      * this component. This method may return null if no features
      * are recognized by this component.
      */
@@ -62,7 +62,8 @@ public interface XMLComponent {
      * <p>
      * <strong>Note:</strong> Components should silently ignore features
      * that do not affect the operation of the component.
-     * 
+     * </p>
+     *
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
@@ -76,7 +77,7 @@ public interface XMLComponent {
         throws XMLConfigurationException;
 
     /**
-     * Returns a list of property identifiers that are recognized by
+     * @return an array of property identifiers that are recognized by
      * this component. This method may return null if no properties
      * are recognized by this component.
      */

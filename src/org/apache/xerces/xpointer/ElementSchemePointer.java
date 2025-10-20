@@ -607,9 +607,9 @@ final class ElementSchemePointer implements XPointerPart {
         /**
          * Obtains the token at the current position, then advance
          * the current position by one.
-         * 
+         *
          * If there's no such next token, this method throws
-         * <tt>new XNIException("InvalidXPointerExpression");</tt>.
+         * <code>new XNIException("InvalidXPointerExpression");</code>.
          */
         private int nextToken() throws XNIException {
             if (fCurrentTokenIndex == fTokenCount)
@@ -620,9 +620,9 @@ final class ElementSchemePointer implements XPointerPart {
         /**
          * Obtains the token at the current position, without advancing
          * the current position.
-         * 
+         *
          * If there's no such next token, this method throws
-         * <tt>new XNIException("InvalidXPointerExpression");</tt>.
+         * <code>new XNIException("InvalidXPointerExpression");</code>.
          */
         private int peekToken() throws XNIException {
             if (fCurrentTokenIndex == fTokenCount)
@@ -632,11 +632,11 @@ final class ElementSchemePointer implements XPointerPart {
 
         /**
          * Obtains the token at the current position as a String.
-         * 
+         *
          * If there's no current token or if the current token
          * is not a string token, this method throws 
          * If there's no such next token, this method throws
-         * <tt>new XNIException("InvalidXPointerExpression");</tt>.
+         * <code>new XNIException("InvalidXPointerExpression");</code>.
          */
         private String nextTokenAsString() throws XNIException {
             String s = getTokenString(nextToken());

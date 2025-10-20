@@ -331,10 +331,6 @@ public final class SecureProcessingConfiguration extends
         catch (VirtualMachineError vme) {
             throw vme;
         }
-        // ThreadDeath should always be re-thrown
-        catch (ThreadDeath td) {
-            throw td;
-        }
         catch (Throwable e) {
             // Ignore all other exceptions/errors and continue w/ next location
             if (DEBUG) {
@@ -439,10 +435,6 @@ public final class SecureProcessingConfiguration extends
         catch (VirtualMachineError vme) {
             throw vme;
         }
-        // ThreadDeath should always be re-thrown
-        catch (ThreadDeath td) {
-            throw td;
-        }
         catch (Throwable e) {
             // Ignore all other exceptions/errors and return the default value.
             if (DEBUG) {
@@ -472,10 +464,6 @@ public final class SecureProcessingConfiguration extends
         // The VM ran out of memory or there was some other serious problem. Re-throw.
         catch (VirtualMachineError vme) {
             throw vme;
-        }
-        // ThreadDeath should always be re-thrown
-        catch (ThreadDeath td) {
-            throw td;
         }
         catch (Throwable e) {
             // Ignore all other exceptions/errors and continue w/ next location
@@ -576,10 +564,6 @@ public final class SecureProcessingConfiguration extends
         // The VM ran out of memory or there was some other serious problem. Re-throw.
         catch (VirtualMachineError vme) {
             throw vme;
-        }
-        // ThreadDeath should always be re-thrown
-        catch (ThreadDeath td) {
-            throw td;
         }
         catch (Throwable e) {
             // Ignore all other exceptions/errors and return the default value.

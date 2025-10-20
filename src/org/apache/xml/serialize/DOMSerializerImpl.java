@@ -1061,10 +1061,6 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
             catch (VirtualMachineError vme) {
                 throw vme;
             }
-            // ThreadDeath should always be re-thrown
-            catch (ThreadDeath td) {
-                throw td;
-            }
             // Ignore all other exceptions and errors
             catch (Throwable t) {}
         }
@@ -1082,10 +1078,6 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
             catch (VirtualMachineError vme) {
                 throw vme;
             }
-            // ThreadDeath should always be re-thrown
-            catch (ThreadDeath td) {
-                throw td;
-            }
             // Ignore all other exceptions and errors
             catch (Throwable t) {}
         }
@@ -1102,10 +1094,6 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
             // The VM ran out of memory or there was some other serious problem. Re-throw.
             catch (VirtualMachineError vme) {
                 throw vme;
-            }
-            // ThreadDeath should always be re-thrown
-            catch (ThreadDeath td) {
-                throw td;
             }
             // Ignore all other exceptions and errors
             catch (Throwable t) {}

@@ -346,7 +346,7 @@ public final class HTMLdtd
         String name;
 
         initialize();
-        name = (String) _byChar.get( new Integer( value ) );
+        name = (String) _byChar.get( Integer.valueOf( value ) );
         return name;
     }
 
@@ -434,15 +434,15 @@ public final class HTMLdtd
     private static void defineEntity( String name, char value )
     {
         if ( _byName.get( name ) == null ) {
-            _byName.put( name, new Integer( value ) );
-            _byChar.put( new Integer( value ), name );
+            _byName.put( name, Integer.valueOf( value ) );
+            _byChar.put( Integer.valueOf( value ), name );
         }
     }
 
 
     private static void defineElement( String name, int flags )
     {
-        _elemDefs.put( name, new Integer( flags ) );
+        _elemDefs.put( name, Integer.valueOf( flags ) );
     }
 
 

@@ -1477,13 +1477,13 @@ extends ParentNode implements Document  {
         if (nodeTable == null) {
             nodeTable = new WeakHashMap();
             num = --nodeCounter;
-            nodeTable.put(node, new Integer(num));
+            nodeTable.put(node, Integer.valueOf(num));
         }
         else {
             Integer n = (Integer)nodeTable.get(node);
             if (n== null) {
                 num = --nodeCounter;
-                nodeTable.put(node, new Integer(num));
+                nodeTable.put(node, Integer.valueOf(num));
             }
             else
                 num = n.intValue();

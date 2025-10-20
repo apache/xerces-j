@@ -61,7 +61,7 @@ public class Encodings
     static Hashtable _encodings = new Hashtable();
 
     /**
-     * @param encoding a MIME charset name, or null.
+     * @param encoding a MIME charset name, or null
      */
     static EncodingInfo getEncodingInfo(String encoding, boolean allowJavaNames) throws UnsupportedEncodingException {
         EncodingInfo eInfo = null;

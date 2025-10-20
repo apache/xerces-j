@@ -48,7 +48,7 @@ interface DOMDocumentHandler extends XMLDocumentHandler {
      * 
      * @param node a DocumentType node
      *
-     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void doctypeDecl(DocumentType node) throws XNIException;
     
@@ -61,7 +61,7 @@ interface DOMDocumentHandler extends XMLDocumentHandler {
      * 
      * @param node a Comment node
      *
-     * @exception XNIException Thrown by application to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void comment(Comment node) throws XNIException;
     

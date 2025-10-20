@@ -47,12 +47,14 @@ import org.w3c.dom.html.HTMLTableSectionElement;
  * three traversing functions. As a result, operations on large documents will
  * result in traversal of the entire document tree and consume a considerable
  * amount of time.
+ * </p>
  * <p>
  * Note that synchronization on the traversed document cannot be achieved.
  * The document itself cannot be locked, and locking each traversed node is
- * likely to lead to a dead lock condition. Therefore, there is a chance of the
+ * likely to lead to a deadlock condition. Therefore, there is a chance of the
  * document being changed as results are fetched; in all likelihood, the results
- * might be out dated, but not erroneous.
+ * might be outdated, but not erroneous.
+ * </p>
  * 
  * @xerces.internal
  * 
@@ -122,14 +124,14 @@ class HTMLCollectionImpl
     
     /**
      * Request collection of all areas in map: &lt;AREA&gt; element in &lt;MAP&gt;
-     * (non recursive).
+     * (non-recursive).
      */
     static final short        AREA = -1;
     
 
     /**
      * Request collection of all table bodies in table: &lt;TBODY&gt; element in
-     * table &lt;TABLE&gt; (non recursive).
+     * table &lt;TABLE&gt; (non-recursive).
      */
     static final short        TBODY = -2;
 
@@ -160,8 +162,8 @@ class HTMLCollectionImpl
      * (<code>lookingFor</code>) from the specific document portion
      * (<code>topLevel</code>).
      * 
-     * @param topLevel The element underneath which the collection exists
-     * @param lookingFor Code indicating what elements to look for
+     * @param topLevel the element underneath which the collection exists
+     * @param lookingFor code indicating what elements to look for
      */
     HTMLCollectionImpl( HTMLElement topLevel, short lookingFor )
     {
@@ -176,7 +178,7 @@ class HTMLCollectionImpl
      * Returns the length of the collection. This method might traverse the
      * entire document tree.
      * 
-     * @return Length of the collection
+     * @return the length of the collection
      */
     public final int getLength()
     {
@@ -190,8 +192,8 @@ class HTMLCollectionImpl
      * tree order - depth-first traversal order. This method might traverse
      * the entire document tree.
      * 
-     * @param index The index of the node to return
-     * @return The specified node or null if no such node found
+     * @param index the index of the node to return
+     * @return the specified node or null if no such node found
      */
     public final Node item( int index )
     {
@@ -204,12 +206,12 @@ class HTMLCollectionImpl
     
     /**
      * Retrieves the named node from the collection. The name is matched case
-     * sensitive against the <TT>id</TT> attribute of each element in the
+     * sensitive against the <code>id</code> attribute of each element in the
      * collection, returning the first match. The tree is traversed in
      * depth-first order. This method might traverse the entire document tree.
      * 
-     * @param name The name of the node to return
-     * @return The specified node or null if no such node found
+     * @param name the name of the node to return
+     * @return the specified node or null if no such node found
      */
     public final Node namedItem( String name )
     {
@@ -226,7 +228,7 @@ class HTMLCollectionImpl
      * and the top level element is passed along.
      * 
      * @param topLevel Top level element from which to scan
-     * @return Number of elements
+     * @return the number of elements
      */
     private int getLength( Element topLevel )
     {
@@ -269,10 +271,11 @@ class HTMLCollectionImpl
      * for any like element found. Since integers are only passed by value,
      * this function makes use of a separate class ({@link CollectionIndex})
      * to hold that index.
-     * 
-     * @param topLevel Top level element from which to scan
-     * @param index The index of the item to retreive
-     * @return Number of elements
+     * </p>
+     *
+     * @param topLevel top level element from which to scan
+     * @param index the index of the item to retrieve
+     * @return the number of elements
      * @see CollectionIndex
      */
     private Node item( Element topLevel, CollectionIndex index )
@@ -315,11 +318,11 @@ class HTMLCollectionImpl
     
     /**
      * Recursive function returns an element of a particular type with the
-     * specified name (<TT>id</TT> attribute).
+     * specified name (<code>id</code> attribute).
      * 
-     * @param topLevel Top level element from which to scan
-     * @param name The named element to look for
-     * @return The first named element found
+     * @param topLevel the top level element from which to scan
+     * @param name the named element to look for
+     * @return the first named element found
      */
     private  Node namedItem( Element topLevel, String name )
     {
@@ -361,7 +364,7 @@ class HTMLCollectionImpl
      * the full document tree. When looking inside a specific element (e.g. for a
      * cell inside a row), recursing can lead to erroneous results.
      * 
-     * @return True if methods should recurse to traverse entire tree
+     * @return true if methods should recurse to traverse the entire tree
      */
     protected boolean recurse()
     {
@@ -370,15 +373,15 @@ class HTMLCollectionImpl
     
 
     /**
-     * Determines if current element matches based on what we're looking for.
+     * Determines if the current element matches based on what we're looking for.
      * The element is passed along with an optional identifier name. If the
      * element is the one we're looking for, return true. If the name is also
      * specified, the name must match the <code>id</code> attribute
      * (match <code>name</code> first for anchors).
      * 
-     * @param elem The current element
-     * @param name The identifier name or null
-     * @return The element matches what we're looking for
+     * @param elem the current element
+     * @param name the identifier name or null
+     * @return the element matches what we're looking for
      */
     protected boolean collectionMatch( Element elem, String name )
     {
@@ -487,7 +490,7 @@ class CollectionIndex
     /**
      * Returns the current index.
      * 
-     * @return Current index
+     * @return the current index
      */
     int getIndex()
     {
@@ -505,9 +508,9 @@ class CollectionIndex
     
     
     /**
-     * Returns true if index is zero (or negative).
+     * Returns true if the index is zero (or negative).
      * 
-     * @return True if index is zero
+     * @return true if the index is zero or negative
      */
     boolean isZero()
     {
@@ -519,7 +522,7 @@ class CollectionIndex
      * Constructs a new index with the specified initial value. The index will
      * then be decremeneted until it reaches zero.
      * 
-     * @param index The initial value
+     * @param index the initial value
      */
     CollectionIndex( int index )
     {

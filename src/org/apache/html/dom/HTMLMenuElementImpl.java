@@ -46,8 +46,9 @@ public class HTMLMenuElementImpl
     
     /**
      * Constructor requires owner document.
-     * 
-     * @param owner The owner HTML document
+     *
+     * @param owner the HTML document in which this element appears
+     * @param name the tag name of the element
      */
     public HTMLMenuElementImpl( HTMLDocumentImpl owner, String name )
     {

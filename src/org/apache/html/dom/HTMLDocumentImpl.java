@@ -42,16 +42,18 @@ import org.w3c.dom.html.HTMLTitleElement;
 /**
  * Implements an HTML document. Provides access to the top level element in the
  * document, its body and title.
- * <P>
+ * <p>
  * Several methods create new nodes of all basic types (comment, text, element,
  * etc.). These methods create new nodes but do not place them in the document
  * tree. The nodes may be placed in the document tree using {@link
  * org.w3c.dom.Node#appendChild} or {@link org.w3c.dom.Node#insertBefore}, or
  * they may be placed in some other document tree.
- * <P>
+ * </p>
+ * <p>
  * Note: &lt;FRAMESET&gt; documents are not supported at the moment, neither
  * are direct document writing ({@link #open}, {@link #write}) and HTTP attribute
  * methods ({@link #getURL}, {@link #getCookie}).
+ * </p>
  *
  * @xerces.internal
  *
@@ -132,6 +134,7 @@ public class HTMLDocumentImpl
 
 
     /**
+     * Create a new HTML document implementation
      */
     public HTMLDocumentImpl()
     {
@@ -205,12 +208,13 @@ public class HTMLDocumentImpl
      * &lt;HTML&gt; in the document. The &lt;HTML&gt; element is obtained by
      * calling {@link #getDocumentElement}. If the element does not exist, one
      * is created.
-     * <P>
+     * <p>
      * Called by {@link #getTitle}, {@link #setTitle}, {@link #getBody} and
      * {@link #setBody} to assure the document has the &lt;HEAD&gt; element
      * correctly placed.
+     * </p>
      *
-     * @return The &lt;HEAD&gt; element
+     * @return the &lt;HEAD&gt; element
      */
     public synchronized HTMLElement getHead()
     {
@@ -434,14 +438,12 @@ public class HTMLDocumentImpl
      * Xerces-specific constructor. "localName" is passed in, so we don't need
      * to create a new String for it.
      *
-     * @param namespaceURI The namespace URI of the element to
-     *                     create.
-     * @param qualifiedName The qualified name of the element type to
-     *                      instantiate.
-     * @param localpart     The local name of the element to instantiate.
-     * @return Element A new Element object with the following attributes:
+     * @param namespaceURI the namespace URI of the element to create
+     * @param qualifiedName the qualified name of the element type to instantiate
+     * @param localpart the local name of the element to instantiate
+     * @return a new {@link Element} object with the following attributes:
      * @throws DOMException INVALID_CHARACTER_ERR: Raised if the specified
-     *                      name contains an invalid character.
+     *                      name contains an invalid character
      */
     public Element createElementNS(String namespaceURI, String qualifiedName,
                                    String localpart)
@@ -504,10 +506,9 @@ public class HTMLDocumentImpl
      * Overrides {@link DocumentImpl#createAttribute} and returns
      * and attribute whose name is lower case.
      *
-     * @param name The name of the attribute
-     * @return An attribute whose name is all lower case
-     * @throws DOMException(INVALID_NAME_ERR) if the attribute name
-     *   is not acceptable
+     * @param name the name of the attribute
+     * @return an attribute whose name is all lower case
+     * @throws DOMException INVALID_NAME_ERR if the attribute name is not acceptable
      */
     public Attr createAttribute( String name )
         throws DOMException
@@ -660,8 +661,8 @@ public class HTMLDocumentImpl
      * Recursive method retreives an element by its <code>id</code> attribute.
      * Called by {@link #getElementById(String)}.
      *
-     * @param elementId The <code>id</code> value to look for
-     * @return The node in which to look for
+     * @param elementId the <code>id</code> value to look for
+     * @return the node in which to look for
      */
     private Element getElementById( String elementId, Node node )
     {

@@ -52,8 +52,8 @@ public class HTMLElementImpl
      * by the constructor of specific element types but with a known tag name.
      * Assures that the owner document is an HTML element.
      * 
-     * @param owner The owner HTML document
-     * @param tagName The element's tag name
+     * @param owner the HTML document in which this element appears
+     * @param tagName the element's tag name
      */
     public HTMLElementImpl( HTMLDocumentImpl owner, String tagName ) {
         super( owner, tagName.toUpperCase(Locale.ENGLISH) );
@@ -104,8 +104,8 @@ public class HTMLElementImpl
      * value. Returns the integer value or zero if the attribute is not a
      * valid numeric string.
      * 
-     * @param value The value of the attribute
-     * @return The integer value, or zero if not a valid numeric string
+     * @param value the value of the attribute
+     * @return the integer value, or zero if not a valid numeric string
      */
     int getInteger( String value ) {
         try {
@@ -189,8 +189,8 @@ public class HTMLElementImpl
      * is returned. For example, the align values "LEFT" and "left" will both
      * return as "Left".
      * 
-     * @param value The value of the attribute
-     * @return The capitalized value
+     * @param value the value of the attribute
+     * @return the capitalized value
      */
     String capitalize( String value ) {
         
@@ -215,8 +215,8 @@ public class HTMLElementImpl
      * is returned. For example, the align values "LEFT" and "left" will both
      * return as "Left".
      * 
-     * @param name The name of the attribute
-     * @return The capitalized value
+     * @param name the name of the attribute
+     * @return the capitalized value
      */
     String getCapitalized( String name ) {
         String    value;
@@ -244,6 +244,8 @@ public class HTMLElementImpl
      * Convenience method returns the form in which this form element is contained.
      * This method is exposed for form elements through the DOM API, but other
      * elements have no access to it through the API.
+     *
+     * @return the form in which this form element is contained
      */
     public HTMLFormElement getForm() {
         Node parent = getParentNode(); 

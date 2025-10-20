@@ -164,6 +164,9 @@ public class DeepNodeListImpl
      * Iterative tree-walker. When you have a Parent link, there's often no
      * need to resort to recursion. NOTE THAT only Element nodes are matched
      * since we're specifically supporting getElementsByTagName().
+     *
+     * @param current the current node
+     * @return @return the next matching node after the current one, or <code>null</code>
      */
     protected Node nextMatchingElementAfter(Node current) {
 

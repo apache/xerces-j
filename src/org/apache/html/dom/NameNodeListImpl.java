@@ -25,7 +25,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * This class implements the DOM's NodeList behavior for
- * HTMLDocuemnt.getElementsByName().
+ * HTMLDocument.getElementsByName().
  * 
  * @xerces.internal
  *
@@ -38,7 +38,12 @@ public class NameNodeListImpl
     implements NodeList {
     
     
-    /** Constructor. */
+    /**
+     * Constructor.
+     *
+     * @param rootNode the root node
+     * @param tagName the tag name
+     */
     public NameNodeListImpl(NodeImpl rootNode, String tagName) {
 	super( rootNode, tagName );
     }  
@@ -48,6 +53,9 @@ public class NameNodeListImpl
      * Iterative tree-walker. When you have a Parent link, there's often no
      * need to resort to recursion. NOTE THAT only Element nodes are matched
      * since we're specifically supporting getElementsByTagName().
+     *
+     * @param current the current node
+     * @return the next matching node after the current one, or <code>null</code>
      */
     protected Node nextMatchingElementAfter(Node current) {
         

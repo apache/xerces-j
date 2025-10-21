@@ -18,6 +18,7 @@
 package org.apache.xerces.dom;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -71,8 +72,7 @@ import org.w3c.dom.NodeList;
  * @version $Id$
  * @since  PR-DOM-Level-1-19980818.
  */
-public class DeepNodeListImpl 
-    implements NodeList {
+public class DeepNodeListImpl implements NodeList {
 
     //
     // Data
@@ -81,7 +81,7 @@ public class DeepNodeListImpl
     protected NodeImpl rootNode; // Where the search started
     protected String tagName;   // Or "*" to mean all-tags-acceptable
     protected int changes=0;
-    protected ArrayList nodes;
+    protected List<Node> nodes;
     
     protected String nsName;
     protected boolean enableNS = false;
@@ -94,12 +94,11 @@ public class DeepNodeListImpl
     public DeepNodeListImpl(NodeImpl rootNode, String tagName) {
         this.rootNode = rootNode;
         this.tagName  = tagName;
-        nodes = new ArrayList();
+        nodes = new ArrayList<>();
     }  
 
     /** Constructor for Namespace support. */
-    public DeepNodeListImpl(NodeImpl rootNode,
-                            String nsName, String tagName) {
+    public DeepNodeListImpl(NodeImpl rootNode, String nsName, String tagName) {
         this(rootNode, tagName);
         this.nsName = (nsName != null && nsName.length() != 0) ? nsName : null;
         enableNS = true;
@@ -122,7 +121,7 @@ public class DeepNodeListImpl
 
         // Tree changed. Do it all from scratch!
     	if (rootNode.changes() != changes) {
-            nodes   = new ArrayList();     
+            nodes   = new ArrayList<>();     
             changes = rootNode.changes();
     	}
     

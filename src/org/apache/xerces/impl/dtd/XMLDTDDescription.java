@@ -18,6 +18,7 @@
 package org.apache.xerces.impl.dtd;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.xerces.util.XMLResourceIdentifierImpl;
@@ -33,8 +34,7 @@ import org.apache.xerces.xni.parser.XMLInputSource;
  * @author Neil Graham, IBM
  * @version $Id$
  */
-public class XMLDTDDescription extends XMLResourceIdentifierImpl
-        implements org.apache.xerces.xni.grammars.XMLDTDDescription {
+public class XMLDTDDescription extends XMLResourceIdentifierImpl implements org.apache.xerces.xni.grammars.XMLDTDDescription {
 
     // Data
 
@@ -44,12 +44,11 @@ public class XMLDTDDescription extends XMLResourceIdentifierImpl
 
     // if we don't know the root name, this stores all elements that
     // could serve; fPossibleRoots and fRootName cannot both be non-null
-    protected ArrayList fPossibleRoots = null;
+    protected List<String> fPossibleRoots = null;
 
     // Constructors:
     public XMLDTDDescription(XMLResourceIdentifier id, String rootName) {
-        this.setValues(id.getPublicId(), id.getLiteralSystemId(),
-                id.getBaseSystemId(), id.getExpandedSystemId());
+        this.setValues(id.getPublicId(), id.getLiteralSystemId(), id.getBaseSystemId(), id.getExpandedSystemId());
         this.fRootName = rootName;
         this.fPossibleRoots = null;
     } // init(XMLResourceIdentifier, String)
@@ -88,13 +87,13 @@ public class XMLDTDDescription extends XMLResourceIdentifierImpl
     }
     
     /** Set possible roots **/
-    public void setPossibleRoots(ArrayList possibleRoots) {
+    public void setPossibleRoots(List<String> possibleRoots) {
         fPossibleRoots = possibleRoots;
     }
 
     /** Set possible roots **/
-    public void setPossibleRoots(Vector possibleRoots) {
-        fPossibleRoots = (possibleRoots != null) ? new ArrayList(possibleRoots) : null;
+    public void setPossibleRoots(Vector<String> possibleRoots) {
+        fPossibleRoots = (possibleRoots != null) ? new ArrayList<>(possibleRoots) : null;
     }
 
     /**

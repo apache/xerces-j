@@ -870,9 +870,7 @@ public void testCharacterData(org.w3c.dom.Document document)
  *
  * @author Philip W. Davis
  */
-public void testChildNodeList(org.w3c.dom.Document document)
-{
-	
+public void testChildNodeList(org.w3c.dom.Document document) {
 	Node node, node2;
 	boolean OK = true;
 // For debugging*****	println("\n          testChildNodeList's outputs:\n");
@@ -896,8 +894,7 @@ public void testChildNodeList(org.w3c.dom.Document document)
  *
  * @author Philip W. Davis
  */
-public void testComment(org.w3c.dom.Document document)
-{
+public void testComment(org.w3c.dom.Document document) {
 	Node node, node2;
 	boolean T = true;
 	boolean OK = true;
@@ -925,9 +922,7 @@ public void testComment(org.w3c.dom.Document document)
  *
  * @author Philip W. Davis
  */
-public void testDeepNodeList(org.w3c.dom.Document document)
-{
-	
+public void testDeepNodeList(org.w3c.dom.Document document) {
 	Node node, node2;
 	boolean OK = true;
 // For debugging*****	println("\n          testDeepNodeList's outputs:\n");
@@ -965,8 +960,7 @@ public void testDeepNodeList(org.w3c.dom.Document document)
  *
  **** ALL Document create methods are run in docBuilder except createAttribute which is in testAttribute**
  */
-public void testDocument(org.w3c.dom.Document document)
-{
+public void testDocument(org.w3c.dom.Document document) {
 	DTest make = new DTest();
 	DocumentFragment docFragment, docFragment2;
 	Element newElement;
@@ -1106,8 +1100,7 @@ public void testDocument(org.w3c.dom.Document document)
  *
  ********This really isn't needed, only exists to throw NO_MODIFICATION_ALLOWED_ERR ********
  */
-public void testDocumentFragment(org.w3c.dom.Document document)
-{
+public void testDocumentFragment(org.w3c.dom.Document document) {
 	boolean OK = true;
 // For debugging*****	println("\n          testDocumentFragment's outputs:\n");
 	DocumentFragment testDocFragment = document.createDocumentFragment();
@@ -1126,8 +1119,7 @@ public void testDocumentFragment(org.w3c.dom.Document document)
  *
  * @author Philip W. Davis
  */
-public void testDocumentType(org.w3c.dom.Document document)
-{
+public void testDocumentType(org.w3c.dom.Document document) {
 	DTest test = new DTest();
 	DocumentType docType, holdDocType;
 	NamedNodeMap docEntityMap, docNotationMap;

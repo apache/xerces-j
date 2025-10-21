@@ -27,6 +27,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.WeakHashMap;
@@ -229,7 +230,7 @@ XSLoader, DOMConfiguration {
     
     // features and properties
     private final ParserConfigurationSettings fLoaderConfig = new ParserConfigurationSettings();
-    private XMLErrorReporter fErrorReporter = new XMLErrorReporter ();
+    private XMLErrorReporter fErrorReporter = new XMLErrorReporter();
     private XMLEntityManager fEntityManager = null;
     private XMLEntityResolver fUserEntityResolver = null;
     private XMLGrammarPool fGrammarPool = null;
@@ -253,7 +254,7 @@ XSLoader, DOMConfiguration {
     private XSDDescription fXSDDescription = new XSDDescription();
     private SchemaDVFactory fDefaultSchemaDVFactory;
     
-    private WeakHashMap fJAXPCache;
+    private WeakHashMap<Object, Grammar> fJAXPCache;
     private Locale fLocale = Locale.getDefault();
     
     // XSLoader attributes
@@ -340,7 +341,7 @@ XSLoader, DOMConfiguration {
         }
         fCMBuilder = builder;
         fSchemaHandler = new XSDHandler(fGrammarBucket);
-        fJAXPCache = new WeakHashMap();
+        fJAXPCache = new WeakHashMap<>();
         
         fSettingsChanged = true;
     }
@@ -524,8 +525,7 @@ XSLoader, DOMConfiguration {
      *          XNIException    When a condition arises (such as a FatalError) that requires parsing
      *                              of the entity be terminated.
      */
-    public Grammar loadGrammar(XMLInputSource source)
-    throws IOException, XNIException {
+    public Grammar loadGrammar(XMLInputSource source) throws IOException, XNIException {
         
         // REVISIT: this method should have a namespace parameter specified by 
         // user. In this case we can easily detect if a schema asked to be loaded
@@ -538,12 +538,11 @@ XSLoader, DOMConfiguration {
         desc.setBaseSystemId(source.getBaseSystemId());
         desc.setLiteralSystemId( source.getSystemId());
         // none of the other fields make sense for preparsing
-        Hashtable locationPairs = new Hashtable();
+        Hashtable<String, LocationArray> locationPairs = new Hashtable<>();
         // Process external schema location properties.
         // We don't call tokenizeSchemaLocationStr here, because we also want
         // to check whether the values are valid URI.
-        processExternalHints(fExternalSchemas, fExternalNoNSSchema,
-                locationPairs, fErrorReporter);
+        processExternalHints(fExternalSchemas, fExternalNoNSSchema, locationPairs, fErrorReporter);
         SchemaGrammar grammar = loadSchema(desc, source, locationPairs);
         
         if(grammar != null && fGrammarPool != null) {
@@ -570,7 +569,7 @@ XSLoader, DOMConfiguration {
      */
     SchemaGrammar loadSchema(XSDDescription desc,
             XMLInputSource source,
-            Hashtable locationPairs) throws IOException, XNIException {
+            Hashtable<String, LocationArray> locationPairs) throws IOException, XNIException {
         
         // this should only be done once per invocation of this object;
         // unless application alters JAXPSource in the mean time.
@@ -595,12 +594,12 @@ XSLoader, DOMConfiguration {
      * @return the XMLInputSource
      * @throws IOException
      */
-    public static XMLInputSource resolveDocument(XSDDescription desc, Hashtable locationPairs,
-            XMLEntityResolver entityResolver) throws IOException {
+    public static XMLInputSource resolveDocument(XSDDescription desc,
+                                                Hashtable<String, LocationArray> locationPairs,
+                                                XMLEntityResolver entityResolver) throws IOException {
         String loc = null;
         // we consider the schema location properties for import
-        if (desc.getContextType() == XSDDescription.CONTEXT_IMPORT ||
-                desc.fromInstance()) {
+        if (desc.getContextType() == XSDDescription.CONTEXT_IMPORT || desc.fromInstance()) {
             // use empty string as the key for absent namespace
             String namespace = desc.getTargetNamespace();
             String ns = namespace == null ? XMLSymbols.EMPTY_STRING : namespace;
@@ -625,9 +624,7 @@ XSLoader, DOMConfiguration {
     }
     
     // add external schema locations to the location pairs
-    public static void processExternalHints(String sl, String nsl,
-            Hashtable locations,
-            XMLErrorReporter er) {
+    public static void processExternalHints(String sl, String nsl, Hashtable<String, LocationArray> locations, XMLErrorReporter er) {
         if (sl != null) {
             try {
                 // get the attribute decl for xsi:schemaLocation
@@ -716,7 +713,7 @@ XSLoader, DOMConfiguration {
      * Note: all JAXP schema files will be checked for full-schema validity if the feature was set up
      * 
      */
-    private void processJAXPSchemaSource(Hashtable locationPairs) throws IOException {
+    private void processJAXPSchemaSource(Hashtable<String, LocationArray> locationPairs) throws IOException {
         fJAXPProcessed = true;
         if (fJAXPSource == null) {
             return;
@@ -727,8 +724,7 @@ XSLoader, DOMConfiguration {
         String sid = null;
         if (componentType == null) {
             // Not an array
-            if (fJAXPSource instanceof InputStream ||
-                    fJAXPSource instanceof InputSource) {
+            if (fJAXPSource instanceof InputStream || fJAXPSource instanceof InputSource) {
                 SchemaGrammar g = (SchemaGrammar)fJAXPCache.get(fJAXPSource);
                 if (g != null) {
                     fGrammarBucket.putGrammar(g);
@@ -748,8 +744,7 @@ XSLoader, DOMConfiguration {
             SchemaGrammar g = loadSchema(fXSDDescription, xis, locationPairs);
             // it is possible that we won't be able to resolve JAXP schema-source location
             if (g != null) {
-                if (fJAXPSource instanceof InputStream ||
-                        fJAXPSource instanceof InputSource) {
+                if (fJAXPSource instanceof InputStream || fJAXPSource instanceof InputSource) {
                     fJAXPCache.put(fJAXPSource, g);
                     if (fIsCheckedFully) {
                         XSConstraints.fullSchemaChecking(fGrammarBucket, fSubGroupHandler, fCMBuilder, fErrorReporter);
@@ -781,10 +776,10 @@ XSLoader, DOMConfiguration {
         // InputSource also, apart from [] of type Object.
         Object[] objArr = (Object[]) fJAXPSource;
         // make local vector for storing target namespaces of schemasources specified in object arrays.
-        ArrayList jaxpSchemaSourceNamespaces = new ArrayList();
+        final List<String> jaxpSchemaSourceNamespaces = new ArrayList<>();
+
         for (int i = 0; i < objArr.length; i++) {
-            if (objArr[i] instanceof InputStream ||
-                    objArr[i] instanceof InputSource) {
+            if (objArr[i] instanceof InputStream || objArr[i] instanceof InputSource) {
                 SchemaGrammar g = (SchemaGrammar)fJAXPCache.get(objArr[i]);
                 if (g != null) {
                     fGrammarBucket.putGrammar(g);
@@ -815,12 +810,11 @@ XSLoader, DOMConfiguration {
                     MessageFormatter mf = fErrorReporter.getMessageFormatter(XSMessageFormatter.SCHEMA_DOMAIN);
                     throw new java.lang.IllegalArgumentException(mf.formatMessage(fErrorReporter.getLocale(), 
                             "jaxp12-schema-source-ns", null));
+                } else {
+                    jaxpSchemaSourceNamespaces.add(targetNamespace);
                 }
-                else {
-                    jaxpSchemaSourceNamespaces.add(targetNamespace) ;
-                }
-                if (objArr[i] instanceof InputStream ||
-                        objArr[i] instanceof InputSource) {
+
+                if (objArr[i] instanceof InputStream || objArr[i] instanceof InputSource) {
                     fJAXPCache.put(objArr[i], grammar);
                 }
                 fGrammarBucket.putGrammar(grammar);
@@ -903,8 +897,11 @@ XSLoader, DOMConfiguration {
         
         return new XMLInputSource(publicId, systemId, null);
     }
-    
-    static class LocationArray{
+
+    /**
+     * For internal use only. Was previously package-private but needed to be changed to public so that XSDHandler could import the class
+     */
+    public static final class LocationArray {
         
         int length ;
         String [] locations = new String[2];
@@ -1267,7 +1264,7 @@ XSLoader, DOMConfiguration {
      */
     public DOMStringList getParameterNames() {
         if (fRecognizedParameters == null){
-            ArrayList v = new ArrayList();
+            final List<String> v = new ArrayList<>();
             v.add(Constants.DOM_VALIDATE);
             v.add(Constants.DOM_ERROR_HANDLER);
             v.add(Constants.DOM_RESOURCE_RESOLVER);

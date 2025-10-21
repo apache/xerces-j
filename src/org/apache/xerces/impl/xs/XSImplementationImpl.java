@@ -72,7 +72,7 @@ public class XSImplementationImpl extends PSVIDOMImplementationImpl
      * In Level 1, supported values are "HTML" and "XML" (case-insensitive).
      * At this writing, org.apache.xerces.dom supports only XML.
      *
-     * @param version      The version number of the feature being tested.
+     * @param version      the version number of the feature being tested.
      * This is interpreted as "Version of the DOM API supported for the
      * specified Feature", and in Level 1 should be "1.0"
      *

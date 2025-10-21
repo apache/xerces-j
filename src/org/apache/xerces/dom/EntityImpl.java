@@ -27,14 +27,16 @@ import org.w3c.dom.Node;
  * Entity's children, in exactly the structure which an
  * EntityReference to this name will present within the document's
  * body.
- * <P>
+ * <p>
  * Note that this object models the actual entity, _not_ the entity
  * declaration or the entity reference.
- * <P>
+ * </p>
+ * <p>
  * An XML processor may choose to completely expand entities before
  * the structure model is passed to the DOM; in this case, there will
  * be no EntityReferences in the DOM tree.
- * <P>
+ * </p>
+ * <p>
  * Quoting the 10/01 DOM Proposal,
  * <BLOCKQUOTE>
  * "The DOM Level 1 does not support editing Entity nodes; if a user
@@ -49,7 +51,8 @@ import org.w3c.dom.Node;
  * the Entity. Since the DOM explicitly decided not to deal with this,
  * _any_ answer will involve a non-DOM operation, and this is the
  * simplest solution.
- * 
+ * </p>
+ *
  * @xerces.internal
  * 
  * @author Elena Litani, IBM

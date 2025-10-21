@@ -48,12 +48,12 @@ public class AttrImpl extends NodeImpl
     /**
      * Constructs an attribute.
      *
-     * @param element Element which owns this attribute
-     * @param prefix The QName prefix.
-     * @param localpart The QName localpart.
-     * @param rawname The QName rawname.
-     * @param uri The uri binding for the associated prefix.
-     * @param value The value of the attribute.
+     * @param element the {@link Element} which owns this attribute
+     * @param prefix the QName prefix
+     * @param localpart the QName local part
+     * @param rawname the QName raw name
+     * @param uri the uri binding for the associated prefix
+     * @param value the value of the attribute
      */
     public AttrImpl(Element element, String prefix, String localpart, String rawname, String uri, String value) {
         super(prefix, localpart, rawname, uri, Node.ATTRIBUTE_NODE);

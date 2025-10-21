@@ -28,11 +28,12 @@ import org.w3c.dom.DOMException;
 
 /**
  * ElementNSImpl inherits from ElementImpl and adds namespace support.
- * <P>
+ * <p>
  * The qualified name is the node name, and we store localName which is also
  * used in all queries. On the other hand we recompute the prefix when
  * necessary.
- * 
+ * </p>
+ *
  * @xerces.internal
  * 
  * @author Elena litani, IBM

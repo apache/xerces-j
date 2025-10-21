@@ -1552,16 +1552,14 @@ public class XMLDocumentFragmentScannerImpl
         /** 
          * Dispatch an XML "event".
          *
-         * @param complete True if this dispatcher is intended to scan
-         *                 and dispatch as much as possible.                 
+         * @param complete true if this dispatcher is intended to scan and dispatch as much as possible
          *
-         * @return True if there is more to dispatch either from this 
-         *          or a another dispatcher.
+         * @return true if there is more to dispatch either from this or another dispatcher.
          *
-         * @throws IOException  Thrown on i/o error.
-         * @throws XNIException Thrown on parse error.
+         * @throws IOException  on i/o error
+         * @throws XNIException on parse error
          */
-        public boolean dispatch(boolean complete) 
+        public boolean dispatch(boolean complete)
             throws IOException, XNIException;
 
     } // interface Dispatcher

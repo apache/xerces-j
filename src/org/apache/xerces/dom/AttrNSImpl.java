@@ -23,11 +23,12 @@ import org.w3c.dom.DOMException;
 
 /**
  * AttrNSImpl inherits from AttrImpl and adds namespace support. 
- * <P>
+ * <p>
  * The qualified name is the node name, and we store localName which is also
  * used in all queries. On the other hand we recompute the prefix when
  * necessary.
- * 
+ * </p>
+ *
  * @xerces.internal
  * 
  * @author Arnaud  Le Hors, IBM

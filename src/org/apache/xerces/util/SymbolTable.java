@@ -39,7 +39,8 @@ package org.apache.xerces.util;
  *   characters are especially prone to this poor hashing behavior.
  *  </li>
  * </ul>
- * 
+ * </p>
+ * <p>
  * An instance of <code>SymbolTable</code> has two parameters that affect its
  * performance: <i>initial capacity</i> and <i>load factor</i>.  The
  * <i>capacity</i> is the number of <i>buckets</i> in the SymbolTable, and the
@@ -50,24 +51,28 @@ package org.apache.xerces.util;
  * is allowed to get before its capacity is automatically increased.
  * When the number of entries in the SymbolTable exceeds the product of the load
  * factor and the current capacity, the capacity is increased by calling the
- * <code>rehash</code> method.<p>
- *
+ * <code>rehash</code> method.
+ * </p>
+ * <p>
  * Generally, the default load factor (.75) offers a good tradeoff between
  * time and space costs.  Higher values decrease the space overhead but
  * increase the time cost to look up an entry (which is reflected in most
- * <tt>SymbolTable</tt> operations, including <tt>addSymbol</tt> and <tt>containsSymbol</tt>).<p>
- *
+ * <code>SymbolTable</code> operations, including <code>addSymbol</code> and <code>containsSymbol</code>).
+ * </p>
+ * <p>
  * The initial capacity controls a tradeoff between wasted space and the
  * need for <code>rehash</code> operations, which are time-consuming.
  * No <code>rehash</code> operations will <i>ever</i> occur if the initial
  * capacity is greater than the maximum number of entries the
- * <tt>Hashtable</tt> will contain divided by its load factor.  However,
- * setting the initial capacity too high can waste space.<p>
- *
+ * <code>Hashtable</code> will contain divided by its load factor.  However,
+ * setting the initial capacity too high can waste space.
+ * </p>
+ * <p>
  * If many entries are to be made into a <code>SymbolTable</code>, 
  * creating it with a sufficiently large capacity may allow the 
  * entries to be inserted more efficiently than letting it perform 
- * automatic rehashing as needed to grow the table. <p>
+ * automatic rehashing as needed to grow the table.
+ * </p>
 
  * @see SymbolHash
  *
@@ -160,7 +165,7 @@ public class SymbolTable {
 
     /**
      * Constructs a new, empty SymbolTable with the specified initial capacity
-     * and default load factor, which is <tt>0.75</tt>.
+     * and default load factor, which is <code>0.75</code>.
      *
      * @param     initialCapacity   the initial capacity of the hashtable.
      * @throws    IllegalArgumentException if the initial capacity is less
@@ -172,7 +177,7 @@ public class SymbolTable {
     
     /**
      * Constructs a new, empty SymbolTable with a default initial capacity (101)
-     * and load factor, which is <tt>0.75</tt>. 
+     * and load factor, which is <code>0.75</code>.
      */
     public SymbolTable() {
         this(TABLE_SIZE, 0.75f);

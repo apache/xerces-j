@@ -40,22 +40,24 @@ public interface XMLComponentManager {
 
     /**
      * Returns the state of a feature.
+     *
+     * @param featureId The feature identifier
+     *
+     * @return the state of a feature
      * 
-     * @param featureId The feature identifier.
-     * 
-     * @throws XMLConfigurationException Thrown on configuration error.
+     * @throws XMLConfigurationException on configuration error
      */
-    public boolean getFeature(String featureId)
-        throws XMLConfigurationException;
+    public boolean getFeature(String featureId) throws XMLConfigurationException;
 
     /**
      * Returns the value of a property.
+     *
+     * @param propertyId the property identifier
+     *
+     * @return the value of a property
      * 
-     * @param propertyId The property identifier.
-     * 
-    * @throws XMLConfigurationException Thrown on configuration error.
+     * @throws XMLConfigurationException on configuration error
      */
-    public Object getProperty(String propertyId)
-        throws XMLConfigurationException;
+    public Object getProperty(String propertyId) throws XMLConfigurationException;
 
 } // interface XMLComponentManager

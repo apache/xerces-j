@@ -20,13 +20,12 @@ import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
- * <p>Interface to expose the values for all date-time related types. The following 
+ * Interface to expose the values for all date-time related types. The following
  * table shows the methods defined for various XML Schema 1.0 built-in types. 'X' 
  * marks whether a particular method is defined for a particular type. Accessing undefined
  * methods may return unexpected values.
  * 
  * <table border="1">
- * <br/>
  * <tr>
  * <td> XML Schema Datatype </td>
  * <td> getYears() </td>
@@ -198,7 +197,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * <td>X</td>
  * </tr>
  * </table>
- * </p>
  * 
  * @author Ankit Pasricha, IBM
  * 

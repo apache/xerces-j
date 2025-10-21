@@ -59,10 +59,9 @@ public interface XMLDocumentHandler {
      *                 if that information is important.
      *                 
      * @param augs     Additional information that may include infoset augmentations
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
-    public void startDocument(XMLLocator locator, String encoding, 
+    public void startDocument(XMLLocator locator, String encoding,
                               NamespaceContext namespaceContext,
                               Augmentations augs) 
         throws XNIException;
@@ -78,8 +77,7 @@ public interface XMLDocumentHandler {
      * @param standalone The standalone value, or null if not specified.
      * @param augs       Additional information that may include infoset augmentations
      *                   
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void xmlDecl(String version, String encoding, String standalone, Augmentations augs)
         throws XNIException;
@@ -89,14 +87,13 @@ public interface XMLDocumentHandler {
      * 
      * @param rootElement
      *                 The name of the root element.
-     * @param publicId The public identifier if an external DTD or null
+     * @param publicId The identifier if an external DTD or null
      *                 if the external DTD is specified using SYSTEM.
      * @param systemId The system identifier if an external DTD, null
      *                 otherwise.
      * @param augs     Additional information that may include infoset augmentations
      *                 
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void doctypeDecl(String rootElement, String publicId, String systemId, Augmentations augs)
         throws XNIException;
@@ -107,8 +104,7 @@ public interface XMLDocumentHandler {
      * @param text   The text in the comment.
      * @param augs   Additional information that may include infoset augmentations
      *               
-     * @exception XNIException
-     *                   Thrown by application to signal an error.
+     * @exception XNIException Thrown by application to signal an error.
      */
     public void comment(XMLString text, Augmentations augs) throws XNIException;
 
@@ -127,8 +123,7 @@ public interface XMLDocumentHandler {
      * @param data   The data or null if none specified.
      * @param augs   Additional information that may include infoset augmentations
      *               
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void processingInstruction(String target, XMLString data, Augmentations augs)
         throws XNIException;
@@ -140,8 +135,7 @@ public interface XMLDocumentHandler {
      * @param attributes The element attributes.
      * @param augs       Additional information that may include infoset augmentations
      *                   
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void startElement(QName element, XMLAttributes attributes, Augmentations augs)
         throws XNIException;
@@ -153,8 +147,7 @@ public interface XMLDocumentHandler {
      * @param attributes The element attributes.
      * @param augs       Additional information that may include infoset augmentations
      *                   
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void emptyElement(QName element, XMLAttributes attributes, Augmentations augs)
         throws XNIException;
@@ -164,7 +157,8 @@ public interface XMLDocumentHandler {
      * <p>
      * <strong>Note:</strong> This method is not called for entity references
      * appearing as part of attribute values.
-     * 
+     * </p>
+     *
      * @param name     The name of the general entity.
      * @param identifier The resource identifier.
      * @param encoding The auto-detected IANA encoding name of the entity
@@ -174,9 +168,9 @@ public interface XMLDocumentHandler {
      *                 parsed from a java.io.Reader).
      * @param augs     Additional information that may include infoset augmentations
      *                 
-     * @exception XNIException Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
-    public void startGeneralEntity(String name, 
+    public void startGeneralEntity(String name,
                                    XMLResourceIdentifier identifier,
                                    String encoding,
                                    Augmentations augs) throws XNIException;
@@ -196,8 +190,7 @@ public interface XMLDocumentHandler {
      * @param encoding The IANA encoding name of the entity.
      * @param augs     Additional information that may include infoset augmentations
      *                 
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void textDecl(String version, String encoding, Augmentations augs) throws XNIException;
 
@@ -210,8 +203,7 @@ public interface XMLDocumentHandler {
      * @param name   The name of the entity.
      * @param augs   Additional information that may include infoset augmentations
      *               
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void endGeneralEntity(String name, Augmentations augs) throws XNIException;
 
@@ -221,8 +213,7 @@ public interface XMLDocumentHandler {
      * @param text   The content.
      * @param augs   Additional information that may include infoset augmentations
      *               
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void characters(XMLString text, Augmentations augs) throws XNIException;
 
@@ -237,8 +228,7 @@ public interface XMLDocumentHandler {
      * @param text   The ignorable whitespace.
      * @param augs   Additional information that may include infoset augmentations
      *               
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void ignorableWhitespace(XMLString text, Augmentations augs) throws XNIException;
 
@@ -248,8 +238,7 @@ public interface XMLDocumentHandler {
      * @param element The name of the element.
      * @param augs    Additional information that may include infoset augmentations
      *                
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void endElement(QName element, Augmentations augs) throws XNIException;
 
@@ -258,8 +247,7 @@ public interface XMLDocumentHandler {
      * 
      * @param augs   Additional information that may include infoset augmentations
      *               
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void startCDATA(Augmentations augs) throws XNIException;
 
@@ -268,8 +256,7 @@ public interface XMLDocumentHandler {
      * 
      * @param augs   Additional information that may include infoset augmentations
      *               
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void endCDATA(Augmentations augs) throws XNIException;
 
@@ -278,17 +265,26 @@ public interface XMLDocumentHandler {
      * 
      * @param augs   Additional information that may include infoset augmentations
      *               
-     * @exception XNIException
-     *                   Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}
      */
     public void endDocument(Augmentations augs) throws XNIException;
 
 
-    /** Sets the document source. */
+    /**
+     * Sets the document source.
+     *
+     * @param source the document source
+     * @see XMLDocumentSource
+     */
     public void setDocumentSource(XMLDocumentSource source);
 
 
-    /** Returns the document source. */
+    /**
+     * Returns the document source.
+     *
+     * @return the document source
+     * @see XMLDocumentSource
+     */
     public XMLDocumentSource getDocumentSource();
 
 } // interface XMLDocumentHandler

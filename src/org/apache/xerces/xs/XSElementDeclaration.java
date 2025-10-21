@@ -137,12 +137,12 @@ public interface XSElementDeclaration extends XSTerm {
 
     /**
      * Convenience method that checks if <code>exclusion</code> is a 
-     * substitution group exclusion for this element declaration. 
+     * substitution group exclusion for this element declaration.
+     *
      * @param exclusion  
      *   <code>DERIVATION_EXTENSION, DERIVATION_RESTRICTION</code> or 
-     *   <code>DERIVATION_NONE</code>. Represents final set for the element.
-     * @return True if <code>exclusion</code> is a part of the substitution 
-     *   group exclusion subset. 
+     *   <code>DERIVATION_NONE</code>. Represents final set for the element
+     * @return true if <code>exclusion</code> is a part of the substitution group exclusion subset
      */
     public boolean isSubstitutionGroupExclusion(short exclusion);
 
@@ -156,13 +156,12 @@ public interface XSElementDeclaration extends XSTerm {
 
     /**
      * Convenience method that checks if <code>disallowed</code> is a 
-     * disallowed substitution for this element declaration. 
+     * disallowed substitution for this element declaration.
+     *
      * @param disallowed {
      *   <code>DERIVATION_SUBSTITUTION, DERIVATION_EXTENSION, DERIVATION_RESTRICTION</code>
-     *   } or <code>DERIVATION_NONE</code>. Represents a block set for the 
-     *   element.
-     * @return True if <code>disallowed</code> is a part of the substitution 
-     *   group exclusion subset. 
+     *   } or <code>DERIVATION_NONE</code>. Represents a block set for the element
+     * @return true if <code>disallowed</code> is a part of the substitution group exclusion subset
      */
     public boolean isDisallowedSubstitution(short disallowed);
 

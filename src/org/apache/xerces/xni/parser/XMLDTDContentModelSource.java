@@ -38,10 +38,18 @@ public interface XMLDTDContentModelSource {
     // XMLDTDContentModelSource methods
     //
 
-    /** Sets the DTD content model handler. */
+    /**
+     * Sets the DTD content model handler.
+     *
+     * @param handler content model handler
+     */
     public void setDTDContentModelHandler(XMLDTDContentModelHandler handler);
 
-    /** Returns the DTD content model handler. */
+    /**
+     * Returns the DTD content model handler.
+     *
+     * @return the DTD content model handler
+     */
     public XMLDTDContentModelHandler getDTDContentModelHandler( );
 
 } // interface XMLDTDContentModelSource

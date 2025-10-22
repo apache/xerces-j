@@ -21,28 +21,41 @@ package org.apache.wml;
  * The DTD used in this DOM model is from 
  * <a href="https://www.wapforum.org/DTD/wml_1.1.xml">https://www.wapforum.org/DTD/wml_1.1.xml</a>
  *
+ * <pre>
+ * {@code
+ *     <!ATTLIST access
+ *       domain       CDATA       #IMPLIED
+ *       path         CDATA       #IMPLIED
+ *       %coreattrs;
+ *     >
+ * }
+ * </pre>
+ *
  * <p>'access' element specifics the access control for the entire deck
  * (Section 11.3.1, WAP WML Version 16-Jun-1999)</p>
  *
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
  */
-
 public interface WMLAccessElement extends WMLElement {
 
     /**
-     * A deck's domain and path attributes specify which deck may
-     * access it.  
+     * A deck's domain and path attributes specify which deck may access it.
      *
-     * domain attribute is suffix-matched against the domain name
-     * portion of the referring URI 
+     * <p>
+     * The domain attribute is suffix-matched against the domain name
+     * portion of the referring URI.
+     * </p>
+     *
+     * @param newValue a new value to set for the domain attribute
      */
     public void setDomain(String newValue);
     public String getDomain();
 
     /**
-     * path attribute is prefix-matched against the path portion of
-     * the referring URI 
+     * The path attribute is prefix-matched against the path portion of the referring URI.
+     *
+     * @param newValue a new value to set for the path attribute
      */
     public void setPath(String newValue);
     public String getPath();

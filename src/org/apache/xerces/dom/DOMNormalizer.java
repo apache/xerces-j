@@ -75,11 +75,12 @@ import org.w3c.dom.Text;
  * document.
  * See Namespace normalization for details on how namespace declaration attributes and prefixes
  * are normalized.
- * 
+ * <p>
  * NOTE: There is an initial support for DOM revalidation with XML Schema as a grammar.
  * The tree might not be validated correctly if entityReferences, CDATA sections are
  * present in the tree. The PSVI information is not exposed, normalized data (including element
  * default content is not available).
+ * </p>
  *
  * @xerces.experimental
  * 
@@ -1923,7 +1924,7 @@ public class DOMNormalizer implements XMLDocumentHandler {
      *                 parsed from a java.io.Reader).
      * @param augs     Additional information that may include infoset augmentations
      *                 
-     * @exception XNIException Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}.
      */
     public void startGeneralEntity(String name, 
                                    XMLResourceIdentifier identifier,

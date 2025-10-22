@@ -36,20 +36,22 @@ import org.w3c.dom.Node;
  * attached to the elem they're related too. However, because attributes
  * require more work, such as firing mutation events, they are stored in
  * a subclass of NamedNodeMapImpl.
- * <P>
+ * <p>
  * Only one Node may be stored per name; attempting to
  * store another will replace the previous value.
- * <P>
+ * </p>
+ * <p>
  * NOTE: The "primary" storage key is taken from the NodeName attribute of the
  * node. The "secondary" storage key is the namespaceURI and localName, when
  * accessed by DOM level 2 nodes. All nodes, even DOM Level 2 nodes are stored
  * in a single ArrayList sorted by the primary "nodename" key.
- * <P>
+ * </p>
+ * <p>
  * NOTE: item()'s integer index does _not_ imply that the named nodes
  * must be stored in an array; that's only an access method. Note too
  * that these indices are "live"; if someone changes the map's
  * contents, the indices associated with nodes may change.
- * <P>
+ * </p>
  *
  * @xerces.internal
  *

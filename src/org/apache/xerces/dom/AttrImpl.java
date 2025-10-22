@@ -34,34 +34,39 @@ import org.w3c.dom.TypeInfo;
  * Element. Typically, the allowable values are controlled by its
  * declaration in the Document Type Definition (DTD) governing this
  * kind of document.
- * <P>
+ * <p>
  * If the attribute has not been explicitly assigned a value, but has
  * been declared in the DTD, it will exist and have that default. Only
  * if neither the document nor the DTD specifies a value will the
  * Attribute really be considered absent and have no value; in that
  * case, querying the attribute will return null.
- * <P>
+ * </p>
+ * <p>
  * Attributes may have multiple children that contain their data. (XML
  * allows attributes to contain entity references, and tokenized
  * attribute types such as NMTOKENS may have a child for each token.)
  * For convenience, the Attribute object's getValue() method returns
  * the string version of the attribute's value.
- * <P>
+ * </p>
+ * <p>
  * Attributes are not children of the Elements they belong to, in the
  * usual sense, and have no valid Parent reference. However, the spec
  * says they _do_ belong to a specific Element, and an INUSE exception
  * is to be thrown if the user attempts to explicitly share them
  * between elements.
- * <P>
+ * </p>
+ * <p>
  * Note that Elements do not permit attributes to appear to be shared
  * (see the INUSE exception), so this object's mutability is
  * officially not an issue.
+ * </p>
  * <p>
  * Note: The ownerNode attribute is used to store the Element the Attr
  * node is associated with. Attr nodes do not have parent nodes.
  * Besides, the getOwnerElement() method can be used to get the element node
  * this attribute is associated with.
- * <P>
+ * </p>
+ * <p>
  * AttrImpl does not support Namespaces. AttrNSImpl, which inherits from
  * it, does.
  *
@@ -80,10 +85,12 @@ import org.w3c.dom.TypeInfo;
  * much as possible once we've switched to a node there is no going back. This
  * is because we have no way to know whether the application keeps referring to
  * the node we once returned.
- * <p> The gain in memory varies on the density of attributes in the document.
+ * </p>
+ * <p>The gain in memory varies on the density of attributes in the document.
  * But in the tests I've run I've seen up to 12% of memory gain. And the good
  * thing is that it also leads to a slight gain in speed because we allocate
  * fewer objects! I mean, that's until we have to actually create the node...
+ * </p>
  * <p>
  * To avoid too much duplicated code, I got rid of ParentNode and renamed
  * ChildAndParentNode, which I never really liked, to ParentNode for
@@ -92,12 +99,15 @@ import org.w3c.dom.TypeInfo;
  * now because AttrImpl now inherits directly from NodeImpl and has its own
  * implementation of the ParentNode's node behavior. So there is still some
  * duplicated code there.
+ * </p>
  * <p>
  * This class doesn't directly support mutation events, however, it notifies
  * the document when mutations are performed so that the document class do so.
+ * </p>
  *
  * <p><b>WARNING</b>: Some of the code here is partially duplicated in
  * ParentNode, be careful to keep these two classes in sync!
+ * </p>
  *
  * @xerces.internal
  *
@@ -511,8 +521,8 @@ public class AttrImpl
      *
      * @see #getOwnerElement
      *
-     * @deprecated Previous working draft of DOM Level 2. New method
-     *             is <tt>getOwnerElement()</tt>.
+     * @deprecated Previous working draft of DOM Level 2.
+     *    New method is {@link #getOwnerElement()}
      */
     @Deprecated
     public Element getElement() {
@@ -675,28 +685,28 @@ public class AttrImpl
      * Move one or more node(s) to our list of children. Note that this
      * implicitly removes them from their previous parent.
      *
-     * @param newChild The Node to be moved to our subtree. As a
+     * @param newChild the Node to be moved to our subtree. As a
      * convenience feature, inserting a DocumentNode will instead insert
      * all its children.
      *
-     * @param refChild Current child which newChild should be placed
+     * @param refChild current child which newChild should be placed
      * immediately before. If refChild is null, the insertion occurs
      * after all existing Nodes, like appendChild().
      *
      * @return newChild, in its new state (relocated, or emptied in the case of
      * DocumentNode.)
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node, or if newChild is an
      * ancestor of this node.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NOT_FOUND_ERR) if refChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if refChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node insertBefore(Node newChild, Node refChild) 
@@ -872,10 +882,10 @@ public class AttrImpl
      *
      * @return oldChild, in its new state (removed).
      *
-     * @throws DOMException(NOT_FOUND_ERR) if oldChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if oldChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node removeChild(Node oldChild) 
@@ -968,17 +978,17 @@ public class AttrImpl
      *
      * @return oldChild, in its new state (removed).
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node, or if newChild is
      * one of our ancestors.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NOT_FOUND_ERR) if oldChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if oldChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node replaceChild(Node newChild, Node oldChild)
@@ -1101,7 +1111,7 @@ public class AttrImpl
      * Override default behavior so that if deep is true, children are also
      * toggled.
      * @see Node
-     * <P>
+     * <p>
      * Note: this will not change the state of an EntityReference or its
      * children, which are always read-only.
      */

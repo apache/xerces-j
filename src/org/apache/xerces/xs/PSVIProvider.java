@@ -46,13 +46,13 @@ public interface PSVIProvider {
      *   the start of an element: {element declaration}, {validation 
      *   context}, {notation}. The {schema information} property is 
      *   available for the validation root. The {error codes} property is 
-     *   available if any errors occured during validation.  The following 
+     *   available if any errors occurred during validation.  The following
      *   properties are available in the scope of the method that reports 
      *   the end of an element: {nil}, {schema specified}, {normalized 
      *   value},{ member type definition}, {validity}, {validation attempted}
      *   . If the declaration has a value constraint, the property {schema 
      *   default} is available. The {error codes} property is available if 
-     *   any errors occured during validation. Note: some processors may 
+     *   any errors occurred during validation. Note: some processors may
      *   choose to provide all the PSVI properties in the scope of the 
      *   method that reports the end of an element. 
      */

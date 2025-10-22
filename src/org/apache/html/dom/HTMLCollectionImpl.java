@@ -138,7 +138,7 @@ class HTMLCollectionImpl
     
     /**
      * Request collection of all cells in row: &lt;TD&gt; and &lt;TH&gt;
-     * elements in &lt;TR&gt; (non recursive).
+     * elements in &lt;TR&gt; (non-recursive).
      */
     static final short        CELL = -3;
 

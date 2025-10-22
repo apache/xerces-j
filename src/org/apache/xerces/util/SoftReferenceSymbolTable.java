@@ -94,7 +94,7 @@ public class SoftReferenceSymbolTable extends SymbolTable {
 
     /**
      * Constructs a new, empty SymbolTable with the specified initial capacity
-     * and default load factor, which is <tt>0.75</tt>.
+     * and default load factor, which is <code>0.75</code>.
      *
      * @param     initialCapacity   the initial capacity of the hashtable.
      * @throws    IllegalArgumentException if the initial capacity is less
@@ -106,7 +106,7 @@ public class SoftReferenceSymbolTable extends SymbolTable {
     
     /**
      * Constructs a new, empty SymbolTable with a default initial capacity (101)
-     * and load factor, which is <tt>0.75</tt>. 
+     * and load factor, which is <code>0.75</code>.
      */
     public SoftReferenceSymbolTable() {
         this(TABLE_SIZE, 0.75f);

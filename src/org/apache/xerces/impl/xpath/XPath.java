@@ -119,9 +119,9 @@ public class XPath {
     /**
      * Used by the {@link #parseExpression(NamespaceContext)} method
      * to verify the assumption.
-     * 
-     * If <tt>b</tt> is false, this method throws XPathException
-     * to report the error.
+     *
+     * @param b if set to false, this method throws XPathException
+     * to report the error
      */
     private static void check( boolean b ) throws XPathException {
         if(!b)      throw new XPathException("c-general-xpath");
@@ -992,7 +992,7 @@ public class XPath {
          * the current position by one.
          * 
          * If there's no such next token, this method throws
-         * <tt>new XPathException("c-general-xpath");</tt>.
+         * <code>new XPathException("c-general-xpath");</code>.
          */
         public int nextToken() throws XPathException {
             if( fCurrentTokenIndex==fTokenCount )
@@ -1004,7 +1004,7 @@ public class XPath {
          * the current position.
          * 
          * If there's no such next token, this method throws
-         * <tt>new XPathException("c-general-xpath");</tt>.
+         * <code>new XPathException("c-general-xpath");</code>.
          */
         public int peekToken() throws XPathException {
             if( fCurrentTokenIndex==fTokenCount )
@@ -1016,7 +1016,7 @@ public class XPath {
          * 
          * If there's no current token or if the current token
          * is not a string token, this method throws 
-         * <tt>new XPathException("c-general-xpath");</tt>.
+         * <code>new XPathException("c-general-xpath");</code>.
          */
         public String nextTokenAsString() throws XPathException {
             String s = getTokenString(nextToken());

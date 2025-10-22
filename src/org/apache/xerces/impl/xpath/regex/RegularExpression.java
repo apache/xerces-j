@@ -107,7 +107,7 @@ import org.apache.xerces.util.IntStack;
  *   </tr>
  * </table>
  *
- * <P>Meta characters are `<KBD>. * + ? { [ ( ) | \ ^ $</KBD>'.</P>
+ * <p>Meta characters are `<KBD>. * + ? { [ ( ) | \ ^ $</KBD>'.</p>
  * <ul>
  *   <li>Character
  *     <dl>

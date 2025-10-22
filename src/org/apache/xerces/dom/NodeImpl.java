@@ -43,7 +43,7 @@ import org.w3c.dom.events.EventTarget;
  * the tree. Only its subclasses should be instantiated -- and those,
  * with the exception of Document itself, only through a specific
  * Document's factory methods.
- * <P>
+ * <p>
  * The Node interface provides shared behaviors such as siblings and
  * children, both for consistancy and so that the most common tree
  * operations may be performed without constantly having to downcast
@@ -51,29 +51,34 @@ import org.w3c.dom.events.EventTarget;
  * these queries, it will respond with null.
  * Note that the default behavior is that children are forbidden. To
  * permit them, the subclass ParentNode overrides several methods.
- * <P>
+ * </p>
+ * <p>
  * NodeImpl also implements NodeList, so it can return itself in
  * response to the getChildNodes() query. This eliminiates the need
  * for a separate ChildNodeList object. Note that this is an
  * IMPLEMENTATION DETAIL; applications should _never_ assume that
  * this identity exists.
- * <P>
+ * </p>
+ * <p>
  * All nodes in a single document must originate
  * in that document. (Note that this is much tighter than "must be
  * same implementation") Nodes are all aware of their ownerDocument,
  * and attempts to mismatch will throw WRONG_DOCUMENT_ERR.
- * <P>
+ * </p>
+ * <p>
  * However, to save memory not all nodes always have a direct reference
  * to their ownerDocument. When a node is owned by another node it relies
  * on its owner to store its ownerDocument. Parent nodes always store it
  * though, so there is never more than one level of indirection.
  * And when a node doesn't have an owner, ownerNode refers to its
  * ownerDocument.
+ * </p>
  * <p>
  * This class doesn't directly support mutation events, however, it still
  * implements the EventTarget interface and forward all related calls to the
  * document so that the document class do so.
- * 
+ * </p>
+ *
  * @xerces.internal
  *
  * @author Arnaud  Le Hors, IBM
@@ -199,7 +204,8 @@ public abstract class NodeImpl
     
     /**
      * Returns the node value.
-     * @throws DOMException(DOMSTRING_SIZE_ERR)
+     * @return this implementation will always return <code>null</code>
+     * @throws DOMException DOMSTRING_SIZE_ERR is not thrown by this implementation
      */
     public String getNodeValue()
         throws DOMException {
@@ -208,7 +214,9 @@ public abstract class NodeImpl
 
     /**
      * Sets the node value.
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR)
+     *
+     * @param x will not be used by this class but can be used in subclasses
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR may be thrown by subclasses
      */
     public void setNodeValue(String x) 
         throws DOMException {
@@ -219,21 +227,21 @@ public abstract class NodeImpl
      * Adds a child node to the end of the list of children for this node.
      * Convenience shorthand for insertBefore(newChild,null).
      * @see #insertBefore(Node, Node)
-     * <P>
+     * <p>
      * By default we do not accept any children, ParentNode overrides this.
+     * </p>
      * @see ParentNode
      *
      * @return newChild, in its new state (relocated, or emptied in the case of
      * DocumentNode.)
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
-     * read-only.
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is read-only.
      */
     public Node appendChild(Node newChild) throws DOMException {
     	return insertBefore(newChild, null);
@@ -244,23 +252,30 @@ public abstract class NodeImpl
      * generic "copy constructor" for nodes. The newly returned object should
      * be completely independent of the source object's subtree, so changes
      * in one after the clone has been made will not affect the other.
-     * <P>
+     * <p>
      * Note: since we never have any children deep is meaningless here,
      * ParentNode overrides this behavior.
+     * </p>
      * @see ParentNode
      *
      * <p>
      * Example: Cloning a Text node will copy both the node and the text it
      * contains.
+     * </p>
      * <p>
      * Example: Cloning something that has children -- Element or Attr, for
      * example -- will _not_ clone those children unless a "deep clone"
      * has been requested. A shallow clone of an Attr node will yield an
      * empty Attr of the same name.
+     * </p>
      * <p>
      * NOTE: Clones will always be read/write, even if the node being cloned
      * is read-only, to permit applications using only the DOM API to obtain
      * editable copies of locked portions of the tree.
+     * </p>
+     *
+     * @param deep if true, recursively clone the subtree under the specified
+     *    node; if false, clone only the node itself (and its attributes, if it is an Element)
      */
     public Node cloneNode(boolean deep) {
 
@@ -403,8 +418,10 @@ public abstract class NodeImpl
     /**
      * Test whether this node has any children. Convenience shorthand
      * for (Node.getFirstChild()!=null)
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
+     * </p>
+     *
      * @see ParentNode
      */
     public boolean hasChildNodes() {
@@ -428,18 +445,24 @@ public abstract class NodeImpl
         return this;
     }
 
-    /** The first child of this Node, or null if none.
-     * <P>
+    /**
+     * The first child of this Node, or null if none.
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
+     * </p>
+     *
      * @see ParentNode
      */
     public Node getFirstChild() {
     	return null;
     }
 
-    /** The first child of this Node, or null if none.
-     * <P>
+    /**
+     * The first child of this Node, or null if none.
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
+     * </p>
+     *
      * @see ParentNode
      */
     public Node getLastChild() {
@@ -449,8 +472,9 @@ public abstract class NodeImpl
     /**
      * Move one or more node(s) to our list of children. Note that this
      * implicitly removes them from their previous parent.
-     * <P>
+     * <p>
      * By default we do not accept any children, ParentNode overrides this.
+     * </p>
      * @see ParentNode
      *
      * @param newChild The Node to be moved to our subtree. As a
@@ -464,17 +488,17 @@ public abstract class NodeImpl
      * @return newChild, in its new state (relocated, or emptied in the case of
      * DocumentNode.)
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node, or if newChild is an
      * ancestor of this node.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NOT_FOUND_ERR) if refChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if refChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node insertBefore(Node newChild, Node refChild) 
@@ -487,16 +511,18 @@ public abstract class NodeImpl
     /**
      * Remove a child from this Node. The removed child's subtree
      * remains intact so it may be re-inserted elsewhere.
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
+     * </p>
+     *
      * @see ParentNode
      *
      * @return oldChild, in its new state (removed).
      *
-     * @throws DOMException(NOT_FOUND_ERR) if oldChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if oldChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node removeChild(Node oldChild) 
@@ -511,23 +537,25 @@ public abstract class NodeImpl
      * have. Note that newChild will first be removed from its previous
      * parent, if any. Equivalent to inserting newChild before oldChild,
      * then removing oldChild.
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
+     * </p>
+     *
      * @see ParentNode
      *
      * @return oldChild, in its new state (removed).
      *
-     * @throws DOMException(HIERARCHY_REQUEST_ERR) if newChild is of a
+     * @throws DOMException HIERARCHY_REQUEST_ERR if newChild is of a
      * type that shouldn't be a child of this node, or if newChild is
      * one of our ancestors.
      *
-     * @throws DOMException(WRONG_DOCUMENT_ERR) if newChild has a
+     * @throws DOMException WRONG_DOCUMENT_ERR if newChild has a
      * different owner document than we do.
      *
-     * @throws DOMException(NOT_FOUND_ERR) if oldChild is not a child of
+     * @throws DOMException NOT_FOUND_ERR if oldChild is not a child of
      * this node.
      *
-     * @throws DOMException(NO_MODIFICATION_ALLOWED_ERR) if this node is
+     * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if this node is
      * read-only.
      */
     public Node replaceChild(Node newChild, Node oldChild)
@@ -543,8 +571,10 @@ public abstract class NodeImpl
 
     /**
      * NodeList method: Count the immediate children of this node
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
+     * </p>
+     *
      * @see ParentNode
      *
      * @return int
@@ -556,8 +586,10 @@ public abstract class NodeImpl
     /**
      * NodeList method: Return the Nth immediate child of this node, or
      * null if the index is out of bounds.
-     * <P>
+     * <p>
      * By default we do not have any children, ParentNode overrides this.
+     * </p>
+     *
      * @see ParentNode
      *
      * @return org.w3c.dom.Node
@@ -588,6 +620,7 @@ public abstract class NodeImpl
      * Note that this implementation simply calls normalize() on this Node's
      * children. It is up to implementors or Node to override normalize()
      * to take action.
+     * </p>
      */
     public void normalize() {
 	/* by default we do not have any children,
@@ -616,18 +649,22 @@ public abstract class NodeImpl
     }
 
     /**
-     * Introduced in DOM Level 2. <p>
-     *
+     * Introduced in DOM Level 2.
+     * <p>
      * The namespace URI of this node, or null if it is unspecified. When this
      * node is of any type other than ELEMENT_NODE and ATTRIBUTE_NODE, this is
-     * always null and setting it has no effect. <p>
-     *
+     * always null and setting it has no effect.
+     * </p>
+     * <p>
      * This is not a computed value that is the result of a namespace lookup
      * based on an examination of the namespace declarations in scope. It is
-     * merely the namespace URI given at creation time.<p>
-     *
+     * merely the namespace URI given at creation time.
+     * </p>
+     * <p>
      * For nodes created with a DOM Level 1 method, such as createElement
      * from the Document interface, this is null.
+     * </p>
+     *
      * @since WD-DOM-Level-2-19990923
      * @see AttrNSImpl
      * @see ElementNSImpl
@@ -638,14 +675,16 @@ public abstract class NodeImpl
     }
 
     /**
-     * Introduced in DOM Level 2. <p>
-     *
+     * Introduced in DOM Level 2.
+     * <p>
      * The namespace prefix of this node, or null if it is unspecified. When
      * this node is of any type other than ELEMENT_NODE and ATTRIBUTE_NODE this
-     * is always null and setting it has no effect.<p>
-     *
+     * is always null and setting it has no effect.
+     * </p>
+     * <p>
      * For nodes created with a DOM Level 1 method, such as createElement
-     * from the Document interface, this is null. <p>
+     * from the Document interface, this is null.
+     * </p>
      *
      * @since WD-DOM-Level-2-19990923
      * @see AttrNSImpl
@@ -657,20 +696,23 @@ public abstract class NodeImpl
     }
 
     /**
-     *  Introduced in DOM Level 2. <p>
+     * Introduced in DOM Level 2.
+     * <p>
+     * The namespace prefix of this node, or null if it is unspecified. When
+     * this node is of any type other than ELEMENT_NODE and ATTRIBUTE_NODE
+     * this is always null and setting it has no effect.
+     * </p>
+     * <p>
+     * For nodes created with a DOM Level 1 method, such as createElement from
+     * the Document interface, this is null.
+     * </p>
+     * <p>
+     * Note that setting this attribute changes the nodeName attribute, which
+     * holds the qualified name, as well as the tagName and name attributes of
+     * the Element and Attr interfaces, when applicable.
+     * </p>
      *
-     *  The namespace prefix of this node, or null if it is unspecified. When
-     *  this node is of any type other than ELEMENT_NODE and ATTRIBUTE_NODE
-     *  this is always null and setting it has no effect.<p>
-     *
-     *  For nodes created with a DOM Level 1 method, such as createElement from
-     *  the Document interface, this is null.<p>
-     *
-     *  Note that setting this attribute changes the nodeName attribute, which
-     *  holds the qualified name, as well as the tagName and name attributes of
-     *  the Element and Attr interfaces, when applicable.<p>
-     *
-     * @throws INVALID_CHARACTER_ERR Raised if the specified
+     * @throws DOMException INVALID_CHARACTER_ERR Raised if the specified
      *  prefix contains an invalid character.
      *
      * @since WD-DOM-Level-2-19990923
@@ -686,13 +728,15 @@ public abstract class NodeImpl
     }
 
     /**
-     * Introduced in DOM Level 2. <p>
-     *
+     * Introduced in DOM Level 2.
+     * <p>
      * Returns the local part of the qualified name of this node.
      * For nodes created with a DOM Level 1 method, such as createElement
      * from the Document interface, and for nodes of any type other than
      * ELEMENT_NODE and ATTRIBUTE_NODE this is the same as the nodeName
      * attribute.
+     * </p>
+     *
      * @since WD-DOM-Level-2-19990923
      * @see AttrNSImpl
      * @see ElementNSImpl
@@ -1383,12 +1427,15 @@ public abstract class NodeImpl
      
 
     /**
-     *  DOM Level 3: Experimental
-     *  This method checks if the specified <code>namespaceURI</code> is the 
-     *  default namespace or not. 
-     *  @param namespaceURI The namespace URI to look for.
-     *  @return  <code>true</code> if the specified <code>namespaceURI</code> 
-     *   is the default namespace, <code>false</code> otherwise. 
+     * DOM Level 3: Experimental
+     * <p>
+     * This method checks if the specified <code>namespaceURI</code> is the
+     * default namespace or not.
+     * </p>
+     *
+     * @param namespaceURI The namespace URI to look for
+     * @return <code>true</code> if the specified <code>namespaceURI</code> is the
+     *    default namespace, <code>false</code> otherwise
      * @since DOM Level 3
      */
     public boolean isDefaultNamespace(String namespaceURI){
@@ -1911,14 +1958,17 @@ public abstract class NodeImpl
     /**
      * NON-DOM: PR-DOM-Level-1-19980818 mentions readonly nodes in conjunction
      * with Entities, but provides no API to support this.
-     * <P>
+     * <p>
      * Most DOM users should not touch this method. Its anticpated use
      * is during construction of EntityRefernces, where it will be used to
      * lock the contents replicated from Entity so they can't be casually
      * altered. It _could_ be published as a DOM extension, if desired.
-     * <P>
+     * </p>
+     * <p>
      * Note: since we never have any children deep is meaningless here,
      * ParentNode overrides this behavior.
+     * </p>
+     *
      * @see ParentNode
      *
      * @param readOnly True or false as desired.

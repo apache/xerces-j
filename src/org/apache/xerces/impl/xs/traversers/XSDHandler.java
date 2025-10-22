@@ -2463,7 +2463,7 @@ public class XSDHandler {
      */
     private Element getSchemaDocument1(boolean mustResolve, boolean hasInput, 
             XMLInputSource schemaSource, Element referElement, IOException ioe) {
-        // either an error occured (exception), or empty input source was
+        // either an error occurred (exception), or empty input source was
         // returned, we need to report an error or a warning
         if (mustResolve) {
             if (hasInput) {

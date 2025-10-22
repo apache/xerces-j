@@ -1177,12 +1177,13 @@ class DurationImpl
      * <p>
      * This method is a convenience method around the 
      * {@link #getField(DatatypeConstants.Field)} method.
-     * 
+     * </p>
      * <p>
-     * Note that since this method returns <tt>int</tt>, this
+     * Note that since this method returns <code>int</code>, this
      * method will return an incorrect value for {@link Duration}s
-     * with the year field that goes beyond the range of <tt>int</tt>.
-     * Use <code>getField(YEARS)</code> to avoid possible loss of precision.</p>
+     * with the year field that goes beyond the range of <code>int</code>.
+     * Use <code>getField(YEARS)</code> to avoid possible loss of precision.
+     * </p>
      * 
      * @return
      *      If the YEARS field is present, return
@@ -1793,10 +1794,10 @@ class DurationImpl
      * <code>(-X)-(-Y)=-(X-Y)</code>)</p>
      *  
      * <p>Then two durations are subtracted field by field.
-     * If the sign of any non-zero field <tt>F</tt> is different from
+     * If the sign of any non-zero field <code>F</code> is different from
      * the sign of the most significant field,
-     * 1 (if <tt>F</tt> is negative) or -1 (otherwise)
-     * will be borrowed from the next bigger unit of <tt>F</tt>.</p>
+     * 1 (if <code>F</code> is negative) or -1 (otherwise)
+     * will be borrowed from the next bigger unit of <code>F</code>.</p>
      * 
      * <p>This process is repeated until all the non-zero fields have
      * the same sign.</p> 
@@ -1867,7 +1868,7 @@ class DurationImpl
      * order of YEARS, MONTHS, DAYS, HOURS, MINUTES, SECONDS, and MILLISECONDS
      * if those fields are present. Because the {@link Calendar} class
      * uses int to hold values, there are cases where this method
-     * won't work correctly (for example if values of fields
+     * won't work correctly (for example, if values of fields
      * exceed the range of int.) 
      * </p>
      * 
@@ -1886,13 +1887,14 @@ class DurationImpl
      * 
      * <p>
      * Note that because {@link Calendar#add(int, int)} is using
-     * <tt>int</tt>, {@link Duration} with values beyond the
-     * range of <tt>int</tt> in its fields
+     * <code>int</code>, {@link Duration} with values beyond the
+     * range of <code>int</code> in its fields
      * will cause overflow/underflow to the given {@link Calendar}.
      * {@link XMLGregorianCalendar#add(Duration)} provides the same
      * basic operation as this method while avoiding
      * the overflow/underflow issues.
-     * 
+     * </p>
+     *
      * @param calendar
      *      A calendar object whose value will be modified.
      * @throws NullPointerException

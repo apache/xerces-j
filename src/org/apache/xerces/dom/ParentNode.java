@@ -817,14 +817,14 @@ public abstract class ParentNode
         }
         return new NodeList() {
                 /**
-                 * @see NodeList.getLength()
+                 * @see NodeList#getLength()
                  */
                 public int getLength() {
                     return nodeListGetLength();
                 } // getLength():int
                 
                 /**
-                 * @see NodeList.item(int)
+                 * @see NodeList#item(int)
                  */
                 public Node item(int index) {
                     return nodeListItem(index);
@@ -931,10 +931,10 @@ public abstract class ParentNode
      * children, which are always read-only.
      * </p>
      *
-     * @param readOnly True or false as desired.
-     * @param deep If true, children are also toggled. Note that this will
+     * @param readOnly true to make read-only, false to permit editing
+     * @param deep if true, children are also toggled. Note that this will
      *	not change the state of an EntityReference or its children,
-     *  which are always read-only.
+     *  which are always read-only
      */
     public void setReadOnly(boolean readOnly, boolean deep) {
 

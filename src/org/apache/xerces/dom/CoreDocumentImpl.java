@@ -967,7 +967,7 @@ extends ParentNode implements Document  {
 
     /**
      * NON-DOM
-     * Used by DOM Level 3 WD remameNode.
+     * Used by DOM Level 3 WD {@link #renameNode(Node, String, String)}.
      * <p>
      * Some DOM implementations do not allow nodes to be renamed and require 
      * creating new elements.
@@ -977,7 +977,7 @@ extends ParentNode implements Document  {
      * @param newNamespaceURI the new namespace URI
      * @param newNodeName the new noe name
      * @param el a {@link ElementImpl} to check
-     * @return true if the given element can be renamed, false, if it must be replaced.
+     * @return true if the given element can be renamed, false, if it must be replaced
      */
     protected boolean canRenameElements(String newNamespaceURI, String newNodeName, ElementImpl el) {
         return true;

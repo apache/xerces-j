@@ -95,19 +95,11 @@ Authors:
     <property name="javac.source" value="1.8"/>
     <property name="javac.target" value="1.8"/>
 
-    <property name="docs.book" value="${docs.dir}/docs-book.xml"/>
-
-    <property name="packages" value="org.*"/>
-
-    <property name="doc.generator" value="org.apache.stylebook.StyleBook"/>
-    <property name="doc.generator.package" value="${tools.dir}/stylebook-1.0-b2.jar"/>
-
     <property name="build.src" value="${build.dir}/src"/>
     <property name="build.dest" value="${build.dir}/classes"/>
     <property name="build.docs" value="${build.dir}/docs"/>
     <property name="build.samples" value="${build.dir}/samples"/>
     <property name="build.tests" value="${build.dir}/tests"/>
-    <property name="build.data" value="${build.dir}/data"/>
     <property name="build.javadocs" value="${build.dir}/docs/javadocs"/>
 
     <property name="distsrc.dir" value="${build.dir}/${parser.shortname}-${parser_version}"/>
@@ -428,18 +420,73 @@ Authors:
   <!-- =================================================================== -->
   <target name="docs" depends="prepare, prepare-docs">
     <echo message="Building docs for ${parser.Name} ${parser.Version} ..." />
-    <java fork="yes"
-          classpath="${java.class.path}:${doc.generator.package}:./tools/xalan.jar"
-          classname="${doc.generator}"
-          failOnError="yes">
-      <sysproperty key="java.awt.headless" value="true"/>
-      <arg value="targetDirectory=${build.docs}"/>
-      <arg value="${build.dir}/xdocs/docs-book.xml"/>
-      <arg value="${build.dir}/xdocs/style"/>
-    </java>
 
+    <!-- first process the files that need two-phase transformations
+         to produce files in the document syntax -->
+    <xslt destdir="build/intermediate"
+          basedir="build/xdocs" 
+          includes="faq-*.xml"
+          style="docs/style/stylesheets/faqs2document.xsl"
+          extension=".xml">
+        <outputproperty name="method" value="xml"/>
+    </xslt>
+    <xslt destdir="build/intermediate"
+          in="docs/docs-book.xml"
+          out="build/intermediate/groupfaqs.xml"
+          style="docs/style/stylesheets/book2group.xsl"
+          extension=".xml">
+        <outputproperty name="method" value="xml"/>
+        <outputproperty name="indent" value="yes"/>
+    </xslt>
+    <xslt destdir="build/intermediate"
+          in="build/intermediate/groupfaqs.xml"
+          out="build/intermediate/faqs.xml"
+          style="docs/style/stylesheets/group2document.xsl"
+          extension=".xml">
+        <outputproperty name="method" value="xml"/>
+    </xslt>
+    <xslt destdir="build/intermediate"
+          basedir="build/xdocs" 
+          includes="properties.xml,features.xml"
+          style="docs/style/stylesheets/settings2document.xsl"
+          extension=".xml">
+        <outputproperty name="method" value="xml"/>
+    </xslt>
+    <xslt destdir="build/intermediate"
+          basedir="build/xdocs" 
+          includes="releases.xml"
+          style="docs/style/stylesheets/releases2document.xsl"
+          extension=".xml">
+        <outputproperty name="method" value="xml"/>
+    </xslt>
+
+    <!-- now process all the XML documents to produce HTML documents -->
+    <xslt destdir="build/docs"
+          basedir="build/intermediate" 
+          includes="faq*.xml,features.xml,properties.xml,releases.xml"
+          filenameparameter="sourceFilePath"
+          style="docs/style/stylesheets/document2html.xsl">
+    </xslt>
+    <xslt destdir="build/docs"
+          basedir="build/xdocs" 
+          filenameparameter="sourceFilePath"
+          includes="api.xml, charter.xml, dom.xml, dom3.xml, download.xml, install.xml, jira.xml, limitations.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples*.xml, xni*.xml"
+          style="docs/style/stylesheets/document2html.xsl">
+    </xslt>
+    <xslt in="build/xdocs/readme.xml"
+          out="build/docs/index.html"
+          style="docs/style/stylesheets/document2html.xsl">
+      <param name="id" expression="'index'"/>
+    </xslt>
+
+    <!-- copy literal files that don't require transformation -->
     <copy file="${docs.dir}/download.cgi" tofile="${build.docs}/download.cgi"/>
-    
+    <copy todir="build/docs/resources">
+        <fileset dir="docs/style/resources"/>
+    </copy>
+    <copy todir="build/docs/graphics">
+        <fileset dir="docs/style/graphics"/>
+    </copy>     
   </target>
 
 

@@ -45,9 +45,8 @@ jobs:
     - name: Ant Test (target ci-test)
       run: ant -noinput -buildfile build.xml clean ci-test
 
-    # cannot target 'all' with any JDK due to NoClassDefFoundError: com/sun/image/codec/jpeg/JPEGCodec
-    #- name: Ant Build (target all)
-    #  run: ant -noinput -buildfile build.xml all
+    - name: Ant Build (target all)
+      run: ant -noinput -buildfile build.xml all
 
     # clean up before running via build script
     - name: Ant Clean
@@ -61,8 +60,17 @@ jobs:
     - name: Run build script (target dtdjars)
       run: . ./build.sh dtdjars
 
-    # When issues fixed as per above, these steps can be enabled:
-    #- name: Run build script (target test)
-    #  run: . ./build.sh test
-    #- name: Run build script (target all)
-    #  run: . ./build.sh all
+    # clean up before running via build script
+    # TODO might want to make the clean step a part of build.sh
+    - name: Ant Clean
+      run: ant -noinput -buildfile build.xml clean
+
+    - name: Run build script (target test)
+      run: . ./build.sh test
+
+    # clean up before running via build script
+    - name: Ant Clean
+      run: ant -noinput -buildfile build.xml clean
+
+    - name: Run build script (target all)
+      run: . ./build.sh all

@@ -17,11 +17,22 @@
 package org.apache.wml;
 
 /**
- * <p>The interface is modeled after DOM1 Spec for HTML from W3C.
+ * The interface is modeled after DOM1 Spec for HTML from W3C.
  * The DTD used in this DOM model is from 
- * <a href="http://www.wapforum.org/DTD/wml_1.1.xml">
- * http://www.wapforum.org/DTD/wml_1.1.xml</a></p>
+ * <a href="https://www.wapforum.org/DTD/wml_1.1.xml">https://www.wapforum.org/DTD/wml_1.1.xml</a>
  *
+ * <pre>
+ * {@code
+ *     <!ATTLIST access
+ *       http-equiv     CDATA      #IMPLIED
+ *       name           CDATA      #IMPLIED
+ *       forua          %boolean;  #IMPLIED
+ *       content        CDATA      #REQUIRED
+ *       scheme         CDATA      #IMPLIED
+ *       %coreattrs;
+ *     >
+ * }
+ * </pre>
  * <p>The meta element contains meta-info of an WML deck
  * (Section 11.3.2, WAP WML Version 16-Jun-1999)</p>
  *
@@ -32,13 +43,17 @@ public interface WMLMetaElement extends WMLElement {
 
     /**
      * 'name' attribute specific the property name
+     *
+     * @param newValue a new value to set for the name attribute
      */
     public void setName(String newValue);
     public String getName();
 
     /**
      * 'http-equiv' attribute indicates the property should be
-     * interpret as HTTP header.
+     * interpreted as HTTP header.
+     *
+     * @param newValue a new value to set for the http-equiv attribute
      */
     public void setHttpEquiv(String newValue);
     public String getHttpEquiv();
@@ -47,19 +62,25 @@ public interface WMLMetaElement extends WMLElement {
      * 'forua' attribute specifies whether a intermediate agent should
      * remove this meta element. A value of false means the
      * intermediate agent must remove the element.
+     *
+     * @param newValue a new value to set for the forua attribute
      */
     public void setForua(boolean newValue);
     public boolean getForua();
 
     /**
      * 'scheme' attribute specifies a form that may be used to
-     * interpret the property value 
+     * interpret the property value
+     *
+     * @param newValue a new value to set for the scheme attribute
      */
     public void setScheme(String newValue);
     public String getScheme();
 
     /**
-     * 'content' attribute specifies the property value 
+     * 'content' attribute specifies the property value
+     *
+     * @param newValue a new value to set for the content attribute
      */
     public void setContent(String newValue);
     public String getContent();

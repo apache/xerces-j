@@ -624,12 +624,8 @@ Authors:
 
     <copy file="LICENSE" tofile="${distsrc.dir}/LICENSE"/>
     <copy file="NOTICE" tofile="${distsrc.dir}/NOTICE"/>
-    <copy file="NOTICE.resolver.txt" tofile="${distsrc.dir}/NOTICE.resolver.txt"/>
-    <copy file="NOTICE.serializer.txt" tofile="${distsrc.dir}/NOTICE.serializer.txt"/>
     <copy file="LICENSE.DOM-documentation.html" tofile="${distsrc.dir}/LICENSE.DOM-documentation.html"/>
     <copy file="LICENSE.DOM-software.html" tofile="${distsrc.dir}/LICENSE.DOM-software.html"/>
-    <copy file="LICENSE.resolver.txt" tofile="${distsrc.dir}/LICENSE.resolver.txt"/>
-    <copy file="LICENSE.serializer.txt" tofile="${distsrc.dir}/LICENSE.serializer.txt"/>
     <copy file="README" tofile="${distsrc.dir}/README"/>
     <copy file="Readme.html" tofile="${distsrc.dir}/Readme.html"/>
     <copy file="build.xml" tofile="${distsrc.dir}/build.xml"/>
@@ -719,12 +715,8 @@ Authors:
 
     <copy file="LICENSE" tofile="${distbin.dir}/LICENSE"/>
     <copy file="NOTICE" tofile="${distsrc.dir}/NOTICE"/>
-    <copy file="NOTICE.resolver.txt" tofile="${distsrc.dir}/NOTICE.resolver.txt"/>
-    <copy file="NOTICE.serializer.txt" tofile="${distsrc.dir}/NOTICE.serializer.txt"/>
     <copy file="LICENSE.DOM-documentation.html" tofile="${distsrc.dir}/LICENSE.DOM-documentation.html"/>
     <copy file="LICENSE.DOM-software.html" tofile="${distsrc.dir}/LICENSE.DOM-software.html"/>
-    <copy file="LICENSE.resolver.txt" tofile="${distbin.dir}/LICENSE.resolver.txt"/>
-    <copy file="LICENSE.serializer.txt" tofile="${distsrc.dir}/LICENSE.serializer.txt"/>
     <copy file="Readme.html" tofile="${distbin.dir}/Readme.html"/>
 
     <copy file="${build.dir}/${jar.samples}" tofile="${distbin.dir}/${jar.samples}"/>

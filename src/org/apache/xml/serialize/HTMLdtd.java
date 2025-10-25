@@ -273,12 +273,13 @@ public final class HTMLdtd
 
 
     /**
-     * Returns true if the specified attribute it a URI and should be
+     * Returns true if the specified attribute is a URI and should be
      * escaped appropriately. In HTML URIs are escaped differently
      * than normal attributes.
      *
-     * @param tagName the element's tag name
+     * @param tagName the element's tag name (unused)
      * @param attrName the attribute's name
+     * @return true if the specified attribute is a URI
      */
     public static boolean isURI( String tagName, String attrName )
     {
@@ -294,6 +295,7 @@ public final class HTMLdtd
      *
      * @param tagName the element's tag name
      * @param attrName the attribute's name
+     * @return true if the specified attribute is a boolean
      */
     public static boolean isBoolean( String tagName, String attrName )
     {

@@ -261,7 +261,12 @@ public class Printer
         }
     }
 
-
+    /**
+     * Writes the char value to the underlying Writer
+     *
+     * @param ch character value
+     * @throws IOException if an I/O error occurs
+     */
     public void printText( char ch )
         throws IOException
     {

@@ -688,58 +688,52 @@ public abstract class BaseMarkupSerializer
 	state.afterElement = false;
     }
 
-
+    /**
+     * Start serializing as CDATA section
+     */
     public void startCDATA()
     {
-        ElementState state;
-
-        state = getElementState();
-        state.doCData = true;
+        getElementState().doCData = true;
     }
 
-
+    /**
+     * End serializing as CDATA section
+     */
     public void endCDATA()
     {
-        ElementState state;
-
-        state = getElementState();
-        state.doCData = false;
+        getElementState().doCData = false;
     }
 
-
+    /**
+     * Start serializing as raw characters
+     */
     public void startNonEscaping()
     {
-        ElementState state;
-
-        state = getElementState();
-        state.unescaped = true;
+        getElementState().unescaped = true;
     }
 
-
+    /**
+     * End serializing as raw characters
+     */
     public void endNonEscaping()
     {
-        ElementState state;
-
-        state = getElementState();
-        state.unescaped = false;
+        getElementState().unescaped = false;
     }
 
-
+    /**
+     * Start preserving space
+     */
     public void startPreserving()
     {
-        ElementState state;
-
-        state = getElementState();
-        state.preserveSpace = true;
+        getElementState().preserveSpace = true;
     }
 
-
+    /**
+     * End preserving space
+     */
     public void endPreserving()
     {
-        ElementState state;
-
-        state = getElementState();
-        state.preserveSpace = false;
+        getElementState().preserveSpace = false;
     }
 
 
@@ -1394,6 +1388,12 @@ public abstract class BaseMarkupSerializer
     // Text pretty printing and formatting methods //
     //---------------------------------------------//
 
+    /**
+     * Prints the CDATA text to the underlying Printer
+     *
+     * @param text CDATA value to be printed
+     * @throws IOException if an I/O error occurs
+     */
     protected void printCDATAText( String text ) throws IOException {
         int length = text.length();
         char ch;
@@ -1627,7 +1627,12 @@ public abstract class BaseMarkupSerializer
         _printer.printText( '"' );
     }
 
-
+    /**
+     * Prints the char value to the underlying Printer
+     *
+     * @param ch character value
+     * @throws IOException if an I/O error occurs
+     */
     protected void printEscaped( int ch )
         throws IOException
     {
@@ -1643,7 +1648,7 @@ public abstract class BaseMarkupSerializer
             _printer.printText( ';' );
         } else if ( ( ch >= ' ' && _encodingInfo.isPrintable((char)ch) && ch != 0x7F ) ||
                     ch == '\n' || ch == '\r' || ch == '\t' ) {
-            // Non printables are below ASCII space but not tab or line
+            // Non-printable characters are below ASCII space but not tab or line
             // terminator, ASCII delete, or above a certain Unicode threshold.
             if (ch < 0x10000) {
                 _printer.printText((char)ch );
@@ -1842,7 +1847,12 @@ public abstract class BaseMarkupSerializer
         
     }
 
-
+    /**
+     * Should be used by subclasses of BaseMarkupSerializer when a fatal problem occurs.
+     *
+     * @param message the text to describe the problem
+     * @throws IOException if no {@link DOMErrorHandler} is configured
+     */
     protected void fatalError(String message) throws IOException{
         if (fDOMErrorHandler != null) {
             modifyDOMError(message, DOMError.SEVERITY_FATAL_ERROR, null, fCurrentNode);

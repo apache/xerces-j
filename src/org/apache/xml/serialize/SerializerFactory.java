@@ -34,7 +34,19 @@ import java.util.StringTokenizer;
  */
 @Deprecated
 public abstract class SerializerFactory {
-    
+
+    /**
+     * This value should be used as a system property for registering additional implementations of SerializerFactory.
+     * <p>
+     *     Multiple factories can be registered by using a delimiter between the values. Any of the following are supported:
+     * </p>
+     * <ul>
+     *     <li><i>(a single space)</i></li>
+     *     <li><strong>;</strong> semicolon</li>
+     *     <li><strong>,</strong> comma</li>
+     *     <li><strong>:</strong> colon</li>
+     * </ul>
+     */
     public static final String FactoriesProperty = "org.apache.xml.serialize.factories";
 
     private static Hashtable  _factories = new Hashtable();
@@ -114,6 +126,9 @@ public abstract class SerializerFactory {
      * If this method is used to create the serializer, the {@link
      * Serializer#setOutputByteStream} or {@link Serializer#setOutputCharStream}
      * methods must be called before serializing a document.
+     *
+     * @param format the output format to use
+     * @return a new serializer for the given output format
      */
     public abstract Serializer makeSerializer(OutputFormat format);
 
@@ -122,6 +137,10 @@ public abstract class SerializerFactory {
      * Create a new serializer, based on the {@link OutputFormat} and
      * using the writer as the output character stream.  If this
      * method is used, the encoding property will be ignored.
+     *
+     * @param writer an output char stream that will be written to
+     * @param format the output format to use
+     * @return a new serializer for the given output format
      */
     public abstract Serializer makeSerializer( Writer writer,
                                                OutputFormat format );
@@ -132,8 +151,10 @@ public abstract class SerializerFactory {
      * using the output byte stream and the encoding specified in the
      * output format.
      *
-     * @throws UnsupportedEncodingException The specified encoding is
-     *   not supported
+     * @param output an output byte stream that will be written to
+     * @param format the output format to use
+     * @return a new serializer for the given output format
+     * @throws UnsupportedEncodingException The specified encoding is not supported
      */
     public abstract Serializer makeSerializer( OutputStream output,
                                                OutputFormat format )

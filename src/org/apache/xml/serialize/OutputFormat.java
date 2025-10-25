@@ -188,19 +188,19 @@ public class OutputFormat
 
 
     /**
-     * True if the XML declaration should be ommited;
+     * True if the XML declaration should be omitted.
      */
     private boolean _omitXmlDeclaration = false;
 
 
     /**
-     * True if the DOCTYPE declaration should be ommited;
+     * True if the DOCTYPE declaration should be omitted.
      */
     private boolean _omitDoctype = false;
 
 
     /**
-     * True if comments should be ommited;
+     * True if comments should be omitted.
      */
     private boolean _omitComments = false;
 
@@ -388,6 +388,8 @@ public class OutputFormat
 
     /**
      * Returns true if indentation was specified.
+     *
+     * @return rue if indentation was specified
      */
     public boolean getIndenting()
     {
@@ -452,7 +454,7 @@ public class OutputFormat
      * used by the {@link java.io.Writer}.
      *
      * @see #getEncoding
-     * @param encoding the encoding, or <code>null</code>
+     * @param encoding the encoding, or null
      */
     public void setEncoding( String encoding )
     {
@@ -486,14 +488,18 @@ public class OutputFormat
     }
 
     /**
-     * Sets whether java encoding names are permitted
+     * Sets whether java encoding names are permitted.
+     *
+     * @param allow set to true to permit java encoding names
      */
     public void setAllowJavaNames (boolean allow) {
         _allowJavaNames = allow;
     }
 
     /**
-     * Returns whether java encoding names are permitted
+     * Returns whether java encoding names are permitted.
+     *
+     * @return whether java encoding names are permitted
      */
     public boolean setAllowJavaNames () {
         return _allowJavaNames;
@@ -504,7 +510,7 @@ public class OutputFormat
      * To determine the media type based on the
      * document type, use {@link #whichMediaType}.
      *
-     * @return The specified media type, or null
+     * @return the specified media type, or null
      */
     public String getMediaType()
     {
@@ -543,8 +549,9 @@ public class OutputFormat
 
 
     /**
-     * Returns the specified document type public identifier,
-     * or null.
+     * Returns the specified document type public identifier, or null.
+     *
+     * @return the specified document type public identifier, or null
      */
     public String getDoctypePublic()
     {
@@ -553,8 +560,9 @@ public class OutputFormat
 
 
     /**
-     * Returns the specified document type system identifier,
-     * or null.
+     * Returns the specified document type system identifier, or null.
+     *
+     * @return the specified document type system identifier, or null
      */
     public String getDoctypeSystem()
     {
@@ -563,8 +571,10 @@ public class OutputFormat
 
 
     /**
-     * Returns true if comments should be ommited.
+     * Returns true if comments should be omitted.
      * The default is false.
+     *
+     * @return true if comments should be omitted (default is false)
      */
     public boolean getOmitComments()
     {
@@ -575,7 +585,7 @@ public class OutputFormat
     /**
      * Sets comment omitting on and off.
      *
-     * @param omit True if comments should be ommited
+     * @param omit True if comments should be omitted
      */
     public void setOmitComments( boolean omit )
     {
@@ -584,8 +594,9 @@ public class OutputFormat
 
 
     /**
-     * Returns true if the DOCTYPE declaration should
-     * be ommited. The default is false.
+     * Returns true if the DOCTYPE declaration should be omitted. The default is false.
+     *
+     * @return true if the DOCTYPE declaration should be omitted (default is false)
      */
     public boolean getOmitDocumentType()
     {
@@ -596,7 +607,7 @@ public class OutputFormat
     /**
      * Sets DOCTYPE declaration omitting on and off.
      *
-     * @param omit True if DOCTYPE declaration should be ommited
+     * @param omit true if DOCTYPE declaration should be omitted
      */
     public void setOmitDocumentType( boolean omit )
     {
@@ -605,8 +616,9 @@ public class OutputFormat
 
 
     /**
-     * Returns true if the XML document declaration should
-     * be ommited. The default is false.
+     * Returns true if the XML document declaration should be omitted. The default is false.
+     *
+     * @return true if the XML document declaration should be omitted (default is false)
      */
     public boolean getOmitXMLDeclaration()
     {
@@ -617,7 +629,7 @@ public class OutputFormat
     /**
      * Sets XML declaration omitting on and off.
      *
-     * @param omit True if XML declaration should be ommited
+     * @param omit true if XML declaration should be omitted
      */
     public void setOmitXMLDeclaration( boolean omit )
     {
@@ -628,6 +640,8 @@ public class OutputFormat
     /**
      * Returns true if the document type is standalone.
      * The default is false.
+     *
+     * @return true if the document type is standalone (default is false)
      */
     public boolean getStandalone()
     {
@@ -640,7 +654,7 @@ public class OutputFormat
      * identifiers must be null for the document to be
      * serialized as standalone.
      *
-     * @param standalone True if document DTD is standalone
+     * @param standalone true if document DTD is standalone
      */
     public void setStandalone( boolean standalone )
     {
@@ -649,9 +663,11 @@ public class OutputFormat
 
 
     /**
-     * Returns a list of all the elements whose text node children
+     * Returns an array of all the elements whose text node children
      * should be output as CDATA, or null if no such elements were
      * specified.
+     *
+     * @return an array of all the elements whose text node children should be output as CDATA, or null
      */
     public String[] getCDataElements()
     {
@@ -692,9 +708,12 @@ public class OutputFormat
 
 
     /**
-     * Returns a list of all the elements whose text node children
+     * Returns an array of all the elements whose text node children
      * should be output unescaped (no character references), or null
      * if no such elements were specified.
+     *
+     * @return an array of all the elements whose text node children
+     * should be output unescaped (no character references), or null
      */
     public String[] getNonEscapingElements()
     {
@@ -707,7 +726,7 @@ public class OutputFormat
      * should be output unescaped.
      *
      * @param tagName The element's tag name
-     * @return True if should serialize unescaped
+     * @return true if should serialize unescaped
      */
     public boolean isNonEscapingElement( String tagName )
     {
@@ -724,10 +743,10 @@ public class OutputFormat
 
 
     /**
-     * Sets the list of elements for which text node children
+     * Sets the array of elements for which text node children
      * should be output unescaped (no character references).
      *
-     * @param nonEscapingElements List of unescaped element tag names
+     * @param nonEscapingElements array of unescaped element tag names
      */
     public void setNonEscapingElements( String[] nonEscapingElements )
     {
@@ -741,7 +760,7 @@ public class OutputFormat
      * Web line separator (<code>\n</code>). A string is returned to
      * support double codes (CR + LF).
      *
-     * @return The specified line separator
+     * @return the specified line separator
      */
     public String getLineSeparator()
     {
@@ -773,6 +792,8 @@ public class OutputFormat
      * or specify the default behavior will be formatted based on
      * this rule. All elements that specify space preserving will
      * always preserve space.
+     *
+     * @return true if the default behavior for this format is to preserve spaces
      */
     public boolean getPreserveSpace()
     {
@@ -798,6 +819,8 @@ public class OutputFormat
      * When indenting, and only when indenting, long lines will be
      * broken at space boundaries based on this line width.
      * No line wrapping occurs if this value is zero.
+     *
+     * @return the selected line width for breaking up long lines
      */
     public int getLineWidth()
     {
@@ -837,6 +860,8 @@ public class OutputFormat
      * Returns the last printable character based on the selected
      * encoding. Control characters and non-printable characters
      * are always printed as character references.
+     *
+     * @return the last printable character based on the selected encoding
      */
     public char getLastPrintable()
     {
@@ -907,6 +932,8 @@ public class OutputFormat
     /**
      * Returns the document type public identifier
      * specified for this document, or null.
+     *
+     * @return the document type public identifier specified for this document, or null
      */
     public static String whichDoctypePublic( Document doc )
     {
@@ -931,6 +958,9 @@ public class OutputFormat
     /**
      * Returns the document type system identifier
      * specified for this document, or null.
+     *
+     * @param doc the document to check
+     * @return the document type system identifier specified for this document, or null
      */
     public static String whichDoctypeSystem( Document doc )
     {
@@ -955,6 +985,18 @@ public class OutputFormat
     /**
      * Returns the suitable media format for a document
      * output with the specified method.
+     *
+     * <p>Supported methods are:</p>
+     * <ul>
+     *     <li>xml</li>
+     *     <li>html</li>
+     *     <li>xhtml</li>
+     *     <li>test</li>
+     *     <li>fop</li>
+     * </ul>
+     *
+     * @param method for which a media type is required
+     * @return the suitable media format for a document, or null
      */
     public static String whichMediaType( String method )
     {

@@ -21,10 +21,9 @@ import java.util.Random;
 
 /**
  * Fills an array with a random sequence of prime numbers.
- * 
- * @xerces.internal
- * 
+ *
  * @version $Id$
+ * @xerces.internal
  */
 final class PrimeNumberSequenceGenerator {
     

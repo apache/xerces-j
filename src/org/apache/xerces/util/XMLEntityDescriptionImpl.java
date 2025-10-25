@@ -24,7 +24,6 @@ import org.apache.xerces.impl.XMLEntityDescription;
  * interface which describes the properties of an entity.</p>
  *
  * @author Michael Glavassevich, IBM
- * 
  * @version $Id$
  */
 public class XMLEntityDescriptionImpl 
@@ -41,11 +40,11 @@ public class XMLEntityDescriptionImpl
     /**
      * Constructs an entity description.
      *
-     * @param entityName The name of the entity.
-     * @param publicId The public identifier.
-     * @param literalSystemId The literal system identifier.
-     * @param baseSystemId The base system identifier.
-     * @param expandedSystemId The expanded system identifier.
+     * @param entityName the name of the entity
+     * @param publicId the public identifier
+     * @param literalSystemId the literal system identifier
+     * @param baseSystemId the base system identifier
+     * @param expandedSystemId the expanded system identifier
      */
     public XMLEntityDescriptionImpl(String entityName, String publicId, String literalSystemId, 
                                     String baseSystemId, String expandedSystemId) {
@@ -55,12 +54,12 @@ public class XMLEntityDescriptionImpl
     /**
      * Constructs a resource identifier.
      *
-     * @param entityName The name of the entity.
-     * @param publicId The public identifier.
-     * @param literalSystemId The literal system identifier.
-     * @param baseSystemId The base system identifier.
-     * @param expandedSystemId The expanded system identifier.
-     * @param namespace The namespace.
+     * @param entityName the name of the entity
+     * @param publicId the public identifier
+     * @param literalSystemId the literal system identifier
+     * @param baseSystemId the base system identifier
+     * @param expandedSystemId the expanded system identifier
+     * @param namespace the namespace
      */
     public XMLEntityDescriptionImpl(String entityName, String publicId, String literalSystemId,
                                     String baseSystemId, String expandedSystemId, String namespace) {
@@ -78,47 +77,47 @@ public class XMLEntityDescriptionImpl
     // Public methods
     //
     
-    /** 
+    /**
      * Sets the name of the entity.
-     * 
+     *
      * @param name the name of the entity
      */
     public void setEntityName(String name) {
         fEntityName = name;
     } // setEntityName(String)
 
-    /** 
-     * Returns the name of the entity. 
+    /**
+     * Returns the name of the entity.
      *
-     * @return the name of the entity 
+     * @return the name of the entity
      */
     public String getEntityName() {
         return fEntityName;
     } // getEntityName():String
     
-    /** 
+    /**
      * <p>Sets the values of this entity description.</p>
-     * 
-     * @param entityName The name of the entity.
-     * @param publicId The public identifier.
-     * @param literalSystemId The literal system identifier.
-     * @param baseSystemId The base system identifier.
-     * @param expandedSystemId The expanded system identifier.
+     *
+     * @param entityName the name of the entity
+     * @param publicId the public identifier
+     * @param literalSystemId the literal system identifier
+     * @param baseSystemId the base system identifier
+     * @param expandedSystemId the expanded system identifier
      */
     public void setDescription(String entityName, String publicId, String literalSystemId,
                                String baseSystemId, String expandedSystemId) {
         setDescription(entityName, publicId, literalSystemId, baseSystemId, expandedSystemId, null);
     } // setDescription(String,String,String,String,String)
 
-    /** 
+    /**
      * <p>Sets the values of this entity description.</p>
-     * 
-     * @param entityName The name of the entity.
-     * @param publicId The public identifier.
-     * @param literalSystemId The literal system identifier.
-     * @param baseSystemId The base system identifier.
-     * @param expandedSystemId The expanded system identifier.
-     * @param namespace The namespace.
+     *
+     * @param entityName the name of the entity
+     * @param publicId the public identifier
+     * @param literalSystemId the literal system identifier
+     * @param baseSystemId the base system identifier
+     * @param expandedSystemId the expanded system identifier
+     * @param namespace the namespace
      */
     public void setDescription(String entityName, String publicId, String literalSystemId,
                                String baseSystemId, String expandedSystemId, String namespace) {
@@ -126,7 +125,7 @@ public class XMLEntityDescriptionImpl
         setValues(publicId, literalSystemId, baseSystemId, expandedSystemId, namespace);
     } // setDescription(String,String,String,String,String,String)
 
-    /** 
+    /**
      * <p>Clears the values.</p>
      */
     public void clear() {

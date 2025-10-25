@@ -22,7 +22,7 @@ package org.apache.xerces.util;
  * to Object mapping.
  * <p>
  * The hash code uses the same algorithm as SymbolTable class.
- * 
+ *
  * @author Elena Litani
  * @version $Id$
  */
@@ -45,7 +45,7 @@ public class SymbolHash {
     // Data
     //
     
-    /** Actual table size **/
+    /** Actual table size. */
     protected int fTableSize;
 
     /** Buckets. */
@@ -71,8 +71,8 @@ public class SymbolHash {
 
     /**
      * Constructs a key table with a given size.
-     * 
-     * @param size  the size of the key table.
+     *
+     * @param size the size of the key table
      */
     public SymbolHash(int size) {
         fTableSize = size;
@@ -87,9 +87,9 @@ public class SymbolHash {
      * Adds the key/value mapping to the key table. If the key already exists, 
      * the previous value associated with this key is overwritten by the new
      * value.
-     * 
+     *
      * @param key
-     * @param value 
+     * @param value
      */
     public void put(Object key, Object value) {
         
@@ -127,9 +127,9 @@ public class SymbolHash {
 
     /**
      * Get the value associated with the given key.
-     * 
+     *
      * @param key
-     * @return the value associated with the given key.
+     * @return the value associated with the given key
      */
     public Object get(Object key) {
         int bucket = hash(key) % fTableSize;
@@ -142,8 +142,8 @@ public class SymbolHash {
 
     /**
      * Get the number of key/value pairs stored in this table.
-     * 
-     * @return the number of key/value pairs stored in this table.
+     *
+     * @return the number of key/value pairs stored in this table
      */
     public int getLength() {
         return fNum;
@@ -151,10 +151,10 @@ public class SymbolHash {
     
     /**
      * Add all values to the given array. The array must have enough entry.
-     * 
+     *
      * @param elements  the array to store the elements
      * @param from      where to start store element in the array
-     * @return          number of elements copied to the array
+     * @return  number of elements copied to the array
      */
     public int getValues(Object[] elements, int from) {
         for (int i=0, j=0; i<fTableSize && j<fNum; i++) {
@@ -167,7 +167,7 @@ public class SymbolHash {
     }
 
     /**
-     * Return key/value pairs of all entries in the map
+     * Return key/value pairs of all entries in the map.
      */
     public Object[] getEntries() {
         Object[] entries = new Object[fNum << 1];
@@ -220,7 +220,7 @@ public class SymbolHash {
     /**
      * Returns a hashcode value for the specified key.
      *
-     * @param key The key to hash.
+     * @param key the key to hash
      */
     protected int hash(Object key) {
         if (fHashMultipliers == null || !(key instanceof String)) {
@@ -323,4 +323,3 @@ public class SymbolHash {
     } // entry
 
 } // class SymbolHash
-

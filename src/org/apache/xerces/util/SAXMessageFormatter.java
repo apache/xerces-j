@@ -23,9 +23,8 @@ import java.util.ResourceBundle;
 
 /**
  * Used to format SAX error messages using a specified locale.
- * 
+ *
  * @author Michael Glavassevich, IBM
- * 
  * @version $Id$
  */
 public class SAXMessageFormatter {
@@ -33,17 +32,15 @@ public class SAXMessageFormatter {
     /**
      * Formats a message with the specified arguments using the given
      * locale information.
-     * 
-     * @param locale    The locale of the message.
-     * @param key       The message key.
-     * @param arguments The message replacement text arguments. The order
+     *
+     * @param locale    the locale of the message
+     * @param key       the message key
+     * @param arguments the message replacement text arguments. The order
      *                  of the arguments must match that of the placeholders
      *                  in the actual message.
-     * 
-     * @return          the formatted message.
-     *
-     * @throws MissingResourceException Thrown if the message with the
-     *                                  specified key cannot be found.
+     * @return the formatted message
+     * @throws MissingResourceException thrown if the message with the
+     *                                  specified key cannot be found
      */
     public static String formatMessage(Locale locale, 
         String key, Object[] arguments)

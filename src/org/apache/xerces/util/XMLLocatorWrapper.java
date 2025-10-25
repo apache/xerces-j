@@ -21,9 +21,8 @@ import org.apache.xerces.xni.XMLLocator;
 
 /**
  * <p>A light wrapper around an <code>XMLLocator</code>.</p>
- * 
+ *
  * @author Michael Glavassevich, IBM
- * 
  * @version $Id$
  */
 public final class XMLLocatorWrapper implements XMLLocator {

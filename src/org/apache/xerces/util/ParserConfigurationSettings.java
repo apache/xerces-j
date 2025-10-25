@@ -36,7 +36,6 @@ import org.apache.xerces.xni.parser.XMLConfigurationException;
  * parser configuration settings to be "chained" together.
  *
  * @author Andy Clark, IBM
- *
  * @version $Id$
  */
 public class ParserConfigurationSettings
@@ -102,8 +101,8 @@ public class ParserConfigurationSettings
      * Allows a parser to add parser specific features to be recognized
      * and managed by the parser configuration.
      *
-     * @param featureIds An array of the additional feature identifiers 
-     *                   to be recognized.
+     * @param featureIds an array of the additional feature identifiers 
+     *                   to be recognized
      */
     public void addRecognizedFeatures(String[] featureIds) {
 
@@ -125,11 +124,10 @@ public class ParserConfigurationSettings
      * might not recognize the feature, and if it does recognize
      * it, it might not be able to fulfill the request.
      *
-     * @param featureId The unique identifier (URI) of the feature.
-     * @param state The requested state of the feature (true or false).
-     *
-     * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
-     *            requested feature is not known.
+     * @param featureId the unique identifier (URI) of the feature
+     * @param state the requested state of the feature (true or false)
+     * @throws org.apache.xerces.xni.parser.XMLConfigurationException if the
+     *            requested feature is not known
      */
     public void setFeature(String featureId, boolean state)
         throws XMLConfigurationException {
@@ -144,8 +142,8 @@ public class ParserConfigurationSettings
      * Allows a parser to add parser specific properties to be recognized
      * and managed by the parser configuration.
      *
-     * @param propertyIds An array of the additional property identifiers 
-     *                    to be recognized.
+     * @param propertyIds an array of the additional property identifiers 
+     *                    to be recognized
      */
     public void addRecognizedProperties(String[] propertyIds) {
 
@@ -161,12 +159,12 @@ public class ParserConfigurationSettings
     } // addRecognizedProperties(String[])
 
     /**
-     * setProperty
-     * 
-     * @param propertyId 
-     * @param value 
-     * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
-     *            requested feature is not known.
+     * SetProperty.
+     *
+     * @param propertyId
+     * @param value
+     * @throws org.apache.xerces.xni.parser.XMLConfigurationException if the
+     *            requested feature is not known
      */
     public void setProperty(String propertyId, Object value)
         throws XMLConfigurationException {
@@ -183,11 +181,10 @@ public class ParserConfigurationSettings
 
     /**
      * Returns the state of a feature.
-     * 
-     * @param featureId The feature identifier.
-		 * @return true if the feature is supported
-     * 
-     * @throws XMLConfigurationException Thrown for configuration error.
+     *
+     * @param featureId the feature identifier
+     * @return true if the feature is supported
+     * @throws XMLConfigurationException thrown for configuration error.
      *                                   In general, components should
      *                                   only throw this exception if
      *                                   it is <strong>really</strong>
@@ -208,11 +205,10 @@ public class ParserConfigurationSettings
 
     /**
      * Returns the value of a property.
-     * 
-     * @param propertyId The property identifier.
-		 * @return the value of the property
-     * 
-     * @throws XMLConfigurationException Thrown for configuration error.
+     *
+     * @param propertyId the property identifier
+     * @return the value of the property
+     * @throws XMLConfigurationException thrown for configuration error.
      *                                   In general, components should
      *                                   only throw this exception if
      *                                   it is <strong>really</strong>
@@ -239,10 +235,9 @@ public class ParserConfigurationSettings
      * Check a feature. If feature is known and supported, this method simply
      * returns. Otherwise, the appropriate exception is thrown.
      *
-     * @param featureId The unique identifier (URI) of the feature.
-     *
-     * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
-     *            requested feature is not known.
+     * @param featureId the unique identifier (URI) of the feature
+     * @throws org.apache.xerces.xni.parser.XMLConfigurationException if the
+     *            requested feature is not known
      */
     protected void checkFeature(String featureId)
         throws XMLConfigurationException {
@@ -264,10 +259,10 @@ public class ParserConfigurationSettings
      * Check a property. If the property is known and supported, this method
      * simply returns. Otherwise, the appropriate exception is thrown.
      *
-     * @param propertyId The unique identifier (URI) of the property
-     *                   being set.
-     * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
-     *            requested feature is not known.
+     * @param propertyId the unique identifier (URI) of the property
+     *                   being set
+     * @throws org.apache.xerces.xni.parser.XMLConfigurationException if the
+     *            requested feature is not known
      */
     protected void checkProperty(String propertyId)
         throws XMLConfigurationException {

@@ -27,7 +27,6 @@ import org.apache.xerces.xni.parser.XMLParseException;
  * Default error handler.
  *
  * @author Andy Clark, IBM
- *
  * @version $Id$
  */
 public class DefaultErrorHandler
@@ -44,17 +43,17 @@ public class DefaultErrorHandler
     // Constructors
     //
 
-    /** 
+    /**
      * Constructs an error handler that prints error messages to 
-     * <code>System.err</code>. 
+     * <code>System.err</code>.
      */
     public DefaultErrorHandler() {
         this(new PrintWriter(System.err));
     } // <init>()
 
-    /** 
+    /**
      * Constructs an error handler that prints error messages to the
-     * specified <code>PrintWriter</code>. 
+     * specified <code>PrintWriter</code>.
      */
     public DefaultErrorHandler(PrintWriter out) {
         fOut = out;

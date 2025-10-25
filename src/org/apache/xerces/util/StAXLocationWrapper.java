@@ -24,9 +24,8 @@ import org.apache.xerces.xni.XMLLocator;
 /**
  * <p>A light wrapper around a StAX location. This is useful
  * when bridging between StAX and XNI components.</p>
- * 
+ *
  * @author Michael Glavassevich, IBM
- * 
  * @version $Id$
  */
 public final class StAXLocationWrapper implements XMLLocator {

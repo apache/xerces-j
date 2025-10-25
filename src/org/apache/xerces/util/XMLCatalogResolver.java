@@ -48,37 +48,36 @@ import org.xml.sax.ext.EntityResolver2;
  * as a SAX entity resolver, as a DOM LSResourceResolver or 
  * as an XNI entity resolver by setting the property
  * (http://apache.org/xml/properties/internal/entity-resolver).</p>
- * 
+ *
  * <p>It is intended that this class may be used standalone to perform 
  * catalog resolution outside of a parsing context. It may be shared
  * between several parsers and the application.</p>
  *
  * @author Michael Glavassevich, IBM
- *
  * @version $Id$
  */
 public class XMLCatalogResolver 
     implements XMLEntityResolver, EntityResolver2, LSResourceResolver {
     
-    /** Internal catalog manager for Apache catalogs. **/
+    /** Internal catalog manager for Apache catalogs. */
     private CatalogManager fResolverCatalogManager = null;
     
-    /** Internal catalog structure. **/
+    /** Internal catalog structure. */
     private Catalog fCatalog = null;
 	
-    /** An array of catalog URIs. **/
+    /** An array of catalog URIs. */
     private String [] fCatalogsList = null;
 
-    /** 
+    /**
      * Indicates whether the list of catalogs has
      * changed since it was processed.
      */
     private boolean fCatalogsChanged = true;
     
-    /** Application specified prefer public setting. **/
+    /** Application specified prefer public setting. */
     private boolean fPreferPublic = true;
     
-    /** 
+    /**
      * Indicates whether the application desires that 
      * the parser or some other component performing catalog
      * resolution should use the literal system identifier
@@ -96,7 +95,7 @@ public class XMLCatalogResolver
     /**
      * <p>Constructs a catalog resolver with the given
      * list of entry files.</p>
-     * 
+     *
      * @param catalogs an ordered array list of absolute URIs
      */
     public XMLCatalogResolver (String [] catalogs) {
@@ -107,7 +106,7 @@ public class XMLCatalogResolver
      * <p>Constructs a catalog resolver with the given
      * list of entry files and the preference for whether
      * system or public matches are preferred.</p>
-     * 
+     *
      * @param catalogs an ordered array list of absolute URIs
      * @param preferPublic the prefer public setting
      */
@@ -117,7 +116,7 @@ public class XMLCatalogResolver
     
     /**
      * <p>Returns the initial list of catalog entry files.</p>
-     * 
+     *
      * @return the initial list of catalog entry files
      */
     public final synchronized String [] getCatalogList () {
@@ -131,8 +130,8 @@ public class XMLCatalogResolver
      * the previous list they will be replaced by catalog 
      * mappings from the new list the next time the catalog
      * is queried.</p>
-     * 
-     * @param catalogs an ordered array list of absolute URIs 
+     *
+     * @param catalogs an ordered array list of absolute URIs
      */
     public final synchronized void setCatalogList (String [] catalogs) {
         fCatalogsChanged = true;
@@ -154,7 +153,7 @@ public class XMLCatalogResolver
      * on the <code>catalog</code> entry of a catalog. If this
      * property has not yet been explicitly set its value is
      * <code>true</code>.</p>
-     * 
+     *
      * @return the prefer public setting
      */
     public final boolean getPreferPublic () {
@@ -166,7 +165,7 @@ public class XMLCatalogResolver
      * matches are preferred. This is used in the absence
      * of any occurrence of the <code>prefer</code> attribute
      * on the <code>catalog</code> entry of a catalog.</p>
-     * 
+     *
      * @param preferPublic the prefer public setting
      */
     public final void setPreferPublic (boolean preferPublic) {
@@ -180,10 +179,9 @@ public class XMLCatalogResolver
      * identifiers when both it and the expanded system 
      * identifier are available. If this property has not yet 
      * been explicitly set its value is <code>true</code>.</p>
-     * 
+     *
      * @return the preference for using literal system identifiers
      * for catalog resolution
-     * 
      * @see #setUseLiteralSystemId
      */
     public final boolean getUseLiteralSystemId () {
@@ -195,18 +193,18 @@ public class XMLCatalogResolver
      * identifier should be used when resolving system 
      * identifiers when both it and the expanded system 
      * identifier are available.</p>
-     * 
+     *
      * <p>The literal system identifier is the URI as it was
      * provided before absolutization. It may be embedded within 
      * an entity. It may be provided externally or it may be the 
      * result of redirection. For example, redirection may 
      * have come from the protocol level through HTTP or from 
      * an application's entity resolver.</p>
-     * 
+     *
      * <p>The expanded system identifier is an absolute URI 
      * which is the result of resolving the literal system 
      * identifier against a base URI.</p>
-     * 
+     *
      * @param useLiteralSystemId the preference for using 
      * literal system identifiers for catalog resolution
      */
@@ -220,12 +218,11 @@ public class XMLCatalogResolver
      * method returns an input source if an entry was found in the
      * catalog for the given external identifier. It should be
      * overridden if other behaviour is required.</p>
-     * 
+     *
      * @param publicId the public identifier, or <code>null</code> if none was supplied
      * @param systemId the system identifier
-     * 
-     * @throws SAXException any SAX exception, possibly wrapping another exception
      * @throws IOException thrown if some i/o error occurs
+     * @throws SAXException any SAX exception, possibly wrapping another exception
      */
     public InputSource resolveEntity(String publicId, String systemId)
     	 throws SAXException, IOException {
@@ -252,14 +249,13 @@ public class XMLCatalogResolver
       * method returns an input source if an entry was found in the
       * catalog for the given external identifier. It should be
       * overridden if other behaviour is required.</p>
-      * 
-      * @param name the identifier of the external entity 
+      *
+      * @param name the identifier of the external entity
       * @param publicId the public identifier, or <code>null</code> if none was supplied
-      * @param baseURI the URI with respect to which relative systemIDs are interpreted.
+      * @param baseURI the URI with respect to which relative systemIDs are interpreted
       * @param systemId the system identifier
-      * 
-      * @throws SAXException any SAX exception, possibly wrapping another exception
       * @throws IOException thrown if some i/o error occurs
+      * @throws SAXException any SAX exception, possibly wrapping another exception
       */
      public InputSource resolveEntity(String name, String publicId, 
          String baseURI, String systemId) throws SAXException, IOException { 
@@ -295,24 +291,23 @@ public class XMLCatalogResolver
       * <p>Locates an external subset for documents which do not explicitly
       * provide one. This method always returns <code>null</code>. It
       * should be overrided if other behaviour is required.</p>
-      * 
-      * @param name the identifier of the document root element 
+      *
+      * @param name the identifier of the document root element
       * @param baseURI the document's base URI
-      * 
-      * @throws SAXException any SAX exception, possibly wrapping another exception
       * @throws IOException thrown if some i/o error occurs
+      * @throws SAXException any SAX exception, possibly wrapping another exception
       */
      public InputSource getExternalSubset(String name, String baseURI)
          throws SAXException, IOException {
          return null;
      }
 
-    /** 
+    /**
      * <p>Resolves a resource using the catalog. This method interprets that 
      * the namespace URI corresponds to uri entries in the catalog.
      * Where both a namespace and an external identifier exist, the namespace
      * takes precedence.</p>
-     * 
+     *
      * @param type the type of the resource being resolved
      * @param namespaceURI the namespace of the resource being resolved, 
      * or <code>null</code> if none was supplied
@@ -378,9 +373,8 @@ public class XMLCatalogResolver
      * should be overridden if other behaviour is required.</p>
      *
      * @param resourceIdentifier location of the XML resource to resolve
-     *
+     * @throws IOException thrown if some i/o error occurs
      * @throws XNIException thrown on general error
-     * @throws IOException thrown if some i/o error occurs 
      */
     public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier)
         throws XNIException, IOException {
@@ -394,16 +388,15 @@ public class XMLCatalogResolver
         return null;
     }
 	
-    /** 
+    /**
      * <p>Resolves an identifier using the catalog. This method interprets that 
      * the namespace of the identifier corresponds to uri entries in the catalog.
      * Where both a namespace and an external identifier exist, the namespace
      * takes precedence.</p>
-     * 
+     *
      * @param resourceIdentifier the identifier to resolve
-     * 
-     * @throws XNIException thrown on general error
      * @throws IOException thrown if some i/o error occurs
+     * @throws XNIException thrown on general error
      */
     public String resolveIdentifier(XMLResourceIdentifier resourceIdentifier)
         throws IOException, XNIException {
@@ -445,12 +438,10 @@ public class XMLCatalogResolver
      * <code>publicid</code> namespace it is converted into
      * a public identifier by URN "unwrapping" as specified
      * in the XML Catalogs specification.</p>
-     * 
+     *
      * @param systemId the system identifier to locate in the catalog
-     * 
      * @return the mapped URI or <code>null</code> if no mapping
      * was found in the catalog
-     * 
      * @throws IOException if an i/o error occurred while reading
      * the catalog
      */
@@ -470,13 +461,11 @@ public class XMLCatalogResolver
      * external identifier or <code>null</code> if no mapping
      * exists. Public identifiers are normalized before
      * comparison.</p>
-     * 
+     *
      * @param publicId the public identifier to locate in the catalog
      * @param systemId the system identifier to locate in the catalog
-     * 
      * @return the mapped URI or <code>null</code> if no mapping
      * was found in the catalog
-     * 
      * @throws IOException if an i/o error occurred while reading
      * the catalog
      */
@@ -500,12 +489,10 @@ public class XMLCatalogResolver
      * as specified in the XML Catalogs specification and then
      * resolution is performed following the semantics of 
      * external identifier resolution.</p>
-     * 
+     *
      * @param uri the URI to locate in the catalog
-     * 
      * @return the mapped URI or <code>null</code> if no mapping
      * was found in the catalog
-     * 
      * @throws IOException if an i/o error occurred while reading
      * the catalog
      */

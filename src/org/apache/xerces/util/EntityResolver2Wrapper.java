@@ -33,9 +33,8 @@ import org.xml.sax.ext.EntityResolver2;
 
 /**
  * <p>This class wraps a SAX entity resolver (EntityResolver2) in an XNI entity resolver.</p>
- * 
+ *
  * @author Michael Glavassevich, IBM
- * 
  * @version $Id$
  */
 public class EntityResolver2Wrapper 
@@ -57,7 +56,7 @@ public class EntityResolver2Wrapper
 
     /**
      * <p>Creates a new instance wrapping the given SAX entity resolver.</p>
-     * 
+     *
      * @param entityResolver the SAX entity resolver to wrap
      */
     public EntityResolver2Wrapper(EntityResolver2 entityResolver) {
@@ -70,7 +69,7 @@ public class EntityResolver2Wrapper
 
     /**
      * <p>Sets the SAX entity resolver wrapped by this object.</p>
-     * 
+     *
      * @param entityResolver the SAX entity resolver to wrap
      */
     public void setEntityResolver(EntityResolver2 entityResolver) {
@@ -79,7 +78,7 @@ public class EntityResolver2Wrapper
 
     /**
      * <p>Returns the SAX entity resolver wrapped by this object.</p>
-     * 
+     *
      * @return the SAX entity resolver wrapped by this object
      */
     public EntityResolver2 getEntityResolver() {
@@ -96,10 +95,9 @@ public class EntityResolver2Wrapper
      * return <code>null</code>.</p>
      *
      * @param grammarDescription a description of the DTD
-     *
-     * @throws XNIException Thrown on general error.
-     * @throws IOException  Thrown if resolved entity stream cannot be
-     *                      opened or some other i/o error occurs.
+     * @throws IOException  thrown if resolved entity stream cannot be
+     *                      opened or some other i/o error occurs
+     * @throws XNIException thrown on general error
      */
     public XMLInputSource getExternalSubset(XMLDTDDescription grammarDescription)
             throws XNIException, IOException {
@@ -138,10 +136,9 @@ public class EntityResolver2Wrapper
      * resolved, this method should return null.
      *
      * @param resourceIdentifier contains the physical co-ordinates of the resource to be resolved
-     *
-     * @throws XNIException Thrown on general error.
-     * @throws IOException  Thrown if resolved entity stream cannot be
-     *                      opened or some other i/o error occurs.
+     * @throws IOException  thrown if resolved entity stream cannot be
+     *                      opened or some other i/o error occurs
+     * @throws XNIException thrown on general error
      */
     public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier)
             throws XNIException, IOException {

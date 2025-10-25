@@ -24,9 +24,8 @@ import org.xml.sax.ext.Locator2;
 /**
  * <p>A light wrapper around a SAX locator. This is useful
  * when bridging between SAX and XNI components.</p>
- * 
+ *
  * @author Michael Glavassevich, IBM
- * 
  * @version $Id$
  */
 public final class SAXLocatorWrapper implements XMLLocator {

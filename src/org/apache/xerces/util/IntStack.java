@@ -22,8 +22,8 @@ package org.apache.xerces.util;
  *
  * moved to org.apache.xerces.util by neilg to support the
  * XPathMatcher.
- * @author  Andy Clark, IBM
  *
+ * @author  Andy Clark, IBM
  * @version $Id$
  */
 public final class IntStack {

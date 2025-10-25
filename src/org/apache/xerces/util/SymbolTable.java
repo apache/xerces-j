@@ -73,13 +73,11 @@ package org.apache.xerces.util;
  * entries to be inserted more efficiently than letting it perform 
  * automatic rehashing as needed to grow the table.
  * </p>
-
- * @see SymbolHash
  *
  * @author Andy Clark
  * @author John Kim, IBM
- *
  * @version $Id$
+ * @see SymbolHash
  */
 public class SymbolTable {
 
@@ -103,14 +101,16 @@ public class SymbolTable {
     /** Buckets. */
     protected Entry[] fBuckets = null;
 
-    /** actual table size **/
+    /** Actual table size. */
     protected int fTableSize;
 
     /** The total number of entries in the hash table. */
     protected transient int fCount;
 
-    /** The table is rehashed when its size exceeds this threshold.  (The
-     * value of this field is (int)(capacity * loadFactor).) */
+    /**
+     * The table is rehashed when its size exceeds this threshold.  (The
+     * value of this field is (int)(capacity * loadFactor).)
+     */
     protected int fThreshold;
 							 
     /** The load factor for the SymbolTable. */
@@ -136,10 +136,10 @@ public class SymbolTable {
      * Constructs a new, empty SymbolTable with the specified initial 
      * capacity and the specified load factor.
      *
-     * @param      initialCapacity   the initial capacity of the SymbolTable.
-     * @param      loadFactor        the load factor of the SymbolTable.
-     * @throws     IllegalArgumentException  if the initial capacity is less
-     *             than zero, or if the load factor is nonpositive.
+     * @param     initialCapacity   the initial capacity of the SymbolTable
+     * @param     loadFactor        the load factor of the SymbolTable
+     * @throws    IllegalArgumentException  if the initial capacity is less
+     *             than zero, or if the load factor is nonpositive
      */
     public SymbolTable(int initialCapacity, float loadFactor) {
         
@@ -167,9 +167,9 @@ public class SymbolTable {
      * Constructs a new, empty SymbolTable with the specified initial capacity
      * and default load factor, which is <code>0.75</code>.
      *
-     * @param     initialCapacity   the initial capacity of the hashtable.
-     * @throws    IllegalArgumentException if the initial capacity is less
-     *            than zero.
+     * @param    initialCapacity   the initial capacity of the hashtable
+     * @throws   IllegalArgumentException if the initial capacity is less
+     *            than zero
      */
     public SymbolTable(int initialCapacity) {
         this(initialCapacity, 0.75f);
@@ -193,7 +193,7 @@ public class SymbolTable {
      * the previous symbol reference is returned instead, in order
      * guarantee that symbol references remain unique.
      *
-     * @param symbol The new symbol.
+     * @param symbol the new symbol
      */
     public String addSymbol(String symbol) {
         
@@ -238,9 +238,9 @@ public class SymbolTable {
      * the previous symbol reference is returned instead, in order
      * guarantee that symbol references remain unique.
      *
-     * @param buffer The buffer containing the new symbol.
-     * @param offset The offset into the buffer of the new symbol.
-     * @param length The length of the new symbol in the buffer.
+     * @param buffer the buffer containing the new symbol
+     * @param offset the offset into the buffer of the new symbol
+     * @param length the length of the new symbol in the buffer
      */
     public String addSymbol(char[] buffer, int offset, int length) {
         
@@ -291,7 +291,7 @@ public class SymbolTable {
      * by the <code>hash(char[],int,int)</code> method when called
      * with the character array that comprises the symbol string.
      *
-     * @param symbol The symbol to hash.
+     * @param symbol the symbol to hash
      */
     public int hash(String symbol) {
         if (fHashMultipliers == null) {
@@ -316,10 +316,10 @@ public class SymbolTable {
      * returned by the <code>hash(String)</code> method when called
      * with the string object created from the symbol information.
      *
-     * @param buffer The character buffer containing the symbol.
-     * @param offset The offset into the character buffer of the start
-     *               of the symbol.
-     * @param length The length of the symbol.
+     * @param buffer the character buffer containing the symbol
+     * @param offset the offset into the character buffer of the start
+     *               of the symbol
+     * @param length the length of the symbol
      */
     public int hash(char[] buffer, int offset, int length) {
         if (fHashMultipliers == null) {
@@ -347,7 +347,7 @@ public class SymbolTable {
      * SymbolTable, in order to accommodate and access its entries more 
      * efficiently.  This method is called automatically when the 
      * number of keys in the SymbolTable exceeds this hashtable's capacity 
-     * and load factor. 
+     * and load factor.
      */
     protected void rehash() {
         rehashCommon(fBuckets.length * 2 + 1);
@@ -394,7 +394,7 @@ public class SymbolTable {
      * Returns true if the symbol table already contains the specified
      * symbol.
      *
-     * @param symbol The symbol to look for.
+     * @param symbol the symbol to look for
      */
     public boolean containsSymbol(String symbol) {
 
@@ -420,9 +420,9 @@ public class SymbolTable {
      * Returns true if the symbol table already contains the specified
      * symbol.
      *
-     * @param buffer The buffer containing the symbol to look for.
-     * @param offset The offset into the buffer.
-     * @param length The length of the symbol in the buffer.
+     * @param buffer the buffer containing the symbol to look for
+     * @param offset the offset into the buffer
+     * @param length the length of the symbol in the buffer
      */
     public boolean containsSymbol(char[] buffer, int offset, int length) {
 

@@ -32,7 +32,6 @@ package org.apache.xerces.util;
  * setters so that those values can be tailored by applications that care.
  *
  * @author  Neil Graham, IBM
- *
  * @version $Id$
  */
 public final class SecurityManager {
@@ -41,26 +40,26 @@ public final class SecurityManager {
     // Constants
     //
 
-    /** Default value for entity expansion limit. **/
+    /** Default value for entity expansion limit. */
     private final static int DEFAULT_ENTITY_EXPANSION_LIMIT = 100000;
     
-    /** Default value of number of nodes created. **/
+    /** Default value of number of nodes created. */
     private final static int DEFAULT_MAX_OCCUR_NODE_LIMIT = 3000;
 
     //
     // Data
     //
 
-    /** Entity expansion limit. **/
+    /** Entity expansion limit. */
     private int entityExpansionLimit;
     
-    /** W3C XML Schema maxOccurs limit. **/
+    /** W3C XML Schema maxOccurs limit. */
     private int maxOccurLimit;
 
     /**
      * Default constructor.  Establishes default values 
      * for known security vulnerabilities.
-     */  
+     */
     public SecurityManager() {
         entityExpansionLimit = DEFAULT_ENTITY_EXPANSION_LIMIT;
         maxOccurLimit = DEFAULT_MAX_OCCUR_NODE_LIMIT ;
@@ -109,10 +108,9 @@ public final class SecurityManager {
      *
      * @return the maximum value for maxOccurs other
      * than "unbounded"
-     */ 
+     */
     public int getMaxOccurNodeLimit(){
         return maxOccurLimit;    
     }
     
 } // class SecurityManager
-

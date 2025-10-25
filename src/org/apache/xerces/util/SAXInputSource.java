@@ -26,7 +26,7 @@ import org.xml.sax.XMLReader;
 
 /**
  * <p>An <code>XMLInputSource</code> analogue to <code>javax.xml.transform.sax.SAXSource</code>.</p>
- * 
+ *
  * @version $Id$
  */
 public final class SAXInputSource extends XMLInputSource {
@@ -84,10 +84,10 @@ public final class SAXInputSource extends XMLInputSource {
         return fInputSource;
     }
     
-    /** 
-     * Sets the public identifier. 
+    /**
+     * Sets the public identifier.
      *
-     * @param publicId The new public identifier.
+     * @param publicId the new public identifier
      */
     public void setPublicId(String publicId) {
         super.setPublicId(publicId);
@@ -97,10 +97,10 @@ public final class SAXInputSource extends XMLInputSource {
         fInputSource.setPublicId(publicId);
     } // setPublicId(String)
     
-    /** 
-     * Sets the system identifier. 
+    /**
+     * Sets the system identifier.
      *
-     * @param systemId The new system identifier.
+     * @param systemId the new system identifier
      */
     public void setSystemId(String systemId) {
         super.setSystemId(systemId);
@@ -117,7 +117,7 @@ public final class SAXInputSource extends XMLInputSource {
      * the encoding is auto-detected, then the encoding should also be
      * set on this object.
      *
-     * @param byteStream The new byte stream.
+     * @param byteStream the new byte stream
      */
     public void setByteStream(InputStream byteStream) {
         super.setByteStream(byteStream);
@@ -134,8 +134,7 @@ public final class SAXInputSource extends XMLInputSource {
      * Also, the encoding of the byte stream used by the reader should 
      * also be set on this object, if known.
      *
-     * @param charStream The new character stream.
-     *
+     * @param charStream the new character stream
      * @see #setEncoding
      */
     public void setCharacterStream(Reader charStream) {
@@ -149,7 +148,7 @@ public final class SAXInputSource extends XMLInputSource {
     /**
      * Sets the encoding of the stream.
      *
-     * @param encoding The new encoding.
+     * @param encoding the new encoding
      */
     public void setEncoding(String encoding) {
         super.setEncoding(encoding);

@@ -34,10 +34,9 @@ import org.w3c.dom.Node;
 /**
  * This class handles DOM errors .
  *
- * @see DOMErrorHandler
- *
- * @author Gopal Sharma, SUN Microsystems Inc.
+ * @author Gopal Sharma, SUN Microsystems Inc
  * @version $Id$
+ * @see DOMErrorHandler
  */
 
 // REVISIT: current implementations wraps error several times:
@@ -65,7 +64,7 @@ public class DOMErrorHandlerWrapper
     // @see DOMNormalizer.
     public Node fCurrentNode;
 
-    /** Error code for comparisons. **/
+    /** Error code for comparisons. */
     protected final XMLErrorCode fErrorCode = new XMLErrorCode(null, null);
     
     protected final DOMErrorImpl fDOMError = new DOMErrorImpl();
@@ -110,17 +109,16 @@ public class DOMErrorHandlerWrapper
      * Reports a warning. Warnings are non-fatal and can be safely ignored
      * by most applications.
      *
-     * @param domain    The domain of the warning. The domain can be any
+     * @param domain    the domain of the warning. The domain can be any
      *                  string but is suggested to be a valid URI. The
      *                  domain can be used to conveniently specify a web
      *                  site location of the relevent specification or
      *                  document pertaining to this warning.
-     * @param key       The warning key. This key can be any string and
+     * @param key       the warning key. This key can be any string and
      *                  is implementation dependent.
-     * @param exception Exception.
-     *
-     * @throws XNIException Thrown to signal that the parser should stop
-     *                      parsing the document.
+     * @param exception exception
+     * @throws XNIException thrown to signal that the parser should stop
+     *                      parsing the document
      */
 
     public void warning(String domain, String key, 
@@ -147,17 +145,16 @@ public class DOMErrorHandlerWrapper
      * Reports an error. Errors are non-fatal and usually signify that the
      * document is invalid with respect to its grammar(s).
      *
-     * @param domain    The domain of the error. The domain can be any
+     * @param domain    the domain of the error. The domain can be any
      *                  string but is suggested to be a valid URI. The
      *                  domain can be used to conveniently specify a web
      *                  site location of the relevent specification or
      *                  document pertaining to this error.
-     * @param key       The error key. This key can be any string and
+     * @param key       the error key. This key can be any string and
      *                  is implementation dependent.
-     * @param exception Exception.
-     *
-     * @throws XNIException Thrown to signal that the parser should stop
-     *                      parsing the document.
+     * @param exception exception
+     * @throws XNIException thrown to signal that the parser should stop
+     *                      parsing the document
      */
     public void error(String domain, String key, 
                       XMLParseException exception) throws XNIException {
@@ -191,17 +188,16 @@ public class DOMErrorHandlerWrapper
      * handler fails to throw an exception, the continuing operation of
      * the parser is undetermined.
      *
-     * @param domain    The domain of the fatal error. The domain can be 
+     * @param domain    the domain of the fatal error. The domain can be 
      *                  any string but is suggested to be a valid URI. The
      *                  domain can be used to conveniently specify a web
      *                  site location of the relevent specification or
      *                  document pertaining to this fatal error.
-     * @param key       The fatal error key. This key can be any string 
+     * @param key       the fatal error key. This key can be any string 
      *                  and is implementation dependent.
-     * @param exception Exception.
-     *
-     * @throws XNIException Thrown to signal that the parser should stop
-     *                      parsing the document.
+     * @param exception exception
+     * @throws XNIException thrown to signal that the parser should stop
+     *                      parsing the document
      */
     public void fatalError(String domain, String key, 
                            XMLParseException exception) throws XNIException {
@@ -283,7 +279,7 @@ public class DOMErrorHandlerWrapper
      */
     private static class DOMErrorTypeMap {
         
-        /** Map for converting internal error codes to DOM error types. **/
+        /** Map for converting internal error codes to DOM error types. */
         private static Hashtable fgDOMErrorTypeTable;
         
         static {

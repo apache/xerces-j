@@ -133,7 +133,7 @@ Authors:
     <echo message=" jars-schema11 --> 'jars' + XML Schema 1.1 support"/>
     <echo message=" xjavac-jar --> generates the xjavac.jar file"/>
     <echo message=" docs     --> generates the HTML documentation"/>
-    <echo message=" javadocs --> generates the API docs (needs Java 1.2 or higher)"/>
+    <echo message=" javadocs --> generates the API docs"/>
     <echo message=" samples  --> compiles the samples source code"/>
     <echo message=" compile  --> compiles the source code"/>
     <echo message=" deprecatedjar  --> generates the xerces.jar file"/>
@@ -525,7 +525,9 @@ Authors:
       windowtitle='XML Standard API' doctitle='XML Standard API'
       bottom='${copyright}'
       additionalparam='${additional.param}'
-      />
+    >
+        <arg value="-Xdoclint:none"/>
+    </javadoc>
     <mkdir dir='${build.dir}/docs/javadocs/xni'/>
     <javadoc packagenames='org.apache.xerces.xni.*'
       locale='en_US'
@@ -535,7 +537,9 @@ Authors:
       doctitle='Xerces Native Interface'
       bottom='${copyright}'
       additionalparam='${additional.param}'
-      />
+    >
+        <arg value="-Xdoclint:none"/>
+    </javadoc>
     <mkdir dir='${build.dir}/docs/javadocs/xs'/>
     <javadoc packagenames='org.apache.xerces.xs, org.apache.xerces.xs.datatypes'
       locale='en_US'
@@ -545,7 +549,9 @@ Authors:
       doctitle='XML Schema API'
       bottom='${copyright}'
       additionalparam='${additional.param}'
-      />
+    >
+        <arg value="-Xdoclint:none"/>
+    </javadoc>
     
     <mkdir dir='${build.dir}/docs/javadocs/xerces2'/>
     <javadoc packagenames='org.apache.xerces.dom.*,
@@ -564,7 +570,9 @@ Authors:
       doctitle='Xerces2 Implementation'
       bottom='${copyright}'
       additionalparam='${additional.param}'
-      />
+    >
+        <arg value="-Xdoclint:none"/>
+    </javadoc>
     <mkdir dir='${build.dir}/docs/javadocs/other'/>
     <javadoc packagenames='org.apache.html.*,
                            org.apache.wml.*,
@@ -575,7 +583,9 @@ Authors:
       windowtitle='Other Classes' doctitle='Other Classes'
       bottom='${copyright}'
       additionalparam='${additional.param}'
-      />
+    >
+        <arg value="-Xdoclint:none"/>
+    </javadoc>
   </target>
 
   <!-- =================================================================== -->
@@ -599,7 +609,6 @@ Authors:
                       **/v1/** **/v2/**"
         />
     </copy>
-
 
     <copy todir="${distsrc.dir}/data" >
         <fileset

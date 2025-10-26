@@ -41,7 +41,7 @@ public abstract class SerializerFactory {
      *     Multiple factories can be registered by using a delimiter between the values. Any of the following are supported:
      * </p>
      * <ul>
-     *     <li><i>(a single space)</i></li>
+     *     <li><i>a single space</i></li>
      *     <li><strong>;</strong> semicolon</li>
      *     <li><strong>,</strong> comma</li>
      *     <li><strong>:</strong> colon</li>
@@ -154,7 +154,7 @@ public abstract class SerializerFactory {
      * @param output an output byte stream that will be written to
      * @param format the output format to use
      * @return a new serializer for the given output format
-     * @throws UnsupportedEncodingException The specified encoding is not supported
+     * @throws UnsupportedEncodingException if the specified encoding is not supported
      */
     public abstract Serializer makeSerializer( OutputStream output,
                                                OutputFormat format )

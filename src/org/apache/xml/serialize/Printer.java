@@ -106,6 +106,7 @@ public class Printer
 
     /**
      * Create a new Printer instance with the desired char stream and output format.
+     *
      * @param writer an output char stream that will be written to
      * @param format the output format to use
      */
@@ -121,7 +122,7 @@ public class Printer
 
 
     /**
-     * If the serializer encountered an en exception it is held until the serializer finishes.
+     * If the serializer encountered an exception it is held until the serializer finishes.
      * <p>This allows the serializer to retrieve the exception after flushing, if one exists.</p>
      *
      * @return an IOException or null

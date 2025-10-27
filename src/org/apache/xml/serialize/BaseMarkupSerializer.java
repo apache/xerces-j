@@ -689,7 +689,7 @@ public abstract class BaseMarkupSerializer
     }
 
     /**
-     * Start serializing as CDATA section
+     * Start serializing as CDATA section.
      */
     public void startCDATA()
     {
@@ -697,7 +697,7 @@ public abstract class BaseMarkupSerializer
     }
 
     /**
-     * End serializing as CDATA section
+     * End serializing as CDATA section.
      */
     public void endCDATA()
     {
@@ -705,7 +705,7 @@ public abstract class BaseMarkupSerializer
     }
 
     /**
-     * Start serializing as raw characters
+     * Start serializing as raw characters.
      */
     public void startNonEscaping()
     {
@@ -713,7 +713,7 @@ public abstract class BaseMarkupSerializer
     }
 
     /**
-     * End serializing as raw characters
+     * End serializing as raw characters.
      */
     public void endNonEscaping()
     {
@@ -721,7 +721,7 @@ public abstract class BaseMarkupSerializer
     }
 
     /**
-     * Start preserving space
+     * Start preserving space.
      */
     public void startPreserving()
     {
@@ -729,7 +729,7 @@ public abstract class BaseMarkupSerializer
     }
 
     /**
-     * End preserving space
+     * End preserving space.
      */
     public void endPreserving()
     {
@@ -1389,7 +1389,7 @@ public abstract class BaseMarkupSerializer
     //---------------------------------------------//
 
     /**
-     * Prints the CDATA text to the underlying Printer
+     * Prints the CDATA text to the underlying Printer.
      *
      * @param text CDATA value to be printed
      * @throws IOException if an I/O error occurs

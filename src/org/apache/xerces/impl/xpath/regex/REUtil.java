@@ -95,6 +95,13 @@ public final class REUtil {
         return ret;
     }
 
+    /**
+     * Parses the regular expression options.
+     *
+     * @param opts a string of regular expression options consisted of "i" "m" "s" "u" "w" "," "X" or null
+     * @return an int equivalent the regular expression options
+     * @throws ParseException if regex is not conforming to the syntax
+     */
     static final int parseOptions(String opts) throws ParseException {
         if (opts == null)  return 0;
         int options = 0;
@@ -107,6 +114,12 @@ public final class REUtil {
         return options;
     }
 
+    /**
+     * Creates a string representation of regular expression options from an int.
+     *
+     * @param options an int value representation of regular expression options
+     * @return a string representation of regular expression options
+     */
     static final String createOptionString(int options) {
         StringBuffer sb = new StringBuffer(9);
         if ((options & RegularExpression.PROHIBIT_FIXED_STRING_OPTIMIZATION) != 0)

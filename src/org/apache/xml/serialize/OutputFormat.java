@@ -389,7 +389,7 @@ public class OutputFormat
     /**
      * Returns true if indentation was specified.
      *
-     * @return rue if indentation was specified
+     * @return true if indentation was specified
      */
     public boolean getIndenting()
     {
@@ -488,18 +488,18 @@ public class OutputFormat
     }
 
     /**
-     * Sets whether java encoding names are permitted.
+     * Sets whether Java encoding names are permitted.
      *
-     * @param allow set to true to permit java encoding names
+     * @param allow set to true to permit Java encoding names
      */
     public void setAllowJavaNames (boolean allow) {
         _allowJavaNames = allow;
     }
 
     /**
-     * Returns whether java encoding names are permitted.
+     * Returns whether Java encoding names are permitted.
      *
-     * @return whether java encoding names are permitted
+     * @return whether Java encoding names are permitted
      */
     public boolean setAllowJavaNames () {
         return _allowJavaNames;

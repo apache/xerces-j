@@ -1848,7 +1848,7 @@ public abstract class BaseMarkupSerializer
     }
 
     /**
-     * Should be used by subclasses of BaseMarkupSerializer when a fatal problem occurs.
+     * Should be called by subclasses of BaseMarkupSerializer when a fatal problem occurs.
      *
      * @param message the text to describe the problem
      * @throws IOException if no {@link DOMErrorHandler} is configured

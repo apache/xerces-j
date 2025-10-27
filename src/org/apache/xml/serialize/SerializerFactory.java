@@ -147,11 +147,10 @@ public abstract class SerializerFactory {
 
 
     /**
-     * Create a new serializer, based on the {@link OutputFormat} and
-     * using the output byte stream and the encoding specified in the
-     * output format.
+     * Create a new serializer, based on the {@link OutputFormat} and using the
+     * output stream and the encoding specified in the output format.
      *
-     * @param output an output byte stream that will be written to
+     * @param output an output stream that will be written to
      * @param format the output format to use
      * @return a new serializer for the given output format
      * @throws UnsupportedEncodingException if the specified encoding is not supported

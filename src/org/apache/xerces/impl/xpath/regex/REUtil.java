@@ -98,7 +98,7 @@ public final class REUtil {
     /**
      * Parses the regular expression options.
      *
-     * @param opts a string of regular expression options consisted of "i" "m" "s" "u" "w" "," "X" or null
+     * @param opts a string of regular expression options consisting of "i" "m" "s" "u" "w" "," "X" or null
      * @return an int equivalent the regular expression options
      * @throws ParseException if regex is not conforming to the syntax
      */

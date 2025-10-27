@@ -850,7 +850,7 @@ class RegexParser {
     /**
      * @param c char data
      * @return a {@link RangeToken}
-     * @throws ParseException if regex is not conforming to the syntax
+     * @throws ParseException if regex does not conform to the syntax
      */
     protected RangeToken processBacksolidus_pP(int c) throws ParseException {
 

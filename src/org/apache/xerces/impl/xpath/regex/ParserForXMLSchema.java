@@ -167,7 +167,7 @@ class ParserForXMLSchema extends RegexParser {
      *
      * @param useNrange ignored
      * @return a {@link RangeToken}, returns no NRANGE token
-     * @throws ParseException if regex is not conforming to the syntax
+     * @throws ParseException if regex does not conform to the syntax
      */
     protected RangeToken parseCharacterClass(boolean useNrange) throws ParseException {
         this.setContext(S_INBRACKETS);

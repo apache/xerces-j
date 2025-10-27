@@ -253,8 +253,8 @@ import org.apache.xerces.util.IntStack;
  *         </dd>
  *         <dt>Others:</dt>
  *         <dd><code>ALL</code> (Equivalent to <code>[\u0000-\v10FFFF]</code>)</dd>
- *         <dd><code>ASSGINED</code> (<code>\p{ASSIGNED}</code> is equivalent to <code>\P{Cn}</code>)</dd>
- *         <dd><code>UNASSGINED</code> (<code>\p{UNASSIGNED}</code> is equivalent to <code>\p{Cn}</code>)</dd>
+ *         <dd><code>ASSIGNED</code> (<code>\p{ASSIGNED}</code> is equivalent to <code>\P{Cn}</code>)</dd>
+ *         <dd><code>UNASSIGNED</code> (<code>\p{UNASSIGNED}</code> is equivalent to <code>\p{Cn}</code>)</dd>
  *       </dl>
  *
  *       <dt><code>\P{name}</code></dt>

@@ -168,10 +168,10 @@ import org.apache.xerces.util.IntStack;
  *       <dd>Negative character class. It matches a character not in ranges.</dd>
  *
  *       <dt><code>(?[ranges]op[ranges]op[ranges] ... )</code>
- *       (where <var>op</var> is <code>-</code>, <code>+</code> or <code>&</code>.)
+ *       (where <var>op</var> is <code>-</code>, <code>+</code> or <code>&amp;</code>.)
  *       </dt>
  *       <dd>Subtraction or union or intersection for character classes.
- *       <p>For example, <code>(?[A-Z]-[CF])</code> is equivalent to <code>[A-BD-EG-Z]</code>, and <code>(?[0x00-0x7f]-[K]&[\p{Lu}])</code> is equivalent to <code>[A-JL-Z]</code>.</p>
+ *       <p>For example, <code>(?[A-Z]-[CF])</code> is equivalent to <code>[A-BD-EG-Z]</code>, and <code>(?[0x00-0x7f]-[K]&amp;[\p{Lu}])</code> is equivalent to <code>[A-JL-Z]</code>.</p>
  *       <p>The result of this operation is a <u>positive character class</u>
  *           even if an expression includes any negative character classes.
  *           You have to take care of this in case-insensitive matching.
@@ -271,14 +271,15 @@ import org.apache.xerces.util.IntStack;
  *       <li><code>X{number}</code> matches <i>number</i> or more of X</li>
  *       <li><code>X{min,}</code> matches <i>min</i> or more of X</li>
  *       <li><code>X{min,max}</code> matches between <i>min</i> and <i>max</i> of X</li>
- *       <li>Non-greedy equivalent of above</li>
- *       <ul>
- *         <li><code>X*?</code> non-greedy</li>
- *         <li><code>X+?</code> non-greedy</li>
- *         <li><code>X??</code> non-greedy</li>
- *         <li><code>X{min,}?</code></li>
- *         <li><code>X{min,max}?</code></li>
- *       </ul>
+ *       <li>Non-greedy equivalent of above
+ *         <ul>
+ *           <li><code>X*?</code> non-greedy</li>
+ *           <li><code>X+?</code> non-greedy</li>
+ *           <li><code>X??</code> non-greedy</li>
+ *           <li><code>X{min,}?</code></li>
+ *           <li><code>X{min,max}?</code></li>
+ *         </ul>
+ *       </li>
  *     </ul>
  *   </li>
  *
@@ -295,9 +296,9 @@ import org.apache.xerces.util.IntStack;
  *       <pre>From: TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;</pre>
  *       <p>The result should be as followed:</p>
  *       <ul>
- *         <li><code>Match.getCapturedText(0)</code> : "<font color=red><code> TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;</code></font>"</li>
- *         <li><code>Match.getCapturedText(1)</code> : "<font color=red><code>TAMURA Kent</code></font>"</li>
- *         <li><code>Match.getCapturedText(2)</code> : "<font color=red><code>kent@trl.ibm.co.jp</code></font>"</li>
+ *         <li><code>Match.getCapturedText(0)</code> : "<code> TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;</code>"</li>
+ *         <li><code>Match.getCapturedText(1)</code> : "<code>TAMURA Kent</code>"</li>
+ *         <li><code>Match.getCapturedText(2)</code> : "<code>kent@trl.ibm.co.jp</code>"</li>
  *       </ul>
  *       </li>
  *       <li><code>\1 \2 \3 \4 \5 \6 \7 \8 \9</code></li>
@@ -377,7 +378,6 @@ import org.apache.xerces.util.IntStack;
  *
  * <h3>BNF grammar for the regular expression</h3>
  * <pre>
- * {@code
  * regex ::= ('(?' options ')')? term ('|' term)*
  * term ::= factor+
  * factor ::= anchors | atom (('*' | '+' | '?' | minmax ) '?'? )? | '(?#' [^)]* ')'
@@ -412,7 +412,6 @@ import org.apache.xerces.util.IntStack;
  *                | '\v' hex-char hex-char hex-char hex-char hex-char hex-char
  * hex-char ::= [0-9a-fA-F]
  * character-2 ::= (any character except \[]-,)
- * }
  * </pre>
  *
  * <h3>Reference</h3>

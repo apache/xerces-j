@@ -36,7 +36,7 @@ import java.util.StringTokenizer;
 public abstract class SerializerFactory {
 
     /**
-     * This value should be used as a system property for registering additional implementations of SerializerFactory.
+     * The system property for registering additional implementations of SerializerFactory.
      * <p>
      *     Multiple factories can be registered by using a delimiter between the values. Any of the following are supported:
      * </p>

@@ -743,10 +743,10 @@ public class OutputFormat
 
 
     /**
-     * Sets the array of elements for which text node children
-     * should be output unescaped (no character references).
+     * Sets the elements for which text node children should be output
+     * unescaped (no character references).
      *
-     * @param nonEscapingElements array of unescaped element tag names
+     * @param nonEscapingElements unescaped element tag names
      */
     public void setNonEscapingElements( String[] nonEscapingElements )
     {
@@ -760,7 +760,7 @@ public class OutputFormat
      * Web line separator (<code>\n</code>). A string is returned to
      * support double codes (CR + LF).
      *
-     * @return the specified line separator
+     * @return the line separator
      */
     public String getLineSeparator()
     {
@@ -775,7 +775,7 @@ public class OutputFormat
      * useful if the document is edited on machines of the same type.
      * For general documents, use the Web line separator.
      *
-     * @param lineSeparator The specified line separator
+     * @param lineSeparator The line separator
      */
     public void setLineSeparator( String lineSeparator )
     {
@@ -815,12 +815,12 @@ public class OutputFormat
 
 
     /**
-     * Return the selected line width for breaking up long lines.
+     * Return the line width for breaking up long lines.
      * When indenting, and only when indenting, long lines will be
      * broken at space boundaries based on this line width.
      * No line wrapping occurs if this value is zero.
      *
-     * @return the selected line width for breaking up long lines
+     * @return the line width for breaking up long lines
      */
     public int getLineWidth()
     {
@@ -861,7 +861,7 @@ public class OutputFormat
      * encoding. Control characters and non-printable characters
      * are always printed as character references.
      *
-     * @return the last printable character based on the selected encoding
+     * @return the last printable character based on the encoding
      */
     public char getLastPrintable()
     {
@@ -983,7 +983,7 @@ public class OutputFormat
 
 
     /**
-     * Returns the suitable media format for a document
+     * Returns the media format for a document
      * output with the specified method.
      *
      * <p>Supported methods are:</p>
@@ -996,7 +996,7 @@ public class OutputFormat
      * </ul>
      *
      * @param method for which a media type is required
-     * @return the suitable media format for a document, or null
+     * @return the media format for a document, or null
      */
     public static String whichMediaType( String method )
     {

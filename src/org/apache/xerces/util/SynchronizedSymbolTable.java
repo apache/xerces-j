@@ -65,8 +65,8 @@ public final class SynchronizedSymbolTable
      * reference to the unique symbol. If the symbol already exists, 
      * the previous symbol reference is returned instead, in order
      * guarantee that symbol references remain unique.
-     * 
-     * @param symbol The new symbol.
+     *
+     * @param symbol the new symbol
      */
     public String addSymbol(String symbol) {
 
@@ -81,10 +81,10 @@ public final class SynchronizedSymbolTable
      * reference to the unique symbol. If the symbol already exists, 
      * the previous symbol reference is returned instead, in order
      * guarantee that symbol references remain unique.
-     * 
-     * @param buffer The buffer containing the new symbol.
-     * @param offset The offset into the buffer of the new symbol.
-     * @param length The length of the new symbol in the buffer.
+     *
+     * @param buffer the buffer containing the new symbol
+     * @param offset the offset into the buffer of the new symbol
+     * @param length the length of the new symbol in the buffer
      */
     public String addSymbol(char[] buffer, int offset, int length) {
 
@@ -94,11 +94,11 @@ public final class SynchronizedSymbolTable
 
     } // addSymbol(char[],int,int):String
 
-    /** 
+    /**
      * Returns true if the symbol table already contains the specified
      * symbol.
      *
-     * @param symbol The symbol to look for.
+     * @param symbol the symbol to look for
      */
     public boolean containsSymbol(String symbol) {
 
@@ -108,13 +108,13 @@ public final class SynchronizedSymbolTable
 
     } // containsSymbol(String):boolean
 
-    /** 
+    /**
      * Returns true if the symbol table already contains the specified
      * symbol.
      *
-     * @param buffer The buffer containing the symbol to look for.
-     * @param offset The offset into the buffer.
-     * @param length The length of the symbol in the buffer.
+     * @param buffer the buffer containing the symbol to look for
+     * @param offset the offset into the buffer
+     * @param length the length of the symbol in the buffer
      */
     public boolean containsSymbol(char[] buffer, int offset, int length) {
 

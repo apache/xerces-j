@@ -32,11 +32,9 @@ import org.xml.sax.SAXException;
 /**
  * This class wraps a SAX entity resolver in an XNI entity resolver.
  *
- * @see EntityResolver
- *
  * @author Andy Clark, IBM
- * 
  * @version $Id$
+ * @see EntityResolver
  */
 public class EntityResolverWrapper
     implements XMLEntityResolver {
@@ -83,10 +81,9 @@ public class EntityResolverWrapper
      * resolved, this method should return null.
      *
      * @param resourceIdentifier	contains the physical co-ordinates of the resource to be resolved
-     *
-     * @throws XNIException Thrown on general error.
-     * @throws IOException  Thrown if resolved entity stream cannot be
-     *                      opened or some other i/o error occurs.
+     * @throws IOException  thrown if resolved entity stream cannot be
+     *                      opened or some other i/o error occurs
+     * @throws XNIException thrown on general error
      */
     public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier)
         throws XNIException, IOException {

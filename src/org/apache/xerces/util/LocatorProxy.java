@@ -22,11 +22,10 @@ import org.xml.sax.Locator;
 import org.xml.sax.ext.Locator2;
 
 /**
- * Wraps {@link XMLLocator} and make it look like a SAX {@link Locator}.  
- * 
+ * Wraps {@link XMLLocator} and make it look like a SAX {@link Locator}.
+ *
  * @author Arnaud Le Hors, IBM
  * @author Andy Clark, IBM
- * 
  * @version $Id$
  */
 public class LocatorProxy implements Locator2 {

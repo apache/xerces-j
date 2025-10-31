@@ -28,7 +28,6 @@ import org.xml.sax.ext.Attributes2;
  *
  * @author Arnaud Le Hors, IBM
  * @author Andy Clark, IBM
- *
  * @version $Id$
  */
 public final class AttributesProxy

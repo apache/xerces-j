@@ -35,12 +35,11 @@ import org.w3c.dom.ls.LSResourceResolver;
 /**
  * This class wraps DOM entity resolver to XNI entity resolver.
  *
- * @see LSResourceResolver
- *
  * @author Gopal Sharma, SUN MicroSystems Inc.
- * @author Elena Litani, IBM 
+ * @author Elena Litani, IBM
  * @author Ramesh Mandava, Sun Microsystems
  * @version $Id$
+ * @see LSResourceResolver
  */
 public class DOMEntityResolverWrapper
     implements XMLEntityResolver {
@@ -93,9 +92,9 @@ public class DOMEntityResolverWrapper
      * resolved, this method should return null.
      *
      * @param resourceIdentifier	description of the resource to be resolved
-     * @throws XNIException Thrown on general error.
-     * @throws IOException  Thrown if resolved entity stream cannot be
-     *                      opened or some other i/o error occurs.
+     * @throws IOException  thrown if resolved entity stream cannot be
+     *                      opened or some other i/o error occurs
+     * @throws XNIException thrown on general error
      */
     public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier)
         throws XNIException, IOException {
@@ -130,7 +129,7 @@ public class DOMEntityResolverWrapper
                  * An LSParser looks at inputs specified in LSInput in
                  * the following order: characterStream, byteStream,
                  * stringData, systemId, publicId.
-                 */          
+                 */
                 XMLInputSource xmlInputSource =
                     new XMLInputSource(publicId, systemId, baseSystemId);
                 
@@ -153,7 +152,7 @@ public class DOMEntityResolverWrapper
 
     } // resolveEntity(String,String,String):XMLInputSource
     
-    /** Determines the type of resource being resolved **/
+    /** Determines the type of resource being resolved. */
     private String getType(XMLResourceIdentifier resourceIdentifier) {
         if (resourceIdentifier instanceof XMLGrammarDescription) {
             XMLGrammarDescription desc = (XMLGrammarDescription) resourceIdentifier;

@@ -29,9 +29,8 @@ import org.apache.xerces.xni.NamespaceContext;
 
 /**
  * <p>A read-only XNI wrapper around a JAXP NamespaceContext.</p>
- * 
+ *
  * @author Michael Glavassevich, IBM
- * 
  * @version $Id$
  */
 public final class JAXPNamespaceContextWrapper implements NamespaceContext {

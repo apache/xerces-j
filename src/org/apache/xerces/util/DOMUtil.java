@@ -198,8 +198,9 @@ public class DOMUtil {
         
     } // getFirstChildElement(Node):Element
     
-    /** Finds and returns the last child element node. 
-     *  Overload previous method for non-Xerces node impl.
+    /**
+     * Finds and returns the last child element node. 
+     * Overload previous method for non-Xerces node impl.
      */
     public static Element getLastChildElement(Node parent) {
         
@@ -235,8 +236,9 @@ public class DOMUtil {
         
     } // getLastChildElement(Node):Element
     
-    /** Finds and returns the last visible child element node. 
-     *  Overload previous method for non-Xerces node impl
+    /**
+     * Finds and returns the last visible child element node. 
+     * Overload previous method for non-Xerces node impl.
      */
     public static Element getLastVisibleChildElement(Node parent, Hashtable hiddenNodes) {
         
@@ -709,7 +711,7 @@ public class DOMUtil {
      * node that is of type <code>Node.CDATA_SECTION_NODE</code>
      * for the concatenation.
      *
-     * @param node The node to look at.
+     * @param node the node to look at
      */
     public static String getChildText(Node node) {
         
@@ -742,8 +744,9 @@ public class DOMUtil {
         return node.getNodeName();
     } // getLocalName(Element):  String
     
-    /** returns local name of this element if not null, otherwise
-     returns the name of the node
+    /**
+     * Returns local name of this element if not null, otherwise
+     * returns the name of the node.
      */
     public static String getLocalName(Node node) {
         String name = node.getLocalName();

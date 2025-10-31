@@ -22,7 +22,6 @@ package org.apache.xerces.util;
  * a domain and a message key.</p>
  *
  * @author Naela Nissar, IBM
- * 
  * @version $Id$
  */
 final class XMLErrorCode {
@@ -31,17 +30,17 @@ final class XMLErrorCode {
     // Data
     //
     
-    /** error domain **/
+    /** Error domain. */
     private String fDomain;
     
-    /** message key **/
+    /** Message key. */
     private String fKey;
     
     /**
      * <p>Constructs an XMLErrorCode with the given domain and key.</p>
-     * 
-     * @param domain The error domain.
-     * @param key The key of the error message.
+     *
+     * @param domain the error domain
+     * @param key the key of the error message
      */
     public XMLErrorCode(String domain, String key) {
         fDomain = domain;
@@ -50,9 +49,9 @@ final class XMLErrorCode {
     
     /**
      * <p>Convenience method to set the values of an XMLErrorCode.</p>
-     * 
-     * @param domain The error domain.
-     * @param key The key of the error message.
+     *
+     * @param domain the error domain
+     * @param key the key of the error message
      */
     public void setValues(String domain, String key) {
         fDomain = domain;
@@ -61,8 +60,8 @@ final class XMLErrorCode {
 
     /**
      * <p>Indicates whether some other object is equal to this XMLErrorCode.</p>
-     * 
-     * @param obj the object with which to compare.
+     *
+     * @param obj the object with which to compare
      */
     public boolean equals(Object obj) {
         if (!(obj instanceof XMLErrorCode))
@@ -73,8 +72,8 @@ final class XMLErrorCode {
 
     /**
      * <p>Returns a hash code value for this XMLErrorCode.</p>
-     * 
-     * @return a hash code value for this XMLErrorCode.
+     *
+     * @return a hash code value for this XMLErrorCode
      */
     public int hashCode() {
         return fDomain.hashCode() + fKey.hashCode();

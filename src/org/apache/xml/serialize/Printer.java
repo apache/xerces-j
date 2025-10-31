@@ -104,6 +104,12 @@ public class Printer
     private int           _pos = 0;
 
 
+    /**
+     * Create a new Printer instance with the desired char stream and output format.
+     *
+     * @param writer an output char stream that will be written to
+     * @param format the output format to use
+     */
     public Printer( Writer writer, OutputFormat format)
     {
         _writer = writer;
@@ -115,6 +121,12 @@ public class Printer
     }
 
 
+    /**
+     * If the serializer encountered an exception it is held until the serializer finishes.
+     * <p>This allows the serializer to retrieve the exception after flushing, if one exists.</p>
+     *
+     * @return an IOException or null
+     */
     public IOException getException()
     {
         return _exception;
@@ -151,7 +163,7 @@ public class Printer
      * DTD parts were printer, will return a string with their
      * textual content.
      *
-     * @return a string of DTD content or <code>null</code>
+     * @return a string of DTD content or null
      * @throws IOException can be thrown by underlying call to {@link Printer#flushLine(boolean)}
      */
     public String leaveDTD()
@@ -250,7 +262,12 @@ public class Printer
         }
     }
 
-
+    /**
+     * Writes the char value to the underlying Writer
+     *
+     * @param ch character value
+     * @throws IOException if an I/O error occurs
+     */
     public void printText( char ch )
         throws IOException
     {

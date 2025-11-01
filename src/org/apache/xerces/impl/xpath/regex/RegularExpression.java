@@ -99,75 +99,75 @@ import org.apache.xerces.util.IntStack;
  * <ul>
  *   <li>Character
  *     <dl>
- *       <dt><code>.</code> (A period)
+ *       <dt class="REGEX"><code>.</code> (A period)
  *       <dd>Matches any one character except the following characters.
  *       <dd>LINE FEED (U+000A), CARRIAGE RETURN (U+000D), PARAGRAPH SEPARATOR (U+2029), LINE SEPARATOR (U+2028)
  *       <dd>This expression matches one code point in Unicode. It can match a pair of surrogates.
  *       <dd>When <a href="#S_OPTION">the "s" option</a> is specified,
  *           it matches any character including the above four characters.
  *
- *       <dt><code>\e \f \n \r \t</code>
+ *       <dt class="REGEX"><code>\e \f \n \r \t</code>
  *       <dd>Matches ESCAPE (U+001B), FORM FEED (U+000C), LINE FEED (U+000A),
  *           CARRIAGE RETURN (U+000D), HORIZONTAL TABULATION (U+0009)
  *
- *       <dt><code>\cC</code>
+ *       <dt class="REGEX"><code>\cC</code>
  *       <dd>Matches a control character.
  *           The <var>C</var> must be one of '<code>@</code>', '<code>A</code>'-'<code>Z</code>',
  *           '<code>[</code>', '<code>\</code>', '<code>]</code>', '<code>^</code>', '<code>_</code>'.
  *           It matches a control character of which the character code is less than the character code of
  *           the <var>C</var> by 0x0040.
- *       <dd>For example, a <code>\cJ</code> matches a LINE FEED (U+000A),
+ *       <dd class="REGEX">For example, a <code>\cJ</code> matches a LINE FEED (U+000A),
  *           and a <code>\c[</code> matches an ESCAPE (U+001B).
  *
- *       <dt>a non-meta character
+ *       <dt class="REGEX">a non-meta character
  *       <dd>Matches the character.
  *
- *       <dt><code>\</code> + a meta character
+ *       <dt class="REGEX"><code>\</code> + a meta character
  *       <dd>Matches the meta character.
  *
- *       <dt><code>\xHH</code> <code>\x{HHHH}</code>
+ *       <dt class="REGEX"><code>\xHH</code> <code>\x{HHHH}</code>
  *       <dd>Matches a character of which code point is <var>HH</var> (Hexadecimal) in Unicode. You can write
  *           just 2 digits for <code>\xHH</code>, and variable length digits for <code>\x{HHHH}</code>.
  *
  *       <dt><code>\vHHHHHH</code>
  *       <dd>Matches a character of which code point is <var>HHHHHH</var> (Hexadecimal) in Unicode.
  *
- *       <dt><code>\g</code>
+ *       <dt class="REGEX"><code>\g</code>
  *       <dd>Matches a grapheme.
- *       <dd>It is equivalent to <code>(?[\p{ASSIGNED}]-[\p{M}\p{C}])?(?:\p{M}|[\x{094D}\x{09CD}\x{0A4D}\x{0ACD}\x{0B3D}\x{0BCD}\x{0C4D}\x{0CCD}\x{0D4D}\x{0E3A}\x{0F84}]\p{L}|[\x{1160}-\x{11A7}]|[\x{11A8}-\x{11FF}]|[\x{FF9E}\x{FF9F}])*</code>
+ *       <dd class="REGEX">It is equivalent to <code>(?[\p{ASSIGNED}]-[\p{M}\p{C}])?(?:\p{M}|[\x{094D}\x{09CD}\x{0A4D}\x{0ACD}\x{0B3D}\x{0BCD}\x{0C4D}\x{0CCD}\x{0D4D}\x{0E3A}\x{0F84}]\p{L}|[\x{1160}-\x{11A7}]|[\x{11A8}-\x{11FF}]|[\x{FF9E}\x{FF9F}])*</code>
  *
- *       <dt><code>\X</code>
- *       <dd>Matches a combining character sequence. It is equivalent to <code>(?:\PM\pM*)</code>
+ *       <dt class="REGEX"><code>\X</code>
+ *       <dd class="REGEX">Matches a combining character sequence. It is equivalent to <code>(?:\PM\pM*)</code>
  *     </dl>
  *   </li>
  *
  *   <li>Character class
  *     <dl>
-+ *      <dt><code>[R1R2...Rn]</code> (without a {@link #SPECIAL_COMMA} option)</dt>
-+ *      <dt><code>[R1,R2,...,Rn]</code> (with a {@link #SPECIAL_COMMA} option)</dt>
++ *      <dt class="REGEX">[<var>R<sub>1</sub></var><var>R<sub>2</sub></var><var>...</var><var>R<sub>n</sub></var>] (without a {@link #SPECIAL_COMMA} option)</dt>
++ *      <dt class="REGEX">[<var>R<sub>1</sub></var>,<var>R<sub>2</sub></var>,<var>...</var>,<var>R<sub>n</sub></var>] (with a {@link #SPECIAL_COMMA} option)</dt>
  *       <dd>Positive character class.  It matches a character in ranges.
- *       <dd><code>Rn</code>:
+ *       <dd><var>R<sub>n</sub></var>:
  *       <ul>
- *         <li>A character (including <code>\e \f \n \r \t \xHH \x{HHHH} \vHHHHHH</code>)
+ *         <li class="REGEX">A character (including <code>\e \f \n \r \t \xHH \x{HHHH} \vHHHHHH</code>)
  *             <p>This range matches the character.</p>
  *         </li>
- *         <li><code>C1-C2</code>
+ *         <li class="REGEX"><var>C<sub>1</sub></var>-<var>C<sub>2</sub></var>
  *             <p>This range matches a character which has a code point that is >= <var>C1</var>'s code point and &lt;= <var>C2</var>'s code point.</p>
  *         </li>
-+ *        <li>A POSIX character class: <code>[:alpha:] [:alnum:] [:ascii:] [:cntrl:] [:digit:] [:graph:] [:lower:] [:print:] [:punct:] [:space:] [:upper:] [:xdigit:]</code>,
++ *        <li class="REGEX">A POSIX character class: <code>[:alpha:] [:alnum:] [:ascii:] [:cntrl:] [:digit:] [:graph:] [:lower:] [:print:] [:punct:] [:space:] [:upper:] [:xdigit:]</code>,
 + *             and negative POSIX character classes in Perl like <code>[:^alpha:]</code></li>
- *         <li><code>\d \D \s \S \w \W \p{name} \P{name}</code>
+ *         <li class="REGEX"><code>\d \D \s \S \w \W \p{name} \P{name}</code>
  *             <p>These expressions specify the same ranges as the following expressions.</p>
  *         </li>
  *       </ul>
  *       <p>Enumerated ranges are merged (union operation). <code>[a-ec-z]</code> is equivalent to <code>[a-z]</code></p>
  *       </dd>
  *
- *       <dt><code>[^R1R2...Rn]</code> (without a {@link #SPECIAL_COMMA} option)</dt>
- *       <dt><code>[^R1,R2,...,Rn]</code> (with a {@link #SPECIAL_COMMA} option)</dt>
+ *       <dt class="REGEX"><code>[^R1R2...Rn]</code> (without a {@link #SPECIAL_COMMA} option)</dt>
+ *       <dt class="REGEX"><code>[^R1,R2,...,Rn]</code> (with a {@link #SPECIAL_COMMA} option)</dt>
  *       <dd>Negative character class. It matches a character not in ranges.</dd>
  *
- *       <dt><code>(?[ranges]op[ranges]op[ranges] ... )</code>
+ *       <dt class="REGEX"><code>(?[ranges]op[ranges]op[ranges] ... )</code>
  *       (where <var>op</var> is <code>-</code>, <code>+</code> or <code>&amp;</code>.)
  *       </dt>
  *       <dd>Subtraction or union or intersection for character classes.
@@ -182,47 +182,47 @@ import org.apache.xerces.util.IntStack;
  *           though <code>[^b]</code> is processed as <code>[^Bb]</code>.</p>
  *       </dd>
  *
- *       <dt><code>[R1R2...-[RnRn+1...]]</code> (with an <code>X</code> option; {@link #XMLSCHEMA_MODE})</dt>
+ *       <dt class="REGEX"><code>[R1R2...-[RnRn+1...]]</code> (with an <code>X</code> option; {@link #XMLSCHEMA_MODE})</dt>
  *       <dd>Character class subtraction for the XML Schema.
  *           You can use this syntax when you specify an <code>X</code> option ({@link #XMLSCHEMA_MODE}).
  *       </dd>
  *
- *       <dt><code>\d</code></dt>
- *       <dd>Equivalent to <code>[0-9]</code>.
+ *       <dt class="REGEX"><code>\d</code></dt>
+ *       <dd class="REGEX">Equivalent to <code>[0-9]</code>.
  *       <p>When a <code>u</code> ({@link #USE_UNICODE_CATEGORY}) option is set, it is equivalent to
  *           <code>\p{Nd}</code>.</p>
  *       </dd>
  *
- *       <dt><code>\D</code></dt>
- *       <dd>Equivalent to <code>[^0-9]</code>
+ *       <dt class="REGEX"><code>\D</code></dt>
+ *       <dd class="REGEX">Equivalent to <code>[^0-9]</code>
  *       <p>When a <code>u</code> ({@link #USE_UNICODE_CATEGORY}) option is set, it is equivalent to
  *           <code>\P{Nd}</code>.</p>
  *       </dd>
  *
- *       <dt><code>\s</code></dt>
- *       <dd>Equivalent to <code>[ \f\n\r\t]</code>
+ *       <dt class="REGEX"><code>\s</code></dt>
+ *       <dd class="REGEX">Equivalent to <code>[ \f\n\r\t]</code>
  *       <dd>When a <code>u</code> ({@link #USE_UNICODE_CATEGORY}) option is set, it is equivalent to
  *           <code>[ \f\n\r\t\p{Z}]</code>.
  *
- *       <dt><code>\S</code></dt>
- *       <dd>Equivalent to <code>[^ \f\n\r\t]</code>
+ *       <dt class="REGEX"><code>\S</code></dt>
+ *       <dd class="REGEX">Equivalent to <code>[^ \f\n\r\t]</code>
  *       <p>When a <code>u</code> ({@link #USE_UNICODE_CATEGORY}) option is set, it is equivalent to
  *           <code>[^ \f\n\r\t\p{Z}]</code>.</p>
  *       </dd>
  *
- *       <dt><code>\w</code></dt>
- *       <dd>Equivalent to <code>[a-zA-Z0-9_]</code>
+ *       <dt class="REGEX"><code>\w</code></dt>
+ *       <dd class="REGEX">Equivalent to <code>[a-zA-Z0-9_]</code>
  *       <p>When a <code>u</code> ({@link #USE_UNICODE_CATEGORY}) option is set, it is equivalent to
  *           <code>[\p{Lu}\p{Ll}\p{Lo}\p{Nd}_]</code>.</p>
  *       </dd>
  *
- *       <dt><code>\W</code></dt>
- *       <dd>Equivalent to <code>[^a-zA-Z0-9_]</code>
+ *       <dt class="REGEX"><code>\W</code></dt>
+ *       <dd class="REGEX">Equivalent to <code>[^a-zA-Z0-9_]</code>
  *       <p>When a <code>u</code> ({@link #USE_UNICODE_CATEGORY}) option is set, it is equivalent to
  *           <code>[^\p{Lu}\p{Ll}\p{Lo}\p{Nd}_]</code>.</p>
  *       </dd>
  *
- *       <dt><code>\p{name}</code></dt>
+ *       <dt class="REGEX"><code>\p{name}</code></dt>
  *       <dd>Matches one character in the specified General Category (the second field in <a href="ftp://ftp.unicode.org/Public/UNIDATA/UnicodeData.txt">UnicodeData.txt</a>) or the specified <a href="ftp://ftp.unicode.org/Public/UNIDATA/Blocks.txt">Block</a>.</dd>
  *       <dd>The following names are available:
  *       <dl>
@@ -257,7 +257,7 @@ import org.apache.xerces.util.IntStack;
  *         <dd><code>UNASSIGNED</code> (<code>\p{UNASSIGNED}</code> is equivalent to <code>\p{Cn}</code>)</dd>
  *       </dl>
  *
- *       <dt><code>\P{name}</code></dt>
+ *       <dt class="REGEX"><code>\P{name}</code></dt>
  *       <dd>Matches one character not in the specified General Category or the specified Block.</dd>
  *     </dl>
  *   </li>
@@ -311,65 +311,65 @@ import org.apache.xerces.util.IntStack;
  *
  *   <li>Anchor
  *     <dl>
- *       <dt><code>\A</code>
+ *       <dt class="REGEX"><code>\A</code>
  *       <dd>Matches the beginning of the text.
  *
- *       <dt><code>\Z</code>
+ *       <dt class="REGEX"><code>\Z</code>
  *       <dd>Matches the end of the text, or before an EOL character at the end of the text,
  *           or CARRIAGE RETURN + LINE FEED at the end of the text.
  *
- *       <dt><code>\z</code>
+ *       <dt class="REGEX"><code>\z</code>
  *       <dd>Matches the end of the text.
  *
- *       <dt><code>^</code>
+ *       <dt class="REGEX"><code>^</code>
  *       <dd>Matches the beginning of the text.  It is equivalent to <code>\A</code>.
  *       <dd>When the <code>m</code> ({@link #MULTIPLE_LINES}) option is set,
  *           it matches the beginning of the text, or after one of EOL characters (
  *           LINE FEED (U+000A), CARRIAGE RETURN (U+000D), LINE SEPARATOR (U+2028),
  *           PARAGRAPH SEPARATOR (U+2029).)
  *
- *       <dt><code>$</code>
+ *       <dt class="REGEX"><code>$</code>
  *       <dd>Matches the end of the text, or before an EOL character at the end of the text,
  *           or CARRIAGE RETURN + LINE FEED at the end of the text.
  *       <dd>When the <code>m</code> ({@link #MULTIPLE_LINES}) option is set,
  *           it matches the end of the text, or before an EOL character.
  *
- *       <dt><code>\b</code>
+ *       <dt class="REGEX"><code>\b</code>
  *       <dd>Matches word boundary. (See {@link #UNICODE_WORD_BOUNDARY})
  *
- *       <dt><code>\B</code>
+ *       <dt class="REGEX"><code>\B</code>
  *       <dd>Matches non word boundary. (See {@link #UNICODE_WORD_BOUNDARY})
  *
- *       <dt><code>\&lt;</code>
+ *       <dt class="REGEX"><code>\&lt;</code>
  *       <dd>Matches the beginning of a word. (See {@link #UNICODE_WORD_BOUNDARY})
  *
- *       <dt><code>\&gt;</code>
+ *       <dt class="REGEX"><code>\&gt;</code>
  *       <dd>Matches the end of a word. (See {@link #UNICODE_WORD_BOUNDARY})
  *     </dl>
  *   </li>
  *   <li>Lookahead and lookbehind
  *     <dl>
- *       <dt><code>(?=X)</code>
+ *       <dt class="REGEX"><code>(?=X)</code>
  *       <dd>Lookahead.
  *
- *       <dt><code>(?!X)</code>
+ *       <dt class="REGEX"><code>(?!X)</code>
  *       <dd>Negative lookahead.
  *
- *       <dt><code>(?&lt;=X)</code>
+ *       <dt class="REGEX"><code>(?&lt;=X)</code>
  *       <dd>Lookbehind.
  *       <dd>(Note for text capturing......)
  *
- *       <dt><code>(?&lt;!X)</code>
+ *       <dt class="REGEX"><code>(?&lt;!X)</code>
  *       <dd>Negative lookbehind.
  *     </dl>
  *   </li>
  *
  *   <li>Misc.
  *     <dl>
- *       <dt><code>(?(condition)yes-pattern|no-pattern)</code>,
- *       <dt><code>(?(condition)yes-pattern)</code>
+ *       <dt class="REGEX"><code>(?(condition)yes-pattern|no-pattern)</code>,
+ *       <dt class="REGEX"><code>(?(condition)yes-pattern)</code>
  *       <dd>......
- *       <dt><code>(?#comment)</code> Comment
+ *       <dt class="REGEX"><code>(?#comment)</code> Comment
  *       <dd>A comment string consists of characters except '<code>)</code>'.
  *           You can not write comments in character classes and before quantifiers.
  *     </dl>

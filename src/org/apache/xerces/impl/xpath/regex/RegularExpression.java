@@ -81,7 +81,7 @@ import org.apache.xerces.util.IntStack;
  *
  * <h3>Syntax</h3>
  *
- * <h4>Differences from the Perl 5 regular expression</h4>
+ * <h4>Differences from Perl 5 regular expression</h4>
  * <ul>
  *  <li>There is 6-digit hexadecimal character representation (<code>\vHHHHHH</code>).
  *  <li>Supports subtraction, union, and intersection operations for character classes.

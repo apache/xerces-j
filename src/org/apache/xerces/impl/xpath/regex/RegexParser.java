@@ -88,7 +88,7 @@ class RegexParser {
     /**
      * Create a new RegexParser with the desired locale.
      *
-     * @param locale value of the desired locale or null
+     * @param locale the desired locale or null
      */
     public RegexParser(Locale locale) {
         this.setLocale(locale);
@@ -97,7 +97,7 @@ class RegexParser {
     /**
      * Set the locale for the regex parser.
      *
-     * @param locale value of the desired locale or null
+     * @param locale the desired locale or null
      */
     public void setLocale(Locale locale) {
         try {

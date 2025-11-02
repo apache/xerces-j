@@ -163,8 +163,8 @@ import org.apache.xerces.util.IntStack;
  *       <p>Enumerated ranges are merged (union operation). <code>[a-ec-z]</code> is equivalent to <code>[a-z]</code></p>
  *       </dd>
  *
- *       <dt class="REGEX"><code>[^R1R2...Rn]</code> (without a {@link #SPECIAL_COMMA} option)</dt>
- *       <dt class="REGEX"><code>[^R1,R2,...,Rn]</code> (with a {@link #SPECIAL_COMMA} option)</dt>
+ *       <dt class="REGEX">[^<var>R<sub>1</sub></var><var>R<sub>2</sub></var><var>...</var><var>R<sub>n</sub></var>] (without a {@link #SPECIAL_COMMA} option)</dt>
+ *       <dt class="REGEX">[^<var>R<sub>1</sub></var>,<var>R<sub>2</sub></var>,<var>...</var>,<var>R<sub>n</sub></var>] (with a {@link #SPECIAL_COMMA} option)</dt>
  *       <dd>Negative character class. It matches a character not in ranges.</dd>
  *
  *       <dt class="REGEX"><code>(?[ranges]op[ranges]op[ranges] ... )</code>
@@ -182,7 +182,7 @@ import org.apache.xerces.util.IntStack;
  *           though <code>[^b]</code> is processed as <code>[^Bb]</code>.</p>
  *       </dd>
  *
- *       <dt class="REGEX"><code>[R1R2...-[RnRn+1...]]</code> (with an <code>X</code> option; {@link #XMLSCHEMA_MODE})</dt>
+ *       <dt class="REGEX">[<var>R<sub>1</sub></var><var>R<sub>2</sub></var><var>...</var>-[<var>R<sub>n</sub></var><var>R<sub>n+1</sub>...</var>]] (with an <code>X</code> option; {@link #XMLSCHEMA_MODE})</dt>
  *       <dd>Character class subtraction for the XML Schema.
  *           You can use this syntax when you specify an <code>X</code> option ({@link #XMLSCHEMA_MODE}).
  *       </dd>

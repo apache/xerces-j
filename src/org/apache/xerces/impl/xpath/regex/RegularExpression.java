@@ -89,7 +89,7 @@ import org.apache.xerces.util.IntStack;
  *  <ul>
  *    <li><code>\ooo</code> (Octal character representations)</li>
  *    <li><code>\G</code>, <code>\C</code>, <code>\lc</code></li>
- *    <li><code>\ uc</code>, <code>\L</code>, <code>\U</code></li>
+ *    <li><code>\uc</code>, <code>\L</code>, <code>\U</code></li>
  *    <li><code>\E</code>, <code>\Q</code>, <code>\N{name}</code></li>
  *    <li><code>(?{code})</code>, <code>(??{code})</code></li>
  *  </ul>

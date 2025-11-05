@@ -20,6 +20,7 @@ package org.apache.xerces.jaxp.datatype;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
@@ -233,12 +234,11 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
     /**
      * <p>Create an <code>XMLGregorianCalendar</code> from a {@link GregorianCalendar}.</p> 
      *
-     * <table border="2" rules="all" cellpadding="2">
+     * <table border="1">
      *   <thead>
      *     <tr>
-     *       <th align="center" colspan="2">
-     *          Field by Field Conversion from
-     *          {@link GregorianCalendar} to an {@link XMLGregorianCalendar} 
+     *       <th colspan="2">
+     *          Field by Field Conversion from {@link GregorianCalendar} to an {@link XMLGregorianCalendar}
      *       </th>
      *     </tr>
      *     <tr>
@@ -277,20 +277,20 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * a <code>java.util.GregorianCalendar</code> daylight savings timezone id in the 
      * XML Schema 1.0 date/time datatype representation.</p>
      * 
-     * <p>To compute the return value's <code>TimeZone</code> field,
+     * <p>To compute the return value's <code>TimeZone</code> field:</p>
      * <ul>
-     * <li>when <code>this.getTimezone() != FIELD_UNDEFINED</code>,
-     * create a <code>java.util.TimeZone</code> with a custom timezone id 
-     * using the <code>this.getTimezone()</code>.</li>
-     * <li>else use the <code>GregorianCalendar</code> default timezone value 
-     * for the host is defined as specified by 
-     * <code>java.util.TimeZone.getDefault()</code>.</li></p>     
+     *   <li>when <code>this.getTimezone() != FIELD_UNDEFINED</code>, create a
+     *   <code>java.util.TimeZone</code> with a custom timezone id using
+     *   the <code>this.getTimezone()</code>.</li>
+     *   <li>else use the {@link GregorianCalendar} default timezone value
+     *   for the host is defined as specified by {@link TimeZone#getDefault()}.</li>
+     * </ul>
      *
-     * @param cal <code>java.util.GregorianCalendar</code> used to create <code>XMLGregorianCalendar</code>
+     * @param cal {@link GregorianCalendar} used to create <code>XMLGregorianCalendar</code>
      * 
-     * @return <code>XMLGregorianCalendar</code> created from <code>java.util.GregorianCalendar</code>
+     * @return <code>XMLGregorianCalendar</code> created from {@link GregorianCalendar}
      *  
-     * @throws NullPointerException If <code>cal</code> is <code>null</code>.
+     * @throws NullPointerException if <code>cal</code> is <code>null</code>
      */
     public XMLGregorianCalendar newXMLGregorianCalendar(final GregorianCalendar cal) {
 

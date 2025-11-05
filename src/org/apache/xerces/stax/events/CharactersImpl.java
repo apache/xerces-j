@@ -39,9 +39,13 @@ public final class CharactersImpl extends XMLEventImpl implements Characters {
 
     /**
      * Standard constructor.
-     * @param eventType
-     * @param location
-     * @param schemaType
+     *
+     * @param data the text characters of this event
+     * @param eventType int value representing the type of this event. {@see javax.xml.stream.XMLStreamConstants}
+     * @param location Location object for this event.
+     *
+     * @see javax.xml.stream.XMLStreamConstants
+     * @see javax.xml.stream.Location
      */
     public CharactersImpl(final String data, final int eventType, final Location location) {
         super(eventType, location);

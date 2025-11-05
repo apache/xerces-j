@@ -113,9 +113,12 @@ public class BMPattern {
         }
         return -1;
     }
+
     /**
-     *
-     * @return -1 if <var>chars</char> does not contain this pattern.
+     * @param chars the chars to check
+     * @param start the start position
+     * @param limit the limit of the chars to check
+     * @return -1 if <var>chars</var> does not contain this pattern.
      */
     public int matches(char[] chars, int start, int limit) {
         if (this.ignoreCase)  return this.matchesIgnoreCase(chars, start, limit);

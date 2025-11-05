@@ -35,15 +35,17 @@ import org.apache.xerces.xni.parser.XMLDocumentSource;
  * The scanner acts as the source for the document
  * information which is communicated to the document handler.
  *
+ * <p>
  * This class scans an XML document, checks if document has a DTD, and if
  * DTD is not found the scanner will remove the DTD Validator from the pipeline and perform
  * namespace binding.
+ * </p>
  *
  * Note: This scanner should only be used when the namespace processing is on!
  *
  * <p>
  * This component requires the following features and properties from the
- * component manager that uses it:
+ * component manager that uses it:</p>
  * <ul>
  *  <li>http://xml.org/sax/features/namespaces {true} -- if the value of this
  *      feature is set to false this scanner must not be used.</li>
@@ -82,10 +84,10 @@ extends XMLDocumentScannerImpl {
     
     /** 
      * Saw spaces after element name or between attributes.
-     * 
-     * This is reserved for the case where scanning of a start element spans
+     *
+     * <p>This is reserved for the case where scanning of a start element spans
      * several methods, as is the case when scanning the start of a root element 
-     * where a DTD external subset may be read after scanning the element name.
+     * where a DTD external subset may be read after scanning the element name.</p>
      */
     private boolean fSawSpace;
 
@@ -104,12 +106,10 @@ extends XMLDocumentScannerImpl {
      * Scans a start element. This method will handle the binding of
      * namespace information and notifying the handler of the start
      * of the element.
-     * <p>
      * <pre>
      * [44] EmptyElemTag ::= '&lt;' Name (S Attribute)* S? '/>'
      * [40] STag ::= '&lt;' Name (S Attribute)* S? '>'
      * </pre>
-     * <p>
      * <strong>Note:</strong> This method assumes that the leading
      * '&lt;' character has been consumed.
      * <p>
@@ -117,9 +117,9 @@ extends XMLDocumentScannerImpl {
      * fAttributes variables. The contents of these variables will be
      * destroyed. The caller should copy important information out of
      * these variables before calling this method.
+     * </p>
      *
-     * @return True if element is empty. (i.e. It matches
-     *          production [44].
+     * @return true if element is empty. (i.e. It matches production [44])
      */
     protected boolean scanStartElement()
     throws IOException, XNIException {
@@ -307,7 +307,7 @@ extends XMLDocumentScannerImpl {
      * Scans the remainder of a start or empty tag after the element name.
      * 
      * @see #scanStartElement
-     * @return True if element is empty.
+     * @return true if element is empty
      */
     protected boolean scanStartElementAfterName()
         throws IOException, XNIException {
@@ -476,20 +476,18 @@ extends XMLDocumentScannerImpl {
 
     /**
      * Scans an attribute.
-     * <p>
      * <pre>
      * [41] Attribute ::= Name Eq AttValue
      * </pre>
-     * <p>
      * <strong>Note:</strong> This method assumes that the next
      * character on the stream is the first character of the attribute
      * name.
      * <p>
      * <strong>Note:</strong> This method uses the fAttributeQName and
      * fQName variables. The contents of these variables will be
-     * destroyed.
+     * destroyed.</p>
      *
-     * @param attributes The attributes list for the scanned attribute.
+     * @param attributes the attributes list for the scanned attribute
      */
     protected void scanAttribute(XMLAttributesImpl attributes)
     throws IOException, XNIException {
@@ -619,11 +617,9 @@ extends XMLDocumentScannerImpl {
 
     /**
      * Scans an end element.
-     * <p>
      * <pre>
      * [42] ETag ::= '&lt;/' Name S? '>'
      * </pre>
-     * <p>
      * <strong>Note:</strong> This method uses the fElementQName variable.
      * The contents of this variable will be destroyed. The caller should
      * copy the needed information out of this variable before calling

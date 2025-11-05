@@ -90,6 +90,7 @@ import org.xml.sax.SAXNotSupportedException;
  * <p>
  * This component requires the following features and properties from the
  * component manager that uses it:
+ * </p>
  * <ul>
  *  <li>http://xml.org/sax/features/allow-dtd-events-after-endDTD</li>
  *  <li>http://apache.org/xml/properties/internal/error-reporter</li>
@@ -99,7 +100,7 @@ import org.xml.sax.SAXNotSupportedException;
  * <ul>
  *  <li>http://apache.org/xml/properties/input-buffer-size</li>
  * </ul>
- * 
+ * <p>
  * Furthermore, the <code>NamespaceContext</code> used in the pipeline is required
  * to be an instance of <code>XIncludeNamespaceSupport</code>.
  * </p>

@@ -24,7 +24,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 /**
- * EntityReference models the XML &entityname; syntax, when used for
+ * EntityReference models the XML <code>&entityname;</code> syntax, when used for
  * entities defined by the DOM. Entities hardcoded into XML, such as
  * character entities, should instead have been translated into text
  * by the code which generated the DOM tree.
@@ -44,7 +44,7 @@ import org.w3c.dom.Node;
  * EntityReference behaves as a read-only node, and the children of 
  * the EntityReference (which reflect those of the Entity, and should
  * also be read-only) give its replacement value, if any. They are 
- * supposed to automagically stay in synch if the DocumentType is 
+ * supposed to automagically stay in sync if the DocumentType is 
  * updated with new values for the Entity.
  * </p>
  * <p>
@@ -61,7 +61,7 @@ import org.w3c.dom.Node;
  * For now I have decided, since REC-DOM-Level-1-19980818 doesn't
  * cover this in much detail, that synchronization doesn't have to be
  * considered while the user is deep in the tree. That is, if you're
- * looking within one of the EntityReferennce's children and the Entity
+ * looking within one of the EntityReference's children and the Entity
  * changes, you won't be informed; instead, you will continue to access
  * the same object -- which may or may not still be part of the tree.
  * This is the same behavior that obtains elsewhere in the DOM if the

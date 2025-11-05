@@ -41,11 +41,9 @@ public interface XMLDTDContentModelHandler {
     // separators
 
     /** 
-     * A choice separator for children and mixed content models. This
-     * separator is used to specify that the allowed child is one of a
-     * collection.
-     * <p>
-     * For example:
+     * A choice separator for children and mixed content models. This separator is used
+     * to specify that the allowed child is one of a collection.
+     * <p>For example:</p>
      * <pre>
      * &lt;!ELEMENT elem (foo|bar)&gt;
      * &lt;!ELEMENT elem (foo|bar+)&gt;
@@ -58,10 +56,8 @@ public interface XMLDTDContentModelHandler {
     public static final short SEPARATOR_CHOICE = 0;
 
     /**
-     * A sequence separator for children content models. This separator 
-     * is used to specify that the allowed children must follow in the
-     * specified sequence.
-     * <p>
+     * A sequence separator for children content models. This separator is used to
+     * specify that the allowed children must follow in the specified sequence.
      * <pre>
      * &lt;!ELEMENT elem (foo,bar)&gt;
      * &lt;!ELEMENT elem (foo,bar*)&gt;
@@ -75,11 +71,9 @@ public interface XMLDTDContentModelHandler {
     // occurrence counts
 
     /** 
-     * This occurrence count limits the element, choice, or sequence in a
-     * children content model to zero or one. In other words, the child
-     * is optional.
-     * <p>
-     * For example:
+     * This occurrence count limits the element, choice, or sequence in a children content
+     * model to zero or one. In other words, the child is optional.
+     * <p>For example:</p>
      * <pre>
      * &lt;!ELEMENT elem (foo?)&gt;
      * </pre>
@@ -90,12 +84,10 @@ public interface XMLDTDContentModelHandler {
     public static final short OCCURS_ZERO_OR_ONE = 2;
 
     /** 
-     * This occurrence count limits the element, choice, or sequence in a
-     * children content model to zero or more. In other words, the child
-     * may appear an arbitrary number of times, or not at all. This
-     * occurrence count is also used for mixed content models.
-     * <p>
-     * For example:
+     * This occurrence count limits the element, choice, or sequence in a children content
+     * model to zero or more. In other words, the child may appear an arbitrary number of
+     * times, or not at all. This occurrence count is also used for mixed content models.
+     * <p>For example:</p>
      * <pre>
      * &lt;!ELEMENT elem (foo*)&gt;
      * &lt;!ELEMENT elem (#PCDATA|foo|bar)*&gt;
@@ -107,12 +99,10 @@ public interface XMLDTDContentModelHandler {
     public static final short OCCURS_ZERO_OR_MORE = 3;
 
     /** 
-     * This occurrence count limits the element, choice, or sequence in a
-     * children content model to one or more. In other words, the child
-     * may appear an arbitrary number of times, but must appear at least
-     * once.
-     * <p>
-     * For example:
+     * This occurrence count limits the element, choice, or sequence in a children content
+     * model to one or more. In other words, the child may appear an arbitrary number of
+     * times, but must appear at least once.
+     * <p>For example:</p>
      * <pre>
      * &lt;!ELEMENT elem (foo+)&gt;
      * </pre>

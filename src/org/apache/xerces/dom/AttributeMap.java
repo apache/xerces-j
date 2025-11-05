@@ -219,7 +219,7 @@ public class AttributeMap extends NamedNodeMapImpl {
      *      as well as the corresponding namespace URI, local name,
      *      and prefix when applicable.
      * @return The node removed from the map if a node with such a name exists.
-     * @throws              NOT_FOUND_ERR: Raised if there is no node named
+     * @throws              DOMException NOT_FOUND_ERR: Raised if there is no node named
      *                      name in the map.
      */
     /***/
@@ -365,7 +365,7 @@ public class AttributeMap extends NamedNodeMapImpl {
      *                      containing the default value.
      * @return Node         The node removed from the map if a node with such
      *                      a local name and namespace URI exists.
-     * @throws              NOT_FOUND_ERR: Raised if there is no node named
+     * @throws              DOMException NOT_FOUND_ERR: Raised if there is no node named
      *                      name in the map.
      */
     public Node removeNamedItemNS(String namespaceURI, String name)

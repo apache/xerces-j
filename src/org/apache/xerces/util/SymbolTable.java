@@ -25,6 +25,7 @@ package org.apache.xerces.util;
  * <p>
  * The symbol table performs the same task as <code>String.intern()</code>
  * with the following differences:
+ * </p>
  * <ul>
  *  <li>
  *   A new string object does not need to be created in order to
@@ -39,7 +40,7 @@ package org.apache.xerces.util;
  *   characters are especially prone to this poor hashing behavior.
  *  </li>
  * </ul>
- * </p>
+ *
  * <p>
  * An instance of <code>SymbolTable</code> has two parameters that affect its
  * performance: <i>initial capacity</i> and <i>load factor</i>.  The

@@ -82,7 +82,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *            or {@link DatatypeConstants#FIELD_UNDEFINED}.<br/>
  *            {@link #getEon()} is high order year value in billion of years.<br/>
  *            <code>getEon()</code> has values greater than or equal to (10^9) or less than or equal to -(10^9).
- *            A value of null indicates field is undefined.</br>
+ *            A value of null indicates field is undefined.<br/>
  *            Given that <a href="http://www.w3.org/2001/05/xmlschema-errata#e2-63">XML Schema 1.0 errata</a> states that the year zero
  *            will be a valid lexical value in a future version of XML Schema, 
  *            this class allows the year field to be set to zero. Otherwise,

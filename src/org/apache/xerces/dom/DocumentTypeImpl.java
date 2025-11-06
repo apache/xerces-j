@@ -372,7 +372,6 @@ public class DocumentTypeImpl
     /**
      * Access the collection of general Entities, both external and
      * internal, defined in the DTD. For example, in:
-     * <p>
      * <pre>
      *   &lt;!doctype example SYSTEM "ex.dtd" [
      *     &lt;!ENTITY foo "foo"&gt;

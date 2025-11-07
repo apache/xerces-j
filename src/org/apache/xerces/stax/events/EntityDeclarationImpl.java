@@ -42,10 +42,10 @@ public final class EntityDeclarationImpl extends XMLEventImpl implements
     /**
      * Constructor for an implementation of {@link EntityDeclaration}.
      *
-     * @param publicId the publicId
-     * @param systemId the systemId
-     * @param name the name
-     * @param notationName the notationName
+     * @param publicId the entity's public identifier, or null
+     * @param systemId the entity's system identifier
+     * @param name the entity's name
+     * @param notationName the name of the associated notation
      * @param location the {@link Location}
      */
     public EntityDeclarationImpl(final String publicId, final String systemId, final String name, final String notationName, final Location location) {

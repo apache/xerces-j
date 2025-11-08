@@ -916,10 +916,11 @@ XSLoader, DOMConfiguration {
         return new XMLInputSource(publicId, systemId, null);
     }
 
-    /**
-     * For internal use only. Was previously package-private but needed to be changed to public so that XSDHandler could import the class
+    /*
+     * For internal use only.
+     * todo: This class being package-private is not ideal as it should be accessible to XSDHandler
      */
-    public static final class LocationArray {
+    static final class LocationArray {
         
         int length ;
         String [] locations = new String[2];

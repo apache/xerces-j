@@ -40,7 +40,6 @@ import org.apache.xerces.impl.xs.SchemaNamespaceSupport;
 import org.apache.xerces.impl.xs.SchemaSymbols;
 import org.apache.xerces.impl.xs.XMLSchemaException;
 import org.apache.xerces.impl.xs.XMLSchemaLoader;
-import org.apache.xerces.impl.xs.XMLSchemaLoader.LocationArray;
 import org.apache.xerces.impl.xs.XSAttributeDecl;
 import org.apache.xerces.impl.xs.XSAttributeGroupDecl;
 import org.apache.xerces.impl.xs.XSComplexTypeDecl;
@@ -302,8 +301,8 @@ public class XSDHandler {
     // (because the key of a hashtable can't be null.)
     private Vector<String> fAllTNSs = new Vector<String>();
     // stores instance document mappings between namespaces and schema hints
-    private Hashtable<String, LocationArray> fLocationPairs = null;
-    private static final Hashtable<String, LocationArray> EMPTY_TABLE = new Hashtable<>();
+    private Hashtable<String, Object> fLocationPairs = null; // should be Hashtable<String, LocationArray> but LocationArray is a private class
+    private static final Hashtable<String, Object> EMPTY_TABLE = new Hashtable<>(); // should be Hashtable<String, LocationArray> but LocationArray is a private class
     
     // Records which nodes are hidden when the input is a DOMInputSource.
     Hashtable<Node, Object> fHiddenNodes = null;
@@ -2051,7 +2050,7 @@ public class XSDHandler {
                                   Element referElement, boolean usePairs) {
         XMLInputSource schemaSource = null;
         try {
-            Hashtable<String, LocationArray> pairs = usePairs ? fLocationPairs : EMPTY_TABLE;
+            Hashtable<String, Object> pairs = usePairs ? fLocationPairs : EMPTY_TABLE;
             schemaSource = XMLSchemaLoader.resolveDocument(desc, pairs, fEntityResolver);
         }
         catch (IOException ex) {

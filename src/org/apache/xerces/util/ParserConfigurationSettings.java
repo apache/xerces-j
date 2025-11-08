@@ -19,7 +19,6 @@ package org.apache.xerces.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.xni.parser.XMLComponentManager;

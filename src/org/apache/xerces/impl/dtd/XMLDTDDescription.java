@@ -18,7 +18,6 @@
 package org.apache.xerces.impl.dtd;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import org.apache.xerces.util.XMLResourceIdentifierImpl;

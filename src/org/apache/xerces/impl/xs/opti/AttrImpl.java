@@ -44,7 +44,7 @@ public class AttrImpl extends NodeImpl
     public AttrImpl() {
         nodeType = Node.ATTRIBUTE_NODE;
     }
-    
+
     /**
      * Constructs an attribute.
      *
@@ -52,7 +52,7 @@ public class AttrImpl extends NodeImpl
      * @param prefix the QName prefix
      * @param localpart the QName local part
      * @param rawname the QName raw name
-     * @param uri the uri binding for the associated prefix
+     * @param uri the URI binding for the associated prefix
      * @param value the value of the attribute
      */
     public AttrImpl(Element element, String prefix, String localpart, String rawname, String uri, String value) {

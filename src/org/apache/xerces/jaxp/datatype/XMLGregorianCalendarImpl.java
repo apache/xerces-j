@@ -72,8 +72,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *       <th>Related<br/>XMLGregorianCalendar<br/>Accessor(s)</th>
  *       <th>Value Range</th>
  *     </tr>
- *     <a name="datetimefield-year"></a>
- *     <tr>
+ *     <tr id="datetimefield-year">
  *       <td> year </td>
  *       <td> {@link #getYear()} + {@link #getEon()} or<br/>
  *            {@link #getEonAndYear}
@@ -91,14 +90,12 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *            validation does not allow for the year field to have a value of zero.
  *            </td>
  *     </tr>
- *     <a name="datetimefield-month"></a>
- *     <tr>
+ *     <tr id="datetimefield-month">
  *       <td> month </td>
  *       <td> {@link #getMonth()} </td>
  *       <td> 1 to 12 or {@link DatatypeConstants#FIELD_UNDEFINED} </td>
  *     </tr>
- *     <a name="datetimefield-day"></a>
- *     <tr>
+ *     <tr id="datetimefield-day">
  *       <td> day </td>
  *       <td> {@link #getDay()} </td>
  *       <td> Independent of month, max range is 1 to 31 or {@link DatatypeConstants#FIELD_UNDEFINED}.<br/>
@@ -106,8 +103,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *            field's value is in <a href="http://www.w3.org/TR/xmlschema-2/#isoformats">W3C XML Schema 1.0 Part 2, Appendix D</a>.
  *       </td> 
  *     </tr>
- *     <a name="datetimefield-hour"></a>
- *     <tr>
+ *     <tr id="datetimefield-hour">
  *       <td> hour </td>
  *       <td> {@link #getHour()} </td>
  *       <td>
@@ -115,14 +111,12 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *         <a href="http://www.w3.org/2001/05/xmlschema-errata#e2-45">For a value of 24, the minute and second field must be zero.</a>
  *       </td>
  *     </tr>
- *     <a name="datetimefield-minute"></a>
- *     <tr>
+ *     <tr id="datetimefield-minute">
  *       <td> minute </td>
  *       <td> {@link #getMinute()} </td>
  *       <td> 0 to 59 or {@link DatatypeConstants#FIELD_UNDEFINED} </td>
  *     </tr>
- *     <a name="datetimefield-second"></a>
- *     <tr>
+ *     <tr id="datetimefield-second">
  *       <td>second</td>
  *       <td>
  *         {@link #getSecond()} + {@link #getMillisecond()}/1000 or<br/>

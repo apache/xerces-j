@@ -1049,7 +1049,7 @@ public class DOMNormalizer implements XMLDocumentHandler {
      * In case prefix is empty will add/update default namespace declaration.
      * 
      * @param prefix the text to use as a namespace
-     * @param uri the uri that is being namespaced
+     * @param uri the URI that is being namespaced
      * @param element the element that is having the namespace attribute applied
      */
     protected final void addNamespaceDecl(String prefix, String uri, ElementImpl element){

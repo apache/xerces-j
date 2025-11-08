@@ -44,9 +44,9 @@ public final class NotationDeclarationImpl extends XMLEventImpl implements
      * Constructor for an implementation of {@link NotationDeclaration}.
      *
      * @param name the name
-     * @param publicId the public id
-     * @param systemId the system id
-     * @param location the location
+     * @param publicId the public identifier for the notation declaration
+     * @param systemId the system identifier for the notation declaration
+     * @param location the location object for the notation declaration
      * @see Location
      */
     public NotationDeclarationImpl(final String name, final String publicId, final String systemId, final Location location) {

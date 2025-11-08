@@ -216,11 +216,6 @@ public class XMLDocumentFragmentScannerImpl
 
     // other info
 
-    /* Document system identifier.
-     * TODO: REVISIT:  So what's this used for?  - NG
-    * protected String fDocumentSystemId;
-     ******/
-
     // features
 
     /** Notify built-in references. */
@@ -299,7 +294,6 @@ public class XMLDocumentFragmentScannerImpl
     public void setInputSource(XMLInputSource inputSource) throws IOException {
         fEntityManager.setEntityHandler(this);
         fEntityManager.startEntity("$fragment$", inputSource, false, true);
-        //fDocumentSystemId = fEntityManager.expandSystemId(inputSource.getSystemId());
     } // setInputSource(XMLInputSource)
 
     /** 
@@ -358,7 +352,6 @@ public class XMLDocumentFragmentScannerImpl
         super.reset(componentManager);
 
         // other settings
-        //fDocumentSystemId = null;
 
         // sax features
         fAttributes.setNamespaces(fNamespaces);

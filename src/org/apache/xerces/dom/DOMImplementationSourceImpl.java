@@ -18,7 +18,6 @@
 package org.apache.xerces.dom;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 import org.w3c.dom.DOMImplementation;

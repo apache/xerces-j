@@ -18,7 +18,6 @@
 package org.apache.xerces.dom;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.xerces.impl.xs.XSImplementationImpl;
 import org.w3c.dom.DOMImplementation;

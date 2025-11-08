@@ -19,7 +19,6 @@ package org.apache.xerces.dom;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import org.apache.xerces.impl.Constants;

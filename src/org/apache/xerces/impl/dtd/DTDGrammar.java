@@ -19,7 +19,6 @@ package org.apache.xerces.impl.dtd;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Random;
 
 import org.apache.xerces.impl.dtd.models.CMAny;

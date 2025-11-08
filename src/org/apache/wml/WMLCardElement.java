@@ -27,8 +27,9 @@ package org.apache.wml;
  *
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
-
+@Deprecated
 public interface WMLCardElement extends WMLElement {
 
     /**

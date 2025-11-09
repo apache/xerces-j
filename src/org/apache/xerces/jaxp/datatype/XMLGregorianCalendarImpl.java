@@ -59,7 +59,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  * <table border="1">
  *   <thead>
  *     <tr>
- *       <th colspan="3">
+ *       <th style="text-align: center;" colspan="3">
  *         Date/time datatype field mapping between XML Schema 1.0 and Java representation
  *       </th>
  *     </tr>

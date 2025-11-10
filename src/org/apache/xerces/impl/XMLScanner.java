@@ -206,9 +206,10 @@ public abstract class XMLScanner
     //
 
     /**
+     * Resets the component. The component can query the component manager about
+     * any features and properties that affect the operation of the component.
      * 
-     * 
-     * @param componentManager The component manager.
+     * @param componentManager the component manager
      *
      * @throws SAXException Throws exception if required features and
      *                      properties cannot be found.
@@ -332,6 +333,7 @@ public abstract class XMLScanner
     /**
      * Scans an XML or text declaration.
      * <pre>
+     * {@code
      * [23] XMLDecl ::= '<?xml' VersionInfo EncodingDecl? SDDecl? S? '?>'
      * [24] VersionInfo ::= S 'version' Eq (' VersionNum ' | " VersionNum ")
      * [80] EncodingDecl ::= S 'encoding' Eq ('"' EncName '"' |  "'" EncName "'" )
@@ -340,7 +342,10 @@ public abstract class XMLScanner
      *                 | ('"' ('yes' | 'no') '"'))
      *
      * [77] TextDecl ::= '<?xml' VersionInfo? EncodingDecl S? '?>'
+     * }
      * </pre>
+     * <p><strong>Note:</strong> This method uses fString, anything in it at
+     * the time of calling is lost.</p>
      *
      * @param scanningTextDecl True if a text declaration is to
      *                         be scanned instead of an XML
@@ -348,9 +353,6 @@ public abstract class XMLScanner
      * @param pseudoAttributeValues An array of size 3 to return the version,
      *                         encoding and standalone pseudo attribute values
      *                         (in that order).
-     *
-     * <strong>Note:</strong> This method uses fString, anything in it
-     * at the time of calling is lost.
      */
     protected void scanXMLDeclOrTextDecl(boolean scanningTextDecl,
                                          String[] pseudoAttributeValues) 

@@ -57,6 +57,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  * 
  * <a name="datetimefieldsmapping"></a>
  * <table border="1">
+ *   <caption></caption>
  *   <thead>
  *     <tr>
  *       <th style="text-align: center;" colspan="3">

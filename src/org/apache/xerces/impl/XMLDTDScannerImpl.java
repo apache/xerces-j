@@ -747,7 +747,7 @@ public class XMLDTDScannerImpl
     /**
      * Scans a comment.
      * <pre>
-     * [15] Comment ::= '&lt!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
+     * [15] Comment ::= '&lt;!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
      * </pre>
      * <strong>Note:</strong> Called after scanning past '&lt;!--'
      */

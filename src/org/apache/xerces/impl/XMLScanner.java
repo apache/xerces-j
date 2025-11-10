@@ -732,7 +732,7 @@ public abstract class XMLScanner
     /**
      * Scans a comment.
      * <pre>
-     * [15] Comment ::= '&lt!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
+     * [15] Comment ::= '&lt;!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
      * </pre>
      * <p>
      * <strong>Note:</strong> Called after scanning past '&lt;!--'
@@ -770,9 +770,13 @@ public abstract class XMLScanner
     /**
      * Scans an attribute value and normalizes whitespace converting all
      * whitespace characters to space characters.
-     * <p>
-     * <code>[10] AttValue ::= '"' ([^<&"] | Reference)* '"' | "'" ([^<&'] | Reference)* "'"</code>
-     * </p>
+     * <pre>
+     * {@code
+     * [10] AttValue ::= '"' ([^<&"] | Reference)* '"' | "'" ([^<&'] | Reference)* "'"
+     * }
+     * </pre>
+     * <p><strong>Note:</strong> This method uses fStringBuffer2, anything in it
+     * at the time of calling is lost.</p>
      *
      * @param value the XMLString to fill in with the value
      * @param nonNormalizedValue the XMLString to fill in with the non-normalized value
@@ -782,9 +786,6 @@ public abstract class XMLScanner
      * @param eleName the name of element to which this attribute belongs
      *
      * @return true if the non-normalized and normalized value are the same
-     * <p>
-     * <strong>Note:</strong> This method uses fStringBuffer2, anything in it
-     * at the time of calling is lost.</p>
      */
     protected boolean scanAttributeValue(XMLString value, 
                                       XMLString nonNormalizedValue,
@@ -1268,7 +1269,9 @@ public abstract class XMLScanner
      * Scans a character reference and append the corresponding chars to the
      * specified buffer.
      * <pre>
+     * {@code
      * [66] CharRef ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
+     * }
      * </pre>
      *
      * <p>

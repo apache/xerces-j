@@ -58,6 +58,7 @@ public final class ShortListImpl extends AbstractList implements ShortList {
      * The number of <code>Objects</code> in the list. The range of valid
      * child node indices is 0 to <code>length-1</code> inclusive.
      */
+    @Override
     public int getLength() {
         return fLength;
     }
@@ -70,6 +71,7 @@ public final class ShortListImpl extends AbstractList implements ShortList {
      * @return  True if this list contains the <code>unsigned short</code> 
      *   <code>item</code>. 
      */
+    @Override
     public boolean contains(short item) {
         for (int i = 0; i < fLength; i++) {
             if (fArray[i] == item) {
@@ -78,14 +80,16 @@ public final class ShortListImpl extends AbstractList implements ShortList {
         }
         return false;
     }
-    
+
+    @Override
     public short item(int index) throws XSException {
         if (index < 0 || index >= fLength) {
             throw new XSException(XSException.INDEX_SIZE_ERR, null);
         }
         return fArray[index];
     }
-    
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof ShortList)) {
             return false;
@@ -106,7 +110,7 @@ public final class ShortListImpl extends AbstractList implements ShortList {
     /*
      * List methods
      */
-
+    @Override
     public Object get(int index) {
         if (index >= 0 && index < fLength) {
             return Short.valueOf(fArray[index]);
@@ -114,6 +118,7 @@ public final class ShortListImpl extends AbstractList implements ShortList {
         throw new IndexOutOfBoundsException("Index: " + index);
     }
 
+    @Override
     public int size() {
         return getLength();
     }

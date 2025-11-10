@@ -149,7 +149,10 @@ public abstract class BasicParserConfiguration
     /** Locale. */
     protected Locale fLocale;
 
-    /** Components. */
+    /**
+     * Components.
+     * @see XMLComponent
+     */
     protected ArrayList fComponents;
 
     // handlers

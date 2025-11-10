@@ -40,6 +40,7 @@ import org.apache.xerces.impl.dv.xs.XSSimpleTypeDecl;
 import org.apache.xerces.impl.validation.ConfigurableValidationState;
 import org.apache.xerces.impl.validation.ValidationManager;
 import org.apache.xerces.impl.validation.ValidationState;
+import org.apache.xerces.impl.xs.XMLSchemaLoader.LocationArray;
 import org.apache.xerces.impl.xs.identity.Field;
 import org.apache.xerces.impl.xs.identity.FieldActivator;
 import org.apache.xerces.impl.xs.identity.IdentityConstraint;
@@ -328,8 +329,7 @@ public class XMLSchemaValidator
         };
 
     /** Property defaults. */
-    private static final Object[] PROPERTY_DEFAULTS =
-        { null, null, null, null, null, null, null, null, null, null, null};
+    private static final Object[] PROPERTY_DEFAULTS = { null, null, null, null, null, null, null, null, null, null, null};
 
     // this is the number of valuestores of each kind
     // we expect an element to have.  It's almost
@@ -343,7 +343,7 @@ public class XMLSchemaValidator
     static final XSAttributeDecl XSI_NONAMESPACESCHEMALOCATION = SchemaGrammar.SG_XSI.getGlobalAttributeDecl(SchemaSymbols.XSI_NONAMESPACESCHEMALOCATION);
 
     //
-    private static final Hashtable EMPTY_TABLE = new Hashtable();
+    private static final Hashtable<String, LocationArray> EMPTY_TABLE = new Hashtable<>();
 
     //
     // Data
@@ -405,7 +405,7 @@ public class XMLSchemaValidator
 
         // store error codes; starting position of the errors for each element;
         // number of element (depth); and whether to record error
-        Vector fErrors = new Vector();
+        Vector<String> fErrors = new Vector<>();
         int[] fContext = new int[INITIAL_STACK_SIZE];
         int fContextCount;
 
@@ -479,23 +479,20 @@ public class XMLSchemaValidator
             return errors;
         }
 
-        public void reportError(String domain, String key, Object[] arguments, short severity)
-            throws XNIException {
-            String message = fErrorReporter.reportError(domain, key, arguments, severity);
+        public void reportError(String domain, String key, Object[] arguments, short severity) throws XNIException {
+            final String message = fErrorReporter.reportError(domain, key, arguments, severity);
             if (fAugPSVI) {
                 fErrors.addElement(key);
                 fErrors.addElement(message);
             }
         } // reportError(String,String,Object[],short)
 
-        public void reportError(
-            XMLLocator location,
-            String domain,
-            String key,
-            Object[] arguments,
-            short severity)
-            throws XNIException {
-            String message = fErrorReporter.reportError(location, domain, key, arguments, severity);
+        public void reportError(XMLLocator location,
+                                String domain,
+                                String key,
+                                Object[] arguments,
+                                short severity) throws XNIException {
+            final String message = fErrorReporter.reportError(location, domain, key, arguments, severity);
             if (fAugPSVI) {
                 fErrors.addElement(key);
                 fErrors.addElement(message);
@@ -523,7 +520,7 @@ public class XMLSchemaValidator
 
     /** Schema Grammar Description passed,  to give a chance to application to supply the Grammar */
     protected final XSDDescription fXSDDescription = new XSDDescription();
-    protected final Hashtable fLocationPairs = new Hashtable();
+    protected final Hashtable<String, LocationArray> fLocationPairs = new Hashtable<>();
     protected final Hashtable fExpandedLocationPairs = new Hashtable();
     protected final ArrayList fUnparsedLocations = new ArrayList();
 
@@ -2677,11 +2674,11 @@ public class XMLSchemaValidator
                 fXSDDescription.setBaseSystemId(fLocator.getExpandedSystemId());
             }
 
-            Hashtable locationPairs = fLocationPairs;
-            Object locationArray =
-                locationPairs.get(namespace == null ? XMLSymbols.EMPTY_STRING : namespace);
+            Hashtable<String, LocationArray> locationPairs = fLocationPairs;
+            final LocationArray locationArray = locationPairs.get(namespace == null ? XMLSymbols.EMPTY_STRING : namespace);
+
             if (locationArray != null) {
-                String[] temp = ((XMLSchemaLoader.LocationArray) locationArray).getLocationArray();
+                String[] temp = locationArray.getLocationArray();
                 if (temp.length != 0) {
                     setLocationHints(fXSDDescription, temp, grammar);
                 }

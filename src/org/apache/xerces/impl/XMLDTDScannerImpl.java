@@ -43,13 +43,13 @@ import org.apache.xerces.xni.parser.XMLInputSource;
  * communicated to the DTD handlers.
  * <p>
  * This component requires the following features and properties from the
- * component manager that uses it:
+ * component manager that uses it:</p>
  * <ul>
- *  <li>http://xml.org/sax/features/validation</li>
- *  <li>http://apache.org/xml/features/scanner/notify-char-refs</li>
- *  <li>http://apache.org/xml/properties/internal/symbol-table</li>
- *  <li>http://apache.org/xml/properties/internal/error-reporter</li>
- *  <li>http://apache.org/xml/properties/internal/entity-manager</li>
+ *  <li><code>http://xml.org/sax/features/validation</code></li>
+ *  <li><code>http://apache.org/xml/features/scanner/notify-char-refs</code></li>
+ *  <li><code>http://apache.org/xml/properties/internal/symbol-table</code></li>
+ *  <li><code>http://apache.org/xml/properties/internal/error-reporter</code></li>
+ *  <li><code>http://apache.org/xml/properties/internal/entity-manager</code></li>
  * </ul>
  * 
  * @xerces.internal
@@ -746,11 +746,9 @@ public class XMLDTDScannerImpl
 
     /**
      * Scans a comment.
-     * <p>
      * <pre>
      * [15] Comment ::= '&lt!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
      * </pre>
-     * <p>
      * <strong>Note:</strong> Called after scanning past '&lt;!--'
      */
     protected final void scanComment() throws IOException, XNIException {
@@ -768,13 +766,11 @@ public class XMLDTDScannerImpl
     } // scanComment()
 
     /**
-     * Scans an element declaration
-     * <p>
+     * Scans an element declaration.
      * <pre>
      * [45]    elementdecl    ::=    '&lt;!ELEMENT' S Name S contentspec S? '>'
      * [46]    contentspec    ::=    'EMPTY' | 'ANY' | Mixed | children  
      * </pre>
-     * <p>
      * <strong>Note:</strong> Called after scanning past '&lt;!ELEMENT'
      */
     protected final void scanElementDecl() throws IOException, XNIException {
@@ -1087,13 +1083,11 @@ public class XMLDTDScannerImpl
     }
 
     /**
-     * Scans an attlist declaration
-     * <p>
+     * Scans an attlist declaration.
      * <pre>
      * [52]  AttlistDecl    ::=   '&lt;!ATTLIST' S Name AttDef* S? '>' 
      * [53]  AttDef         ::=   S Name S AttType S DefaultDecl 
      * </pre>
-     * <p>
      * <strong>Note:</strong> Called after scanning past '&lt;!ATTLIST'
      */
     protected final void scanAttlistDecl() throws IOException, XNIException {
@@ -1197,8 +1191,7 @@ public class XMLDTDScannerImpl
     } // scanAttlistDecl()
 
     /**
-     * Scans an attribute type definition
-     * <p>
+     * Scans an attribute type definition.
      * <pre>
      * [54]  AttType        ::=   StringType | TokenizedType | EnumeratedType  
      * [55]  StringType     ::=   'CDATA' 
@@ -1213,7 +1206,6 @@ public class XMLDTDScannerImpl
      * [58]  NotationType ::= 'NOTATION' S '(' S? Name (S? '|' S? Name)* S? ')'
      * [59]  Enumeration    ::=    '(' S? Nmtoken (S? '|' S? Nmtoken)* S? ')' 
      * </pre>
-     * <p>
      * <strong>Note:</strong> Called after scanning past '&lt;!ATTLIST'
      *
      * @param elName The element type name this declaration is about.
@@ -1329,8 +1321,7 @@ public class XMLDTDScannerImpl
 
 
     /**
-     * Scans an attribute default declaration
-     * <p>
+     * Scans an attribute default declaration.
      * <pre>
      * [60] DefaultDecl ::= '#REQUIRED' | '#IMPLIED' | (('#FIXED' S)? AttValue)
      * </pre>
@@ -1374,8 +1365,7 @@ public class XMLDTDScannerImpl
     } // ScanAttDefaultDecl
 
     /**
-     * Scans an entity declaration
-     * <p>
+     * Scans an entity declaration.
      * <pre>
      * [70]    EntityDecl  ::=    GEDecl | PEDecl 
      * [71]    GEDecl      ::=    '&lt;!ENTITY' S Name S EntityDef S? '>' 
@@ -1386,7 +1376,6 @@ public class XMLDTDScannerImpl
      *                          | 'PUBLIC' S PubidLiteral S SystemLiteral  
      * [76]    NDataDecl   ::=    S 'NDATA' S Name 
      * </pre>
-     * <p>
      * <strong>Note:</strong> Called after scanning past '&lt;!ENTITY'
      */
     private final void scanEntityDecl() throws IOException, XNIException {
@@ -1696,12 +1685,10 @@ public class XMLDTDScannerImpl
 
     /**
      * Scans a notation declaration
-     * <p>
      * <pre>
      * [82] NotationDecl ::= '&lt;!NOTATION' S Name S (ExternalID|PublicID) S? '>'
      * [83]  PublicID    ::= 'PUBLIC' S PubidLiteral  
      * </pre>
-     * <p>
      * <strong>Note:</strong> Called after scanning past '&lt;!NOTATION'
      */
     private final void scanNotationDecl() throws IOException, XNIException {
@@ -1776,7 +1763,6 @@ public class XMLDTDScannerImpl
      * closing bracket has been found. When it's an include section though, it
      * returns to let the main loop take care of scanning it. In that case the
      * end of the section if handled by the main loop (scanDecls).
-     * <p>
      * <pre>
      * [61] conditionalSect   ::= includeSect | ignoreSect  
      * [62] includeSect       ::= '&lt;![' S? 'INCLUDE' S? '[' extSubsetDecl ']]>'
@@ -1784,7 +1770,6 @@ public class XMLDTDScannerImpl
      * [64] ignoreSectContents ::= Ignore ('&lt;![' ignoreSectContents ']]>' Ignore)* 
      * [65] Ignore            ::=    Char* - (Char* ('&lt;![' | ']]>') Char*)  
      * </pre>
-     * <p>
      * <strong>Note:</strong> Called after scanning past '&lt;![' */
     private final void scanConditionalSect(int currPEDepth)
         throws IOException, XNIException {

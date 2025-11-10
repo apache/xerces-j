@@ -1048,11 +1048,10 @@ public class DOMNormalizer implements XMLDocumentHandler {
      * attribute with the given prefix and value for URI.
      * In case prefix is empty will add/update default namespace declaration.
      * 
-     * @param prefix
-     * @param uri
-     * @exception IOException
+     * @param prefix the text to use as a namespace
+     * @param uri the URI that is being namespaced
+     * @param element the element that is having the namespace attribute applied
      */
-
     protected final void addNamespaceDecl(String prefix, String uri, ElementImpl element){
         if (DEBUG) {
             System.out.println("[ns-fixup] addNamespaceDecl ["+prefix+"]");

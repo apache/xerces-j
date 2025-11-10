@@ -116,12 +116,15 @@ public class TextImpl
 
     /**
      * DOM L3 Core CR - Experimental 
-     * 
-     * Returns whether this text node contains 
-     * element content whitespace</a>, often abusively called "ignorable whitespace". 
+     *
+     * <p>Returns whether this text node contains
+     * element content whitespace, often abusively called "ignorable whitespace".
      * The text node is determined to contain whitespace in element content 
      * during the load of the document or if validation occurs while using 
      * <code>Document.normalizeDocument()</code>.
+     * </p>
+     *
+     * @return true if this text node contains element content whitespace
      * @since DOM Level 3
      */
     public boolean isElementContentWhitespace() {
@@ -166,9 +169,9 @@ public class TextImpl
     
     /**
      * internal method taking a StringBuffer in parameter and inserts the 
-     * text content at the start of the buffer
-     * 
-     * @param buf
+     * text content at the start of the buffer.
+     *
+     * @param buf the buffer which text content will be inserted into
      */
     protected void insertTextContent(StringBuffer buf) throws DOMException {
          String content = getNodeValue();

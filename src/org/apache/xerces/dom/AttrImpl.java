@@ -1092,7 +1092,7 @@ public class AttrImpl
      * @param derivationMethod
      *        The derivation method
      * 
-     * @return boolean True if the type is derived by restriciton for the
+     * @return boolean True if the type is derived by restriction for the
      *         reference type
      */
     public boolean isDerivedFrom(String typeNamespaceArg, 

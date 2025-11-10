@@ -407,7 +407,7 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
      * @param type
      *            The reference type definition
      * 
-     * @return boolean True if the type is derived by restriciton for the
+     * @return boolean True if the type is derived by restriction for the
      *         reference type
      */
     private boolean isDerivedByRestriction(String ancestorNS,

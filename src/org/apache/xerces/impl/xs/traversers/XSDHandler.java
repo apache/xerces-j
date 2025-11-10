@@ -111,12 +111,12 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 
 /**
- * The purpose of this class is to co-ordinate the construction of a
- * grammar object corresponding to a schema.  To do this, it must be
- * prepared to parse several schema documents (for instance if the
- * schema document originally referred to contains <include> or
- * <redefined> information items).  If any of the schemas imports a
- * schema, other grammars may be constructed as a side-effect.
+ * The purpose of this class is to co-ordinate the construction of a grammar object
+ * corresponding to a schema.  To do this, it must be prepared to parse several
+ * schema documents (for instance if the schema document originally referred to
+ * contains <code>include</code> or <code>redefined</code> information items).
+ * If any of the schemas imports a schema, other grammars may be constructed as
+ * a side effect.
  *
  * @xerces.internal 
  *

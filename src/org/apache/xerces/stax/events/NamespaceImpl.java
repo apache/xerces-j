@@ -35,8 +35,11 @@ public final class NamespaceImpl extends AttributeImpl implements Namespace {
     private final String fNamespaceURI;
 
     /**
-     * @param location
-     * @param schemaType
+     * Constructor for an implementation of {@link Namespace}.
+     *
+     * @param prefix the prefix
+     * @param namespaceURI the namespaceURI
+     * @param location the {@link Location}
      */
     public NamespaceImpl(final String prefix, final String namespaceURI, final Location location) {
         super(NAMESPACE, makeAttributeQName(prefix), namespaceURI, null, true, location);

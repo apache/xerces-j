@@ -1522,9 +1522,9 @@ public class XMLEntityScanner implements XMLLocator {
      * The return value is the literal system identifier of the document
      * entity or of the external parsed entity in which the markup
      * triggering the event appears.
-     * <p>
-     * @return A string containing the literal system identifier, or null
-     *         if none is available.
+     * </p>
+     *
+     * @return a string containing the literal system identifier, or null if none is available
      */
     public final String getLiteralSystemId() {
         if (fCurrentEntity != null) {
@@ -1688,7 +1688,7 @@ public class XMLEntityScanner implements XMLLocator {
     // set buffer size:
     public final void setBufferSize(int size) {
         // REVISIT: Buffer size passed to entity scanner 
-        // was not being kept in synch with the actual size
+        // was not being kept in sync with the actual size
         // of the buffers in each scanned entity. If any
         // of the buffers were actually resized, it was possible
         // that the parser would throw an ArrayIndexOutOfBoundsException

@@ -294,7 +294,7 @@ public class NamedNodeMapImpl
      * @param name          The local name of the node to remove.
      * @return Node         The node removed from the map if a node with such
      *                      a local name and namespace URI exists.
-     * @throws              NOT_FOUND_ERR: Raised if there is no node named
+     * @throws              DOMException NOT_FOUND_ERR: Raised if there is no node named
      *                      name in the map.
 
      */

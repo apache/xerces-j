@@ -31,7 +31,6 @@ import org.apache.xerces.xni.Augmentations;
  * be passed along the document pipeline. The information can contain extra
  * arguments or infoset augmentations, for example PSVI. This additional
  * information is identified by a String key.
- * <p>
  * 
  * @author Elena Litani, IBM
  * @version $Id$

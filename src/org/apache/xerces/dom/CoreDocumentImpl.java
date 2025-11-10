@@ -2129,7 +2129,7 @@ extends ParentNode implements Document  {
      * @param localpart  The local name of the attribute to instantiate.
      *
      * @return Element A new Element object with the following attributes:
-     * @exception DOMException INVALID_CHARACTER_ERR: Raised if the specified
+     * @throws DOMException INVALID_CHARACTER_ERR: Raised if the specified
      *                   name contains an invalid character.
      */
     public Element createElementNS(String namespaceURI, String qualifiedName,

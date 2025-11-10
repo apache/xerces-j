@@ -2692,7 +2692,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
      * @param type
      *            The reference type definition
      * 
-     * @return boolean True if the type is derived by restriciton for the reference type
+     * @return boolean True if the type is derived by restriction for the reference type
      */
     private boolean isDerivedByAny(String ancestorNS, String ancestorName,
             XSTypeDefinition type) {
@@ -2749,7 +2749,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
      * @param type
      *            The reference type definition
      * 
-     * @return boolean True if the type is derived by restriciton for the
+     * @return boolean True if the type is derived by restriction for the
      *         reference type
      */
     private boolean isDerivedByRestriction (String ancestorNS, String ancestorName, XSTypeDefinition type) {

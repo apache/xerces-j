@@ -24,7 +24,7 @@ import junit.textui.TestRunner;
 /**
  * XSD IDC constraints tests.
  * 
- * @author Mukul Gandhi <mukulg@apache.org>
+ * @author <a href="mailto:mukulg@apache.org">Mukul Gandhi</a>
  * @version $Id$
  */
 public class AllTests {

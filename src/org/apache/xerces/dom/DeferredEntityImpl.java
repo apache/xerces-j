@@ -34,17 +34,17 @@ package org.apache.xerces.dom;
  * the structure model is passed to the DOM; in this case, there will
  * be no EntityReferences in the DOM tree.
  * </p>
- * <p>
- * Quoting the 10/01 DOM Proposal,
- * <BLOCKQUOTE>
+ * <p>Quoting the 10/01 DOM Proposal,</p>
+ * <blockquote>
  * "The DOM Level 1 does not support editing Entity nodes; if a user
  * wants to make changes to the contents of an Entity, every related
  * EntityReference node has to be replaced in the structure model by
  * a clone of the Entity's contents, and then the desired changes
  * must be made to each of those clones instead. All the
  * descendants of an Entity node are readonly."
- * </BLOCKQUOTE>
- * I'm interpreting this as: It is the parser's responsibilty to call
+ * </blockquote>
+ * <p>
+ * I'm interpreting this as: It is the parser's responsibility to call
  * the non-DOM operation setReadOnly(true,true) after it constructs
  * the Entity. Since the DOM explicitly decided not to deal with this,
  * _any_ answer will involve a non-DOM operation, and this is the

@@ -26,6 +26,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * methods may return unexpected values.
  * 
  * <table border="1">
+ * <caption></caption>
  * <tr>
  * <td> XML Schema Datatype </td>
  * <td> getYears() </td>

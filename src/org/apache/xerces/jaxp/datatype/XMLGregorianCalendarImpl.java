@@ -68,7 +68,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *   <tbody>
  *     <tr>
  *       <th>XML Schema 1.0<br/>
- *           datatype<br/> 
+ *           datatype<br/>
  *            field</th>
  *       <th>Related<br/>XMLGregorianCalendar<br/>Accessor(s)</th>
  *       <th>Value Range</th>
@@ -647,6 +647,7 @@ class XMLGregorianCalendarImpl
 	 * representation.</p>
 	 *
 	 * <table border="1">
+     *   <caption></caption>
 	 *   <thead>
 	 *     <tr>
 	 *       <th colspan="2">
@@ -1824,6 +1825,7 @@ class XMLGregorianCalendarImpl
      * maps to. Type is computed based on fields that are set.</p>
      *
      * <table border="1">
+     *   <caption></caption>
      *   <thead>
      *     <tr>
      *       <th colspan="7">
@@ -2393,6 +2395,7 @@ class XMLGregorianCalendarImpl
      * {@link #toGregorianCalendar(TimeZone, Locale, XMLGregorianCalendar)}.</p>
      * 
      * <table border="1">
+     *   <caption></caption>
      *   <thead>
      *     <tr>
      *       <th colspan="2">

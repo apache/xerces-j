@@ -26,6 +26,7 @@ import java.util.Hashtable;
  * those names which IANA defines.
  * <p>
  * <table>
+ * <caption></caption>
  *  <tr>
  *      <td>
  *          <strong>Common Name</strong>

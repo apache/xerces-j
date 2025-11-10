@@ -402,7 +402,7 @@ import org.apache.xerces.util.IntStack;
  * other-properties ::= 'ALL' | 'ASSIGNED' | 'UNASSIGNED'
  * character-1 ::= (any character except meta-characters)
  *
- * char-class ::= '[' ranges ']' | '(?[' ranges ']' ([-+&] '[' ranges ']')? ')'
+ * char-class ::= '[' ranges ']' | '(?[' ranges ']' ([-+&amp;] '[' ranges ']')? ')'
  * ranges ::= '^'? (range <a href="#COMMA_OPTION">','?</a>)+
  * range ::= '\d' | '\w' | '\s' | '\D' | '\W' | '\S' | category-block
  *           | range-char | range-char '-' range-char

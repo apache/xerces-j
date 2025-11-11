@@ -315,19 +315,13 @@ public class PSVIWriter implements XMLComponent, XMLDocumentFilter {
      * <strong>Note:</strong> This method is not called for entity references
      * appearing as part of attribute values.
      *
-     * @param name     The name of the entity.
-     * @param publicId The public identifier of the entity if the entity
-     *                 is external, null otherwise.
-     * @param systemId The system identifier of the entity if the entity
-     *                 is external, null otherwise.
-     * @param baseSystemId The base system identifier of the entity if
-     *                     the entity is external, null otherwise.
-     * @param encoding The auto-detected IANA encoding name of the entity
+     * @param name     the name of the entity
+     * @param encoding the auto-detected IANA encoding name of the entity
      *                 stream. This value will be null in those situations
      *                 where the entity encoding is not auto-detected (e.g.
      *                 internal entities or a document entity that is
      *                 parsed from a java.io.Reader).
-     * @param augs   Additional information that may include infoset augmentations
+     * @param augs     additional information that may include infoset augmentations
      *
      * @throws XNIException Thrown by handler to signal an error.
      */

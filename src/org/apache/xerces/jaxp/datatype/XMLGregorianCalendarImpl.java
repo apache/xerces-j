@@ -57,7 +57,6 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  * 
  * <a name="datetimefieldsmapping"></a>
  * <table border="1">
- *   <caption></caption>
  *   <thead>
  *     <tr>
  *       <th style="text-align: center;" colspan="3">
@@ -647,7 +646,6 @@ class XMLGregorianCalendarImpl
 	 * representation.</p>
 	 *
 	 * <table border="1">
-     *   <caption></caption>
 	 *   <thead>
 	 *     <tr>
 	 *       <th colspan="2">
@@ -1825,7 +1823,6 @@ class XMLGregorianCalendarImpl
      * maps to. Type is computed based on fields that are set.</p>
      *
      * <table border="1">
-     *   <caption></caption>
      *   <thead>
      *     <tr>
      *       <th colspan="7">
@@ -2395,7 +2392,6 @@ class XMLGregorianCalendarImpl
      * {@link #toGregorianCalendar(TimeZone, Locale, XMLGregorianCalendar)}.</p>
      * 
      * <table border="1">
-     *   <caption></caption>
      *   <thead>
      *     <tr>
      *       <th colspan="2">

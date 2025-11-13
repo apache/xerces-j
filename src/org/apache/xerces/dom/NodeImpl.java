@@ -1292,7 +1292,6 @@ public abstract class NodeImpl
      * <br>The string returned is made of the text content of this node 
      * depending on its type, as defined below: 
      * <table border='1'>
-     * <caption></caption>
      * <tr>
      * <th>Node type</th>
      * <th>Content</th>
@@ -1311,7 +1310,6 @@ public abstract class NodeImpl
      * <br>The string returned is made of the text content of this node 
      * depending on its type, as defined below: 
      * <table border='1'>
-     * <caption></caption>
      * <tr>
      * <th>Node type</th>
      * <th>Content</th>
@@ -1369,7 +1367,6 @@ public abstract class NodeImpl
      * <br>The string returned is made of the text content of this node 
      * depending on its type, as defined below: 
      * <table border='1'>
-     * <caption></caption>
      * <tr>
      * <th>Node type</th>
      * <th>Content</th>

@@ -712,7 +712,7 @@ public class XMLDocumentFragmentScannerImpl
     /**
      * Scans a comment.
      * <pre>
-     * [15] Comment ::= '&lt!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
+     * [15] Comment ::= '&lt;!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
      * </pre>
      * <strong>Note:</strong> Called after scanning past '&lt;!--'
      */
@@ -1192,7 +1192,9 @@ public class XMLDocumentFragmentScannerImpl
     /**
      * Scans a character reference.
      * <pre>
+     * {@code
      * [66] CharRef ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
+     * }
      * </pre>
      */
     protected void scanCharReference() 

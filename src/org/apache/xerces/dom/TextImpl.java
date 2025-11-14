@@ -593,8 +593,7 @@ public class TextImpl
 
     /**
      * Break a text node into two sibling nodes. (Note that if the current node
-     * has no parent, they won't wind up as "siblings" -- they'll both be
-     * orphans.)
+     * has no parent, they won't wind up as "siblings" -- they'll both be orphans.)
      * 
      * @param offset the offset at which to split. If offset is at the end of the
      *            available data, the second node will be empty.
@@ -602,7 +601,7 @@ public class TextImpl
      * @return a reference to the new node (containing data after the offset
      *         point). The original node will contain data up to that point.
      * 
-     * @throws DOMException INDEX_SIZE_ERR if offset is <0 or >length.
+     * @throws DOMException INDEX_SIZE_ERR if offset is &lt;0 or >length.
      *
      * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if node is read-only.
      */

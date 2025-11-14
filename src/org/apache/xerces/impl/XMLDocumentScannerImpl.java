@@ -1077,11 +1077,10 @@ public class XMLDocumentScannerImpl
 
         /**
          * Scan for DOCTYPE hook. This method is a hook for subclasses
-         * to add code to handle scanning for a the "DOCTYPE" string
-         * after the string "<!" has been scanned.
+         * to add code to handle scanning for the "DOCTYPE" string
+         * after the string "&lt;!" has been scanned.
          *
-         * @return True if the "DOCTYPE" was scanned; false if "DOCTYPE"
-         *          was not scanned.
+         * @return true if the "DOCTYPE" was scanned; false if "DOCTYPE" was not scanned
          */
         protected boolean scanForDoctypeHook()
             throws IOException, XNIException {

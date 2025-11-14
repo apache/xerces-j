@@ -206,9 +206,10 @@ public abstract class XMLScanner
     //
 
     /**
+     * Resets the component. The component can query the component manager about
+     * any features and properties that affect the operation of the component.
      * 
-     * 
-     * @param componentManager The component manager.
+     * @param componentManager the component manager
      *
      * @throws SAXException Throws exception if required features and
      *                      properties cannot be found.
@@ -332,6 +333,7 @@ public abstract class XMLScanner
     /**
      * Scans an XML or text declaration.
      * <pre>
+     * {@code
      * [23] XMLDecl ::= '<?xml' VersionInfo EncodingDecl? SDDecl? S? '?>'
      * [24] VersionInfo ::= S 'version' Eq (' VersionNum ' | " VersionNum ")
      * [80] EncodingDecl ::= S 'encoding' Eq ('"' EncName '"' |  "'" EncName "'" )
@@ -340,7 +342,10 @@ public abstract class XMLScanner
      *                 | ('"' ('yes' | 'no') '"'))
      *
      * [77] TextDecl ::= '<?xml' VersionInfo? EncodingDecl S? '?>'
+     * }
      * </pre>
+     * <p><strong>Note:</strong> This method uses fString, anything in it at
+     * the time of calling is lost.</p>
      *
      * @param scanningTextDecl True if a text declaration is to
      *                         be scanned instead of an XML
@@ -348,9 +353,6 @@ public abstract class XMLScanner
      * @param pseudoAttributeValues An array of size 3 to return the version,
      *                         encoding and standalone pseudo attribute values
      *                         (in that order).
-     *
-     * <strong>Note:</strong> This method uses fString, anything in it
-     * at the time of calling is lost.
      */
     protected void scanXMLDeclOrTextDecl(boolean scanningTextDecl,
                                          String[] pseudoAttributeValues) 
@@ -732,7 +734,7 @@ public abstract class XMLScanner
     /**
      * Scans a comment.
      * <pre>
-     * [15] Comment ::= '&lt!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
+     * [15] Comment ::= '&lt;!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
      * </pre>
      * <p>
      * <strong>Note:</strong> Called after scanning past '&lt;!--'
@@ -771,8 +773,7 @@ public abstract class XMLScanner
      * Scans an attribute value and normalizes whitespace converting all
      * whitespace characters to space characters.
      * <p>
-     * <code>[10] AttValue ::= '"' ([^<&"] | Reference)* '"' | "'" ([^<&'] | Reference)* "'"</code>
-     * </p>
+     * <code>[10] AttValue ::= '"' ([^&lt;&amp;"] | Reference)* '"' | "'" ([^&lt;&amp;'] | Reference)* "'"</code>
      *
      * @param value the XMLString to fill in with the value
      * @param nonNormalizedValue the XMLString to fill in with the non-normalized value
@@ -782,9 +783,6 @@ public abstract class XMLScanner
      * @param eleName the name of element to which this attribute belongs
      *
      * @return true if the non-normalized and normalized value are the same
-     * <p>
-     * <strong>Note:</strong> This method uses fStringBuffer2, anything in it
-     * at the time of calling is lost.</p>
      */
     protected boolean scanAttributeValue(XMLString value, 
                                       XMLString nonNormalizedValue,
@@ -1268,7 +1266,9 @@ public abstract class XMLScanner
      * Scans a character reference and append the corresponding chars to the
      * specified buffer.
      * <pre>
+     * {@code
      * [66] CharRef ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
+     * }
      * </pre>
      *
      * <p>

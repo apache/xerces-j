@@ -67,7 +67,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *   <tbody>
  *     <tr>
  *       <th>XML Schema 1.0<br/>
- *           datatype<br/> 
+ *           datatype<br/>
  *            field</th>
  *       <th>Related<br/>XMLGregorianCalendar<br/>Accessor(s)</th>
  *       <th>Value Range</th>

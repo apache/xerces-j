@@ -772,13 +772,8 @@ public abstract class XMLScanner
     /**
      * Scans an attribute value and normalizes whitespace converting all
      * whitespace characters to space characters.
-     * <pre>
-     * {@code
-     * [10] AttValue ::= '"' ([^<&"] | Reference)* '"' | "'" ([^<&'] | Reference)* "'"
-     * }
-     * </pre>
-     * <p><strong>Note:</strong> This method uses fStringBuffer2, anything in it
-     * at the time of calling is lost.</p>
+     * <p>
+     * <code>[10] AttValue ::= '"' ([^&lt;&amp;"] | Reference)* '"' | "'" ([^&lt;&amp;'] | Reference)* "'"</code>
      *
      * @param value the XMLString to fill in with the value
      * @param nonNormalizedValue the XMLString to fill in with the non-normalized value

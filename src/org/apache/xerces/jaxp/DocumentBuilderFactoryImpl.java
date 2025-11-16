@@ -33,6 +33,8 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 
 /**
+ * An implementation of DocumentBuilderFactory.
+ *
  * @author Rajiv Mordani
  * @author Edwin Goei
  * @version $Id$
@@ -145,8 +147,11 @@ public class DocumentBuilderFactoryImpl extends DocumentBuilderFactory {
     }
 
     /**
-     * Allows the user to retrieve specific attributes on the underlying 
-     * implementation.
+     * Allows the user to retrieve specific attributes on the underlying implementation.
+     *
+     * @param name the name of attribute
+     * @return the requested attribute
+     * @throws IllegalArgumentException if no property or feature is found for the provided name
      */
     public Object getAttribute(String name)
         throws IllegalArgumentException

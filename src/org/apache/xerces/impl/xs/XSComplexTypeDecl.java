@@ -599,7 +599,11 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
 
     /**
      * {derivation method} Either extension or restriction. The valid constant
-     * value for this <code>XSConstants</code> EXTENTION, RESTRICTION.
+     * value for this <code>XSConstants</code> EXTENSION, RESTRICTION.
+     *
+     * @return the derivation method as a short
+     * @see XSConstants#DERIVATION_EXTENSION
+     * @see XSConstants#DERIVATION_RESTRICTION
      */
     public short getDerivationMethod() {
         return fDerivedBy;

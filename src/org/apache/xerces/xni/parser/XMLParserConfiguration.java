@@ -200,17 +200,25 @@ public interface XMLParserConfiguration
      */
     public void setDocumentHandler(XMLDocumentHandler documentHandler);
 
-    /** Returns the registered document handler. */
+    /**
+     * Returns the registered document handler.
+     *
+     * @return the registered document handler
+     */
     public XMLDocumentHandler getDocumentHandler();
 
     /**
      * Sets the DTD handler.
      * 
-     * @param dtdHandler The DTD handler.
+     * @param dtdHandler the DTD handler
      */
     public void setDTDHandler(XMLDTDHandler dtdHandler);
 
-    /** Returns the registered DTD handler. */
+    /**
+     * Returns the registered DTD handler.
+     *
+     * @return the registered DTD handler
+     */
     public XMLDTDHandler getDTDHandler();
 
     /**
@@ -220,7 +228,11 @@ public interface XMLParserConfiguration
      */
     public void setDTDContentModelHandler(XMLDTDContentModelHandler dtdContentModelHandler);
 
-    /** Returns the registered DTD content model handler. */
+    /**
+     * Returns the registered DTD content model handler.
+     *
+     * @return the registered DTD content model handler
+     */
     public XMLDTDContentModelHandler getDTDContentModelHandler();
 
     // other settings
@@ -232,20 +244,27 @@ public interface XMLParserConfiguration
      */
     public void setEntityResolver(XMLEntityResolver entityResolver);
 
-    /** Returns the registered entity resolver. */
+    /**
+     * Returns the registered entity resolver.
+     *
+     * @return the registered entity resolver
+     */
     public XMLEntityResolver getEntityResolver();
 
     /**
      * Set the locale to use for messages.
      *
-     * @param locale The locale object to use for localization of messages.
+     * @param locale the locale object to use for localization of messages
      *
-     * @exception XNIException Thrown if the parser does not support the
-     *                         specified locale.
+     * @throws XNIException Thrown if the parser does not support the specified locale
      */
     public void setLocale(Locale locale) throws XNIException;
 
-    /** Returns the locale. */
+    /**
+     * Returns the locale.
+     *
+     * @return the locale
+     */
     public Locale getLocale();
 
 } // interface XMLParserConfiguration

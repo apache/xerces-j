@@ -29,6 +29,8 @@ import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLDTDScanner;
 
 /**
+ * DTD Parser
+ *
  * @version $Id$
  */
 public abstract class DTDParser

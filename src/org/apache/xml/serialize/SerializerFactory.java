@@ -87,8 +87,16 @@ public abstract class SerializerFactory {
 
 
     /**
-     * Register a serializer factory, keyed by the given
-     * method string.
+     * Register a serializer factory, keyed by the given method string.
+     * <p>Xerces registers default serializer factories for</p>
+     * <ul>
+     *     <li>{@link Method#XML}</li>
+     *     <li>{@link Method#HTML}</li>
+     *     <li>{@link Method#XHTML}</li>
+     *     <li>{@link Method#TEXT}</li>
+     * </ul>
+     *
+     * @param factory the serializer factory to be registered
      */
     public static void registerSerializerFactory( SerializerFactory factory )
     {
@@ -102,8 +110,18 @@ public abstract class SerializerFactory {
 
 
     /**
-     * Register a serializer factory, keyed by the given
-     * method string.
+     * Retrieve a serializer factory, keyed by the given method string.
+     * <p>Xerces registers default serializer factories for</p>
+     * <ul>
+     *     <li>{@link Method#XML}</li>
+     *     <li>{@link Method#HTML}</li>
+     *     <li>{@link Method#XHTML}</li>
+     *     <li>{@link Method#TEXT}</li>
+     * </ul>
+     *
+     * @param method the method string to retrieve the SerializerFactory by
+     * @return the serializer factory registered with the given method string
+     * @see Method
      */
     public static SerializerFactory getSerializerFactory( String method )
     {
@@ -117,6 +135,8 @@ public abstract class SerializerFactory {
      * a properties file by knowing only the class name. This method is
      * protected, it is only required by this class but must be implemented
      * in derived classes.
+     *
+     * @return the method supported by this factory
      */
     protected abstract String getSupportedMethod();
 

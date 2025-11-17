@@ -205,10 +205,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public interface XSDateTime {
 	
     /**
-     * Returns years.
+     * Returns the years for this <code>xs:dateTime</code> or <code>xs:date</code> (YYYY).
      * <p>
-     * Years on a <code>xs:dateTime</code> are YYYY. Note that <code>xs:duration</code>
-     * can have negative values for years.
+     * Note that year may be a negative value. This getter is only used for
+     * <code>xs:dateTime</code> and <code>xs:date</code>
      * </p>
      *
      * @return years - can be negative for date-time related types;
@@ -216,8 +216,11 @@ public interface XSDateTime {
     public int getYears();
     
     /**
-     * Returns months.
-     * <p>Months on a <code>xs:dateTime</code> are MM.</p>
+     * Returns the months for this <code>xs:dateTime</code>, <code>xs:date</code>, or <code>xs:duration</code> (MM).
+     * <p>
+     * This getter is only used for <code>xs:dateTime</code>, <code>xs:date</code>,
+     * and <code>xs:duration</code> types.
+     * </p>
      *
      * @return months - can be negative only for duration types;
      *                  For duration types, it returns years*12 + months
@@ -225,32 +228,32 @@ public interface XSDateTime {
     public int getMonths();
     
     /**
-     * Returns days.
-     * <p>Days on a <code>xs:dateTime</code> are DD.</p>
+     * Returns the days for this <code>xs:dateTime</code> or <code>xs:date</code>(DD).
+     * This getter is only used for <code>xs:dateTime</code> and <code>xs:date</code> types.
      *
      * @return days - cannot be negative;
      */
     public int getDays();
     
     /**
-     * Returns hours.
-     * <p>Hours on a <code>xs:dateTime</code> are hh.</p>
+     * Returns the hours for this <code>xs:dateTime</code> (hh).
      *
      * @return hours - cannot be negative;
      */
     public int getHours();
     
     /**
-     * Returns minutes.
-     * <p>Minutes on a <code>xs:dateTime</code> are mm.</p>
+     * Returns the minutes for this <code>xs:dateTime</code> (mm).
      *
      * @return minutes - cannot be negative;
      */
     public int getMinutes();
     
     /**
-     * Returns seconds.
-     * <p>Seconds on a <code>xs:dateTime</code> are ss.</p>
+     * Returns the seconds for this <code>xs:dateTime</code> (ss).
+     * <p>
+     * Note that <code>xs:duration</code> can have negative values for seconds.
+     * </p>
      *
      * @return seconds - can be negative only for durations;
      *                   For duration types, it returns days*24*3600 + hours*3600 
@@ -292,24 +295,22 @@ public interface XSDateTime {
     
     /**
      * Returns whether a date-time related object is normalized or not.
-     * This is only useful for datetimes that have timezone
+     * This is only useful for <code>xs:dateTime</code> that have timezone
      *
      * @return whether a date-time related object is normalized or not
      *         (value is not useful for types where timezone is not specified)
      */
     public boolean isNormalized();
-       
+
     /**
-     * Returns an un-normalized XMLGregorianCalendar or null.
-     *
      * @return an un-normalized XMLGregorianCalendar (if applicable otherwise null)
      */
     public XMLGregorianCalendar getXMLGregorianCalendar();
-        
+
     /**
-     * Returns the duration if applicable otherwise null.
+     * Returns the duration if the datatype is a <code>xs:duration</code> otherwise null.
      *
-     * @return a Duration (if applicable otherwise null)
+     * @return a Duration (only if the datatype is a <code>xs:duration</code> otherwise null)
      */
     public Duration getDuration();
 }

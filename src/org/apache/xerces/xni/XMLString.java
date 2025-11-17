@@ -155,7 +155,7 @@ public class XMLString {
      * Returns true if the contents of this XMLString structure and
      * the specified string are equal.
      *
-     * @param s the string to compare
+     * @param s the Java string to compare
      * @return true if the contents of this XMLString match the string
      */
     public boolean equals(String s) {

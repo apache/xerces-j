@@ -206,6 +206,10 @@ public interface XSDateTime {
 	
     /**
      * Returns years.
+     * <p>
+     * Years on a <code>xs:dateTime</code> are YYYY. Note that <code>xs:duration</code>
+     * can have negative values for years.
+     * </p>
      *
      * @return years - can be negative for date-time related types;
      */
@@ -213,6 +217,7 @@ public interface XSDateTime {
     
     /**
      * Returns months.
+     * <p>Months on a <code>xs:dateTime</code> are MM.</p>
      *
      * @return months - can be negative only for duration types;
      *                  For duration types, it returns years*12 + months
@@ -221,6 +226,7 @@ public interface XSDateTime {
     
     /**
      * Returns days.
+     * <p>Days on a <code>xs:dateTime</code> are DD.</p>
      *
      * @return days - cannot be negative;
      */
@@ -228,6 +234,7 @@ public interface XSDateTime {
     
     /**
      * Returns hours.
+     * <p>Hours on a <code>xs:dateTime</code> are hh.</p>
      *
      * @return hours - cannot be negative;
      */
@@ -235,6 +242,7 @@ public interface XSDateTime {
     
     /**
      * Returns minutes.
+     * <p>Minutes on a <code>xs:dateTime</code> are mm.</p>
      *
      * @return minutes - cannot be negative;
      */
@@ -242,6 +250,7 @@ public interface XSDateTime {
     
     /**
      * Returns seconds.
+     * <p>Seconds on a <code>xs:dateTime</code> are ss.</p>
      *
      * @return seconds - can be negative only for durations;
      *                   For duration types, it returns days*24*3600 + hours*3600 

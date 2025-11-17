@@ -94,7 +94,7 @@ public interface XSElementDeclaration extends XSTerm {
      * <code>itemValueTypes</code>. If the <code>actualNormalizedValue</code>
      *  is <code>null</code>, this method returns <code>UNAVAILABLE_DT</code>.
      *
-     * @return s short value for one of the specified {@link XSConstants}
+     * @return one of the specified {@link XSConstants}
      * @throws XSException NOT_SUPPORTED_ERR: Raised if the implementation does
      * not support this method.
      * 

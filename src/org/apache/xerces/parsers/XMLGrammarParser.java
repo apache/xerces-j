@@ -23,7 +23,7 @@ import org.apache.xerces.util.SymbolTable;
 import org.apache.xerces.xni.parser.XMLParserConfiguration;
 
 /**
- * XML Grammar Parser
+ * A base XML Grammar Parser class that can be extended for parsing XML
  *
  * @version $Id$
  */
@@ -44,7 +44,7 @@ public abstract class XMLGrammarParser
     /**
      * Construct an XMLGrammarParser with the specified symbol table
      *
-     * @param symbolTable
+     * @param symbolTable the symbol table to use
      */
     protected XMLGrammarParser(SymbolTable symbolTable) {
         super((XMLParserConfiguration)ObjectFactory.createObject(

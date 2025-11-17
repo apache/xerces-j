@@ -29,7 +29,7 @@ import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLDTDScanner;
 
 /**
- * DTD Parser
+ * A base DTD Parser class that can be extended when needing to parse a Document Type Definition
  *
  * @version $Id$
  */
@@ -49,9 +49,9 @@ public abstract class DTDParser
     //
 
     /**
+     * Construct a DTDParser with the specified symbol table
      * 
-     * 
-     * @param symbolTable 
+     * @param symbolTable the symbol table to use
      */
     public DTDParser(SymbolTable symbolTable) {
         super(symbolTable);

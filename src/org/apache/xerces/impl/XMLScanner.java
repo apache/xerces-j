@@ -205,9 +205,6 @@ public abstract class XMLScanner
     // XMLComponent methods
     //
 
-    /**
-     * {@inheritDoc}
-     */
     public void reset(XMLComponentManager componentManager)
         throws XMLConfigurationException {
 

@@ -1376,12 +1376,11 @@ public abstract class AbstractSAXParser
     /**
      * Set the locale to use for messages.
      *
-     * @param locale The locale object to use for localization of messages.
+     * @param locale The locale object to use for localization of messages
      *
-     * @exception SAXException An exception thrown if the parser does not
-     *                         support the specified locale.
+     * @throws SAXException if the parser does not support the specified locale
      *
-     * @see org.xml.sax.Parser
+     * @see org.xml.sax.Parser#setLocale(Locale)
      */
     public void setLocale(Locale locale) throws SAXException {
         //REVISIT:this methods is not part of SAX2 interfaces, we should throw exception
@@ -1400,9 +1399,8 @@ public abstract class AbstractSAXParser
      * middle of a parse, and the SAX parser must begin using the new
      * handler immediately.
      *
-     * @param dtdHandler The DTD handler.
+     * @param dtdHandler the DTD handler
      *
-
      * @see #getDTDHandler
      */
     public void setDTDHandler(DTDHandler dtdHandler) {
@@ -2171,7 +2169,10 @@ public abstract class AbstractSAXParser
     /**
      * Reset all components before parsing.
      *
-     * @throws XNIException Thrown if an error occurs during initialization.
+     * @throws XNIException any XNI exception but likely to be <code>XMLConfigurationException</code> if
+     * resetting requires access to properties and features held within the <code>XMLParserConfiguration</code>
+     * @see XMLParserConfiguration
+     * @see org.apache.xerces.xni.parser.XMLConfigurationException
      */
     public void reset() throws XNIException {
         super.reset();

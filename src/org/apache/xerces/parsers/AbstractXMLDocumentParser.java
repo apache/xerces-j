@@ -800,7 +800,12 @@ public abstract class AbstractXMLDocumentParser
     //
 
     /**
-     * reset all components before parsing
+     * Reset all components before parsing.
+     *
+     * @throws XNIException any XNI exception but likely to be <code>XMLConfigurationException</code> if
+     * resetting requires access to properties and features held within the <code>XMLParserConfiguration</code>
+     * @see XMLParserConfiguration
+     * @see org.apache.xerces.xni.parser.XMLConfigurationException
      */
     protected void reset() throws XNIException {
         super.reset();

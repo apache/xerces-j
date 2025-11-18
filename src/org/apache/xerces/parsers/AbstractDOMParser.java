@@ -396,9 +396,12 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
     //
 
     /**
-     * Resets the parser state.
+     * Reset all components before parsing.
      *
-     * @throws SAXException Thrown on initialization error.
+     * @throws XNIException any XNI exception but likely to be <code>XMLConfigurationException</code> if
+     * resetting requires access to properties and features held within the <code>XMLParserConfiguration</code>
+     * @see XMLParserConfiguration
+     * @see org.apache.xerces.xni.parser.XMLConfigurationException
      */
     public void reset () throws XNIException {
         super.reset ();

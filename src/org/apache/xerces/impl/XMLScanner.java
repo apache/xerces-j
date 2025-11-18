@@ -206,13 +206,7 @@ public abstract class XMLScanner
     //
 
     /**
-     * Resets the component. The component can query the component manager about
-     * any features and properties that affect the operation of the component.
-     * 
-     * @param componentManager the component manager
-     *
-     * @throws SAXException Throws exception if required features and
-     *                      properties cannot be found.
+     * {@inheritDoc}
      */
     public void reset(XMLComponentManager componentManager)
         throws XMLConfigurationException {

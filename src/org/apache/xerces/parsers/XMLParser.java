@@ -78,6 +78,8 @@ public abstract class XMLParser {
 
     /**
      * Default Constructor.
+     *
+     * @param config the parser configuration from which properties and features can be retrieved
      */
     protected XMLParser(XMLParserConfiguration config) {
 
@@ -94,12 +96,14 @@ public abstract class XMLParser {
     //
 
     /**
-     * parse
+     * Parse an XML document.
      *
-     * @param inputSource
+     * @param inputSource the input source for the top-level of the XML document
      *
-     * @exception XNIException
-     * @exception java.io.IOException
+     * @throws XNIException any XNI exception, possibly wrapping another exception
+     * @throws IOException if an IO error occurs while parsing the input source
+     * @see org.apache.xerces.xni.parser.XMLParseException
+     * @see org.apache.xerces.xni.parser.XMLConfigurationException
      */
     public void parse(XMLInputSource inputSource) 
         throws XNIException, IOException {
@@ -114,7 +118,12 @@ public abstract class XMLParser {
     //
 
     /**
-     * reset all components before parsing
+     * Reset all components before parsing.
+     *
+     * @throws XNIException any XNI exception but likely to be <code>XMLConfigurationException</code> if
+     * resetting requires access to properties and features held within the <code>XMLParserConfiguration</code>
+     * @see XMLParserConfiguration
+     * @see org.apache.xerces.xni.parser.XMLConfigurationException
      */
     protected void reset() throws XNIException {
     } // reset()

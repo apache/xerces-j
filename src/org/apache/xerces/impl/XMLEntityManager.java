@@ -1293,14 +1293,12 @@ public class XMLEntityManager
      * about any features and properties that affect the operation of the
      * component.
      *
-     * @param componentManager The component manager.
+     * @param componentManager the component manager
      *
-     * @throws SAXException Thrown by component on initialization error.
-     *                      For example, if a feature or property is
-     *                      required for the operation of the component, the
-     *                      component manager may throw a
-     *                      SAXNotRecognizedException or a
-     *                      SAXNotSupportedException.
+     * @throws XMLConfigurationException if not handled when getting features or properties from the component manager
+     *
+     * @see XMLComponentManager#getFeature(String)
+     * @see XMLComponentManager#getProperty(String)
      */
     public void reset(XMLComponentManager componentManager)
         throws XMLConfigurationException {

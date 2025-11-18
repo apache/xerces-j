@@ -39,8 +39,13 @@ public interface WMLAElement extends WMLElement {
 
     /**
      * 'xml:lang' specifics the natural or formal language in which
-     * the document is written.  
-     * (Section 8.8, WAP WML Version 16-Jun-1999) 
+     * the document is written.
+     * <p>
+     * Language identifiers are defined in <a href="https://www.w3.org/TR/xml/#RFC1766">IETF BCP 47</a>
+     * </p>
+     * <p>(Section 8.8, WAP WML Version 16-Jun-1999)</p>
+     *
+     * @param newValue a language identifier as defined by <a href="https://www.w3.org/TR/xml/#RFC1766">IETF BCP 47</a> or an empty string
      */
     public void setXmlLang(String newValue);
     public String getXmlLang();

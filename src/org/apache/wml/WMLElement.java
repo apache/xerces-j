@@ -36,6 +36,8 @@ public interface WMLElement extends Element {
     /**
      * The element's identifier which is unique in a single deck. 
      * (Section 8.9, WAP WML Version 16-Jun-1999)
+     *
+     * @param newValue set an identifier value for the element
      */
     public void setId(String newValue);
     public String getId();
@@ -44,6 +46,8 @@ public interface WMLElement extends Element {
      * The 'class' attribute of a element that affiliates an elements
      * with one or more elements.
      * (Section 8.9, WAP WML Version 16-Jun-1999)
+     *
+     * @param newValue set a class name for the element
      */
     public void setClassName(String newValue);
     public String getClassName();

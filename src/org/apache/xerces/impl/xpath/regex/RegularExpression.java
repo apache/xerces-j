@@ -27,7 +27,7 @@ import org.apache.xerces.util.IntStack;
  * A regular expression matching engine using Non-deterministic Finite Automaton (NFA).
  * This engine does not conform to the POSIX regular expression.
  *
- * <h1>How to use</h1>
+ * <h2>How to use</h2>
  *
  * <dl>
  *   <dt>A. Standard way
@@ -53,7 +53,7 @@ import org.apache.xerces.util.IntStack;
  *
  * </dl>
  *
- * <h2>Case-insensitive matching</h2>
+ * <h3>Case-insensitive matching</h3>
  * <pre>
  * {@code
  * RegularExpression re = new RegularExpression(<var>regex</var>, "i");
@@ -61,7 +61,7 @@ import org.apache.xerces.util.IntStack;
  * }
  * </pre>
  *
- * <h2>Options</h2>
+ * <h3>Options</h3>
  * <p>You can specify options to {@link #RegularExpression(String, String)} or {@link #setPattern(String, String)}.</p>
  * <p>This <code>options</code> parameter consists of the following characters:</p>
  * <ul>
@@ -79,9 +79,9 @@ import org.apache.xerces.util.IntStack;
  *   <li><code>X</code> : With this option, the engine conforms to <a href="https://www.w3.org/TR/2000/WD-xmlschema-2-20000407/#regexs">XML Schema: Regular Expression</a>. The <code>match()</code> method does not do substring matching but entire string matching.</li>
  * </ul>
  *
- * <h1>Syntax</h1>
+ * <h2>Syntax</h2>
  *
- * <h2>Differences from Perl 5 regular expression</h2>
+ * <h3>Differences from Perl 5 regular expression</h3>
  * <ul>
  *  <li>There is 6-digit hexadecimal character representation (<code>\vHHHHHH</code>).
  *  <li>Supports subtraction, union, and intersection operations for character classes.
@@ -376,7 +376,7 @@ import org.apache.xerces.util.IntStack;
  *   </li>
  * </ul>
  *
- * <h1>BNF grammar for the regular expression</h1>
+ * <h2>BNF grammar for the regular expression</h2>
  * <pre>
  * regex ::= ('(?' options ')')? term ('|' term)*
  * term ::= factor+
@@ -414,7 +414,7 @@ import org.apache.xerces.util.IntStack;
  * character-2 ::= (any character except \[]-,)
  * </pre>
  *
- * <h1>Reference</h1>
+ * <h2>Reference</h2>
  * <a href="http://www.unicode.org/unicode/reports/tr18/">Unicode Regular Expression Guidelines</a>
  * 
  * @xerces.internal

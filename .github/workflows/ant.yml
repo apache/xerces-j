@@ -21,8 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      # add 21 and 25 once we figure out how to set source and target to 1.8 for those JVMs only
       matrix:
-        jdk: ['8', '11', '17', '21']
+        jdk: ['8', '11', '17']
 
     steps:
     - uses: actions/checkout@v4

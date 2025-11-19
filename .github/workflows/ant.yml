@@ -21,9 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      # add 21 and 25 once we figure out how to set source and target to 1.8 for those JVMs only
       matrix:
-        jdk: ['8', '11', '17']
+        jdk: ['8', '11', '17', '21']
 
     steps:
     - uses: actions/checkout@v4
@@ -32,6 +31,19 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: ${{ matrix.jdk }}
+
+    # Conditional override for javac properties
+    - name: Set Javac Override Version
+      id: set_javac_version
+      run: |
+          # If os_version is 21 or 25, set the override property to 1.8
+          if [[ "${{ matrix.os_version }}" == "21" || "${{ matrix.os_version }}" == "25" ]]; then
+            echo "JAVAC_OVERRIDE=1.8" >> $GITHUB_ENV
+          else
+            # For 8, 11, and 17, JAVAC_OVERRIDE will not be set in the environment,
+            # so the Ant default (1.7) will be used.
+            echo "JAVAC_OVERRIDE=1.7" >> $GITHUB_ENV
+          fi
 
     # check ant version
     - name: Ant Version

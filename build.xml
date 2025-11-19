@@ -92,8 +92,8 @@ Authors:
     <property name="optimize" value="on"/>
     <property name="deprecation" value="off"/>
     
-    <property name="javac.source" value="1.8"/>
-    <property name="javac.target" value="1.8"/>
+    <property name="javac.source" value="1.7"/>
+    <property name="javac.target" value="1.7"/>
 
     <property name="build.src" value="${build.dir}/src"/>
     <property name="build.dest" value="${build.dir}/classes"/>

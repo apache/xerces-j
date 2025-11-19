@@ -28,7 +28,7 @@ Authors:
 
 ==================================================================== -->
 <project default="usage" basedir=".">
-	
+    
   <!-- Xerces Java directories -->
   <property name="build.dir" value="./build"/>
   <property name="data.dir" value="./data"/>
@@ -179,10 +179,10 @@ Authors:
 
     <copy file="${src.dir}/org/apache/xerces/jaxp/javax.xml.parsers.SAXParserFactory"
       tofile="${build.dest}/META-INF/services/javax.xml.parsers.SAXParserFactory"/>
-  	
+    
     <copy file="${src.dir}/org/apache/xerces/jaxp/datatype/javax.xml.datatype.DatatypeFactory"
       tofile="${build.dest}/META-INF/services/javax.xml.datatype.DatatypeFactory"/>
-  	
+    
     <copy file="${src.dir}/org/apache/xerces/jaxp/validation/javax.xml.validation.SchemaFactory"
       tofile="${build.dest}/META-INF/services/javax.xml.validation.SchemaFactory"/>
 
@@ -198,11 +198,11 @@ Authors:
   <!-- Prepares the source code                                            -->
   <!-- =================================================================== -->
   <target name="prepare-src" depends="prepare-common">
-  	
-  	<!-- Do not include this file in xercesImpl.jar. It prevents applications further down the 
-  	     classpath from overriding the parser's default and may also cause an incompatible mix 
-  	     of classes to be loaded leading to a failure such as a NoSuchMethodError. -->
-  	<!-- <copy file="${src.dir}/org/apache/xerces/parsers/org.apache.xerces.xni.parser.XMLParserConfiguration"
+    
+    <!-- Do not include this file in xercesImpl.jar. It prevents applications further down the 
+         classpath from overriding the parser's default and may also cause an incompatible mix 
+         of classes to be loaded leading to a failure such as a NoSuchMethodError. -->
+    <!-- <copy file="${src.dir}/org/apache/xerces/parsers/org.apache.xerces.xni.parser.XMLParserConfiguration"
       tofile="${build.dest}/META-INF/services/org.apache.xerces.xni.parser.XMLParserConfiguration"/> -->
       
     <copy file="${src.dir}/org/apache/xerces/dom/org.w3c.dom.DOMImplementationSourceList"
@@ -220,7 +220,7 @@ Authors:
                        javax.xml.parsers.ConvertToURI.java">
         </fileset>
     </copy>
-  	
+    
     <!-- create English message bundles from the default ones -->
     <copy file="${src.dir}/org/apache/xerces/impl/msg/DatatypeMessages.properties"
       tofile="${build.src}/org/apache/xerces/impl/msg/DatatypeMessages_en.properties"/>
@@ -494,29 +494,29 @@ Authors:
     <replace token="@xerces.internal" dir="${build.src}">
       <replacevalue><![CDATA[<dl><dt><strong>INTERNAL:</strong></dt><dd>Usage of this class is not supported. It may be altered or removed at any time.</dd></dl>]]></replacevalue>
     </replace>
-  	
+    
     <replace token="@xerces.experimental" dir="${build.src}">
       <replacevalue><![CDATA[<dl><dt><strong>EXPERIMENTAL:</strong></dt><dd>This class should not be considered stable. It is likely to be altered or replaced in the future.</dd></dl>]]></replacevalue>
     </replace>
   </target>
-	
+    
   <!-- =================================================================== -->
   <!-- Creates the API documentation                                       -->
   <!-- =================================================================== -->
-  <target name="javadocs" depends="prepare-src">	
-  		
+  <target name="javadocs" depends="prepare-src">    
+        
     <condition property="additional.param" value=" -taglet org.apache.xerces.util.ExperimentalTaglet -taglet org.apache.xerces.util.InternalTaglet -tagletpath ${tools.dir}/bin/xerces2taglets.jar">
       <available classname="com.sun.tools.doclets.Taglet"/>
     </condition>
-  	
+    
     <antcall target="javadoc-replace" />
-  	
+    
     <condition property="additional.param" value="">
       <not>
         <available classname="com.sun.tools.doclets.Taglet"/>
       </not>
     </condition>
-  	
+    
     <mkdir dir='${build.dir}/docs/javadocs/api'/>
     <javadoc packagenames='javax.xml.*,org.w3c.*,org.xml.*'
       locale='en_US'
@@ -1075,7 +1075,7 @@ Authors:
       
     <copy file="${src.dir}/org/apache/xerces/dom/org.apache.xerces.dom.DOMImplementationSourceImpl"
       tofile="${build.dest}/META-INF/services/org.w3c.dom.DOMImplementationSourceList"/>
-  	
+    
     <!-- delete META-INF/services files for DatatypeFactory/SchemaFactory 
          since no implementation is provided in this jar -->
     <delete file="${build.dest}/META-INF/services/javax.xml.datatype.DatatypeFactory"/>
@@ -1203,7 +1203,7 @@ Authors:
              token="return ((XSComplexTypeDecl) type).isDOMDerivedFrom(" value="return false;"/>
     <replace file="${build.dir}/src/org/apache/xerces/dom/ElementNSImpl.java" 
              token="typeNamespaceArg, typeNameArg, derivationMethod);" value=""/>
-  	
+    
     <!-- HACK: Remove references to schema DOM from DOMUtil -->
     <replace file="${build.dir}/src/org/apache/xerces/util/DOMUtil.java" 
              token="import org.apache.xerces.impl.xs.opti.ElementImpl;" value=""/>
@@ -1221,7 +1221,7 @@ Authors:
              token="((org.apache.xerces.impl.xs.opti.NodeImpl)node).setReadOnly(false, false);" value="return;"/>
     <replace file="${build.dir}/src/org/apache/xerces/util/DOMUtil.java" 
              token="return ((org.apache.xerces.impl.xs.opti.NodeImpl)node).getReadOnly();" value="return false;"/>
-  	
+    
     <!-- HACK: Remove references to schema validation support from org.apache.xerces.jaxp -->
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserImpl.java" 
              token="import org.apache.xerces.impl.xs.XMLSchemaValidator;" value=""/>
@@ -1247,7 +1247,7 @@ Authors:
              token="(XSGrammarPoolContainer) grammar, fSchemaValidationManager);" value=""/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserImpl.java" 
              token="fSAXParser.fUnparsedEntityHandler.reset();" value=""/>
-  	
+    
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
              token="import org.apache.xerces.impl.xs.XMLSchemaValidator;" value=""/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
@@ -1272,7 +1272,7 @@ Authors:
              token="(XSGrammarPoolContainer) grammar, fSchemaValidationManager);" value=""/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
              token="fUnparsedEntityHandler.reset();" value=""/>
-  	
+    
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserFactoryImpl.java" 
              token="return grammar;" value="throw new UnsupportedOperationException();"/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserFactoryImpl.java" 
@@ -1374,39 +1374,39 @@ Authors:
         <fileset 
             dir="${src.dir}"
             includes="org/apache/xerces/impl/Constants.java
-        	          org/apache/xerces/impl/dv/**
+                      org/apache/xerces/impl/dv/**
                       org/apache/xerces/impl/msg/XMLSchema**
                       org/apache/xerces/impl/xpath/regex/**
-		      org/apache/xerces/impl/xs/util/ShortListImpl.java,
-        	          org/apache/xerces/impl/xs/SchemaSymbols.java
+                      org/apache/xerces/impl/xs/util/ShortListImpl.java,
+                      org/apache/xerces/impl/xs/SchemaSymbols.java
                       org/apache/xerces/impl/xs/XSTypeDecl.java
-        	org/apache/xerces/jaxp/datatype/*.java
-			org/apache/xerces/xs/XSException.java
-			org/apache/xerces/xs/StringList.java
-			org/apache/xerces/xs/ShortList.java
-			org/apache/xerces/xs/XSAnnotation.java
-			org/apache/xerces/xs/XSAttributeDeclaration.java
-			org/apache/xerces/xs/XSAttributeGroupDefinition.java
-			org/apache/xerces/xs/XSAttributeUse.java
-			org/apache/xerces/xs/XSComplexTypeDefinition.java
-			org/apache/xerces/xs/XSConstants.java
-			org/apache/xerces/xs/XSElementDeclaration.java
-			org/apache/xerces/xs/XSIDCDefinition.java
-			org/apache/xerces/xs/XSModel.java
-			org/apache/xerces/xs/XSModelGroup.java
-			org/apache/xerces/xs/XSModelGroupDefinition.java
-			org/apache/xerces/xs/XSNamedMap.java
-			org/apache/xerces/xs/XSNamespaceItem.java
-			org/apache/xerces/xs/XSNamespaceItemList.java
-			org/apache/xerces/xs/XSNotationDeclaration.java
-			org/apache/xerces/xs/XSObject.java
-			org/apache/xerces/xs/XSObjectList.java
-			org/apache/xerces/xs/XSParticle.java
-			org/apache/xerces/xs/XSSimpleTypeDefinition.java
-			org/apache/xerces/xs/XSTerm.java
-			org/apache/xerces/xs/XSTypeDefinition.java
-			org/apache/xerces/xs/XSWildcard.java
-			org/apache/xerces/xs/XSFacet.java
+                      org/apache/xerces/jaxp/datatype/*.java
+                      org/apache/xerces/xs/XSException.java
+                      org/apache/xerces/xs/StringList.java
+                      org/apache/xerces/xs/ShortList.java
+                      org/apache/xerces/xs/XSAnnotation.java
+                      org/apache/xerces/xs/XSAttributeDeclaration.java
+                      org/apache/xerces/xs/XSAttributeGroupDefinition.java
+                      org/apache/xerces/xs/XSAttributeUse.java
+                      org/apache/xerces/xs/XSComplexTypeDefinition.java
+                      org/apache/xerces/xs/XSConstants.java
+                      org/apache/xerces/xs/XSElementDeclaration.java
+                      org/apache/xerces/xs/XSIDCDefinition.java
+                      org/apache/xerces/xs/XSModel.java
+                      org/apache/xerces/xs/XSModelGroup.java
+                      org/apache/xerces/xs/XSModelGroupDefinition.java
+                      org/apache/xerces/xs/XSNamedMap.java
+                      org/apache/xerces/xs/XSNamespaceItem.java
+                      org/apache/xerces/xs/XSNamespaceItemList.java
+                      org/apache/xerces/xs/XSNotationDeclaration.java
+                      org/apache/xerces/xs/XSObject.java
+                      org/apache/xerces/xs/XSObjectList.java
+                      org/apache/xerces/xs/XSParticle.java
+                      org/apache/xerces/xs/XSSimpleTypeDefinition.java
+                      org/apache/xerces/xs/XSTerm.java
+                      org/apache/xerces/xs/XSTypeDefinition.java
+                      org/apache/xerces/xs/XSWildcard.java
+                      org/apache/xerces/xs/XSFacet.java
                       org/apache/xerces/xs/XSMultiValueFacet.java
                       org/apache/xerces/xs/datatypes/*.java
                       org/apache/xerces/impl/xs/util/StringListImpl.java
@@ -1481,11 +1481,11 @@ Authors:
   <!-- Prepares the source code with Schema 1.1 support                    -->
   <!-- =================================================================== -->
   <target name="prepare-src-schema11" depends="prepare-src">
-  	<replace file="${build.src}/org/apache/xerces/impl/Constants.java"
-  		token="SCHEMA_1_1_SUPPORT = false" value="SCHEMA_1_1_SUPPORT = true"/>
-  	<replace file="${build.src}/org/apache/xerces/xs/XSConstants.java"
-  	    token="public static final short UNAVAILABLE_DT            = 45;"
-  	    value="public static final short UNAVAILABLE_DT            = 45;&#xA;
+    <replace file="${build.src}/org/apache/xerces/impl/Constants.java"
+        token="SCHEMA_1_1_SUPPORT = false" value="SCHEMA_1_1_SUPPORT = true"/>
+    <replace file="${build.src}/org/apache/xerces/xs/XSConstants.java"
+        token="public static final short UNAVAILABLE_DT            = 45;"
+        value="public static final short UNAVAILABLE_DT            = 45;&#xA;
       &#xA;    public static final short YEARMONTHDURATION_DT      = 46;&#xA;
       &#xA;    public static final short DAYTIMEDURATION_DT        = 47;&#xA;
       &#xA;    public static final short PRECISIONDECIMAL_DT       = 48;&#xA;
@@ -1522,7 +1522,7 @@ Authors:
                     org/w3c/dom/traversal/**
                     org/w3c/dom/xpath/**"
                />
-  	</target>
+    </target>
   
   <!-- =================================================================== -->
   <!-- Creates the implementation class package with Schema 1.1 support    -->
@@ -1538,7 +1538,7 @@ Authors:
          basedir="${build.dest}"
          compress="true"
          includes="org/apache/**, META-INF/**
-                    org/w3c/dom/html/HTMLDOMImplementation.class
+                   org/w3c/dom/html/HTMLDOMImplementation.class
                    org/w3c/dom/ls/**
                    org/w3c/dom/DOMError.class
                    org/w3c/dom/DOMErrorHandler.class
@@ -1552,7 +1552,7 @@ Authors:
       </manifest>
       <metainf dir="." includes="LICENSE,NOTICE"/>
     </jar>
-  </target>	
+  </target> 
 
   <!-- =================================================================== -->
   <!-- Builds xercesImpl, xml-apis and sample jars with Schema 1.1 support -->
@@ -1572,10 +1572,10 @@ Authors:
   <target name="xjavac-jar" depends="prepare">
     <mkdir dir="${build.src}"/>
     <mkdir dir="${build.dest}"/>
-  	
+    
     <copy file="${tools.dir}/src/XJavac.java"
           tofile="${build.src}/org/apache/xerces/util/XJavac.java"/>
-  	
+    
     <javac srcdir="${build.src}"
            destdir="${build.dest}"
            source="${javac.source}"
@@ -1587,7 +1587,7 @@ Authors:
            optimize="${optimize}"
            includeAntRuntime="false"
            includeJavaRuntime="false"/>
-  	
+    
     <jar jarfile="${build.dir}/${jar.xjavac}"
          basedir="${build.dest}"
          compress="true"

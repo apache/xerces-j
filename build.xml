@@ -70,12 +70,12 @@ Authors:
     <property name='parser_version' value='2_12_3'/>
 
     <property name='deprecatedjar.parser' value='xerces.jar'/>
-    <property name='jar.apis' value='xml-apis.jar'/>
+    <property name='jar.apis' value='xml-apis-2.0.2.jar'/>
     <property name='jar.parser' value='xercesImpl.jar'/>
     <property name='jar.samples' value='xercesSamples.jar'/>
     <property name='jar.dv' value='xercesDV.jar'/>
-    <property name='jar.resolver' value='resolver.jar'/>
-    <property name='jar.serializer' value='serializer.jar'/>
+    <property name='jar.resolver' value='xml-resolver-1.2.jar'/>
+    <property name='jar.serializer' value='serializer-2.7.3.jar'/>
     <property name='jar.junit' value='junit.jar'/>
     <property name='jar.ant' value='ant.jar'/>
     <property name='jar.xjavac' value='xjavac.jar'/>

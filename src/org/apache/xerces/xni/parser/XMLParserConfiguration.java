@@ -127,24 +127,22 @@ public interface XMLParserConfiguration
     /**
      * Sets the state of a feature. This method is called by the parser
      * and gets propagated to components in this parser configuration.
-     * 
+     *
      * @param featureId the unique identifier of the feature
      * @param state the requested state of the feature (true or false)
      *
-     * @throws XMLConfigurationException if there is a configuration error
+     * @throws XMLConfigurationException when a feature is not recognised and cannot be set
      */
-    public void setFeature(String featureId, boolean state)
-        throws XMLConfigurationException;
+    public void setFeature(String featureId, boolean state) throws XMLConfigurationException;
 
     /**
      * Returns the state of a feature.
-     * 
+     *
      * @param featureId the feature identifier
-     * 
-     * @throws XMLConfigurationException if there is a configuration error
+     *
+     * @throws XMLConfigurationException when a feature is not recognised
      */
-    public boolean getFeature(String featureId)
-        throws XMLConfigurationException;
+    public boolean getFeature(String featureId) throws XMLConfigurationException;
 
     /**
      * Allows a parser to add parser specific properties to be recognized
@@ -162,20 +160,18 @@ public interface XMLParserConfiguration
      * @param propertyId the unique identifier of the property
      * @param value the requested value of the property
      *
-     * @throws XMLConfigurationException if the requested property is not known
+     * @throws XMLConfigurationException when a property is not recognised and cannot be set
      */
-    public void setProperty(String propertyId, Object value)
-        throws XMLConfigurationException;
+    public void setProperty(String propertyId, Object value) throws XMLConfigurationException;
 
     /**
      * Returns the value of a property.
-     * 
+     *
      * @param propertyId the property identifier
-     * 
-     * @throws XMLConfigurationException if there is a configuration error
+     *
+     * @throws XMLConfigurationException when a property is not recognised
      */
-    public Object getProperty(String propertyId)
-        throws XMLConfigurationException;
+    public Object getProperty(String propertyId) throws XMLConfigurationException;
 
     // handlers
 

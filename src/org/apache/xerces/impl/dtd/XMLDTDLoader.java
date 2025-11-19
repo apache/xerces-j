@@ -203,10 +203,7 @@ public class XMLDTDLoader
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a feature is not recognised or cannot be set
      */
     public void setFeature(String featureId, boolean state)
             throws XMLConfigurationException {
@@ -244,10 +241,10 @@ public class XMLDTDLoader
 
     /**
      * Returns the state of a property.
-     * 
-     * @param propertyId The property identifier.
-     * 
-     * @throws XMLConfigurationException Thrown on configuration error.
+     *
+     * @param propertyId the property identifier
+     *
+     * @throws XMLConfigurationException when a property is not recognised
      */
     public Object getProperty(String propertyId) 
             throws XMLConfigurationException {
@@ -285,10 +282,7 @@ public class XMLDTDLoader
      * @param propertyId The property identifier.
      * @param value      The value of the property.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a property is not recognised or cannot be set
      */
     public void setProperty(String propertyId, Object value)
             throws XMLConfigurationException {
@@ -328,10 +322,10 @@ public class XMLDTDLoader
 
     /**
      * Returns the state of a feature.
-     * 
-     * @param featureId The feature identifier.
-     * 
-     * @throws XMLConfigurationException Thrown on configuration error.
+     *
+     * @param featureId the feature identifier
+     *
+     * @throws XMLConfigurationException when a featureId is not recognised
      */
     public boolean getFeature(String featureId) 
             throws XMLConfigurationException {

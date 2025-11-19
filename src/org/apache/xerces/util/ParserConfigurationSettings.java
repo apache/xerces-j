@@ -129,10 +129,9 @@ public class ParserConfigurationSettings
      * @param featureId the unique identifier (URI) of the feature
      * @param state the requested state of the feature (true or false)
      *
-     * @throws XMLConfigurationException if the requested feature is not known
+     * @throws XMLConfigurationException when a feature is not recognised and cannot be set
      */
-    public void setFeature(String featureId, boolean state)
-        throws XMLConfigurationException {
+    public void setFeature(String featureId, boolean state) throws XMLConfigurationException {
 
         // check and store
         checkFeature(featureId);
@@ -166,10 +165,9 @@ public class ParserConfigurationSettings
      * @param propertyId the unique identifier of the property
      * @param value the requested value of the property
      *
-     * @throws XMLConfigurationException if the requested property is not known
+     * @throws XMLConfigurationException when a property is not recognised and cannot be set
      */
-    public void setProperty(String propertyId, Object value)
-        throws XMLConfigurationException {
+    public void setProperty(String propertyId, Object value) throws XMLConfigurationException {
 
         // check and store
         checkProperty(propertyId);

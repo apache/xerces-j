@@ -44,8 +44,8 @@ public interface XMLComponentManager {
      * @param featureId The feature identifier
      *
      * @return the state of a feature
-     * 
-     * @throws XMLConfigurationException on configuration error
+     *
+     * @throws XMLConfigurationException when a feature is not recognised
      */
     public boolean getFeature(String featureId) throws XMLConfigurationException;
 
@@ -55,8 +55,8 @@ public interface XMLComponentManager {
      * @param propertyId the property identifier
      *
      * @return the value of a property
-     * 
-     * @throws XMLConfigurationException on configuration error
+     *
+     * @throws XMLConfigurationException when a property is not recognised
      */
     public Object getProperty(String propertyId) throws XMLConfigurationException;
 

@@ -357,9 +357,9 @@ XSLoader, DOMConfiguration {
     /**
      * Returns the state of a feature.
      *
-     * @param featureId The feature identifier.
+     * @param featureId the feature identifier
      *
-     * @throws XMLConfigurationException Thrown on configuration error.
+     * @throws XMLConfigurationException when a featureId is not recognised
      */
     public boolean getFeature(String featureId)
     throws XMLConfigurationException {                
@@ -372,11 +372,9 @@ XSLoader, DOMConfiguration {
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws XMLConfigurationException Thrown when a feature is not
-     *                  recognized or cannot be set.
+     * @throws XMLConfigurationException when a feature is not recognised or cannot be set
      */
-    public void setFeature(String featureId,
-            boolean state) throws XMLConfigurationException {
+    public void setFeature(String featureId, boolean state) throws XMLConfigurationException {
         fSettingsChanged = true; 
         if(featureId.equals(CONTINUE_AFTER_FATAL_ERROR)) {
             fErrorReporter.setFeature(CONTINUE_AFTER_FATAL_ERROR, state);
@@ -399,9 +397,9 @@ XSLoader, DOMConfiguration {
     /**
      * Returns the state of a property.
      *
-     * @param propertyId The property identifier.
+     * @param propertyId the property identifier
      *
-     * @throws XMLConfigurationException Thrown on configuration error.
+     * @throws XMLConfigurationException when a property is not recognised
      */
     public Object getProperty(String propertyId)
     throws XMLConfigurationException {
@@ -411,14 +409,12 @@ XSLoader, DOMConfiguration {
     /**
      * Sets the state of a property.
      *
-     * @param propertyId The property identifier.
-     * @param state     The state of the property.
+     * @param propertyId the property identifier
+     * @param state the state of the property
      *
-     * @throws XMLConfigurationException Thrown when a property is not
-     *                  recognized or cannot be set.
+     * @throws XMLConfigurationException when a property is not recognised or cannot be set
      */
-    public void setProperty(String propertyId,
-            Object state) throws XMLConfigurationException {                   
+    public void setProperty(String propertyId, Object state) throws XMLConfigurationException {
         fSettingsChanged = true;
         fLoaderConfig.setProperty(propertyId, state);    
         if (propertyId.equals(JAXP_SCHEMA_SOURCE)) {

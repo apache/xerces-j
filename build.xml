@@ -524,7 +524,7 @@ Authors:
       author='true' version='true'
       windowtitle='XML Standard API' doctitle='XML Standard API'
       bottom='${copyright}'
-      additionalparam='${additional.param}'
+      additionalparam='-quiet ${additional.param}'
       />
     <mkdir dir='${build.dir}/docs/javadocs/xni'/>
     <javadoc packagenames='org.apache.xerces.xni.*'
@@ -534,7 +534,7 @@ Authors:
       windowtitle='Xerces Native Interface' 
       doctitle='Xerces Native Interface'
       bottom='${copyright}'
-      additionalparam='${additional.param}'
+      additionalparam='-quiet ${additional.param}'
       />
     <mkdir dir='${build.dir}/docs/javadocs/xs'/>
     <javadoc packagenames='org.apache.xerces.xs, org.apache.xerces.xs.datatypes'
@@ -544,7 +544,7 @@ Authors:
       windowtitle='XML Schema API' 
       doctitle='XML Schema API'
       bottom='${copyright}'
-      additionalparam='${additional.param}'
+      additionalparam='-quiet ${additional.param}'
       />
     
     <mkdir dir='${build.dir}/docs/javadocs/xerces2'/>
@@ -563,7 +563,7 @@ Authors:
       windowtitle='Xerces2 Implementation' 
       doctitle='Xerces2 Implementation'
       bottom='${copyright}'
-      additionalparam='${additional.param}'
+      additionalparam='-quiet ${additional.param}'
       />
     <mkdir dir='${build.dir}/docs/javadocs/other'/>
     <javadoc packagenames='org.apache.html.*,
@@ -574,7 +574,7 @@ Authors:
       author='true' version='true'
       windowtitle='Other Classes' doctitle='Other Classes'
       bottom='${copyright}'
-      additionalparam='${additional.param}'
+      additionalparam='-quiet ${additional.param}'
       />
   </target>
 

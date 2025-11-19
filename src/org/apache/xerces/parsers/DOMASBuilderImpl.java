@@ -163,11 +163,11 @@ public class DOMASBuilderImpl
     }
 
     /**
-     * Parse a Abstract Schema from a location identified by an URI.
+     * Parse an Abstract Schema from a location identified by a URI.
      *
-     * @param uri The location of the Abstract Schema to be read.
-     * @return The newly created <code>Abstract Schema</code>.
-     * @exception DOMASException
+     * @param uri the location of the Abstract Schema to be read
+     * @return the newly created <code>Abstract Schema</code>
+     * @throws DOMASException
      *   Exceptions raised by <code>parseASURI()</code> originate with the
      *   installed ErrorHandler, and thus depend on the implementation of
      *   the <code>DOMErrorHandler</code> interfaces. The default error
@@ -177,11 +177,11 @@ public class DOMASBuilderImpl
      *   <br> WRONG_MIME_TYPE_ERR: Raised when <code>mimeTypeCheck</code> is
      *   <code>true</code> and the inputsource has an incorrect MIME Type.
      *   See attribute <code>mimeTypeCheck</code>.
-     * @exception DOMSystemException
+     * @throws Exception
      *   Exceptions raised by <code>parseURI()</code> originate with the
      *   installed ErrorHandler, and thus depend on the implementation of
      *   the <code>DOMErrorHandler</code> interfaces. The default error
-     *   handlers will raise a DOMSystemException if any form I/O or other
+     *   handlers will raise an <code>Exception</code> if any form I/O or other
      *   system error occurs during the parse, but application defined error
      *   handlers are not required to do so.
      */
@@ -192,13 +192,11 @@ public class DOMASBuilderImpl
     }
 
     /**
-     * Parse a Abstract Schema from a location identified by an
-     * <code>LSInput</code>.
+     * Parse an Abstract Schema from a location identified by a <code>LSInput</code>.
      *
-     * @param is The <code>LSInput</code> from which the source
-     *   Abstract Schema is to be read.
-     * @return The newly created <code>ASModel</code>.
-     * @exception DOMASException
+     * @param is the <code>LSInput</code> from which the source Abstract Schema is to be read
+     * @return the newly created <code>ASModel</code>
+     * @throws DOMASException
      *   Exceptions raised by <code>parseASURI()</code> originate with the
      *   installed ErrorHandler, and thus depend on the implementation of
      *   the <code>DOMErrorHandler</code> interfaces. The default error
@@ -208,11 +206,11 @@ public class DOMASBuilderImpl
      *   <br> WRONG_MIME_TYPE_ERR: Raised when <code>mimeTypeCheck</code> is
      *   true and the inputsource has an incorrect MIME Type. See attribute
      *   <code>mimeTypeCheck</code>.
-     * @exception DOMSystemException
+     * @throws Exception
      *   Exceptions raised by <code>parseURI()</code> originate with the
      *   installed ErrorHandler, and thus depend on the implementation of
      *   the <code>DOMErrorHandler</code> interfaces. The default error
-     *   handlers will raise a DOMSystemException if any form I/O or other
+     *   handlers will raise an <code>Exception</code> if any form I/O or other
      *   system error occurs during the parse, but application defined error
      *   handlers are not required to do so.
      */

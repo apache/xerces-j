@@ -177,7 +177,7 @@ public abstract class AbstractDateTimeDV extends TypeValidator {
 	}
 	
 	/**
-	 * Given normalized values, determines order-relation between give date/time objects.
+	 * Given normalized values, determines order-relation between two date/time objects.
 	 *
 	 * @param date1  date/time object
 	 * @param date2  date/time object
@@ -222,10 +222,10 @@ public abstract class AbstractDateTimeDV extends TypeValidator {
 	/**
 	 * Parses time hh:mm:ss.sss and time zone if any.
 	 *
-     * @param buffer a string in which a time value exists in the format <code>hh:mm:ss.sss</code>
+     * @param buffer a time in the format <code>hh:mm:ss.sss</code>
 	 * @param start the start position
 	 * @param end the end position
-	 * @param data a DateTimeData that will contain the output of parsing the string
+	 * @param data the output from parsing the string
 	 * @throws RuntimeException if an error occurs while parsing the string
 	 */
 	protected  void getTime (String buffer, int start, int end, DateTimeData data) throws RuntimeException{
@@ -266,10 +266,10 @@ public abstract class AbstractDateTimeDV extends TypeValidator {
 	/**
 	 * Parses date CCYY-MM-DD
 	 *
-	 * @param buffer a string in which a date value exists in the format <code>CCYY-MM-DD</code>
+	 * @param buffer a date in the format <code>CCYY-MM-DD</code>
 	 * @param start start position
 	 * @param end end position
-	 * @param date a DateTimeData that will contain the output of parsing the string
+	 * @param date the output from parsing the string
 	 * @throws RuntimeException if an error occurs while parsing the string
 	 */
 	protected int getDate (String buffer, int start, int end, DateTimeData date) throws RuntimeException{
@@ -290,7 +290,7 @@ public abstract class AbstractDateTimeDV extends TypeValidator {
 	 * @param buffer a string in which a Year/Month value exists in the format <code>CCYY-MM</code>
 	 * @param start start position
 	 * @param end end position
-	 * @param date a DateTimeData that will contain the output of parsing the string
+	 * @param date the output from parsing the string
 	 * @throws RuntimeException if an error occurs while parsing the string
 	 */
 	protected int getYearMonth (String buffer, int start, int end, DateTimeData date) throws RuntimeException{
@@ -327,7 +327,7 @@ public abstract class AbstractDateTimeDV extends TypeValidator {
      * @param buffer a string in which a TimeZone value exists
      * @param start start position
      * @param end end position
-	 * @param date a DateTimeData that will contain the output of parsing the string
+	 * @param date the output from parsing the string
 	 * @throws RuntimeException if an error occurs while parsing the string
 	 */
 	protected void parseTimeZone (String buffer, int start, int end, DateTimeData date) throws RuntimeException{
@@ -348,7 +348,7 @@ public abstract class AbstractDateTimeDV extends TypeValidator {
 	 * Parses time zone: 'Z' or {+,-} followed by  hh:mm
 	 *
      * @param buffer a string in which a TimeZone value exists
-	 * @param data a DateTimeData that will contain the output of parsing the string
+	 * @param data the output from parsing the string
 	 * @param sign the index of the timezone's sign
      * @param end the index of the timezone's end position
 	 * @throws RuntimeException if an error occurs while parsing the string

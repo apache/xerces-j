@@ -395,11 +395,6 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
     // XMLDocumentParser methods
     //
 
-    /**
-     * Resets the parser state.
-     *
-     * @throws SAXException Thrown on initialization error.
-     */
     public void reset () throws XNIException {
         super.reset ();
 

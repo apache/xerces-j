@@ -799,9 +799,6 @@ public abstract class AbstractXMLDocumentParser
     // Protected methods
     //
 
-    /**
-     * reset all components before parsing
-     */
     protected void reset() throws XNIException {
         super.reset();
         fInDTD = false;

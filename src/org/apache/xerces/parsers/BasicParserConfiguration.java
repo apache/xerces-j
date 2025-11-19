@@ -425,16 +425,16 @@ public abstract class BasicParserConfiguration
 
     /**
      * Set the state of a feature.
-     *
+     * <p>
      * Set the state of any feature in a SAX2 parser.  The parser
      * might not recognize the feature, and if it does recognize
      * it, it might not be able to fulfill the request.
+     * </p>
      *
-     * @param featureId The unique identifier (URI) of the feature.
-     * @param state The requested state of the feature (true or false).
+     * @param featureId the unique identifier (URI) of the feature
+     * @param state the requested state of the feature (true or false)
      *
-     * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
-     *            requested feature is not known.
+     * @throws XMLConfigurationException if the requested feature is not known
      */
     public void setFeature(String featureId, boolean state)
         throws XMLConfigurationException {
@@ -451,10 +451,12 @@ public abstract class BasicParserConfiguration
     } // setFeature(String,boolean)
 
     /**
-     * setProperty
+     * Set the state of a property.
      * 
-     * @param propertyId 
-     * @param value 
+     * @param propertyId the unique identifier of the property
+     * @param value the requested value of the property
+     *
+     * @throws XMLConfigurationException if the requested property is not known
      */
     public void setProperty(String propertyId, Object value)
         throws XMLConfigurationException {
@@ -493,7 +495,10 @@ public abstract class BasicParserConfiguration
     //
 
     /**
-     * reset all components before parsing and namespace context
+     * Reset all components before parsing and namespace context.
+     *
+     * @throws XNIException any XNI exception but likely to be <code>XMLConfigurationException</code>
+     * @see XMLConfigurationException
      */
     protected void reset() throws XNIException {
 

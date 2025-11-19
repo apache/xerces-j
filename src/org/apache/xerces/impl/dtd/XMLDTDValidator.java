@@ -404,20 +404,6 @@ public class XMLDTDValidator
     // XMLComponent methods
     //
 
-    /*
-     * Resets the component. The component can query the component manager
-     * about any features and properties that affect the operation of the
-     * component.
-     * 
-     * @param componentManager The component manager.
-     *
-     * @throws SAXException Thrown by component on finitialization error.
-     *                      For example, if a feature or property is
-     *                      required for the operation of the component, the
-     *                      component manager may throw a 
-     *                      SAXNotRecognizedException or a
-     *                      SAXNotSupportedException.
-     */
     public void reset(XMLComponentManager componentManager)
     throws XMLConfigurationException {
 

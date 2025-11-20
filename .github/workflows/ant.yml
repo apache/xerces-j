@@ -52,19 +52,13 @@ jobs:
       run: ant -noinput -buildfile build.xml -Djavac.source=${{ env.JAVAC_OVERRIDE }} -Djavac.target=${{ env.JAVAC_OVERRIDE }} jars
 
     - name: Ant Build (target dtdjars)
-      run: ant -noinput -buildfile build.xml dtdjars \
-          -Djavac.source=${{ env.JAVAC_OVERRIDE }} \
-          -Djavac.target=${{ env.JAVAC_OVERRIDE }}
+      run: ant -noinput -buildfile build.xml -Djavac.source=${{ env.JAVAC_OVERRIDE }} -Djavac.target=${{ env.JAVAC_OVERRIDE }} dtdjars
 
     - name: Ant Test (target ci-test)
-      run: ant -noinput -buildfile build.xml clean ci-test \
-          -Djavac.source=${{ env.JAVAC_OVERRIDE }} \
-          -Djavac.target=${{ env.JAVAC_OVERRIDE }}
+      run: ant -noinput -buildfile build.xml -Djavac.source=${{ env.JAVAC_OVERRIDE }} -Djavac.target=${{ env.JAVAC_OVERRIDE }} clean ci-test
 
     - name: Ant Build (target all)
-      run: ant -noinput -buildfile build.xml all \
-          -Djavac.source=${{ env.JAVAC_OVERRIDE }} \
-          -Djavac.target=${{ env.JAVAC_OVERRIDE }}
+      run: ant -noinput -buildfile build.xml -Djavac.source=${{ env.JAVAC_OVERRIDE }} -Djavac.target=${{ env.JAVAC_OVERRIDE }} all
 
     # clean up before running via build script
     - name: Ant Clean

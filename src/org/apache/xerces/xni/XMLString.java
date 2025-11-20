@@ -184,7 +184,7 @@ public class XMLString {
 
     /**
      * Returns a string representation of this object.
-     * <p>A new String will be returned based on the chars available from the current offset up to the current length</p>
+     * <p>A new String will be returned based on the chars available from the current offset up to the current length.</p>
      *
      * @return the text contained from the current offset up to the current length
      */

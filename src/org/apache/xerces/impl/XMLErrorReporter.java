@@ -448,10 +448,7 @@ public class XMLErrorReporter
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
     public void setFeature(String featureId, boolean state)
         throws XMLConfigurationException {
@@ -520,10 +517,7 @@ public class XMLErrorReporter
      * @param propertyId The property identifier.
      * @param value      The value of the property.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a property is not recognized or cannot be set
      */
     public void setProperty(String propertyId, Object value)
         throws XMLConfigurationException {

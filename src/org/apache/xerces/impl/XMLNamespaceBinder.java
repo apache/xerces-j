@@ -220,10 +220,7 @@ public class XMLNamespaceBinder
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
     public void setFeature(String featureId, boolean state)
         throws XMLConfigurationException {

@@ -78,7 +78,9 @@ public class NamedNodeMapImpl
     protected final static short CHANGED      = 0x1<<1;
     protected final static short HASDEFAULTS  = 0x1<<2;
 
-    /** Nodes. */
+    /**
+     * Nodes as a <code>List&lt;Node></code>
+     */
     protected List nodes;
 
     protected NodeImpl ownerNode; // the node this map belongs to
@@ -176,7 +178,7 @@ public class NamedNodeMapImpl
      */
     public Node setNamedItem(Node arg)
     throws DOMException {
-        
+
         CoreDocumentImpl ownerDocument = ownerNode.ownerDocument();
         if (ownerDocument.errorChecking) {
             if (isReadOnly()) {
@@ -197,7 +199,7 @@ public class NamedNodeMapImpl
         } else {
             i = -1 - i; // Insert point (may be end of list)
             if (null == nodes) {
-                nodes = new ArrayList(5);
+                nodes = new ArrayList<Node>(5);
             }
             nodes.add(i, arg);
         }
@@ -218,7 +220,7 @@ public class NamedNodeMapImpl
      */
     public Node setNamedItemNS(Node arg)
     throws DOMException {
-        
+
         CoreDocumentImpl ownerDocument = ownerNode.ownerDocument();
         if (ownerDocument.errorChecking) {
             if (isReadOnly()) {
@@ -233,7 +235,7 @@ public class NamedNodeMapImpl
         }
         
         int i = findNamePoint(arg.getNamespaceURI(), arg.getLocalName());
-        NodeImpl previous = null;
+        Node previous = null;
         if (i >= 0) {
             previous = (NodeImpl) nodes.get(i);
             nodes.set(i, arg);
@@ -247,7 +249,7 @@ public class NamedNodeMapImpl
             } else {
                 i = -1 - i; // Insert point (may be end of list)
                 if (null == nodes) {
-                    nodes = new ArrayList(5);
+                    nodes = new ArrayList<Node>(5);
                 }
                 nodes.add(i, arg);
             }
@@ -261,7 +263,6 @@ public class NamedNodeMapImpl
      * @param name The name of a node to remove.
      * @return The node removed from the map if a node with such a name exists.
      */
-    /***/
     public Node removeNamedItem(String name)
         throws DOMException {
 
@@ -336,12 +337,12 @@ public class NamedNodeMapImpl
     }
 
     protected void cloneContent(NamedNodeMapImpl srcmap) {
-        List srcnodes = srcmap.nodes;
+        List<Node> srcnodes = srcmap.nodes;
         if (srcnodes != null) {
             int size = srcnodes.size();
             if (size != 0) {
                 if (nodes == null) {
-                    nodes = new ArrayList(size);
+                    nodes = new ArrayList<Node>(size);
                 }
                 else {
                     nodes.clear();
@@ -562,7 +563,7 @@ public class NamedNodeMapImpl
             else {
                 i = -1 - i; // Insert point (may be end of list)
                 if (null == nodes) {
-                    nodes = new ArrayList(5);
+                    nodes = new ArrayList<Node>(5);
                 }
                 nodes.add(i, arg);
             }
@@ -573,12 +574,12 @@ public class NamedNodeMapImpl
     /**
      * NON-DOM: copy content of this map into the specified ArrayList
      * 
-     * @param list   ArrayList to copy information into.
+     * @param list a list of {@link Node} to copy information into, or null to create a new list
      * @return A copy of this node named map
      */
     protected ArrayList cloneMap(ArrayList list) {
         if (list == null) {
-            list = new ArrayList(5);
+            list = new ArrayList<Node>(5);
         }
         list.clear();
         if (nodes != null) {
@@ -608,15 +609,15 @@ public class NamedNodeMapImpl
         in.defaultReadObject();
         if (nodes != null) {
             // cast to Vector is required
-            nodes = new ArrayList((Vector)nodes);
+            nodes = new ArrayList<Node>((Vector<Node>)nodes);
         }
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
-        List oldNodes = this.nodes;
+        final List<Node> oldNodes = this.nodes;
         try {
             if (oldNodes != null) {
-                this.nodes = new Vector(oldNodes);
+                this.nodes = new Vector<Node>(oldNodes);
             }
             out.defaultWriteObject();
         }

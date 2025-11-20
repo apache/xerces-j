@@ -138,7 +138,7 @@ public class DOMNormalizer implements XMLDocumentHandler {
     protected final NamespaceContext fLocalNSBinder = new NamespaceSupport();
 
     /** list of attributes */
-    protected final ArrayList fAttributeList = new ArrayList(5);
+    protected final ArrayList fAttributeList = new ArrayList<Node>(5);
 
     /** DOM Locator -  for namespace fixup algorithm */
     protected final DOMLocatorImpl fLocator = new DOMLocatorImpl();
@@ -890,6 +890,7 @@ public class DOMNormalizer implements XMLDocumentHandler {
 
             // clone content of the attributes
             attributes.cloneMap(fAttributeList);
+
             for (int i = 0; i < fAttributeList.size(); i++) {
                 Attr attr = (Attr) fAttributeList.get(i);
                 fLocator.fRelatedNode = attr;

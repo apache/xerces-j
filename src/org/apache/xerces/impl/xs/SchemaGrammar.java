@@ -38,6 +38,7 @@ import org.apache.xerces.parsers.XML11Configuration;
 import org.apache.xerces.util.SymbolHash;
 import org.apache.xerces.util.SymbolTable;
 import org.apache.xerces.xni.NamespaceContext;
+import org.apache.xerces.xni.grammars.Grammar;
 import org.apache.xerces.xni.grammars.XMLGrammarDescription;
 import org.apache.xerces.xni.grammars.XSGrammar;
 import org.apache.xerces.xs.StringList;
@@ -116,8 +117,8 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
     // symbol table for constructing parsers (annotation support)
     private SymbolTable fSymbolTable = null;
     // parsers for annotation support
-    private SoftReference fSAXParser = null;
-    private SoftReference fDOMParser = null;
+    private SoftReference<SAXParser> fSAXParser = null;
+    private SoftReference<DOMParser> fDOMParser = null;
     
     // is this grammar immutable?  (fully constructed and not changeable)
     private boolean fIsImmutable = false;
@@ -239,7 +240,7 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
 
         // List of imported grammars
         if (grammar.fImported != null) {
-            fImported = new Vector();
+            fImported = new Vector<>();
             for (int i=0; i<grammar.fImported.size(); i++) {
                 fImported.add(grammar.fImported.elementAt(i));
             }
@@ -798,12 +799,24 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
         return true;
     } // isNamespaceAware():boolean
 
-    Vector fImported = null;
+    Vector<Grammar> fImported = null;
 
+    /**
+     * Set imported grammars.
+     *
+     * @param importedGrammars a Vector of imported Grammar objects
+     * @see Grammar
+     */
     public void setImportedGrammars(Vector importedGrammars) {
         fImported = importedGrammars;
     }
 
+    /**
+     * Get imported grammars.
+     *
+     * @return the imported Grammar objects as a Vector
+     * @see Grammar
+     */
     public Vector getImportedGrammars() {
         return fImported;
     }
@@ -1193,34 +1206,41 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
             // don't allow this.
         }
 
+        @Override
         public void setName(String name){
             // don't allow this.
         }
 
+        @Override
         public void setIsAbstractType() {
             // null implementation
         }
 
+        @Override
         public void setContainsTypeID() {
             // null implementation
         }
 
+        @Override
         public void setIsAnonymous() {
             // null implementation
         }
 
+        @Override
         public void reset() {
             // null implementation
         }
 
+        @Override
         public XSObjectList getAnnotations() {
             return XSObjectListImpl.EMPTY_LIST;
         }
-        
+
+        @Override
         public XSNamespaceItem getNamespaceItem() {
             return SG_SchemaNS;
         }
-        
+
         private XSAttributeGroupDecl createAttrGrp() {
             XSWildcardDecl wildcard = new XSWildcardDecl();
             wildcard.fProcessContents = XSWildcardDecl.PC_LAX;
@@ -1269,14 +1289,17 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
             // ignore this call.
         }
 
+        @Override
         public void reset () {
             // also ignore this call.
         }
-        
+
+        @Override
         public XSAnnotation getAnnotation() {
             return null;
         }
-        
+
+        @Override
         public XSNamespaceItem getNamespaceItem() {
             return SG_XSI;
         }
@@ -1354,13 +1377,13 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
 
     // store the documents and their locations contributing to this namespace
     // REVISIT: use StringList and XSObjectList for there fields.
-    private Vector fDocuments = null;
-    private Vector fLocations = null;
+    private Vector<Object> fDocuments = null;
+    private Vector<String> fLocations = null;
     
     public synchronized void addDocument(Object document, String location) {
         if (fDocuments == null) {
-            fDocuments = new Vector();
-            fLocations = new Vector();
+            fDocuments = new Vector<>();
+            fLocations = new Vector<>();
         }
         fDocuments.addElement(document);
         fLocations.addElement(location);
@@ -1406,7 +1429,7 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
             parser.setFeature(Constants.XERCES_FEATURE_PREFIX + Constants.DEFER_NODE_EXPANSION_FEATURE, false);
         }
         catch (SAXException exc) {}
-        fDOMParser = new SoftReference(parser);
+        fDOMParser = new SoftReference<>(parser);
         return parser;
     }
 
@@ -1426,7 +1449,7 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
         config.setFeature(Constants.SAX_FEATURE_PREFIX + Constants.NAMESPACES_FEATURE, true);
         config.setFeature(Constants.SAX_FEATURE_PREFIX + Constants.VALIDATION_FEATURE, false);
         SAXParser parser = new SAXParser(config);
-        fSAXParser = new SoftReference(parser);
+        fSAXParser = new SoftReference<>(parser);
         return parser;
     }
 

@@ -872,7 +872,7 @@ public void testCharacterData(org.w3c.dom.Document document)
  */
 public void testChildNodeList(org.w3c.dom.Document document)
 {
-	
+
 	Node node, node2;
 	boolean OK = true;
 // For debugging*****	println("\n          testChildNodeList's outputs:\n");
@@ -927,7 +927,7 @@ public void testComment(org.w3c.dom.Document document)
  */
 public void testDeepNodeList(org.w3c.dom.Document document)
 {
-	
+
 	Node node, node2;
 	boolean OK = true;
 // For debugging*****	println("\n          testDeepNodeList's outputs:\n");

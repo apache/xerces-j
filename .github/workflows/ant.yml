@@ -36,8 +36,9 @@ jobs:
     - name: Set Javac Override Version
       id: set_javac_version
       run: |
-          # If os_version is 21 or 25, set the override property to 1.8
-          if [[ "${{ matrix.os_version }}" == "21" || "${{ matrix.os_version }}" == "25" ]]; then
+          # If jdk is 21 or 25, set the override property to 1.8
+          # TODO 21 or later
+          if [[ "${{ matrix.jdk }}" == "21" || "${{ matrix.jdk }}" == "25" ]]; then
             echo "JAVAC_OVERRIDE=1.8" >> $GITHUB_ENV
           else
             # For 8, 11, and 17, 1.7 will be used.

@@ -131,7 +131,7 @@ public interface XMLParserConfiguration
      * @param featureId the unique identifier of the feature
      * @param state the requested state of the feature (true or false)
      *
-     * @throws XMLConfigurationException when a feature is not recognised and cannot be set
+     * @throws XMLConfigurationException when a feature is not recognized and cannot be set
      */
     public void setFeature(String featureId, boolean state) throws XMLConfigurationException;
 
@@ -140,7 +140,7 @@ public interface XMLParserConfiguration
      *
      * @param featureId the feature identifier
      *
-     * @throws XMLConfigurationException when a feature is not recognised
+     * @throws XMLConfigurationException when a feature is not recognized
      */
     public boolean getFeature(String featureId) throws XMLConfigurationException;
 
@@ -160,7 +160,7 @@ public interface XMLParserConfiguration
      * @param propertyId the unique identifier of the property
      * @param value the requested value of the property
      *
-     * @throws XMLConfigurationException when a property is not recognised and cannot be set
+     * @throws XMLConfigurationException when a property is not recognized and cannot be set
      */
     public void setProperty(String propertyId, Object value) throws XMLConfigurationException;
 
@@ -169,7 +169,7 @@ public interface XMLParserConfiguration
      *
      * @param propertyId the property identifier
      *
-     * @throws XMLConfigurationException when a property is not recognised
+     * @throws XMLConfigurationException when a property is not recognized
      */
     public Object getProperty(String propertyId) throws XMLConfigurationException;
 

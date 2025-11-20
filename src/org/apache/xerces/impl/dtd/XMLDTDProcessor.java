@@ -391,7 +391,7 @@ public class XMLDTDProcessor
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws XMLConfigurationException when a feature is not recognised or cannot be set
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
     public void setFeature(String featureId, boolean state)
             throws XMLConfigurationException {
@@ -416,7 +416,7 @@ public class XMLDTDProcessor
      * @param propertyId The property identifier.
      * @param value      The value of the property.
      *
-     * @throws XMLConfigurationException when a property is not recognised or cannot be set
+     * @throws XMLConfigurationException when a property is not recognized or cannot be set
      */
     public void setProperty(String propertyId, Object value)
             throws XMLConfigurationException {

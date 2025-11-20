@@ -611,7 +611,7 @@ public class XIncludeHandler
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws XMLConfigurationException when a feature is not recognised or cannot be set
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
     public void setFeature(String featureId, boolean state) throws XMLConfigurationException {
         if (featureId.equals(ALLOW_UE_AND_NOTATION_EVENTS)) {
@@ -642,7 +642,7 @@ public class XIncludeHandler
      * @param propertyId the property identifier
      * @param value the value of the property
      *
-     * @throws XMLConfigurationException when a property is not recognised or cannot be set
+     * @throws XMLConfigurationException when a property is not recognized or cannot be set
      */
     public void setProperty(String propertyId, Object value) throws XMLConfigurationException {
         if (propertyId.equals(SYMBOL_TABLE)) {

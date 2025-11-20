@@ -203,7 +203,7 @@ public class XMLDTDLoader
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws XMLConfigurationException when a feature is not recognised or cannot be set
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
     public void setFeature(String featureId, boolean state)
             throws XMLConfigurationException {
@@ -244,7 +244,7 @@ public class XMLDTDLoader
      *
      * @param propertyId the property identifier
      *
-     * @throws XMLConfigurationException when a property is not recognised
+     * @throws XMLConfigurationException when a property is not recognized
      */
     public Object getProperty(String propertyId) 
             throws XMLConfigurationException {
@@ -282,7 +282,7 @@ public class XMLDTDLoader
      * @param propertyId The property identifier.
      * @param value      The value of the property.
      *
-     * @throws XMLConfigurationException when a property is not recognised or cannot be set
+     * @throws XMLConfigurationException when a property is not recognized or cannot be set
      */
     public void setProperty(String propertyId, Object value)
             throws XMLConfigurationException {
@@ -325,7 +325,7 @@ public class XMLDTDLoader
      *
      * @param featureId the feature identifier
      *
-     * @throws XMLConfigurationException when a featureId is not recognised
+     * @throws XMLConfigurationException when a featureId is not recognized
      */
     public boolean getFeature(String featureId) 
             throws XMLConfigurationException {

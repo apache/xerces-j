@@ -359,7 +359,7 @@ XSLoader, DOMConfiguration {
      *
      * @param featureId the feature identifier
      *
-     * @throws XMLConfigurationException when a featureId is not recognised
+     * @throws XMLConfigurationException when a featureId is not recognized
      */
     public boolean getFeature(String featureId)
     throws XMLConfigurationException {                
@@ -372,7 +372,7 @@ XSLoader, DOMConfiguration {
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws XMLConfigurationException when a feature is not recognised or cannot be set
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
     public void setFeature(String featureId, boolean state) throws XMLConfigurationException {
         fSettingsChanged = true; 
@@ -399,7 +399,7 @@ XSLoader, DOMConfiguration {
      *
      * @param propertyId the property identifier
      *
-     * @throws XMLConfigurationException when a property is not recognised
+     * @throws XMLConfigurationException when a property is not recognized
      */
     public Object getProperty(String propertyId)
     throws XMLConfigurationException {
@@ -412,7 +412,7 @@ XSLoader, DOMConfiguration {
      * @param propertyId the property identifier
      * @param state the state of the property
      *
-     * @throws XMLConfigurationException when a property is not recognised or cannot be set
+     * @throws XMLConfigurationException when a property is not recognized or cannot be set
      */
     public void setProperty(String propertyId, Object state) throws XMLConfigurationException {
         fSettingsChanged = true;

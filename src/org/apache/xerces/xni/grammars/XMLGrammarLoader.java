@@ -51,7 +51,7 @@ public interface XMLGrammarLoader {
      *
      * @param featureId the feature identifier
      *
-     * @throws XMLConfigurationException when a feature is not recognised
+     * @throws XMLConfigurationException when a feature is not recognized
      */
     public boolean getFeature(String featureId) throws XMLConfigurationException;
 
@@ -61,7 +61,7 @@ public interface XMLGrammarLoader {
      * @param featureId the feature identifier
      * @param state the state of the feature
      *
-     * @throws XMLConfigurationException when a feature is not recognised and cannot be set
+     * @throws XMLConfigurationException when a feature is not recognized and cannot be set
      */
     public void setFeature(String featureId, boolean state) throws XMLConfigurationException;
 
@@ -77,7 +77,7 @@ public interface XMLGrammarLoader {
      *
      * @param propertyId the property identifier
      *
-     * @throws XMLConfigurationException when a property is not recognised
+     * @throws XMLConfigurationException when a property is not recognized
      */
     public Object getProperty(String propertyId) throws XMLConfigurationException;
 
@@ -87,7 +87,7 @@ public interface XMLGrammarLoader {
      * @param propertyId the property identifier
      * @param state the state of the property
      *
-     * @throws XMLConfigurationException when a property is not recognised and cannot be set
+     * @throws XMLConfigurationException when a property is not recognized and cannot be set
      */
     public void setProperty(String propertyId, Object state) throws XMLConfigurationException;
 

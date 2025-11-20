@@ -37,7 +37,7 @@ jobs:
       id: set_javac_version
       run: |
           # If jdk is 21 or 25, set the override property to 1.8
-          if [[ "${{ matrix.jdk }}" >= "21"]]; then
+          if [[ ${{ matrix.jdk }} >= 21]]; then
             echo "JAVAC_OVERRIDE=1.8" >> $GITHUB_ENV
           else
             # For 8, 11, and 17, 1.7 will be used.

@@ -182,7 +182,12 @@ public class XMLString {
     // Object methods
     //
 
-    /** Returns a string representation of this object. */
+    /**
+     * Returns a string representation of this object.
+     * <p>A new String will be returned based on the chars available from the current offset up to the current length.</p>
+     *
+     * @return the text contained from the current offset up to the current length
+     */
     public String toString() {
         return length > 0 ? new String(ch, offset, length) : "";
     } // toString():String

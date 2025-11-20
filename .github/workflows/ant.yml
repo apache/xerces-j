@@ -68,9 +68,11 @@ jobs:
     # The README suggests to use a build script to call ant
     # so we do this as well to make sure it also works this way
     - name: Run build script (target jars)
+      if: ${{ matrix.jdk <= 17 }}
       run: . ./build.sh jars
 
     - name: Run build script (target dtdjars)
+      if: ${{ matrix.jdk <= 17 }}
       run: . ./build.sh dtdjars
 
     # clean up before running via build script
@@ -78,7 +80,9 @@ jobs:
     - name: Ant Clean
       run: ant -noinput -buildfile build.xml clean
 
+    # TODO figure out how to push the Java version through build.sh
     - name: Run build script (target test)
+      if: ${{ matrix.jdk <= 17 }}
       run: . ./build.sh test
 
     # clean up before running via build script
@@ -86,4 +90,5 @@ jobs:
       run: ant -noinput -buildfile build.xml clean
 
     - name: Run build script (target all)
+      if: ${{ matrix.jdk <= 17 }}
       run: . ./build.sh all

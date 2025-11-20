@@ -40,8 +40,7 @@ jobs:
           if [[ "${{ matrix.os_version }}" == "21" || "${{ matrix.os_version }}" == "25" ]]; then
             echo "JAVAC_OVERRIDE=1.8" >> $GITHUB_ENV
           else
-            # For 8, 11, and 17, JAVAC_OVERRIDE will not be set in the environment,
-            # so the Ant default (1.7) will be used.
+            # For 8, 11, and 17, 1.7 will be used.
             echo "JAVAC_OVERRIDE=1.7" >> $GITHUB_ENV
           fi
 
@@ -50,16 +49,22 @@ jobs:
       run: ant -version
 
     - name: Ant Build (target jars)
-      run: ant -noinput -buildfile build.xml jars
+      run: ant -noinput -buildfile build.xml -Djavac.source=${{ env.JAVAC_OVERRIDE }} -Djavac.target=${{ env.JAVAC_OVERRIDE }} jars
 
     - name: Ant Build (target dtdjars)
-      run: ant -noinput -buildfile build.xml dtdjars
+      run: ant -noinput -buildfile build.xml dtdjars \
+          -Djavac.source=${{ env.JAVAC_OVERRIDE }} \
+          -Djavac.target=${{ env.JAVAC_OVERRIDE }}
 
     - name: Ant Test (target ci-test)
-      run: ant -noinput -buildfile build.xml clean ci-test
+      run: ant -noinput -buildfile build.xml clean ci-test \
+          -Djavac.source=${{ env.JAVAC_OVERRIDE }} \
+          -Djavac.target=${{ env.JAVAC_OVERRIDE }}
 
     - name: Ant Build (target all)
-      run: ant -noinput -buildfile build.xml all
+      run: ant -noinput -buildfile build.xml all \
+          -Djavac.source=${{ env.JAVAC_OVERRIDE }} \
+          -Djavac.target=${{ env.JAVAC_OVERRIDE }}
 
     # clean up before running via build script
     - name: Ant Clean

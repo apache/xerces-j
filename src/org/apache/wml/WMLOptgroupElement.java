@@ -43,7 +43,7 @@ public interface WMLOptgroupElement extends WMLElement {
      * the document is written.  
      * (Section 8.8, WAP WML Version 16-Jun-1999)
      *
-     * @param newValue set a <code>xml:lang</code> value for the element
+     * @param newValue a language identifier as defined by <a href="https://www.w3.org/TR/xml/#RFC1766">IETF BCP 47</a> or an empty string
      */
     public void setXmlLang(String newValue);
     public String getXmlLang();

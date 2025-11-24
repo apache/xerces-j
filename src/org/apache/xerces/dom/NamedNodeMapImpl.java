@@ -161,20 +161,19 @@ public class NamedNodeMapImpl
 
     /**
      * Adds a node using its nodeName attribute.
-     * As the nodeName attribute is used to derive the name which the node must be
+     * <p>As the nodeName attribute is used to derive the name which the node must be
      * stored under, multiple nodes of certain types (those that have a "special" string
      * value) cannot be stored as the names would clash. This is seen as preferable to
-     * allowing nodes to be aliased.
-     * @see org.w3c.dom.NamedNodeMap#setNamedItem
-     * @return If the new Node replaces an existing node the replaced Node is returned,
-     *      otherwise null is returned. 
-     * @param arg 
-     *      A node to store in a named node map. The node will later be
+     * allowing nodes to be aliased.</p>
+     *
+     * @param arg A node to store in a named node map. The node will later be
      *      accessible using the value of the namespaceURI and localName
      *      attribute of the node. If a node with those namespace URI and
      *      local name is already present in the map, it is replaced by the new
      *      one.
-     * @exception org.w3c.dom.DOMException The exception description.
+     * @return the replaced Node, if the new Node replaces an existing one, otherwise null
+     * @throws org.w3c.dom.DOMException the exception description
+     * @see org.w3c.dom.NamedNodeMap#setNamedItem
      */
     public Node setNamedItem(Node arg)
     throws DOMException {
@@ -260,8 +259,10 @@ public class NamedNodeMapImpl
    
     /**
      * Removes a node specified by name.
-     * @param name The name of a node to remove.
-     * @return The node removed from the map if a node with such a name exists.
+     *
+     * @param name the name of a node to remove
+     * @return the node removed from the map if a node with such a name exists
+     * @throws DOMException NOT_FOUND_ERR: if the node isn't found
      */
     public Node removeNamedItem(String name)
         throws DOMException {
@@ -286,18 +287,15 @@ public class NamedNodeMapImpl
     } // removeNamedItem(String):Node
     
     /**
-     * Introduced in DOM Level 2. <p>
-     * Removes a node specified by local name and namespace URI.
-     * @param namespaceURI
-     *                      The namespace URI of the node to remove.
+     * Introduced in DOM Level 2.
+     * <p>Removes a node specified by local name and namespace URI.</p>
+     *
+     * @param namespaceURI the namespace URI of the node to remove.
      *                      When it is null or an empty string, this
      *                      method behaves like removeNamedItem.
-     * @param name          The local name of the node to remove.
-     * @return Node         The node removed from the map if a node with such
-     *                      a local name and namespace URI exists.
-     * @throws              DOMException NOT_FOUND_ERR: Raised if there is no node named
-     *                      name in the map.
-
+     * @param name the local name of the node to remove
+     * @return Node the node removed from the map if a node with such a local name and namespace URI exists
+     * @throws DOMException NOT_FOUND_ERR: if there is no node named name in the map
      */
      public Node removeNamedItemNS(String namespaceURI, String name)
         throws DOMException {
@@ -328,14 +326,21 @@ public class NamedNodeMapImpl
     /**
      * Cloning a NamedNodeMap is a DEEP OPERATION; it always clones
      * all the nodes contained in the map.
+     *
+     * @param ownerNode the owner node that this node's children will be cloned to
+     * @return a collection of Nodes containing this node's children
      */
-     
     public NamedNodeMapImpl cloneMap(NodeImpl ownerNode) {
     	NamedNodeMapImpl newmap = new NamedNodeMapImpl(ownerNode);
         newmap.cloneContent(this);
     	return newmap;
     }
 
+    /**
+     * Override parent's method to set the ownerNode correctly.
+     *
+     * @param srcmap a NamedNodeMap whose nodes will be cloned into this NamedNodeMap's instance
+     */
     protected void cloneContent(NamedNodeMapImpl srcmap) {
         List<Node> srcnodes = srcmap.nodes;
         if (srcnodes != null) {
@@ -439,11 +444,12 @@ public class NamedNodeMapImpl
      * Subroutine: Locate the named item, or the point at which said item
      * should be added. 
      *
-     * @param name Name of a node to look up.
+     * @param name name of a node to look up
+     * @param start the index at which to start searching the nodes in this instance
      *
      * @return If positive or zero, the index of the found item.
      * If negative, index of the appropriate point at which to insert
-     * the item, encoded as -1-index and hence reconvertable by subtracting
+     * the item, encoded as -1-index and hence re-convertible by subtracting
      * it from -1. (Encoding because I don't want to recompare the strings
      * but don't want to burn bytes on a datatype to hold a flagged value.)
      */
@@ -479,7 +485,12 @@ public class NamedNodeMapImpl
     } // findNamePoint(String):int
 
     
-    /** This findNamePoint is for DOM Level 2 Namespaces.
+    /**
+     * This findNamePoint is for DOM Level 2 Namespaces.
+     *
+     * @param namespaceURI yhe namespace URI of the node to look up
+     * @param name name of a node to look up
+     * @return the index of the found item
      */
     protected int findNamePoint(String namespaceURI, String name) {
         
@@ -548,6 +559,12 @@ public class NamedNodeMapImpl
         return null;
     }
 
+    /**
+     * Add item.
+     *
+     * @param arg a Node to be added
+     * @return the index at which the node has been added
+     */
     protected int addItem (Node arg) {
     	int i = findNamePoint(arg.getNamespaceURI(), arg.getLocalName());
     	if (i >= 0) {

@@ -24,8 +24,9 @@ import java.util.Hashtable;
  * Java encoding names, and vice versa. The encoding names used in XML instance documents 
  * <strong>must</strong> be the IANA encoding names specified or one of the aliases for 
  * those names which IANA defines.
- * <p>
+ *
  * <table>
+ *  <caption>Mapping between IANA encoding names and Java encoding names</caption>
  *  <tr>
  *      <td>
  *          <strong>Common Name</strong>
@@ -42,423 +43,213 @@ import java.util.Hashtable;
  *  </tr>
  *  <tr>
  *      <td>8 bit Unicode</td>
- *      <td>
- *          UTF-8
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          UTF8
- *      </td>
+ *      <td>UTF-8</td>
+ *      <td>IANA</td>
+ *      <td>UTF8</td>
  *  </tr>
  *  <tr>
  *      <td>ISO Latin 1</td>
- *      <td>
- *          ISO-8859-1
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          ISO-8859-1
- *      </td>
+ *      <td>ISO-8859-1</td>
+ *      <td>MIME</td>
+ *      <td>ISO-8859-1</td>
  *  </tr>
  *  <tr>
  *      <td>ISO Latin 2</td>
- *      <td>
- *          ISO-8859-2
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          ISO-8859-2
- *      </td>
+ *      <td>ISO-8859-2</td>
+ *      <td>MIME</td>
+ *      <td>ISO-8859-2</td>
  *  </tr>
  *  <tr>
  *      <td>ISO Latin 3</td>
- *      <td>
- *          ISO-8859-3
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          ISO-8859-3
- *      </td>
+ *      <td>ISO-8859-3</td>
+ *      <td>MIME</td>
+ *      <td>ISO-8859-3</td>
  *  </tr>
  *  <tr>
  *      <td>ISO Latin 4</td>
- *      <td>
- *          ISO-8859-4
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          ISO-8859-4
- *      </td>
+ *      <td>ISO-8859-4</td>
+ *      <td>MIME</td>
+ *      <td>ISO-8859-4</td>
  *  </tr>
  *  <tr>
  *      <td>ISO Latin Cyrillic</td>
- *      <td>
- *          ISO-8859-5
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          ISO-8859-5
- *      </td>
+ *      <td>ISO-8859-5</td>
+ *      <td>MIME</td>
+ *      <td>ISO-8859-5</td>
  *  </tr>
  *  <tr>
  *      <td>ISO Latin Arabic</td>
- *      <td>
- *          ISO-8859-6
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          ISO-8859-6
- *      </td>
+ *      <td>ISO-8859-6</td>
+ *      <td>MIME</td>
+ *      <td>ISO-8859-6</td>
  *  </tr>
  *  <tr>
  *      <td>ISO Latin Greek</td>
- *      <td>
- *          ISO-8859-7
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          ISO-8859-7
- *      </td>
+ *      <td>ISO-8859-7</td>
+ *      <td>MIME</td>
+ *      <td>ISO-8859-7</td>
  *  </tr>
  *  <tr>
  *      <td>ISO Latin Hebrew</td>
- *      <td>
- *          ISO-8859-8
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          ISO-8859-8
- *      </td>
+ *      <td>ISO-8859-8</td>
+ *      <td>MIME</td>
+ *      <td>ISO-8859-8</td>
  *  </tr>
  *  <tr>
  *      <td>ISO Latin 5</td>
- *      <td>
- *          ISO-8859-9
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          ISO-8859-9
- *      </td>
+ *      <td>ISO-8859-9</td>
+ *      <td>MIME</td>
+ *      <td>ISO-8859-9</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: US</td>
- *      <td>
- *          ebcdic-cp-us
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp037
- *      </td>
+ *      <td>ebcdic-cp-us</td>
+ *      <td>IANA</td>
+ *      <td>cp037</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Canada</td>
- *      <td>
- *          ebcdic-cp-ca
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp037
- *      </td>
+ *      <td>ebcdic-cp-ca</td>
+ *      <td>IANA</td>
+ *      <td>cp037</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Netherlands</td>
- *      <td>
- *          ebcdic-cp-nl
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp037
- *      </td>
+ *      <td>ebcdic-cp-nl</td>
+ *      <td>IANA</td>
+ *      <td>cp037</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Denmark</td>
- *      <td>
- *          ebcdic-cp-dk
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp277
- *      </td>
+ *      <td>ebcdic-cp-dk</td>
+ *      <td>IANA</td>
+ *      <td>cp277</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Norway</td>
- *      <td>
- *          ebcdic-cp-no
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp277
- *      </td>
+ *      <td>ebcdic-cp-no</td>
+ *      <td>IANA</td>
+ *      <td>cp277</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Finland</td>
- *      <td>
- *          ebcdic-cp-fi
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp278
- *      </td>
+ *      <td>ebcdic-cp-fi</td>
+ *      <td>IANA</td>
+ *      <td>cp278</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Sweden</td>
- *      <td>
- *          ebcdic-cp-se
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp278
- *      </td>
+ *      <td>ebcdic-cp-se</td>
+ *      <td>IANA</td>
+ *      <td>cp278</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Italy</td>
- *      <td>
- *          ebcdic-cp-it
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp280
- *      </td>
+ *      <td>ebcdic-cp-it</td>
+ *      <td>IANA</td>
+ *      <td>cp280</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Spain, Latin America</td>
- *      <td>
- *          ebcdic-cp-es
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp284
- *      </td>
+ *      <td>ebcdic-cp-es</td>
+ *      <td>IANA</td>
+ *      <td>cp284</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Great Britain</td>
- *      <td>
- *          ebcdic-cp-gb
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp285
- *      </td>
+ *      <td>ebcdic-cp-gb</td>
+ *      <td>IANA</td>
+ *      <td>cp285</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: France</td>
- *      <td>
- *          ebcdic-cp-fr
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp297
- *      </td>
+ *      <td>ebcdic-cp-fr</td>
+ *      <td>IANA</td>
+ *      <td>cp297</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Arabic</td>
- *      <td>
- *          ebcdic-cp-ar1
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp420
- *      </td>
+ *      <td>ebcdic-cp-ar1</td>
+ *      <td>IANA</td>
+ *      <td>cp420</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Hebrew</td>
- *      <td>
- *          ebcdic-cp-he
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp424
- *      </td>
+ *      <td>ebcdic-cp-he</td>
+ *      <td>IANA</td>
+ *      <td>cp424</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Switzerland</td>
- *      <td>
- *          ebcdic-cp-ch
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp500
- *      </td>
+ *      <td>ebcdic-cp-ch</td>
+ *      <td>IANA</td>
+ *      <td>cp500</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Roece</td>
- *      <td>
- *          ebcdic-cp-roece
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp870
- *      </td>
+ *      <td>ebcdic-cp-roece</td>
+ *      <td>IANA</td>
+ *      <td>cp870</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Yugoslavia</td>
- *      <td>
- *          ebcdic-cp-yu
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp870
- *      </td>
+ *      <td>ebcdic-cp-yu</td>
+ *      <td>IANA</td>
+ *      <td>cp870</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Iceland</td>
- *      <td>
- *          ebcdic-cp-is
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp871
- *      </td>
+ *      <td>ebcdic-cp-is</td>
+ *      <td>IANA</td>
+ *      <td>cp871</td>
  *  </tr>
  *  <tr>
  *      <td>EBCDIC: Urdu</td>
- *      <td>
- *          ebcdic-cp-ar2
- *      </td>
- *      <td>
- *          IANA
- *      </td>
- *      <td>
- *          cp918
- *      </td>
+ *      <td>ebcdic-cp-ar2</td>
+ *      <td>IANA</td>
+ *      <td>cp918</td>
  *  </tr>
  *  <tr>
  *      <td>Chinese for PRC, mixed 1/2 byte</td>
- *      <td>
- *          gb2312
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          GB2312
- *      </td>
+ *      <td>gb2312</td>
+ *      <td>MIME</td>
+ *      <td>GB2312</td>
  *  </tr>
  *  <tr>
  *      <td>Extended Unix Code, packed for Japanese</td>
- *      <td>
- *          euc-jp
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          eucjis
- *      </td>
+ *      <td>euc-jp</td>
+ *      <td>MIME</td>
+ *      <td>eucjis</td>
  *  </tr>
  *  <tr>
  *      <td>Japanese: iso-2022-jp</td>
- *      <td>
- *          iso-2020-jp
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          JIS
- *      </td>
+ *      <td>iso-2020-jp</td>
+ *      <td>MIME</td>
+ *      <td>JIS</td>
  *  </tr>
  *  <tr>
  *      <td>Japanese: Shift JIS</td>
- *      <td>
- *          Shift_JIS
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          SJIS
- *      </td>
+ *      <td>Shift_JIS</td>
+ *      <td>MIME</td>
+ *      <td>SJIS</td>
  *  </tr>
  *  <tr>
  *      <td>Chinese: Big5</td>
- *      <td>
- *          Big5
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          Big5
- *      </td>
+ *      <td>Big5</td>
+ *      <td>MIME</td>
+ *      <td>Big5</td>
  *  </tr>
  *  <tr>
  *      <td>Extended Unix Code, packed for Korean</td>
- *      <td>
- *          euc-kr
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          iso2022kr
- *      </td>
+ *      <td>euc-kr</td>
+ *      <td>MIME</td>
+ *      <td>iso2022kr</td>
  *  </tr>
  *  <tr>
  *      <td>Cyrillic</td>
- *      <td>
- *          koi8-r
- *      </td>
- *      <td>
- *          MIME
- *      </td>
- *      <td>
- *          koi8-r
- *      </td>
+ *      <td>koi8-r</td>
+ *      <td>MIME</td>
+ *      <td>koi8-r</td>
  *  </tr>
  * </table>
  * 

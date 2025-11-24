@@ -601,7 +601,7 @@ public class TextImpl
      * @return a reference to the new node (containing data after the offset
      *         point). The original node will contain data up to that point.
      * 
-     * @throws DOMException INDEX_SIZE_ERR if offset is &lt;0 or >length.
+     * @throws DOMException INDEX_SIZE_ERR if offset is &lt;0 or &gt;length.
      *
      * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if node is read-only.
      */
@@ -639,7 +639,9 @@ public class TextImpl
 
     
     /**
-     * NON-DOM (used by DOMParser): Reset data for the node. 
+     * NON-DOM (used by DOMParser): Reset data for the node.
+     *
+     * @param value the new value for the data
      */
     public void replaceData (String value){
         data = value;
@@ -647,8 +649,10 @@ public class TextImpl
 
 
     /**
-     * NON-DOM (used by DOMParser: Sets data to empty string. 
-     *  Returns the value the data was set to.
+     * NON-DOM (used by DOMParser: Sets data to empty string.
+     * Returns the value the data was previously set to.
+     *
+     * @return the value the data was previously set to
      */
     public String removeData (){
         String olddata=data;

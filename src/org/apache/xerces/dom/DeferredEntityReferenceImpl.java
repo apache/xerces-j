@@ -18,7 +18,7 @@
 package org.apache.xerces.dom;
 
 /**
- * EntityReference models the XML <code>&entityname;</code> syntax, when used for
+ * EntityReference models the XML <code>&amp;entityname;</code> syntax, when used for
  * entities defined by the DOM. Entities hardcoded into XML, such as
  * character entities, should instead have been translated into text
  * by the code which generated the DOM tree.

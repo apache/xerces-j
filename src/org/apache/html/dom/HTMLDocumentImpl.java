@@ -626,7 +626,7 @@ public class HTMLDocumentImpl
     }
 
     /**
-     * Not supported
+     * This is a no-op in HTMLDocumentImpl
      */
     @Override
     public void open()
@@ -638,7 +638,7 @@ public class HTMLDocumentImpl
     }
 
     /**
-     * Not supported
+     * This is a no-op in HTMLDocumentImpl
      */
     @Override
     public void close()
@@ -652,7 +652,7 @@ public class HTMLDocumentImpl
 
     /**
      * Write a string.
-     * <p>Not supported</p>
+     * <p>This is a no-op in HTMLDocumentImpl</p>
      *
      * @param text a string to write
      */
@@ -665,8 +665,8 @@ public class HTMLDocumentImpl
     }
 
     /**
-     * Write a line into the in-memory writer.
-     * <p>Not supported</p>
+     * Write a line.
+     * <p>This is a no-op in HTMLDocumentImpl</p>
      *
      * @param text a string to write
      */

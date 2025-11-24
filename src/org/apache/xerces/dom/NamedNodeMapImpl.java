@@ -339,7 +339,7 @@ public class NamedNodeMapImpl
     /**
      * Override parent's method to set the ownerNode correctly.
      *
-     * @param srcmap a NamedNodeMap who's nodes will be cloned into this NamedNodeMap's instance
+     * @param srcmap a NamedNodeMap whose nodes will be cloned into this NamedNodeMap's instance
      */
     protected void cloneContent(NamedNodeMapImpl srcmap) {
         List<Node> srcnodes = srcmap.nodes;

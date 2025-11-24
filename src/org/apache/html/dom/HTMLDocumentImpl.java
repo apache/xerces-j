@@ -625,6 +625,9 @@ public class HTMLDocumentImpl
         return _anchors;
     }
 
+    /**
+     * Not supported
+     */
     @Override
     public void open()
     {
@@ -634,6 +637,9 @@ public class HTMLDocumentImpl
             _writer = new StringWriter();
     }
 
+    /**
+     * Not supported
+     */
     @Override
     public void close()
     {
@@ -645,7 +651,8 @@ public class HTMLDocumentImpl
     }
 
     /**
-     * Write a string into the in-memory writer.
+     * Write a string.
+     * <p>Not supported</p>
      *
      * @param text a string to write
      */
@@ -659,6 +666,7 @@ public class HTMLDocumentImpl
 
     /**
      * Write a line into the in-memory writer.
+     * <p>Not supported</p>
      *
      * @param text a string to write
      */

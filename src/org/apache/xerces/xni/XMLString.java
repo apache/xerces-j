@@ -112,15 +112,17 @@ public class XMLString {
      * of the given string structure.
      * <p>
      * <strong>Note:</strong> This does not copy the character array;
-     * only the reference to the array is copied.
-     * 
-     * @param s
+     * only the reference to the array is copied.</p>
+     *
+     * @param s an XML string structure to copy
      */
     public void setValues(XMLString s) {
         setValues(s.ch, s.offset, s.length);
     } // setValues(XMLString)
 
-    /** Resets all of the values to their defaults. */
+    /**
+     * Resets all the values to their defaults.
+     */
     public void clear() {
         this.ch = null;
         this.offset = 0;

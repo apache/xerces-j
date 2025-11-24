@@ -267,7 +267,7 @@ class HTMLCollectionImpl
      * and the top level element is passed along.
      * <p>
      * Note that this function must call itself with an index and get back both
-     * the element (if one was found) and the new index which is decremeneted
+     * the element (if one was found) and the new index which is decremented
      * for any like element found. Since integers are only passed by value,
      * this function makes use of a separate class ({@link CollectionIndex})
      * to hold that index.
@@ -473,7 +473,7 @@ class HTMLCollectionImpl
 
 
 /**
- * {@link CollectionImpl#item} must traverse down the tree and decrement the
+ * {@link HTMLCollectionImpl#item(int)} must traverse down the tree and decrement the
  * index until it matches an element whose index is zero. Since integers are
  * passed by value, this class servers to pass the index into each recursion
  * by reference. It encompasses all the operations that need be performed on
@@ -481,7 +481,7 @@ class HTMLCollectionImpl
  * 
  * @xerces.internal
  * 
- * @see CollectionImpl#item
+ * @see HTMLCollectionImpl#item(int)
  */
 class CollectionIndex
 {
@@ -520,7 +520,7 @@ class CollectionIndex
     
     /**
      * Constructs a new index with the specified initial value. The index will
-     * then be decremeneted until it reaches zero.
+     * then be decremented until it reaches zero.
      * 
      * @param index the initial value
      */

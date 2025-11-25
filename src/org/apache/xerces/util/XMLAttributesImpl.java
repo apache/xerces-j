@@ -479,10 +479,10 @@ public class XMLAttributesImpl
      * <p>See {@link #getType(int) getType(int)} for a description
      * of the possible types.</p>
      *
-     * @param qname The XML 1.0 qualified name.
-     * @return The attribute type as a string, or null if the
+     * @param qname the XML 1.0 qualified name
+     * @return the attribute type as a string, or null if the
      *         attribute is not in the list or if qualified names
-     *         are not available.
+     *         are not available
      */
     public String getType(String qname) {
         int index = getIndex(qname);
@@ -515,10 +515,10 @@ public class XMLAttributesImpl
      * <p>See {@link #getValue(int) getValue(int)} for a description
      * of the possible values.</p>
      *
-     * @param qname The XML 1.0 qualified name.
+     * @param qname the XML 1.0 qualified name
      * @return The attribute value as a string, or null if the
      *         attribute is not in the list or if qualified names
-     *         are not available.
+     *         are not available
      */
     public String getValue(String qname) {
         int index = getIndex(qname);
@@ -559,9 +559,9 @@ public class XMLAttributesImpl
     /**
      * Look up the index of an attribute by XML 1.0 qualified name.
      *
-     * @param qName The qualified (prefixed) name.
+     * @param qName the qualified (prefixed) name
      * @return The index of the attribute, or -1 if it does not
-     *         appear in the list.
+     *         appear in the list
      */
     public int getIndex(String qName) {
         for (int i = 0; i < fLength; i++) {
@@ -714,12 +714,10 @@ public class XMLAttributesImpl
 
     /**
      * Look up an augmentation by XML 1.0 qualified name.
-     * <p>
      *
-     * @param qName The XML 1.0 qualified name.
+     * @param qName the XML 1.0 qualified name
      *
      * @return Augmentations
-     *
      */
     public Augmentations getAugmentations(String qName){
         int index = getIndex(qName);
@@ -768,10 +766,11 @@ public class XMLAttributesImpl
      * This method uses reference comparison, and thus should
      * only be used internally. We cannot use this method in any
      * code exposed to users as they may not pass in unique strings.
+     * </p>
      *
-     * @param qName The qualified (prefixed) name.
-     * @return The index of the attribute, or -1 if it does not
-     *         appear in the list.
+     * @param qName the qualified (prefixed) name
+     * @return the index of the attribute, or -1 if it does not
+     *         appear in the list
      */
     public int getIndexFast(String qName) {
         for (int i = 0; i < fLength; ++i) {

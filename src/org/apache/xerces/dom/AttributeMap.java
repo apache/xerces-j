@@ -60,18 +60,10 @@ public class AttributeMap extends NamedNodeMapImpl {
         }
     }
 
-    /**
-     * Adds an attribute using its nodeName attribute.
-     * @see org.w3c.dom.NamedNodeMap#setNamedItem
-     * @return If the new Node replaces an existing node the replaced Node is
-     *      returned, otherwise null is returned. 
-     * @param arg 
-     *      An Attr node to store in this map.
-     * @exception org.w3c.dom.DOMException The exception description.
-     */
+    @Override
     public Node setNamedItem(Node arg)
     throws DOMException {
-        
+
         boolean errCheck = ownerNode.ownerDocument().errorChecking;
         if (errCheck) {
             if (isReadOnly()) {
@@ -134,14 +126,18 @@ public class AttributeMap extends NamedNodeMapImpl {
 
     /**
      * Adds an attribute using its namespaceURI and localName.
+     *
+     * @return the replaced Node, if the new Node replaces an existing one, otherwise null
+     * @param arg a node to store in a named node map
+     * @throws DOMException {@link DOMException#NO_MODIFICATION_ALLOWED_ERR},
+     * {@link DOMException#WRONG_DOCUMENT_ERR}, {@link DOMException#HIERARCHY_REQUEST_ERR}, or
+     * {@link DOMException#INUSE_ATTRIBUTE_ERR}
      * @see org.w3c.dom.NamedNodeMap#setNamedItem
-     * @return If the new Node replaces an existing node the replaced Node is
-     *      returned, otherwise null is returned. 
-     * @param arg A node to store in a named node map.
      */
+    @Override
     public Node setNamedItemNS(Node arg)
     throws DOMException {
-        
+
         boolean errCheck = ownerNode.ownerDocument().errorChecking;
         if (errCheck) { 
             if (isReadOnly()) {
@@ -212,17 +208,16 @@ public class AttributeMap extends NamedNodeMapImpl {
    
     /**
      * Removes an attribute specified by name.
-     * @param name
-     *      The name of a node to remove. If the
+     *
+     * @param name the name of a node to remove. If the
      *      removed attribute is known to have a default value, an
      *      attribute immediately appears containing the default value
      *      as well as the corresponding namespace URI, local name,
      *      and prefix when applicable.
-     * @return The node removed from the map if a node with such a name exists.
-     * @throws              NOT_FOUND_ERR: Raised if there is no node named
-     *                      name in the map.
+     * @return the node removed from the map if a node with such a name exists
+     * @throws DOMException NOT_FOUND_ERR: if the node isn't found
      */
-    /***/
+    @Override
     public Node removeNamedItem(String name)
         throws DOMException {
         return internalRemoveNamedItem(name, true);
@@ -231,6 +226,13 @@ public class AttributeMap extends NamedNodeMapImpl {
     /**
      * Same as removeNamedItem except that it simply returns null if the
      * specified name is not found.
+     *
+     * @param name the name of a node to remove. If the
+     *      removed attribute is known to have a default value, an
+     *      attribute immediately appears containing the default value
+     *      as well as the corresponding namespace URI, local name,
+     *      and prefix when applicable.
+     * @return the node removed from the map if a node with such a name exists
      */
     Node safeRemoveNamedItem(String name) {
         return internalRemoveNamedItem(name, false);
@@ -238,16 +240,16 @@ public class AttributeMap extends NamedNodeMapImpl {
 
 
     /**
-     * NON-DOM: Remove the node object
-     * 
-     * NOTE: Specifically removes THIS NODE -- not the node with this
+     * NON-DOM: Remove the node object.
+     *
+     * <p>NOTE: Specifically removes THIS NODE -- not the node with this
      * name, nor the node with these contents. If node does not belong to
-     * this named node map, we throw a DOMException.
+     * this named node map, we throw a DOMException.</p>
      * 
-     * @param item       The node to remove
+     * @param item the node to remove
      * @param addDefault true -- magically add default attribute
-     * @return Removed node
-     * @exception DOMException
+     * @return the removed node
+     * @throws DOMException NOT_FOUND_ERR if the node isn't found
      */
     protected Node removeItem(Node item, boolean addDefault)
         throws DOMException {
@@ -352,22 +354,7 @@ public class AttributeMap extends NamedNodeMapImpl {
         return attr;
     }
     
-    /**
-     * Introduced in DOM Level 2. <p>
-     * Removes an attribute specified by local name and namespace URI.
-     * @param namespaceURI
-     *                      The namespace URI of the node to remove.
-     *                      When it is null or an empty string, this
-     *                      method behaves like removeNamedItem.
-     * @param name          The local name of the node to remove. If the
-     *                      removed attribute is known to have a default
-     *                      value, an attribute immediately appears
-     *                      containing the default value.
-     * @return Node         The node removed from the map if a node with such
-     *                      a local name and namespace URI exists.
-     * @throws              NOT_FOUND_ERR: Raised if there is no node named
-     *                      name in the map.
-     */
+    @Override
     public Node removeNamedItemNS(String namespaceURI, String name)
         throws DOMException {
         return internalRemoveNamedItemNS(namespaceURI, name, true);
@@ -385,10 +372,13 @@ public class AttributeMap extends NamedNodeMapImpl {
      * Internal removeNamedItemNS method allowing to specify whether an
      * exception must be thrown if the specified local name and namespace URI
      * is not found.
+     *
+     * @param namespaceURI the namespace URI of a node to remove
+     * @param name the name of a node to remove
+     * @param raiseEx set to true for {@link DOMException#NOT_FOUND_ERR} to be thrown node isn't found, otherwise null is returned
+     * @return an AttrImpl of the node being removed, or null
      */
-    final protected Node internalRemoveNamedItemNS(String namespaceURI,
-            String name,
-            boolean raiseEx) {
+    final protected Node internalRemoveNamedItemNS(String namespaceURI, String name, boolean raiseEx) {
         
         CoreDocumentImpl ownerDocument = ownerNode.ownerDocument();
         if (ownerDocument.errorChecking && isReadOnly()) {
@@ -468,11 +458,7 @@ public class AttributeMap extends NamedNodeMapImpl {
     // Public methods
     //
 
-    /**
-     * Cloning a NamedNodeMap is a DEEP OPERATION; it always clones
-     * all the nodes contained in the map.
-     */
-     
+    @Override
     public NamedNodeMapImpl cloneMap(NodeImpl ownerNode) {
         AttributeMap newmap =
             new AttributeMap((ElementImpl) ownerNode, null);
@@ -481,16 +467,14 @@ public class AttributeMap extends NamedNodeMapImpl {
         return newmap;
     } // cloneMap():AttributeMap
 
-    /**
-     * Override parent's method to set the ownerNode correctly
-     */
+    @Override
     protected void cloneContent(NamedNodeMapImpl srcmap) {
-        List srcnodes = srcmap.nodes;
+        List<Node> srcnodes = srcmap.nodes;
         if (srcnodes != null) {
             int size = srcnodes.size();
             if (size != 0) {
                 if (nodes == null) {
-                    nodes = new ArrayList(size);
+                    nodes = new ArrayList<>(size);
                 }
                 else {
                     nodes.clear();
@@ -567,6 +551,7 @@ public class AttributeMap extends NamedNodeMapImpl {
 
     } // reconcileDefaults()
 
+    @Override
     protected final int addItem (Node arg) {
         
         final AttrImpl argn = (AttrImpl) arg;

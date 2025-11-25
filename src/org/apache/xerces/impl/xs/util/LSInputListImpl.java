@@ -82,7 +82,7 @@ public final class LSInputListImpl extends AbstractList implements LSInputList {
     /*
      * List methods
      */
-
+    @Override
     public Object get(int index) {
         if (index >= 0 && index < fLength) {
             return fArray[index];
@@ -90,16 +90,19 @@ public final class LSInputListImpl extends AbstractList implements LSInputList {
         throw new IndexOutOfBoundsException("Index: " + index);
     }
 
+    @Override
     public int size() {
         return getLength();
     }
-    
+
+    @Override
     public Object[] toArray() {
         Object[] a = new Object[fLength];
         toArray0(a);
         return a;
     }
-    
+
+    @Override
     public Object[] toArray(Object[] a) {
         if (a.length < fLength) {
             Class arrayClass = a.getClass();

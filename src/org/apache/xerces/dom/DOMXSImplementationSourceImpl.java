@@ -27,7 +27,8 @@ import org.w3c.dom.DOMImplementationList;
  * Allows to retrieve <code>XSImplementation</code>, DOM Level 3 Core and LS implementations
  * and PSVI implementation.
  * <p>See also the <a href='http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#DOMImplementationSource'>Document Object Model (DOM) Level 3 Core Specification</a>.
- * 
+ * </p>
+ *
  * @xerces.internal
  * 
  * @author Elena Litani, IBM
@@ -76,7 +77,7 @@ public class DOMXSImplementationSourceImpl
      *   features.
      */
     public DOMImplementationList getDOMImplementationList(String features) {
-        final ArrayList implementations = new ArrayList();
+        final ArrayList<DOMImplementation> implementations = new ArrayList<>();
 
         // first check whether the CoreDOMImplementation would do
         DOMImplementationList list = super.getDOMImplementationList(features);

@@ -138,7 +138,7 @@ public final class SecureProcessingConfiguration extends
     /** 
      * Constructs a parser configuration using the specified symbol table. 
      *
-     * @param symbolTable The symbol table to use.
+     * @param symbolTable the symbol table to use
      */
     public SecureProcessingConfiguration(SymbolTable symbolTable) {
         this(symbolTable, null, null);
@@ -147,10 +147,9 @@ public final class SecureProcessingConfiguration extends
     /**
      * Constructs a parser configuration using the specified symbol table and
      * grammar pool.
-     * <p>
      *
-     * @param symbolTable The symbol table to use.
-     * @param grammarPool The grammar pool to use.
+     * @param symbolTable the symbol table to use
+     * @param grammarPool the grammar pool to use
      */
     public SecureProcessingConfiguration(
             SymbolTable symbolTable,
@@ -161,11 +160,10 @@ public final class SecureProcessingConfiguration extends
     /**
      * Constructs a parser configuration using the specified symbol table,
      * grammar pool, and parent settings.
-     * <p>
      *
-     * @param symbolTable    The symbol table to use.
-     * @param grammarPool    The grammar pool to use.
-     * @param parentSettings The parent settings.
+     * @param symbolTable the symbol table to use
+     * @param grammarPool the grammar pool to use
+     * @param parentSettings the parent settings
      */
     public SecureProcessingConfiguration(
             SymbolTable symbolTable,
@@ -199,21 +197,21 @@ public final class SecureProcessingConfiguration extends
         if (fTotalEntitySize > TOTAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE) {
             fErrorReporter.reportError(XMLMessageFormatter.XML_DOMAIN,
                     "TotalEntitySizeLimitExceeded",
-                    new Object[] {new Integer(TOTAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
+                    new Object[] {Integer.valueOf(TOTAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
                     XMLErrorReporter.SEVERITY_FATAL_ERROR);
         }
         if (isPE) {
             if (sizeOfEntity > MAX_PARAMETER_ENTITY_SIZE_LIMIT_SYSTEM_VALUE) {
                 fErrorReporter.reportError(XMLMessageFormatter.XML_DOMAIN,
                         "MaxParameterEntitySizeLimitExceeded",
-                        new Object[] {new Integer(MAX_PARAMETER_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
+                        new Object[] {Integer.valueOf(MAX_PARAMETER_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
                         XMLErrorReporter.SEVERITY_FATAL_ERROR);
             }
         }
         else if (sizeOfEntity > MAX_GENERAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE) {
             fErrorReporter.reportError(XMLMessageFormatter.XML_DOMAIN,
                     "MaxGeneralEntitySizeLimitExceeded",
-                    new Object[] {new Integer(MAX_GENERAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
+                    new Object[] {Integer.valueOf(MAX_GENERAL_ENTITY_SIZE_LIMIT_SYSTEM_VALUE)},
                     XMLErrorReporter.SEVERITY_FATAL_ERROR);
         }
     }
@@ -221,7 +219,7 @@ public final class SecureProcessingConfiguration extends
     /**
      * Returns the value of a property.
      * 
-     * @param propertyId The property identifier.
+     * @param propertyId the property identifier
      * @return the value of the property
      * 
      * @throws XMLConfigurationException Thrown for configuration error.

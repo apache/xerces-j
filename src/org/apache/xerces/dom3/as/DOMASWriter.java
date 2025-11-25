@@ -30,17 +30,18 @@ import org.w3c.dom.ls.LSSerializer;
  * <p>See also the <a href='http://www.w3.org/TR/2001/WD-DOM-Level-3-ASLS-20011025'>Document Object Model (DOM) Level 3 Abstract Schemas and Load
 and Save Specification</a>.
  */
+@Deprecated
 public interface DOMASWriter extends LSSerializer {
+
     /**
-     *  Write out the specified Abstract Schema to the specified destination. 
+     * Write out the specified Abstract Schema to the specified destination.
      * Does it write a DTD or an XML Schema (or something else)? Is it 
      * possible to use this method to convert a DTD to an XML Schema?
      * @param destination The destination for the data to be written.
-     * @param model  The Abstract Schema to serialize. 
-     * @exception DOMSystemException
-     *   This exception will be raised in response to any sort of IO or system 
-     *   error that occurs while writing to the destination. It may wrap an 
-     *   underlying system exception.
+     *
+     * @param model the Abstract Schema to serialize
+     * @throws Exception if any sort of IO or system error occurs
+     * while writing to the destination.
      */
     public void writeASModel(java.io.OutputStream destination, 
                              ASModel model)

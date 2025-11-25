@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['8']
+        jdk: ['8', '11', '17', '21', '25']
 
     steps:
     - uses: actions/checkout@v4
@@ -32,24 +32,33 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.jdk }}
 
+    # Conditional override for javac properties
+    - name: Set Javac Override Version
+      id: set_javac_version
+      run: |
+          # If jdk is 21 or later, set the override property to 1.8
+          if [[ ${{ matrix.jdk }} -ge 21 ]]; then
+            echo "JAVAC_OVERRIDE=1.8" >> $GITHUB_ENV
+          else
+            # For 8, 11, and 17, 1.7 will be used.
+            echo "JAVAC_OVERRIDE=1.7" >> $GITHUB_ENV
+          fi
+
     # check ant version
     - name: Ant Version
       run: ant -version
 
     - name: Ant Build (target jars)
-      run: ant -noinput -buildfile build.xml jars
+      run: ant -noinput -buildfile build.xml -Djavac.source=${{ env.JAVAC_OVERRIDE }} -Djavac.target=${{ env.JAVAC_OVERRIDE }} jars
 
     - name: Ant Build (target dtdjars)
-      run: ant -noinput -buildfile build.xml dtdjars
+      run: ant -noinput -buildfile build.xml -Djavac.source=${{ env.JAVAC_OVERRIDE }} -Djavac.target=${{ env.JAVAC_OVERRIDE }} dtdjars
 
-    # test fails on JDK 8 due to java.lang.NoSuchFieldError
-    # test fails in JDK 11+ as -Xbootclasspath/p is no longer a supported option
-    - name: Ant Test (target test)
-      run: ant -noinput -buildfile build.xml ci-test
+    - name: Ant Test (target ci-test)
+      run: ant -noinput -buildfile build.xml -Djavac.source=${{ env.JAVAC_OVERRIDE }} -Djavac.target=${{ env.JAVAC_OVERRIDE }} clean ci-test
 
-    # cannot target 'all' with any JDK due to NoClassDefFoundError: com/sun/image/codec/jpeg/JPEGCodec
-    #- name: Ant Build (target all)
-    #  run: ant -noinput -buildfile build.xml all
+    - name: Ant Build (target all)
+      run: ant -noinput -buildfile build.xml -Djavac.source=${{ env.JAVAC_OVERRIDE }} -Djavac.target=${{ env.JAVAC_OVERRIDE }} all
 
     # clean up before running via build script
     - name: Ant Clean
@@ -58,13 +67,27 @@ jobs:
     # The README suggests to use a build script to call ant
     # so we do this as well to make sure it also works this way
     - name: Run build script (target jars)
+      if: ${{ matrix.jdk <= 17 }}
       run: . ./build.sh jars
 
     - name: Run build script (target dtdjars)
+      if: ${{ matrix.jdk <= 17 }}
       run: . ./build.sh dtdjars
 
-    # When issues fixed as per above, these steps can be enabled:
-    #- name: Run build script (target test)
-    #  run: . ./build.sh test
-    #- name: Run build script (target all)
-    #  run: . ./build.sh all
+    # clean up before running via build script
+    # TODO might want to make the clean step a part of build.sh
+    - name: Ant Clean
+      run: ant -noinput -buildfile build.xml clean
+
+    # TODO figure out how to push the Java version through build.sh
+    - name: Run build script (target test)
+      if: ${{ matrix.jdk <= 17 }}
+      run: . ./build.sh test
+
+    # clean up before running via build script
+    - name: Ant Clean
+      run: ant -noinput -buildfile build.xml clean
+
+    - name: Run build script (target all)
+      if: ${{ matrix.jdk <= 17 }}
+      run: . ./build.sh all

@@ -270,7 +270,7 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
      * http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#TypeInfo-isDerivedFrom
      * 
      * @param ancestorNS
-     *            The namspace of the ancestor type declaration
+     *            The namespace of the ancestor type declaration
      * @param ancestorName
      *            The name of the ancestor type declaration
      * @param derivationMethod
@@ -353,7 +353,7 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
      * http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#TypeInfo-isDerivedFrom
      * 
      * @param ancestorNS
-     *            The namspace of the ancestor type declaration
+     *            The namespace of the ancestor type declaration
      * @param ancestorName
      *            The name of the ancestor type declaration
      * @param derivationMethod
@@ -399,7 +399,7 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
      * http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#TypeInfo-isDerivedFrom
      * 
      * @param ancestorNS
-     *            The namspace of the ancestor type declaration
+     *            The namespace of the ancestor type declaration
      * @param ancestorName
      *            The name of the ancestor type declaration
      * @param derivationMethod
@@ -407,7 +407,7 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
      * @param type
      *            The reference type definition
      * 
-     * @return boolean True if the type is derived by restriciton for the
+     * @return boolean True if the type is derived by restriction for the
      *         reference type
      */
     private boolean isDerivedByRestriction(String ancestorNS,
@@ -461,7 +461,7 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
      * http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#TypeInfo-isDerivedFrom
      * 
      * @param ancestorNS
-     *            The namspace of the ancestor type declaration
+     *            The namespace of the ancestor type declaration
      * @param ancestorName
      *            The name of the ancestor type declaration
      * @param derivationMethod
@@ -599,7 +599,11 @@ public class XSComplexTypeDecl implements XSComplexTypeDefinition, TypeInfo {
 
     /**
      * {derivation method} Either extension or restriction. The valid constant
-     * value for this <code>XSConstants</code> EXTENTION, RESTRICTION.
+     * value for this <code>XSConstants</code> EXTENSION, RESTRICTION.
+     *
+     * @return the derivation method as a short
+     * @see XSConstants#DERIVATION_EXTENSION
+     * @see XSConstants#DERIVATION_RESTRICTION
      */
     public short getDerivationMethod() {
         return fDerivedBy;

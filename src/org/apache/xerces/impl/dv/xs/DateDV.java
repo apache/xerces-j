@@ -24,7 +24,7 @@ import org.apache.xerces.impl.dv.InvalidDatatypeValueException;
 import org.apache.xerces.impl.dv.ValidationContext;
 
 /**
- * Validator for <date> datatype (W3C Schema datatypes)
+ * Validator for <code>date</code> datatype (W3C Schema datatypes)
  *
  * @xerces.internal 
  *

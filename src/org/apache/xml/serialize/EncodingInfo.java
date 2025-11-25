@@ -33,6 +33,7 @@ import org.apache.xerces.util.EncodingMap;
  * information.
  * @version $Id$
  */
+@Deprecated
 public class EncodingInfo {
     
     // An array to hold the argument for a method of Charset, CharsetEncoder or CharToByteConverter.
@@ -60,6 +61,10 @@ public class EncodingInfo {
 
     /**
      * Creates new <code>EncodingInfo</code> instance.
+     *
+     * @param ianaName name of encoding as registered with IANA (preferably a MIME name, but aliases are fine too)
+     * @param javaName not actually used
+     * @param lastPrintable the integer value of the last printable char in the character encoding
      */
     public EncodingInfo(String ianaName, String javaName, int lastPrintable) {
         this.ianaName = ianaName;
@@ -69,6 +74,7 @@ public class EncodingInfo {
 
     /**
      * Returns a MIME charset name of this encoding.
+     * @return a string value of the MIME charset name for this encoding
      */
     public String getIANAName() {
         return this.ianaName;
@@ -78,9 +84,9 @@ public class EncodingInfo {
      * Returns a writer for this encoding based on
      * an output stream.
      *
-     * @return A suitable writer
-     * @exception UnsupportedEncodingException There is no convertor
-     *  to support this encoding
+     * @param output the output stream to use
+     * @return a suitable writer
+     * @throws UnsupportedEncodingException if there is no convertor to support this encoding
      */
     public Writer getWriter(OutputStream output)
         throws UnsupportedEncodingException {
@@ -98,6 +104,7 @@ public class EncodingInfo {
      * Checks whether the specified character is printable or not in this encoding.
      *
      * @param ch a code point (0-0x10ffff)
+     * @return true if the char is printable with this encoding
      */
     public boolean isPrintable(char ch) {
         if (ch <= this.lastPrintable) {
@@ -112,6 +119,7 @@ public class EncodingInfo {
      * available it will attempt use a sun.io.CharToByteConverter.
      *
      * @param ch a code point (0-0x10ffff)
+     * @return true if the char is printable with this encoding
      */
     private boolean isPrintable0(char ch) {
         
@@ -140,7 +148,7 @@ public class EncodingInfo {
         // Attempt to use the CharsetEncoder to determine whether the character is printable.
         if (fCharsetEncoder != null) {
             try {
-                fArgsForMethod[0] = new Character(ch);
+                fArgsForMethod[0] = Character.valueOf(ch);
                 return ((Boolean) CharsetMethods.fgCharsetEncoderCanEncodeMethod.invoke(fCharsetEncoder, fArgsForMethod)).booleanValue();
             } 
             catch (Exception e) {
@@ -173,7 +181,7 @@ public class EncodingInfo {
             }
         }
         try {
-            fArgsForMethod[0] = new Character(ch);
+            fArgsForMethod[0] = Character.valueOf(ch);
             return ((Boolean) CharToByteConverterMethods.fgCanConvertMethod.invoke(fCharToByteConverter, fArgsForMethod)).booleanValue();
         } 
         catch (Exception e) {
@@ -185,8 +193,12 @@ public class EncodingInfo {
         }
     }
 
-    // is this an encoding name recognized by this JDK?
-    // if not, will throw UnsupportedEncodingException
+    /**
+     * Checks that a charset is recognized by this JDK.
+     *
+     * @param name the charset name
+     * @throws UnsupportedEncodingException if the charset name is not recognized by the JDK
+     */
     public static void testJavaEncodingName(String name)  throws UnsupportedEncodingException {
         final byte [] bTest = {(byte)'v', (byte)'a', (byte)'l', (byte)'i', (byte)'d'};
         String s = new String(bTest, name);

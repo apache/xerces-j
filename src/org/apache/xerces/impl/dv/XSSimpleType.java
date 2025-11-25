@@ -23,8 +23,10 @@ import org.apache.xerces.xs.XSSimpleTypeDefinition;
  * This interface <code>XSSimpleType</code> represents the simple type
  * definition of schema component and defines methods to query the information
  * contained.
+ * <p>
  * Any simple type (atomic, list or union) will implement this interface.
  * It inherits from <code>XSTypeDecl</code>.
+ * </p>
  *
  * @xerces.internal 
  *
@@ -34,11 +36,12 @@ import org.apache.xerces.xs.XSSimpleTypeDefinition;
  */
 public interface XSSimpleType extends XSSimpleTypeDefinition {
 
-    /**
+    /*
      * constants defined for the values of 'whitespace' facet.
      * see <a href='http://www.w3.org/TR/xmlschema-2/#dt-whiteSpace'> XML Schema
      * Part 2: Datatypes </a>
      */
+
     /** preserve the white spaces */
     public static final short WS_PRESERVE = 0;
     /** replace the white spaces */
@@ -46,11 +49,12 @@ public interface XSSimpleType extends XSSimpleTypeDefinition {
     /** collapse the white spaces */
     public static final short WS_COLLAPSE = 2;
 
-    /**
+    /*
      * Constant defined for the primitive built-in simple tpyes.
      * see <a href='http://www.w3.org/TR/xmlschema-2/#built-in-primitive-datatypes'>
      * XML Schema Part 2: Datatypes </a>
      */
+
     /** "string" type */
     public static final short PRIMITIVE_STRING        = 1;
     /** "boolean" type */
@@ -144,12 +148,12 @@ public interface XSSimpleType extends XSSimpleTypeDefinition {
      * different facets.
      *
      * @param facets        the value of all the facets
-     * @param presentFacet  bit combination value of the costraining facet
-     *                      constants which are present.
-     * @param fixedFacet    bit combination value of the costraining facet
-     *                      constants which are fixed.
+     * @param presentFacet  bit-combination value of the constraining facet
+     *                      constants which are present
+     * @param fixedFacet    bit-combination value of the constraining facet
+     *                      constants which are fixed
      * @param context       the validation context
-     * @exception InvalidDatatypeFacetException  exception for invalid facet values.
+     * @throws InvalidDatatypeFacetException exception for invalid facet values
      */
     public void applyFacets(XSFacets facets, short presentFacet, short fixedFacet, ValidationContext context)
         throws InvalidDatatypeFacetException;
@@ -163,7 +167,7 @@ public interface XSSimpleType extends XSSimpleTypeDefinition {
      */
     public boolean isEqual(Object value1, Object value2);
 
-    /**
+    /*
      * Check the order of the two actual values. (May not be supported by all
      * simple types.
      * REVISIT: Andy believes that a compare() method is necessary.
@@ -192,10 +196,9 @@ public interface XSSimpleType extends XSSimpleTypeDefinition {
 
     /**
      * Return the whitespace corresponding to this datatype.
-     * 
-     * @return valid values are WS_PRESERVE, WS_REPLACE, WS_COLLAPSE.
-     * @exception DatatypeException
-     *                   union datatypes don't have whitespace facet associated with them
+     *
+     * @return either {@link #WS_PRESERVE}, {@link #WS_REPLACE}, or {@link #WS_COLLAPSE}.
+     * @throws DatatypeException union datatypes don't have whitespace facet associated with them
      */
     public short getWhitespace() throws DatatypeException;
 }

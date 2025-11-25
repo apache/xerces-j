@@ -19,6 +19,7 @@ package org.apache.xerces.dom3.as;
  * <p>See also the <a href='http://www.w3.org/TR/2001/WD-DOM-Level-3-ASLS-20011025'>Document Object Model (DOM) Level 3 Abstract Schemas and Load
 and Save Specification</a>.
  */
+@Deprecated
 public interface DocumentEditAS extends NodeEditAS {
     /**
      * An attribute specifying whether continuous checking for the validity of 

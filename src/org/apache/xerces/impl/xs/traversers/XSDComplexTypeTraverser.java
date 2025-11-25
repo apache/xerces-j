@@ -1206,8 +1206,8 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
         fGlobalStore[fGlobalStorePos++] = fName ;
         fGlobalStore[fGlobalStorePos++] = fTargetNamespace;
         // let's save ourselves a couple of objects...
-        fGlobalStore[fGlobalStorePos++] = new Integer((fDerivedBy << 16) + fFinal);
-        fGlobalStore[fGlobalStorePos++] = new Integer((fBlock << 16) + fContentType);
+        fGlobalStore[fGlobalStorePos++] = Integer.valueOf((fDerivedBy << 16) + fFinal);
+        fGlobalStore[fGlobalStorePos++] = Integer.valueOf((fBlock << 16) + fContentType);
         fGlobalStore[fGlobalStorePos++] = fBaseType;
         fGlobalStore[fGlobalStorePos++] = fAttrGrp;
         fGlobalStore[fGlobalStorePos++] = fParticle;

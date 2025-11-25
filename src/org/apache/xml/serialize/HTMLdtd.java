@@ -34,10 +34,11 @@ import org.apache.xerces.dom.DOMMessageFormatter;
  * The HTML DTD is expressed as three utility function groups. Two methods
  * allow for checking whether an element requires an open tag on printing
  * ({@link #isEmptyTag}) or on parsing ({@link #isOptionalClosing}).
- * <P>
+ * <p>
  * Two other methods translate character references from name to value and
  * from value to name. A small entities resource is loaded into memory the
  * first time any of these methods is called for fast and efficient access.
+ * </p>
  *
  * @deprecated This class was deprecated in Xerces 2.9.0. It is recommended 
  * that new applications use JAXP's Transformation API for XML (TrAX) for 
@@ -45,6 +46,7 @@ import org.apache.xerces.dom.DOMMessageFormatter;
  * @version $Revision$ $Date$
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  */
+@Deprecated
 public final class HTMLdtd
 {
 
@@ -80,7 +82,7 @@ public final class HTMLdtd
 
     /**
      * Table of entity name to value mapping. Entities are held as strings,
-     * character references as <TT>Character</TT> objects.
+     * character references as <code>Character</code> objects.
      */
     private static Hashtable        _byName;
 
@@ -170,8 +172,8 @@ public final class HTMLdtd
      * Returns true if element is declared to be empty. HTML elements are
      * defines as empty in the DTD, not by the document syntax.
      *
-     * @param tagName The element tag name (upper case)
-     * @return True if element is empty
+     * @param tagName the element tag name (upper case)
+     * @return true if element is empty
      */
     public static boolean isEmptyTag( String tagName )
     {
@@ -184,8 +186,8 @@ public final class HTMLdtd
      * Whitespaces appearing inside element content will be ignored,
      * other text will simply report an error.
      *
-     * @param tagName The element tag name (upper case)
-     * @return True if element content
+     * @param tagName the element tag name (upper case)
+     * @return true if element content
      */
     public static boolean isElementContent( String tagName )
     {
@@ -198,8 +200,8 @@ public final class HTMLdtd
      * This only applies to PRE and TEXTAREA, all other HTML elements
      * do not preserve space.
      *
-     * @param tagName The element tag name (upper case)
-     * @return True if element's text content preserves spaces
+     * @param tagName the element tag name (upper case)
+     * @return true if element's text content preserves spaces
      */
     public static boolean isPreserveSpace( String tagName )
     {
@@ -210,10 +212,10 @@ public final class HTMLdtd
     /**
      * Returns true if element's closing tag is optional and need not
      * exist. An error will not be reported for such elements if they
-     * are not closed. For example, <tt>LI</tt> is most often not closed.
+     * are not closed. For example, <code>LI</code> is most often not closed.
      *
-     * @param tagName The element tag name (upper case)
-     * @return True if closing tag implied
+     * @param tagName the element tag name (upper case)
+     * @return true if closing tag implied
      */
     public static boolean isOptionalClosing( String tagName )
     {
@@ -223,10 +225,10 @@ public final class HTMLdtd
 
     /**
      * Returns true if element's closing tag is generally not printed.
-     * For example, <tt>LI</tt> should not print the closing tag.
+     * For example, <code>LI</code> should not print the closing tag.
      *
-     * @param tagName The element tag name (upper case)
-     * @return True if only opening tag should be printed
+     * @param tagName the element tag name (upper case)
+     * @return true if only opening tag should be printed
      */
     public static boolean isOnlyOpening( String tagName )
     {
@@ -235,14 +237,14 @@ public final class HTMLdtd
 
 
     /**
-     * Returns true if the opening of one element (<tt>tagName</tt>) implies
-     * the closing of another open element (<tt>openTag</tt>). For example,
-     * every opening <tt>LI</tt> will close the previously open <tt>LI</tt>,
-     * and every opening <tt>BODY</tt> will close the previously open <tt>HEAD</tt>.
+     * Returns true if the opening of one element (<code>tagName</code>) implies
+     * the closing of another open element (<code>openTag</code>). For example,
+     * every opening <code>LI</code> will close the previously open <code>LI</code>,
+     * and every opening <code>BODY</code> will close the previously open <code>HEAD</code>.
      *
-     * @param tagName The newly opened element
-     * @param openTag The already opened element
-     * @return True if closing tag closes opening tag
+     * @param tagName the newly opened element
+     * @param openTag the already opened element
+     * @return true if closing tag closes opening tag
      */
     public static boolean isClosing( String tagName, String openTag )
     {
@@ -271,12 +273,13 @@ public final class HTMLdtd
 
 
     /**
-     * Returns true if the specified attribute it a URI and should be
+     * Returns true if the specified attribute is a URI and should be
      * escaped appropriately. In HTML URIs are escaped differently
      * than normal attributes.
      *
-     * @param tagName The element's tag name
-     * @param attrName The attribute's name
+     * @param tagName the element's tag name (unused)
+     * @param attrName the attribute's name
+     * @return true if the specified attribute is a URI
      */
     public static boolean isURI( String tagName, String attrName )
     {
@@ -290,8 +293,9 @@ public final class HTMLdtd
      * printed without the value. This applies to attributes that are true
      * if they exist, such as selected (OPTION/INPUT).
      *
-     * @param tagName The element's tag name
-     * @param attrName The attribute's name
+     * @param tagName the element's tag name
+     * @param attrName the attribute's name
+     * @return true if the specified attribute is a boolean
      */
     public static boolean isBoolean( String tagName, String attrName )
     {
@@ -312,8 +316,8 @@ public final class HTMLdtd
      * reference is not found or was not defined as a character reference,
      * returns EOF (-1).
      *
-     * @param name Name of character reference
-     * @return Character code or EOF (-1)
+     * @param name name of character reference
+     * @return a character code or EOF (-1)
      */
     public static int charFromName( String name )
     {
@@ -344,7 +348,7 @@ public final class HTMLdtd
         String name;
 
         initialize();
-        name = (String) _byChar.get( new Integer( value ) );
+        name = (String) _byChar.get( Integer.valueOf( value ) );
         return name;
     }
 
@@ -419,27 +423,28 @@ public final class HTMLdtd
     /**
      * Defines a new character reference. The reference's name and value are
      * supplied. Nothing happens if the character reference is already defined.
-     * <P>
+     * <p>
      * Unlike internal entities, character references are a string to single
      * character mapping. They are used to map non-ASCII characters both on
      * parsing and printing, primarily for HTML documents. '&lt;amp;' is an
      * example of a character reference.
+     * </p>
      *
-     * @param name The entity's name
-     * @param value The entity's value
+     * @param name the entity's name
+     * @param value the entity's value
      */
     private static void defineEntity( String name, char value )
     {
         if ( _byName.get( name ) == null ) {
-            _byName.put( name, new Integer( value ) );
-            _byChar.put( new Integer( value ), name );
+            _byName.put( name, Integer.valueOf( value ) );
+            _byChar.put( Integer.valueOf( value ), name );
         }
     }
 
 
     private static void defineElement( String name, int flags )
     {
-        _elemDefs.put( name, new Integer( flags ) );
+        _elemDefs.put( name, Integer.valueOf( flags ) );
     }
 
 

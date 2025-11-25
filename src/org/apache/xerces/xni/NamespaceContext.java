@@ -63,22 +63,24 @@ public interface NamespaceContext {
      * of each XML element: the new context will automatically inherit
      * the declarations of its parent context, but it will also keep
      * track of which declarations were made within this context.
-     * <p>
+     * </p>
      *
      * @see #popContext
      */
     public void pushContext();
 
-   /**
+    /**
      * Revert to the previous Namespace context.
      * <p>
      * The context should be popped at the end of each
      * XML element.  After popping the context, all Namespace prefix
      * mappings that were previously in force are restored.
+     * </p>
      * <p>
      * Users must not attempt to declare additional Namespace
      * prefixes after popping a context, unless you push another
      * context first.
+     * </p>
      *
      * @see #pushContext
      */
@@ -90,12 +92,15 @@ public interface NamespaceContext {
      * This method declares a prefix in the current Namespace
      * context; the prefix will remain in force until this context
      * is popped, unless it is shadowed in a descendant context.
+     * </p>
      * <p>
      * Note that to declare a default Namespace, use the empty string.  
      * The prefixes "xml" and "xmlns" can't be rebound.
+     * </p>
      * <p>
      * Note that you must <em>not</em> declare a prefix after
      * you've pushed and popped another Namespace.
+     * </p>
      *
      * @param prefix The prefix to declare, or null for the empty
      *        string. 
@@ -115,6 +120,7 @@ public interface NamespaceContext {
      * This method looks up the prefix in the current context. If no mapping 
      * is found, this methods will continue lookup in the parent context(s).
      * Use the empty string ("") for the default Namespace.
+     * </p>
      *
      * @param prefix The prefix to look up. 
      *
@@ -131,6 +137,7 @@ public interface NamespaceContext {
      * this method will make an arbitrary selection
      * If no mapping is found, this methods will continue lookup in the 
      * parent context(s).
+     * </p>
      *
      * @param uri The namespace URI to look up.
      *
@@ -144,11 +151,16 @@ public interface NamespaceContext {
     /**
      * Return a count of locally declared prefixes, including
      * the default prefix if bound.
+     *
+     * @return a count of locally declared prefixes
      */
     public int getDeclaredPrefixCount();
 
     /** 
      * Returns the prefix at the specified index in the current context.
+     *
+     * @param index the location of the declared prefix in the current context
+     * @return the prefix at the specified index in the current context
      */
     public String getDeclaredPrefixAt(int index);
 
@@ -156,7 +168,9 @@ public interface NamespaceContext {
 	 * Return an enumeration of all prefixes whose declarations are active 
      * in the current context. This includes declarations from parent contexts 
      * that have not been overridden.
-	 * @return Enumeration
+     *
+     * @return an {@link Enumeration} of all prefixes whose declarations are active
+     * in the current context
 	 */
     public Enumeration getAllPrefixes();
     

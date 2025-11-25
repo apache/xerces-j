@@ -22,7 +22,9 @@ import org.apache.wml.WMLTableElement;
  * @xerces.internal
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
+@Deprecated
 public class WMLTableElementImpl extends WMLElementImpl implements WMLTableElement {
     
     private static final long serialVersionUID = 7676208849347355339L;

@@ -743,7 +743,7 @@ public class XSDFACM
                         fTransTable[curState] = makeDefStateList();
 
                         /* Optimization(Jan, 2001) */
-                        stateTable.put(newSet, new Integer(curState));
+                        stateTable.put(newSet, Integer.valueOf(curState));
                         /* Optimization(Jan, 2001) */
 
                         // We now have a new state to do so bump the count

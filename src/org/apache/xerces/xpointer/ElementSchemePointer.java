@@ -534,9 +534,9 @@ final class ElementSchemePointer implements XPointerPart {
         private Tokens(SymbolTable symbolTable) {
             fSymbolTable = symbolTable;
 
-            fTokenNames.put(new Integer(XPTRTOKEN_ELEM_NCNAME),
+            fTokenNames.put(Integer.valueOf(XPTRTOKEN_ELEM_NCNAME),
                     "XPTRTOKEN_ELEM_NCNAME");
-            fTokenNames.put(new Integer(XPTRTOKEN_ELEM_CHILD),
+            fTokenNames.put(Integer.valueOf(XPTRTOKEN_ELEM_CHILD),
                     "XPTRTOKEN_ELEM_CHILD");
         }
 
@@ -546,7 +546,7 @@ final class ElementSchemePointer implements XPointerPart {
          * @return String The token string
          */
         private String getTokenString(int token) {
-            return (String) fTokenNames.get(new Integer(token));
+            return (String) fTokenNames.get(Integer.valueOf(token));
         }
 
         /**
@@ -555,25 +555,25 @@ final class ElementSchemePointer implements XPointerPart {
          * @return String The token string
          */
         private Integer getToken(int token) {
-            return (Integer) fTokenNames.get(new Integer(token));
+            return (Integer) fTokenNames.get(Integer.valueOf(token));
         }
 
         /**
-         * Add the specified string as a token
+         * Add the specified string as a token.
          *  
-         * @param token The token string
+         * @param tokenStr The token string
          */
         private void addToken(String tokenStr) {
             Integer tokenInt = (Integer) fTokenNames.get(tokenStr);
             if (tokenInt == null) {
-                tokenInt = new Integer(fTokenNames.size());
+                tokenInt = Integer.valueOf(fTokenNames.size());
                 fTokenNames.put(tokenInt, tokenStr);
             }
             addToken(tokenInt.intValue());
         }
 
         /**
-         * Add the specified int token
+         * Add the specified int token.
          *  
          * @param token The int specifying the token
          */
@@ -607,9 +607,9 @@ final class ElementSchemePointer implements XPointerPart {
         /**
          * Obtains the token at the current position, then advance
          * the current position by one.
-         * 
+         *
          * If there's no such next token, this method throws
-         * <tt>new XNIException("InvalidXPointerExpression");</tt>.
+         * <code>new XNIException("InvalidXPointerExpression");</code>.
          */
         private int nextToken() throws XNIException {
             if (fCurrentTokenIndex == fTokenCount)
@@ -620,9 +620,9 @@ final class ElementSchemePointer implements XPointerPart {
         /**
          * Obtains the token at the current position, without advancing
          * the current position.
-         * 
+         *
          * If there's no such next token, this method throws
-         * <tt>new XNIException("InvalidXPointerExpression");</tt>.
+         * <code>new XNIException("InvalidXPointerExpression");</code>.
          */
         private int peekToken() throws XNIException {
             if (fCurrentTokenIndex == fTokenCount)
@@ -632,11 +632,11 @@ final class ElementSchemePointer implements XPointerPart {
 
         /**
          * Obtains the token at the current position as a String.
-         * 
+         *
          * If there's no current token or if the current token
          * is not a string token, this method throws 
          * If there's no such next token, this method throws
-         * <tt>new XNIException("InvalidXPointerExpression");</tt>.
+         * <code>new XNIException("InvalidXPointerExpression");</code>.
          */
         private String nextTokenAsString() throws XNIException {
             String s = getTokenString(nextToken());
@@ -770,7 +770,7 @@ final class ElementSchemePointer implements XPointerPart {
                     // An invalid child sequence character
                     if (child == 0) {
                         reportError("InvalidChildSequenceCharacter",
-                                new Object[] { new Character((char) ch) });
+                                new Object[] { Character.valueOf((char) ch) });
                         return false;
                     }
 

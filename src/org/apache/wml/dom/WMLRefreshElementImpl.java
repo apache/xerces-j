@@ -22,7 +22,9 @@ import org.apache.wml.WMLRefreshElement;
  * @xerces.internal
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
+@Deprecated
 public class WMLRefreshElementImpl extends WMLElementImpl implements WMLRefreshElement {
 
     private static final long serialVersionUID = 8781837880806459398L;

@@ -26,12 +26,12 @@ import org.w3c.dom.traversal.NodeIterator;
 /** DefaultNodeIterator implements a NodeIterator, which iterates a 
  *  DOM tree in the expected depth first way. 
  *
- *  <p>The whatToShow and filter functionality is implemented as expected.
+ *  <p>The whatToShow and filter functionality is implemented as expected.</p>
  *  
  *  <p>This class also has method removeNode to enable iterator "fix-up" 
  *  on DOM remove. It is expected that the DOM implementation call removeNode
  *  right before the actual DOM transformation. If not called by the DOM,
- *  the client could call it before doing the removal.
+ *  the client could call it before doing the removal.</p>
  *  
  * @xerces.internal
  *

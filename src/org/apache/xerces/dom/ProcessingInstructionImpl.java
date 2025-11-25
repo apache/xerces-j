@@ -24,9 +24,10 @@ import org.w3c.dom.ProcessingInstruction;
  * Processing Instructions (PIs) permit documents to carry
  * processor-specific information alongside their actual content. PIs
  * are most common in XML, but they are supported in HTML as well.
- *
+ * <p>
  * This class inherits from CharacterDataImpl to reuse its setNodeValue method.
- * 
+ * </p>
+ *
  * @xerces.internal
  *
  * @version $Id$
@@ -89,13 +90,10 @@ public class ProcessingInstructionImpl
     /**
      * A PI's "target" states what processor channel the PI's data
      * should be directed to. It is defined differently in HTML and XML.
-     * <p>
-     * In XML, a PI's "target" is the first (whitespace-delimited) token
-     * following the "<?" token that begins the PI.
-     * <p>
-     * In HTML, target is always null.
-     * <p>
-     * Note that getNodeName is aliased to getTarget.
+     * <p>In XML, a PI's "target" is the first (whitespace-delimited) token
+     * following the "^lt;?" token that begins the PI.</p>
+     * <p>In HTML, target is always null.</p>
+     * <p>Note that getNodeName is aliased to getTarget.</p>
      */
     public String getTarget() {
         if (needsSyncData()) {

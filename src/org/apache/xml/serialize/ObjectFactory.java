@@ -35,7 +35,7 @@ import java.util.Properties;
  * later, and to compile on JDK 1.2 and onward.
  * The code also runs both as part of an unbundled jar file and
  * when bundled as part of the JDK.
- * <p>
+ * </p>
  *
  * @version $Id$
  */
@@ -85,12 +85,12 @@ final class ObjectFactory {
      *
      * @return Class object of factory, never null
      *
-     * @param factoryId             Name of the factory to find, same as
+     * @param factoryId             the name of the factory to find, same as
      *                              a property name
-     * @param fallbackClassName     Implementation class name, if nothing else
-     *                              is found.  Use null to mean no fallback.
+     * @param fallbackClassName     an implementation class name, if nothing else
+     *                              is found. Use <code>null</code> to mean no fallback.
      *
-     * @exception ObjectFactory.ConfigurationError
+     * @throws ObjectFactory.ConfigurationError will be thrown if cannot create an instance
      */
     static Object createObject(String factoryId, String fallbackClassName)
         throws ConfigurationError {
@@ -109,15 +109,15 @@ final class ObjectFactory {
      *
      * @return Class object of factory, never null
      *
-     * @param factoryId             Name of the factory to find, same as
+     * @param factoryId             the name of the factory to find, same as
      *                              a property name
-     * @param propertiesFilename The filename in the $java.home/lib directory
+     * @param propertiesFilename the filename in the $java.home/lib directory
      *                           of the properties file.  If none specified,
-     *                           ${java.home}/lib/xerces.properties will be used.
-     * @param fallbackClassName     Implementation class name, if nothing else
-     *                              is found.  Use null to mean no fallback.
+     *                           ${java.home}/lib/xerces.properties will be used
+     * @param fallbackClassName     an implementation class name, if nothing else
+     *                              is found. Use <code>null</code> to mean no fallback.
      *
-     * @exception ObjectFactory.ConfigurationError
+     * @throws ObjectFactory.ConfigurationError will be thrown if cannot create an instance
      */
     static Object createObject(String factoryId,
                                       String propertiesFilename,

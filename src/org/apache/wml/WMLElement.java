@@ -19,23 +19,25 @@ package org.apache.wml;
 import org.w3c.dom.Element;
 
 /**
- * <p>The interface is modeled after DOM1 Spec for HTML from W3C.
+ * The interface is modeled after DOM1 Spec for HTML from W3C.
  * The DTD used in this DOM model is from 
- * <a href="http://www.wapforum.org/DTD/wml_1.1.xml">
- * http://www.wapforum.org/DTD/wml_1.1.xml</a></p>
+ * <a href="https://www.wapforum.org/DTD/wml_1.1.xml">https://www.wapforum.org/DTD/wml_1.1.xml</a>
  *
  * <p>All WML Elements are derived from this class that contains two
  * core attributes defined in the DTD.</p>
  *
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
-
+@Deprecated
 public interface WMLElement extends Element {
 
     /**
      * The element's identifier which is unique in a single deck. 
      * (Section 8.9, WAP WML Version 16-Jun-1999)
+     *
+     * @param newValue set an identifier value for the element
      */
     public void setId(String newValue);
     public String getId();
@@ -44,6 +46,8 @@ public interface WMLElement extends Element {
      * The 'class' attribute of a element that affiliates an elements
      * with one or more elements.
      * (Section 8.9, WAP WML Version 16-Jun-1999)
+     *
+     * @param newValue set a class name for the element
      */
     public void setClassName(String newValue);
     public String getClassName();

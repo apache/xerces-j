@@ -119,9 +119,9 @@ public class XPath {
     /**
      * Used by the {@link #parseExpression(NamespaceContext)} method
      * to verify the assumption.
-     * 
-     * If <tt>b</tt> is false, this method throws XPathException
-     * to report the error.
+     *
+     * @param b if set to false, this method throws XPathException
+     * to report the error
      */
     private static void check( boolean b ) throws XPathException {
         if(!b)      throw new XPathException("c-general-xpath");
@@ -880,57 +880,57 @@ public class XPath {
                 "self",
             };
             for (int i = 0; i < symbols.length; i++) {
-                fSymbolMapping.put(fSymbolTable.addSymbol(symbols[i]), new Integer(i));
+                fSymbolMapping.put(fSymbolTable.addSymbol(symbols[i]), Integer.valueOf(i));
             }
-            fTokenNames.put(new Integer(EXPRTOKEN_OPEN_PAREN), "EXPRTOKEN_OPEN_PAREN");
-            fTokenNames.put(new Integer(EXPRTOKEN_CLOSE_PAREN), "EXPRTOKEN_CLOSE_PAREN");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPEN_BRACKET), "EXPRTOKEN_OPEN_BRACKET");
-            fTokenNames.put(new Integer(EXPRTOKEN_CLOSE_BRACKET), "EXPRTOKEN_CLOSE_BRACKET");
-            fTokenNames.put(new Integer(EXPRTOKEN_PERIOD), "EXPRTOKEN_PERIOD");
-            fTokenNames.put(new Integer(EXPRTOKEN_DOUBLE_PERIOD), "EXPRTOKEN_DOUBLE_PERIOD");
-            fTokenNames.put(new Integer(EXPRTOKEN_ATSIGN), "EXPRTOKEN_ATSIGN");
-            fTokenNames.put(new Integer(EXPRTOKEN_COMMA), "EXPRTOKEN_COMMA");
-            fTokenNames.put(new Integer(EXPRTOKEN_DOUBLE_COLON), "EXPRTOKEN_DOUBLE_COLON");
-            fTokenNames.put(new Integer(EXPRTOKEN_NAMETEST_ANY), "EXPRTOKEN_NAMETEST_ANY");
-            fTokenNames.put(new Integer(EXPRTOKEN_NAMETEST_NAMESPACE), "EXPRTOKEN_NAMETEST_NAMESPACE");
-            fTokenNames.put(new Integer(EXPRTOKEN_NAMETEST_QNAME), "EXPRTOKEN_NAMETEST_QNAME");
-            fTokenNames.put(new Integer(EXPRTOKEN_NODETYPE_COMMENT), "EXPRTOKEN_NODETYPE_COMMENT");
-            fTokenNames.put(new Integer(EXPRTOKEN_NODETYPE_TEXT), "EXPRTOKEN_NODETYPE_TEXT");
-            fTokenNames.put(new Integer(EXPRTOKEN_NODETYPE_PI), "EXPRTOKEN_NODETYPE_PI");
-            fTokenNames.put(new Integer(EXPRTOKEN_NODETYPE_NODE), "EXPRTOKEN_NODETYPE_NODE");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_AND), "EXPRTOKEN_OPERATOR_AND");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_OR), "EXPRTOKEN_OPERATOR_OR");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_MOD), "EXPRTOKEN_OPERATOR_MOD");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_DIV), "EXPRTOKEN_OPERATOR_DIV");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_MULT), "EXPRTOKEN_OPERATOR_MULT");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_SLASH), "EXPRTOKEN_OPERATOR_SLASH");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_DOUBLE_SLASH), "EXPRTOKEN_OPERATOR_DOUBLE_SLASH");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_UNION), "EXPRTOKEN_OPERATOR_UNION");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_PLUS), "EXPRTOKEN_OPERATOR_PLUS");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_MINUS), "EXPRTOKEN_OPERATOR_MINUS");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_EQUAL), "EXPRTOKEN_OPERATOR_EQUAL");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_NOT_EQUAL), "EXPRTOKEN_OPERATOR_NOT_EQUAL");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_LESS), "EXPRTOKEN_OPERATOR_LESS");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_LESS_EQUAL), "EXPRTOKEN_OPERATOR_LESS_EQUAL");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_GREATER), "EXPRTOKEN_OPERATOR_GREATER");
-            fTokenNames.put(new Integer(EXPRTOKEN_OPERATOR_GREATER_EQUAL), "EXPRTOKEN_OPERATOR_GREATER_EQUAL");
-            fTokenNames.put(new Integer(EXPRTOKEN_FUNCTION_NAME), "EXPRTOKEN_FUNCTION_NAME");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_ANCESTOR), "EXPRTOKEN_AXISNAME_ANCESTOR");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_ANCESTOR_OR_SELF), "EXPRTOKEN_AXISNAME_ANCESTOR_OR_SELF");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_ATTRIBUTE), "EXPRTOKEN_AXISNAME_ATTRIBUTE");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_CHILD), "EXPRTOKEN_AXISNAME_CHILD");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_DESCENDANT), "EXPRTOKEN_AXISNAME_DESCENDANT");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_DESCENDANT_OR_SELF), "EXPRTOKEN_AXISNAME_DESCENDANT_OR_SELF");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_FOLLOWING), "EXPRTOKEN_AXISNAME_FOLLOWING");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_FOLLOWING_SIBLING), "EXPRTOKEN_AXISNAME_FOLLOWING_SIBLING");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_NAMESPACE), "EXPRTOKEN_AXISNAME_NAMESPACE");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_PARENT), "EXPRTOKEN_AXISNAME_PARENT");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_PRECEDING), "EXPRTOKEN_AXISNAME_PRECEDING");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_PRECEDING_SIBLING), "EXPRTOKEN_AXISNAME_PRECEDING_SIBLING");
-            fTokenNames.put(new Integer(EXPRTOKEN_AXISNAME_SELF), "EXPRTOKEN_AXISNAME_SELF");
-            fTokenNames.put(new Integer(EXPRTOKEN_LITERAL), "EXPRTOKEN_LITERAL");
-            fTokenNames.put(new Integer(EXPRTOKEN_NUMBER), "EXPRTOKEN_NUMBER");
-            fTokenNames.put(new Integer(EXPRTOKEN_VARIABLE_REFERENCE), "EXPRTOKEN_VARIABLE_REFERENCE");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPEN_PAREN), "EXPRTOKEN_OPEN_PAREN");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_CLOSE_PAREN), "EXPRTOKEN_CLOSE_PAREN");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPEN_BRACKET), "EXPRTOKEN_OPEN_BRACKET");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_CLOSE_BRACKET), "EXPRTOKEN_CLOSE_BRACKET");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_PERIOD), "EXPRTOKEN_PERIOD");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_DOUBLE_PERIOD), "EXPRTOKEN_DOUBLE_PERIOD");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_ATSIGN), "EXPRTOKEN_ATSIGN");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_COMMA), "EXPRTOKEN_COMMA");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_DOUBLE_COLON), "EXPRTOKEN_DOUBLE_COLON");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_NAMETEST_ANY), "EXPRTOKEN_NAMETEST_ANY");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_NAMETEST_NAMESPACE), "EXPRTOKEN_NAMETEST_NAMESPACE");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_NAMETEST_QNAME), "EXPRTOKEN_NAMETEST_QNAME");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_NODETYPE_COMMENT), "EXPRTOKEN_NODETYPE_COMMENT");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_NODETYPE_TEXT), "EXPRTOKEN_NODETYPE_TEXT");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_NODETYPE_PI), "EXPRTOKEN_NODETYPE_PI");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_NODETYPE_NODE), "EXPRTOKEN_NODETYPE_NODE");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_AND), "EXPRTOKEN_OPERATOR_AND");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_OR), "EXPRTOKEN_OPERATOR_OR");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_MOD), "EXPRTOKEN_OPERATOR_MOD");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_DIV), "EXPRTOKEN_OPERATOR_DIV");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_MULT), "EXPRTOKEN_OPERATOR_MULT");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_SLASH), "EXPRTOKEN_OPERATOR_SLASH");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_DOUBLE_SLASH), "EXPRTOKEN_OPERATOR_DOUBLE_SLASH");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_UNION), "EXPRTOKEN_OPERATOR_UNION");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_PLUS), "EXPRTOKEN_OPERATOR_PLUS");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_MINUS), "EXPRTOKEN_OPERATOR_MINUS");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_EQUAL), "EXPRTOKEN_OPERATOR_EQUAL");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_NOT_EQUAL), "EXPRTOKEN_OPERATOR_NOT_EQUAL");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_LESS), "EXPRTOKEN_OPERATOR_LESS");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_LESS_EQUAL), "EXPRTOKEN_OPERATOR_LESS_EQUAL");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_GREATER), "EXPRTOKEN_OPERATOR_GREATER");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_OPERATOR_GREATER_EQUAL), "EXPRTOKEN_OPERATOR_GREATER_EQUAL");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_FUNCTION_NAME), "EXPRTOKEN_FUNCTION_NAME");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_ANCESTOR), "EXPRTOKEN_AXISNAME_ANCESTOR");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_ANCESTOR_OR_SELF), "EXPRTOKEN_AXISNAME_ANCESTOR_OR_SELF");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_ATTRIBUTE), "EXPRTOKEN_AXISNAME_ATTRIBUTE");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_CHILD), "EXPRTOKEN_AXISNAME_CHILD");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_DESCENDANT), "EXPRTOKEN_AXISNAME_DESCENDANT");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_DESCENDANT_OR_SELF), "EXPRTOKEN_AXISNAME_DESCENDANT_OR_SELF");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_FOLLOWING), "EXPRTOKEN_AXISNAME_FOLLOWING");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_FOLLOWING_SIBLING), "EXPRTOKEN_AXISNAME_FOLLOWING_SIBLING");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_NAMESPACE), "EXPRTOKEN_AXISNAME_NAMESPACE");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_PARENT), "EXPRTOKEN_AXISNAME_PARENT");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_PRECEDING), "EXPRTOKEN_AXISNAME_PRECEDING");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_PRECEDING_SIBLING), "EXPRTOKEN_AXISNAME_PRECEDING_SIBLING");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_AXISNAME_SELF), "EXPRTOKEN_AXISNAME_SELF");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_LITERAL), "EXPRTOKEN_LITERAL");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_NUMBER), "EXPRTOKEN_NUMBER");
+            fTokenNames.put(Integer.valueOf(EXPRTOKEN_VARIABLE_REFERENCE), "EXPRTOKEN_VARIABLE_REFERENCE");
         }
 
         //
@@ -944,13 +944,13 @@ public class XPath {
 //        }
 //
         public String getTokenString(int token) {
-            return (String)fTokenNames.get(new Integer(token));
+            return (String)fTokenNames.get(Integer.valueOf(token));
         }
 
         public void addToken(String tokenStr) {
             Integer tokenInt = (Integer)fTokenNames.get(tokenStr);
             if (tokenInt == null) {
-                tokenInt = new Integer(fTokenNames.size());
+                tokenInt = Integer.valueOf(fTokenNames.size());
                 fTokenNames.put(tokenInt, tokenStr);
             }
             addToken(tokenInt.intValue());
@@ -992,7 +992,7 @@ public class XPath {
          * the current position by one.
          * 
          * If there's no such next token, this method throws
-         * <tt>new XPathException("c-general-xpath");</tt>.
+         * <code>new XPathException("c-general-xpath");</code>.
          */
         public int nextToken() throws XPathException {
             if( fCurrentTokenIndex==fTokenCount )
@@ -1004,7 +1004,7 @@ public class XPath {
          * the current position.
          * 
          * If there's no such next token, this method throws
-         * <tt>new XPathException("c-general-xpath");</tt>.
+         * <code>new XPathException("c-general-xpath");</code>.
          */
         public int peekToken() throws XPathException {
             if( fCurrentTokenIndex==fTokenCount )
@@ -1016,7 +1016,7 @@ public class XPath {
          * 
          * If there's no current token or if the current token
          * is not a string token, this method throws 
-         * <tt>new XPathException("c-general-xpath");</tt>.
+         * <code>new XPathException("c-general-xpath");</code>.
          */
         public String nextTokenAsString() throws XPathException {
             String s = getTokenString(nextToken());

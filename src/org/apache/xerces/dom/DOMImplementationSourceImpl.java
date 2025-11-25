@@ -78,7 +78,7 @@ public class DOMImplementationSourceImpl
     public DOMImplementationList getDOMImplementationList(String features) {
         // first check whether the CoreDOMImplementation would do
         DOMImplementation impl = CoreDOMImplementationImpl.getDOMImplementation();
-        final ArrayList implementations = new ArrayList();
+        final ArrayList<DOMImplementation> implementations = new ArrayList<>();
         if (testImpl(impl, features)) {
             implementations.add(impl);
         }

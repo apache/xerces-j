@@ -96,6 +96,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * @throws UnsupportedOperationException If implementation cannot support requested values.
      * @throws NullPointerException if <code>lexicalRepresentation</code> is <code>null</code>.
      */
+    @Override
     public Duration newDuration(final String lexicalRepresentation) {
 
         return new DurationImpl(lexicalRepresentation);
@@ -136,6 +137,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * 
      * @return New <code>Duration</code> representing <code>durationInMilliseconds</code>.
      */
+    @Override
     public Duration newDuration(final long durationInMilliseconds) {
 
         return new DurationImpl(durationInMilliseconds);
@@ -168,6 +170,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * @see #newDuration(boolean isPositive, BigInteger years, BigInteger months, BigInteger days,
      *   BigInteger hours, BigInteger minutes, BigDecimal seconds)
      */
+    @Override
     public Duration newDuration(
             final boolean isPositive,
             final BigInteger years,
@@ -196,6 +199,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * @return New <code>XMLGregorianCalendar</code> with all date/time datatype fields set to
      *   {@link DatatypeConstants#FIELD_UNDEFINED} or null.
      */
+    @Override
     public XMLGregorianCalendar newXMLGregorianCalendar() {
 
         return new XMLGregorianCalendarImpl();
@@ -226,6 +230,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * @throws IllegalArgumentException If the <code>lexicalRepresentation</code> is not a valid <code>XMLGregorianCalendar</code>.
      * @throws NullPointerException If <code>lexicalRepresentation</code> is <code>null</code>.
      */
+    @Override
     public XMLGregorianCalendar newXMLGregorianCalendar(final String lexicalRepresentation) {
 
         return new XMLGregorianCalendarImpl(lexicalRepresentation);
@@ -265,8 +270,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      *     </tr>
      *     <tr>
      *       <td>
-     *         <code>(ZONE_OFFSET + DST_OFFSET) / (60*1000)</code><br/>
-     *         <em>(in minutes)</em>
+     *         <code>(ZONE_OFFSET + DST_OFFSET) / (60*1000)</code> <em>(in minutes)</em>
      *       </td>
      *       <td>{@link XMLGregorianCalendar#setTimezone(int offset)}<sup><em>*</em></sup>
      *       </td>
@@ -292,6 +296,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      *  
      * @throws NullPointerException if <code>cal</code> is <code>null</code>
      */
+    @Override
     public XMLGregorianCalendar newXMLGregorianCalendar(final GregorianCalendar cal) {
 
         return new XMLGregorianCalendarImpl(cal);
@@ -323,6 +328,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      *   or if the composite values constitute an invalid <code>XMLGregorianCalendar</code> instance
      *   as determined by {@link XMLGregorianCalendar#isValid()}.
      */
+    @Override
     public XMLGregorianCalendar newXMLGregorianCalendar(
             final int year,
             final int month,
@@ -368,6 +374,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * @throws NullPointerException If any parameters are <code>null</code>.
      * 
      */
+    @Override
     public XMLGregorianCalendar newXMLGregorianCalendar(
             final BigInteger year,
             final int month,

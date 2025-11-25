@@ -124,6 +124,7 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
      *
      * @return true if element is empty. (i.e. It matches production [44])
      */
+    @Override
     protected boolean scanStartElement() throws IOException, XNIException {
         if (DEBUG_CONTENT_SCANNING)
             System.out.println(">>> scanStartElementNS()");
@@ -322,6 +323,7 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
      * 
      * @see #scanStartElement()
      */
+    @Override
     protected void scanStartElementName ()
         throws IOException, XNIException {
         // Note: namespace processing is on by default
@@ -336,7 +338,8 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
      * 
      * @see #scanStartElement
      * @return true if element is empty
-     */    
+     */
+    @Override
     protected boolean scanStartElementAfterName()
         throws IOException, XNIException {
 
@@ -691,18 +694,17 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
 
     /**
      * Scans an end element.
-     * <p>
      * <pre>
      * [42] ETag ::= '&lt;/' Name S? '>'
      * </pre>
-     * <p>
-     * <strong>Note:</strong> This method uses the fElementQName variable.
+     * <p><strong>Note:</strong> This method uses the fElementQName variable.
      * The contents of this variable will be destroyed. The caller should
      * copy the needed information out of this variable before calling
-     * this method.
+     * this method.</p>
      *
-     * @return The element depth.
+     * @return the element depth
      */
+    @Override
     protected int scanEndElement() throws IOException, XNIException {
         if (DEBUG_CONTENT_SCANNING)
             System.out.println(">>> scanEndElement()");
@@ -758,6 +760,7 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
 
     } // scanEndElement():int
 
+    @Override
     public void reset(XMLComponentManager componentManager)
         throws XMLConfigurationException {
 
@@ -767,6 +770,7 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
     }
 
     /** Creates a content dispatcher. */
+    @Override
     protected Dispatcher createContentDispatcher() {
         return new NS11ContentDispatcher();
     } // createContentDispatcher():Dispatcher

@@ -57,6 +57,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  * 
  * <a name="datetimefieldsmapping"></a>
  * <table border="1">
+ *   <caption>Mappings between XML Schema 1.0 datetime fields and XMLGregorianCalendar accessors</caption>
  *   <thead>
  *     <tr>
  *       <th style="text-align: center;" colspan="3">
@@ -66,22 +67,18 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *   </thead>
  *   <tbody>
  *     <tr>
- *       <th>XML Schema 1.0<br/>
- *           datatype<br/>
- *            field</th>
- *       <th>Related<br/>XMLGregorianCalendar<br/>Accessor(s)</th>
+ *       <th>datatype</th>
+ *       <th>XMLGregorianCalendar Accessor(s)</th>
  *       <th>Value Range</th>
  *     </tr>
  *     <tr id="datetimefield-year">
  *       <td> year </td>
- *       <td> {@link #getYear()} + {@link #getEon()} or<br/>
- *            {@link #getEonAndYear}
- *       </td>
+ *       <td> {@link #getYear()} + {@link #getEon()} or {@link #getEonAndYear} </td>
  *       <td> <code>getYear()</code> is a value between -(10^9-1) to (10^9)-1 
- *            or {@link DatatypeConstants#FIELD_UNDEFINED}.<br/>
- *            {@link #getEon()} is high order year value in billion of years.<br/>
- *            <code>getEon()</code> has values greater than or equal to (10^9) or less than or equal to -(10^9).
- *            A value of null indicates field is undefined.<br/>
+ *            or {@link DatatypeConstants#FIELD_UNDEFINED}.
+ *            <p>{@link #getEon()} is high order year value in billion of years.</p>
+ *            <p><code>getEon()</code> has values greater than or equal to (10^9) or less than or equal to -(10^9).
+ *            A value of null indicates field is undefined.</p>
  *            Given that <a href="http://www.w3.org/2001/05/xmlschema-errata#e2-63">XML Schema 1.0 errata</a> states that the year zero
  *            will be a valid lexical value in a future version of XML Schema, 
  *            this class allows the year field to be set to zero. Otherwise,
@@ -98,9 +95,9 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *     <tr id="datetimefield-day">
  *       <td> day </td>
  *       <td> {@link #getDay()} </td>
- *       <td> Independent of month, max range is 1 to 31 or {@link DatatypeConstants#FIELD_UNDEFINED}.<br/>
- *            The normative value constraint stated relative to month 
- *            field's value is in <a href="http://www.w3.org/TR/xmlschema-2/#isoformats">W3C XML Schema 1.0 Part 2, Appendix D</a>.
+ *       <td> Independent of month, max range is 1 to 31 or {@link DatatypeConstants#FIELD_UNDEFINED}.
+ *            <p>The normative value constraint stated relative to month
+ *            field's value is in <a href="http://www.w3.org/TR/xmlschema-2/#isoformats">W3C XML Schema 1.0 Part 2, Appendix D</a></p>.
  *       </td> 
  *     </tr>
  *     <tr id="datetimefield-hour">
@@ -119,17 +116,16 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *     <tr id="datetimefield-second">
  *       <td>second</td>
  *       <td>
- *         {@link #getSecond()} + {@link #getMillisecond()}/1000 or<br/>
+ *         {@link #getSecond()} + {@link #getMillisecond()}/1000 or
  *         {@link #getSecond()} + {@link #getFractionalSecond()}
  *       </td>
  *       <td>
- *         {@link #getSecond()} from 0 to 60 or {@link DatatypeConstants#FIELD_UNDEFINED}.<br/>
- *         <i>(Note: 60 only allowable for leap second.)</i><br/>
+ *         {@link #getSecond()} from 0 to 60 or {@link DatatypeConstants#FIELD_UNDEFINED}.
+ *         <p><i>(Note: 60 only allowable for leap second.)</i>
  *         {@link #getFractionalSecond()} allows for infinite precision over the range from 0.0 to 1.0 when 
- *         the {@link #getSecond()} is defined.<br/>
- *         <code>FractionalSecond</code> is optional and has a value of <code>null</code> when it is undefined.<br />
- *            {@link #getMillisecond()} is the convenience 
- *            millisecond precision of value of {@link #getFractionalSecond()}.
+ *         the {@link #getSecond()} is defined.</p>
+ *         <p><code>FractionalSecond</code> is optional and has a value of <code>null</code> when it is undefined.</p>
+ *         <p>{@link #getMillisecond()} is the convenience millisecond precision of value of {@link #getFractionalSecond()}.</p>
  *       </td>
  *     </tr>
  *     <tr id="datetimefield-timezone">

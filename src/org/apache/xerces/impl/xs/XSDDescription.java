@@ -41,17 +41,17 @@ public class XSDDescription extends XMLResourceIdentifierImpl
      */
     public final static short CONTEXT_INITIALIZE = -1;
     /**
-     * Indicate that the current schema document is <include>d by another
+     * Indicate that the current schema document is included by another
      * schema document.
      */
     public final static short CONTEXT_INCLUDE   = 0;
     /**
-     * Indicate that the current schema document is <redefine>d by another
+     * Indicate that the current schema document is redefined by another
      * schema document.
      */
     public final static short CONTEXT_REDEFINE  = 1;
     /**
-     * Indicate that the current schema document is <import>ed by another
+     * Indicate that the current schema document is imported by another
      * schema document.
      */
     public final static short CONTEXT_IMPORT    = 2;

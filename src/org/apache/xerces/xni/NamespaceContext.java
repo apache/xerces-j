@@ -158,6 +158,9 @@ public interface NamespaceContext {
 
     /** 
      * Returns the prefix at the specified index in the current context.
+     *
+     * @param index the location of the declared prefix in the current context
+     * @return the prefix at the specified index in the current context
      */
     public String getDeclaredPrefixAt(int index);
 

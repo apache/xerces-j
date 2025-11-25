@@ -48,25 +48,22 @@ public interface XMLGrammarLoader {
 
     /**
      * Returns the state of a feature.
-     * 
-     * @param featureId The feature identifier.
-     * 
-     * @throws XMLConfigurationException Thrown on configuration error.
+     *
+     * @param featureId the feature identifier
+     *
+     * @throws XMLConfigurationException when a feature is not recognized
      */
-    public boolean getFeature(String featureId) 
-            throws XMLConfigurationException;
+    public boolean getFeature(String featureId) throws XMLConfigurationException;
 
     /**
      * Sets the state of a feature. 
      *
-     * @param featureId The feature identifier.
-     * @param state     The state of the feature.
+     * @param featureId the feature identifier
+     * @param state the state of the feature
      *
-     * @throws XMLConfigurationException Thrown when a feature is not
-     *                  recognized or cannot be set.
+     * @throws XMLConfigurationException when a feature is not recognized and cannot be set
      */
-    public void setFeature(String featureId,
-                boolean state) throws XMLConfigurationException;
+    public void setFeature(String featureId, boolean state) throws XMLConfigurationException;
 
     /**
      * Returns a list of property identifiers that are recognized by
@@ -77,25 +74,22 @@ public interface XMLGrammarLoader {
 
     /**
      * Returns the state of a property.
-     * 
-     * @param propertyId The property identifier.
-     * 
-     * @throws XMLConfigurationException Thrown on configuration error.
+     *
+     * @param propertyId the property identifier
+     *
+     * @throws XMLConfigurationException when a property is not recognized
      */
-    public Object getProperty(String propertyId) 
-            throws XMLConfigurationException;
+    public Object getProperty(String propertyId) throws XMLConfigurationException;
 
     /**
      * Sets the state of a property. 
-     * 
-     * @param propertyId The property identifier.
-     * @param state     The state of the property.
      *
-     * @throws XMLConfigurationException Thrown when a property is not
-     *                  recognized or cannot be set.
+     * @param propertyId the property identifier
+     * @param state the state of the property
+     *
+     * @throws XMLConfigurationException when a property is not recognized and cannot be set
      */
-    public void setProperty(String propertyId,
-                Object state) throws XMLConfigurationException;
+    public void setProperty(String propertyId, Object state) throws XMLConfigurationException;
 
     /**
      * Set the locale to use for messages.

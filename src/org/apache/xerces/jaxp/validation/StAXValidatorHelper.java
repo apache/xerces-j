@@ -152,7 +152,7 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
     final QName fElementQName = new QName();
     final QName fAttributeQName = new QName();
     final XMLAttributesImpl fAttributes = new XMLAttributesImpl();
-    final ArrayList fDeclaredPrefixes = new ArrayList();
+    final List<String> fDeclaredPrefixes = new ArrayList<>();
     final XMLString fTempString = new XMLString();
     final XMLStringBuffer fStringBuffer = new XMLStringBuffer();
 

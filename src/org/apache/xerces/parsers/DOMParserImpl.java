@@ -286,11 +286,6 @@ public class DOMParserImpl
         grammarPool);
     }
 
-    /**
-     * Resets the parser state.
-     *
-     * @throws SAXException Thrown on initialization error.
-     */
     public void reset () {
         super.reset();
         

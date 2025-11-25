@@ -41,9 +41,9 @@ import org.apache.xerces.xni.parser.XMLConfigurationException;
  */
 public class ParserConfigurationSettings
     implements XMLComponentManager {
-    	
-	protected static final String PARSER_SETTINGS = 
-			Constants.XERCES_FEATURE_PREFIX + Constants.PARSER_SETTINGS;	
+
+	protected static final String PARSER_SETTINGS =
+			Constants.XERCES_FEATURE_PREFIX + Constants.PARSER_SETTINGS;
 
     //
     // Data
@@ -51,16 +51,16 @@ public class ParserConfigurationSettings
 
     // data
 
-    /** Recognized properties. */
+    /** Recognized properties as a list of Strings. */
     protected ArrayList fRecognizedProperties;
 
-    /** Properties. */
+    /** Properties as a map of Strings to Objects. */
     protected HashMap fProperties;
 
-    /** Recognized features. */
+    /** Recognized features as a list of strings. */
     protected ArrayList fRecognizedFeatures;
 
-    /** Features. */
+    /** Features as a map of Strings to Boolean values. */
     protected HashMap fFeatures;
 
     /** Parent parser configuration settings. */
@@ -82,12 +82,12 @@ public class ParserConfigurationSettings
     public ParserConfigurationSettings(XMLComponentManager parent) {
 
         // create storage for recognized features and properties
-        fRecognizedFeatures = new ArrayList();
-        fRecognizedProperties = new ArrayList();
+        fRecognizedFeatures = new ArrayList<String>();
+        fRecognizedProperties = new ArrayList<String>();
 
         // create table for features and properties
-        fFeatures = new HashMap();
-        fProperties = new HashMap();
+        fFeatures = new HashMap<String, Boolean>();
+        fProperties = new HashMap<String, Object>();
 
         // save parent
         fParentSettings = parent;
@@ -120,19 +120,18 @@ public class ParserConfigurationSettings
 
     /**
      * Set the state of a feature.
-     *
+     * <p>
      * Set the state of any feature in a SAX2 parser.  The parser
      * might not recognize the feature, and if it does recognize
      * it, it might not be able to fulfill the request.
+     * </p>
      *
-     * @param featureId The unique identifier (URI) of the feature.
-     * @param state The requested state of the feature (true or false).
+     * @param featureId the unique identifier (URI) of the feature
+     * @param state the requested state of the feature (true or false)
      *
-     * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
-     *            requested feature is not known.
+     * @throws XMLConfigurationException when a feature is not recognized and cannot be set
      */
-    public void setFeature(String featureId, boolean state)
-        throws XMLConfigurationException {
+    public void setFeature(String featureId, boolean state) throws XMLConfigurationException {
 
         // check and store
         checkFeature(featureId);
@@ -161,15 +160,14 @@ public class ParserConfigurationSettings
     } // addRecognizedProperties(String[])
 
     /**
-     * setProperty
-     * 
-     * @param propertyId 
-     * @param value 
-     * @exception org.apache.xerces.xni.parser.XMLConfigurationException If the
-     *            requested feature is not known.
+     * Set the state of a property.
+     *
+     * @param propertyId the unique identifier of the property
+     * @param value the requested value of the property
+     *
+     * @throws XMLConfigurationException when a property is not recognized and cannot be set
      */
-    public void setProperty(String propertyId, Object value)
-        throws XMLConfigurationException {
+    public void setProperty(String propertyId, Object value) throws XMLConfigurationException {
 
         // check and store
         checkProperty(propertyId);

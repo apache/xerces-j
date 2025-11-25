@@ -18,6 +18,7 @@
 package org.apache.xerces.dom;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.w3c.dom.DOMStringList;
@@ -34,27 +35,27 @@ import org.w3c.dom.DOMStringList;
 public class DOMStringListImpl implements DOMStringList {
 	
 	// A collection of DOMString values
-    private final ArrayList fStrings;
+    private final List<String> fStrings;
 
     /** 
      * Construct an empty list of DOMStringListImpl
      */ 
     public DOMStringListImpl() {
-        fStrings = new ArrayList();    
+        fStrings = new ArrayList<>();    
     }
 
     /** 
-     * Construct a DOMStringListImpl from an ArrayList
+     * Construct a DOMStringListImpl from an ArrayList of String values
      */ 
     public DOMStringListImpl(ArrayList params) {
         fStrings = params;    
     }
     
     /** 
-     * Construct a DOMStringListImpl from a Vector
+     * Construct a DOMStringListImpl from a Vector of String values
      */ 
     public DOMStringListImpl(Vector params) {
-        fStrings = new ArrayList(params);
+        fStrings = new ArrayList<>(params);
     }
         
 	/**

@@ -252,20 +252,6 @@ public class XMLDocumentScannerImpl
     // XMLComponent methods
     //
 
-    /**
-     * Resets the component. The component can query the component manager
-     * about any features and properties that affect the operation of the
-     * component.
-     *
-     * @param componentManager The component manager.
-     *
-     * @throws SAXException Thrown by component on initialization error.
-     *                      For example, if a feature or property is
-     *                      required for the operation of the component, the
-     *                      component manager may throw a
-     *                      SAXNotRecognizedException or a
-     *                      SAXNotSupportedException.
-     */
     public void reset(XMLComponentManager componentManager)
         throws XMLConfigurationException {
 
@@ -352,10 +338,7 @@ public class XMLDocumentScannerImpl
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
     public void setFeature(String featureId, boolean state)
         throws XMLConfigurationException {
@@ -406,10 +389,7 @@ public class XMLDocumentScannerImpl
      * @param propertyId The property identifier.
      * @param value      The value of the property.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a property is not recognized or cannot be set
      */
     public void setProperty(String propertyId, Object value)
         throws XMLConfigurationException {

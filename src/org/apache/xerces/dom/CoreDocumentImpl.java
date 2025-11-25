@@ -696,9 +696,11 @@ extends ParentNode implements Document  {
      * which is considered the root of the actual document content. For
      * HTML, where it is legal to have more than one Element at the top
      * level of the document, we pick the one with the tagName
-     * "HTML". For XML there should be only one top-level
+     * "HTML". For XML there should be only one top-level.
      *
-     * (HTML not yet supported.)
+     * <p>(HTML not yet supported.)</p>
+     *
+     * @return the root document element
      */
     public Element getDocumentElement() {
         if (needsSyncChildren()) {

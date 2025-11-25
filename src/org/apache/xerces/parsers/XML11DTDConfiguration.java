@@ -193,11 +193,11 @@ public class XML11DTDConfiguration extends ParserConfigurationSettings
 
     /** Property identifier: JAXP schema language / DOM schema-type. */
     protected static final String JAXP_SCHEMA_LANGUAGE =
-        Constants.JAXP_PROPERTY_PREFIX + Constants.SCHEMA_LANGUAGE; 
+        Constants.JAXP_PROPERTY_PREFIX + Constants.SCHEMA_LANGUAGE;
 
     /** Property identifier: JAXP schema source/ DOM schema-location. */
     protected static final String JAXP_SCHEMA_SOURCE =
-        Constants.JAXP_PROPERTY_PREFIX + Constants.SCHEMA_SOURCE; 
+        Constants.JAXP_PROPERTY_PREFIX + Constants.SCHEMA_SOURCE;
 
     // debugging
 
@@ -214,13 +214,24 @@ public class XML11DTDConfiguration extends ParserConfigurationSettings
     protected XMLLocator fLocator;
     protected Locale fLocale;
     
-    /** XML 1.0 Components. */
+    /**
+     * XML 1.0 Components.
+     * @see XMLComponent
+     */
     protected ArrayList fComponents;
     
-    /** XML 1.1. Components. */
+    /**
+     * XML 1.1. Components.
+     * @see XMLComponent
+     */
     protected ArrayList fXML11Components = null;
     
-    /** Common components: XMLEntityManager, XMLErrorReporter */
+    /**
+     * An array list of common XMLComponents: XMLEntityManager, XMLErrorReporter.
+     *
+     * @see XMLEntityManager
+     * @see XMLErrorReporter
+     */
     protected ArrayList fCommonComponents = null;
     
     /** The document handler. */
@@ -377,19 +388,19 @@ public class XML11DTDConfiguration extends ParserConfigurationSettings
 
 		// create a vector to hold all the components in use
 		// XML 1.0 specialized components
-		fComponents = new ArrayList();
+		fComponents = new ArrayList<XMLComponent>();
 		// XML 1.1 specialized components
-		fXML11Components = new ArrayList();
+		fXML11Components = new ArrayList<XMLComponent>();
 		// Common components for XML 1.1. and XML 1.0
-		fCommonComponents = new ArrayList();
+		fCommonComponents = new ArrayList<XMLComponent>();
 
 		// create storage for recognized features and properties
-		fRecognizedFeatures = new ArrayList();
-		fRecognizedProperties = new ArrayList();
+		fRecognizedFeatures = new ArrayList<>();
+		fRecognizedProperties = new ArrayList<>();
 
 		// create table for features and properties
-		fFeatures = new HashMap();
-		fProperties = new HashMap();
+		fFeatures = new HashMap<>();
+		fProperties = new HashMap<>();
 
         // add default recognized features
         final String[] recognizedFeatures =

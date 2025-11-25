@@ -197,10 +197,8 @@ public class XPathMatcher {
      * by using an empty tag, then the startElement method will immediately
      * be followed by the endElement method, with no intervening methods.
      *
-     * @param element    The name of the element.
-     * @param attributes The element attributes.
-     *
-     * @throws SAXException Thrown by handler to signal an error.
+     * @param element the name of the element
+     * @param attributes the element attributes
      */
     public void startElement(QName element, XMLAttributes attributes) {
         if (DEBUG_METHODS2) {

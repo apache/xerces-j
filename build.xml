@@ -230,8 +230,7 @@ Authors:
     <copy todir="${build.src}">
         <fileset 
             dir="${src.dir}"
-            includes="org/apache/**
-                org/w3c/dom/html/HTMLDOMImplementation.java"
+            includes="org/apache/**"
             excludes="**/classfiles_updated **/CVS* **/.#* **/XMLMessages.java
                        **/DatatypeContentModel.java **/ComplexTypeInfo.java
                        **/v1/** **/v2/**
@@ -350,8 +349,7 @@ Authors:
     <jar jarfile="${build.dir}/${jar.parser}"
          basedir="${build.dest}"
          compress="true"
-         includes="org/apache/**, META-INF/**
-                   org/w3c/dom/html/HTMLDOMImplementation.class"
+         includes="org/apache/**, META-INF/**"
          manifest="${build.dir}/manifest.xerces">
       <manifest>
         <attribute name="Ant-Version" value="${ant.version}"/>
@@ -1516,7 +1514,6 @@ Authors:
          basedir="${build.dest}"
          compress="true"
          includes="org/apache/**, META-INF/**
-                    org/w3c/dom/html/HTMLDOMImplementation.class
                    org/w3c/dom/ls/**
                    org/w3c/dom/DOMError.class
                    org/w3c/dom/DOMErrorHandler.class

@@ -239,7 +239,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
     /**
      * <p>Create an <code>XMLGregorianCalendar</code> from a {@link GregorianCalendar}.</p> 
      *
-     * <table border="1" rules="all" cellpadding="2">
+     * <table role="presentation" border="1" rules="all" cellpadding="2">
      *   <thead>
      *     <tr>
      *       <th style="text-align: center;" colspan="2">

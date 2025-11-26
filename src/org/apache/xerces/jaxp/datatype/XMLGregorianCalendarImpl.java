@@ -56,7 +56,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  * </p>
  * 
  * <a name="datetimefieldsmapping"></a>
- * <table border="1">
+ * <table role="presentation" border="1">
  *   <caption>Mappings between XML Schema 1.0 datetime fields and XMLGregorianCalendar accessors</caption>
  *   <thead>
  *     <tr>
@@ -641,7 +641,7 @@ class XMLGregorianCalendarImpl
 	 * <p>Convert a <code>java.util.GregorianCalendar</code> to XML Schema 1.0 
 	 * representation.</p>
 	 *
-	 * <table border="1">
+	 * <table role="presentation" border="1">
 	 *   <thead>
 	 *     <tr>
 	 *       <th colspan="2">
@@ -1818,7 +1818,7 @@ class XMLGregorianCalendarImpl
      * <p>Return the name of the XML Schema date/time type that this instance 
      * maps to. Type is computed based on fields that are set.</p>
      *
-     * <table border="1">
+     * <table role="presentation" border="1">
      *   <thead>
      *     <tr>
      *       <th colspan="7">
@@ -2387,7 +2387,7 @@ class XMLGregorianCalendarImpl
      * instance, see 
      * {@link #toGregorianCalendar(TimeZone, Locale, XMLGregorianCalendar)}.</p>
      * 
-     * <table border="1">
+     * <table role="presentation" border="1">
      *   <thead>
      *     <tr>
      *       <th colspan="2">

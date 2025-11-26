@@ -1357,7 +1357,7 @@ public abstract class NodeImpl
      * <p>The string returned is made of the text content of this node
      * depending on its type, as defined below:</p>
      *
-     * <table border='1'>
+     * <table role="presentation" border='1'>
      * <tr>
      *   <th>Node type</th>
      *   <th>Content</th>
@@ -1412,7 +1412,7 @@ public abstract class NodeImpl
      * <p>The string returned is made of the text content of this node
      * depending on its type, as defined below:</p>
      *
-     * <table border='1'>
+     * <table role="presentation" border='1'>
      * <tr>
      *   <th>Node type</th>
      *   <th>Content</th>

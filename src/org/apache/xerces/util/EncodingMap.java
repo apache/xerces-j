@@ -25,7 +25,7 @@ import java.util.Hashtable;
  * <strong>must</strong> be the IANA encoding names specified or one of the aliases for 
  * those names which IANA defines.
  *
- * <table>
+ * <table role="presentation">
  *  <caption>Mapping between IANA encoding names and Java encoding names</caption>
  *  <tr>
  *      <td>

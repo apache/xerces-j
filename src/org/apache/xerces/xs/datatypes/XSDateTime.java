@@ -25,7 +25,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * marks whether a particular method is defined for a particular type. Accessing undefined
  * methods may return unexpected values.
  * 
- * <table border="1">
+ * <table role="presentation" border="1">
  * <tr>
  * <td> XML Schema Datatype </td>
  * <td> getYears() </td>

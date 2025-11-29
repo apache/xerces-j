@@ -54,8 +54,9 @@ public interface XSCMValidator {
     /**
      * The method corresponds to one transaction in the content model.
      *
-     * @param elementName
-     * @param state  Current state
+     * @param elementName the element's qualified name
+     * @param state current state of the content model
+     * @param subGroupHandler the substitution group handler
      * @return element decl or wildcard decl that
      *         corresponds to the element from the Schema grammar
      */
@@ -94,14 +95,13 @@ public interface XSCMValidator {
      * or <code>null</code> if no occurrence counting was being performed at the
      * current state.</p>
      * 
-     * <p>If an array is returned it will have a length == 4 and will contain:
-     *  <ul>
-     *   <li>a[0] :: min occurs</li>
-     *   <li>a[1] :: max occurs</li>
-     *   <li>a[2] :: current value of the counter</li>
-     *   <li>a[3] :: identifier for the repeating term</li>
-     *  </ul>
-     * </p>
+     * <p>If an array is returned it will have a length == 4 and will contain:</p>
+     * <ul>
+     *  <li>a[0] :: min occurs</li>
+     *  <li>a[1] :: max occurs</li>
+     *  <li>a[2] :: current value of the counter</li>
+     *  <li>a[3] :: identifier for the repeating term</li>
+     * </ul>
      * 
      * @param state the current state
      * @return an array containing information about the current repeating term

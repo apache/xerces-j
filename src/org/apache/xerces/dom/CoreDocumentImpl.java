@@ -91,7 +91,7 @@ import org.w3c.dom.ls.LSSerializer;
 public class CoreDocumentImpl
 extends ParentNode implements Document  {
 
-	/**TODO::
+	/*TODO::
 	 * 1. Change XML11Char method names similar to XMLChar. That will prevent lot
 	 * of dirty version checking code.
 	 *
@@ -292,16 +292,32 @@ extends ParentNode implements Document  {
 
     // even though ownerDocument refers to this in this implementation
     // the DOM Level 2 spec says it must be null, so make it appear so
+    /**
+     * Find the Document that this Node belongs to
+     *
+     * @return CoreDocumentImpl will always return <code>null</code>
+     */
+    @Override
     final public Document getOwnerDocument() {
         return null;
     }
 
-    /** Returns the node type. */
+    /**
+     * Returns the node type.
+     *
+     * @return CoreDocumentImpl will always return {@link Node#DOCUMENT_NODE}
+     */
+    @Override
     public short getNodeType() {
         return Node.DOCUMENT_NODE;
     }
 
-    /** Returns the node name. */
+    /**
+     * Returns the node name.
+     *
+     * @return CoreDocumentImpl will always return <code>"#document"</code>
+     */
+    @Override
     public String getNodeName() {
         return "#document";
     }
@@ -315,6 +331,7 @@ extends ParentNode implements Document  {
      * @param deep boolean, iff true replicate children
      * @return a clone of this {@link org.w3c.dom.Node}
      */
+    @Override
     public Node cloneNode(boolean deep) {
 
         CoreDocumentImpl newdoc = new CoreDocumentImpl();
@@ -327,8 +344,11 @@ extends ParentNode implements Document  {
 
 
     /**
-     * internal method to share code with subclass
-     **/
+     * internal method to share code with subclass.
+     *
+     * @param newdoc a new CoreDocumentImpl instance
+     * @param deep boolean, iff true replicate children
+     */
     protected void cloneNode(CoreDocumentImpl newdoc, boolean deep) {
 
         // clone the children by importing them
@@ -366,7 +386,7 @@ extends ParentNode implements Document  {
 
     /**
      * Since a Document may contain at most one top-level Element child,
-     * and at most one DocumentType declaraction, we need to subclass our
+     * and at most one DocumentType declaration, we need to subclass our
      * add-children methods to implement this constraint.
      * Since appendChild() is implemented as insertBefore(,null),
      * altering the latter fixes both.
@@ -378,6 +398,7 @@ extends ParentNode implements Document  {
      * REVISIT: According to the spec it is not allowed to alter neither the
      * document element nor the document type in any way
      */
+    @Override
     public Node insertBefore(Node newChild, Node refChild)
     throws DOMException {
 
@@ -419,6 +440,7 @@ extends ParentNode implements Document  {
      * REVISIT: According to the spec it is not allowed to alter neither the
      * document element nor the document type in any way
      */
+    @Override
     public Node removeChild(Node oldChild) throws DOMException {
 
         super.removeChild(oldChild);
@@ -443,6 +465,7 @@ extends ParentNode implements Document  {
      * REVISIT: According to the spec it is not allowed to alter neither the
      * document element nor the document type in any way
      */
+    @Override
     public Node replaceChild(Node newChild, Node oldChild)
     throws DOMException {
 
@@ -479,6 +502,7 @@ extends ParentNode implements Document  {
      * Get Node text content
      * @since DOM Level 3
      */
+    @Override
     public String getTextContent() throws DOMException {
         return null;
     }
@@ -487,6 +511,7 @@ extends ParentNode implements Document  {
      * Set Node text content
      * @since DOM Level 3
      */
+    @Override
     public void setTextContent(String textContent)
     throws DOMException {
         // no-op
@@ -495,6 +520,7 @@ extends ParentNode implements Document  {
     /**
      * @since DOM Level 3
      */
+    @Override
     public Object getFeature(String feature, String version) {
         
         boolean anyVersion = version == null || version.length() == 0;
@@ -553,6 +579,7 @@ extends ParentNode implements Document  {
      * 
      * @throws DOMException INVALID_NAME_ERR if the attribute name is not acceptable.
      */
+    @Override
     public Attr createAttribute(String name)
         throws DOMException {
         
@@ -577,16 +604,18 @@ extends ParentNode implements Document  {
      * @throws DOMException NOT_SUPPORTED_ERR for HTML documents.
      *         (HTML not yet implemented)
      */
+    @Override
     public CDATASection createCDATASection(String data)
     throws DOMException {
         return new CDATASectionImpl(this, data);
     }
 
     /**
-     * Factory method; creates a Comment having this Document as its
-     * OwnerDoc.
+     * Factory method; creates a Comment having this Document as its OwnerDoc.
      *
-     * @param data The initial contents of the Comment. */
+     * @param data the initial contents of the Comment
+     */
+    @Override
     public Comment createComment(String data) {
         return new CommentImpl(this, data);
     }
@@ -595,6 +624,7 @@ extends ParentNode implements Document  {
      * Factory method; creates a DocumentFragment having this Document
      * as its OwnerDoc.
      */
+    @Override
     public DocumentFragment createDocumentFragment() {
         return new DocumentFragmentImpl(this);
     }
@@ -610,6 +640,7 @@ extends ParentNode implements Document  {
      *
      * @throws DOMException INVALID_NAME_ERR if the tag name is not acceptable
      */
+    @Override
     public Element createElement(String tagName)
     throws DOMException {
 
@@ -631,6 +662,7 @@ extends ParentNode implements Document  {
      * nonstandard entities are not permitted. (HTML not yet
      * implemented.)
      */
+    @Override
     public EntityReference createEntityReference(String name)
     throws DOMException {
 
@@ -654,8 +686,8 @@ extends ParentNode implements Document  {
      * @throws DOMException NOT_SUPPORTED_ERR for HTML documents.
      *          (HTML not yet implemented.)
      */
-    public ProcessingInstruction createProcessingInstruction(String target,
-    String data)
+    @Override
+    public ProcessingInstruction createProcessingInstruction(String target, String data)
     throws DOMException {
 
         if (errorChecking && !isXMLName(target,xml11Version)) {
@@ -672,6 +704,7 @@ extends ParentNode implements Document  {
      *
      * @param data The initial contents of the Text.
      */
+    @Override
     public Text createTextNode(String data) {
         return new TextImpl(this, data);
     }
@@ -683,6 +716,7 @@ extends ParentNode implements Document  {
      * For HTML documents, and XML documents which don't specify a DTD,
      * it will be null.
      */
+    @Override
     public DocumentType getDoctype() {
         if (needsSyncChildren()) {
             synchronizeChildren();
@@ -702,6 +736,7 @@ extends ParentNode implements Document  {
      *
      * @return the root document element
      */
+    @Override
     public Element getDocumentElement() {
         if (needsSyncChildren()) {
             synchronizeChildren();
@@ -718,6 +753,7 @@ extends ParentNode implements Document  {
      *
      * @see DeepNodeListImpl
      */
+    @Override
     public NodeList getElementsByTagName(String tagname) {
         return new DeepNodeListImpl(this,tagname);
     }
@@ -728,6 +764,7 @@ extends ParentNode implements Document  {
      * using DOMs retrieved from several different sources, potentially
      * with different underlying representations.
      */
+    @Override
     public DOMImplementation getImplementation() {
         // Currently implemented as a singleton, since it's hardcoded
         // information anyway.
@@ -745,20 +782,19 @@ extends ParentNode implements Document  {
      * upon operations. Turning off error checking only affects
      * the following DOM checks:
      * <ul>
-     * <li>Checking strings to make sure that all characters are
-     *     legal XML characters
-     * <li>Hierarchy checking such as allowed children, checks for
-     *     cycles, etc.
+     *   <li>Checking strings to make sure that all characters are legal XML characters
+     *   <li>Hierarchy checking such as allowed children, checks for cycles, etc.
      * </ul>
      * <p>
      * Turning off error checking does <em>not</em> turn off the
      * following checks:
      * <ul>
-     * <li>Read only checks
-     * <li>Checks related to DOM events
+     *   <li>Read only checks
+     *   <li>Checks related to DOM events
      * </ul>
+     *
+     * @param check set to true to enable error checking
      */
-
     public void setErrorChecking(boolean check) {
         errorChecking = check;
     }
@@ -766,12 +802,15 @@ extends ParentNode implements Document  {
     /*
      * DOM Level 3 WD - Experimental.
      */
+    @Override
     public void setStrictErrorChecking(boolean check) {
         errorChecking = check;
     }
 
     /**
      * Returns true if the DOM implementation performs error checking.
+     *
+     * @return true if the DOM implementation performs error checking
      */
     public boolean getErrorChecking() {
         return errorChecking;
@@ -780,6 +819,7 @@ extends ParentNode implements Document  {
     /*
      * DOM Level 3 WD - Experimental.
      */
+    @Override
     public boolean getStrictErrorChecking() {
         return errorChecking;
     }
@@ -788,12 +828,15 @@ extends ParentNode implements Document  {
     /**
      * DOM Level 3 CR - Experimental. (Was getActualEncoding)
      *
-     * An attribute specifying the encoding used for this document
+     * <p>An attribute specifying the encoding used for this document
      * at the time of the parsing. This is <code>null</code> when
      * it is not known, such as when the <code>Document</code> was
-     * created in memory.
+     * created in memory.</p>
+     *
+     * @return the input encoding
      * @since DOM Level 3
      */
+    @Override
     public String getInputEncoding() {
         return actualEncoding;
     }
@@ -802,10 +845,12 @@ extends ParentNode implements Document  {
      * DOM Internal
      * (Was a DOM L3 Core WD public interface method setActualEncoding )
      *
-     * An attribute specifying the actual encoding of this document. This is
-     * <code>null</code> otherwise.
-     * <br> This attribute represents the property [character encoding scheme]
-     * defined in .
+     * <p>An attribute specifying the actual encoding of this document. This is
+     * <code>null</code> otherwise.</p>
+     * <p>This attribute represents the property [character encoding scheme]
+     * defined in .</p>
+     *
+     * @param value the input encoding
      */
     public void setInputEncoding(String value) {
         actualEncoding = value;
@@ -815,8 +860,10 @@ extends ParentNode implements Document  {
      * DOM Internal
      * (Was a DOM L3 Core WD public interface method setXMLEncoding )
      *
-     * An attribute specifying, as part of the XML declaration,
-     * the encoding of this document. This is null when unspecified.
+     * <p>An attribute specifying, as part of the XML declaration,
+     * the encoding of this document. This is null when unspecified.</p>
+     *
+     * @param value the encoding of this document
      */
     public void setXmlEncoding(String value) {
         encoding = value;
@@ -825,7 +872,9 @@ extends ParentNode implements Document  {
     /**
      * @deprecated This method is internal and only exists for
      * compatibility with older applications. New applications
-     * should never call this method.
+     * should never call this method. Instead call {@link #setXmlEncoding(String)}
+     *
+     * @param value the encoding of this document
      */
     @Deprecated
     public void setEncoding(String value) {
@@ -835,7 +884,10 @@ extends ParentNode implements Document  {
     /**
      * DOM Level 3 WD - Experimental.
      * The encoding of this document (part of XML Declaration)
+     *
+     * @return the encoding of this document
      */
+    @Override
     public String getXmlEncoding() {
         return encoding;
     }
@@ -843,7 +895,9 @@ extends ParentNode implements Document  {
     /**
      * @deprecated This method is internal and only exists for
      * compatibility with older applications. New applications
-     * should never call this method.
+     * should never call this method. Instead call {@link #getXmlEncoding()}
+     *
+     * @return the encoding of this document
      */
     @Deprecated
     public String getEncoding() {
@@ -854,7 +908,11 @@ extends ParentNode implements Document  {
      * DOM Level 3 CR - Experimental.
      * version - An attribute specifying, as part of the XML declaration,
      * the version number of this document.
+     *
+     * @param value the version number of this document
+     *              (should be either <strong>1.0</strong> or <strong>1.1</strong>)
      */
+    @Override
     public void setXmlVersion(String value) {
         if(value.equals("1.0") || value.equals("1.1")){
             //we need to change the flag value only --
@@ -885,7 +943,9 @@ extends ParentNode implements Document  {
     /**
      * @deprecated This method is internal and only exists for
      * compatibility with older applications. New applications
-     * should never call this method.
+     * should never call this method. Instead call {@link #setXmlVersion(String)}
+     *
+     * @param value the version number of this document
      */
     @Deprecated
     public void setVersion(String value) {
@@ -895,7 +955,10 @@ extends ParentNode implements Document  {
     /**
      * DOM Level 3 WD - Experimental.
      * The version of this document (part of XML Declaration)
+     *
+     * @return the version of this document, defaults to <strong>1.0</strong>
      */
+    @Override
     public String getXmlVersion() {
         return (version == null)?"1.0":version;
     }
@@ -903,7 +966,9 @@ extends ParentNode implements Document  {
     /**
      * @deprecated This method is internal and only exists for
      * compatibility with older applications. New applications
-     * should never call this method.
+     * should never call this method. Instead call {@link #getXmlVersion()}
+     *
+     * @return the version of this document, defaults to <strong>1.0</strong>
      */
     @Deprecated
     public String getVersion() {
@@ -913,13 +978,16 @@ extends ParentNode implements Document  {
     /**
      * DOM Level 3 CR - Experimental.
      *
-     * Xmlstandalone - An attribute specifying, as part of the XML declaration,
-     * whether this document is standalone
-     * @exception DOMException
-     *    NOT_SUPPORTED_ERR: Raised if this document does not support the
-     *   "XML" feature.
+     * <p>Xml Standalone - An attribute specifying, as part of the XML declaration,
+     * whether this document is standalone</p>
+     *
+     * @param value set to true to specify that this document is standalone
+     * @throws DOMException NOT_SUPPORTED_ERR: Raised if this document does not
+     * support the "XML" feature.
+     *
      * @since DOM Level 3
      */
+    @Override
     public void setXmlStandalone(boolean value)
                                   throws DOMException {
             standalone = value;
@@ -928,7 +996,9 @@ extends ParentNode implements Document  {
     /**
      * @deprecated This method is internal and only exists for
      * compatibility with older applications. New applications
-     * should never call this method.
+     * should never call this method. Instead call {@link #setXmlStandalone(boolean)}
+     *
+     * @param value set to true to specify that this document is standalone
      */
     @Deprecated
     public void setStandalone(boolean value) {
@@ -939,7 +1009,10 @@ extends ParentNode implements Document  {
      * DOM Level 3 WD - Experimental.
      * standalone that specifies whether this document is standalone
      * (part of XML Declaration)
+     *
+     * @return true if this document is standalone
      */
+    @Override
     public boolean getXmlStandalone() {
         return standalone;
     }
@@ -947,7 +1020,9 @@ extends ParentNode implements Document  {
     /**
      * @deprecated This method is internal and only exists for
      * compatibility with older applications. New applications
-     * should never call this method.
+     * should never call this method. Instead call {@link #getXmlStandalone()}
+     *
+     * @return true if this document is standalone
      */
     @Deprecated
     public boolean getStandalone() {
@@ -957,11 +1032,12 @@ extends ParentNode implements Document  {
     /**
      * DOM Level 3 WD - Experimental.
      * The location of the document or <code>null</code> if undefined.
-     * <br>Beware that when the <code>Document</code> supports the feature
+     * <p>Beware that when the <code>Document</code> supports the feature
      * "HTML" , the href attribute of the HTML BASE element takes precedence
      * over this attribute.
      * @since DOM Level 3
      */
+    @Override
     public String getDocumentURI(){
         return fDocumentURI;
     }
@@ -994,6 +1070,7 @@ extends ParentNode implements Document  {
      * @param name the new noe name
      * @return the renamed node. This is either the specified node or the new node that was created to replace the specified node.
      */
+    @Override
     public Node renameNode(Node n,String namespaceURI,String name)
     throws DOMException{
         
@@ -1148,6 +1225,7 @@ extends ParentNode implements Document  {
      *  DOM Level 3 WD - Experimental
      *  Normalize document.
      */
+    @Override
     public void normalizeDocument(){
         // No need to normalize if already normalized.
         if (isNormalized() && !isNormalizeDocRequired()) {
@@ -1179,10 +1257,11 @@ extends ParentNode implements Document  {
     /**
      * DOM Level 3 CR - Experimental
      *
-     *  The configuration used when <code>Document.normalizeDocument</code> is
-     * invoked.
+     * <p>The configuration used when {@link Document#normalizeDocument()} is invoked.</p>
+     *
      * @since DOM Level 3
      */
+    @Override
     public DOMConfiguration getDomConfig(){
         if (fConfiguration == null) {
             fConfiguration = new DOMConfigurationImpl();
@@ -1199,6 +1278,7 @@ extends ParentNode implements Document  {
      * @return The absolute base URI of this node or null.
      * @since DOM Level 3
      */
+    @Override
     public String getBaseURI() {
         if (fDocumentURI != null && fDocumentURI.length() != 0 ) {// attribute value is always empty string
             try {
@@ -1215,6 +1295,7 @@ extends ParentNode implements Document  {
     /**
      * DOM Level 3 WD - Experimental.
      */
+    @Override
     public void setDocumentURI(String documentURI){
         fDocumentURI = documentURI;
     }
@@ -1225,17 +1306,20 @@ extends ParentNode implements Document  {
     //
     /**
      * DOM Level 3 WD - Experimental.
-     * Indicates whether the method load should be synchronous or
+     * <p>Indicates whether the method load should be synchronous or
      * asynchronous. When the async attribute is set to <code>true</code>
      * the load method returns control to the caller before the document has
      * completed loading. The default value of this property is
-     * <code>false</code>.
-     * <br>Setting the value of this attribute might throw NOT_SUPPORTED_ERR
+     * <code>false</code>.</p>
+     * <p>Setting the value of this attribute might throw NOT_SUPPORTED_ERR
      * if the implementation doesn't support the mode the attribute is being
      * set to. Should the DOM spec define the default value of this
      * property? What if implementing both async and sync IO is impractical
      * in some systems?  2001-09-14. default is <code>false</code> but we
-     * need to check with Mozilla and IE.
+     * need to check with Mozilla and IE.</p>
+     *
+     * @return true if the {@link #load(String)} method should be asynchronous, defaults to false. Note that
+     * this implementation will always return false
      */
     public boolean getAsync() {
         return false;
@@ -1243,17 +1327,19 @@ extends ParentNode implements Document  {
 
     /**
      * DOM Level 3 WD - Experimental.
-     * Indicates whether the method load should be synchronous or
+     * <p>Indicates whether the method load should be synchronous or
      * asynchronous. When the async attribute is set to <code>true</code>
      * the load method returns control to the caller before the document has
      * completed loading. The default value of this property is
-     * <code>false</code>.
-     * <br>Setting the value of this attribute might throw NOT_SUPPORTED_ERR
+     * <code>false</code>.</p>
+     * <p>Setting the value of this attribute might throw NOT_SUPPORTED_ERR
      * if the implementation doesn't support the mode the attribute is being
      * set to. Should the DOM spec define the default value of this
      * property? What if implementing both async and sync IO is impractical
      * in some systems?  2001-09-14. default is <code>false</code> but we
-     * need to check with Mozilla and IE.
+     * need to check with Mozilla and IE.</p>
+     *
+     * @param async set to true for {@link #load(String)} to be asynchronous, defaults to false
      */
     public void setAsync(boolean async) {
         if (async) {
@@ -1263,10 +1349,10 @@ extends ParentNode implements Document  {
     }
     /**
      * DOM Level 3 WD - Experimental.
-     * If the document is currently being loaded as a result of the method
+     * <p>If the document is currently being loaded as a result of the method
      * <code>load</code> being invoked the loading and parsing is
      * immediately aborted. The possibly partial result of parsing the
-     * document is discarded and the document is cleared.
+     * document is discarded and the document is cleared.</p>
      */
     public void abort() {
     }
@@ -1274,7 +1360,7 @@ extends ParentNode implements Document  {
     /**
      * DOM Level 3 WD - Experimental.
      *
-     * Replaces the content of the document with the result of parsing the
+     * <p>Replaces the content of the document with the result of parsing the
      * given URI. Invoking this method will either block the caller or
      * return to the caller immediately depending on the value of the async
      * attribute. Once the document is fully loaded a "load" event (as
@@ -1284,20 +1370,22 @@ extends ParentNode implements Document  {
      * occurs, an implementation dependent "error" event will be dispatched
      * on the document. If this method is called on a document that is
      * currently loading, the current load is interrupted and the new URI
-     * load is initiated.
-     * <br> When invoking this method the parameters used in the
+     * load is initiated.</p>
+     * <p>When invoking this method the parameters used in the
      * <code>DOMParser</code> interface are assumed to have their default
      * values with the exception that the parameters <code>"entities"</code>
      * , <code>"normalize-characters"</code>,
      * <code>"check-character-normalization"</code> are set to
-     * <code>"false"</code>.
-     * <br> The result of a call to this method is the same the result of a
+     * <code>"false"</code>.</p>
+     * <p>The result of a call to this method is the same the result of a
      * call to <code>DOMParser.parseWithContext</code> with an input stream
      * referencing the URI that was passed to this call, the document as the
-     * context node, and the action <code>ACTION_REPLACE_CHILDREN</code>.
-     * @param uri The URI reference for the XML file to be loaded. If this is
+     * context node, and the action <code>ACTION_REPLACE_CHILDREN</code>.</p>
+     *
+     * @param uri the URI reference for the XML file to be loaded. If this is
      *  a relative URI, the base URI used by the implementation is
      *  implementation dependent.
+     *
      * @return If async is set to <code>true</code> <code>load</code> returns
      *   <code>true</code> if the document load was successfully initiated.
      *   If an error occurred when initiating the document load,
@@ -1325,21 +1413,21 @@ extends ParentNode implements Document  {
 
     /**
      * DOM Level 3 WD - Experimental.
-     * Save the document or the given node and all its descendants to a string
-     * (i.e. serialize the document or node).
-     * <br>The parameters used in the <code>LSSerializer</code> interface are
-     * assumed to have their default values when invoking this method.
-     * <br> The result of a call to this method is the same the result of a
-     * call to <code>LSSerializer.writeToString</code> with the document as
-     * the node to write.
+     * <p>Save the document or the given node and all its descendants to a string
+     * (i.e. serialize the document or node).</p>
+     * <p>The parameters used in the {@link LSSerializer} interface are
+     * assumed to have their default values when invoking this method.</p>
+     * <p>The result of a call to this method is the same the result of a
+     * call to {@link LSSerializer#writeToString(Node)} with the document as
+     * the node to write.</p>
+     *
      * @param node Specifies what to serialize, if this parameter is
      *   <code>null</code> the whole document is serialized, if it's
      *   non-null the given node is serialized.
-     * @return The serialized document or <code>null</code> in case an error
-     *   occurred.
-     * @exception DOMException
-     *   WRONG_DOCUMENT_ERR: Raised if the node passed in as the node
-     *   parameter is from an other document.
+     *
+     * @return the serialized document or <code>null</code> in case an error occurred
+     * @throws DOMException WRONG_DOCUMENT_ERR: Raised if the node passed in
+     * as the node parameter is from another document.
      */
     public String saveXML(Node node)
     throws DOMException {
@@ -1361,14 +1449,14 @@ extends ParentNode implements Document  {
      * upon operations.
      */
     void setMutationEvents(boolean set) {
-        // does nothing by default - overidden in subclass
+        // does nothing by default - overridden in subclass
     }
 
     /**
      * Returns true if the DOM implementation generates mutation events.
      */
     boolean getMutationEvents() {
-        // does nothing by default - overriden in subclass
+        // does nothing by default - overridden in subclass
         return false;
     }
 
@@ -1382,10 +1470,11 @@ extends ParentNode implements Document  {
      * as its OwnerDoc. (REC-DOM-Level-1-19981001 left the process of building
      * DTD information unspecified.)
      *
-     * @param qualifiedName
-     * @param publicID
-     * @param systemID
+     * @param qualifiedName the qualified name of the document type
+     * @param publicID the document type public identifier
+     * @param systemID the document type system identifier
      *
+     * @return a new DocumentType which belongs to this document with the given qualifiedName, publicID, and systemID
      * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * DTDs are not permitted. (HTML not yet implemented.)
      */
@@ -1404,8 +1493,9 @@ extends ParentNode implements Document  {
      * as its OwnerDoc. (REC-DOM-Level-1-19981001 left the process of building
      * DTD information unspecified.)
      *
-     * @param name The name of the Entity we wish to provide a value for.
+     * @param name the name of the Entity we wish to provide a value for
      *
+     * @return a new Entity which belongs to this document with the given name
      * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * nonstandard entities are not permitted. (HTML not yet implemented.)
      */
@@ -1427,8 +1517,9 @@ extends ParentNode implements Document  {
      * as its OwnerDoc. (REC-DOM-Level-1-19981001 left the process of building
      * DTD information unspecified.)
      *
-     * @param name The name of the Notation we wish to describe
+     * @param name the name of the Notation we wish to describe
      *
+     * @return a new notation which belongs to this document with the given name
      * @throws DOMException NOT_SUPPORTED_ERR for HTML documents, where
      * notations are not permitted. (HTML not yet implemented.)
      */
@@ -1446,6 +1537,11 @@ extends ParentNode implements Document  {
     /**
      * NON-DOM Factory method: creates an element definition. Element
      * definitions hold default attribute values.
+     *
+     * @param name the name for the new element definition
+     *
+     * @return a new element definition which belongs to this document with the given name
+     * @throws DOMException INVALID_CHARACTER_ERR if the name is not an acceptable xml name
      */
     public ElementDefinitionImpl createElementDefinition(String name)
     throws DOMException {
@@ -1460,9 +1556,12 @@ extends ParentNode implements Document  {
 
     // other non-DOM methods
 
-    /** NON-DOM:  Get the number associated with this document.   Used to
-     * order documents in the implementation.
+    /**
+     * NON-DOM: Get the number associated with this document. Used to order documents in the implementation.
+     *
+     * @return the node number for this node
      */
+    @Override
     protected int getNodeNumber() {
         if (documentNumber==0) {
 
@@ -1473,9 +1572,12 @@ extends ParentNode implements Document  {
     }
 
 
-    /** NON-DOM:  Get a number associated with a node created with respect
-     * to this document.   Needed for compareDocumentPosition when nodes
-     * are disconnected.  This is only used on demand.
+    /**
+     * NON-DOM: Get a number associated with a node created with respect to this document.
+     * Needed for compareDocumentPosition when nodes are disconnected. This is only used on demand.
+     *
+     * @param node the Node to check
+     * @return number associated with the node
      */
     protected int getNodeNumber(Node node) {
 
@@ -1510,6 +1612,7 @@ extends ParentNode implements Document  {
      * According to the DOM specifications, document nodes cannot be imported
      * and a NOT_SUPPORTED_ERR exception is thrown if attempted.
      */
+    @Override
     public Node importNode(Node source, boolean deep)
     throws DOMException {
         return importNode(source, deep, false, null);
@@ -1775,6 +1878,7 @@ extends ParentNode implements Document  {
      * @param source The node to adopt.
      * @see #importNode
      **/
+    @Override
     public Node adoptNode(Node source) {
         NodeImpl node;
 		Hashtable userData = null;
@@ -1922,9 +2026,9 @@ extends ParentNode implements Document  {
     }
 
     /**
-     * Traverses the DOM Tree and expands deferred nodes and their
-     * children.
-     * 
+     * Traverses the DOM Tree and expands deferred nodes and their children.
+     *
+     * @param node the node from which to traverse the DOM
      */
     protected void undeferChildren(Node node) {
         
@@ -1981,6 +2085,7 @@ extends ParentNode implements Document  {
      * attributes are of type ID or not are expected to return null.
      * @see #getIdentifier
      */
+    @Override
     public Element getElementById(String elementId) {
         return getIdentifier(elementId);
     }
@@ -1999,6 +2104,9 @@ extends ParentNode implements Document  {
      * If the identifier is already registered, the new element
      * node replaces the previous node. If the specified element
      * node is null, removeIdentifier() is called.
+     *
+     * @param idName the name for the identifier that should be registered
+     * @param element the identifier that should be registered
      *
      * @see #getIdentifier
      * @see #removeIdentifier
@@ -2025,6 +2133,9 @@ extends ParentNode implements Document  {
     /**
      * Returns a previously registered element with the specified
      * identifier name, or null if no element is registered.
+     *
+     * @param idName the name for the identifier that should be retrieved
+     * @return an element with the specified identifier name, or null
      *
      * @see #putIdentifier
      * @see #removeIdentifier
@@ -2055,6 +2166,8 @@ extends ParentNode implements Document  {
     /**
      * Removes a previously registered element with the specified
      * identifier name.
+     *
+     * @param idName the name for the identifier that should be removed
      *
      * @see #putIdentifier
      * @see #getIdentifier

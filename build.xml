@@ -59,7 +59,7 @@ Authors:
   <property file="build.properties"/>
   <property file=".ant.properties"/>
   <property file="${user.home}/.ant.properties"/>
-  <property file="default.properties"/>  
+  <property file="default.properties"/>
  
   <target name="init">
     <property name='parser.Name' value='Xerces-J'/>
@@ -326,7 +326,7 @@ Authors:
     <filter token="java.version" value="${java.version}"/>
     <filter token="java.vendor" value="${java.vendor}"/>
     <filter token="impl.name" value="${parser.Name} ${parser.Version}"/>
-    <filter token="impl.version" value="${parser.Version}"/>   
+    <filter token="impl.version" value="${parser.Version}"/>
     <copy todir="${build.dir}" file="${src.dir}/manifest.xerces" filtering="true"/>
     <jar jarfile="${build.dir}/${jar.parser}"
          basedir="${build.dest}"
@@ -395,7 +395,7 @@ Authors:
   <!-- =================================================================== -->
   <!-- Prepares the docs                                                   -->
   <!-- =================================================================== -->
-  <target name="prepare-docs" depends="init"> 
+  <target name="prepare-docs" depends="init">
     <mkdir dir="${build.docs}"/>
     <mkdir dir="${build.dir}/xdocs"/>
     <copy todir="${build.dir}/xdocs">
@@ -422,7 +422,7 @@ Authors:
     <!-- first process the files that need two-phase transformations
          to produce files in the document syntax -->
     <xslt destdir="build/intermediate"
-          basedir="build/xdocs" 
+          basedir="build/xdocs"
           includes="faq-*.xml"
           style="docs/style/stylesheets/faqs2document.xsl"
           extension=".xml">
@@ -444,14 +444,14 @@ Authors:
         <outputproperty name="method" value="xml"/>
     </xslt>
     <xslt destdir="build/intermediate"
-          basedir="build/xdocs" 
+          basedir="build/xdocs"
           includes="properties.xml,features.xml"
           style="docs/style/stylesheets/settings2document.xsl"
           extension=".xml">
         <outputproperty name="method" value="xml"/>
     </xslt>
     <xslt destdir="build/intermediate"
-          basedir="build/xdocs" 
+          basedir="build/xdocs"
           includes="releases.xml"
           style="docs/style/stylesheets/releases2document.xsl"
           extension=".xml">
@@ -460,13 +460,13 @@ Authors:
 
     <!-- now process all the XML documents to produce HTML documents -->
     <xslt destdir="build/docs"
-          basedir="build/intermediate" 
+          basedir="build/intermediate"
           includes="faq*.xml,features.xml,properties.xml,releases.xml"
           filenameparameter="sourceFilePath"
           style="docs/style/stylesheets/document2html.xsl">
     </xslt>
     <xslt destdir="build/docs"
-          basedir="build/xdocs" 
+          basedir="build/xdocs"
           filenameparameter="sourceFilePath"
           includes="api.xml, charter.xml, dom.xml, dom3.xml, download.xml, install.xml, jira.xml, limitations.xml, releases.xml, sax.xml, security.xml, source-repository.xml, xml-schema.xml, samples*.xml, xni*.xml"
           style="docs/style/stylesheets/document2html.xsl">
@@ -484,7 +484,7 @@ Authors:
     </copy>
     <copy todir="build/docs/graphics">
         <fileset dir="docs/style/graphics"/>
-    </copy>     
+    </copy>
   </target>
 
 
@@ -501,7 +501,7 @@ Authors:
   <!-- =================================================================== -->
   <!-- Creates the API documentation                                       -->
   <!-- =================================================================== -->
-  <target name="javadocs" depends="prepare-src">	
+  <target name="javadocs" depends="prepare-src">
 
     <condition property="additional.param" value=" -taglet org.apache.xerces.util.ExperimentalTaglet -taglet org.apache.xerces.util.InternalTaglet -tagletpath ${tools.dir}/bin/xerces2taglets.jar">
       <available classname="com.sun.tools.doclets.Taglet"/>
@@ -605,7 +605,7 @@ Authors:
 
     <copy todir="${distsrc.dir}/src" >
         <fileset
-            dir="${src.dir}"  
+            dir="${src.dir}"
             includes="org/**, dom3/**, javax/**, manifest.xerces"
             excludes="**/CVS*, **/.#*, **/*.class
                       **/v1/** **/v2/**"
@@ -615,7 +615,7 @@ Authors:
 
     <copy todir="${distsrc.dir}/data" >
         <fileset
-            dir="${data.dir}"  
+            dir="${data.dir}"
             excludes="**/CVS*, **/.#*"
         />
     </copy>
@@ -629,7 +629,7 @@ Authors:
 
     <copy todir="${distsrc.dir}/samples" >
         <fileset
-            dir="${samples.dir}"  
+            dir="${samples.dir}"
             excludes="**/CVS*, **/*.#*"
         />
     </copy>
@@ -667,7 +667,7 @@ Authors:
 
     <copy todir="${disttools.dir}" >
         <fileset
-            dir="${tools.dir}"  
+            dir="${tools.dir}"
             includes="**/*.txt, **/*.html, **/*.bat, **/*.jar, **/*.zip, **/*.opt"
             excludes="**/CVS*, **/.#*, **/*.class"
         />
@@ -1039,7 +1039,7 @@ Authors:
     <filter token="java.version" value="${java.version}"/>
     <filter token="java.vendor" value="${java.vendor}"/>
     <filter token="impl.name" value="${parser.Name} ${parser.Version}"/>
-    <filter token="impl.version" value="${parser.Version}"/>   
+    <filter token="impl.version" value="${parser.Version}"/>
     <copy todir="${build.dir}" file="${src.dir}/manifest.xerces" filtering="true"/>
     <jar jarfile="${build.dir}/dtd-${jar.parser}"
          basedir="${build.dest}"
@@ -1543,7 +1543,7 @@ Authors:
     <filter token="java.version" value="${java.version}"/>
     <filter token="java.vendor" value="${java.vendor}"/>
     <filter token="impl.name" value="${parser.Name} ${parser.Version}"/>
-    <filter token="impl.version" value="${parser.Version}"/>   
+    <filter token="impl.version" value="${parser.Version}"/>
     <copy todir="${build.dir}" file="${src.dir}/manifest.xerces" filtering="true"/>
     <jar jarfile="${build.dir}/schema11-${jar.parser}"
          basedir="${build.dest}"

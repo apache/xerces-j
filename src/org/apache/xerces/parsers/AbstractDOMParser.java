@@ -132,6 +132,7 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
     protected static final String DOCUMENT_CLASS_NAME =
     Constants.XERCES_PROPERTY_PREFIX + Constants.DOCUMENT_CLASS_NAME_PROPERTY;
 
+    /** Current element node. */
     protected static final String  CURRENT_ELEMENT_NODE=
     Constants.XERCES_PROPERTY_PREFIX + Constants.CURRENT_ELEMENT_NODE_PROPERTY;
 

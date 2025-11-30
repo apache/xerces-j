@@ -24,8 +24,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * table shows the methods defined for various XML Schema 1.0 built-in types. 'X' 
  * marks whether a particular method is defined for a particular type. Accessing undefined
  * methods may return unexpected values.
- * 
+ *
  * <table border="1">
+ * <caption>Mappings between XML Schema 1.0 date-time related types and their supported accessors</caption>
  * <tr>
  * <td> XML Schema Datatype </td>
  * <td> getYears() </td>

@@ -51,7 +51,7 @@ public abstract class TypeValidator {
 
     /**
      * Which facets are allowed for this type.
-     * <p><em>Note</em>: {@link org.apache.xerces.xs.XSSimpleTypeDefinition} defines constants for various facets</p>
+     * <p>{@link org.apache.xerces.xs.XSSimpleTypeDefinition} defines constants for various facets</p>
      *
      * @return a bit-combination of allowed facets
      *
@@ -61,7 +61,7 @@ public abstract class TypeValidator {
 
     /**
      * Converts a string to an actual value.
-     * <p>for example: for number types (decimal, double, float, and types derived from them),
+     * <p>For example: for number types (decimal, double, float, and types derived from them),
      * get the BigDecimal, Double, or Float objects.
      * For string and derived types, they just return the string itself.
      * </p>
@@ -192,7 +192,7 @@ public abstract class TypeValidator {
      * <p>check whether the character is in the range <code>0x30 ~ 0x39</code></p>
      *
      * @param ch the char value to check
-     * @return true if the char is a digit
+     * @return true if the char is an ASCII digit
      */
     public static final boolean isDigit(char ch) {
         return ch >= '0' && ch <= '9';

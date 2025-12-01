@@ -297,7 +297,7 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
 
     /**
      * Default constructor.
-     * <p>Constructs a DOM parser using default features</p>
+     * <p>Constructs a DOM parser using default features.</p>
      *
      * @param config a parser configuration from which properties and features can be retrieved
      */
@@ -487,7 +487,7 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
      * <strong>Note:</strong> This method is not called for entity references
      * appearing as part of attribute values.
      *
-     * @param name the name of the entity
+     * @param name the name of the general entity
      * @param identifier the resource identifier
      * @param encoding the auto-detected IANA encoding name of the entity stream. This value
      *        will be null in those situations where the entity encoding is not auto-detected
@@ -1925,11 +1925,11 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
      * An internal entity declaration.
      *
      * @param name the name of the entity. Parameter entity names start with '%', whereas
-     *             the name of a general entity is just the entity name
+     *             the name of a general entity is just the entity name.
      * @param text the value of the entity
      * @param nonNormalizedText The non-normalized value of the entity. This value contains
      *             the same sequence of characters that was in the internal entity declaration,
-     *             without any entity references expanded
+     *             without any entity references expanded.
      * @param augs additional information that may include infoset augmentations
      *
      * @throws XNIException thrown by handler to signal an error

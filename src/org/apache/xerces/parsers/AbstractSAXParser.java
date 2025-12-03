@@ -206,7 +206,6 @@ public abstract class AbstractSAXParser
     //
 
     /**
-     * Default constructor.
      * Constructs a SAX parser using the default properties and features.
      *
      * @param config a parser configuration from which properties and features can be retrieved

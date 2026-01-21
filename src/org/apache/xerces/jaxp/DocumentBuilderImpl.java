@@ -49,6 +49,8 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 
 /**
+ * A DocumentBuilder that can be used to create a DOM Document from XML.
+ *
  * @author Rajiv Mordani
  * @author Edwin Goei
  * @version $Id$
@@ -214,11 +216,15 @@ public class DocumentBuilderImpl extends DocumentBuilder
     }
 
     /**
-     * Set any DocumentBuilderFactory attributes of our underlying DOMParser
+     * Set any DocumentBuilderFactory attributes of our underlying DOMParser.
      *
+     * <p>
      * Note: code does not handle possible conflicts between DOMParser
      * attribute names and JAXP specific attribute names,
-     * eg. DocumentBuilderFactory.setValidating()
+     * eg; {@link javax.xml.parsers.DocumentBuilderFactory#setValidating(boolean)}
+     * </p>
+     *
+     * @param dbfAttrs attributes to set on the underlying DOMParser
      */
     private void setDocumentBuilderFactoryAttributes(Hashtable dbfAttrs)
         throws SAXNotSupportedException, SAXNotRecognizedException
@@ -301,6 +307,12 @@ public class DocumentBuilderImpl extends DocumentBuilder
         return doc;
     }
 
+    /**
+     * Indicates whether or not this parser is configured to understand namespaces.
+     *
+     * @return true if this parser is configured to understand namespaces; false otherwise
+     * @see #NAMESPACES_FEATURE
+     */
     public boolean isNamespaceAware() {
         try {
             return domParser.getFeature(NAMESPACES_FEATURE);
@@ -320,8 +332,10 @@ public class DocumentBuilderImpl extends DocumentBuilder
     }
     
     /**
-     * Gets the XInclude processing mode for this parser
+     * Gets the XInclude processing mode for this parser.
+     *
      * @return the state of XInclude processing mode
+     * @see #XINCLUDE_FEATURE
      */
     public boolean isXIncludeAware() {
         try {
@@ -345,11 +359,11 @@ public class DocumentBuilderImpl extends DocumentBuilder
     }
     
     public void reset() {
-        /** Restore the initial error handler. **/
+        /* Restore the initial error handler. */
         if (domParser.getErrorHandler() != fInitErrorHandler) {
             domParser.setErrorHandler(fInitErrorHandler);
         }
-        /** Restore the initial entity resolver. **/
+        /* Restore the initial entity resolver. */
         if (domParser.getEntityResolver() != fInitEntityResolver) {
             domParser.setEntityResolver(fInitEntityResolver);
         }

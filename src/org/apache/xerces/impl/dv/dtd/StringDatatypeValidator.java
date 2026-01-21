@@ -22,8 +22,8 @@ import org.apache.xerces.impl.dv.InvalidDatatypeValueException;
 import org.apache.xerces.impl.dv.ValidationContext;
 
 /**
- * <P>StringValidator validates that XML content is a W3C string type.</P>
- * <P>The string datatype represents character strings in XML. The
+ * <p>StringValidator validates that XML content is a W3C string type.</p>
+ * <p>The string datatype represents character strings in XML. The
  * value space of string is the set of finite-length sequences 
  * of characters (as defined in [XML 1.0 Recommendation 
  * (Second Edition)]) that match the Char production 
@@ -32,7 +32,7 @@ import org.apache.xerces.impl.dv.ValidationContext;
  * is not further specified except to note that every
  * character has a corresponding Universal Code Set
  * code point ([ISO 10646],[Unicode] and [Unicode3]),
- * which is an integer.</P>
+ * which is an integer.</p>
  * 
  * @xerces.internal 
  * 
@@ -46,13 +46,11 @@ public class StringDatatypeValidator implements DatatypeValidator {
 
     /**
      * Checks that "content" string is valid string value.
-     * If invalid a Datatype validation exception is thrown.
+     * If invalid, a Datatype validation exception is thrown.
      * 
-     * @param content       the string value that needs to be validated
-     * @param context       the validation context
-     * @throws InvalidDatatypeException if the content is
-     *         invalid according to the rules for the validators
-     * @see InvalidDatatypeValueException
+     * @param content the string value that needs to be validated
+     * @param context the validation context
+     * @throws InvalidDatatypeValueException if the content is invalid according to the rules for the validators
      */
     public void validate(String content, ValidationContext context) throws InvalidDatatypeValueException {
     }

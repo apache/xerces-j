@@ -794,7 +794,8 @@ public class DTDGrammar
             int chunk, index = 0;
             String currName = null;
             final int size = fElementDeclCount;
-            ArrayList elements = new ArrayList(size);
+            ArrayList<String> elements = new ArrayList<>(size);
+
             for (int i = 0; i < size; ++i) {
                 chunk = i >> CHUNK_SHIFT;
                 index = i & CHUNK_MASK;

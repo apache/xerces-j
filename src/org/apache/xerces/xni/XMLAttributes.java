@@ -90,6 +90,9 @@ public interface XMLAttributes {
      * <p>
      * Once you know the number of attributes, you can iterate
      * through the list.
+     * </p>
+     *
+     * @return the number of attributes in the list
      *
      * @see #getURI(int)
      * @see #getLocalName(int)
@@ -102,10 +105,10 @@ public interface XMLAttributes {
     /**
      * Look up the index of an attribute by XML 1.0 qualified name.
      *
-     * @param qName The qualified (prefixed) name.
+     * @param qName the qualified (prefixed) name
      *
-     * @return The index of the attribute, or -1 if it does not
-     *         appear in the list.
+     * @return the index of the attribute, or -1 if it does not
+     *         appear in the list
      */
     public int getIndex(String qName);
 
@@ -141,7 +144,8 @@ public interface XMLAttributes {
     /**
      * Returns the prefix of the attribute at the specified index.
      *
-     * @param index The index of the attribute.
+     * @param index the index of the attribute
+     * @return the prefix of the attribute at the specified index
      */
     public String getPrefix(int index);
 
@@ -229,11 +233,11 @@ public interface XMLAttributes {
      * See {@link #getType(int) getType(int)} for a description
      * of the possible types.
      *
-     * @param qName The XML 1.0 qualified name.
+     * @param qName the XML 1.0 qualified name
      *
-     * @return The attribute type as a string, or null if the
+     * @return the attribute type as a string, or null if the
      *         attribute is not in the list or if qualified names
-     *         are not available.
+     *         are not available
      */
     public String getType(String qName);
 
@@ -287,11 +291,11 @@ public interface XMLAttributes {
      * See {@link #getValue(int) getValue(int)} for a description
      * of the possible values.
      *
-     * @param qName The XML 1.0 qualified name.
+     * @param qName the XML 1.0 qualified name
      *
-     * @return The attribute value as a string, or null if the
+     * @return the attribute value as a string, or null if the
      *         attribute is not in the list or if qualified names
-     *         are not available.
+     *         are not available
      */
     public String getValue(String qName);
 
@@ -324,7 +328,8 @@ public interface XMLAttributes {
      * index. If no non-normalized value is set, this method will return
      * the same value as the <code>getValue(int)</code> method.
      *
-     * @param attrIndex The attribute index.
+     * @param attrIndex the attribute index
+     * @return the non-normalized value of the attribute at the specified index
      */
     public String getNonNormalizedValue(int attrIndex);
 
@@ -341,7 +346,8 @@ public interface XMLAttributes {
     /**
      * Returns true if the attribute is specified in the instance document.
      *
-     * @param attrIndex The attribute index.
+     * @param attrIndex The attribute index
+     * @return true if the attribute is specified in the instance document
      */
     public boolean isSpecified(int attrIndex);
 
@@ -359,7 +365,7 @@ public interface XMLAttributes {
      * 
      * @param uri       The Namespace URI, or the empty string if
      *                  the name has no Namespace URI.
-     * @param localPart
+     * @param localPart The attribute's local name
      * @return Augmentations
      */
     public Augmentations getAugmentations (String uri, String localPart);
@@ -367,12 +373,10 @@ public interface XMLAttributes {
 
     /**
      * Look up an augmentation by XML 1.0 qualified name.
-     * <p>
      *
-     * @param qName The XML 1.0 qualified name.
+     * @param qName the XML 1.0 qualified name
      *
      * @return Augmentations
-     *
      */
     public Augmentations getAugmentations(String qName);
 

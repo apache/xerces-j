@@ -30,34 +30,59 @@ public interface XMLLocator {
     // XMLLocator methods
     //
     
-    /** Returns the public identifier. */
+    /**
+     * Returns the public identifier.
+     *
+     * @return the public identifier or null
+     */
     public String getPublicId();
     
-    /** Returns the literal system identifier. */
+    /**
+     * Returns the literal system identifier.
+     *
+     * @return the literal system identifier or null
+     */
     public String getLiteralSystemId();
     
     /** Returns the URI against which the system identifier should be resolved. */
     public String getBaseSystemId();
     
-    /** Returns the system identifier after resolution against the base system identifier. */
+    /**
+     * Returns the expanded system identifier.
+     *
+     * @return the expanded system identifier or null
+     */
     public String getExpandedSystemId();
     
-    /** Returns the line number, or <code>-1</code> if no line number is available. */
+    /**
+     * Returns the line number, or <code>-1</code> if no line number is available.
+     *
+     * @return the line number, or <code>-1</code>
+     */
     public int getLineNumber();
   
-    /** Returns the column number, or <code>-1</code> if no column number is available. */
+    /**
+     * Returns the column number, or <code>-1</code> if no column number is available.
+     *
+     * @return the column number, or <code>-1</code>
+     */
     public int getColumnNumber();
     
-    /** Returns the character offset, or <code>-1</code> if no character offset is available. */
+    /**
+     * Returns the character offset, or <code>-1</code> if no character offset is available.
+     *
+     * @return the character offset, or <code>-1</code>
+     */
     public int getCharacterOffset();
 
     /** 
-     * Returns the encoding of the current entity.  
-     * Note that, for a given entity, this value can only be
-     * considered final once the encoding declaration has been read (or once it
-     * has been determined that there is no such declaration) since, no encoding
-     * having been specified on the XMLInputSource, the parser
-     * will make an initial "guess" which could be in error. 
+     * Returns the encoding of the current entity.
+     * <p>Note that, for a given entity, this value can only be considered final once
+     * the encoding declaration has been read (or once it has been determined that there
+     * is no such declaration) since, no encoding having been specified on the XMLInputSource,
+     * the parser will make an initial "guess" which could be in error.</p>
+     *
+     * @return the encoding of the current entity or null
      */
     public String getEncoding();
     
@@ -70,6 +95,8 @@ public interface XMLLocator {
      * document. Also note that, for a given entity, this value can only be considered
      * final once the XML or text declaration has been read or once it has been
      * determined that there is no such declaration.
+     *
+     * @return the XML version of the current entity or null
      */
     public String getXMLVersion();
 

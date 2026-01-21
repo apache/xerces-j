@@ -505,18 +505,20 @@ public class XMLEntityScanner implements XMLLocator {
      * QName structure appropriately.
      * <p>
      * <strong>Note:</strong> The qualified name characters are consumed.
+     * </p>
      * <p>
      * <strong>Note:</strong> The strings used to set the values of the
      * QName structure must be symbols. The SymbolTable can be used for
      * this purpose.
+     * </p>
      *
-     * @param qname The qualified name structure to fill.
+     * @param qname the qualified name structure to fill
      *
-     * @return Returns true if a qualified name appeared immediately on
-     *         the input and was scanned, false otherwise.
+     * @return true if a qualified name appeared immediately on
+     *         the input and was scanned, false otherwise
      *
-     * @throws IOException  Thrown if i/o error occurs.
-     * @throws EOFException Thrown on end of file.
+     * @throws IOException  Thrown if i/o error occurs
+     * @throws EOFException Thrown on end of file
      *
      * @see org.apache.xerces.util.SymbolTable
      * @see org.apache.xerces.util.XMLChar#isName
@@ -1520,9 +1522,9 @@ public class XMLEntityScanner implements XMLLocator {
      * The return value is the literal system identifier of the document
      * entity or of the external parsed entity in which the markup
      * triggering the event appears.
-     * <p>
-     * @return A string containing the literal system identifier, or null
-     *         if none is available.
+     * </p>
+     *
+     * @return a string containing the literal system identifier, or null if none is available
      */
     public final String getLiteralSystemId() {
         if (fCurrentEntity != null) {
@@ -1686,7 +1688,7 @@ public class XMLEntityScanner implements XMLLocator {
     // set buffer size:
     public final void setBufferSize(int size) {
         // REVISIT: Buffer size passed to entity scanner 
-        // was not being kept in synch with the actual size
+        // was not being kept in sync with the actual size
         // of the buffers in each scanned entity. If any
         // of the buffers were actually resized, it was possible
         // that the parser would throw an ArrayIndexOutOfBoundsException

@@ -28,7 +28,7 @@ import util.FailureMesgFragments;
 import util.XercesAbstractTestCase;
 
 /**
- * @author Mukul Gandhi <mukulg@apache.org>
+ * @author <a href="mailto:mukulg@apache.org">Mukul Gandhi</a>
  * @version $Id$
  */
 public class IDConstraintTests extends XercesAbstractTestCase {

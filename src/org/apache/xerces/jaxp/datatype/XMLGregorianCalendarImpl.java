@@ -35,7 +35,7 @@ import javax.xml.namespace.QName;
 import org.apache.xerces.util.DatatypeMessageFormatter;
 
 /** 
- * <p>Representation for W3C XML Schema 1.0 date/time datatypes.
+ * Representation for W3C XML Schema 1.0 date/time datatypes.
  * Specifically, these date/time datatypes are 
  * {@link DatatypeConstants#DATETIME dateTime},
  * {@link DatatypeConstants#TIME time},
@@ -48,42 +48,37 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  * defined in the XML Namespace
  * <code>"http://www.w3.org/2001/XMLSchema"</code>.
  * These datatypes are normatively defined in 
- * <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">W3C XML Schema 1.0 Part 2, Section 3.2.7-14</a>.</p>
+ * <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">W3C XML Schema 1.0 Part 2, Section 3.2.7-14</a>.
  *
- * <p>The table below defines the mapping between XML Schema 1.0
- * date/time datatype fields and this class' fields. It also summarizes
- * the value constraints for the date and time fields defined in
- * <a href="http://www.w3.org/TR/xmlschema-2/#isoformats">W3C XML Schema 1.0 Part 2, Appendix D,
- * <i>ISO 8601 Date and Time Formats</i></a>.</p>
+ * <p>The table below defines the mapping between XML Schema 1.0 date/time datatype fields and this class' fields.
+ * It also summarizes the value constraints for the date and time fields defined in
+ * <a href="http://www.w3.org/TR/xmlschema-2/#isoformats">W3C XML Schema 1.0 Part 2, Appendix D, <i>ISO 8601 Date and Time Formats</i></a>.
+ * </p>
  * 
- * <a name="datetimefieldsmapping"/>
- * <table border="2" rules="all" cellpadding="2">
+ * <a name="datetimefieldsmapping"></a>
+ * <table border="1">
+ *   <caption>Mappings between XML Schema 1.0 datetime fields and XMLGregorianCalendar accessors</caption>
  *   <thead>
  *     <tr>
- *       <th align="center" colspan="3">
+ *       <th style="text-align: center;" colspan="3">
  *         Date/time datatype field mapping between XML Schema 1.0 and Java representation
  *       </th>
  *     </tr>
  *   </thead>
  *   <tbody>
  *     <tr>
- *       <th>XML Schema 1.0<br/>
- *           datatype<br/> 
- *            field</th>
- *       <th>Related<br/>XMLGregorianCalendar<br/>Accessor(s)</th>
+ *       <th>datatype</th>
+ *       <th>XMLGregorianCalendar Accessor(s)</th>
  *       <th>Value Range</th>
  *     </tr>
- *     <a name="datetimefield-year"/>
- *     <tr>
+ *     <tr id="datetimefield-year">
  *       <td> year </td>
- *       <td> {@link #getYear()} + {@link #getEon()} or<br/>
- *            {@link #getEonAndYear}
- *       </td>
+ *       <td> {@link #getYear()} + {@link #getEon()} or {@link #getEonAndYear} </td>
  *       <td> <code>getYear()</code> is a value between -(10^9-1) to (10^9)-1 
- *            or {@link DatatypeConstants#FIELD_UNDEFINED}.<br/>
- *            {@link #getEon()} is high order year value in billion of years.<br/>
- *            <code>getEon()</code> has values greater than or equal to (10^9) or less than or equal to -(10^9).
- *            A value of null indicates field is undefined.</br>
+ *            or {@link DatatypeConstants#FIELD_UNDEFINED}.
+ *            <p>{@link #getEon()} is high order year value in billion of years.</p>
+ *            <p><code>getEon()</code> has values greater than or equal to (10^9) or less than or equal to -(10^9).
+ *            A value of null indicates field is undefined.</p>
  *            Given that <a href="http://www.w3.org/2001/05/xmlschema-errata#e2-63">XML Schema 1.0 errata</a> states that the year zero
  *            will be a valid lexical value in a future version of XML Schema, 
  *            this class allows the year field to be set to zero. Otherwise,
@@ -92,23 +87,20 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *            validation does not allow for the year field to have a value of zero.
  *            </td>
  *     </tr>
- *     <a name="datetimefield-month"/>
- *     <tr>
+ *     <tr id="datetimefield-month">
  *       <td> month </td>
  *       <td> {@link #getMonth()} </td>
  *       <td> 1 to 12 or {@link DatatypeConstants#FIELD_UNDEFINED} </td>
  *     </tr>
- *     <a name="datetimefield-day"/>
- *     <tr>
+ *     <tr id="datetimefield-day">
  *       <td> day </td>
  *       <td> {@link #getDay()} </td>
- *       <td> Independent of month, max range is 1 to 31 or {@link DatatypeConstants#FIELD_UNDEFINED}.<br/>
- *            The normative value constraint stated relative to month 
- *            field's value is in <a href="http://www.w3.org/TR/xmlschema-2/#isoformats">W3C XML Schema 1.0 Part 2, Appendix D</a>.
+ *       <td> Independent of month, max range is 1 to 31 or {@link DatatypeConstants#FIELD_UNDEFINED}.
+ *            <p>The normative value constraint stated relative to month
+ *            field's value is in <a href="http://www.w3.org/TR/xmlschema-2/#isoformats">W3C XML Schema 1.0 Part 2, Appendix D</a></p>.
  *       </td> 
  *     </tr>
- *     <a name="datetimefield-hour"/>
- *     <tr>
+ *     <tr id="datetimefield-hour">
  *       <td> hour </td>
  *       <td> {@link #getHour()} </td>
  *       <td>
@@ -116,27 +108,24 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  *         <a href="http://www.w3.org/2001/05/xmlschema-errata#e2-45">For a value of 24, the minute and second field must be zero.</a>
  *       </td>
  *     </tr>
- *     <a name="datetimefield-minute"/>
- *     <tr>
+ *     <tr id="datetimefield-minute">
  *       <td> minute </td>
  *       <td> {@link #getMinute()} </td>
  *       <td> 0 to 59 or {@link DatatypeConstants#FIELD_UNDEFINED} </td>
  *     </tr>
- *     <a name="datetimefield-second"/>
- *     <tr>
+ *     <tr id="datetimefield-second">
  *       <td>second</td>
  *       <td>
- *         {@link #getSecond()} + {@link #getMillisecond()}/1000 or<br/>
+ *         {@link #getSecond()} + {@link #getMillisecond()}/1000 or
  *         {@link #getSecond()} + {@link #getFractionalSecond()}
  *       </td>
  *       <td>
- *         {@link #getSecond()} from 0 to 60 or {@link DatatypeConstants#FIELD_UNDEFINED}.<br/>
- *         <i>(Note: 60 only allowable for leap second.)</i><br/>
+ *         {@link #getSecond()} from 0 to 60 or {@link DatatypeConstants#FIELD_UNDEFINED}.
+ *         <p><i>(Note: 60 only allowable for leap second.)</i>
  *         {@link #getFractionalSecond()} allows for infinite precision over the range from 0.0 to 1.0 when 
- *         the {@link #getSecond()} is defined.<br/>
- *         <code>FractionalSecond</code> is optional and has a value of <code>null</code> when it is undefined.<br />
- *            {@link #getMillisecond()} is the convenience 
- *            millisecond precision of value of {@link #getFractionalSecond()}.
+ *         the {@link #getSecond()} is defined.</p>
+ *         <p><code>FractionalSecond</code> is optional and has a value of <code>null</code> when it is undefined.</p>
+ *         <p>{@link #getMillisecond()} is the convenience millisecond precision of value of {@link #getFractionalSecond()}.</p>
  *       </td>
  *     </tr>
  *     <tr id="datetimefield-timezone">
@@ -158,7 +147,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  * fields are not checked by these methods. 
  * </p>
  * 
- * <p>The following operations are defined for this class:
+ * <p>The following operations are defined for this class:</p>
  * <ul>
  *   <li>factory methods to create instances</li>
  *   <li>accessors/mutators for independent date/time fields</li>
@@ -170,7 +159,6 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  * instance as defined in <a href="http://www.w3.org/TR/xmlschema-2/#adding-durations-to-dateTimes">
  * W3C XML Schema 1.0 Part 2, Appendix E, <i>Adding durations to dateTimes</i></a>.</li>
  * </ul>
- * </p>
  * 
  * @author <a href="mailto:Kohsuke.Kawaguchi@Sun.com">Kohsuke Kawaguchi</a>
  * @author <a href="mailto:Joseph.Fialli@Sun.com">Joseph Fialli</a>
@@ -550,9 +538,9 @@ class XMLGregorianCalendarImpl
             throw new IllegalArgumentException(
                 DatatypeMessageFormatter.formatMessage(null, 
                     "InvalidXGCValue-fractional", 
-                    new Object[] { year, new Integer(month), new Integer(day), 
-                    new Integer(hour), new Integer(minute), new Integer(second),
-                    fractionalSecond, new Integer(timezone)})
+                    new Object[] { year, Integer.valueOf(month), Integer.valueOf(day), 
+                    Integer.valueOf(hour), Integer.valueOf(minute), Integer.valueOf(second),
+                    fractionalSecond, Integer.valueOf(timezone)})
 			);
                     
 			/**
@@ -627,9 +615,9 @@ class XMLGregorianCalendarImpl
             throw new IllegalArgumentException(
                     DatatypeMessageFormatter.formatMessage(null, 
                             "InvalidXGCValue-milli", 
-                            new Object[] { new Integer(year), new Integer(month), new Integer(day), 
-                            new Integer(hour), new Integer(minute), new Integer(second), 
-                            new Integer(millisecond), new Integer(timezone)})                
+                            new Object[] { Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day), 
+                            Integer.valueOf(hour), Integer.valueOf(minute), Integer.valueOf(second), 
+                            Integer.valueOf(millisecond), Integer.valueOf(timezone)})                
             );
             /*
                 throw new IllegalArgumentException(
@@ -653,10 +641,10 @@ class XMLGregorianCalendarImpl
 	 * <p>Convert a <code>java.util.GregorianCalendar</code> to XML Schema 1.0 
 	 * representation.</p>
 	 *
-	 * <table border="2" rules="all" cellpadding="2">
+	 * <table border="1">
 	 *   <thead>
 	 *     <tr>
-	 *       <th align="center" colspan="2">
+	 *       <th colspan="2">
 	 *          Field by Field Conversion from
 	 *          <code>java.util.GregorianCalendar</code> to this class 
 	 *       </th>
@@ -1367,7 +1355,7 @@ class XMLGregorianCalendarImpl
 					       " field");
              */
             throw new IllegalArgumentException(
-                    DatatypeMessageFormatter.formatMessage(null, "InvalidFieldValue", new Object[]{ new Integer(value), FIELD_NAME[field]})
+                    DatatypeMessageFormatter.formatMessage(null, "InvalidFieldValue", new Object[]{ Integer.valueOf(value), FIELD_NAME[field]})
             );
         }
     }
@@ -1830,10 +1818,10 @@ class XMLGregorianCalendarImpl
      * <p>Return the name of the XML Schema date/time type that this instance 
      * maps to. Type is computed based on fields that are set.</p>
      *
-     * <table border="2" rules="all" cellpadding="2">
+     * <table border="1">
      *   <thead>
      *     <tr>
-     *       <th align="center" colspan="7">
+     *       <th colspan="7">
      *         Required fields for XML Schema 1.0 Date/Time Datatypes.<br/>
      *         <i>(timezone is optional for all date/time datatypes)</i>
      *       </th>
@@ -2399,10 +2387,10 @@ class XMLGregorianCalendarImpl
      * instance, see 
      * {@link #toGregorianCalendar(TimeZone, Locale, XMLGregorianCalendar)}.</p>
      * 
-     * <table border="2" rules="all" cellpadding="2">
+     * <table border="1">
      *   <thead>
      *     <tr>
-     *       <th align="center" colspan="2">
+     *       <th colspan="2">
      *          Field by Field Conversion from this class to 
      *          <code>java.util.GregorianCalendar</code>
      *       </th>

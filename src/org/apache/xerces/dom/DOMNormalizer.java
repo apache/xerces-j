@@ -75,11 +75,12 @@ import org.w3c.dom.Text;
  * document.
  * See Namespace normalization for details on how namespace declaration attributes and prefixes
  * are normalized.
- * 
+ * <p>
  * NOTE: There is an initial support for DOM revalidation with XML Schema as a grammar.
  * The tree might not be validated correctly if entityReferences, CDATA sections are
  * present in the tree. The PSVI information is not exposed, normalized data (including element
  * default content is not available).
+ * </p>
  *
  * @xerces.experimental
  * 
@@ -137,7 +138,7 @@ public class DOMNormalizer implements XMLDocumentHandler {
     protected final NamespaceContext fLocalNSBinder = new NamespaceSupport();
 
     /** list of attributes */
-    protected final ArrayList fAttributeList = new ArrayList(5);
+    protected final ArrayList fAttributeList = new ArrayList<Node>(5);
 
     /** DOM Locator -  for namespace fixup algorithm */
     protected final DOMLocatorImpl fLocator = new DOMLocatorImpl();
@@ -889,6 +890,7 @@ public class DOMNormalizer implements XMLDocumentHandler {
 
             // clone content of the attributes
             attributes.cloneMap(fAttributeList);
+
             for (int i = 0; i < fAttributeList.size(); i++) {
                 Attr attr = (Attr) fAttributeList.get(i);
                 fLocator.fRelatedNode = attr;
@@ -1047,11 +1049,10 @@ public class DOMNormalizer implements XMLDocumentHandler {
      * attribute with the given prefix and value for URI.
      * In case prefix is empty will add/update default namespace declaration.
      * 
-     * @param prefix
-     * @param uri
-     * @exception IOException
+     * @param prefix the text to use as a namespace
+     * @param uri the URI that is being namespaced
+     * @param element the element that is having the namespace attribute applied
      */
-
     protected final void addNamespaceDecl(String prefix, String uri, ElementImpl element){
         if (DEBUG) {
             System.out.println("[ns-fixup] addNamespaceDecl ["+prefix+"]");
@@ -1923,7 +1924,7 @@ public class DOMNormalizer implements XMLDocumentHandler {
      *                 parsed from a java.io.Reader).
      * @param augs     Additional information that may include infoset augmentations
      *                 
-     * @exception XNIException Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}.
      */
     public void startGeneralEntity(String name, 
                                    XMLResourceIdentifier identifier,

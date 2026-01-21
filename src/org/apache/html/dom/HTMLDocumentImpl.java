@@ -42,16 +42,18 @@ import org.w3c.dom.html.HTMLTitleElement;
 /**
  * Implements an HTML document. Provides access to the top level element in the
  * document, its body and title.
- * <P>
+ * <p>
  * Several methods create new nodes of all basic types (comment, text, element,
  * etc.). These methods create new nodes but do not place them in the document
  * tree. The nodes may be placed in the document tree using {@link
  * org.w3c.dom.Node#appendChild} or {@link org.w3c.dom.Node#insertBefore}, or
  * they may be placed in some other document tree.
- * <P>
+ * </p>
+ * <p>
  * Note: &lt;FRAMESET&gt; documents are not supported at the moment, neither
  * are direct document writing ({@link #open}, {@link #write}) and HTTP attribute
  * methods ({@link #getURL}, {@link #getCookie}).
+ * </p>
  *
  * @xerces.internal
  *
@@ -132,6 +134,7 @@ public class HTMLDocumentImpl
 
 
     /**
+     * Create a new HTML document implementation
      */
     public HTMLDocumentImpl()
     {
@@ -140,6 +143,7 @@ public class HTMLDocumentImpl
     }
 
 
+    @Override
     public synchronized Element getDocumentElement()
     {
         Node    html;
@@ -205,12 +209,13 @@ public class HTMLDocumentImpl
      * &lt;HTML&gt; in the document. The &lt;HTML&gt; element is obtained by
      * calling {@link #getDocumentElement}. If the element does not exist, one
      * is created.
-     * <P>
+     * <p>
      * Called by {@link #getTitle}, {@link #setTitle}, {@link #getBody} and
      * {@link #setBody} to assure the document has the &lt;HEAD&gt; element
      * correctly placed.
+     * </p>
      *
-     * @return The &lt;HEAD&gt; element
+     * @return the &lt;HEAD&gt; element
      */
     public synchronized HTMLElement getHead()
     {
@@ -253,7 +258,12 @@ public class HTMLDocumentImpl
         return (HTMLElement) head;
     }
 
-
+    /**
+     * Get Title.
+     *
+     * @return the value in the title element or an empty string
+     */
+    @Override
     public synchronized String getTitle()
     {
         HTMLElement head;
@@ -273,7 +283,12 @@ public class HTMLDocumentImpl
         return "";
     }
 
-
+    /**
+     * Set title.
+     *
+     * @param newTitle the new text for the title element
+     */
+    @Override
     public synchronized void setTitle( String newTitle )
     {
         HTMLElement head;
@@ -301,7 +316,12 @@ public class HTMLDocumentImpl
         }
     }
 
-
+    /**
+     * Get Body.
+     *
+     * @return the body element of the document
+     */
+    @Override
     public synchronized HTMLElement getBody()
     {
         Node    html;
@@ -347,7 +367,12 @@ public class HTMLDocumentImpl
         return (HTMLElement) body;
     }
 
-
+    /**
+     * Set body.
+     *
+     * @param newBody the new body element for the document
+     */
+    @Override
     public synchronized void setBody( HTMLElement newBody )
     {
         Node    html;
@@ -397,7 +422,7 @@ public class HTMLDocumentImpl
         }
     }
 
-
+    @Override
     public synchronized Element getElementById( String elementId )
     {
         Element idElement = super.getElementById(elementId);
@@ -407,19 +432,25 @@ public class HTMLDocumentImpl
         return getElementById( elementId, this );
     }
 
-
+    /**
+     * Get a list of nodes for a given element name.
+     *
+     * @param elementName the name of the element to look for
+     * @return a list of nodes with the given element name
+     */
+    @Override
     public NodeList getElementsByName( String elementName )
     {
         return new NameNodeListImpl( this, elementName );
     }
 
-
+    @Override
     public final NodeList getElementsByTagName( String tagName )
     {
         return super.getElementsByTagName( tagName.toUpperCase(Locale.ENGLISH) );
     }
 
-
+    @Override
     public final NodeList getElementsByTagNameNS( String namespaceURI,
                                                   String localName )
     {
@@ -434,15 +465,14 @@ public class HTMLDocumentImpl
      * Xerces-specific constructor. "localName" is passed in, so we don't need
      * to create a new String for it.
      *
-     * @param namespaceURI The namespace URI of the element to
-     *                     create.
-     * @param qualifiedName The qualified name of the element type to
-     *                      instantiate.
-     * @param localpart     The local name of the element to instantiate.
-     * @return Element A new Element object with the following attributes:
+     * @param namespaceURI the namespace URI of the element to create
+     * @param qualifiedName the qualified name of the element type to instantiate
+     * @param localpart the local name of the element to instantiate
+     * @return a new {@link Element} object with the following attributes:
      * @throws DOMException INVALID_CHARACTER_ERR: Raised if the specified
-     *                      name contains an invalid character.
+     *                      name contains an invalid character
      */
+    @Override
     public Element createElementNS(String namespaceURI, String qualifiedName,
                                    String localpart)
         throws DOMException
@@ -450,6 +480,7 @@ public class HTMLDocumentImpl
         return createElementNS(namespaceURI, qualifiedName);
     }
 
+    @Override
     public Element createElementNS( String namespaceURI, String qualifiedName )
     {
         if ( namespaceURI == null || namespaceURI.length() == 0 ) {
@@ -458,7 +489,7 @@ public class HTMLDocumentImpl
         return super.createElementNS( namespaceURI, qualifiedName );
     }
 
-
+    @Override
     public Element createElement( String tagName )
         throws DOMException
     {
@@ -504,52 +535,52 @@ public class HTMLDocumentImpl
      * Overrides {@link DocumentImpl#createAttribute} and returns
      * and attribute whose name is lower case.
      *
-     * @param name The name of the attribute
-     * @return An attribute whose name is all lower case
-     * @throws DOMException(INVALID_NAME_ERR) if the attribute name
-     *   is not acceptable
+     * @param name the name of the attribute
+     * @return an attribute whose name is all lower case
+     * @throws DOMException INVALID_NAME_ERR if the attribute name is not acceptable
      */
+    @Override
     public Attr createAttribute( String name )
         throws DOMException
     {
         return super.createAttribute( name.toLowerCase(Locale.ENGLISH) );
     }
 
-    
+    @Override
     public String getReferrer()
     {
         // Information not available on server side.
         return null;
     }
 
-
+    @Override
     public String getDomain()
     {
         // Information not available on server side.
         return null;
     }
 
-
+    @Override
     public String getURL()
     {
         // Information not available on server side.
         return null;
     }
 
-
+    @Override
     public String getCookie()
     {
         // Information not available on server side.
         return null;
     }
 
-
+    @Override
     public void setCookie( String cookie )
     {
         // Information not available on server side.
     }
 
-
+    @Override
     public HTMLCollection getImages()
     {
         // For more information see HTMLCollection#collectionMatch
@@ -558,7 +589,7 @@ public class HTMLDocumentImpl
         return _images;
     }
 
-
+    @Override
     public HTMLCollection getApplets()
     {
         // For more information see HTMLCollection#collectionMatch
@@ -567,7 +598,7 @@ public class HTMLDocumentImpl
         return _applets;
     }
 
-
+    @Override
     public HTMLCollection getLinks()
     {
         // For more information see HTMLCollection#collectionMatch
@@ -576,7 +607,7 @@ public class HTMLDocumentImpl
         return _links;
     }
 
-
+    @Override
     public HTMLCollection getForms()
     {
         // For more information see HTMLCollection#collectionMatch
@@ -585,7 +616,7 @@ public class HTMLDocumentImpl
         return _forms;
     }
 
-
+    @Override
     public HTMLCollection getAnchors()
     {
         // For more information see HTMLCollection#collectionMatch
@@ -594,7 +625,10 @@ public class HTMLDocumentImpl
         return _anchors;
     }
 
-
+    /**
+     * This is a no-op in HTMLDocumentImpl
+     */
+    @Override
     public void open()
     {
         // When called an in-memory is prepared. The document tree is still
@@ -603,7 +637,10 @@ public class HTMLDocumentImpl
             _writer = new StringWriter();
     }
 
-
+    /**
+     * This is a no-op in HTMLDocumentImpl
+     */
+    @Override
     public void close()
     {
         // ! NOT IMPLEMENTED, REQUIRES PARSER !
@@ -613,7 +650,13 @@ public class HTMLDocumentImpl
         }
     }
 
-
+    /**
+     * Write a string.
+     * <p>This is a no-op in HTMLDocumentImpl</p>
+     *
+     * @param text a string to write
+     */
+    @Override
     public void write( String text )
     {
         // Write a string into the in-memory writer.
@@ -621,7 +664,13 @@ public class HTMLDocumentImpl
             _writer.write( text );
     }
 
-
+    /**
+     * Write a line.
+     * <p>This is a no-op in HTMLDocumentImpl</p>
+     *
+     * @param text a string to write
+     */
+    @Override
     public void writeln( String text )
     {
         // Write a line into the in-memory writer.
@@ -629,7 +678,7 @@ public class HTMLDocumentImpl
             _writer.write( text + "\n" );
     }
 
-
+    @Override
     public Node cloneNode( boolean deep )
     {
         HTMLDocumentImpl newdoc = new HTMLDocumentImpl();
@@ -642,6 +691,7 @@ public class HTMLDocumentImpl
     /* (non-Javadoc)
      * @see CoreDocumentImpl#canRenameElements()
      */
+    @Override
     protected boolean canRenameElements(String newNamespaceURI, String newNodeName, ElementImpl el) {
         if (el.getNamespaceURI() != null) {
             // element is not HTML:
@@ -657,11 +707,11 @@ public class HTMLDocumentImpl
 
     
     /**
-     * Recursive method retreives an element by its <code>id</code> attribute.
+     * Recursive method retrieves an element by its <code>id</code> attribute.
      * Called by {@link #getElementById(String)}.
      *
-     * @param elementId The <code>id</code> value to look for
-     * @return The node in which to look for
+     * @param elementId the <code>id</code> value to look for
+     * @return the node in which to look for
      */
     private Element getElementById( String elementId, Node node )
     {

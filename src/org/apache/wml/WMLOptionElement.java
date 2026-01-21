@@ -17,17 +17,17 @@
 package org.apache.wml;
 
 /**
- * <p>The interface is modeled after DOM1 Spec for HTML from W3C.
+ * The interface is modeled after DOM1 Spec for HTML from W3C.
  * The DTD used in this DOM model is from 
- * <a href="http://www.wapforum.org/DTD/wml_1.1.xml">
- * http://www.wapforum.org/DTD/wml_1.1.xml</a></p>
+ * <a href="https://www.wapforum.org/DTD/wml_1.1.xml">https://www.wapforum.org/DTD/wml_1.1.xml</a>
  *
  * <p>'option' element specifies a choice in a 'select' element</p>
  *
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
-
+@Deprecated
 public interface WMLOptionElement extends WMLElement {
 
     /**
@@ -54,7 +54,9 @@ public interface WMLOptionElement extends WMLElement {
     /**
      * 'xml:lang' specifics the natural or formal language in which
      * the document is written.  
-     * (Section 8.8, WAP WML Version 16-Jun-1999) 
+     * (Section 8.8, WAP WML Version 16-Jun-1999)
+     *
+     * @param newValue a language identifier as defined by <a href="https://www.w3.org/TR/xml/#RFC1766">IETF BCP 47</a> or an empty string
      */
     public void setXmlLang(String newValue);
     public String getXmlLang();

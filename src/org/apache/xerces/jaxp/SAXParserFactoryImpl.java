@@ -117,7 +117,7 @@ public class SAXParserFactoryImpl extends SAXParserFactory {
             fSecureProcess = value;
             return;
         }
-        // Keep built-in settings in synch with the feature values.
+        // Keep built-in settings in sync with the feature values.
         else if (name.equals(NAMESPACES_FEATURE)) {
             setNamespaceAware(value);
             return;

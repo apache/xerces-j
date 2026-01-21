@@ -22,10 +22,11 @@ import org.w3c.dom.Node;
 
 
 /**
- * <code>DOMLocatorImpl</code> is an implementaion that describes a location (e.g. 
- * where an error occured).
+ * <code>DOMLocatorImpl</code> is an implementation that describes a location (e.g.
+ * where an error occurred).
  * <p>See also the <a href='http://www.w3.org/TR/2001/WD-DOM-Level-3-Core-20010913'>Document Object Model (DOM) Level 3 Core Specification</a>.
- * 
+ * </p>
+ *
  * @xerces.internal
  *
  * @author Gopal Sharma, SUN Microsystems Inc.
@@ -39,13 +40,13 @@ public class DOMLocatorImpl implements DOMLocator {
     //
 
    /**
-    * The column number where the error occured, 
+    * The column number where the error occurred,
     * or -1 if there is no column number available.
     */
    public int fColumnNumber = -1;
 
    /**
-    * The line number where the error occured, 
+    * The line number where the error occurred,
     * or -1 if there is no line number available.
     */
    public int fLineNumber = -1;
@@ -54,7 +55,7 @@ public class DOMLocatorImpl implements DOMLocator {
    public Node fRelatedNode = null;
 
    /**
-    * The URI where the error occured, 
+    * The URI where the error occurred,
     * or null if there is no URI available.
     */
    public String fUri = null;
@@ -111,7 +112,7 @@ public class DOMLocatorImpl implements DOMLocator {
 
 
   /**
-   * The line number where the error occured, or -1 if there is no line 
+   * The line number where the error occurred, or -1 if there is no line
    * number available.
    */
    public int getLineNumber(){
@@ -119,7 +120,7 @@ public class DOMLocatorImpl implements DOMLocator {
    }
 
   /**
-   * The column number where the error occured, or -1 if there is no column 
+   * The column number where the error occurred, or -1 if there is no column
    * number available.
    */
   public int getColumnNumber(){
@@ -128,7 +129,7 @@ public class DOMLocatorImpl implements DOMLocator {
 
 
   /**
-   * The URI where the error occured, or null if there is no URI available.
+   * The URI where the error occurred, or null if there is no URI available.
    */
   public String getUri(){
 	return fUri;

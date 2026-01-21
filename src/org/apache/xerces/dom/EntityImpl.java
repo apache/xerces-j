@@ -27,29 +27,32 @@ import org.w3c.dom.Node;
  * Entity's children, in exactly the structure which an
  * EntityReference to this name will present within the document's
  * body.
- * <P>
+ * <p>
  * Note that this object models the actual entity, _not_ the entity
  * declaration or the entity reference.
- * <P>
+ * </p>
+ * <p>
  * An XML processor may choose to completely expand entities before
  * the structure model is passed to the DOM; in this case, there will
  * be no EntityReferences in the DOM tree.
- * <P>
- * Quoting the 10/01 DOM Proposal,
- * <BLOCKQUOTE>
+ * </p>
+ * <p>Quoting the 10/01 DOM Proposal,</p>
+ * <blockquote>
  * "The DOM Level 1 does not support editing Entity nodes; if a user
  * wants to make changes to the contents of an Entity, every related
  * EntityReference node has to be replaced in the structure model by
  * a clone of the Entity's contents, and then the desired changes
  * must be made to each of those clones instead. All the
  * descendants of an Entity node are readonly."
- * </BLOCKQUOTE>
- * I'm interpreting this as: It is the parser's responsibilty to call
+ * </blockquote>
+ * <p>
+ * I'm interpreting this as: It is the parser's responsibility to call
  * the non-DOM operation setReadOnly(true,true) after it constructs
  * the Entity. Since the DOM explicitly decided not to deal with this,
  * _any_ answer will involve a non-DOM operation, and this is the
  * simplest solution.
- * 
+ * </p>
+ *
  * @xerces.internal
  * 
  * @author Elena Litani, IBM

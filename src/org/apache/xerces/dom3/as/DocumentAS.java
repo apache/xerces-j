@@ -21,6 +21,7 @@ import org.w3c.dom.DOMException;
  * <p>See also the <a href='http://www.w3.org/TR/2001/WD-DOM-Level-3-ASLS-20011025'>Document Object Model (DOM) Level 3 Abstract Schemas and Load
 and Save Specification</a>.
  */
+@Deprecated
 public interface DocumentAS {
     /**
      *  The active external ASModel. Note that the active external 

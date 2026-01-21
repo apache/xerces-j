@@ -128,7 +128,7 @@ public class PSVIElementNSImpl extends ElementNSImpl implements ElementPSVI {
      * [schema default]
      *
      * @return The canonical lexical representation of the declaration's {value constraint} value.
-     * @see <a href="http://www.w3.org/TR/xmlschema-1/#e-schema_default>XML Schema Part 1: Structures [schema default]</a>
+     * @see <a href="http://www.w3.org/TR/xmlschema-1/#e-schema_default">XML Schema Part 1: Structures [schema default]</a>
      */
     public String getSchemaDefault() {
         return fDeclaration == null ? null : fDeclaration.getConstraintValue();
@@ -138,7 +138,7 @@ public class PSVIElementNSImpl extends ElementNSImpl implements ElementPSVI {
      * [schema normalized value]
      *
      *
-     * @see <a href="http://www.w3.org/TR/xmlschema-1/#e-schema_normalized_value>XML Schema Part 1: Structures [schema normalized value]</a>
+     * @see <a href="http://www.w3.org/TR/xmlschema-1/#e-schema_normalized_value">XML Schema Part 1: Structures [schema normalized value]</a>
      * @return the normalized value of this item after validation
      */
     public String getSchemaNormalizedValue() {
@@ -208,7 +208,7 @@ public class PSVIElementNSImpl extends ElementNSImpl implements ElementPSVI {
 
     /**
      * [nil]
-     * @see <a href="http://www.w3.org/TR/xmlschema-1/#e-nil>XML Schema Part 1: Structures [nil]</a>
+     * @see <a href="http://www.w3.org/TR/xmlschema-1/#e-nil">XML Schema Part 1: Structures [nil]</a>
      * @return true if clause 3.2 of Element Locally Valid (Element) (3.3.4) above is satisfied, otherwise false
      */
     public boolean getNil() {
@@ -217,7 +217,7 @@ public class PSVIElementNSImpl extends ElementNSImpl implements ElementPSVI {
 
     /**
      * [notation] 
-     * @see <a href="http://www.w3.org/TR/xmlschema-1/#e-notation>XML Schema Part 1: Structures [notation]</a>
+     * @see <a href="http://www.w3.org/TR/xmlschema-1/#e-notation">XML Schema Part 1: Structures [notation]</a>
      * @return The notation declaration. 
      */
     public XSNotationDeclaration getNotation() {

@@ -180,7 +180,13 @@ public class DOMUtil {
         
     } // getFirstChildElement(Node):Element
     
-    /** Finds and returns the first visible child element node. */
+    /**
+     * Finds and returns the first visible child element node.
+     *
+     * @param parent the parent node
+     * @param hiddenNodes a hash table of Node to Object
+     * @return the first visible child element
+     */
     public static Element getFirstVisibleChildElement(Node parent, Hashtable hiddenNodes) {
         
         // search for node
@@ -235,8 +241,13 @@ public class DOMUtil {
         
     } // getLastChildElement(Node):Element
     
-    /** Finds and returns the last visible child element node. 
-     *  Overload previous method for non-Xerces node impl
+    /**
+     * Finds and returns the last visible child element node.
+     * Overload previous method for non-Xerces node impl.
+     *
+     * @param parent the parent node
+     * @param hiddenNodes a hash table of Node to Object
+     * @return the last visible child element
      */
     public static Element getLastVisibleChildElement(Node parent, Hashtable hiddenNodes) {
         
@@ -290,7 +301,7 @@ public class DOMUtil {
     } // getNextSiblingdElement(Node):Element
     
     // get next visible (un-hidden) node, overload previous method for non Xerces node impl
-    public static Element getNextVisibleSiblingElement(Node node, Hashtable hiddenNodes) {
+    public static Element getNextVisibleSiblingElement(Node node, Hashtable<Node, Object> hiddenNodes) {
         
         // search for node
         Node sibling = node.getNextSibling();
@@ -316,7 +327,7 @@ public class DOMUtil {
     } // setHidden(node):void
 
     // set this Node as being hidden, overloaded method
-    public static void setHidden(Node node, Hashtable hiddenNodes) {
+    public static void setHidden(Node node, Hashtable<Node, Object> hiddenNodes) {
         if (node instanceof org.apache.xerces.impl.xs.opti.NodeImpl) {
             ((org.apache.xerces.impl.xs.opti.NodeImpl)node).setReadOnly(true, false);
         }
@@ -334,7 +345,7 @@ public class DOMUtil {
     } // setVisible(node):void   
 
     // set this Node as being visible, overloaded method
-    public static void setVisible(Node node, Hashtable hiddenNodes) {
+    public static void setVisible(Node node, Hashtable<Node, Object> hiddenNodes) {
         if (node instanceof org.apache.xerces.impl.xs.opti.NodeImpl) {
             ((org.apache.xerces.impl.xs.opti.NodeImpl)node).setReadOnly(false, false);   
         }
@@ -353,7 +364,7 @@ public class DOMUtil {
     } // isHidden(Node):boolean
 
     // is this node hidden? overloaded method
-    public static boolean isHidden(Node node, Hashtable hiddenNodes) {
+    public static boolean isHidden(Node node, Hashtable<Node, Object> hiddenNodes) {
         if (node instanceof org.apache.xerces.impl.xs.opti.NodeImpl) {
             return ((org.apache.xerces.impl.xs.opti.NodeImpl)node).getReadOnly();
         }

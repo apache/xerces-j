@@ -152,6 +152,7 @@ class ParserForXMLSchema extends RegexParser {
     /**
      * Parses a character-class-expression, not a character-class-escape.
      *
+     * <pre>
      * c-c-expression   ::= '[' c-group ']'
      * c-group          ::= positive-c-group | negative-c-group | c-c-subtraction
      * positive-c-group ::= (c-range | c-c-escape)+
@@ -162,9 +163,12 @@ class ParserForXMLSchema extends RegexParser {
      * single-range     ::= multi-c-escape | category-c-escape | block-c-escape | &lt;any XML char&gt;
      * cc-normal-c      ::= &lt;any character except [, ], \&gt;
      * from-to-range    ::= cc-normal-c '-' cc-normal-c
+     * </pre>
      *
-     * @param useNrage Ignored.
-     * @return This returns no NrageToken.
+     * @param useNrange ignored
+     * @return returns no NRANGE token
+     * @throws ParseException if regex does not conform to the syntax
+     * @see Token#NRANGE
      */
     protected RangeToken parseCharacterClass(boolean useNrange) throws ParseException {
         this.setContext(S_INBRACKETS);
@@ -184,7 +188,7 @@ class ParserForXMLSchema extends RegexParser {
         }
         int type;
         boolean firstloop = true;
-        while ((type = this.read()) != T_EOF) { // Don't use 'cotinue' for this loop.
+        while ((type = this.read()) != T_EOF) { // Don't use 'continue' for this loop.
         	
         	wasDecoded = false;
             // single-range | from-to-range | subtraction

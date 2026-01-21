@@ -90,7 +90,7 @@ public class XIncludeAwareParserConfiguration extends XML11Configuration {
     /** 
      * Constructs a parser configuration using the specified symbol table. 
      *
-     * @param symbolTable The symbol table to use.
+     * @param symbolTable the symbol table to use
      */
     public XIncludeAwareParserConfiguration(SymbolTable symbolTable) {
         this(symbolTable, null, null);
@@ -99,10 +99,9 @@ public class XIncludeAwareParserConfiguration extends XML11Configuration {
     /**
      * Constructs a parser configuration using the specified symbol table and
      * grammar pool.
-     * <p>
      *
-     * @param symbolTable The symbol table to use.
-     * @param grammarPool The grammar pool to use.
+     * @param symbolTable the symbol table to use
+     * @param grammarPool the grammar pool to use
      */
     public XIncludeAwareParserConfiguration(
             SymbolTable symbolTable,
@@ -113,11 +112,10 @@ public class XIncludeAwareParserConfiguration extends XML11Configuration {
     /**
      * Constructs a parser configuration using the specified symbol table,
      * grammar pool, and parent settings.
-     * <p>
      *
-     * @param symbolTable    The symbol table to use.
-     * @param grammarPool    The grammar pool to use.
-     * @param parentSettings The parent settings.
+     * @param symbolTable the symbol table to use
+     * @param grammarPool the grammar pool to use
+     * @param parentSettings the parent settings
      */
     public XIncludeAwareParserConfiguration(
             SymbolTable symbolTable,

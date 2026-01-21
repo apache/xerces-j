@@ -29,19 +29,22 @@ import org.w3c.dom.UserDataHandler;
  * This class represents a Document Type <em>declaraction</em> in
  * the document itself, <em>not</em> a Document Type Definition (DTD).
  * An XML document may (or may not) have such a reference.
- * <P>
+ * <p>
  * DocumentType is an Extended DOM feature, used in XML documents but
  * not in HTML.
- * <P>
+ * </p>
+ * <p>
  * Note that Entities and Notations are no longer children of the
  * DocumentType, but are parentless nodes hung only in their
  * appropriate NamedNodeMaps.
- * <P>
+ * </p>
+ * <p>
  * This area is UNDERSPECIFIED IN REC-DOM-Level-1-19981001
  * Most notably, absolutely no provision was made for storing
  * and using Element and Attribute information. Nor was the linkage
  * between Entities and Entity References nailed down solidly.
- * 
+ * </p>
+ *
  * @xerces.internal
  *
  * @author Arnaud  Le Hors, IBM
@@ -127,8 +130,8 @@ public class DocumentTypeImpl
     //
     
     /**
-     * Introduced in DOM Level 2. <p>
-     * 
+     * Introduced in DOM Level 2.
+     *
      * Return the public identifier of this Document type.
      * @since WD-DOM-Level-2-19990923
      */
@@ -139,8 +142,8 @@ public class DocumentTypeImpl
         return publicID;
     }
     /**
-     * Introduced in DOM Level 2. <p>
-     * 
+     * Introduced in DOM Level 2.
+     *
      * Return the system identifier of this Document type.
      * @since WD-DOM-Level-2-19990923
      */
@@ -152,7 +155,7 @@ public class DocumentTypeImpl
     }
     
     /**
-     * NON-DOM. <p>
+     * NON-DOM.
      *
      * Set the internalSubset given as a string.
      */
@@ -164,8 +167,8 @@ public class DocumentTypeImpl
     }
 
     /**
-     * Introduced in DOM Level 2. <p>
-     * 
+     * Introduced in DOM Level 2.
+     *
      * Return the internalSubset given as a string.
      * @since WD-DOM-Level-2-19990923
      */
@@ -369,7 +372,6 @@ public class DocumentTypeImpl
     /**
      * Access the collection of general Entities, both external and
      * internal, defined in the DTD. For example, in:
-     * <p>
      * <pre>
      *   &lt;!doctype example SYSTEM "ex.dtd" [
      *     &lt;!ENTITY foo "foo"&gt;
@@ -380,13 +382,16 @@ public class DocumentTypeImpl
      * <p>
      * The Entities map includes foo and bar, but not baz. It is promised that
      * only Nodes which are Entities will exist in this NamedNodeMap.
+     * </p>
      * <p>
      * For HTML, this will always be null.
+     * </p>
      * <p>
      * Note that "built in" entities such as &amp; and &lt; should be
      * converted to their actual characters before being placed in the DOM's
      * contained text, and should be converted back when the DOM is rendered
      * as XML or HTML, and hence DO NOT appear here.
+     * </p>
      */
     public NamedNodeMap getEntities() {
         if (needsSyncChildren()) {

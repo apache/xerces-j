@@ -23,6 +23,7 @@ import org.w3c.dom.ls.LSParser;
  * <p>See also the <a href='http://www.w3.org/TR/2001/WD-DOM-Level-3-ASLS-20011025'>Document Object Model (DOM) Level 3 Abstract Schemas and Load
 and Save Specification</a>.
  */
+@Deprecated
 public interface DOMASBuilder extends LSParser {
     /**
      *  Associate an <code>ASModel</code> with a <code>LSParser</code>. This
@@ -42,10 +43,11 @@ public interface DOMASBuilder extends LSParser {
     public void setAbstractSchema(ASModel abstractSchema);
 
     /**
-     * Parse a Abstract Schema from a location identified by an URI reference.
+     * Parse an Abstract Schema from a location identified by a URI reference.
+     *
      * @param uri The location of the Abstract Schema to be read. 
      * @return The newly created Abstract Schema.
-     * @exception DOMASException
+     * @throws DOMASException
      *   Exceptions raised by <code>parseASURI()</code> originate with the 
      *   installed ErrorHandler, and thus depend on the implementation of 
      *   the <code>DOMErrorHandler</code> interfaces. The default error 
@@ -55,11 +57,11 @@ public interface DOMASBuilder extends LSParser {
      *   <br> WRONG_MIME_TYPE_ERR: Raised when <code>mimeTypeCheck</code> is 
      *   <code>true</code> and the input source has an incorrect MIME Type. 
      *   See the attribute <code>mimeTypeCheck</code>. 
-     * @exception DOMSystemException
+     * @throws Exception
      *   Exceptions raised by <code>parseURI()</code> originate with the 
      *   installed ErrorHandler, and thus depend on the implementation of 
      *   the <code>DOMErrorHandler</code> interfaces. The default error 
-     *   handlers will raise a DOMSystemException if any form I/O or other 
+     *   handlers will raise an <code>Exception</code> if any form I/O or other 
      *   system error occurs during the parse, but application defined error 
      *   handlers are not required to do so. 
      */
@@ -67,12 +69,11 @@ public interface DOMASBuilder extends LSParser {
                               throws DOMASException, Exception;
 
     /**
-     * Parse a Abstract Schema from a location identified by an 
-     * <code>LSInput</code>.
-     * @param is The <code>LSInput</code> from which the source
-     *   Abstract Schema is to be read. 
-     * @return The newly created <code>ASModel</code>.
-     * @exception DOMASException
+     * Parse an Abstract Schema from a location identified by a <code>LSInput</code>.
+     *
+     * @param is the <code>LSInput</code> from which the source Abstract Schema is to be read
+     * @return the newly created <code>ASModel</code>
+     * @throws DOMASException
      *   Exceptions raised by <code>parseASURI()</code> originate with the 
      *   installed ErrorHandler, and thus depend on the implementation of 
      *   the <code>DOMErrorHandler</code> interfaces. The default error 
@@ -82,11 +83,11 @@ public interface DOMASBuilder extends LSParser {
      *   <br> Raise a WRONG_MIME_TYPE_ERR when <code>mimeTypeCheck</code> is 
      *   <code>true</code> and the inputsource has an incorrect MIME Type. 
      *   See attribute <code>mimeTypeCheck</code>. 
-     * @exception DOMSystemException
+     * @throws Exception
      *   Exceptions raised by <code>parseURI()</code> originate with the 
      *   installed ErrorHandler, and thus depend on the implementation of 
      *   the <code>DOMErrorHandler</code> interfaces. The default error 
-     *   handlers will raise a DOMSystemException if any form I/O or other 
+     *   handlers will raise an <code>Exception</code> if any form I/O or other 
      *   system error occurs during the parse, but application defined error 
      *   handlers are not required to do so. 
      */

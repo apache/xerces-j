@@ -27,6 +27,7 @@ package org.apache.xerces.xs;
  * handling the start and end of an element, applications may use the 
  * <code>PSVIProvider</code> to retrieve the PSVI related to the element and 
  * its attributes.
+ * </p>
  */
 public interface PSVIProvider {
     /**
@@ -45,13 +46,13 @@ public interface PSVIProvider {
      *   the start of an element: {element declaration}, {validation 
      *   context}, {notation}. The {schema information} property is 
      *   available for the validation root. The {error codes} property is 
-     *   available if any errors occured during validation.  The following 
+     *   available if any errors occurred during validation.  The following
      *   properties are available in the scope of the method that reports 
      *   the end of an element: {nil}, {schema specified}, {normalized 
      *   value},{ member type definition}, {validity}, {validation attempted}
      *   . If the declaration has a value constraint, the property {schema 
      *   default} is available. The {error codes} property is available if 
-     *   any errors occured during validation. Note: some processors may 
+     *   any errors occurred during validation. Note: some processors may
      *   choose to provide all the PSVI properties in the scope of the 
      *   method that reports the end of an element. 
      */
@@ -66,8 +67,9 @@ public interface PSVIProvider {
      * called while in the scope of the document handler's 
      * <code>startElement</code> call. If the method is called outside of 
      * the specified scope, the return value is undefined.
-     * @param index The attribute index. 
-     * @return The post schema validation properties of the attribute.
+     *
+     * @param index the attribute index
+     * @return the post-schema validation properties of the attribute
      */
     public AttributePSVI getAttributePSVI(int index);
 
@@ -80,9 +82,10 @@ public interface PSVIProvider {
      * SAX the method must be called while in the scope of the document 
      * handler's <code>startElement</code> call. If the method is called 
      * outside of the specified scope, the return value is undefined.
-     * @param uri The namespace name of an attribute. 
-     * @param localname The local name of an attribute. 
-     * @return The post schema validation properties of the attribute.
+     *
+     * @param uri The namespace name of an attribute
+     * @param localname The local name of an attribute
+     * @return The post-schema validation properties of the attribute
      */
     public AttributePSVI getAttributePSVIByName(String uri, 
                                                 String localname);

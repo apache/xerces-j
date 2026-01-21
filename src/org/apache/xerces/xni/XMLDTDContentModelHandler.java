@@ -41,11 +41,9 @@ public interface XMLDTDContentModelHandler {
     // separators
 
     /** 
-     * A choice separator for children and mixed content models. This
-     * separator is used to specify that the allowed child is one of a
-     * collection.
-     * <p>
-     * For example:
+     * A choice separator for children and mixed content models. This separator is used
+     * to specify that the allowed child is one of a collection.
+     * <p>For example:</p>
      * <pre>
      * &lt;!ELEMENT elem (foo|bar)&gt;
      * &lt;!ELEMENT elem (foo|bar+)&gt;
@@ -58,10 +56,8 @@ public interface XMLDTDContentModelHandler {
     public static final short SEPARATOR_CHOICE = 0;
 
     /**
-     * A sequence separator for children content models. This separator 
-     * is used to specify that the allowed children must follow in the
-     * specified sequence.
-     * <p>
+     * A sequence separator for children content models. This separator is used to
+     * specify that the allowed children must follow in the specified sequence.
      * <pre>
      * &lt;!ELEMENT elem (foo,bar)&gt;
      * &lt;!ELEMENT elem (foo,bar*)&gt;
@@ -75,11 +71,9 @@ public interface XMLDTDContentModelHandler {
     // occurrence counts
 
     /** 
-     * This occurrence count limits the element, choice, or sequence in a
-     * children content model to zero or one. In other words, the child
-     * is optional.
-     * <p>
-     * For example:
+     * This occurrence count limits the element, choice, or sequence in a children content
+     * model to zero or one. In other words, the child is optional.
+     * <p>For example:</p>
      * <pre>
      * &lt;!ELEMENT elem (foo?)&gt;
      * </pre>
@@ -90,12 +84,10 @@ public interface XMLDTDContentModelHandler {
     public static final short OCCURS_ZERO_OR_ONE = 2;
 
     /** 
-     * This occurrence count limits the element, choice, or sequence in a
-     * children content model to zero or more. In other words, the child
-     * may appear an arbitrary number of times, or not at all. This
-     * occurrence count is also used for mixed content models.
-     * <p>
-     * For example:
+     * This occurrence count limits the element, choice, or sequence in a children content
+     * model to zero or more. In other words, the child may appear an arbitrary number of
+     * times, or not at all. This occurrence count is also used for mixed content models.
+     * <p>For example:</p>
      * <pre>
      * &lt;!ELEMENT elem (foo*)&gt;
      * &lt;!ELEMENT elem (#PCDATA|foo|bar)*&gt;
@@ -107,12 +99,10 @@ public interface XMLDTDContentModelHandler {
     public static final short OCCURS_ZERO_OR_MORE = 3;
 
     /** 
-     * This occurrence count limits the element, choice, or sequence in a
-     * children content model to one or more. In other words, the child
-     * may appear an arbitrary number of times, but must appear at least
-     * once.
-     * <p>
-     * For example:
+     * This occurrence count limits the element, choice, or sequence in a children content
+     * model to one or more. In other words, the child may appear an arbitrary number of
+     * times, but must appear at least once.
+     * <p>For example:</p>
      * <pre>
      * &lt;!ELEMENT elem (foo+)&gt;
      * </pre>
@@ -199,47 +189,43 @@ public interface XMLDTDContentModelHandler {
     /**
      * A referenced element in a mixed or children content model.
      * 
-     * @param elementName The name of the referenced element.
-     * @param augmentations Additional information that may include infoset
-     *                      augmentations.
+     * @param elementName the name of the referenced element
+     * @param augmentations additional information that may include infoset augmentations
      *
-     * @throws XNIException Thrown by handler to signal an error.
+     * @throws XNIException thrown by handler to signal an error
      */
-    public void element(String elementName, Augmentations augmentations) 
+    public void element(String elementName, Augmentations augmentations)
         throws XNIException;
 
     /**
      * The separator between choices or sequences of a mixed or children
      * content model.
      * 
-     * @param separator The type of children separator.
-     * @param augmentations Additional information that may include infoset
-     *                      augmentations.
+     * @param separator the type of children separator
+     * @param augmentations additional information that may include infoset augmentations
      *
-     * @throws XNIException Thrown by handler to signal an error.
+     * @throws XNIException thrown by handler to signal an error
      *
      * @see #SEPARATOR_CHOICE
      * @see #SEPARATOR_SEQUENCE
      */
-    public void separator(short separator, Augmentations augmentations) 
+    public void separator(short separator, Augmentations augmentations)
         throws XNIException;
 
     /**
      * The occurrence count for a child in a children content model or
      * for the mixed content model group.
      * 
-     * @param occurrence The occurrence count for the last element
-     *                   or group.
-     * @param augmentations Additional information that may include infoset
-     *                      augmentations.
+     * @param occurrence the occurrence count for the last element or group
+     * @param augmentations additional information that may include infoset augmentations
      *
-     * @throws XNIException Thrown by handler to signal an error.
+     * @throws XNIException thrown by handler to signal an error
      *
      * @see #OCCURS_ZERO_OR_ONE
      * @see #OCCURS_ZERO_OR_MORE
      * @see #OCCURS_ONE_OR_MORE
      */
-    public void occurrence(short occurrence, Augmentations augmentations) 
+    public void occurrence(short occurrence, Augmentations augmentations)
         throws XNIException;
 
     /**
@@ -262,10 +248,20 @@ public interface XMLDTDContentModelHandler {
      */
     public void endContentModel(Augmentations augmentations) throws XNIException;
 
-    // set content model source
+    /**
+     * Set content model source.
+     *
+     * @param source content model source
+     * @see XMLDTDContentModelSource
+     */
     public void setDTDContentModelSource(XMLDTDContentModelSource source);
 
-    // get content model source
+    /**
+     * Get content model source.
+     *
+     * @return content model source
+     * @see XMLDTDContentModelSource
+     */
     public XMLDTDContentModelSource getDTDContentModelSource();
 
 } // interface XMLDTDContentModelHandler

@@ -246,8 +246,8 @@ public final class XPointerHandler extends XIncludeHandler implements
                 if (openParenCount != closeParenCount) {
                     reportError("UnbalancedParenthesisInXPointerExpression",
                             new Object[] { xpointer,
-                                    new Integer(openParenCount),
-                                    new Integer(closeParenCount) });
+                                    Integer.valueOf(openParenCount),
+                                    Integer.valueOf(closeParenCount) });
                 }
 
                 // Perform scheme specific parsing of the pointer part
@@ -494,15 +494,15 @@ public final class XPointerHandler extends XIncludeHandler implements
         private Tokens(SymbolTable symbolTable) {
             fSymbolTable = symbolTable;
 
-            fTokenNames.put(new Integer(XPTRTOKEN_OPEN_PAREN),
+            fTokenNames.put(Integer.valueOf(XPTRTOKEN_OPEN_PAREN),
                     "XPTRTOKEN_OPEN_PAREN");
-            fTokenNames.put(new Integer(XPTRTOKEN_CLOSE_PAREN),
+            fTokenNames.put(Integer.valueOf(XPTRTOKEN_CLOSE_PAREN),
                     "XPTRTOKEN_CLOSE_PAREN");
-            fTokenNames.put(new Integer(XPTRTOKEN_SHORTHAND),
+            fTokenNames.put(Integer.valueOf(XPTRTOKEN_SHORTHAND),
                     "XPTRTOKEN_SHORTHAND");
-            fTokenNames.put(new Integer(XPTRTOKEN_SCHEMENAME),
+            fTokenNames.put(Integer.valueOf(XPTRTOKEN_SCHEMENAME),
                     "XPTRTOKEN_SCHEMENAME");
-            fTokenNames.put(new Integer(XPTRTOKEN_SCHEMEDATA),
+            fTokenNames.put(Integer.valueOf(XPTRTOKEN_SCHEMEDATA),
                     "XPTRTOKEN_SCHEMEDATA");
         }
 
@@ -512,7 +512,7 @@ public final class XPointerHandler extends XIncludeHandler implements
          * @return String The token string
          */
         private String getTokenString(int token) {
-            return (String) fTokenNames.get(new Integer(token));
+            return (String) fTokenNames.get(Integer.valueOf(token));
         }
 
         /**
@@ -523,7 +523,7 @@ public final class XPointerHandler extends XIncludeHandler implements
         private void addToken(String tokenStr) {
             Integer tokenInt = (Integer) fTokenNames.get(tokenStr);
             if (tokenInt == null) {
-                tokenInt = new Integer(fTokenNames.size());
+                tokenInt = Integer.valueOf(fTokenNames.size());
                 fTokenNames.put(tokenInt, tokenStr);
             }
             addToken(tokenInt.intValue());
@@ -566,7 +566,7 @@ public final class XPointerHandler extends XIncludeHandler implements
          * the current position by one.
          * 
          * throws If there's no such next token, this method throws
-         * <tt>new XNIException("XPointerProcessingError");</tt>.
+         * <code>new XNIException("XPointerProcessingError");</code>.
          */
         private int nextToken() throws XNIException {
             if (fCurrentTokenIndex == fTokenCount) {
@@ -578,9 +578,10 @@ public final class XPointerHandler extends XIncludeHandler implements
         /**
          * Obtains the token at the current position, without advancing
          * the current position.
-         * 
+         * <p>
          * If there's no such next token, this method throws
-         * <tt>new XNIException("XPointerProcessingError");</tt>.
+         * <code>new XNIException("XPointerProcessingError");</code>.
+         * </p>
          */
         private int peekToken() throws XNIException {
             if (fCurrentTokenIndex == fTokenCount) {
@@ -591,11 +592,12 @@ public final class XPointerHandler extends XIncludeHandler implements
 
         /**
          * Obtains the token at the current position as a String.
-         * 
+         * <p>
          * If there's no current token or if the current token
          * is not a string token, this method throws 
          * If there's no such next token, this method throws
-         * <tt>new XNIException("XPointerProcessingError");</tt>.
+         * <code>new XNIException("XPointerProcessingError");</code>.
+         * </p>
          */
         private String nextTokenAsString() throws XNIException {
             String tokenStrint = getTokenString(nextToken());

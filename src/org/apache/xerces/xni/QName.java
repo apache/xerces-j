@@ -24,6 +24,7 @@ package org.apache.xerces.xni;
  * To be used correctly, the strings must be identical references for
  * equal strings. Within the parser, these values are considered symbols
  * and should always be retrieved from the <code>SymbolTable</code>.
+ * </p>
  *
  * @see <a href="../../../../../xerces2/org/apache/xerces/util/SymbolTable.html">org.apache.xerces.util.SymbolTable</a>
  *
@@ -39,26 +40,23 @@ public class QName
     //
 
     /** 
-     * The qname prefix. For example, the prefix for the qname "a:foo"
-     * is "a".
+     * The qname's prefix. For example, the prefix for the qname "a:foo" is "a".
      */
     public String prefix;
 
     /** 
-     * The qname localpart. For example, the localpart for the qname "a:foo"
-     * is "foo".
+     * The qname's local part. For example, the localpart for the qname "a:foo" is "foo".
      */
     public String localpart;
 
     /** 
-     * The qname rawname. For example, the rawname for the qname "a:foo"
-     * is "a:foo".
+     * The qname's raw name. For example, the rawname for the qname "a:foo" is "a:foo".
      */
     public String rawname;
 
     /** 
-     * The URI to which the qname prefix is bound. This binding must be
-     * performed by a XML Namespaces aware processor.
+     * The URI to which the qname's prefix is bound. This binding must be
+     * performed by a XML Namespace-aware processor.
      */
     public String uri;
 
@@ -71,12 +69,21 @@ public class QName
         clear();
     } // <init>()
 
-    /** Constructs a QName with the specified values. */
+    /**
+     * Constructs a QName with the specified values.
+     * @param prefix    the qname prefix (e.g. "a")
+     * @param localpart the qname local part (e.g. "foo")
+     * @param rawname   the qname raw name (e.g. "a:foo")
+     * @param uri       the URI binding (e.g. "http://foo.com/mybinding")
+     */
     public QName(String prefix, String localpart, String rawname, String uri) {
         setValues(prefix, localpart, rawname, uri);
     } // <init>(String,String,String,String)
 
-    /** Constructs a copy of the specified QName. */
+    /**
+     * Constructs a copy of the specified QName.
+     * @param qname the qualified name
+     */
     public QName(QName qname) {
         setValues(qname);
     } // <init>(QName)
@@ -88,7 +95,7 @@ public class QName
     /**
      * Convenience method to set the values of the qname components.
      * 
-     * @param qname The qualified name to be copied.
+     * @param qname the qualified name to be copied
      */
     public void setValues(QName qname) {
         prefix = qname.prefix;
@@ -100,10 +107,10 @@ public class QName
     /**
      * Convenience method to set the values of the qname components.
      * 
-     * @param prefix    The qname prefix. (e.g. "a")
-     * @param localpart The qname localpart. (e.g. "foo")
-     * @param rawname   The qname rawname. (e.g. "a:foo")
-     * @param uri       The URI binding. (e.g. "http://foo.com/mybinding")
+     * @param prefix    the qname prefix. (e.g. "a")
+     * @param localpart the qname local part. (e.g. "foo")
+     * @param rawname   the qname raw name. (e.g. "a:foo")
+     * @param uri       the URI binding. (e.g. "http://foo.com/mybinding")
      */
     public void setValues(String prefix, String localpart, String rawname, 
                           String uri) {
@@ -125,7 +132,11 @@ public class QName
     // Cloneable methods
     //
 
-    /** Returns a clone of this object. */
+    /**
+     * Returns a clone of this object.
+     *
+     * @return a clone of this object
+     */
     public Object clone() {
         return new QName(this);
     } // clone():Object
@@ -134,7 +145,11 @@ public class QName
     // Object methods
     //
 
-    /** Returns the hashcode for this object. */
+    /**
+     * Returns the hashcode for this object.
+     *
+     * @return the hashcode for this object
+     */
     public int hashCode() {
         if (uri != null) {
             return uri.hashCode() + 
@@ -143,7 +158,11 @@ public class QName
         return (rawname != null) ? rawname.hashCode() : 0;
     } // hashCode():int
 
-    /** Returns true if the two objects are equal. */
+    /**
+     * Returns true if the two objects are equal.
+     *
+     * @return true if the two objects are equal
+     */
     public boolean equals(Object object) {
         if (object instanceof QName) {
             QName qname = (QName)object;
@@ -158,7 +177,11 @@ public class QName
         return false;
     } // equals(Object):boolean
 
-    /** Returns a string representation of this object. */
+    /**
+     * Returns a string representation of this object.
+     *
+     * @return a string representation of this object
+     */
     public String toString() {
 
         StringBuffer str = new StringBuffer();

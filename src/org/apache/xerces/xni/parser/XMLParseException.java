@@ -64,7 +64,12 @@ public class XMLParseException
     // Constructors
     //
 
-    /** Constructs a parse exception. */
+    /**
+     * Constructs an XML parse exception with an <code>XMLLocator</code> and a message.
+     *
+     * @param locator an <code>XMLLocator</code>
+     * @param message the exception message
+     */
     public XMLParseException(XMLLocator locator, String message) {
         super(message);
         if (locator != null) {
@@ -78,7 +83,13 @@ public class XMLParseException
         }
     } // <init>(XMLLocator,String)
 
-    /** Constructs a parse exception. */
+    /**
+     * Constructs an XML parse exception with an <code>XMLLocator</code>, a message, and a wrapped exception.
+     *
+     * @param locator an <code>XMLLocator</code>
+     * @param message the exception message
+     * @param exception the wrapped exception
+     */
     public XMLParseException(XMLLocator locator,
                              String message, Exception exception) {
         super(message, exception);

@@ -38,17 +38,17 @@ import org.w3c.dom.Element;
  * @author <a href="mailto:Scott_Boag/CAM/Lotus@lotus.com">Scott Boag</a>
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  */
+@Deprecated
 public interface DOMSerializer
 {
 
 
     /**
      * Serialized the DOM element. Throws an exception only if
-     * an I/O exception occured while serializing.
+     * an I/O exception occurred while serializing.
      *
-     * @param elem The element to serialize
-     * @throws IOException An I/O exception occured while
-     *   serializing
+     * @param elem the element to serialize
+     * @throws IOException an I/O exception occurred while serializing
      */
     public void serialize( Element elem )
         throws IOException;
@@ -56,11 +56,10 @@ public interface DOMSerializer
 
     /**
      * Serializes the DOM document. Throws an exception only if
-     * an I/O exception occured while serializing.
+     * an I/O exception occurred while serializing.
      *
-     * @param doc The document to serialize
-     * @throws IOException An I/O exception occured while
-     *   serializing
+     * @param doc the document to serialize
+     * @throws IOException an I/O exception occurred while serializing
      */
     public void serialize( Document doc )
         throws IOException;
@@ -68,11 +67,10 @@ public interface DOMSerializer
 
     /**
      * Serializes the DOM document fragment. Throws an exception
-     * only if an I/O exception occured while serializing.
+     * only if an I/O exception occurred while serializing.
      *
-     * @param frag The document fragment to serialize
-     * @throws IOException An I/O exception occured while
-     *   serializing
+     * @param frag the document fragment to serialize
+     * @throws IOException an I/O exception occurred while serializing
      */
     public void serialize( DocumentFragment frag )
         throws IOException;

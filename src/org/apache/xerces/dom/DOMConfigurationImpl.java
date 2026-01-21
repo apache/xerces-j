@@ -20,6 +20,7 @@ package org.apache.xerces.dom;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
@@ -228,7 +229,10 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
     /** Symbol table. */
     protected SymbolTable fSymbolTable;
 
-    /** Components. */
+    /**
+     * Components.
+     * @see XMLComponent
+     */
     protected ArrayList fComponents;
 
     protected ValidationManager fValidationManager;
@@ -371,7 +375,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
         }
         fSymbolTable = symbolTable;
 
-        fComponents = new ArrayList();
+        fComponents = new ArrayList<XMLComponent>();
 
         setProperty(SYMBOL_TABLE, fSymbolTable);
         fErrorReporter = new XMLErrorReporter();
@@ -766,7 +770,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
                             // tokenize location string
                             StringTokenizer t = new StringTokenizer(fSchemaLocation, " \n\t\r");
                             if (t.hasMoreTokens()) {
-                                ArrayList locations = new ArrayList();
+                                final List<String> locations = new ArrayList<>();
                                 locations.add(t.nextToken());
                                 while (t.hasMoreTokens()) {
                                     locations.add (t.nextToken());
@@ -1051,7 +1055,7 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
      */
 	public DOMStringList getParameterNames() {
 	    if (fRecognizedParameters == null){
-	        ArrayList parameters = new ArrayList();
+	        ArrayList<String> parameters = new ArrayList<>();
 
 	        //Add DOM recognized parameters
 	        //REVISIT: Would have been nice to have a list of
@@ -1087,7 +1091,6 @@ public class DOMConfigurationImpl extends ParserConfigurationSettings
 	        parameters.add(SEND_PSVI);
 
 	        fRecognizedParameters = new DOMStringListImpl(parameters);
-
 	    }
 
 	    return fRecognizedParameters;

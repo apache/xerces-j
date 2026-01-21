@@ -29,35 +29,47 @@ import java.math.BigInteger;
 public interface XSDecimal {
      
     /**
+     * Returns the <code>BigDecimal</code> representation of this object.
+     *
      * @return the <code>BigDecimal</code> representation of this object
      */
     public BigDecimal getBigDecimal();
     
     /**
+     * Returns the <code>BigInteger</code> representation of this object.
+     *
      * @return the <code>BigInteger</code> representation of this object 
-     * @exception NumberFormatException if the value cannot be represented as a <code>BigInteger</code> 
+     * @throws NumberFormatException if the value cannot be represented as a <code>BigInteger</code>
      */
     public BigInteger getBigInteger() throws NumberFormatException;
     
     /**
+     * Returns the long value representation of this object.
+     *
      * @return the long value representation of this object
      * @exception NumberFormatException if the value cannot be represented as a <code>long</code>
      */
     public long getLong() throws NumberFormatException;
     
     /**
+     * Returns the int value representation of this object.
+     *
      * @return the int value representation of this object
      * @exception NumberFormatException if the value cannot be represented as a <code>int</code>
      */
     public int getInt() throws NumberFormatException;
     
     /**
+     * Returns the short value representation of this object.
+     *
      * @return the short value representation of this object
      * @exception NumberFormatException if the value cannot be represented as a <code>short</code>
      */
     public short getShort() throws NumberFormatException;
     
     /**
+     * Returns the byte value representation of this object.
+     *
      * @return the byte value representation of this object
      * @exception NumberFormatException if the value cannot be represented as a <code>byte</code>
      */

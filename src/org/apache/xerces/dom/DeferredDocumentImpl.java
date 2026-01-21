@@ -27,14 +27,15 @@ import org.w3c.dom.Node;
  * The Document interface represents the entire HTML or XML document.
  * Conceptually, it is the root of the document tree, and provides the
  * primary access to the document's data.
- * <P>
+ * <p>
  * Since elements, text nodes, comments, processing instructions,
  * etc. cannot exist outside the context of a Document, the Document
  * interface also contains the factory methods needed to create these
  * objects. The Node objects created have a ownerDocument attribute
  * which associates them with the Document within whose context they
  * were created.
- * 
+ * </p>
+ *
  * @xerces.internal
  *
  * @version $Id$
@@ -367,8 +368,8 @@ public class DeferredDocumentImpl
      * Creates an element node with a URI in the table and type information.
      * @deprecated
      */
-    public int createDeferredElement(String elementURI, String elementName, 
-                                      Object type) {
+    @Deprecated
+    public int createDeferredElement(String elementURI, String elementName, Object type) {
 
         // create node
         int elementNodeIndex = createNode(Node.ELEMENT_NODE);
@@ -387,6 +388,7 @@ public class DeferredDocumentImpl
      * Creates an element node in the table.
      * @deprecated 
      */
+    @Deprecated
     public int createDeferredElement(String elementName) {
         return createDeferredElement(null, elementName);
     }
@@ -472,6 +474,7 @@ public class DeferredDocumentImpl
      * Sets an attribute on an element node.
      * @deprecated
      */
+    @Deprecated
     public int setDeferredAttribute(int elementNodeIndex,
                                     String attrName, String attrURI,
                                     String attrValue, boolean specified) {

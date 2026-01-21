@@ -84,10 +84,21 @@ class RegexParser {
     public RegexParser() {
         this.setLocale(Locale.getDefault());
     }
+
+    /**
+     * Create a new RegexParser with the desired locale.
+     *
+     * @param locale the desired locale or null
+     */
     public RegexParser(Locale locale) {
         this.setLocale(locale);
     }
 
+    /**
+     * Set the locale for the regex parser.
+     *
+     * @param locale the desired locale or null
+     */
     public void setLocale(Locale locale) {
         try {
             if (locale != null) {
@@ -836,6 +847,11 @@ class RegexParser {
         return tok;
     }
 
+    /**
+     * @param c char data
+     * @return a {@link RangeToken}
+     * @throws ParseException if regex does not conform to the syntax
+     */
     protected RangeToken processBacksolidus_pP(int c) throws ParseException {
 
         this.next();

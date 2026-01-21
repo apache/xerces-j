@@ -43,6 +43,7 @@ import java.io.Writer;
  * @version $Revision$ $Date$
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  */
+@Deprecated
 public class Printer
 {
 
@@ -103,6 +104,12 @@ public class Printer
     private int           _pos = 0;
 
 
+    /**
+     * Create a new Printer instance with the desired char stream and output format.
+     *
+     * @param writer an output char stream that will be written to
+     * @param format the output format to use
+     */
     public Printer( Writer writer, OutputFormat format)
     {
         _writer = writer;
@@ -114,6 +121,12 @@ public class Printer
     }
 
 
+    /**
+     * If the serializer encountered an exception it is held until the serializer finishes.
+     * <p>This allows the serializer to retrieve the exception after flushing, if one exists.</p>
+     *
+     * @return an IOException or null
+     */
     public IOException getException()
     {
         return _exception;
@@ -127,6 +140,8 @@ public class Printer
      * This method may be called any number of time but will only
      * have affect the first time it's called. To exist DTD state
      * and get the accumulated DTD, call {@link #leaveDTD}.
+     *
+     * @throws IOException can be thrown by underlying call to {@link Printer#flushLine(boolean)}
      */
     public void enterDTD()
         throws IOException
@@ -147,6 +162,9 @@ public class Printer
      * Called by the root element to leave DTD mode and if any
      * DTD parts were printer, will return a string with their
      * textual content.
+     *
+     * @return a string of DTD content or null
+     * @throws IOException can be thrown by underlying call to {@link Printer#flushLine(boolean)}
      */
     public String leaveDTD()
         throws IOException
@@ -161,7 +179,16 @@ public class Printer
         return null;
     }
 
-
+    /**
+     * Called to print additional text. Each time this method is called
+     * it accumulates more text. When a space is printed ({@link #printSpace})
+     * all the accumulated text becomes one part and is added to the
+     * accumulate line. When a line is long enough, it can be broken at
+     * its text boundary.
+     *
+     * @param text the value to write to the buffer
+     * @throws IOException can be thrown by underlying call to {@link Writer#write(char[])}
+     */
     public void printText( String text )
         throws IOException
     {
@@ -184,7 +211,12 @@ public class Printer
         }
     }
 
-
+    /**
+     * Same as {@link #printText(String)} but this method takes a {@link StringBuffer}.
+     *
+     * @param text the value to write to the buffer
+     * @throws IOException can be thrown by underlying call to {@link Writer#write(char[])}
+     */
     public void printText( StringBuffer text )
         throws IOException
     {
@@ -230,7 +262,12 @@ public class Printer
         }
     }
 
-
+    /**
+     * Writes the char value to the underlying Writer
+     *
+     * @param ch character value
+     * @throws IOException if an I/O error occurs
+     */
     public void printText( char ch )
         throws IOException
     {
@@ -317,6 +354,8 @@ public class Printer
     /**
      * Flush the output stream. Must be called when done printing
      * the document, otherwise some text might be buffered.
+     *
+     * @throws IOException if an I/O exception occurs while writing/flushing
      */
     public void flush()
         throws IOException

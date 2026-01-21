@@ -57,6 +57,7 @@ import org.w3c.dom.DOMException;
  * @author Neil Graham
  * @version $Id$
  */
+@Deprecated
 public class ASModelImpl implements ASModel {
 
     //
@@ -336,8 +337,9 @@ public class ASModelImpl implements ASModel {
     }
 
     /**
-     * To retrieve a list of nested ASModels without reference to names. 
-     * @return A list of ASModels. 
+     * To retrieve a list of nested ASModels without reference to names.
+     *
+     * @return a list of ASModels
      */
     public ASObjectList getASModels() {
         String msg = DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "NOT_SUPPORTED_ERR", null);
@@ -345,9 +347,9 @@ public class ASModelImpl implements ASModel {
     }
 
     /**
-     * Removes only the specified <code>ASModel</code> from the list of 
-     * <code>ASModel</code>s.
-     * @param as AS to be removed.
+     * Removes only the specified <code>ASModel</code> from the list of <code>ASModel</code>s.
+     *
+     * @param as <code>ASModel</code> to be removed
      */
     public void removeAS(ASModel as) {
     	fASModels.removeElement(as);
@@ -355,9 +357,9 @@ public class ASModelImpl implements ASModel {
 
     /**
      * Determines if an <code>ASModel</code> itself is valid, i.e., confirming 
-     * that it's well-formed and valid per its own formal grammar. 
-     * @return <code>true</code> if the <code>ASModel</code> is valid, 
-     *   <code>false</code> otherwise.
+     * that it's well-formed and valid per its own formal grammar.
+     *
+     * @return <code>true</code> if the <code>ASModel</code> is valid, <code>false</code> otherwise
      */
     public boolean validate() {
         String msg = DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "NOT_SUPPORTED_ERR", null);
@@ -384,19 +386,19 @@ public class ASModelImpl implements ASModel {
     
     /**
      * Creates an element declaration for the element type specified.
-     * @param namespaceURI The <code>namespace URI</code> of the element type 
-     *   being declared. 
-     * @param name The name of the element. The format of the name could be 
+     *
+     * @param namespaceURI the <code>namespace URI</code> of the element type
+     *   being declared
+     * @param name the name of the element. The format of the name could be
      *   an NCName as defined by XML Namespaces or a Name as defined by XML 
-     *   1.0; it's ASModel-dependent. 
-     * @return A new <code>ASElementDeclaration</code> object with 
+     *   1.0; it's ASModel-dependent.
+     * @return a new <code>ASElementDeclaration</code> object with
      *   <code>name</code> attribute set to <code>tagname</code> and 
      *   <code>namespaceURI</code> set to <code>systemId</code>. Other 
      *   attributes of the element declaration are set through 
      *   <code>ASElementDeclaration</code> interface methods.
-     * @exception DOMException
-     *   INVALID_CHARACTER_ERR: Raised if the specified name contains an 
-     *   illegal character.
+     * @throws DOMException
+     *   INVALID_CHARACTER_ERR: Raised if the specified name contains an illegal character
      */
     public ASElementDeclaration createASElementDeclaration(String namespaceURI, 
                                                            String name)
@@ -407,13 +409,13 @@ public class ASModelImpl implements ASModel {
 
     /**
      * Creates an attribute declaration.
-     * @param namespaceURI The namespace URI of the attribute being declared.
-     * @param name The name of the attribute. The format of the name could be 
+     * @param namespaceURI the namespace URI of the attribute being declared.
+     * @param name the name of the attribute. The format of the name could be
      *   an NCName as defined by XML Namespaces or a Name as defined by XML 
      *   1.0; it's ASModel-dependent. 
-     * @return A new <code>ASAttributeDeclaration</code> object with 
+     * @return a new <code>ASAttributeDeclaration</code> object with
      *   appropriate attributes set by input parameters.
-     * @exception DOMException
+     * @throws DOMException
      *   INVALID_CHARACTER_ERR: Raised if the input <code>name</code> 
      *   parameter contains an illegal character.
      */
@@ -425,20 +427,20 @@ public class ASModelImpl implements ASModel {
     }
 
     /**
-     * Creates a new notation declaration. 
-     * @param namespaceURI The namespace URI of the notation being declared.
-     * @param name The name of the notation. The format of the name could be 
+     * Creates a new notation declaration.
+     *
+     * @param namespaceURI the namespace URI of the notation being declared
+     * @param name the name of the notation. The format of the name could be
      *   an NCName as defined by XML Namespaces or a Name as defined by XML 
-     *   1.0; it's ASModel-dependent. 
-     * @param systemId The system identifier for the notation declaration.
-     * @param publicId The public identifier for the notation declaration.
+     *   1.0; it's ASModel-dependent.
+     * @param systemId the system identifier for the notation declaration
+     * @param publicId the public identifier for the notation declaration
      * @return A new <code>ASNotationDeclaration</code> object with 
      *   <code>notationName</code> attribute set to <code>name</code> and 
      *   <code>publicId</code> and <code>systemId</code> set to the 
-     *   corresponding fields.
-     * @exception DOMException
-     *   INVALID_CHARACTER_ERR: Raised if the specified name contains an 
-     *   illegal character.
+     *   corresponding fields
+     * @throws DOMException
+     *   INVALID_CHARACTER_ERR: Raised if the specified name contains an illegal character
      */
     public ASNotationDeclaration createASNotationDeclaration(String namespaceURI, String name, 
                                                              String systemId, String publicId)
@@ -448,13 +450,12 @@ public class ASModelImpl implements ASModel {
     }
     
     /**
-     * Creates an ASEntityDeclaration. 
-     * @param name The name of the entity being declared.
-     * @return A new <code>ASEntityDeclaration</code> object with 
-     *   <code>entityName</code> attribute set to name.
-     * @exception DOMException
-     *   INVALID_CHARACTER_ERR: Raised if the specified name contains an 
-     *   illegal character.
+     * Creates an ASEntityDeclaration.
+     *
+     * @param name the name of the entity being declared
+     * @return a new <code>ASEntityDeclaration</code> object with <code>entityName</code> attribute set to name
+     * @throws DOMException
+     *   INVALID_CHARACTER_ERR: Raised if the specified name contains an illegal character
      */
     public ASEntityDeclaration createASEntityDeclaration(String name)
                                                          throws DOMException {
@@ -463,18 +464,15 @@ public class ASModelImpl implements ASModel {
     }
 
     /**
-     * Creates an object which describes part of an 
-     * <code>ASElementDeclaration</code>'s content model. 
-     * @param minOccurs The minimum occurrence for the subModels of this 
-     *   <code>ASContentModel</code>.
-     * @param maxOccurs The maximum occurrence for the subModels of this 
-     *   <code>ASContentModel</code>.
+     * Creates an object which describes part of an <code>ASElementDeclaration</code>'s content model.
+     *
+     * @param minOccurs the minimum occurrence for the subModels of this <code>ASContentModel</code>
+     * @param maxOccurs the maximum occurrence for the subModels of this <code>ASContentModel</code>
      * @param operator operator of type <code>AS_CHOICE</code>, 
      *   <code>AS_SEQUENCE</code>, <code>AS_ALL</code> or 
-     *   <code>AS_NONE</code>.
-     * @return A new <code>ASContentModel</code> object.
-     * @exception DOMASException
-     *   A DOMASException, e.g., <code>minOccurs &gt; maxOccurs</code>.
+     *   <code>AS_NONE</code>
+     * @return a new <code>ASContentModel</code> object
+     * @throws DOMASException a DOMASException, e.g., <code>minOccurs &gt; maxOccurs</code>
      */
     public ASContentModel createASContentModel(int minOccurs, int maxOccurs, 
                                                short operator) throws DOMASException {

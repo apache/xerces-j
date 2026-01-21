@@ -25,21 +25,24 @@ import org.w3c.dom.NodeList;
 /**
  * This class implements the DOM's NodeList behavior for
  * Element.getElementsByTagName()
- * <P>
+ * <p>
  * The DOM describes NodeList as follows:
- * <P>
+ * </p>
+ * <p>
  * 1) It may represent EITHER nodes scattered through a subtree (when
  * returned by Element.getElementsByTagName), or just the immediate
  * children (when returned by Node.getChildNodes). The latter is easy,
  * but the former (which this class addresses) is more challenging.
- * <P>
+ * </p>
+ * <p>
  * 2) Its behavior is "live" -- that is, it always reflects the
  * current state of the document tree. To put it another way, the
  * NodeLists obtained before and after a series of insertions and
  * deletions are effectively identical (as far as the user is
  * concerned, the former has been dynamically updated as the changes
  * have been made).
- * <P>
+ * </p>
+ * <p>
  * 3) Its API accesses individual nodes via an integer index, with the
  * listed nodes numbered sequentially in the order that they were
  * found during a preorder depth-first left-to-right search of the tree.
@@ -47,31 +50,36 @@ import org.w3c.dom.NodeList;
  * nodes are inserted or deleted in the tree, and hence the NodeList,
  * the numbering of nodes that follow them in the NodeList will
  * change.
- * <P>
+ * </p>
+ * <p>
  * It is rather painful to support the latter two in the
  * getElementsByTagName case. The current solution is for Nodes to
  * maintain a change count (eventually that may be a Digest instead),
  * which the NodeList tracks and uses to invalidate itself.
- * <P>
+ * </p>
+ * <p>
  * Unfortunately, this does _not_ respond efficiently in the case that
  * the dynamic behavior was supposed to address: scanning a tree while
  * it is being extended. That requires knowing which subtrees have
  * changed, which can become an arbitrarily complex problem.
- * <P>
+ * </p>
+ * <p>
  * We save some work by filling the ArrayList only as we access the
  * item()s... but I suspect the same users who demanded index-based
  * access will also start by doing a getLength() to control their loop,
  * blowing this optimization out of the water.
- * <P>
+ * </p>
+ * <p>
  * NOTE: Level 2 of the DOM will probably _not_ use NodeList for its
  * extended search mechanisms, partly for the reasons just discussed.
- * 
+ * </p>
+ *
  * @xerces.internal
  *
  * @version $Id$
  * @since  PR-DOM-Level-1-19980818.
  */
-public class DeepNodeListImpl 
+public class DeepNodeListImpl
     implements NodeList {
 
     //
@@ -81,7 +89,7 @@ public class DeepNodeListImpl
     protected NodeImpl rootNode; // Where the search started
     protected String tagName;   // Or "*" to mean all-tags-acceptable
     protected int changes=0;
-    protected ArrayList nodes;
+    protected ArrayList nodes; // list of Node
     
     protected String nsName;
     protected boolean enableNS = false;
@@ -94,7 +102,7 @@ public class DeepNodeListImpl
     public DeepNodeListImpl(NodeImpl rootNode, String tagName) {
         this.rootNode = rootNode;
         this.tagName  = tagName;
-        nodes = new ArrayList();
+        nodes = new ArrayList<Node>();
     }  
 
     /** Constructor for Namespace support. */
@@ -122,7 +130,7 @@ public class DeepNodeListImpl
 
         // Tree changed. Do it all from scratch!
     	if (rootNode.changes() != changes) {
-            nodes   = new ArrayList();     
+            nodes   = new ArrayList<Node>();
             changes = rootNode.changes();
     	}
     
@@ -164,6 +172,9 @@ public class DeepNodeListImpl
      * Iterative tree-walker. When you have a Parent link, there's often no
      * need to resort to recursion. NOTE THAT only Element nodes are matched
      * since we're specifically supporting getElementsByTagName().
+     *
+     * @param current the current node
+     * @return @return the next matching node after the current one, or <code>null</code>
      */
     protected Node nextMatchingElementAfter(Node current) {
 

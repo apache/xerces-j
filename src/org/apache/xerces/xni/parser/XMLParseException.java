@@ -123,7 +123,7 @@ public class XMLParseException
         return fLiteralSystemId;
     } // getLiteralSystemId():String
 
-    /** Returns the base system identifier. */
+    /** Returns the URI against which the system identifier should be resolved. */
     public String getBaseSystemId() {
         return fBaseSystemId;
     } // getBaseSystemId():String

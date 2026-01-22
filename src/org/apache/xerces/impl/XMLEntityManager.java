@@ -543,12 +543,11 @@ public class XMLEntityManager
      * <strong>Note:</strong> The name should be a unique symbol. The
      * SymbolTable can be used for this purpose.
      *
-     * @param name         The name of the entity.
-     * @param publicId     The public identifier of the entity.
-     * @param literalSystemId     The system identifier of the entity.
-     * @param baseSystemId The base system identifier of the entity.
-     *                     This is the system identifier of the entity
-     *                     where <em>the entity being added</em> and
+     * @param name         the name of the entity
+     * @param publicId     the public identifier of the entity
+     * @param literalSystemId the system identifier of the entity
+     * @param baseSystemId the base URL of the entity. This is the URL of the entity
+     *                     where <em>the entity is being added</em> and
      *                     is used to expand the system identifier when
      *                     the system identifier is a relative URI.
      *                     When null the system identifier of the first

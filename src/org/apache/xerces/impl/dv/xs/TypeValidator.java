@@ -40,6 +40,7 @@ import org.apache.xerces.util.XMLChar;
 public abstract class TypeValidator {
     
     private static final boolean USE_CODE_POINT_COUNT_FOR_STRING_LENGTH = AccessController.doPrivileged(new PrivilegedAction() {
+        @Override
         public Object run() {
             try {
                 return Boolean.getBoolean("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength") ? Boolean.TRUE : Boolean.FALSE;
@@ -48,19 +49,41 @@ public abstract class TypeValidator {
             return Boolean.FALSE;
         }}) == Boolean.TRUE;
 
-    // which facets are allowed for this type
+    /**
+     * Which facets are allowed for this type.
+     * <p>{@link org.apache.xerces.xs.XSSimpleTypeDefinition} defines constants for various facets</p>
+     *
+     * @return a bit-combination of allowed facets
+     *
+     * @see org.apache.xerces.xs.XSSimpleTypeDefinition
+     */
     public abstract short getAllowedFacets();
 
-    // convert a string to an actual value. for example,
-    // for number types (decimal, double, float, and types derived from them),
-    // get the BigDecimal, Double, Flout object.
-    // for some types (string and derived), they just return the string itself
+    /**
+     * Converts a string to an actual value.
+     * <p>For example: for number types (decimal, double, float, and types derived from them),
+     * get the BigDecimal, Double, or Float objects.
+     * For string and derived types, they just return the string itself.
+     * </p>
+     *
+     * @param content the string value that needs to be converted to an actual value
+     * @param context the validation context
+     *
+     * @throws InvalidDatatypeValueException if the content is invalid
+     */
     public abstract Object getActualValue(String content, ValidationContext context)
         throws InvalidDatatypeValueException;
 
-    // for ID/IDREF/ENTITY types, do some extra checking after the value is
-    // checked to be valid with respect to both lexical representation and
-    // facets
+    /**
+     * Check extra rules.
+     * <p>For ID, IDREF, and ENTITY types, do some extra checking after the value is checked
+     * to be valid with respect to both lexical representation and facets.</p>
+     *
+     * @param value the value for which additional checks will be made
+     * @param context the validation context
+     *
+     * @throws InvalidDatatypeValueException if the value is invalid
+     */
     public void checkExtraRules(Object value, ValidationContext context) throws InvalidDatatypeValueException {
     }
 
@@ -74,23 +97,44 @@ public abstract class TypeValidator {
     public static final short EQUAL         = 0;
     public static final short GREATER_THAN  = 1;
     public static final short INDETERMINATE = 2;
-    
-    // where there is distinction between identity and equality, this method
-    // will be overwritten
-    // checks whether the two values are identical; for ex, this distinguishes 
-    // -0.0 from 0.0 
+
+    /**
+     * Is identical checks whether the two values are identical.
+     * <p>For example; this distinguishes -0.0 from 0.0</p>
+     * <p>Where there is distinction between identity and equality, this method will
+     * be overwritten.</p>
+     *
+     * @param value1 a value to compare
+     * @param value2 a value to compare
+     * @return true if the values are identical
+     */
     public boolean isIdentical (Object value1, Object value2) {
         return value1.equals(value2);
     }
 
-    // check the order relation between the two values
-    // the parameters are in compiled form (from getActualValue)
+    /**
+     * Checks the order relation between two values.
+     * <p>The parameters are in compiled form (from {@link #getActualValue(String, ValidationContext)})</p>
+     * <p>This class should be overridden with the first value calling <code>compareTo()</code> with
+     * the second value.</p>
+     * <p><em>Note</em>: The default behaviour in TypeValidator is to return -1</p>
+     *
+     * @param value1 a value to compare
+     * @param value2 a value to compare
+     * @return either -1, 0, or 1 to indicate if the first arg should be considered before, same, or after the second arg
+     */
+    // note that this exists because Xerces predates JDK 1.2, should really use java.lang.Comparable now
     public int compare(Object value1, Object value2) {
         return -1;
     }
 
-    // get the length of the value
-    // the parameters are in compiled form (from getActualValue)
+    /**
+     * Get the length of the value.
+     * <p>The parameters are in compiled form (from {@link #getActualValue(String, ValidationContext)})</p>
+     *
+     * @param value the data to check
+     * @return the length of the value
+     */
     public int getDataLength(Object value) {
         if (value instanceof String) {
             final String str = (String)value;
@@ -102,14 +146,24 @@ public abstract class TypeValidator {
         return -1;
     }
 
-    // get the number of digits of the value
-    // the parameters are in compiled form (from getActualValue)
+    /**
+     * Get the number of digits of the value.
+     * <p>The parameters are in compiled form (from {@link #getActualValue(String, ValidationContext)})</p>
+     *
+     * @param value the data to check
+     * @return the number of digits of the value
+     */
     public int getTotalDigits(Object value) {
         return -1;
     }
 
-    // get the number of fraction digits of the value
-    // the parameters are in compiled form (from getActualValue)
+    /**
+     * Get the number of fraction digits of the value.
+     * <p>The parameters are in compiled form (from {@link #getActualValue(String, ValidationContext)})</p>
+     *
+     * @param value the data to check
+     * @return the number of fraction digits of the value
+     */
     public int getFractionDigits(Object value) {
         return -1;
     }
@@ -133,13 +187,24 @@ public abstract class TypeValidator {
         return len - surrogatePairCount;
     }
 
-    // check whether the character is in the range 0x30 ~ 0x39
+    /**
+     * Check whether the char is a digit or not
+     * <p>check whether the character is in the range <code>0x30 ~ 0x39</code></p>
+     *
+     * @param ch the char value to check
+     * @return true if the char is an ASCII digit
+     */
     public static final boolean isDigit(char ch) {
         return ch >= '0' && ch <= '9';
     }
-    
-    // if the character is in the range 0x30 ~ 0x39, return its int value (0~9),
-    // otherwise, return -1
+
+    /**
+     * Get the numeric value of the digit, or -1.
+     * <p>If the character is in the range <code>0x30 ~ 0x39</code>, return its int value (0~9), otherwise, return -1</p>
+     *
+     * @param ch the char value to check
+     * @return the numeric value of the digit, or -1
+     */
     public static final int getDigit(char ch) {
         return isDigit(ch) ? ch - '0' : -1;
     }

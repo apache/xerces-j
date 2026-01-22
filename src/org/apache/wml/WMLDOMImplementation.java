@@ -25,6 +25,8 @@ import org.w3c.dom.DOMImplementation;
  *
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
+@Deprecated
 public interface WMLDOMImplementation extends DOMImplementation {
 }

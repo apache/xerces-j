@@ -90,6 +90,7 @@ import org.xml.sax.SAXNotSupportedException;
  * <p>
  * This component requires the following features and properties from the
  * component manager that uses it:
+ * </p>
  * <ul>
  *  <li>http://xml.org/sax/features/allow-dtd-events-after-endDTD</li>
  *  <li>http://apache.org/xml/properties/internal/error-reporter</li>
@@ -99,7 +100,7 @@ import org.xml.sax.SAXNotSupportedException;
  * <ul>
  *  <li>http://apache.org/xml/properties/input-buffer-size</li>
  * </ul>
- * 
+ * <p>
  * Furthermore, the <code>NamespaceContext</code> used in the pipeline is required
  * to be an instance of <code>XIncludeNamespaceSupport</code>.
  * </p>
@@ -610,13 +611,9 @@ public class XIncludeHandler
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
-    public void setFeature(String featureId, boolean state)
-        throws XMLConfigurationException {
+    public void setFeature(String featureId, boolean state) throws XMLConfigurationException {
         if (featureId.equals(ALLOW_UE_AND_NOTATION_EVENTS)) {
             fSendUEAndNotationEvents = state;
         }
@@ -642,16 +639,12 @@ public class XIncludeHandler
      * <strong>Note:</strong> Components should silently ignore properties
      * that do not affect the operation of the component.
      *
-     * @param propertyId The property identifier.
-     * @param value      The value of the property.
+     * @param propertyId the property identifier
+     * @param value the value of the property
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a property is not recognized or cannot be set
      */
-    public void setProperty(String propertyId, Object value)
-        throws XMLConfigurationException {
+    public void setProperty(String propertyId, Object value) throws XMLConfigurationException {
         if (propertyId.equals(SYMBOL_TABLE)) {
             fSymbolTable = (SymbolTable)value;
             if (fChildConfig != null) {

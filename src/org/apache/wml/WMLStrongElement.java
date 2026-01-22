@@ -26,13 +26,16 @@ package org.apache.wml;
  *
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
-
+@Deprecated
 public interface WMLStrongElement extends WMLElement {
     /**
      * The xml:lang that specifics the natural or formal language in
      * which the document is written.
      * (Section 8.8, WAP WML Version 16-Jun-1999)
+     *
+     * @param newValue a language identifier as defined by <a href="https://www.w3.org/TR/xml/#RFC1766">IETF BCP 47</a> or an empty string
      */
     public void setXmlLang(String newValue);
     public String getXmlLang();

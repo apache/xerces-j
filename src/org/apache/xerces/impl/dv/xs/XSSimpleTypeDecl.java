@@ -586,47 +586,58 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         return this;
     }
 
+    @Override
     public short getType () {
         return XSConstants.TYPE_DEFINITION;
     }
 
+    @Override
     public short getTypeCategory () {
         return SIMPLE_TYPE;
     }
 
+    @Override
     public String getName() {
         return getAnonymous()?null:fTypeName;
     }
 
+    @Override
     public String getTypeName() {
         return fTypeName;
     }
 
+    @Override
     public String getNamespace() {
         return fTargetNamespace;
     }
 
+    @Override
     public short getFinal(){
         return fFinalSet;
     }
 
+    @Override
     public boolean isFinal(short derivation) {
         return (fFinalSet & derivation) != 0;
     }
 
+    @Override
     public XSTypeDefinition getBaseType(){
         return fBase;
     }
 
+    @Override
     public boolean getAnonymous() {
         return fAnonymous || (fTypeName == null);
     }
 
+    @Override
     public short getVariety(){
         // for anySimpleType, return absent variaty
         return fValidationDV == DV_ANYSIMPLETYPE ? VARIETY_ABSENT : fVariety;
     }
 
+    @Override
     public boolean isIDType(){
         switch (fVariety) {
             case VARIETY_ATOMIC:
@@ -642,6 +653,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         return false;
     }
 
+    @Override
     public short getWhitespace() throws DatatypeException{
         if (fVariety == VARIETY_UNION) {
             throw new DatatypeException("dt-whitespace", new Object[]{fTypeName});
@@ -649,6 +661,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         return fWhiteSpace;
     }
 
+    @Override
     public short getPrimitiveKind() {
         if (fVariety == VARIETY_ATOMIC && fValidationDV != DV_ANYSIMPLETYPE) {
             if (fValidationDV == DV_ID || fValidationDV == DV_IDREF || fValidationDV == DV_ENTITY) {
@@ -670,20 +683,12 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         }
     }
 
-    /**
-     * Returns the closest built-in type category this type represents or
-     * derived from. For example, if this simple type is a built-in derived
-     * type integer the <code>INTEGER_DV</code> is returned.
-     */
+    @Override
     public short getBuiltInKind() {
         return this.fBuiltInKind;
     }
 
-    /**
-     * If variety is <code>atomic</code> the primitive type definition (a
-     * built-in primitive datatype definition or the simple ur-type
-     * definition) is available, otherwise <code>null</code>.
-     */
+    @Override
     public XSSimpleTypeDefinition getPrimitiveType() {
         if (fVariety == VARIETY_ATOMIC && fValidationDV != DV_ANYSIMPLETYPE) {
             XSSimpleTypeDecl pri = this;
@@ -698,11 +703,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         }
     }
 
-    /**
-     * If variety is <code>list</code> the item type definition (an atomic or
-     * union simple type definition) is available, otherwise
-     * <code>null</code>.
-     */
+    @Override
     public XSSimpleTypeDefinition getItemType() {
         if (fVariety == VARIETY_LIST) {
             return fItemType;
@@ -713,11 +714,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         }
     }
 
-    /**
-     * If variety is <code>union</code> the list of member type definitions (a
-     * non-empty sequence of simple type definitions) is available,
-     * otherwise an empty <code>XSObjectList</code>.
-     */
+    @Override
     public XSObjectList getMemberTypes() {
         if (fVariety == VARIETY_UNION) {
             return new XSObjectListImpl(fMemberTypes, fMemberTypes.length);
@@ -727,9 +724,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         }
     }
 
-    /**
-     * If <restriction> is chosen
-     */
+    @Override
     public void applyFacets(XSFacets facets, short presentFacet, short fixedFacet, ValidationContext context)
     throws InvalidDatatypeFacetException {
         if (context == null) {
@@ -746,7 +741,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         try {
             applyFacets(facets, presentFacet, fixedFacet, SPECIAL_PATTERN_NONE, fDummyContext);
         } catch (InvalidDatatypeFacetException e) {
-            // should never gets here, internel error
+            // should never get here, internal error
             throw new RuntimeException("internal error");
         }
         // we've now applied facets; so lock this object:
@@ -761,7 +756,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
         try {
             applyFacets(facets, presentFacet, fixedFacet, patternType, fDummyContext);
         } catch (InvalidDatatypeFacetException e) {
-            // should never gets here, internel error
+            // should never get here, internal error
             throw new RuntimeException("internal error");
         }
         // we've now applied facets; so lock this object:
@@ -769,7 +764,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
     }
 
     /**
-     * If <restriction> is chosen, or built-in derived types by restriction
+     * If <code>restriction</code> is chosen, or built-in derived types by restriction
      */
     void applyFacets(XSFacets facets, short presentFacet, short fixedFacet, short patternType, ValidationContext context)
     throws InvalidDatatypeFacetException {
@@ -1535,9 +1530,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
 
     } //applyFacets()
 
-    /**
-     * validate a value, and return the compiled form
-     */
+    @Override
     public Object validate(String content, ValidationContext context, ValidatedInfo validatedInfo) throws InvalidDatatypeValueException {
 
         if (context == null)
@@ -1564,7 +1557,12 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
     }
 
     /**
-     * validate a value, and return the compiled form
+     * Validate a value, and return the compiled form.
+     *
+     * @param content the value to be validated
+     * @param context the validation context, if null is passed in the validation context of this instance will be used
+     * @param validatedInfo if null is passed in a new instance will be created
+     * @return a validated value
      */
     public ValidatedInfo validateWithInfo(String content, ValidationContext context, ValidatedInfo validatedInfo) throws InvalidDatatypeValueException {
 
@@ -1586,9 +1584,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
 
     }
 
-    /**
-     * validate a value, and return the compiled form
-     */
+    @Override
     public Object validate(Object content, ValidationContext context, ValidatedInfo validatedInfo) throws InvalidDatatypeValueException {
 
         if (context == null)
@@ -1958,6 +1954,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
 
     }//getActualValue()
 
+    @Override
     public boolean isEqual(Object value1, Object value2) {
         if (value1 == null) {
             return false;
@@ -2692,7 +2689,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
      * @param type
      *            The reference type definition
      * 
-     * @return boolean True if the type is derived by restriciton for the reference type
+     * @return boolean True if the type is derived by restriction for the reference type
      */
     private boolean isDerivedByAny(String ancestorNS, String ancestorName,
             XSTypeDefinition type) {
@@ -2749,7 +2746,7 @@ public class XSSimpleTypeDecl implements XSSimpleType, TypeInfo {
      * @param type
      *            The reference type definition
      * 
-     * @return boolean True if the type is derived by restriciton for the
+     * @return boolean True if the type is derived by restriction for the
      *         reference type
      */
     private boolean isDerivedByRestriction (String ancestorNS, String ancestorName, XSTypeDefinition type) {

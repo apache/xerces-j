@@ -643,13 +643,13 @@ public class ElementImpl
      * @param namespaceURI      the namespace URI of the attribute to create or alter
      * @param qualifiedName     the qualified name of the attribute to create or alter
      * @param value             the value to set in string form
-     * @throws                  INVALID_CHARACTER_ERR: Raised if the specified
+     * @throws                  DOMException INVALID_CHARACTER_ERR: Raised if the specified
      *                          name contains an invalid character
      *
-     * @throws                  NO_MODIFICATION_ALLOWED_ERR: Raised if this
+     * @throws                  DOMException NO_MODIFICATION_ALLOWED_ERR: Raised if this
      *                          node is readonly
      *
-     * @throws                  NAMESPACE_ERR: Raised if the qualifiedName
+     * @throws                  DOMException NAMESPACE_ERR: Raised if the qualifiedName
      *                          has a prefix that is "xml" and the namespaceURI
      *                          is neither null nor an empty string nor
      *                          "http://www.w3.org/XML/1998/namespace", or if
@@ -726,13 +726,13 @@ public class ElementImpl
      * Removes an attribute by local name and namespace URI. If the removed
      * attribute has a default value it is immediately replaced.
      * The replacing attribute has the same namespace URI and local name,
-     * as well as the original prefix.<p>
+     * as well as the original prefix.
      * </p>
      *
      * @param namespaceURI  the namespace URI of the attribute to remove
      *
      * @param localName     the local name of the attribute to remove
-     * @throws              NO_MODIFICATION_ALLOWED_ERR: Raised if this node is readonly
+     * @throws              DOMException NO_MODIFICATION_ALLOWED_ERR: Raised if this node is readonly
      * @since WD-DOM-Level-2-19990923
      */
     public void removeAttributeNS(String namespaceURI, String localName) {
@@ -792,14 +792,14 @@ public class ElementImpl
      *                  with the same local name and namespace URI, the *
      *                  previously existing Attr node is returned, otherwise
      *                  null is returned.
-     * @throws          WRONG_DOCUMENT_ERR: Raised if newAttr
+     * @throws          DOMException WRONG_DOCUMENT_ERR: Raised if newAttr
      *                  was created from a different document than the one that
      *                  created the element.
      *
-     * @throws          NO_MODIFICATION_ALLOWED_ERR: Raised if
+     * @throws          DOMException NO_MODIFICATION_ALLOWED_ERR: Raised if
      *                  this node is readonly.
      *
-     * @throws          INUSE_ATTRIBUTE_ERR: Raised if newAttr is
+     * @throws          DOMException INUSE_ATTRIBUTE_ERR: Raised if newAttr is
      *                  already an attribute of another Element object. The
      *                  DOM user must explicitly clone Attr nodes to re-use
      *                  them in other elements.

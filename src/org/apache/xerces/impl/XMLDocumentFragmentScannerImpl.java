@@ -216,11 +216,6 @@ public class XMLDocumentFragmentScannerImpl
 
     // other info
 
-    /** Document system identifier. 
-     * REVISIT:  So what's this used for?  - NG
-    * protected String fDocumentSystemId;
-     ******/
-
     // features
 
     /** Notify built-in references. */
@@ -299,7 +294,6 @@ public class XMLDocumentFragmentScannerImpl
     public void setInputSource(XMLInputSource inputSource) throws IOException {
         fEntityManager.setEntityHandler(this);
         fEntityManager.startEntity("$fragment$", inputSource, false, true);
-        //fDocumentSystemId = fEntityManager.expandSystemId(inputSource.getSystemId());
     } // setInputSource(XMLInputSource)
 
     /** 
@@ -338,27 +332,12 @@ public class XMLDocumentFragmentScannerImpl
     // XMLComponent methods
     //
 
-    /**
-     * Resets the component. The component can query the component manager
-     * about any features and properties that affect the operation of the
-     * component.
-     * 
-     * @param componentManager The component manager.
-     *
-     * @throws SAXException Thrown by component on initialization error.
-     *                      For example, if a feature or property is
-     *                      required for the operation of the component, the
-     *                      component manager may throw a 
-     *                      SAXNotRecognizedException or a
-     *                      SAXNotSupportedException.
-     */
     public void reset(XMLComponentManager componentManager)
         throws XMLConfigurationException {
 
         super.reset(componentManager);
 
         // other settings
-        //fDocumentSystemId = null;
 
         // sax features
         fAttributes.setNamespaces(fNamespaces);
@@ -419,10 +398,7 @@ public class XMLDocumentFragmentScannerImpl
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
     public void setFeature(String featureId, boolean state)
         throws XMLConfigurationException {
@@ -455,14 +431,11 @@ public class XMLDocumentFragmentScannerImpl
      * <p>
      * <strong>Note:</strong> Components should silently ignore properties
      * that do not affect the operation of the component.
-     * 
-     * @param propertyId The property identifier.
-     * @param value      The value of the property.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @param propertyId the property identifier
+     * @param value the value of the property
+     *
+     * @throws XMLConfigurationException when a property is not recognized or cannot be set
      */
     public void setProperty(String propertyId, Object value)
         throws XMLConfigurationException {
@@ -510,7 +483,7 @@ public class XMLDocumentFragmentScannerImpl
      * component does not want to report a default value for this
      * property. 
      *
-     * @param propertyId The property identifier.
+     * @param propertyId the property identifier
      *
      * @since Xerces 2.2.0
      */
@@ -528,16 +501,21 @@ public class XMLDocumentFragmentScannerImpl
     //
 
     /**
-     * setDocumentHandler
+     * Sets the document handler
      * 
-     * @param documentHandler 
+     * @param documentHandler the document handler
+     * @see XMLDocumentHandler
      */
     public void setDocumentHandler(XMLDocumentHandler documentHandler) {
         fDocumentHandler = documentHandler;
     } // setDocumentHandler(XMLDocumentHandler)
 
 
-    /** Returns the document handler */
+    /**
+     * Returns the document handler.
+     *
+     * @return the document handler
+     */
     public XMLDocumentHandler getDocumentHandler(){
         return fDocumentHandler;
     }
@@ -596,10 +574,10 @@ public class XMLDocumentFragmentScannerImpl
      * of "[dtd]" parameter entity names start with '%'; and general entities 
      * are just specified by their name.
      * 
-     * @param name The name of the entity.
-     * @param augs Additional information that may include infoset augmentations
+     * @param name the name of the entity
+     * @param augs additional information that may include infoset augmentations
      *
-     * @throws XNIException Thrown by handler to signal an error.
+     * @throws XNIException thrown by handler to signal an error
      */
     public void endEntity(String name, Augmentations augs) throws XNIException {
 
@@ -641,7 +619,6 @@ public class XMLDocumentFragmentScannerImpl
 
     /**
      * Scans an XML or text declaration.
-     * <p>
      * <pre>
      * [23] XMLDecl ::= '&lt;?xml' VersionInfo EncodingDecl? SDDecl? S? '?>'
      * [24] VersionInfo ::= S 'version' Eq (' VersionNum ' | " VersionNum ")
@@ -653,9 +630,7 @@ public class XMLDocumentFragmentScannerImpl
      * [77] TextDecl ::= '&lt;?xml' VersionInfo? EncodingDecl S? '?>'
      * </pre>
      *
-     * @param scanningTextDecl True if a text declaration is to
-     *                         be scanned instead of an XML
-     *                         declaration.
+     * @param scanningTextDecl true if a text declaration is to be scanned instead of an XML declaration.
      */
     protected void scanXMLDeclOrTextDecl(boolean scanningTextDecl) 
         throws IOException, XNIException {
@@ -716,11 +691,9 @@ public class XMLDocumentFragmentScannerImpl
 
     /**
      * Scans a comment.
-     * <p>
      * <pre>
-     * [15] Comment ::= '&lt!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
+     * [15] Comment ::= '&lt;!--' ((Char - '-') | ('-' (Char - '-')))* '-->'
      * </pre>
-     * <p>
      * <strong>Note:</strong> Called after scanning past '&lt;!--'
      */
     protected void scanComment() throws IOException, XNIException {
@@ -739,12 +712,10 @@ public class XMLDocumentFragmentScannerImpl
      * Scans a start element. This method will handle the binding of
      * namespace information and notifying the handler of the start
      * of the element.
-     * <p>
      * <pre>
      * [44] EmptyElemTag ::= '&lt;' Name (S Attribute)* S? '/>'
      * [40] STag ::= '&lt;' Name (S Attribute)* S? '>'
-     * </pre> 
-     * <p>
+     * </pre>
      * <strong>Note:</strong> This method assumes that the leading
      * '&lt;' character has been consumed.
      * <p>
@@ -752,9 +723,9 @@ public class XMLDocumentFragmentScannerImpl
      * fAttributes variables. The contents of these variables will be
      * destroyed. The caller should copy important information out of
      * these variables before calling this method.
+     * </p>
      *
-     * @return True if element is empty. (i.e. It matches
-     *          production [44].
+     * @return True if element is empty. (i.e. It matches production [44])
      */
     protected boolean scanStartElement() 
         throws IOException, XNIException {
@@ -934,11 +905,9 @@ public class XMLDocumentFragmentScannerImpl
 
     /** 
      * Scans an attribute.
-     * <p>
      * <pre>
      * [41] Attribute ::= Name Eq AttValue
-     * </pre> 
-     * <p>
+     * </pre>
      * <strong>Note:</strong> This method assumes that the next 
      * character on the stream is the first character of the attribute
      * name.
@@ -946,6 +915,7 @@ public class XMLDocumentFragmentScannerImpl
      * <strong>Note:</strong> This method uses the fAttributeQName and
      * fQName variables. The contents of these variables will be
      * destroyed.
+     * </p>
      *
      * @param attributes The attributes list for the scanned attribute.
      */
@@ -1144,7 +1114,6 @@ public class XMLDocumentFragmentScannerImpl
 
     /**
      * Scans an end element.
-     * <p>
      * <pre>
      * [42] ETag ::= '&lt;/' Name S? '>'
      * </pre>
@@ -1152,7 +1121,7 @@ public class XMLDocumentFragmentScannerImpl
      * <strong>Note:</strong> This method uses the fElementQName variable.
      * The contents of this variable will be destroyed. The caller should
      * copy the needed information out of this variable before calling
-     * this method.
+     * this method.</p>
      *
      * @return The element depth.
      */
@@ -1202,9 +1171,10 @@ public class XMLDocumentFragmentScannerImpl
 
     /**
      * Scans a character reference.
-     * <p>
      * <pre>
+     * {@code
      * [66] CharRef ::= '&#' [0-9]+ ';' | '&#x' [0-9a-fA-F]+ ';'
+     * }
      * </pre>
      */
     protected void scanCharReference() 
@@ -1801,11 +1771,10 @@ public class XMLDocumentFragmentScannerImpl
 
         /** 
          * Scan for DOCTYPE hook. This method is a hook for subclasses
-         * to add code to handle scanning for a the "DOCTYPE" string 
-         * after the string "<!" has been scanned.
+         * to add code to handle scanning for the "DOCTYPE" string
+         * after the string <code>&lt;!</code> has been scanned.
          * 
-         * @return True if the "DOCTYPE" was scanned; false if "DOCTYPE"
-         *          was not scanned.
+         * @return true if the "DOCTYPE" was scanned; false if "DOCTYPE" was not scanned
          */
         protected boolean scanForDoctypeHook() 
             throws IOException, XNIException {
@@ -1813,11 +1782,11 @@ public class XMLDocumentFragmentScannerImpl
         } // scanForDoctypeHook():boolean
 
         /** 
-         * Element depth iz zero. This methos is a hook for subclasses
+         * Element depth iz zero. This method is a hook for subclasses
          * to add code to handle when the element depth hits zero. When
          * scanning a document fragment, an element depth of zero is
          * normal. However, when scanning a full XML document, the
-         * scanner must handle the trailing miscellanous section of
+         * scanner must handle the trailing miscellaneous section of
          * the document after the end of the document's root element.
          *
          * @return True if the caller should stop and return true which

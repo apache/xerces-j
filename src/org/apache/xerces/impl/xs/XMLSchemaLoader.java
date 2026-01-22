@@ -27,6 +27,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.WeakHashMap;
@@ -229,7 +230,7 @@ XSLoader, DOMConfiguration {
     
     // features and properties
     private final ParserConfigurationSettings fLoaderConfig = new ParserConfigurationSettings();
-    private XMLErrorReporter fErrorReporter = new XMLErrorReporter ();
+    private XMLErrorReporter fErrorReporter = new XMLErrorReporter();
     private XMLEntityManager fEntityManager = null;
     private XMLEntityResolver fUserEntityResolver = null;
     private XMLGrammarPool fGrammarPool = null;
@@ -253,7 +254,7 @@ XSLoader, DOMConfiguration {
     private XSDDescription fXSDDescription = new XSDDescription();
     private SchemaDVFactory fDefaultSchemaDVFactory;
     
-    private WeakHashMap fJAXPCache;
+    private WeakHashMap<Object, Grammar> fJAXPCache;
     private Locale fLocale = Locale.getDefault();
     
     // XSLoader attributes
@@ -340,7 +341,7 @@ XSLoader, DOMConfiguration {
         }
         fCMBuilder = builder;
         fSchemaHandler = new XSDHandler(fGrammarBucket);
-        fJAXPCache = new WeakHashMap();
+        fJAXPCache = new WeakHashMap<>();
         
         fSettingsChanged = true;
     }
@@ -357,9 +358,9 @@ XSLoader, DOMConfiguration {
     /**
      * Returns the state of a feature.
      *
-     * @param featureId The feature identifier.
+     * @param featureId the feature identifier
      *
-     * @throws XMLConfigurationException Thrown on configuration error.
+     * @throws XMLConfigurationException when a featureId is not recognized
      */
     public boolean getFeature(String featureId)
     throws XMLConfigurationException {                
@@ -372,11 +373,9 @@ XSLoader, DOMConfiguration {
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws XMLConfigurationException Thrown when a feature is not
-     *                  recognized or cannot be set.
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
-    public void setFeature(String featureId,
-            boolean state) throws XMLConfigurationException {
+    public void setFeature(String featureId, boolean state) throws XMLConfigurationException {
         fSettingsChanged = true; 
         if(featureId.equals(CONTINUE_AFTER_FATAL_ERROR)) {
             fErrorReporter.setFeature(CONTINUE_AFTER_FATAL_ERROR, state);
@@ -399,9 +398,9 @@ XSLoader, DOMConfiguration {
     /**
      * Returns the state of a property.
      *
-     * @param propertyId The property identifier.
+     * @param propertyId the property identifier
      *
-     * @throws XMLConfigurationException Thrown on configuration error.
+     * @throws XMLConfigurationException when a property is not recognized
      */
     public Object getProperty(String propertyId)
     throws XMLConfigurationException {
@@ -411,14 +410,12 @@ XSLoader, DOMConfiguration {
     /**
      * Sets the state of a property.
      *
-     * @param propertyId The property identifier.
-     * @param state     The state of the property.
+     * @param propertyId the property identifier
+     * @param state the state of the property
      *
-     * @throws XMLConfigurationException Thrown when a property is not
-     *                  recognized or cannot be set.
+     * @throws XMLConfigurationException when a property is not recognized or cannot be set
      */
-    public void setProperty(String propertyId,
-            Object state) throws XMLConfigurationException {                   
+    public void setProperty(String propertyId, Object state) throws XMLConfigurationException {
         fSettingsChanged = true;
         fLoaderConfig.setProperty(propertyId, state);    
         if (propertyId.equals(JAXP_SCHEMA_SOURCE)) {
@@ -538,7 +535,7 @@ XSLoader, DOMConfiguration {
         desc.setBaseSystemId(source.getBaseSystemId());
         desc.setLiteralSystemId( source.getSystemId());
         // none of the other fields make sense for preparsing
-        Hashtable locationPairs = new Hashtable();
+        Hashtable<String, LocationArray> locationPairs = new Hashtable<>();
         // Process external schema location properties.
         // We don't call tokenizeSchemaLocationStr here, because we also want
         // to check whether the values are valid URI.
@@ -560,20 +557,22 @@ XSLoader, DOMConfiguration {
     /**
      * This method is called either from XMLGrammarLoader.loadGrammar or from XMLSchemaValidator.
      * Note: in either case, the EntityManager (or EntityResolvers) are not going to be invoked
-     * to resolve the location of the schema in XSDDescription 
-     * @param desc
-     * @param source
-     * @param locationPairs
+     * to resolve the location of the schema in XSDDescription.
+     *
+     * @param desc the XSD description
+     * @param source the XML input source
+     * @param locationPairs a Hashtable of <code>Hashtable&lt;String, LocationArray></code>
      * @return An XML Schema grammar
      * @throws IOException
      * @throws XNIException
+     * @see LocationArray
      */
     SchemaGrammar loadSchema(XSDDescription desc,
             XMLInputSource source,
             Hashtable locationPairs) throws IOException, XNIException {
         
         // this should only be done once per invocation of this object;
-        // unless application alters JAXPSource in the mean time.
+        // unless application alters JAXPSource in the meantime.
         if(!fJAXPProcessed) {
             processJAXPSchemaSource(locationPairs);
         }
@@ -589,11 +588,12 @@ XSLoader, DOMConfiguration {
      * to find in the hashtable whether there is a value for that namespace,
      * if so, pass that location value to the user-defined entity resolver.
      *
-     * @param desc
-     * @param locationPairs
+     * @param desc the XSD description
+     * @param locationPairs a Hashtable of <code>Hashtable&lt;String, LocationArray></code>
      * @param entityResolver
      * @return the XMLInputSource
      * @throws IOException
+     * @see LocationArray
      */
     public static XMLInputSource resolveDocument(XSDDescription desc, Hashtable locationPairs,
             XMLEntityResolver entityResolver) throws IOException {
@@ -623,8 +623,15 @@ XSLoader, DOMConfiguration {
         desc.setExpandedSystemId(expandedLoc);
         return entityResolver.resolveEntity(desc);
     }
-    
-    // add external schema locations to the location pairs
+
+    /**
+     * Adds external schema locations to the location pairs.
+     *
+     * @param sl
+     * @param nsl
+     * @param locations a Hashtable of String to LocationArray
+     * @param er an XML error reporter
+     */
     public static void processExternalHints(String sl, String nsl,
             Hashtable locations,
             XMLErrorReporter er) {
@@ -716,7 +723,7 @@ XSLoader, DOMConfiguration {
      * Note: all JAXP schema files will be checked for full-schema validity if the feature was set up
      * 
      */
-    private void processJAXPSchemaSource(Hashtable locationPairs) throws IOException {
+    private void processJAXPSchemaSource(Hashtable<String, LocationArray> locationPairs) throws IOException {
         fJAXPProcessed = true;
         if (fJAXPSource == null) {
             return;
@@ -781,7 +788,8 @@ XSLoader, DOMConfiguration {
         // InputSource also, apart from [] of type Object.
         Object[] objArr = (Object[]) fJAXPSource;
         // make local vector for storing target namespaces of schemasources specified in object arrays.
-        ArrayList jaxpSchemaSourceNamespaces = new ArrayList();
+        final List<String> jaxpSchemaSourceNamespaces = new ArrayList<>();
+
         for (int i = 0; i < objArr.length; i++) {
             if (objArr[i] instanceof InputStream ||
                     objArr[i] instanceof InputSource) {
@@ -903,8 +911,12 @@ XSLoader, DOMConfiguration {
         
         return new XMLInputSource(publicId, systemId, null);
     }
-    
-    static class LocationArray{
+
+    /*
+     * For internal use only.
+     * todo: This class being package-private is not ideal as it should be accessible to XSDHandler
+     */
+    static final class LocationArray {
         
         int length ;
         String [] locations = new String[2];
@@ -1267,7 +1279,7 @@ XSLoader, DOMConfiguration {
      */
     public DOMStringList getParameterNames() {
         if (fRecognizedParameters == null){
-            ArrayList v = new ArrayList();
+            final ArrayList<String> v = new ArrayList<>();
             v.add(Constants.DOM_VALIDATE);
             v.add(Constants.DOM_ERROR_HANDLER);
             v.add(Constants.DOM_RESOURCE_RESOLVER);

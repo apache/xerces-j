@@ -116,12 +116,15 @@ public class TextImpl
 
     /**
      * DOM L3 Core CR - Experimental 
-     * 
-     * Returns whether this text node contains 
-     * element content whitespace</a>, often abusively called "ignorable whitespace". 
+     *
+     * <p>Returns whether this text node contains
+     * element content whitespace, often abusively called "ignorable whitespace".
      * The text node is determined to contain whitespace in element content 
      * during the load of the document or if validation occurs while using 
      * <code>Document.normalizeDocument()</code>.
+     * </p>
+     *
+     * @return true if this text node contains element content whitespace
      * @since DOM Level 3
      */
     public boolean isElementContentWhitespace() {
@@ -166,9 +169,9 @@ public class TextImpl
     
     /**
      * internal method taking a StringBuffer in parameter and inserts the 
-     * text content at the start of the buffer
-     * 
-     * @param buf
+     * text content at the start of the buffer.
+     *
+     * @param buf the buffer which text content will be inserted into
      */
     protected void insertTextContent(StringBuffer buf) throws DOMException {
          String content = getNodeValue();
@@ -590,8 +593,7 @@ public class TextImpl
 
     /**
      * Break a text node into two sibling nodes. (Note that if the current node
-     * has no parent, they won't wind up as "siblings" -- they'll both be
-     * orphans.)
+     * has no parent, they won't wind up as "siblings" -- they'll both be orphans.)
      * 
      * @param offset the offset at which to split. If offset is at the end of the
      *            available data, the second node will be empty.
@@ -599,7 +601,7 @@ public class TextImpl
      * @return a reference to the new node (containing data after the offset
      *         point). The original node will contain data up to that point.
      * 
-     * @throws DOMException INDEX_SIZE_ERR if offset is <0 or >length.
+     * @throws DOMException INDEX_SIZE_ERR if offset is &lt;0 or &gt;length.
      *
      * @throws DOMException NO_MODIFICATION_ALLOWED_ERR if node is read-only.
      */
@@ -637,7 +639,9 @@ public class TextImpl
 
     
     /**
-     * NON-DOM (used by DOMParser): Reset data for the node. 
+     * NON-DOM (used by DOMParser): Reset data for the node.
+     *
+     * @param value the new value for the data
      */
     public void replaceData (String value){
         data = value;
@@ -645,8 +649,10 @@ public class TextImpl
 
 
     /**
-     * NON-DOM (used by DOMParser: Sets data to empty string. 
-     *  Returns the value the data was set to.
+     * NON-DOM (used by DOMParser: Sets data to empty string.
+     * Returns the value the data was previously set to.
+     *
+     * @return the value the data was previously set to
      */
     public String removeData (){
         String olddata=data;

@@ -138,7 +138,7 @@ public final class SecureProcessingConfiguration extends
     /** 
      * Constructs a parser configuration using the specified symbol table. 
      *
-     * @param symbolTable The symbol table to use.
+     * @param symbolTable the symbol table to use
      */
     public SecureProcessingConfiguration(SymbolTable symbolTable) {
         this(symbolTable, null, null);
@@ -147,10 +147,9 @@ public final class SecureProcessingConfiguration extends
     /**
      * Constructs a parser configuration using the specified symbol table and
      * grammar pool.
-     * <p>
      *
-     * @param symbolTable The symbol table to use.
-     * @param grammarPool The grammar pool to use.
+     * @param symbolTable the symbol table to use
+     * @param grammarPool the grammar pool to use
      */
     public SecureProcessingConfiguration(
             SymbolTable symbolTable,
@@ -161,11 +160,10 @@ public final class SecureProcessingConfiguration extends
     /**
      * Constructs a parser configuration using the specified symbol table,
      * grammar pool, and parent settings.
-     * <p>
      *
-     * @param symbolTable    The symbol table to use.
-     * @param grammarPool    The grammar pool to use.
-     * @param parentSettings The parent settings.
+     * @param symbolTable the symbol table to use
+     * @param grammarPool the grammar pool to use
+     * @param parentSettings the parent settings
      */
     public SecureProcessingConfiguration(
             SymbolTable symbolTable,
@@ -221,7 +219,7 @@ public final class SecureProcessingConfiguration extends
     /**
      * Returns the value of a property.
      * 
-     * @param propertyId The property identifier.
+     * @param propertyId the property identifier
      * @return the value of the property
      * 
      * @throws XMLConfigurationException Thrown for configuration error.

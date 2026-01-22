@@ -131,20 +131,19 @@ public class CMNodeFactory {
     public void resetNodeCount(){
         nodeCount = 0 ;
     }
-        /**
+
+    /**
      * Sets the value of a property. This method is called by the component
      * manager any time after reset when a property changes value.
      * <p>
      * <strong>Note:</strong> Components should silently ignore properties
      * that do not affect the operation of the component.
+     * </p>
      *
-     * @param propertyId The property identifier.
-     * @param value      The value of the property.
+     * @param propertyId the property identifier
+     * @param value the value of the property
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException declared but not actually thrown
      */
     public void setProperty(String propertyId, Object value)
         throws XMLConfigurationException {

@@ -37,16 +37,17 @@ public interface XSGrammar extends Grammar {
      * grammar and any schema grammars that are imported by this grammar
      * directly or indirectly.
      * 
-     * @return  an <code>XSModel</code> representing this schema grammar
+     * @return an <code>XSModel</code> representing this schema grammar
      */
     public XSModel toXSModel();
-    
+
     /**
      * Return an <code>XSModel</code> that represents components in this schema
-     * grammar and the grammars in the <code>grammars</code>parameter,
+     * grammar and the grammars in the <code>grammars</code> parameter,
      * any schema grammars that are imported by them directly or indirectly.
-     * 
-     * @return  an <code>XSModel</code> representing these schema grammars
+     *
+     * @param grammars other <code>XSGrammar</code> that will make up the returned <code>XSModel</code>
+     * @return an <code>XSModel</code> representing these schema grammars
      */
     public XSModel toXSModel(XSGrammar[] grammars);
 

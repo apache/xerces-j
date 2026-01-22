@@ -24,7 +24,7 @@ import java.util.List;
  * Represents ONE "error/fatal error/warning" message. Various fragments of ONE "error/fatal error/warning" message
  * can be stored in this object.
  * 
- * @author Mukul Gandhi <mukulg@apache.org>
+ * @author <a href="mailto:mukulg@apache.org">Mukul Gandhi</a>
  * @version $Id$
  */
 public class FailureMesgFragments {

@@ -710,11 +710,6 @@ public class SchemaParsingConfig extends BasicParserConfiguration
     // Protected methods
     //
     
-    /** 
-     * Reset all components before parsing. 
-     *
-     * @throws XNIException Thrown if an error occurs during initialization.
-     */
     public void reset() throws XNIException {
         
         // initialize the common components

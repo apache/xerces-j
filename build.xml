@@ -585,6 +585,7 @@ Authors:
       windowtitle='Other Classes' doctitle='Other Classes'
       bottom='${copyright}'
       additionalparam='-quiet ${additional.param}'
+    >
         <arg value="-Xdoclint:none"/>
     </javadoc>
   </target>

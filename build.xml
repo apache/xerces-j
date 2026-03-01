@@ -995,7 +995,7 @@ Authors:
   </target>
 
   <!-- =================================================================== -->
-  <!-- Builds xercesImpl, xml-apis and sample jar files                    -->
+  <!-- Builds xercesImpl and sample jar files                    -->
   <!-- =================================================================== -->
   <target name="jars" depends="jar, sampjar">
     <!-- include the xml-commons resolver -->
@@ -1554,7 +1554,7 @@ Authors:
   </target>
 
   <!-- =================================================================== -->
-  <!-- Builds xercesImpl, xml-apis and sample jars with Schema 1.1 support -->
+  <!-- Builds xercesImpl and sample jars with Schema 1.1 support -->
   <!-- =================================================================== -->
   <target name="jars-schema11" depends="jar-schema11, sampjar">
     <!-- include the xml-commons resolver -->

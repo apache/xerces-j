@@ -75,14 +75,6 @@
             follow these steps and you&apos;ll be done in no time:
         </p>
         <ol> 
-        <li>Ensure that the API code has been properly refreshed.
-        That is, make sure that <code>tools/xml-apis.jar</code>
-        and <code>tools/xml-apis--src.zip</code> reflect the
-        state of the branch of xml-commons that contains the API
-        set to which the parser must conform.  At the time of
-        writing (September 2, 2007) this was the main
-        <code>trunk</code>.
-        </li>
         <li>Change the following files:<br/>
             <code>build.xml</code>
                 (that is, change the <code>parser.Version</code>,

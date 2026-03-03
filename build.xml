@@ -70,7 +70,6 @@ Authors:
     <property name='parser_version' value='2_12_3'/>
 
     <property name='deprecatedjar.parser' value='xerces.jar'/>
-    <property name='jar.apis' value='xml-apis.jar'/>
     <property name='jar.parser' value='xercesImpl.jar'/>
     <property name='jar.samples' value='xercesSamples.jar'/>
     <property name='jar.dv' value='xercesDV.jar'/>
@@ -285,7 +284,7 @@ Authors:
            destdir="${build.dest}"
            source="${javac.source}"
            target="${javac.target}"
-           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"
+           classpath="${build.dir}/classes:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"
            debug="${debug}"
            debuglevel="${debuglevel}"
            deprecation="${deprecation}"
@@ -353,7 +352,7 @@ Authors:
            destdir="${build.dest}"
            source="${javac.source}"
            target="${javac.target}"
-           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}"
+           classpath="${build.dir}/classes"
            debug="${debug}"
            debuglevel="${debuglevel}"
            includeAntRuntime="false"
@@ -373,7 +372,7 @@ Authors:
            destdir="${build.dest}"
            source="${javac.source}"
            target="${javac.target}"
-           classpath="${tools.dir}/${jar.apis}:${build.dir}/classes:./tools/junit.jar"
+           classpath="${build.dir}/classes:./tools/junit.jar"
            debug="${debug}"
            debuglevel="${debuglevel}"
            includeAntRuntime="false"
@@ -747,8 +746,6 @@ Authors:
   <!-- =================================================================== -->
   <target name="pack-bin" depends="pack-bin-common, jars">
     <copy file="${build.dir}/${jar.parser}" tofile="${distbin.dir}/${jar.parser}"/>
-    <!-- include the xml-commons APIs -->
-    <copy file="${tools.dir}/${jar.apis}" tofile="${distbin.dir}/${jar.apis}"/>
     <!-- include the xml-commons resolver -->
     <copy file="${tools.dir}/${jar.resolver}" tofile="${distbin.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
@@ -783,11 +780,11 @@ Authors:
     <zip zipfile="${build.dir}/deprecated${parser.Name}-bin.${parser.version}.zip" 
          basedir="${build.dir}"
          includes="${parser.shortname}-${parser_version}/**" 
-         excludes="*.class, **/${jar.parser}, **/${jar.apis}"/>
+         excludes="*.class, **/${jar.parser}"/>
     <tar tarfile="${build.dir}/deprecated${parser.Name}-bin.${parser.version}.tar" 
          basedir="${build.dir}"
          includes="${parser.shortname}-${parser_version}/**" 
-         excludes="*.class, **/${jar.parser}, **/${jar.apis}"/>
+         excludes="*.class, **/${jar.parser}"/>
     <gzip zipfile="${build.dir}/deprecated${parser.Name}-bin.${parser.version}.tar.gz"
           src="${build.dir}/deprecated${parser.Name}-bin.${parser.version}.tar" />
     <!-- as before, let's kill of the ungzip'd tarball! -->
@@ -797,7 +794,6 @@ Authors:
 
   <target name="test" depends="tests">
     <path id="run.classpath">
-        <pathelement location="${tools.dir}/${jar.apis}"/>
         <pathelement location="${tools.dir}/${jar.resolver}"/>
         <pathelement location="${tools.dir}/${jar.serializer}"/>
         <pathelement location="${tools.dir}/${jar.junit}"/>
@@ -999,11 +995,9 @@ Authors:
   </target>
 
   <!-- =================================================================== -->
-  <!-- Builds xercesImpl, xml-apis and sample jar files                    -->
+  <!-- Builds xercesImpl and sample jar files                    -->
   <!-- =================================================================== -->
   <target name="jars" depends="jar, sampjar">
-    <!-- include the xml-commons APIs -->
-    <copy file="${tools.dir}/${jar.apis}" tofile="${build.dir}/${jar.apis}"/>
     <!-- include the xml-commons resolver -->
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
@@ -1072,7 +1066,7 @@ Authors:
            optimize="${optimize}"
            includeAntRuntime="false"
            includeJavaRuntime="true"
-           classpath="${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"/>
+           classpath="${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"/>
   </target>
 
 
@@ -1331,8 +1325,6 @@ Authors:
   <!-- Builds xercesImpl (dtd), xml-apis, and sample jars                  -->
   <!-- =================================================================== -->
   <target name="dtdjars" depends="dtdjar, sampjar">
-    <!-- include the xml-commons APIs -->
-    <copy file="${tools.dir}/${jar.apis}" tofile="${build.dir}/${jar.apis}"/>
     <!-- include the xml-commons resolver -->
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
@@ -1365,7 +1357,7 @@ Authors:
            destdir="${build.dest}"
            source="${javac.source}"
            target="${javac.target}"
-           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}"
+           classpath="${build.dir}/classes"
            debug="${debug}"
            debuglevel="${debuglevel}"
            deprecation="${deprecation}"
@@ -1467,7 +1459,6 @@ Authors:
       <arg value="${parser.version}"/>
       <classpath>
         <pathelement location="tests/conformance/utilities.jar"/>
-        <pathelement location="${build.dir}/${jar.apis}"/>
         <pathelement location="${build.dir}/${jar.parser}"/>
       </classpath>
     </java>
@@ -1480,7 +1471,6 @@ Authors:
       <arg value="${parser.version}"/>
       <classpath>
         <pathelement location="tests/conformance/utilities.jar"/>
-        <pathelement location="${build.dir}/${jar.apis}"/>
         <pathelement location="${build.dir}/${jar.parser}"/>
       </classpath>
     </java>
@@ -1516,7 +1506,7 @@ Authors:
                destdir="${build.dest}"
                source="${javac.source}"
                target="${javac.target}"
-               classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"
+               classpath="${build.dir}/classes:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"
                debug="${debug}"
                debuglevel="${debuglevel}"
                deprecation="${deprecation}"
@@ -1564,11 +1554,9 @@ Authors:
   </target>
 
   <!-- =================================================================== -->
-  <!-- Builds xercesImpl, xml-apis and sample jars with Schema 1.1 support -->
+  <!-- Builds xercesImpl and sample jars with Schema 1.1 support -->
   <!-- =================================================================== -->
   <target name="jars-schema11" depends="jar-schema11, sampjar">
-    <!-- include the xml-commons APIs -->
-    <copy file="${tools.dir}/${jar.apis}" tofile="${build.dir}/${jar.apis}"/>
     <!-- include the xml-commons resolver -->
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->

@@ -19,16 +19,19 @@
  * limitations under the License.
 ===========================================================================
 
-This Apache Xerces-J GitHub repos  contains instructions to build Xerces-J.
+This document contains instructions to build Xerces-J.
 
 Before building Xerces-J, users need the source package and tools package 
 available from the [Apache Xerces-J project's distribution web page](https://xerces.apache.org/xerces2-j/).
 
-Download both the Xerces-J-src.X.Y.Z.zip and Xerces-J-tools.X.Y.Z.zip 
-files for the appropriate Xerces-J release (where "X.Y.Z" is the version
+To build a particular released version, download both 
+the Xerces-J-src.X.Y.Z.zip and Xerces-J-tools.X.Y.Z.zip 
+files for that Xerces-J release (where "X.Y.Z" is the version
 number) and extract them in the same directory. If you're using a Unix 
 variant like Linux, download the equivalent .tar.gz files instead of 
 the .zip files.
+
+To build from head, clone this GitHub repository. 
 
 You also need to have the Java Development Kit (JDK) version 1.8 or
 higher installed on your system. The latest Xerces-J codebase on this GitHub 

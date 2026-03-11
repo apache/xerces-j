@@ -5,4 +5,4 @@ out.xml
 *.iml
 .idea/
 .DS_Store
-
+.settings/

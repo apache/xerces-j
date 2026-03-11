@@ -32,13 +32,13 @@ If you only want to compile the source code and make the JAR files,
 run the following command on Windows:
 
 ```
-    build.bat jars
+build.bat jars
 ```
 
 or from Linux (make sure that build.sh is executable):
 
 ```
-    ./build.sh jars
+./build.sh jars
 ```
 
 This compiles all the source code and generates the JAR
@@ -52,6 +52,5 @@ target instead of "jars".
 We use the [JProfiler](https://www.ej-technologies.com/jprofiler) tool for Java software run-time 
 analysis and optimization of Xerces-J software. 
 
-
-Sincerely,
+Sincerely,<br>
 Apache Xerces Team

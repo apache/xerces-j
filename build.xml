@@ -637,7 +637,7 @@ Authors:
     <copy file="NOTICE" tofile="${distsrc.dir}/NOTICE"/>
     <copy file="LICENSE.DOM-documentation.html" tofile="${distsrc.dir}/LICENSE.DOM-documentation.html"/>
     <copy file="LICENSE.DOM-software.html" tofile="${distsrc.dir}/LICENSE.DOM-software.html"/>
-    <copy file="README" tofile="${distsrc.dir}/README"/>
+    <copy file="README.md" tofile="${distsrc.dir}/README.md"/>
     <copy file="build.xml" tofile="${distsrc.dir}/build.xml"/>
     <copy file="${basedir}/build.sh" tofile="${distsrc.dir}/build.sh" />
     <chmod file="${distsrc.dir}/build.sh" perm="ugo+rx" />
@@ -727,6 +727,8 @@ Authors:
     <copy file="NOTICE" tofile="${distsrc.dir}/NOTICE"/>
     <copy file="LICENSE.DOM-documentation.html" tofile="${distsrc.dir}/LICENSE.DOM-documentation.html"/>
     <copy file="LICENSE.DOM-software.html" tofile="${distsrc.dir}/LICENSE.DOM-software.html"/>
+    <copy file="README.md" tofile="${distbin.dir}/README.md"/>
+
     <copy file="${build.dir}/${jar.samples}" tofile="${distbin.dir}/${jar.samples}"/>
 
     <copy todir="${distsrc.dir}/samples" >

@@ -6,3 +6,5 @@ out.xml
 .idea/
 .DS_Store
 .settings/
+.classpath
+.project

@@ -31,8 +31,6 @@ set LOCALCLASSPATH=%LOCALCLASSPATH%;%JAVA_HOME%\lib\classes.zip
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant-launcher.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\ant-junit.jar
-set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\xml-apis.jar
-set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\xercesImpl.jar
 set LOCALCLASSPATH=%LOCALCLASSPATH%;.\tools\bin\xjavac.jar
 
 echo Building with ant classpath %LOCALCLASSPATH%

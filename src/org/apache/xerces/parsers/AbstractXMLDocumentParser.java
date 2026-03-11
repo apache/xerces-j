@@ -364,10 +364,11 @@ public abstract class AbstractXMLDocumentParser
     /**
      * The start of the DTD.
      *
-     * @param locator the document locator, or null if the document location cannot be
-     *                reported during the parsing of the document DTD. However, it is
-     *                <em>strongly</em> recommended that a locator be supplied that can
-     *                at least report the base system identifier of the DTD.
+     * @param locator  the document locator, or null if the document
+     *                 location cannot be reported during the parsing of
+     *                 the document DTD. However, it is <em>strongly</em>
+     *                 recommended that a locator be supplied that can
+     *                 at least report the base URI of the DTD.
      * @param augs additional information that may include infoset augmentations
      *
      * @throws XNIException thrown by handler to signal an error

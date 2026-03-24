@@ -241,30 +241,6 @@ Authors:
       tofile="${build.src}/org/apache/xerces/impl/msg/XPointerMessages_en.properties"/>
     <copy file="${src.dir}/org/apache/xerces/impl/xpath/regex/message.properties"
       tofile="${build.src}/org/apache/xerces/impl/xpath/regex/message_en.properties"/>
-
-    <!-- now deal with API's:  -->
-    <unzip src="${src.apis.zip}" dest="${build.src}">
-        <patternset
-            includes="org/xml/sax/** 
-                javax/xml/**
-                javax/xml/datatype/**
-                javax/xml/namespace/**
-                javax/xml/parsers/**
-                javax/xml/stream/**
-                javax/xml/transform/**
-                javax/xml/validation/**
-                javax/xml/xpath/**
-                org/w3c/dom/*
-                org/w3c/dom/bootstrap/**
-                org/w3c/dom/events/**
-                org/w3c/dom/html/**
-                org/w3c/dom/ls/**
-                org/w3c/dom/ranges/**
-                org/w3c/dom/traversal/**
-                org/w3c/dom/views/**
-                org/w3c/dom/xpath/**"
-        />
-    </unzip>
     
     <!-- substitute tokens as needed -->
     <replace file="${build.dir}/src/org/apache/xerces/impl/Version.java" 
@@ -515,20 +491,6 @@ Authors:
       </not>
     </condition>
 
-    <mkdir dir='${build.dir}/docs/javadocs/api'/>
-    <javadoc packagenames='javax.xml.*,org.w3c.*,org.xml.*'
-      locale='en_US'
-      sourcepath='${build.src}' destdir='${build.dir}/docs/javadocs/api'
-      author='true' version='true'
-      windowtitle='XML Standard API' doctitle='XML Standard API'
-      bottom='${copyright}'
-      additionalparam='-quiet ${additional.param}'
-      failonerror='no'
-      failonwarning='no'
-      >
-        <!-- There's no point linting packages that are not in the project src -->
-        <arg value="-Xdoclint:none"/>
-    </javadoc>
     <mkdir dir='${build.dir}/docs/javadocs/xni'/>
     <javadoc packagenames='org.apache.xerces.xni.*'
       locale='en_US'
@@ -711,9 +673,6 @@ Authors:
         <fileset dir="${build.docs}" />
     </copy>
 
-    <copy todir="${distbin.dir}/docs/javadocs/api" >
-        <fileset dir="${build.dir}/docs/javadocs/api" />
-    </copy>
     <copy todir="${distbin.dir}/docs/javadocs/xni" >
         <fileset dir="${build.dir}/docs/javadocs/xni" />
     </copy>

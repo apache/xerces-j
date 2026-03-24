@@ -1255,30 +1255,6 @@ Authors:
     <!-- HACK: Remove reference to XML11Configurable from SAX parser -->
     <replace file="${build.dir}/src/org/apache/xerces/parsers/AbstractSAXParser.java"
              token="return (fConfiguration instanceof XML11Configurable);" value="return false;"/>
- 
-    <!-- now deal with API's:  -->
-    <unzip src="${src.apis.zip}" dest="${build.src}">
-        <patternset
-            includes="org/xml/sax/** 
-                javax/xml/**
-                javax/xml/datatype/**
-                javax/xml/namespace/**
-                javax/xml/parsers/**
-                javax/xml/stream/**
-                javax/xml/transform/**
-                javax/xml/validation/**
-                javax/xml/xpath/**
-                org/w3c/dom/*
-                org/w3c/dom/bootstrap/**
-                org/w3c/dom/events/**
-                org/w3c/dom/html/**
-                org/w3c/dom/ls/**
-                org/w3c/dom/ranges/**
-                org/w3c/dom/traversal/**
-                org/w3c/dom/views/**
-                org/w3c/dom/xpath/**"
-        />
-    </unzip>
 
 
     <!-- substitute tokens as needed -->

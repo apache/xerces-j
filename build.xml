@@ -76,7 +76,9 @@ Authors:
     <property name='jar.dv' value='xercesDV.jar'/>
     <property name='jar.resolver' value='resolver.jar'/>
     <property name='jar.serializer' value='serializer.jar'/>
-    <property name='jar.junit' value='junit.jar'/>
+    
+    <!-- deliberately using 4.10 since 4.11 and later require a separate hamcrest jar -->
+    <property name='jar.junit' value='junit-4.10.jar'/>
     <property name='jar.ant' value='ant.jar'/>
     <property name='jar.xjavac' value='xjavac.jar'/>
     
@@ -373,7 +375,7 @@ Authors:
            destdir="${build.dest}"
            source="${javac.source}"
            target="${javac.target}"
-           classpath="${tools.dir}/${jar.apis}:${build.dir}/classes:./tools/junit.jar"
+           classpath="${tools.dir}/${jar.junit}:${tools.dir}/${jar.apis}:${build.dir}/classes"
            debug="${debug}"
            debuglevel="${debuglevel}"
            includeAntRuntime="false"
@@ -809,8 +811,7 @@ Authors:
     </path>
     <pathconvert property="test.classpath.string" refid="test.classpath" pathsep="${path.separator}"/>
 
-    <echo message="Running dom.traversal tests..." />
-    <junit fork="no"
+    <junit fork="yes" forkmode="once"
            haltonfailure="no" 
            haltonerror="no" 
            failureproperty="test.failed" 
@@ -819,9 +820,10 @@ Authors:
         <classpath refid="test.classpath"/>
         
         <batchtest fork="yes" todir="test-reports">
-          <fileset dir="${build.dir}/tests">
-             <include name="dom/traversal/*Test.java"/>                    
-             <exclude name="**/*$*.class"/>
+          <fileset dir="${build.dir}/classes">
+             <include name="dom/traversal/*Test.class"/>                    
+             <include name="dom/range/*Test*.class"/>                    
+             <exclude name="dom/range/Test.class"/>                    
            </fileset>
          </batchtest>
          

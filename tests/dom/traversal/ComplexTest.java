@@ -17,6 +17,8 @@
 
 package dom.traversal;
 
+import java.io.IOException;
+import org.xml.sax.SAXException;
 import org.w3c.dom.Element;
 import org.w3c.dom.ElementTraversal;
 
@@ -40,7 +42,7 @@ public class ComplexTest extends AbstractTestCase {
             "<!ENTITY c '&b;'>" +
             "]><root>&c;</root>";
     
-    public void testGetFirstChild1() {
+    public void testGetFirstChild1() throws IOException, SAXException {
         ElementTraversal et = parse(DOC1);
         Element e = et.getFirstElementChild();
         assertEquals("r", e.getNodeName());
@@ -49,7 +51,7 @@ public class ComplexTest extends AbstractTestCase {
         assertNull(e);
     }
     
-    public void testGetFirstChild2() {
+    public void testGetFirstChild2() throws IOException, SAXException {
         ElementTraversal et = parse(DOC2);
         Element e = et.getFirstElementChild();
         assertEquals("child", e.getNodeName());
@@ -58,7 +60,7 @@ public class ComplexTest extends AbstractTestCase {
         assertNull(e);
     }
     
-    public void testGetLastChild1() {
+    public void testGetLastChild1() throws IOException, SAXException {
         ElementTraversal et = parse(DOC1);
         Element e = et.getLastElementChild();
         assertEquals("s", e.getNodeName());
@@ -67,7 +69,7 @@ public class ComplexTest extends AbstractTestCase {
         assertNull(e);
     }
     
-    public void testGetLastChild2() {
+    public void testGetLastChild2() throws IOException, SAXException  {
         ElementTraversal et = parse(DOC2);
         Element e = et.getLastElementChild();
         assertEquals("child", e.getNodeName());
@@ -76,7 +78,7 @@ public class ComplexTest extends AbstractTestCase {
         assertNull(e);
     }
     
-    public void testGetNextElementSibling1() {
+    public void testGetNextElementSibling1() throws IOException, SAXException  {
         ElementTraversal et = parse(DOC1);
         Element e = et.getFirstElementChild();
         et = toElementTraversal(e);
@@ -96,7 +98,7 @@ public class ComplexTest extends AbstractTestCase {
         assertEquals("i", e.getNodeName());
     }
     
-    public void testGetNextElementSibling2() {
+    public void testGetNextElementSibling2() throws IOException, SAXException  {
         ElementTraversal et = parse(DOC2);
         Element e = et.getFirstElementChild();
         et = toElementTraversal(e);
@@ -104,7 +106,7 @@ public class ComplexTest extends AbstractTestCase {
         assertNull(e);
     }
     
-    public void testGetPreviousElementSibling1() {
+    public void testGetPreviousElementSibling1() throws IOException, SAXException  {
         ElementTraversal et = parse(DOC1);
         Element e = et.getLastElementChild();
         et = toElementTraversal(e);
@@ -124,7 +126,7 @@ public class ComplexTest extends AbstractTestCase {
         assertEquals("i", e.getNodeName());
     }
     
-    public void testGetPreviousElementSibling2() {
+    public void testGetPreviousElementSibling2() throws IOException, SAXException  {
         ElementTraversal et = parse(DOC2);
         Element e = et.getLastElementChild();
         et = toElementTraversal(e);
@@ -132,12 +134,12 @@ public class ComplexTest extends AbstractTestCase {
         assertNull(e);
     }
     
-    public void testChildElementCount1() {
+    public void testChildElementCount1() throws IOException, SAXException  {
         ElementTraversal et = parse(DOC1);
         assertEquals(11, et.getChildElementCount());
     }
     
-    public void testChildElementCount2() {
+    public void testChildElementCount2() throws IOException, SAXException  {
         ElementTraversal et = parse(DOC2);
         assertEquals(1, et.getChildElementCount());
     }

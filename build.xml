@@ -804,10 +804,29 @@ Authors:
     </path>
     <pathconvert property="run.classpath.string" refid="run.classpath" pathsep="${path.separator}"/>
     <path id="test.classpath">
-          <path refid="run.classpath"/>
-        <pathelement location="${build.dir}/tests"/>
+      <path refid="run.classpath"/>
+      <pathelement location="${build.dir}/tests"/>
     </path>
     <pathconvert property="test.classpath.string" refid="test.classpath" pathsep="${path.separator}"/>
+
+    <echo message="Running dom.traversal tests..." />
+    <junit fork="no"
+           haltonfailure="no" 
+           haltonerror="no" 
+           failureproperty="test.failed" 
+           errorproperty="test.failed"
+           showoutput="yes">
+        <classpath refid="test.classpath"/>
+        
+        <batchtest fork="yes" todir="test-reports">
+          <fileset dir="${build.dir}/tests">
+             <include name="dom/traversal/*Test.java"/>                    
+             <exclude name="**/*$*.class"/>
+           </fileset>
+         </batchtest>
+         
+       <formatter type="brief" usefile="false"/>
+    </junit>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
     <echo message="Using classpath='${run.classpath.string}'" />
@@ -902,12 +921,7 @@ Authors:
         <arg value="${data.dir}/personal-schema.xml"/>
         <arg value="out.xml"/>
     </java>
-    <echo message="Running dom.traversal.AllTests..." />
-    <java fork="yes"
-          classname="dom.traversal.AllTests"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
+    
     <echo message="Running schema.Test..." />
     <java fork="yes"
           classname="schema.Test"
@@ -981,6 +995,9 @@ Authors:
           classpathref="test.classpath"
           failOnError="yes">
     </java>
+    
+    <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
+    
   </target>
 
   <target name="ci-test" depends="test">

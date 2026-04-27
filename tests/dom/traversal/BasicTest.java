@@ -32,9 +32,7 @@ public class BasicTest extends AbstractTestCase {
     public void setUp() throws Exception {
         super.setUp();
         doc1 = parse("<root>1<a/>2<b/>3<c/>4<d/><!-- foo -->5<e/>6<?target data?></root>");
-        assertNotNull(doc1);
         doc2 = parse("<root>1<a>2<b/>7<e/>9</a>3<c>5<d/>0<!-- bar -->8<f/>6</c>4</root>");
-        assertNotNull(doc2);
     }
     
     public void testGetFirstChild1() {

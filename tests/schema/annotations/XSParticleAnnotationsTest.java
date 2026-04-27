@@ -563,13 +563,4 @@ public class XSParticleAnnotationsTest extends TestCase {
                 trim(((XSAnnotation) annotations.item(0)).getAnnotationString()));
 
     }
-
-    /**
-     * 
-     * @param args
-     */
-    public static void main(String args[]) {
-        junit.textui.TestRunner.run(XSParticleAnnotationsTest.class);
-    }
-
 }

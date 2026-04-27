@@ -250,8 +250,4 @@ public class XSElementAnnotationsTest extends TestCase {
         XSObjectList annotations = elem.getAnnotations();
         assertEquals("TEST5_NO_ANNOTATIONS", 0, annotations.getLength());
     }
-
-    public static void main(String args[]) {
-        junit.textui.TestRunner.run(XSElementAnnotationsTest.class);
-    }
 }

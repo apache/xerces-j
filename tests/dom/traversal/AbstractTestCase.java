@@ -41,7 +41,8 @@ public abstract class AbstractTestCase extends TestCase {
     
     private DocumentBuilder fDocumentBuilder;
     
-    protected final void setUp() throws ParserConfigurationException {
+    protected void setUp() throws Exception {
+        super.setUp();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
         dbf.setExpandEntityReferences(false);

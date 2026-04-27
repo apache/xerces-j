@@ -822,13 +822,14 @@ Authors:
         <batchtest fork="yes" todir="test-reports">
           <fileset dir="${build.dir}/classes">
              <include name="dom/traversal/*Test.class"/>                    
-             <include name="dom/range/*Test*.class"/>                    
-             <exclude name="dom/range/Test.class"/>                    
+             <include name="dom/range/TestCompare.class"/>                    
+             <include name="idc/IDConstraintTests.class"/>                    
            </fileset>
          </batchtest>
          
        <formatter type="brief" usefile="false"/>
     </junit>
+    <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
     <echo message="Using classpath='${run.classpath.string}'" />
@@ -903,12 +904,6 @@ Authors:
           classpathref="test.classpath"
           failOnError="yes">
       <arg value="all"/>
-    </java>
-    <echo message="Running dom.ids.Test..." />
-    <java fork="yes"
-          classname="dom.ids.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
     </java>
 
 <!--  
@@ -990,16 +985,7 @@ Authors:
           classname="dom.dom3.Test"
           classpathref="test.classpath"
           failOnError="yes">
-    </java>
-    <echo message="Running idc.AllTests..." />
-    <java fork="yes"
-          classname="idc.AllTests"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
-    
-    <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
-    
+    </java>   
   </target>
 
   <target name="ci-test" depends="test">

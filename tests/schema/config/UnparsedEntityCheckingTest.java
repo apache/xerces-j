@@ -59,6 +59,7 @@ public class UnparsedEntityCheckingTest extends BaseTest {
         }
         
         checkDefault();
+        throw new RuntimeException();
     }
     
     public void testSetFalseValid() {

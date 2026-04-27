@@ -65,12 +65,4 @@ public class TestCase extends junit.framework.TestCase {
         return String.copyValueOf(dest,0,j-1);
     }
 
-    /**
-     * 
-     * @param args
-     */
-    public static void main(String args[]) {
-        junit.textui.TestRunner.run(TestCase.class);
-    }
-
 }

@@ -905,7 +905,12 @@ Authors:
           failOnError="yes">
       <arg value="all"/>
     </java>
-
+    <echo message="Running dom.ids.Test..." />
+    <java fork="yes"
+          classname="dom.ids.Test"
+          classpathref="test.classpath"
+          failOnError="yes">
+    </java>
 <!--  
      TODO fix this test
      [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.

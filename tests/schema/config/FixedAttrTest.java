@@ -32,10 +32,6 @@ import org.apache.xerces.xs.ItemPSVI;
  */
 public class FixedAttrTest extends BaseTest {
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(FixedAttrTest.class);
-    }
-    
     protected String getXMLDocument() {
         return "fixedAttr.xml";
     }

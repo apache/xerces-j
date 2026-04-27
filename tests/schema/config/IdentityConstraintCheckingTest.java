@@ -37,10 +37,6 @@ public class IdentityConstraintCheckingTest extends BaseTest {
     
     public static final String INVALID_KEYREF = "cvc-identity-constraint.4.3";
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(IdentityConstraintCheckingTest.class);
-    }
-    
     protected String getXMLDocument() {
         return "idc.xml";
     }

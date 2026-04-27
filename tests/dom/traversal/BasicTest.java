@@ -26,22 +26,22 @@ import org.w3c.dom.ElementTraversal;
  */
 public class BasicTest extends AbstractTestCase {
     
-    private final ElementTraversal DOC1;
-    private final ElementTraversal DOC2;
+    private ElementTraversal doc1;
+    private ElementTraversal doc2;
     
     public void setUp() throws Exception {
         super.setUp();
-        ElementTraversal DOC1 = parse("<root>1<a/>2<b/>3<c/>4<d/><!-- foo -->5<e/>6<?target data?></root>");
-        ElementTraversal DOC2 = parse("<root>1<a>2<b/>7<e/>9</a>3<c>5<d/>0<!-- bar -->8<f/>6</c>4</root>");
+        ElementTraversal doc1 = parse("<root>1<a/>2<b/>3<c/>4<d/><!-- foo -->5<e/>6<?target data?></root>");
+        ElementTraversal doc2 = parse("<root>1<a>2<b/>7<e/>9</a>3<c>5<d/>0<!-- bar -->8<f/>6</c>4</root>");
     }
     
     public void testGetFirstChild1() {
-        Element e = DOC1.getFirstElementChild();
+        Element e = doc1.getFirstElementChild();
         assertEquals("a", e.getNodeName());
     }
     
     public void testGetFirstChild2() {
-        Element e = DOC2.getFirstElementChild();
+        Element e = doc2.getFirstElementChild();
         assertEquals("a", e.getNodeName());
         ElementTraversal et = toElementTraversal(e);
         e = et.getFirstElementChild();
@@ -49,12 +49,12 @@ public class BasicTest extends AbstractTestCase {
     }
     
     public void testGetLastChild1() {
-        Element e = DOC1.getLastElementChild();
+        Element e = doc1.getLastElementChild();
         assertEquals("e", e.getNodeName());
     }
     
     public void testGetLastChild2() {
-        Element e = DOC2.getLastElementChild();
+        Element e = doc2.getLastElementChild();
         assertEquals("c", e.getNodeName());
         ElementTraversal et = toElementTraversal(e);
         e = et.getLastElementChild();
@@ -62,7 +62,7 @@ public class BasicTest extends AbstractTestCase {
     }
     
     public void testGetNextElementSibling1() {
-        Element e = DOC1.getFirstElementChild();
+        Element e = doc1.getFirstElementChild();
         ElementTraversal et = toElementTraversal(e);
         e = et.getNextElementSibling();
         assertEquals("b", e.getNodeName());
@@ -75,7 +75,7 @@ public class BasicTest extends AbstractTestCase {
     }
     
     public void testGetNextElementSibling2() {
-        Element e = DOC2.getFirstElementChild();
+        Element e = doc2.getFirstElementChild();
         ElementTraversal et = toElementTraversal(e);
         e = et.getNextElementSibling();
         assertEquals("c", e.getNodeName());
@@ -88,7 +88,7 @@ public class BasicTest extends AbstractTestCase {
     }
     
     public void testGetPreviousElementSibling1() {
-        Element e = DOC1.getLastElementChild();
+        Element e = doc1.getLastElementChild();
         ElementTraversal et = toElementTraversal(e);
         e = et.getPreviousElementSibling();
         assertEquals("d", e.getNodeName());
@@ -101,7 +101,7 @@ public class BasicTest extends AbstractTestCase {
     }
     
     public void testGetPreviousElementSibling2() {
-        Element e = DOC2.getLastElementChild();
+        Element e = doc2.getLastElementChild();
         ElementTraversal et = toElementTraversal(e);
         e = et.getPreviousElementSibling();
         assertEquals("a", e.getNodeName());
@@ -114,14 +114,14 @@ public class BasicTest extends AbstractTestCase {
     }
     
     public void testChildElementCount1() {
-        assertEquals(5, DOC1.getChildElementCount());
+        assertEquals(5, doc1.getChildElementCount());
     }
     
     public void testChildElementCount2() {
-        assertEquals(2, DOC2.getChildElementCount());
-        ElementTraversal et2 = toElementTraversal(DOC2.getFirstElementChild());
+        assertEquals(2, doc2.getChildElementCount());
+        ElementTraversal et2 = toElementTraversal(doc2.getFirstElementChild());
         assertEquals(2, et2.getChildElementCount());
-        et2 = toElementTraversal(DOC2.getLastElementChild());
+        et2 = toElementTraversal(doc2.getLastElementChild());
         assertEquals(2, et2.getChildElementCount());
     }
 }

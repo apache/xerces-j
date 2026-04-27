@@ -825,8 +825,28 @@ Authors:
              <include name="dom/range/TestCompare.class"/>                    
              <include name="idc/IDConstraintTests.class"/>                    
              <include name="schema/annotations/*Test.class"/>                    
+             <include name="schema/config/BasicTest.class"/>                    
+             <include name="schema/config/FeaturePropagationTest.class"/>                    
+             <include name="schema/config/FixedAttrTest.class"/> 
+             <include name="schema/config/IdentityConstraintCheckingTest.class"/>
+             <include name="schema/config/IdIdrefCheckingTest.class"/>
+             <include name="schema/config/IgnoreXSIType_A_A_Test.class"/>
+             <include name="schema/config/IgnoreXSIType_A_C_Test.class"/>
+             <include name="schema/config/IgnoreXSIType_C_A_Test.class"/>
+             <include name="schema/config/RootSimpleTypeDefinitionTest.class"/>
+             <include name="schema/config/RootTypeDefinitionTest.class"/>
+             <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
+          <!-- These tests are failing. Fix them.
+             <include name="schema/config/IgnoreXSIType_C_AC_Test.class"/>
+             <include name="schema/config/IgnoreXSIType_C_CA_Test.class"/>
+             <include name="schema/config/IgnoreXSIType_C_C_Test.class"/>
+             <include name="schema/config/SurrogatePairLengthTest.class"/>
+             <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
+             <include name="schema/config/UnparsedEntityCheckingTest.class"/>
+            -->             
            </fileset>
          </batchtest>
+
          
        <formatter type="brief" usefile="false"/>
     </junit>
@@ -931,20 +951,6 @@ Authors:
           classpathref="test.classpath"
           failOnError="yes">
     </java>
-    <!-- TODO some of these tests pass so I need to split them in such a way that we can enable them -->
-    <!-- These tests are failing. Fix them. 
-    <echo message="Running schema.config.AllTests..." />
-    <junit fork="yes"
-           haltonfailure="no" 
-           haltonerror="no" 
-           failureproperty="test.failed" 
-           errorproperty="test.failed"
-           showoutput="yes">
-        <classpath refid="test.classpath"/>
-        <test name="schema.config.AllTests"/>
-        <formatter type="brief" usefile="false"/>
-    </junit>
-    -->
     <echo message="Running jaxp.PropertyTest..." />
     <java fork="yes"
           classname="jaxp.PropertyTest"

@@ -44,7 +44,6 @@ public abstract class AbstractTestCase extends TestCase {
         super.setUp();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
-        dbf.setExpandEntityReferences(false);
         fDocumentBuilder = dbf.newDocumentBuilder();
     }
     

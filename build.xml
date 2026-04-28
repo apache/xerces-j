@@ -813,7 +813,7 @@ Authors:
 
     <junit fork="yes" forkmode="once"
            haltonfailure="no" 
-           haltonerror="no" 
+           haltonerror="yes" 
            failureproperty="test.failed" 
            errorproperty="test.failed"
            showoutput="yes">

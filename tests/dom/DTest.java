@@ -380,7 +380,6 @@ public class DTest extends TestCase {
         try {
             test.testDeepNodeList(d);
             test.testDocument(d);
-            test.testDocumentFragment(d);
             test.testDocumentType(d);
             test.testDOMImplementation(d);
             test.testElement(d);
@@ -793,19 +792,13 @@ public class DTest extends TestCase {
     }
 
     /**
-     * This method tests DocumentFragment methods for the XML DOM implementation
-     * version 2.0 10/12/98
-     *
-     ********This really isn't needed, only exists to throw NO_MODIFICATION_ALLOWED_ERR ********
+     * This method tests DocumentFragment methods for the XML DOM implementation     *
+     * FIXME exists to throw NO_MODIFICATION_ALLOWED_ERR ********
      */
-    public void testDocumentFragment(org.w3c.dom.Document document)
-    {
-        boolean OK = true;
+    public void testDocumentFragment() {
         DocumentFragment testDocFragment = document.createDocumentFragment();
             
-        //  testDocFragment.setNodeValue("This is a document fragment!");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
-        
-        if (!OK) System.err.println("\n*****The DocumentFragment method calls listed above failed, all others worked correctly.*****");
+        //  testDocFragment.setNodeValue("This is a document fragment!");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********        
     }
 
     /**

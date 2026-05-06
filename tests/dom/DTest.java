@@ -377,7 +377,6 @@ public class DTest extends TestCase {
     
         test.findTestNodes((Node) d);
         try {
-            test.testDeepNodeList(d);
             test.testDocument(d);
             test.testElement(d);
             test.testDOMerrors(d);
@@ -625,37 +624,21 @@ public class DTest extends TestCase {
     /**
      * This method tests DeepNodeList methods for the XML DOM implementation
      */
-    public void testDeepNodeList(org.w3c.dom.Document document) {  
-        boolean OK = true;
-
+    public void testDeepNodeList() {  
         Node node = document.getLastChild().getLastChild(); // node gets docBody element
-        if (!(8 == ((Element) node).getElementsByTagName("*").getLength()))
-            {
-                System.out.println ("Warning!!! DeepNodeList's 'getLength' failed to work properly!");
-                OK = false;     
-            }
-        Node node2 = ((Element) node).getElementsByTagName("*").item(2); //This also runs through 'nextMatchingElementAfter"
-        if (! node2.getNodeName().equals("dBodyLevel32"))
-            {
-                System.out.println ("Warning!!! DeepNodeList's 'item' (or Element's 'getElementsBy TagName)failed to work properly!");
-                OK = false;     
-            }
-        node2 = document.getLastChild();
-        if (! ((Element) node2).getElementsByTagName("dTestBody").item(0).getNodeName().equals("dTestBody"))//This also runs through 'nextMatchingElementAfter"
-            {
-                System.out.println ("Warning!!! DeepNodeList's 'item' (or Element's 'getElementsBy TagName)failed to work properly!");
-                OK = false;     
-            }
-            
-        
-        if (!OK) System.out.println("\n*****The DeepNodeList method calls listed above failed, all others worked correctly.*****");
+        assertEquals(8, ((Element) node).getElementsByTagName("*").getLength());
+
+        Node dBodyLevel32 = ((Element) node).getElementsByTagName("*").item(2); //This also runs through 'nextMatchingElementAfter"
+        assertEquals("dBodyLevel32", dBodyLevel32.getNodeName());
+
+        Node dTestBody = document.getLastChild();
+        assertEquals("dTestBody", ((Element) dTestBody).getElementsByTagName("dTestBody").item(0).getNodeName());
     }
+
     /**
-     * This method tests Document methods for the XML DOM implementation
-     * version 2.0 10/12/98
-     * @param document org.w3c.dom.Document
+     * This method tests Document methods for the XML DOM implementation.
      *
-     **** ALL Document create methods are run in docBuilder except createAttribute which is in testAttribute**
+     * ALL Document create methods are run in docBuilder except createAttribute which is in testAttribute.
      */
     public void testDocument(org.w3c.dom.Document document)
     {
@@ -664,8 +647,8 @@ public class DTest extends TestCase {
         Element newElement;
         Node node, node2;
         String[] elementNames =  {"dFirstElement", "dTestBody", "dBodyLevel21","dBodyLevel31","dBodyLevel32",
-                       "dBodyLevel22","dBodyLevel33","dBodyLevel34","dBodyLevel23","dBodyLevel24"};
-        String[] newElementNames = {"dFirstElement", "dTestBody", "dBodyLevel22","dBodyLevel33","dBodyLevel34","dBodyLevel23"};
+                       "dBodyLevel22", "dBodyLevel33", "dBodyLevel34", "dBodyLevel23", "dBodyLevel24"};
+        String[] newElementNames = {"dFirstElement", "dTestBody", "dBodyLevel22", "dBodyLevel33", "dBodyLevel34", "dBodyLevel23"};
         boolean result;
         boolean OK = true;
         

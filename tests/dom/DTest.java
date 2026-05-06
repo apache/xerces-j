@@ -50,19 +50,19 @@ import dom.util.Assertion;
  * @version 2.0 
  */
 public class DTest extends TestCase {
-	
-	private static Element 		testElementNode;
-	private static Attr 		testAttributeNode;
-	private static Text 		testTextNode;
-	private static CDATASection 	testCDATASectionNode;
-	private static EntityReference 	testEntityReferenceNode;
-	private static Entity 		testEntityNode;
-	private static ProcessingInstruction testProcessingInstructionNode;
-	private static Comment 		testCommentNode;
-	private static Document 		testDocumentNode;
-	private static DocumentType 	testDocumentTypeNode;
-	private static DocumentFragment 	testDocumentFragmentNode;
-	private static Notation 		testNotationNode;
+    
+    private static Element               testElementNode;
+    private static Attr                  testAttributeNode;
+    private static Text                  testTextNode;
+    private static CDATASection          testCDATASectionNode;
+    private static EntityReference       testEntityReferenceNode;
+    private static Entity                testEntityNode;
+    private static ProcessingInstruction testProcessingInstructionNode;
+    private static Comment          testCommentNode;
+    private static Document         testDocumentNode;
+    private static DocumentType     testDocumentTypeNode;
+    private static DocumentFragment testDocumentFragmentNode;
+    private static Notation         testNotationNode;
 
     /**
      * version 3.0 01/25/99
@@ -163,7 +163,7 @@ public class DTest extends TestCase {
         Text docNode4 = doc.createTextNode(name + "docTextNode4");
         
         Entity docEntity = (Entity) doc.getDoctype().getEntities().getNamedItem("ourEntityNode"); // Get the Entity node
-        DocumentType docDocType = (DocumentType) doc.getFirstChild();	// Get the DocumentType node
+        DocumentType docDocType = (DocumentType) doc.getFirstChild();   // Get the DocumentType node
         EntityReference entityReferenceText = (EntityReference) doc.getLastChild().getLastChild().getLastChild().getFirstChild();
         Text entityReferenceText2 = doc.createTextNode("entityReferenceText information");
     //************************************************* ERROR TESTS
@@ -194,8 +194,8 @@ public class DTest extends TestCase {
         OK &= Assertion.verify(DTest.DOMExceptionsTest(docBodyLevel32, "removeChild", new Class[]{Node.class}, new Object[]{docFirstElement}, DOMException.NOT_FOUND_ERR ));
         OK &= Assertion.verify(DTest.DOMExceptionsTest(docBodyLevel32, "replaceChild", new Class[]{Node.class, Node.class}, new Object[]{docTextNode11,docFirstElement }, DOMException.NOT_FOUND_ERR ));
     
-         //!! Throws a NOT_FOUND_ERR	********
-         //	docBodyLevel32.getAttributes().removeNamedItem(testAttribute.getName()); 	16  // To test removeNamedItem
+         //!! Throws a NOT_FOUND_ERR    ********
+         // docBodyLevel32.getAttributes().removeNamedItem(testAttribute.getName());    16  // To test removeNamedItem
          
         assertTrue(OK);
     } //END OF DOCBUILDER
@@ -219,7 +219,7 @@ public class DTest extends TestCase {
             else System.err.println("Wrong Exception (" + code + ")");
     
             if (!asExpected) {
-                System.err.println("Expected DOMException (" + code + ") not thrown");			
+                System.err.println("Expected DOMException (" + code + ") not thrown");          
             }
         } catch (NoSuchMethodException | IllegalAccessException ex) {
             fail();
@@ -371,7 +371,7 @@ public class DTest extends TestCase {
         Entity docEntity = createEntity(d, "ourEntityNode");
         Text entityChildText = d.createTextNode("entityChildText information"); // Build a branch for entityReference tests
             ((org.apache.xerces.dom.NodeImpl) docEntity).setReadOnly(false, true);
-        docEntity.appendChild(entityChildText);					  // & for READONLY_ERR tests
+        docEntity.appendChild(entityChildText);                   // & for READONLY_ERR tests
             ((org.apache.xerces.dom.NodeImpl) docEntity).setReadOnly(true, true);
         docDocType.getEntities().setNamedItem(docEntity);
         
@@ -379,7 +379,6 @@ public class DTest extends TestCase {
     
         test.findTestNodes((Node) d);
         try {
-            test.testCharacterData(d);
             test.testChildNodeList(d);
             test.testComment(d);
             test.testDeepNodeList(d);
@@ -398,43 +397,43 @@ public class DTest extends TestCase {
         
     //!! Throws WRONG_DOCUMENT_ERR **********
             
-        //	z.appendChild(d.createComment("Test doc d comment"));// Tries to append z document with document d comment
-        //	d.getDocumentElement().appendChild(z.createElement("newZdocElement"));// Tries to append d document with document z Element
-        //	d.getLastChild().getLastChild().insertBefore(z.createElement("newZdocElement"),d.getLastChild().getLastChild().getFirstChild());// Tries to insert into d document with document z Element
-        //	d.replaceChild(z.createElement("newZdocElement"),d.getLastChild().getLastChild().getFirstChild());	// Tries to replace in d document with document z Element
+        //  z.appendChild(d.createComment("Test doc d comment"));// Tries to append z document with document d comment
+        //  d.getDocumentElement().appendChild(z.createElement("newZdocElement"));// Tries to append d document with document z Element
+        //  d.getLastChild().getLastChild().insertBefore(z.createElement("newZdocElement"),d.getLastChild().getLastChild().getFirstChild());// Tries to insert into d document with document z Element
+        //  d.replaceChild(z.createElement("newZdocElement"),d.getLastChild().getLastChild().getFirstChild());  // Tries to replace in d document with document z Element
     
-        /*	Attribute newAttribute = d.createAttribute("newAttribute");
+        /*  Attribute newAttribute = d.createAttribute("newAttribute");
             d.getDocumentElement().setAttributeNode(newAttribute);
             d.getDocumentElement().getAttributes().setNamedItem(z.createAttribute("newzAttribute"));
         */
             
     //!! Throws INVALID_CHARACTER_ERR **********
         // ******This just gets us through each method. JKess has a comprehensive test of Invalid Names******
-        //	d.createAttribute("Invalid Name"); // Name with blank space
-        //	d.createElement("5InvalidName"); // Name starts with numeric
-        //	d.createProcessingInstruction("This is the target processor channel","InvalidName>");// Name ends with >
-        //	d.getDocumentElement().setAttribute("Invalid%Name",""); // Name contains %
+        //  d.createAttribute("Invalid Name"); // Name with blank space
+        //  d.createElement("5InvalidName"); // Name starts with numeric
+        //  d.createProcessingInstruction("This is the target processor channel","InvalidName>");// Name ends with >
+        //  d.getDocumentElement().setAttribute("Invalid%Name",""); // Name contains %
             
     
-    //!!	******** NO_DATA_ALLOWED_ERR ********No cases to test as of 9/15
+    //!!    ******** NO_DATA_ALLOWED_ERR ********No cases to test as of 9/15
     
     
-    //!! 	******** NO_MODIFICATION_ALLOWED_ERR ******** When read only exists
+    //!!    ******** NO_MODIFICATION_ALLOWED_ERR ******** When read only exists
         /*
             
     
             
             //**** FOR Element when read only exists********
-            .removeAttribute("aString");		   //***** Not until read only exists.
-            .removeAttributeNode(Attribute); 	   //***** Not until read only exists.
+            .removeAttribute("aString");           //***** Not until read only exists.
+            .removeAttributeNode(Attribute);       //***** Not until read only exists.
             .setAttribute("aString", "anotherString"); //***** Not until read only exists.
             
             
             //**** FOR Node when read only exists********
-            .appendChild(aNode);			//***** Not until read only exists.
-            .insertBefore(aNode, AnotherNode);	//***** Not until read only exists.
-            .removeChild(aNode);			//***** Not until read only exists.
-            .replaceChild(aNode);			//***** Not until read only exists.
+            .appendChild(aNode);            //***** Not until read only exists.
+            .insertBefore(aNode, AnotherNode);  //***** Not until read only exists.
+            .removeChild(aNode);            //***** Not until read only exists.
+            .replaceChild(aNode);           //***** Not until read only exists.
             
             .splitText(2); //***** Not until read only exists.
             
@@ -442,7 +441,7 @@ public class DTest extends TestCase {
         */
         
     
-    //!!******** NOT_SUPPORTED_ERR	********For HTML when implemented
+    //!!******** NOT_SUPPORTED_ERR  ********For HTML when implemented
         /*
             .createCDATASection("String stuff");
             .createEntityReference("String stuff");
@@ -529,89 +528,49 @@ public class DTest extends TestCase {
     /**
      * This method tests CharacterData methods for the XML DOM implementation
      * version 2.0 10/12/98
-     * @param document org.w3c.dom.Document
      */
-    public void testCharacterData(org.w3c.dom.Document document)
-    {
-        CharacterData charData;
-        String compareData, newData, resetData;
+    public void testCharacterData() {
         boolean OK = true;
-        charData = (CharacterData) document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // charData gets textNode11
-        compareData = "dBodyLevel31'sChildTextNode11";
-        if (!compareData.equals(charData.getData()))
-        {
-            System.err.println("Warning!!! CharacterData's 'getData' failed to work properly!\n This may corrupt other CharacterData tests!!!*****");
-            OK = false;
-        }	
-        
-        resetData = charData.getData();
+        CharacterData charData = (CharacterData) document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // charData gets textNode11
+        String compareData = "dBodyLevel31'sChildTextNode11";
+        assertEquals(compareData, charData.getData());
+            
+        String resetData = charData.getData();
     
-        newData = " This is new data for this node";
+        String newData = " This is new data for this node";
         compareData = charData.getData() + newData;
         charData.appendData(newData);
-        if (!compareData.equals(charData.getData()))
-        {
-            System.err.println("Warning!!! CharacterData's 'appendData' failed to work properly!");
-            OK = false;
-        }
+        assertEquals(compareData, charData.getData());
     
         compareData = "dBodyLevel";
         charData.deleteData(10, 100);
-        if (!compareData.equals(charData.getData()))
-        {
-            System.err.println("Warning!!! CharacterData's 'deleteData' failed to work properly!");
-            OK = false;
-        }
+        assertEquals("CharacterData's 'deleteData' failed to work properly!", compareData, charData.getData());
     
         int length = 10;
-        if (!(length == charData.getLength()))
-        {
-            System.err.println("Warning!!! CharacterData's 'getLength' failed to work properly!");
-            OK = false;
-        }
+        assertEquals("CharacterData's 'getLength' failed to work properly!", length, charData.getLength());
     
         compareData = "dBody' This is data inserted into this node'Level";
         charData.insertData(5, "' This is data inserted into this node'");
-        if (!compareData.equals(charData.getData()))
-        {
-            System.err.println("Warning!!! CharacterData's 'insertData' failed to work properly!");
-            OK = false;
-        }
-    
+        assertEquals("CharacterData's 'insertData' failed to work properly!", compareData, charData.getData());
+
         compareData = "dBody' This is ' replacement data'ted into this node'Level";
         charData.replaceData(15, 10, "' replacement data'");
-        if (!compareData.equals(charData.getData()))
-        {
-            System.err.println("Warning!!! CharacterData's 'replaceData' failed to work properly!");
-            OK = false;
-        }
-    
+        assertEquals("CharacterData's 'replaceData' failed to work properly!", compareData, charData.getData());
+
         compareData = "New data A123456789B123456789C123456789D123456789E123456789";
         charData.setData("New data A123456789B123456789C123456789D123456789E123456789");
-        if (!compareData.equals(charData.getData()))
-        {
-            System.err.println("Warning!!! CharacterData's 'setData' failed to work properly!");
-            OK = false;
-        }
-    
+        assertEquals("CharacterData's 'setData' failed to work properly!", compareData, charData.getData());
+
         compareData = "123456789D123456789E123456789";
-        if (!compareData.equals(charData.substringData(30, 30)))
-        {
-            System.err.println("Warning!!! CharacterData's 'substringData' failed to work properly!");
-            OK = false;
-        }
+        assertEquals("CharacterData's 'substringData' failed to work properly!", compareData, charData.substringData(30, 30));
     
         compareData = "New data A123456789B12345";
-        if (!compareData.equals(charData.substringData(0, 25)))
-        {
-            System.err.println("Warning!!! CharacterData's 'substringData' failed to work properly!");
-            OK = false;
-        }
+        assertEquals("CharacterData's 'substringData' failed to work properly!", compareData, charData.substringData(0, 25));
     
-    //************************************************* ERROR TESTS
+        //************************************************* ERROR TESTS
         DTest tests = new DTest();
     
-    //!! Throws INDEX_SIZE_ERR ********************
+        //!! Throws INDEX_SIZE_ERR ********************
         OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "deleteData", new Class[]{int.class, int.class}, 
                 new Object[]{Integer.valueOf(-1),Integer.valueOf(5) }, DOMException.INDEX_SIZE_ERR ));
         OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "deleteData", new Class[]{int.class, int.class}, 
@@ -638,8 +597,7 @@ public class DTest extends TestCase {
         OK &= Assertion.verify(DTest.DOMExceptionsTest(charData, "substringData", new Class[]{int.class, int.class}, 
                 new Object[]{Integer.valueOf(2),Integer.valueOf(-1) }, DOMException.INDEX_SIZE_ERR ));
         
-    
-    //!! Throws NO_MODIFICATION_ALLOWED_ERR ******** 
+        //!! Throws NO_MODIFICATION_ALLOWED_ERR ******** 
         Node node = document.getDocumentElement().getElementsByTagName("dBodyLevel24").item(0).getFirstChild().getChildNodes().item(0); // node gets ourEntityReference node's child text
     
         OK &= Assertion.verify(DTest.DOMExceptionsTest(node, "appendData", new Class[]{String.class}, 
@@ -653,46 +611,38 @@ public class DTest extends TestCase {
         OK &= Assertion.verify(DTest.DOMExceptionsTest(node, "setData", new Class[]{String.class}, 
                 new Object[]{"New setdata stuff"}, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
                     
-        if (!OK) System.err.println("\n*****The CharacterData method calls listed above failed, all others worked correctly.*****");
-        charData.setData(resetData); // reset node to original data
+        assertTrue("The CharacterData method calls listed above failed, all others worked correctly.*****", OK);
      }
 
     /**
-     * This method tests ChildNodeList methods for the XML DOM implementation
-     * version 2.0 10/12/98
+     * This method tests ChildNodeList methods for the XML DOM implementation.
      */
-    public void testChildNodeList(org.w3c.dom.Document document)
-    {
+    public void testChildNodeList(org.w3c.dom.Document document) {
     
-        Node node, node2;
         boolean OK = true;
-        node = document.getDocumentElement().getLastChild(); // node gets doc's testBody element
+        Node node = document.getDocumentElement().getLastChild(); // node gets doc's testBody element
         
-        if (!(node.getChildNodes().getLength()== 4))
-            OK = false;
-        node2 = node.getChildNodes().item(2);
-        if (! node2.getNodeName().equals("dBodyLevel23"))
-            OK = false;
+        if (!(node.getChildNodes().getLength() == 4)) OK = false;
+        Node node2 = node.getChildNodes().item(2);
+        if (!node2.getNodeName().equals("dBodyLevel23")) OK = false;
         
-        if (!OK) System.out.println("\n*****The ChildNodeList method calls listed above failed, all others worked correctly.*****");		
+        if (!OK) System.err.println("\n*****The ChildNodeList method calls listed above failed, all others worked correctly.*****");        
     }
 
     /**
-     * This method tests Comment methods for the XML DOM implementation
-     * version 1.0 10/12/98
+     * This method tests Comment methods for the XML DOM implementation.
      */
-    public void testComment(org.w3c.dom.Document document)
-    {
+    public void testComment(org.w3c.dom.Document document) {
         Node node, node2;
         boolean T = true;
         boolean OK = true;
         node = document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // node gets textNode11
         node2 = node.cloneNode(T);
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) && 		// Compares node names for equality
+        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
               (node.getNodeValue() != null && node2.getNodeValue() != null)     // Checks to make sure each node has a value node
-            ?  node.getNodeValue().equals(node2.getNodeValue()) 		// If both have value nodes test those value nodes for equality
-            : (node.getNodeValue() == null && node2.getNodeValue() == null)))	// If one node doesn't have a value node make sure both don't
+            ?  node.getNodeValue().equals(node2.getNodeValue())         // If both have value nodes test those value nodes for equality
+            : (node.getNodeValue() == null && node2.getNodeValue() == null)))   // If one node doesn't have a value node make sure both don't
             //println("'cloneNode' did not clone the Comment node correctly");
             OK = false;
         // Deep clone test comparison is in testNode & testDocument
@@ -713,19 +663,19 @@ public class DTest extends TestCase {
         if (!(8 == ((Element) node).getElementsByTagName("*").getLength()))
             {
                 System.out.println ("Warning!!! DeepNodeList's 'getLength' failed to work properly!");
-                OK = false;		
+                OK = false;     
             }
         node2 = ((Element) node).getElementsByTagName("*").item(2); //This also runs through 'nextMatchingElementAfter"
         if (! node2.getNodeName().equals("dBodyLevel32"))
             {
                 System.out.println ("Warning!!! DeepNodeList's 'item' (or Element's 'getElementsBy TagName)failed to work properly!");
-                OK = false;		
+                OK = false;     
             }
         node2 = document.getLastChild();
         if (! ((Element) node2).getElementsByTagName("dTestBody").item(0).getNodeName().equals("dTestBody"))//This also runs through 'nextMatchingElementAfter"
             {
                 System.out.println ("Warning!!! DeepNodeList's 'item' (or Element's 'getElementsBy TagName)failed to work properly!");
-                OK = false;		
+                OK = false;     
             }
             
         
@@ -752,20 +702,20 @@ public class DTest extends TestCase {
         
         DocumentType checkDocType =  make.createDocumentType(document,"testDocument1");
         DocumentType docType = document.getDoctype();
-        if (! (checkDocType.getNodeName().equals(docType.getNodeName()) && 		// Compares node names for equality
+        if (! (checkDocType.getNodeName().equals(docType.getNodeName()) &&      // Compares node names for equality
               (checkDocType.getNodeValue() != null && docType.getNodeValue() != null)   // Checks to make sure each node has a value node
-            ?  checkDocType.getNodeValue().equals(docType.getNodeValue()) 		// If both have value nodes test those value nodes for equality
-            : (checkDocType.getNodeValue() == null && docType.getNodeValue() == null)))	// If one node doesn't have a value node make sure both don't
+            ?  checkDocType.getNodeValue().equals(docType.getNodeValue())       // If both have value nodes test those value nodes for equality
+            : (checkDocType.getNodeValue() == null && docType.getNodeValue() == null))) // If one node doesn't have a value node make sure both don't
         {
             System.err.println("Warning!!! Document's 'getDocType method failed!" );
             OK = false;
         }
             
         Node rootElement = document.getLastChild();
-        if (! (rootElement.getNodeName().equals(document.getDocumentElement().getNodeName()) && 		// Compares node names for equality
+        if (! (rootElement.getNodeName().equals(document.getDocumentElement().getNodeName()) &&         // Compares node names for equality
               (rootElement.getNodeValue() != null && document.getDocumentElement().getNodeValue() != null)   // Checks to make sure each node has a value node
-            ?  rootElement.getNodeValue().equals(document.getDocumentElement().getNodeValue()) 		// If both have value nodes test those value nodes for equality
-            : (rootElement.getNodeValue() == null && document.getDocumentElement().getNodeValue() == null)))	// If one node doesn't have a value node make sure both don't
+            ?  rootElement.getNodeValue().equals(document.getDocumentElement().getNodeValue())      // If both have value nodes test those value nodes for equality
+            : (rootElement.getNodeValue() == null && document.getDocumentElement().getNodeValue() == null)))    // If one node doesn't have a value node make sure both don't
         {
             System.err.println("Warning!!! Document's 'getDocumentElement' method failed!" );
             OK = false;
@@ -787,12 +737,12 @@ public class DTest extends TestCase {
         if (document.equals(document.getImplementation()))
         {
             System.err.println("Warning!!! Document's 'getImplementation' method failed!" );
-            OK = false;		
+            OK = false;     
         }
             
         newElement = document.createElement("NewElementTestsInsertBefore");
-        //	doc.insertBefore(newElement,null);//!! Throws a HIERARCHY_REQUEST_ERR	*******	
-        //	doc.removeChild(docElements.item(9));//!! Throws a NOT_FOUND_ERR  ********
+        //  doc.insertBefore(newElement,null);//!! Throws a HIERARCHY_REQUEST_ERR   ******* 
+        //  doc.removeChild(docElements.item(9));//!! Throws a NOT_FOUND_ERR  ********
     
         docFragment = document.createDocumentFragment();
         //Tests removeChild and stores removed branch for tree reconstruction
@@ -814,7 +764,7 @@ public class DTest extends TestCase {
         docElements.item(1).insertBefore(docFragment, null); //Reattaches removed branch to restore tree to the original
         docElements.item(1).insertBefore(docFragment2, docElements.item(2)); //Reattaches removed branch to restore tree to the original
     
-        //	println(docElements.item(2).getNodeName());
+        //  println(docElements.item(2).getNodeName());
     
         docSize = docElements.getLength();
         for (i = 0; i < docSize; i++)
@@ -831,18 +781,18 @@ public class DTest extends TestCase {
         DTest tests = new DTest();
     
         
-    //	Document z = tests.createDocument();
-    //	tests.docBuilder(z, "z");
+    //  Document z = tests.createDocument();
+    //  tests.docBuilder(z, "z");
     
     //!! Throws WRONG_DOCUMENT_ERR **********
-    //	OK &= Assertion.assert(tests.DOMExceptionsTest(z, "appendChild", new Class[]{Node.class}, new Object[]{doc.createComment("Test doc d comment")}, DOMException.HIERARCHY_REQUEST_ERR )); 
+    //  OK &= Assertion.assert(tests.DOMExceptionsTest(z, "appendChild", new Class[]{Node.class}, new Object[]{doc.createComment("Test doc d comment")}, DOMException.HIERARCHY_REQUEST_ERR )); 
             
-        //	z.appendChild(d.createComment("Test doc d comment"));// Tries to append z document with document d comment
-        //	d.getDocumentElement().appendChild(z.createElement("newZdocElement"));// Tries to append d document with document z Element
-        //	d.getLastChild().getLastChild().insertBefore(z.createElement("newZdocElement"),d.getLastChild().getLastChild().getFirstChild());// Tries to insert into d document with document z Element
-        //	d.replaceChild(z.createElement("newZdocElement"),d.getLastChild().getLastChild().getFirstChild());	// Tries to replace in d document with document z Element
+        //  z.appendChild(d.createComment("Test doc d comment"));// Tries to append z document with document d comment
+        //  d.getDocumentElement().appendChild(z.createElement("newZdocElement"));// Tries to append d document with document z Element
+        //  d.getLastChild().getLastChild().insertBefore(z.createElement("newZdocElement"),d.getLastChild().getLastChild().getFirstChild());// Tries to insert into d document with document z Element
+        //  d.replaceChild(z.createElement("newZdocElement"),d.getLastChild().getLastChild().getFirstChild());  // Tries to replace in d document with document z Element
     
-        //	doc.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
+        //  doc.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
         
         node = document;
         node2 = document.cloneNode(true);
@@ -877,7 +827,7 @@ public class DTest extends TestCase {
         boolean OK = true;
         DocumentFragment testDocFragment = document.createDocumentFragment();
             
-        //	testDocFragment.setNodeValue("This is a document fragment!");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
+        //  testDocFragment.setNodeValue("This is a document fragment!");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
         
         if (!OK) System.err.println("\n*****The DocumentFragment method calls listed above failed, all others worked correctly.*****");
     }
@@ -898,11 +848,11 @@ public class DTest extends TestCase {
         node = document.getFirstChild(); // node gets doc's docType node
         node2 = node.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        if (! (node.getNodeName().equals(node2.getNodeName()) && 	     // Compares node names for equality
+        if (! (node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
               (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ?  node.getNodeValue().equals(node2.getNodeValue()) 	     // If both have value nodes test those value nodes for equality
+            ?  node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
             : (node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {	
+        {   
             System.out.println("'cloneNode' did not clone the DocumentType node correctly");
             OK = false;
         }
@@ -923,7 +873,7 @@ public class DTest extends TestCase {
             System.err.println("Warning!!! DocumentType's 'getNotations' failed!");
             OK = false;
         }
-        //	doc.appendChild(newDocumentTypeImpl);//!! Throws a HIERARCHY_REQUEST_ERR	*******	
+        //  doc.appendChild(newDocumentTypeImpl);//!! Throws a HIERARCHY_REQUEST_ERR    ******* 
         holdDocType = (DocumentType) document.removeChild(document.getFirstChild()); //Tests removeChild and stores removed branch for tree reconstruction
         document.insertBefore(newDocumentType, document.getDocumentElement());
         //** Other aspects of insertBefore are tested in docBuilder through appendChild*
@@ -942,11 +892,11 @@ public class DTest extends TestCase {
     
         OK &= Assertion.verify(DTest.DOMExceptionsTest(document, "appendChild", new Class[]{Node.class}, new Object[]{testElementNode}, DOMException.HIERARCHY_REQUEST_ERR )); 
         OK &= Assertion.verify(DTest.DOMExceptionsTest(testTextNode, "appendChild", new Class[]{Node.class}, new Object[]{testTextNode}, DOMException.HIERARCHY_REQUEST_ERR )); 
-    //	OK &= Assertion.assert(tests.DOMExceptionsTest(document, "insertBefore", new Class[]{Node.class, Node.class}, new Object[]{document.getElementsByTagName("docEntity").item(0), document.getElementsByTagName("docFirstElement").item(0)}, DOMException.HIERARCHY_REQUEST_ERR )); 
-    //	OK &= Assertion.assert(tests.DOMExceptionsTest(document, "replaceChild", new Class[]{Node.class, Node.class}, new Object[]{document.getElementsByTagName("docCDATASection").item(0), document.getElementsByTagName("docFirstElement").item(0)}, DOMException.HIERARCHY_REQUEST_ERR )); 
+    //  OK &= Assertion.assert(tests.DOMExceptionsTest(document, "insertBefore", new Class[]{Node.class, Node.class}, new Object[]{document.getElementsByTagName("docEntity").item(0), document.getElementsByTagName("docFirstElement").item(0)}, DOMException.HIERARCHY_REQUEST_ERR )); 
+    //  OK &= Assertion.assert(tests.DOMExceptionsTest(document, "replaceChild", new Class[]{Node.class, Node.class}, new Object[]{document.getElementsByTagName("docCDATASection").item(0), document.getElementsByTagName("docFirstElement").item(0)}, DOMException.HIERARCHY_REQUEST_ERR )); 
     
-    //	OK &= Assertion.assert(tests.DOMExceptionsTest(document.getElementsByTagName("docFirstElement").item(0), "setNodeValue", new Class[]{String.class}, new Object[]{"This shouldn't work!" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));	
-    /*	OK &= Assertion.assert(tests.DOMExceptionsTest(docReferenceEntity, "setNodeValue", new Class[]{String.class}, new Object[]{"This shouldn't work!" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
+    //  OK &= Assertion.assert(tests.DOMExceptionsTest(document.getElementsByTagName("docFirstElement").item(0), "setNodeValue", new Class[]{String.class}, new Object[]{"This shouldn't work!" }, DOMException.NO_MODIFICATION_ALLOWED_ERR )); 
+    /*  OK &= Assertion.assert(tests.DOMExceptionsTest(docReferenceEntity, "setNodeValue", new Class[]{String.class}, new Object[]{"This shouldn't work!" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
         OK &= Assertion.assert(tests.DOMExceptionsTest(docEntity, "setNodeValue", new Class[]{String.class}, new Object[]{"This shouldn't work!" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
         OK &= Assertion.assert(tests.DOMExceptionsTest(document, "setNodeValue", new Class[]{String.class}, new Object[]{"This shouldn't work!" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
         OK &= Assertion.assert(tests.DOMExceptionsTest(docDocType, "setNodeValue", new Class[]{String.class}, new Object[]{"This shouldn't work!" }, DOMException.NO_MODIFICATION_ALLOWED_ERR ));
@@ -960,9 +910,9 @@ public class DTest extends TestCase {
         OK &= Assertion.assert(tests.DOMExceptionsTest(docBodyLevel32, "replaceChild", new Class[]{Node.class, Node.class}, new Object[]{docTextNode11,docFirstElement }, DOMException.NOT_FOUND_ERR ));
     */
     
-    //!! Throws a NOT_FOUND_ERR	********
+    //!! Throws a NOT_FOUND_ERR ********
          
-         //	docBodyLevel32.getAttributes().removeNamedItem(testAttribute.getName()); 	16  // To test removeNamedItem
+         // docBodyLevel32.getAttributes().removeNamedItem(testAttribute.getName());    16  // To test removeNamedItem
     }
 
     /**
@@ -975,7 +925,7 @@ public class DTest extends TestCase {
         DOMImplementation implementation;
         boolean result = false;
         boolean OK = true;
-        implementation = document.getImplementation(); //Uses getDOMImplementation to obtain implementation	
+        implementation = document.getImplementation(); //Uses getDOMImplementation to obtain implementation 
     
         result = implementation.hasFeature("XML", "1.0");
         if(!result)
@@ -1012,11 +962,11 @@ public class DTest extends TestCase {
         node = document.getDocumentElement(); // node gets doc's firstElement
         node2 = node.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) &&		    // Compares node names for equality
+        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
              (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? node.getNodeValue().equals(node2.getNodeValue())  	    // If both have value nodes test those value nodes for equality
+            ? node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
             :(node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {	
+        {   
             System.out.println("'cloneNode' did not clone the Element node correctly");
             OK = false;
         }
@@ -1066,7 +1016,7 @@ public class DTest extends TestCase {
                             + i + " : " + n.getNodeName());
                 OK = false;
                 break;
-            }		
+            }       
         }
         element = (Element) document.getElementsByTagName("dBodyLevel21").item(0); // element gets Element test BodyLevel21 
         element2 = (Element) document.getElementsByTagName("dBodyLevel31").item(0); // element2 gets Element test BodyLevel31 
@@ -1085,7 +1035,7 @@ public class DTest extends TestCase {
             }
         }
         element = document.getDocumentElement(); // element gets doc's firstElement
-        element.normalize();		// Concatenates all adjacent text nodes in this element's subtree
+        element.normalize();        // Concatenates all adjacent text nodes in this element's subtree
         NodeList text2 = ((Node) element2).getChildNodes();
         compare = "dBodyLevel31'sChildTextNode11dBodyLevel31'sChildTextNode12dBodyLevel31'sChildTextNode13";
         Node n = (Node) text2.item(0);
@@ -1098,7 +1048,7 @@ public class DTest extends TestCase {
         element.removeAttribute("FirstElementLastAttribute");
         element.removeAttributeNode(newAttributeNode);
     
-        //	doc.getLastChild().setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR***
+        //  doc.getLastChild().setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR***
         
         if (!OK) System.err.println("\n*****The Element method calls listed above failed, all others worked correctly.*****");
     }
@@ -1112,16 +1062,16 @@ public class DTest extends TestCase {
         Node node, node2;
         boolean OK = true;
         String compare;
-    // For debugging*****	println("\n          testEntity's outputs:\n");
+    // For debugging*****   println("\n          testEntity's outputs:\n");
         entity = (Entity) document.getDoctype().getEntities().getNamedItem("ourEntityNode");
         node = entity;
         node2 = entity.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) && 		// Compares node names for equality
+        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
              (node.getNodeValue() != null && node2.getNodeValue() != null) ?    // Checks to make sure each node has a value node
-              node.getNodeValue().equals(node2.getNodeValue()) :		// If both have value nodes test those value nodes for equality
-             (node.getNodeValue() == null && node2.getNodeValue() == null)))	// If one node doesn't have a value node make sure both don't
-        {	
+              node.getNodeValue().equals(node2.getNodeValue()) :        // If both have value nodes test those value nodes for equality
+             (node.getNodeValue() == null && node2.getNodeValue() == null)))    // If one node doesn't have a value node make sure both don't
+        {   
             System.err.println("Warning!!! 'cloneNode' did not clone the Entity node correctly");
             OK = false;
         }
@@ -1140,15 +1090,15 @@ public class DTest extends TestCase {
         {
             System.err.println("Warning!!! Entity's 'setPublicId' and/or getPublicId' failed!");
             OK = false;
-        }	
+        }   
         ((org.apache.xerces.dom.EntityImpl) entity).setSystemId("testSystemId");
         compare = "testSystemId";
         if(!compare.equals(entity.getSystemId()))
         {
             System.err.println("Warning!!! Entity's 'setSystemId' and/or getSystemId' failed!");
             OK = false;
-        }		
-        //	entity.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
+        }       
+        //  entity.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
         
         if (!OK) System.err.println("\n*****The Entity method calls listed above failed, all others worked correctly.*****");
     }
@@ -1166,17 +1116,17 @@ public class DTest extends TestCase {
         node = entityReference;
         node2 = node.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) && 	    // Compares node names for equality
+        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
              (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? node.getNodeValue().equals(node2.getNodeValue()) 		    // If both have value nodes test those value nodes for equality
+            ? node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
             :(node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {	
+        {   
             System.out.println("'cloneNode' did not clone the EntityReference node correctly");
             OK = false;
         }
         // Deep clone test comparison is in testNode & testDocument
     
-        //	entityReference.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
+        //  entityReference.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
         
         if (!OK)
             System.out.println("\n*****The EntityReference method calls listed above failed, all others worked correctly.*****");
@@ -1204,7 +1154,7 @@ public class DTest extends TestCase {
         else
         {
             System.out.println("'cloneNode' did not successfully clone this whole node tree (deep)!");
-            OK = false;	
+            OK = false; 
         }
         //!! The following gives a did not clone successfully message*********
         node = document.getDocumentElement();
@@ -1221,7 +1171,7 @@ public class DTest extends TestCase {
         }
         // Deep clone test also in testDocument
         
-        if (!OK) System.err.println("\n*****The Node method calls listed above failed, all others worked correctly.*****");	
+        if (!OK) System.err.println("\n*****The Node method calls listed above failed, all others worked correctly.*****"); 
     }
 
     /**
@@ -1238,11 +1188,11 @@ public class DTest extends TestCase {
         node = notation;
         node2 = notation.cloneNode(true);//*****?
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) && 	    // Compares node names for equality
+        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
              (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? node.getNodeValue().equals(node2.getNodeValue()) 		    // If both have value nodes test those value nodes for equality
+            ? node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
             :(node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {	
+        {   
             System.out.println("'cloneNode' did not clone the Notation node correctly");
             OK = false;
         }
@@ -1262,7 +1212,7 @@ public class DTest extends TestCase {
             System.err.println("Warning!!! Notation's 'getSystemId' failed!");
             OK = false;
         }
-        //	notation.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
+        //  notation.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
         
         if (!OK) System.err.println("\n*****The Notation method calls listed above failed, all others worked correctly.*****");
     }
@@ -1280,11 +1230,11 @@ public class DTest extends TestCase {
         pI = (ProcessingInstruction) document.getDocumentElement().getFirstChild();// Get doc's ProcessingInstruction
         pI2 = (org.apache.xerces.dom.ProcessingInstructionImpl) pI.cloneNode(true);//*****?
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(pI.getNodeName().equals(pI2.getNodeName()) && 		// Compares node names for equality
+        if (!(pI.getNodeName().equals(pI2.getNodeName()) &&         // Compares node names for equality
              (pI.getNodeValue() != null && pI2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? pI.getNodeValue().equals(pI2.getNodeValue()) 		// If both have value nodes test those value nodes for equality
+            ? pI.getNodeValue().equals(pI2.getNodeValue())      // If both have value nodes test those value nodes for equality
             :(pI.getNodeValue() == null && pI2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {	
+        {   
             System.out.println("'cloneNode' did not clone the Entity node correctly");
             OK = false;
         }
@@ -1302,13 +1252,13 @@ public class DTest extends TestCase {
         {
             System.err.println("Warning!!! PI's 'setData' failed!");
             OK = false;
-        }	
+        }   
         compare = "dTargetProcessorChannel";
         if (!compare.equals(pI.getTarget()))
         {
             System.err.println("Warning!!! PI's 'getTarget' failed!");
             OK = false;
-        }	
+        }   
         
         if (!OK) System.err.println("\n*****The PI method calls listed above failed, all others worked correctly.*****");
         }
@@ -1327,17 +1277,17 @@ public class DTest extends TestCase {
         text = (Text) node;
         node2 = node.cloneNode(true);//*****?
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) && 	    // Compares node names for equality
+        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
              (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? node.getNodeValue().equals(node2.getNodeValue()) 		    // If both have value nodes test those value nodes for equality
+            ? node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
             :(node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {	
+        {   
             System.err.println("'cloneNode' did not clone the Text node correctly");
             OK = false;
         }
         // Deep clone test comparison is in testNode & testDocument
         text.splitText(25);
-        compare = "dBodyLevel31'sChildTextNo";	// Three original text nodes were concatenated by 'normalize' in testElement
+        compare = "dBodyLevel31'sChildTextNo";  // Three original text nodes were concatenated by 'normalize' in testElement
         if (!compare.equals(text.getNodeValue())) {
             System.err.println("First part of Text's split text failed!" );
             OK = false;
@@ -1345,13 +1295,13 @@ public class DTest extends TestCase {
         compare = "de11dBodyLevel31'sChildTextNode12dBodyLevel31'sChildTextNode13";// Three original text nodes were concatenated by 'normalize' in testElement
         if (!compare.equals(text.getNextSibling().getNodeValue())) {
             System.err.println("The second part of Text's split text failed!") ;
-            OK = false;	
+            OK = false; 
         }
 
     //************************************************* ERROR TESTS
         //!! Throws INDEX_SIZE_ERR ********************
-        //	text.splitText(-1);
-        //	text.splitText(100);
+        //  text.splitText(-1);
+        //  text.splitText(100);
         
         if (!OK) System.err.println("\n*****The Text method calls listed above failed, all others worked correctly.*****");
     }
@@ -1364,7 +1314,7 @@ public class DTest extends TestCase {
     {
         boolean answer = true;
             
-        Node kid, kid2;			// Check the subtree for equality
+        Node kid, kid2;         // Check the subtree for equality
         kid = node.getFirstChild();
         kid2 = node2.getFirstChild();
         if (kid != null && kid2 != null)
@@ -1393,12 +1343,12 @@ public class DTest extends TestCase {
         }
     
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) &&		    // Compares node names for equality
+        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
              (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? node.getNodeValue().equals(node2.getNodeValue()) 		    // If both have value nodes test those value nodes for equality
+            ? node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
             :(node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
         {
-            return false;	// Return false if "any" of the above conditions are false
+            return false;   // Return false if "any" of the above conditions are false
         }
         return answer;
     }

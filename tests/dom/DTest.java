@@ -166,7 +166,6 @@ public class DTest extends TestCase {
         EntityReference entityReferenceText = (EntityReference) doc.getLastChild().getLastChild().getLastChild().getFirstChild();
         Text entityReferenceText2 = doc.createTextNode("entityReferenceText information");
     //************************************************* ERROR TESTS
-        DTest tests = new DTest();
     
         OK &= Assertion.verify(DTest.DOMExceptionsTest(document, "appendChild", new Class[]{Node.class}, new Object[]{docBody}, DOMException.HIERARCHY_REQUEST_ERR )); 
         OK &= Assertion.verify(DTest.DOMExceptionsTest(docNode3, "appendChild", new Class[]{Node.class}, new Object[]{docNode4}, DOMException.HIERARCHY_REQUEST_ERR )); 
@@ -378,7 +377,6 @@ public class DTest extends TestCase {
         test.findTestNodes((Node) d);
         try {
             test.testDocument(d);
-            test.testElement(d);
             test.testDOMerrors(d);
         
     //!! Throws WRONG_DOCUMENT_ERR **********
@@ -846,109 +844,60 @@ public class DTest extends TestCase {
     /**
      * This method tests Element methods for the XML DOM implementation
      */
-    public void testElement(org.w3c.dom.Document document) {
-        Attr attributeNode, newAttributeNode;
-        Element element, element2;
-        Node node, node2;
-        String attribute, compare;
+    public void testElement() {
         String[] attributeCompare = {"AnotherFirstElementAttribute", "dFirstElement", "testAttribute"};
         String[] elementNames =  {"dFirstElement", "dTestBody", "dBodyLevel21","dBodyLevel31","dBodyLevel32",
                        "dBodyLevel22","dBodyLevel33","dBodyLevel34","dBodyLevel23","dBodyLevel24"};
         String[] textCompare = {"dBodyLevel31'sChildTextNode11", "dBodyLevel31'sChildTextNode12", "dBodyLevel31'sChildTextNode13"};
-        NamedNodeMap nodeMap;
         boolean OK = true;
-        node = document.getDocumentElement(); // node gets doc's firstElement
-        node2 = node.cloneNode(true);
+        Node node = document.getDocumentElement(); // node gets doc's firstElement
+        Node node2 = node.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
-             (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
-            :(node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {   
-            System.out.println("'cloneNode' did not clone the Element node correctly");
-            OK = false;
-        }
+        assertEquals("'cloneNode' did not clone the element node name correctly", node.getNodeName(), node2.getNodeName());
+        assertEquals("'cloneNode' did not clone the element node value correctly", node.getNodeValue(), node2.getNodeValue());
         // Deep clone test comparison is in testNode & testDocument
-    
-        element = document.getDocumentElement(); // element gets doc's firstElement
-        compare = "";
-        attribute = element.getAttribute(document + "'s test attribute");
-        if (!compare.equals(element.getAttribute(document + "'s test attribute")))
-        {
-            System.err.println("Warning!!! Element's 'getAttribute' failed!");
-            OK = false;
-        }
+
+        Element element = document.getDocumentElement(); // element gets doc's firstElement
+        String compare = "";
+        String attribute = element.getAttribute(document + "'s test attribute");
+        assertEquals("", element.getAttribute(document + "'s test attribute"));
+        assertNull(element.getAttributeNode(document + "FirstElement"));
         
-        attributeNode = element.getAttributeNode(document + "FirstElement");
-        if(attributeNode != null) {
-            System.err.println("Warning!!! Element's 'getAttributeNode' failed! It should have returned 'null' here!");
-            OK = false;
-        }
-        
-        newAttributeNode = document.createAttribute("AnotherFirstElementAttribute");
+        Attr newAttributeNode = document.createAttribute("AnotherFirstElementAttribute");
         newAttributeNode.setValue("A new attribute which helps test calls in Element");
         element.setAttributeNode(newAttributeNode);
-        nodeMap = element.getAttributes();
+        NamedNodeMap nodeMap = element.getAttributes();
         int size = nodeMap.getLength();
-        int k;
-        for (k = 0; k < size; k++)
-        {
+        for (int k = 0; k < size; k++) {
             Node n = (Node) nodeMap.item(k);
-            if (! (attributeCompare[k].equals(n.getNodeName())))
-            {
-                System.err.println("Warning!!! Comparison of firstElement's attributes failed at attribute #"+ (k+1) +" " + n.getNodeValue());
-                System.out.println("This failure can be a result of Element's 'setValue' and/or 'setAttributeNode' and/or 'getAttributes' failing.");
-                OK = false;
-                break;
-            }
+            assertEquals(attributeCompare[k], n.getNodeName());
         }
         NodeList docElements = document.getElementsByTagName("*");
         int docSize = docElements.getLength();
-        int i;
-        for (i = 0; i < docSize; i++)
-        {
+        for (int i = 0; i < docSize; i++) {
             Node n = (Node) docElements.item(i);
-            if (!(elementNames[i].equals(n.getNodeName())))
-            {
-                System.err.println("Warning!!! Comparison of Element's 'getElementsByTagName' and/or 'item' failed at element number " 
-                            + i + " : " + n.getNodeName());
-                OK = false;
-                break;
-            }       
+            assertEquals(elementNames[i], n.getNodeName());     
         }
         element = (Element) document.getElementsByTagName("dBodyLevel21").item(0); // element gets Element test BodyLevel21 
-        element2 = (Element) document.getElementsByTagName("dBodyLevel31").item(0); // element2 gets Element test BodyLevel31 
+        Element element2 = (Element) document.getElementsByTagName("dBodyLevel31").item(0); // element2 gets Element test BodyLevel31 
         NodeList text = ((Node) element2).getChildNodes();
         int textSize = text.getLength();
-        int j;
-        for (j = 0; j < textSize; j++)
-        {
+        for (int j = 0; j < textSize; j++) {
             Node n = (Node) text.item(j);
-            if (! (textCompare[j].equals(n.getNodeValue())))
-            {
-                System.err.println("Warning!!! Comparison of original text nodes via Node 'getChildNodes' & NodeList 'item'"
-                            + "failed at text node: #" + j +" " + n.getNodeValue());
-                OK = false;
-                break;
-            }
+            assertEquals(textCompare[j], n.getNodeValue());     
         }
         element = document.getDocumentElement(); // element gets doc's firstElement
         element.normalize(); // Concatenates all adjacent text nodes in this element's subtree
         NodeList text2 = ((Node) element2).getChildNodes();
         compare = "dBodyLevel31'sChildTextNode11dBodyLevel31'sChildTextNode12dBodyLevel31'sChildTextNode13";
         Node n = (Node) text2.item(0);
-        if (! (compare.equals(n.getNodeValue()))) {
-            System.err.println("Warning!!! Comparison of concatenated text nodes created by Element's 'normalize' failed!");
-            OK = false;
-        }
+        assertEquals(compare, n.getNodeValue());
         
         element.setAttribute("FirstElementLastAttribute", "More attribute stuff for firstElement!!");
         element.removeAttribute("FirstElementLastAttribute");
         element.removeAttributeNode(newAttributeNode);
     
         //  doc.getLastChild().setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR***
-        
-        if (!OK) System.err.println("\n*****The Element method calls listed above failed, all others worked correctly.*****");
     }
 
     /**

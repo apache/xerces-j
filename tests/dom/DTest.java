@@ -363,7 +363,7 @@ public class DTest extends TestCase {
         boolean OK = true;
         long startTime = System.currentTimeMillis(); // Time the whole thing for efficiency of DOM implementation
     
-        Document d = test.createDocument();
+        Document d = createDocument();
     
         DocumentType docDocType = createDocumentType(d, "testDocument1");
         d.appendChild(docDocType);
@@ -379,7 +379,6 @@ public class DTest extends TestCase {
     
         test.findTestNodes((Node) d);
         try {
-            test.testCDATASection(d);
             test.testCharacterData(d);
             test.testChildNodeList(d);
             test.testComment(d);
@@ -517,29 +516,14 @@ public class DTest extends TestCase {
     }
 
     /**
-     * This method tests CDATASection methods for the XML DOM implementation
-     * version 2.0 10/12/98
+     * This method tests CDATASection methods for the XML DOM implementation.
      */
-    public void testCDATASection(org.w3c.dom.Document document) {
-        
-        Node node, node2;
-        boolean T = true;
-        boolean OK = true;
-        node = document.getDocumentElement().getElementsByTagName("dBodyLevel23").item(0).getFirstChild(); // node gets CDATASection node
-    
-        node2 = node.cloneNode(T);//*****?
-        // Check nodes for equality, both their name and value or lack thereof
-        if (! (node.getNodeName().equals(node2.getNodeName()) && 		// Compares node names for equality
-              (node.getNodeValue() != null && node2.getNodeValue() != null)     // Checks to make sure each node has a value node
-            ?  node.getNodeValue().equals(node2.getNodeValue()) 		// If both have value nodes test those value nodes for equality
-            : (node.getNodeValue() == null && node2.getNodeValue() == null)))	// If one node doesn't have a value node make sure both don't
-        {
-            System.err.println("'cloneNode' did not clone the CDATASection node correctly");
-            OK = false;
-        }
+    public void testCDATASection() {
+        Node node = document.getDocumentElement().getElementsByTagName("dBodyLevel23").item(0).getFirstChild(); // node gets CDATASection node
+        Node cloneNode = node.cloneNode(true);
+        assertEquals("'cloneNode' did not clone the Attribute node name correctly", node.getNodeName(), cloneNode.getNodeName());
+        assertEquals("'cloneNode' did not clone the Attribute node value correctly", node.getNodeValue(), cloneNode.getNodeValue());
         // Deep clone test comparison is in testNode & testDocument            
-        if (!OK)
-            System.err.println("\n*****The CDATASection method calls listed above failed, all others worked correctly.*****");
     }
 
     /**

@@ -91,7 +91,6 @@ public class DTest extends TestCase {
     /**
      * This method builds test documents for the XML DOM implementation.
      *
-     * version 2.0 10/12/98
      * @param document org.w3c.dom.Document
      * @param name document's name
      * @param type document's type
@@ -380,7 +379,6 @@ public class DTest extends TestCase {
         try {
             test.testDeepNodeList(d);
             test.testDocument(d);
-            test.testDocumentType(d);
             test.testDOMImplementation(d);
             test.testElement(d);
             test.testNode(d);
@@ -801,58 +799,30 @@ public class DTest extends TestCase {
 
     /**
      * This method tests DocumentType methods for the XML DOM implementation
-     * version 2.0 10/12/98
      */
-    public void testDocumentType(org.w3c.dom.Document document)
-    {
-        DTest test = new DTest();
-        DocumentType docType, holdDocType;
-        NamedNodeMap docEntityMap, docNotationMap;
-        Node node, node2;
-        String compare;
-        boolean OK = true;
-        DocumentType newDocumentType =  test.createDocumentType(document, "TestDocument");
-        node = document.getFirstChild(); // node gets doc's docType node
-        node2 = node.cloneNode(true);
+    public void testDocumentType() {
+        Node node = document.getFirstChild(); // node gets doc's docType node
+        Node node2 = node.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        if (! (node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
-              (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ?  node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
-            : (node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {   
-            System.out.println("'cloneNode' did not clone the DocumentType node correctly");
-            OK = false;
-        }
-         // Deep clone test comparison is in testNode & testDocument
+        assertEquals("'cloneNode' did not clone the document type node name correctly", node.getNodeName(), node2.getNodeName());
+        assertEquals("'cloneNode' did not clone the document type node value correctly", node.getNodeValue(), node2.getNodeValue());
+        // Deep clone test comparison is in testNode & testDocument
     
-        docType = (DocumentType) document.getFirstChild();
-        compare = "ourEntityNode";
-        docEntityMap = docType.getEntities();
-        if (!compare.equals(docEntityMap.item(0).getNodeName()))
-        {
-            System.err.println("Warning!!! DocumentType's 'getEntities' failed!" );
-            OK = false;
-        }
-        docNotationMap = docType.getNotations();
-        compare = "ourNotationNode";
-        if (!compare.equals(docNotationMap.item(0).getNodeName()))
-        {
-            System.err.println("Warning!!! DocumentType's 'getNotations' failed!");
-            OK = false;
-        }
+        DocumentType docType = (DocumentType) document.getFirstChild();
+        NamedNodeMap docEntityMap = docType.getEntities();
+        assertEquals("ourEntityNode", docEntityMap.item(0).getNodeName());
+
+        NamedNodeMap docNotationMap = docType.getNotations();
+        assertEquals("ourNotationNode", docNotationMap.item(0).getNodeName());
+
         //  doc.appendChild(newDocumentTypeImpl);//!! Throws a HIERARCHY_REQUEST_ERR    ******* 
-        holdDocType = (DocumentType) document.removeChild(document.getFirstChild()); //Tests removeChild and stores removed branch for tree reconstruction
+        DocumentType newDocumentType = createDocumentType(document, "TestDocument");
+        document.removeChild(document.getFirstChild()); // Tests removeChild
         document.insertBefore(newDocumentType, document.getDocumentElement());
-        //** Other aspects of insertBefore are tested in docBuilder through appendChild*
-    
-        document.removeChild(document.getFirstChild()); //Removes newDocumentType for tree restoral
-        document.insertBefore(holdDocType, document.getFirstChild()); //Reattaches removed branch to restore tree to the original
-    
-        if (!OK) System.err.println("\n*****The DocumentType method calls listed above failed, all others worked correctly.*****");
+        //** Other aspects of insertBefore are tested in docBuilder through appendChild*   
     }
 
     public void testDOMerrors(Document document) {
-    
         boolean OK = true;
     
         DTest tests = new DTest();
@@ -884,25 +854,22 @@ public class DTest extends TestCase {
 
     /**
      * This method tests DOMImplementation methods for the XML DOM implementation
-     * version 2.0 10/12/98
      */
-    public void testDOMImplementation(org.w3c.dom.Document document)
-    {
-        
+    public void testDOMImplementation(org.w3c.dom.Document document) {
         DOMImplementation implementation;
         boolean result = false;
         boolean OK = true;
         implementation = document.getImplementation(); //Uses getDOMImplementation to obtain implementation 
     
         result = implementation.hasFeature("XML", "1.0");
-        if(!result)
+        if (!result)
         {
             System.err.println("Warning!!! DOMImplementation's 'hasFeature' that should be 'true' failed!");
             OK = false;
         }
         
         result = implementation.hasFeature("HTML", "4.0");
-        if(result)
+        if (result)
         {
             System.err.println("Warning!!! DOMImplementation's 'hasFeature' that should be 'false' failed!");
             OK = false;
@@ -912,10 +879,8 @@ public class DTest extends TestCase {
     }
     /**
      * This method tests Element methods for the XML DOM implementation
-     * version 2.0 10/12/98
      */
-    public void testElement(org.w3c.dom.Document document)
-    {
+    public void testElement(org.w3c.dom.Document document) {
         Attr attributeNode, newAttributeNode;
         Element element, element2;
         Node node, node2;

@@ -380,7 +380,6 @@ public class DTest extends TestCase {
         test.findTestNodes((Node) d);
         try {
             test.testChildNodeList(d);
-            test.testComment(d);
             test.testDeepNodeList(d);
             test.testDocument(d);
             test.testDocumentFragment(d);
@@ -518,8 +517,8 @@ public class DTest extends TestCase {
     public void testCDATASection() {
         Node node = document.getDocumentElement().getElementsByTagName("dBodyLevel23").item(0).getFirstChild(); // node gets CDATASection node
         Node cloneNode = node.cloneNode(true);
-        assertEquals("'cloneNode' did not clone the Attribute node name correctly", node.getNodeName(), cloneNode.getNodeName());
-        assertEquals("'cloneNode' did not clone the Attribute node value correctly", node.getNodeValue(), cloneNode.getNodeValue());
+        assertEquals("'cloneNode' did not clone the CDATA node name correctly", node.getNodeName(), cloneNode.getNodeName());
+        assertEquals("'cloneNode' did not clone the CDATA node value correctly", node.getNodeValue(), cloneNode.getNodeValue());
         // Deep clone test comparison is in testNode & testDocument            
     }
 
@@ -630,28 +629,16 @@ public class DTest extends TestCase {
     /**
      * This method tests Comment methods for the XML DOM implementation.
      */
-    public void testComment(org.w3c.dom.Document document) {
-        Node node, node2;
-        boolean T = true;
-        boolean OK = true;
-        node = document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // node gets textNode11
-        node2 = node.cloneNode(T);
-        // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
-              (node.getNodeValue() != null && node2.getNodeValue() != null)     // Checks to make sure each node has a value node
-            ?  node.getNodeValue().equals(node2.getNodeValue())         // If both have value nodes test those value nodes for equality
-            : (node.getNodeValue() == null && node2.getNodeValue() == null)))   // If one node doesn't have a value node make sure both don't
-            //println("'cloneNode' did not clone the Comment node correctly");
-            OK = false;
-        // Deep clone test comparison is in testNode & testDocument
-        if (OK)
-        if (!OK)
-            System.out.println("\n*****The Comment method calls listed above failed, all others worked correctly.*****");
+    public void testComment() {
+        Node node = document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // node gets textNode11
+        Node cloneNode = node.cloneNode(true);
+        // Check nodes for equality, both their name and value
+        assertEquals("'cloneNode' did not clone the Comment node name correctly", node.getNodeName(), cloneNode.getNodeName());
+        assertEquals("'cloneNode' did not clone the Comment node value correctly", node.getNodeValue(), cloneNode.getNodeValue());
     }
 
     /**
      * This method tests DeepNodeList methods for the XML DOM implementation
-     * version 2.0 10/12/98
      */
     public void testDeepNodeList(org.w3c.dom.Document document) {  
         Node node, node2;

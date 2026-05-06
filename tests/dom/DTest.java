@@ -227,54 +227,6 @@ public class DTest extends TestCase {
         return asExpected;
     }
 
-    private void findTestNodes(Document document) {
-        Node node = document;
-        int nodeCount = 0;
-    
-        // Walk the tree until you find and assign all node types needed that exist.
-        while (node != null && nodeCount < 12) {
-            switch (node.getNodeType()) {
-                case org.w3c.dom.Node.ELEMENT_NODE :
-                    if (testElementNode == null) {testElementNode = (Element) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.ATTRIBUTE_NODE :
-                    if (testAttributeNode == null) {testAttributeNode = (Attr) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.TEXT_NODE :
-                    if (testTextNode == null) {testTextNode = (Text) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.CDATA_SECTION_NODE :
-                    if (testCDATASectionNode == null) {testCDATASectionNode = (CDATASection) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.ENTITY_REFERENCE_NODE :
-                    if (testEntityReferenceNode == null) {testEntityReferenceNode = (EntityReference) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.ENTITY_NODE :
-                    if (testEntityNode == null) {testEntityNode = (Entity) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE :
-                    if (testProcessingInstructionNode == null) {testProcessingInstructionNode = (ProcessingInstruction) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.COMMENT_NODE :
-                    if (testCommentNode == null) {testCommentNode = (Comment) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.DOCUMENT_TYPE_NODE :
-                    if (testDocumentTypeNode == null) {testDocumentTypeNode = (DocumentType) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.DOCUMENT_FRAGMENT_NODE :
-                    if (testDocumentFragmentNode == null) {testDocumentFragmentNode = (DocumentFragment) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.NOTATION_NODE :
-                    if (testNotationNode == null) {testNotationNode = (Notation) node; nodeCount++;}
-                    break;
-                case org.w3c.dom.Node.DOCUMENT_NODE :
-                    if (testDocumentNode == null) {testDocumentNode = (Document) node; nodeCount++;}
-                    break;
-                default:
-          } // End of switch
-        } // End of while
-    }
-
     private void findTestNodes(Node node) {
         DTest test = new DTest();
         Node kid;
@@ -292,8 +244,7 @@ public class DTest extends TestCase {
             test.findTestNodes(kid);
         }
             
-        switch (node.getNodeType())
-        {
+        switch (node.getNodeType()) {
             case org.w3c.dom.Node.ELEMENT_NODE :
                 if (testElementNode == null) {testElementNode = (Element)node; }
                 break;
@@ -331,7 +282,7 @@ public class DTest extends TestCase {
                 if (testDocumentNode == null) {testDocumentNode = (Document)node;}
                 break;
             default:
-        }// End of switch
+        } // End of switch
     }
 
     private Document document;
@@ -377,7 +328,6 @@ public class DTest extends TestCase {
         test.findTestNodes((Node) d);
         try {
             test.testDocument(d);
-            test.testDOMerrors(d);
         
     //!! Throws WRONG_DOCUMENT_ERR **********
             
@@ -638,8 +588,7 @@ public class DTest extends TestCase {
      *
      * ALL Document create methods are run in docBuilder except createAttribute which is in testAttribute.
      */
-    public void testDocument(org.w3c.dom.Document document)
-    {
+    public void testDocument(org.w3c.dom.Document document) {
         DTest make = new DTest();
         DocumentFragment docFragment, docFragment2;
         Element newElement;
@@ -673,9 +622,7 @@ public class DTest extends TestCase {
         
         NodeList docElements = document.getElementsByTagName("*");
         int docSize = docElements.getLength();
-        int i;
-        for (i = 0; i < docSize; i++)
-        {
+        for (int i = 0; i < docSize; i++) {
             Node n = (Node) docElements.item(i);
             if (! (elementNames[i].equals(n.getNodeName())))
             {
@@ -701,8 +648,7 @@ public class DTest extends TestCase {
         //Tests removeChild and stores removed branch for tree reconstruction
         docFragment2.appendChild(docElements.item(1).removeChild(docElements.item(2)));
         docSize = docElements.getLength();
-        for (i = 0; i < docSize; i++)
-        {
+        for (int i = 0; i < docSize; i++) {
             Node n = (Node) docElements.item(i);
             if (! (newElementNames[i].equals(n.getNodeName())))
             {
@@ -713,14 +659,11 @@ public class DTest extends TestCase {
         }
         docElements.item(1).insertBefore(docFragment, null); //Reattaches removed branch to restore tree to the original
         docElements.item(1).insertBefore(docFragment2, docElements.item(2)); //Reattaches removed branch to restore tree to the original
-    
-        //  println(docElements.item(2).getNodeName());
-    
+        
         docSize = docElements.getLength();
-        for (i = 0; i < docSize; i++)
-        {
+        for (int i = 0; i < docSize; i++) {
             Node n = (Node) docElements.item(i);
-            if (! (elementNames[i].equals(n.getNodeName())))
+            if (!(elementNames[i].equals(n.getNodeName())))
             {
                 System.out.println("Comparison of restored document's elements failed at element number " + i + " : " + n.getNodeName());
                 OK = false;
@@ -728,9 +671,7 @@ public class DTest extends TestCase {
             }
         }
     
-        DTest tests = new DTest();
-    
-        
+    //    DTest tests = new DTest();
     //  Document z = tests.createDocument();
     //  tests.docBuilder(z, "z");
     
@@ -801,13 +742,23 @@ public class DTest extends TestCase {
         //** Other aspects of insertBefore are tested in docBuilder through appendChild*   
     }
 
-    public void testDOMerrors(Document document) {
-        boolean OK = true;
-    
-        DTest tests = new DTest();
-    
-        OK &= Assertion.verify(DTest.DOMExceptionsTest(document, "appendChild", new Class[]{Node.class}, new Object[]{testElementNode}, DOMException.HIERARCHY_REQUEST_ERR )); 
-        OK &= Assertion.verify(DTest.DOMExceptionsTest(testTextNode, "appendChild", new Class[]{Node.class}, new Object[]{testTextNode}, DOMException.HIERARCHY_REQUEST_ERR )); 
+    public void testDOMErrors() {
+        try {
+            Element element = document.createElement("AnotherElement");
+            document.appendChild(element);
+            fail();
+        } catch (DOMException expected) {
+            assertEquals(DOMException.HIERARCHY_REQUEST_ERR, expected.code);
+        }
+        try {
+            Text textNode = document.createTextNode("some more text");
+            Text textNode2 = document.createTextNode("yet more text");
+            textNode.appendChild(textNode2);
+            fail();
+        } catch (DOMException expected) {
+            assertEquals(DOMException.HIERARCHY_REQUEST_ERR, expected.code);
+        }
+
     //  OK &= Assertion.assert(tests.DOMExceptionsTest(document, "insertBefore", new Class[]{Node.class, Node.class}, new Object[]{document.getElementsByTagName("docEntity").item(0), document.getElementsByTagName("docFirstElement").item(0)}, DOMException.HIERARCHY_REQUEST_ERR )); 
     //  OK &= Assertion.assert(tests.DOMExceptionsTest(document, "replaceChild", new Class[]{Node.class, Node.class}, new Object[]{document.getElementsByTagName("docCDATASection").item(0), document.getElementsByTagName("docFirstElement").item(0)}, DOMException.HIERARCHY_REQUEST_ERR )); 
     

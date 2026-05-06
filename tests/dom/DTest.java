@@ -20,7 +20,7 @@ package dom;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.junit.Assert;
+import junit.framework.TestCase;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.CharacterData;
@@ -49,7 +49,7 @@ import dom.util.Assertion;
  * @author Philip W. Davis
  * @version 2.0 
  */
-public class DTest {
+public class DTest extends TestCase {
 	
 	private static Element 		testElementNode;
 	private static Attr 		testAttributeNode;
@@ -69,22 +69,22 @@ public class DTest {
      *  
      * @return org.w3c.dom.Document
      */
-    private Document createDocument() {
+    private static Document createDocument() {
         return new org.apache.xerces.dom.DocumentImpl();
     }
 
     /**
      * version 3.0 01/25/99
      */
-    public DocumentType createDocumentType(Document doc, String name) {
+    private static DocumentType createDocumentType(Document doc, String name) {
         return ((org.apache.xerces.dom.DocumentImpl) doc).createDocumentType(name, null, null);
     }
 
-    public Entity createEntity(Document doc, String name) {
-        return new org.apache.xerces.dom.EntityImpl((org.apache.xerces.dom.DocumentImpl)doc, name);
+    private static Entity createEntity(Document doc, String name) {
+        return new org.apache.xerces.dom.EntityImpl((org.apache.xerces.dom.DocumentImpl) doc, name);
     }
 
-    public Notation createNotation(Document doc, String name) {
+    private static Notation createNotation(Document doc, String name) {
         return new org.apache.xerces.dom.NotationImpl((org.apache.xerces.dom.DocumentImpl) doc, name);
     }
 
@@ -96,7 +96,7 @@ public class DTest {
      * @param name document's name
      * @param type document's type
      */
-    public void docBuilder(org.w3c.dom.Document document, String name) {
+    private void docBuilder(org.w3c.dom.Document document, String name) {
         Document doc = document;
         boolean OK = true;
             
@@ -153,7 +153,7 @@ public class DTest {
     
         DTest make = new DTest();
         Notation docNotation = make.createNotation(doc, "ourNotationNode");
-        DocumentType docType = (DocumentType)doc.getFirstChild();
+        DocumentType docType = (DocumentType) doc.getFirstChild();
         docType.getNotations().setNamedItem(docNotation);
         
         DocumentFragment docDocFragment = doc.createDocumentFragment();    
@@ -197,8 +197,8 @@ public class DTest {
          //!! Throws a NOT_FOUND_ERR	********
          //	docBodyLevel32.getAttributes().removeNamedItem(testAttribute.getName()); 	16  // To test removeNamedItem
          
-        Assert.assertTrue(OK);
-    }//END OF DOCBUILDER
+        assertTrue(OK);
+    } //END OF DOCBUILDER
 
     /**
      * version 3.0 01/25/99
@@ -212,7 +212,9 @@ public class DTest {
             Throwable realE = exc.getTargetException(); 
             if (realE instanceof DOMException) {
                 asExpected = (((DOMException) realE).code == code);
-                if(!asExpected) System.err.println("Wrong DOMException(" + ((DOMException) realE).code + ")");
+                if (!asExpected) {
+                    System.err.println("Wrong DOMException(" + ((DOMException) realE).code + ")");
+                }
             }
             else System.err.println("Wrong Exception (" + code + ")");
     
@@ -220,15 +222,14 @@ public class DTest {
                 System.err.println("Expected DOMException (" + code + ") not thrown");			
             }
         } catch (NoSuchMethodException | IllegalAccessException ex) {
-            Assert.fail();
+            fail();
         }
         
-        Assert.assertTrue(asExpected);
+        assertTrue(asExpected);
         return asExpected;
     }
 
-    public void findTestNodes(Document document) {
-    
+    private void findTestNodes(Document document) {
         Node node = document;
         int nodeCount = 0;
     
@@ -236,48 +237,47 @@ public class DTest {
         while (node != null && nodeCount < 12) {
             switch (node.getNodeType()) {
                 case org.w3c.dom.Node.ELEMENT_NODE :
-                    if (testElementNode == null) {testElementNode = (Element)node; nodeCount++;}
+                    if (testElementNode == null) {testElementNode = (Element) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.ATTRIBUTE_NODE :
-                    if (testAttributeNode == null) {testAttributeNode = (Attr)node; nodeCount++;}
+                    if (testAttributeNode == null) {testAttributeNode = (Attr) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.TEXT_NODE :
-                    if (testTextNode == null) {testTextNode = (Text)node; nodeCount++;}
+                    if (testTextNode == null) {testTextNode = (Text) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.CDATA_SECTION_NODE :
-                    if (testCDATASectionNode == null) {testCDATASectionNode = (CDATASection)node; nodeCount++;}
+                    if (testCDATASectionNode == null) {testCDATASectionNode = (CDATASection) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.ENTITY_REFERENCE_NODE :
-                    if (testEntityReferenceNode == null) {testEntityReferenceNode = (EntityReference)node; nodeCount++;}
+                    if (testEntityReferenceNode == null) {testEntityReferenceNode = (EntityReference) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.ENTITY_NODE :
-                    if (testEntityNode == null) {testEntityNode = (Entity)node; nodeCount++;}
+                    if (testEntityNode == null) {testEntityNode = (Entity) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE :
-                    if (testProcessingInstructionNode == null) {testProcessingInstructionNode = (ProcessingInstruction)node; nodeCount++;}
+                    if (testProcessingInstructionNode == null) {testProcessingInstructionNode = (ProcessingInstruction) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.COMMENT_NODE :
-                    if (testCommentNode == null) {testCommentNode = (Comment)node; nodeCount++;}
+                    if (testCommentNode == null) {testCommentNode = (Comment) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.DOCUMENT_TYPE_NODE :
-                    if (testDocumentTypeNode == null) {testDocumentTypeNode = (DocumentType)node; nodeCount++;}
+                    if (testDocumentTypeNode == null) {testDocumentTypeNode = (DocumentType) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.DOCUMENT_FRAGMENT_NODE :
-                    if (testDocumentFragmentNode == null) {testDocumentFragmentNode = (DocumentFragment)node; nodeCount++;}
+                    if (testDocumentFragmentNode == null) {testDocumentFragmentNode = (DocumentFragment) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.NOTATION_NODE :
-                    if (testNotationNode == null) {testNotationNode = (Notation)node; nodeCount++;}
+                    if (testNotationNode == null) {testNotationNode = (Notation) node; nodeCount++;}
                     break;
                 case org.w3c.dom.Node.DOCUMENT_NODE :
-                    if (testDocumentNode == null) {testDocumentNode = (Document)node; nodeCount++;}
+                    if (testDocumentNode == null) {testDocumentNode = (Document) node; nodeCount++;}
                     break;
                 default:
           } // End of switch
         } // End of while
     }
 
-    public void findTestNodes(Node node) {
-    
+    private void findTestNodes(Node node) {
         DTest test = new DTest();
         Node kid;
         // Walk the tree until you find and assign all node types needed that exist.
@@ -335,6 +335,26 @@ public class DTest {
             default:
         }// End of switch
     }
+
+    private Document document;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        document = createDocument();
+        DocumentType docDocType = createDocumentType(document, "testDocument1");
+        document.appendChild(docDocType);
+    
+        Entity docEntity = createEntity(document, "ourEntityNode");
+        Text entityChildText = document.createTextNode("entityChildText information"); // Build a branch for entityReference tests
+            ((org.apache.xerces.dom.NodeImpl) docEntity).setReadOnly(false, true);
+        docEntity.appendChild(entityChildText); 
+        // & for READONLY_ERR tests
+        ((org.apache.xerces.dom.NodeImpl) docEntity).setReadOnly(true, true);
+        docDocType.getEntities().setNamedItem(docEntity);
+
+        docBuilder(document, "d");
+    }
     
     public static void main(String args[]) {
         DTest test = new DTest();
@@ -345,21 +365,20 @@ public class DTest {
     
         Document d = test.createDocument();
     
-        DocumentType docDocType = test.createDocumentType(d,"testDocument1");
+        DocumentType docDocType = createDocumentType(d, "testDocument1");
         d.appendChild(docDocType);
     
-        Entity docEntity = test.createEntity( d, "ourEntityNode");
+        Entity docEntity = createEntity(d, "ourEntityNode");
         Text entityChildText = d.createTextNode("entityChildText information"); // Build a branch for entityReference tests
-            ((org.apache.xerces.dom.NodeImpl)docEntity).setReadOnly(false, true);
+            ((org.apache.xerces.dom.NodeImpl) docEntity).setReadOnly(false, true);
         docEntity.appendChild(entityChildText);					  // & for READONLY_ERR tests
-            ((org.apache.xerces.dom.NodeImpl)docEntity).setReadOnly(true, true);
+            ((org.apache.xerces.dom.NodeImpl) docEntity).setReadOnly(true, true);
         docDocType.getEntities().setNamedItem(docEntity);
         
         test.docBuilder(d, "d");
     
-        test.findTestNodes((Node)d);
+        test.findTestNodes((Node) d);
         try {
-            test.testAttr(d);
             test.testCDATASection(d);
             test.testCharacterData(d);
             test.testChildNodeList(d);
@@ -446,108 +465,55 @@ public class DTest {
      * This method tests Attr methods for the XML DOM implementation
      * version 2.0 10/12/98
      */
-    public void testAttr(org.w3c.dom.Document document) {
-        Node node;	
-        Attr attributeNode, attribute2;
-        String compare;
-        boolean T = true;
-        boolean F = false;
-        boolean OK = true;
-    
+    public void testAttr() {
         Attr testAttribute = document.createAttribute("testAttribute");
         testAttribute.setValue("testAttribute's value");
-        node = document.getDocumentElement(); // node gets first element
+        Node node = document.getDocumentElement(); // node gets first element
         ((Element) node).setAttributeNode(testAttribute);
-        attributeNode = ((Element)node).getAttributeNode("testAttribute");
+        Attr attributeNode = ((Element) node).getAttributeNode("testAttribute");
     
-        compare = "testAttribute";
-        if (!compare.equals(attributeNode.getName()))
-        {
-            System.err.println("Warning!!! Attr's 'getName' method failed to work properly!");
-            OK = false;
-        }
-        compare = "testAttribute's value";
-        if (!compare.equals(attributeNode.getNodeValue()))
-        {
-            System.err.println("Warning!!! Attr's 'getNodeValue' method failed to work properly!");
-            OK = false;
-        }
-        if (!T ==attributeNode.getSpecified())
-        {
-            System.err.println("Warning!!! Attr's 'getSpecified' method failed to work properly!");
-            OK = false;
-        }
-        
-        if (!compare.equals(attributeNode.getValue()))
-        {
-            System.err.println("Warning!!! Attr's 'getValue' method failed to work properly!");
-            OK = false;
-        }
+        assertEquals("testAttribute", attributeNode.getName());
+        assertEquals("testAttribute's value", attributeNode.getNodeValue());
+        assertTrue(attributeNode.getSpecified());
         
         attributeNode.setNodeValue("Reset Value");
-        compare = "Reset Value";
-        if (!compare.equals(attributeNode.getNodeValue()))
-        {
-            System.err.println("Warning!!! Attr's 'setNodeValue' method failed to work properly!");
-            OK = false;
-        }
-        ((org.apache.xerces.dom.AttrImpl)attributeNode).setSpecified(F); //***** How do we change this for external use??
-        if (!F == attributeNode.getSpecified())
-        {
-            System.err.println("Warning!!! Attr's 'setSpecified' method failed to work properly!");
-            OK = false;
-        }
+        assertEquals("Reset Value", attributeNode.getNodeValue());
+        ((org.apache.xerces.dom.AttrImpl) attributeNode).setSpecified(false); //***** How do we change this for external use??
+        assertFalse(attributeNode.getSpecified());
         
         attributeNode.setValue(null);
-        if (attributeNode.getValue().length() != 0)
-        {
-            System.err.println("Warning!!! Attr's 'setValue' to 'null' method failed to work properly!");
-            OK = false;
-        }
+        assertEquals(0, attributeNode.getValue().length());
         
         attributeNode.setValue("Another value ");
-        compare = "Another value ";
-        if (!compare.equals(attributeNode.getValue()))
-        {
-            System.err.println("Warning!!! Attr's 'setValue' method failed to work properly!");
-            OK = false;
-        }
+        assertEquals("Another value ", attributeNode.getValue());
     
-        node = attributeNode.cloneNode(T);//*****?
+        Attr cloneNode = (Attr) attributeNode.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        if (! (node.getNodeName().equals(attributeNode.getNodeName()) &&	     // Compares node names for equality
-              (node.getNodeValue() != null && attributeNode.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ?  node.getNodeValue().equals(attributeNode.getNodeValue()) 	     // If both have value nodes test those value nodes for equality
-            : (node.getNodeValue() == null && attributeNode.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-            {	
-                System.err.println("'cloneNode' did not clone the Attribute node correctly");
-                OK = false;
-            }
-            // Deep clone test comparison is in testNode & testDocument
+        assertEquals("'cloneNode' did not clone the Attribute node name correctly", attributeNode.getName(), cloneNode.getName());
+        assertEquals("'cloneNode' did not clone the Attribute node value correctly", attributeNode.getValue(), cloneNode.getValue());
+        // Deep clone test comparison is in testNode & testDocument
     
-    //************************************************* ERROR TESTS
+        //************************************************* ERROR TESTS
         DTest.DOMExceptionsTest(document.getDocumentElement(),
                                       "appendChild",
                                       new Class[]{Node.class},
                                       new Object[]{attributeNode},
                                       DOMException.HIERARCHY_REQUEST_ERR);
     
-        attribute2 = document.createAttribute("testAttribute2");
+        Attr attribute2 = document.createAttribute("testAttribute2");
         DTest.DOMExceptionsTest(document.getDocumentElement(),
                                       "removeAttributeNode",
                                       new Class[]{Attr.class},
                                       new Object[]{attribute2},
                                       DOMException.NOT_FOUND_ERR);
     
-        Element element = (Element)document.getLastChild().getLastChild();
+        Element element = (Element) document.getLastChild().getLastChild();
         // Tests setNamedItem
         DOMExceptionsTest(element,
                                   "setAttributeNode",
                                   new Class[]{Attr.class},
                                   new Object[]{testAttribute},
                                   DOMException.INUSE_ATTRIBUTE_ERR);
-        
-        Assert.assertTrue("The Attr method calls listed above failed, all others worked correctly.", OK);
     }
 
     /**
@@ -821,7 +787,6 @@ public class DTest {
         String[] newElementNames = {"dFirstElement", "dTestBody", "dBodyLevel22","dBodyLevel33","dBodyLevel34","dBodyLevel23"};
         boolean result;
         boolean OK = true;
-    // For debugging*****	println("\n          testDocument's outputs:\n ");
         
         DocumentType checkDocType =  make.createDocumentType(document,"testDocument1");
         DocumentType docType = document.getDoctype();
@@ -1431,17 +1396,15 @@ public class DTest {
         // Deep clone test comparison is in testNode & testDocument
         text.splitText(25);
         compare = "dBodyLevel31'sChildTextNo";	// Three original text nodes were concatenated by 'normalize' in testElement
-        if (!compare.equals(text.getNodeValue()))
-            {
-                System.err.println("First part of Text's split text failed!" );
-                OK = false;
-            }
+        if (!compare.equals(text.getNodeValue())) {
+            System.err.println("First part of Text's split text failed!" );
+            OK = false;
+        }
         compare = "de11dBodyLevel31'sChildTextNode12dBodyLevel31'sChildTextNode13";// Three original text nodes were concatenated by 'normalize' in testElement
-        if (!compare.equals(text.getNextSibling().getNodeValue()))
-            {
-                System.err.println("The second part of Text's split text failed!") ;
-                OK = false;	
-            }
+        if (!compare.equals(text.getNextSibling().getNodeValue())) {
+            System.err.println("The second part of Text's split text failed!") ;
+            OK = false;	
+        }
 
     //************************************************* ERROR TESTS
         //!! Throws INDEX_SIZE_ERR ********************

@@ -538,7 +538,7 @@ public class DTest extends TestCase {
             OK = false;
         }
         // Deep clone test comparison is in testNode & testDocument            
-        if (! OK)
+        if (!OK)
             System.err.println("\n*****The CDATASection method calls listed above failed, all others worked correctly.*****");
     }
 
@@ -552,7 +552,6 @@ public class DTest extends TestCase {
         CharacterData charData;
         String compareData, newData, resetData;
         boolean OK = true;
-    // For debugging*****	println("\n          testCharacterData's outputs:\n");
         charData = (CharacterData) document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // charData gets textNode11
         compareData = "dBodyLevel31'sChildTextNode11";
         if (!compareData.equals(charData.getData()))
@@ -562,7 +561,6 @@ public class DTest extends TestCase {
         }	
         
         resetData = charData.getData();
-        //  println("This node's original data is: " + charData.getData());
     
         newData = " This is new data for this node";
         compareData = charData.getData() + newData;
@@ -572,7 +570,6 @@ public class DTest extends TestCase {
             System.err.println("Warning!!! CharacterData's 'appendData' failed to work properly!");
             OK = false;
         }
-        //	println("This node's appended data is: " + charData.getData());
     
         compareData = "dBodyLevel";
         charData.deleteData(10, 100);
@@ -581,7 +578,6 @@ public class DTest extends TestCase {
             System.err.println("Warning!!! CharacterData's 'deleteData' failed to work properly!");
             OK = false;
         }
-        //  println("This node's partially deleted data is: " + charData.getData());
     
         int length = 10;
         if (!(length == charData.getLength()))
@@ -589,7 +585,6 @@ public class DTest extends TestCase {
             System.err.println("Warning!!! CharacterData's 'getLength' failed to work properly!");
             OK = false;
         }
-        //  println("This node's data length is: " + charData.getLength());
     
         compareData = "dBody' This is data inserted into this node'Level";
         charData.insertData(5, "' This is data inserted into this node'");
@@ -598,7 +593,6 @@ public class DTest extends TestCase {
             System.err.println("Warning!!! CharacterData's 'insertData' failed to work properly!");
             OK = false;
         }
-        //	println("This node's updated with insert data is: " + charData.getData());
     
         compareData = "dBody' This is ' replacement data'ted into this node'Level";
         charData.replaceData(15, 10, "' replacement data'");
@@ -607,7 +601,6 @@ public class DTest extends TestCase {
             System.err.println("Warning!!! CharacterData's 'replaceData' failed to work properly!");
             OK = false;
         }
-        //	println("This node's updated with replacement data is: " +charData.getData());
     
         compareData = "New data A123456789B123456789C123456789D123456789E123456789";
         charData.setData("New data A123456789B123456789C123456789D123456789E123456789");
@@ -616,7 +609,6 @@ public class DTest extends TestCase {
             System.err.println("Warning!!! CharacterData's 'setData' failed to work properly!");
             OK = false;
         }
-        //	println("This node's new data via setData: " + charData.getData());
     
         compareData = "123456789D123456789E123456789";
         if (!compareData.equals(charData.substringData(30, 30)))
@@ -624,7 +616,6 @@ public class DTest extends TestCase {
             System.err.println("Warning!!! CharacterData's 'substringData' failed to work properly!");
             OK = false;
         }
-        //	println("Using subString 30,30 you get:" + charData.substringData(30,30));
     
         compareData = "New data A123456789B12345";
         if (!compareData.equals(charData.substringData(0, 25)))
@@ -632,7 +623,6 @@ public class DTest extends TestCase {
             System.err.println("Warning!!! CharacterData's 'substringData' failed to work properly!");
             OK = false;
         }
-        //	println("Using subString 0,25 you get:" + charData.substringData(0,25));
     
     //************************************************* ERROR TESTS
         DTest tests = new DTest();
@@ -686,7 +676,6 @@ public class DTest extends TestCase {
     /**
      * This method tests ChildNodeList methods for the XML DOM implementation
      * version 2.0 10/12/98
-     * @param document org.w3c.dom.Document
      */
     public void testChildNodeList(org.w3c.dom.Document document)
     {
@@ -701,22 +690,18 @@ public class DTest extends TestCase {
         if (! node2.getNodeName().equals("dBodyLevel23"))
             OK = false;
         
-    // For debugging*****		println("All ChildNodeList method calls worked correctly.");
-        if (!OK)
-            System.out.println("\n*****The ChildNodeList method calls listed above failed, all others worked correctly.*****");		
-    //	println("");
+        if (!OK) System.out.println("\n*****The ChildNodeList method calls listed above failed, all others worked correctly.*****");		
     }
+
     /**
      * This method tests Comment methods for the XML DOM implementation
      * version 1.0 10/12/98
-     * @param document org.w3c.dom.Document
      */
     public void testComment(org.w3c.dom.Document document)
     {
         Node node, node2;
         boolean T = true;
         boolean OK = true;
-    // For debugging*****	println("\n          testComment's outputs:\n");
         node = document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // node gets textNode11
         node2 = node.cloneNode(T);
         // Check nodes for equality, both their name and value or lack thereof
@@ -728,22 +713,18 @@ public class DTest extends TestCase {
             OK = false;
         // Deep clone test comparison is in testNode & testDocument
         if (OK)
-    // For debugging*****		println("All Comment method calls worked correctly.");
         if (!OK)
             System.out.println("\n*****The Comment method calls listed above failed, all others worked correctly.*****");
-    //	println("");
     }
+
     /**
      * This method tests DeepNodeList methods for the XML DOM implementation
      * version 2.0 10/12/98
-     * @param document org.w3c.dom.Document
      */
-    public void testDeepNodeList(org.w3c.dom.Document document)
-    {
-    
+    public void testDeepNodeList(org.w3c.dom.Document document) {  
         Node node, node2;
         boolean OK = true;
-    // For debugging*****	println("\n          testDeepNodeList's outputs:\n");
+
         node = document.getLastChild().getLastChild(); // node gets docBody element
         if (!(8 == ((Element) node).getElementsByTagName("*").getLength()))
             {
@@ -764,10 +745,7 @@ public class DTest extends TestCase {
             }
             
         
-    // For debugging*****		println("All DeepNodeList method calls worked correctly.");
-        if (!OK)
-            System.out.println("\n*****The DeepNodeList method calls listed above failed, all others worked correctly.*****");
-    //	println("");
+        if (!OK) System.out.println("\n*****The DeepNodeList method calls listed above failed, all others worked correctly.*****");
     }
     /**
      * This method tests Document methods for the XML DOM implementation
@@ -907,8 +885,6 @@ public class DTest extends TestCase {
     /**
      * This method tests DocumentFragment methods for the XML DOM implementation
      * version 2.0 10/12/98
-     * @param document org.w3c.dom.Document
-     *
      *
      ********This really isn't needed, only exists to throw NO_MODIFICATION_ALLOWED_ERR ********
      */
@@ -934,7 +910,6 @@ public class DTest extends TestCase {
         Node node, node2;
         String compare;
         boolean OK = true;
-    // For debugging*****	println("\n          testDocumentType's outputs:\n");
         DocumentType newDocumentType =  test.createDocumentType(document, "TestDocument");
         node = document.getFirstChild(); // node gets doc's docType node
         node2 = node.cloneNode(true);
@@ -1184,29 +1159,25 @@ public class DTest extends TestCase {
         }	
         ((org.apache.xerces.dom.EntityImpl) entity).setSystemId("testSystemId");
         compare = "testSystemId";
-        if(! compare.equals(entity.getSystemId()))
+        if(!compare.equals(entity.getSystemId()))
         {
             System.err.println("Warning!!! Entity's 'setSystemId' and/or getSystemId' failed!");
             OK = false;
         }		
         //	entity.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
         
-    // For debugging*****		println("All Entity method calls worked correctly.");
-        if (!OK)
-            System.out.println("\n*****The Entity method calls listed above failed, all others worked correctly.*****");
-    //	println("");
+        if (!OK) System.err.println("\n*****The Entity method calls listed above failed, all others worked correctly.*****");
     }
+
     /**
      * This method tests EntityReference methods for the XML DOM implementation
      * version 2.0 10/12/98
-     * @param document org.w3c.dom.Document
      */
     public void testEntityReference(org.w3c.dom.Document document)
     {
         EntityReference entityReference;
         Node node, node2;
         boolean OK = true;
-    // For debugging*****	println("\n          testEntityReference's outputs:\n");
         entityReference = (EntityReference) document.getLastChild().getLastChild().getLastChild().getFirstChild();
         node = entityReference;
         node2 = node.cloneNode(true);
@@ -1223,11 +1194,10 @@ public class DTest extends TestCase {
     
         //	entityReference.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
         
-    // For debugging*****		println("All EntityReference method calls worked correctly.");
         if (!OK)
             System.out.println("\n*****The EntityReference method calls listed above failed, all others worked correctly.*****");
-    //	println("");
     }
+
     /**
      * This method tests Node methods for the XML DOM implementation
      * version 2.0 10/12/98
@@ -1240,7 +1210,6 @@ public class DTest extends TestCase {
         Node node, node2;
         boolean result;
         boolean OK = true;
-    // For debugging*****	println("\n          testNode's outputs:\n");
         node = document.getDocumentElement();
         node2 = node.cloneNode(true);
         result = treeCompare(node, node2); // Deep clone test of cloneNode
@@ -1263,20 +1232,17 @@ public class DTest extends TestCase {
         }
         else
         {
-            System.out.println("'cloneNode' was supposed to fail here, either it or 'treeCompare' failed!!!");
+            System.err.println("'cloneNode' was supposed to fail here, either it or 'treeCompare' failed!!!");
             OK = false;
         }
         // Deep clone test also in testDocument
         
-    // For debugging*****		println("All Node method calls worked correctly.");
-        if (!OK)
-            System.out.println("\n*****The Node method calls listed above failed, all others worked correctly.*****");	
-    //	println("");
+        if (!OK) System.err.println("\n*****The Node method calls listed above failed, all others worked correctly.*****");	
     }
+
     /**
      * This method tests Notation methods for the XML DOM implementation
      * version 2.0 10/12/98
-     * @param document org.w3c.dom.Document
      */
     public void testNotation(org.w3c.dom.Document document)
     {
@@ -1284,7 +1250,6 @@ public class DTest extends TestCase {
         Notation notation;
         boolean OK = true;
         String compare;
-    // For debugging*****	println("\n          testNotation's outputs:\n");
         notation = (Notation) document.getDoctype().getNotations().getNamedItem("ourNotationNode");
         node = notation;
         node2 = notation.cloneNode(true);//*****?
@@ -1315,15 +1280,12 @@ public class DTest extends TestCase {
         }
         //	notation.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
         
-    // For debugging*****		println("All Notation method calls worked correctly.");
-        if (!OK)
-            System.out.println("\n*****The Notation method calls listed above failed, all others worked correctly.*****");
-    //	println("");
+        if (!OK) System.err.println("\n*****The Notation method calls listed above failed, all others worked correctly.*****");
     }
+
     /**
      * This method tests ProcessingInstruction methods for the XML DOM implementation
      * version 2.0 10/12/98
-     * @param document org.w3c.dom.Document
      */
     public void testPI(org.w3c.dom.Document document)
     {
@@ -1331,7 +1293,6 @@ public class DTest extends TestCase {
         ProcessingInstruction pI, pI2;
         String compare;
         boolean OK = true;
-    // For debugging*****	println("\n          testPI's outputs:\n");
         pI = (ProcessingInstruction) document.getDocumentElement().getFirstChild();// Get doc's ProcessingInstruction
         pI2 = (org.apache.xerces.dom.ProcessingInstructionImpl) pI.cloneNode(true);//*****?
         // Check nodes for equality, both their name and value or lack thereof
@@ -1365,12 +1326,9 @@ public class DTest extends TestCase {
             OK = false;
         }	
         
-    // For debugging*****		println("All PI method calls worked correctly.");
-        if (!OK)
-            System.out.println("\n*****The PI method calls listed above failed, all others worked correctly.*****");
-        
-    //	println("");
-    }
+        if (!OK) System.err.println("\n*****The PI method calls listed above failed, all others worked correctly.*****");
+        }
+
     /**
      * This method tests Text methods for the XML DOM implementation
      * version 2.0 10/12/98

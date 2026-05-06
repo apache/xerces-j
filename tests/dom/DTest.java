@@ -348,7 +348,7 @@ public class DTest extends TestCase {
         Entity docEntity = createEntity(document, "ourEntityNode");
         Text entityChildText = document.createTextNode("entityChildText information"); // Build a branch for entityReference tests
             ((org.apache.xerces.dom.NodeImpl) docEntity).setReadOnly(false, true);
-        docEntity.appendChild(entityChildText); 
+        docEntity.appendChild(entityChildText);
         // & for READONLY_ERR tests
         ((org.apache.xerces.dom.NodeImpl) docEntity).setReadOnly(true, true);
         docDocType.getEntities().setNamedItem(docEntity);
@@ -391,7 +391,6 @@ public class DTest extends TestCase {
             test.testEntityReference(d);
             test.testNode(d);
             test.testNotation(d);
-            test.testText(d);
             test.testDOMerrors(d);
         
     //!! Throws WRONG_DOCUMENT_ERR **********
@@ -1034,7 +1033,7 @@ public class DTest extends TestCase {
             }
         }
         element = document.getDocumentElement(); // element gets doc's firstElement
-        element.normalize();        // Concatenates all adjacent text nodes in this element's subtree
+        element.normalize(); // Concatenates all adjacent text nodes in this element's subtree
         NodeList text2 = ((Node) element2).getChildNodes();
         compare = "dBodyLevel31'sChildTextNode11dBodyLevel31'sChildTextNode12dBodyLevel31'sChildTextNode13";
         Node n = (Node) text2.item(0);
@@ -1055,16 +1054,11 @@ public class DTest extends TestCase {
     /**
      * This method tests Entity methods for the XML DOM implementation.
      */
-    public void testEntity(org.w3c.dom.Document document)
-    {
-        Entity entity;
-        Node node, node2;
+    public void testEntity(org.w3c.dom.Document document) {
         boolean OK = true;
-        String compare;
-    // For debugging*****   println("\n          testEntity's outputs:\n");
-        entity = (Entity) document.getDoctype().getEntities().getNamedItem("ourEntityNode");
-        node = entity;
-        node2 = entity.cloneNode(true);
+        Entity entity = (Entity) document.getDoctype().getEntities().getNamedItem("ourEntityNode");
+        Node node = entity;
+        Node node2 = entity.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
         if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
              (node.getNodeValue() != null && node2.getNodeValue() != null) ?    // Checks to make sure each node has a value node
@@ -1077,8 +1071,8 @@ public class DTest extends TestCase {
         // Deep clone test comparison is in testNode & testDocument
     
         ((org.apache.xerces.dom.EntityImpl) entity).setNotationName("testNotationName");
-        compare = "testNotationName";
-        if(! compare.equals(entity.getNotationName()))
+        String compare = "testNotationName";
+        if(!compare.equals(entity.getNotationName()))
         {
             System.err.println("Warning!!! Entity's 'setNotationName' and/or getNotationName' failed!");
             OK = false;
@@ -1132,20 +1126,15 @@ public class DTest extends TestCase {
     }
 
     /**
-     * This method tests Node methods for the XML DOM implementation
-     * version 2.0 10/12/98
-     * @param document org.w3c.dom.Document
+     * This method tests Node methods for the XML DOM implementation.
      ********* This is only for a test of cloneNode "deep"*******
      ********* And for error tests*********
      */
-    public void testNode(org.w3c.dom.Document document)
-    {
-        Node node, node2;
-        boolean result;
+    public void testNode(org.w3c.dom.Document document) {
         boolean OK = true;
-        node = document.getDocumentElement();
-        node2 = node.cloneNode(true);
-        result = treeCompare(node, node2); // Deep clone test of cloneNode
+        Node node = document.getDocumentElement();
+        Node node2 = node.cloneNode(true);
+        boolean result = treeCompare(node, node2); // Deep clone test of cloneNode
         if (result)
         {
             //println("'cloneNode' successfully cloned this whole node tree (deep)!");
@@ -1217,8 +1206,7 @@ public class DTest extends TestCase {
     }
 
     /**
-     * This method tests ProcessingInstruction methods for the XML DOM implementation
-     * version 2.0 10/12/98
+     * This method tests ProcessingInstruction methods for the XML DOM implementation.
      */
     public void testPI() {
         ProcessingInstruction pI = (ProcessingInstruction) document.getDocumentElement().getFirstChild();// Get doc's ProcessingInstruction
@@ -1240,49 +1228,33 @@ public class DTest extends TestCase {
     }
 
     /**
-     * This method tests Text methods for the XML DOM implementation
+     * This method tests Text methods for the XML DOM implementation.
      */
-    public void testText(org.w3c.dom.Document document) {
-        boolean OK = true;
+    public void testText() {
+        document.getDocumentElement().normalize();
         Node node = document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // charData gets textNode11
         Text text = (Text) node;
-        Node node2 = node.cloneNode(true);//*****?
-        // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
-             (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
-            :(node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {   
-            System.err.println("'cloneNode' did not clone the Text node correctly");
-            OK = false;
-        }
-        // Deep clone test comparison is in testNode & testDocument
-        text.splitText(25);
-        String compare = "dBodyLevel31'sChildTextNo";  // Three original text nodes were concatenated by 'normalize' in testElement
-        if (!compare.equals(text.getNodeValue())) {
-            System.err.println("First part of Text's split text failed!" );
-            OK = false;
-        }
-        compare = "de11dBodyLevel31'sChildTextNode12dBodyLevel31'sChildTextNode13";// Three original text nodes were concatenated by 'normalize' in testElement
-        if (!compare.equals(text.getNextSibling().getNodeValue())) {
-            System.err.println("The second part of Text's split text failed!") ;
-            OK = false; 
-        }
+        Node node2 = node.cloneNode(true);
 
-    //************************************************* ERROR TESTS
+        // Check nodes for equality, both their name and value or lack thereof
+        assertEquals("'cloneNode' did not clone the text node name correctly", text.getNodeName(), node2.getNodeName());
+        assertEquals("'cloneNode' did not clone the text node value correctly", text.getNodeValue(), node2.getNodeValue());
+        // Deep clone test comparison is in testNode & testDocument
+    
+        text.splitText(25);
+        // Three original text nodes were concatenated by 'normalize'
+        String compare = "dBodyLevel31'sChildTextNo"; 
+        assertEquals("First part of Text's split text failed!", compare, text.getNodeValue());
+        compare = "de11dBodyLevel31'sChildTextNode12dBodyLevel31'sChildTextNode13";
+        assertEquals("Second part of Text's split text failed!", compare, text.getNextSibling().getNodeValue());
+
+        // ERROR TESTS
         //!! Throws INDEX_SIZE_ERR ********************
         //  text.splitText(-1);
-        //  text.splitText(100);
-        
-        if (!OK) System.err.println("\n*****The Text method calls listed above failed, all others worked correctly.*****");
+        //  text.splitText(100);        
     }
 
-    /**
-     * @param node org.w3c.dom.Node
-     * @param node2 org.w3c.dom.Node
-     */
-    public boolean treeCompare(Node node, Node node2)
-    {
+    private static boolean treeCompare(Node node, Node node2) {
         boolean answer = true;
             
         Node kid, kid2;         // Check the subtree for equality

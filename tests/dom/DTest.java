@@ -387,7 +387,6 @@ public class DTest extends TestCase {
             test.testEntity(d);
             test.testEntityReference(d);
             test.testNode(d);
-            test.testNotation(d);
             test.testDOMerrors(d);
         
     //!! Throws WRONG_DOCUMENT_ERR **********
@@ -455,8 +454,7 @@ public class DTest extends TestCase {
     }
 
     /**
-     * This method tests Attr methods for the XML DOM implementation
-     * version 2.0 10/12/98
+     * This method tests Attr methods for the XML DOM implementation.
      */
     public void testAttr() {
         Attr testAttribute = document.createAttribute("testAttribute");
@@ -635,16 +633,15 @@ public class DTest extends TestCase {
      * This method tests DeepNodeList methods for the XML DOM implementation
      */
     public void testDeepNodeList(org.w3c.dom.Document document) {  
-        Node node, node2;
         boolean OK = true;
 
-        node = document.getLastChild().getLastChild(); // node gets docBody element
+        Node node = document.getLastChild().getLastChild(); // node gets docBody element
         if (!(8 == ((Element) node).getElementsByTagName("*").getLength()))
             {
                 System.out.println ("Warning!!! DeepNodeList's 'getLength' failed to work properly!");
                 OK = false;     
             }
-        node2 = ((Element) node).getElementsByTagName("*").item(2); //This also runs through 'nextMatchingElementAfter"
+        Node node2 = ((Element) node).getElementsByTagName("*").item(2); //This also runs through 'nextMatchingElementAfter"
         if (! node2.getNodeName().equals("dBodyLevel32"))
             {
                 System.out.println ("Warning!!! DeepNodeList's 'item' (or Element's 'getElementsBy TagName)failed to work properly!");
@@ -1114,8 +1111,8 @@ public class DTest extends TestCase {
     public void testNode(org.w3c.dom.Document document) {
         boolean OK = true;
         Node node = document.getDocumentElement();
-        Node node2 = node.cloneNode(true);
-        boolean result = treeCompare(node, node2); // Deep clone test of cloneNode
+        Node cloneNode = node.cloneNode(true);
+        boolean result = treeCompare(node, cloneNode); // Deep clone test of cloneNode
         if (result)
         {
             //println("'cloneNode' successfully cloned this whole node tree (deep)!");
@@ -1127,7 +1124,7 @@ public class DTest extends TestCase {
         }
         //!! The following gives a did not clone successfully message*********
         node = document.getDocumentElement();
-        node2 = node.getFirstChild();
+        Node node2 = node.getFirstChild();
         result = treeCompare(node, node2);
         if (!result)
         {
@@ -1144,46 +1141,23 @@ public class DTest extends TestCase {
     }
 
     /**
-     * This method tests Notation methods for the XML DOM implementation
-     * version 2.0 10/12/98
+     * This method tests Notation methods for the XML DOM implementation.
      */
-    public void testNotation(org.w3c.dom.Document document)
-    {
-        Node node, node2;
-        Notation notation;
-        boolean OK = true;
-        String compare;
-        notation = (Notation) document.getDoctype().getNotations().getNamedItem("ourNotationNode");
-        node = notation;
-        node2 = notation.cloneNode(true);//*****?
+    public void testNotation() {
+        Notation notation = (Notation) document.getDoctype().getNotations().getNamedItem("ourNotationNode");
+        Node node = notation;
+        Node node2 = notation.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
-             (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
-            :(node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {   
-            System.out.println("'cloneNode' did not clone the Notation node correctly");
-            OK = false;
-        }
+        assertEquals("'cloneNode' did not clone the PI node name correctly", node.getNodeName(), node2.getNodeName());
+        assertEquals("'cloneNode' did not clone the PI node value correctly", node.getNodeValue(), node2.getNodeValue());
         // Deep clone test comparison is in testNode & testDocument
     
-        ((org.apache.xerces.dom.NotationImpl) notation).setPublicId("testPublicId");//*****?
-        compare = "testPublicId";
-        if (!compare.equals(notation.getPublicId()))
-        {
-            System.err.println("Warning!!! Notation's 'getPublicId' failed!");
-            OK = false;
-        }
-        ((org.apache.xerces.dom.NotationImpl) notation).setSystemId("testSystemId");//*****?
-        compare = "testSystemId";
-        if (!compare.equals(notation.getSystemId()))
-        {
-            System.err.println("Warning!!! Notation's 'getSystemId' failed!");
-            OK = false;
-        }
+        ((org.apache.xerces.dom.NotationImpl) notation).setPublicId("testPublicId");
+        ((org.apache.xerces.dom.NotationImpl) notation).setSystemId("testSystemId");
+        assertEquals("testPublicId", notation.getPublicId());
+        assertEquals("testSystemId", notation.getSystemId());
+
         //  notation.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
-        
-        if (!OK) System.err.println("\n*****The Notation method calls listed above failed, all others worked correctly.*****");
     }
 
     /**
@@ -1191,7 +1165,7 @@ public class DTest extends TestCase {
      */
     public void testPI() {
         ProcessingInstruction pI = (ProcessingInstruction) document.getDocumentElement().getFirstChild();// Get doc's ProcessingInstruction
-        ProcessingInstruction pI2 = (org.apache.xerces.dom.ProcessingInstructionImpl) pI.cloneNode(true);//*****?
+        ProcessingInstruction pI2 = (org.apache.xerces.dom.ProcessingInstructionImpl) pI.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
         assertEquals("'cloneNode' did not clone the PI node name correctly", pI.getNodeName(), pI2.getNodeName());
         assertEquals("'cloneNode' did not clone the PI node value correctly", pI.getNodeValue(), pI2.getNodeValue());

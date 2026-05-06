@@ -908,13 +908,6 @@ Authors:
         <arg value="10"/>
         <arg value="${data.dir}/personal-schema.xml"/>
     </java>
-
-    <echo message="Running dom.DTest..." />
-    <java fork="yes"
-          classname="dom.DTest"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
     <echo message="Running dom.mem.Test..." />
     <java fork="yes"
           classname="dom.mem.Test"

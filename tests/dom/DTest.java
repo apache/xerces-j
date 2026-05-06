@@ -383,7 +383,6 @@ public class DTest extends TestCase {
             test.testDocumentType(d);
             test.testDOMImplementation(d);
             test.testElement(d);
-            test.testEntity(d);
             test.testEntityReference(d);
             test.testNode(d);
             test.testDOMerrors(d);
@@ -1031,54 +1030,33 @@ public class DTest extends TestCase {
         Node node = entity;
         Node node2 = entity.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
-             (node.getNodeValue() != null && node2.getNodeValue() != null) ?    // Checks to make sure each node has a value node
-              node.getNodeValue().equals(node2.getNodeValue()) :        // If both have value nodes test those value nodes for equality
-             (node.getNodeValue() == null && node2.getNodeValue() == null)))    // If one node doesn't have a value node make sure both don't
-        {   
-            System.err.println("Warning!!! 'cloneNode' did not clone the Entity node correctly");
-            OK = false;
-        }
+        assertEquals("'cloneNode' did not clone the entity node name correctly", node.getNodeName(), node2.getNodeName());
+        assertEquals("'cloneNode' did not clone the entity node value correctly", node.getNodeValue(), node2.getNodeValue());
         // Deep clone test comparison is in testNode & testDocument
     
         ((org.apache.xerces.dom.EntityImpl) entity).setNotationName("testNotationName");
         String compare = "testNotationName";
-        if(!compare.equals(entity.getNotationName()))
-        {
-            System.err.println("Warning!!! Entity's 'setNotationName' and/or getNotationName' failed!");
-            OK = false;
-        }
+
+        assertEquals("testNotationName", entity.getNotationName());
+
         ((org.apache.xerces.dom.EntityImpl) entity).setPublicId("testPublicId");
-        compare = "testPublicId";
-        if(! compare.equals(entity.getPublicId()))
-        {
-            System.err.println("Warning!!! Entity's 'setPublicId' and/or getPublicId' failed!");
-            OK = false;
-        }   
+        assertEquals("testPublicId", entity.getPublicId());
+ 
         ((org.apache.xerces.dom.EntityImpl) entity).setSystemId("testSystemId");
-        compare = "testSystemId";
-        if(!compare.equals(entity.getSystemId()))
-        {
-            System.err.println("Warning!!! Entity's 'setSystemId' and/or getSystemId' failed!");
-            OK = false;
-        }       
-        //  entity.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
-        
-        if (!OK) System.err.println("\n*****The Entity method calls listed above failed, all others worked correctly.*****");
+        assertEquals("testSystemId", entity.getSystemId());
+
+        //  entity.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********        
     }
 
     /**
-     * This method tests EntityReference methods for the XML DOM implementation
-     * version 2.0 10/12/98
+     * This method tests EntityReference methods for the XML DOM implementation.
      */
     public void testEntityReference(org.w3c.dom.Document document)
     {
-        EntityReference entityReference;
-        Node node, node2;
         boolean OK = true;
-        entityReference = (EntityReference) document.getLastChild().getLastChild().getLastChild().getFirstChild();
-        node = entityReference;
-        node2 = node.cloneNode(true);
+        EntityReference entityReference = (EntityReference) document.getLastChild().getLastChild().getLastChild().getFirstChild();
+        Node node = entityReference;
+        Node node2 = node.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
         if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
              (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node

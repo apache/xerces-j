@@ -383,7 +383,6 @@ public class DTest extends TestCase {
             test.testDocumentType(d);
             test.testDOMImplementation(d);
             test.testElement(d);
-            test.testEntityReference(d);
             test.testNode(d);
             test.testDOMerrors(d);
         
@@ -1051,27 +1050,16 @@ public class DTest extends TestCase {
     /**
      * This method tests EntityReference methods for the XML DOM implementation.
      */
-    public void testEntityReference(org.w3c.dom.Document document)
-    {
-        boolean OK = true;
+    public void testEntityReference() {
         EntityReference entityReference = (EntityReference) document.getLastChild().getLastChild().getLastChild().getFirstChild();
         Node node = entityReference;
         Node node2 = node.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
-             (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? node.getNodeValue().equals(node2.getNodeValue())          // If both have value nodes test those value nodes for equality
-            :(node.getNodeValue() == null && node2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {   
-            System.out.println("'cloneNode' did not clone the EntityReference node correctly");
-            OK = false;
-        }
+        assertEquals("'cloneNode' did not clone the entity reference node name correctly", node.getNodeName(), node2.getNodeName());
+        assertEquals("'cloneNode' did not clone the entity reference node value correctly", node.getNodeValue(), node2.getNodeValue());
         // Deep clone test comparison is in testNode & testDocument
     
-        //  entityReference.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
-        
-        if (!OK)
-            System.out.println("\n*****The EntityReference method calls listed above failed, all others worked correctly.*****");
+        //  entityReference.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********        
     }
 
     /**

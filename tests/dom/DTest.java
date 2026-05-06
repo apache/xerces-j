@@ -380,7 +380,6 @@ public class DTest extends TestCase {
             test.testDeepNodeList(d);
             test.testDocument(d);
             test.testElement(d);
-            test.testNode(d);
             test.testDOMerrors(d);
         
     //!! Throws WRONG_DOCUMENT_ERR **********
@@ -1016,36 +1015,18 @@ public class DTest extends TestCase {
      ********* This is only for a test of cloneNode "deep"*******
      ********* And for error tests*********
      */
-    public void testNode(org.w3c.dom.Document document) {
+    public void testNode() {
         boolean OK = true;
         Node node = document.getDocumentElement();
         Node cloneNode = node.cloneNode(true);
-        boolean result = treeCompare(node, cloneNode); // Deep clone test of cloneNode
-        if (result)
-        {
-            //println("'cloneNode' successfully cloned this whole node tree (deep)!");
-        }
-        else
-        {
-            System.out.println("'cloneNode' did not successfully clone this whole node tree (deep)!");
-            OK = false; 
-        }
+        assertTrue(treeCompare(node, cloneNode)); // Deep clone test of cloneNode
+
         //!! The following gives a did not clone successfully message*********
         node = document.getDocumentElement();
         Node node2 = node.getFirstChild();
-        result = treeCompare(node, node2);
-        if (!result)
-        {
-            //println("'cloneNode' did not successfully clone this whole node tree (deep)!");
-        }
-        else
-        {
-            System.err.println("'cloneNode' was supposed to fail here, either it or 'treeCompare' failed!!!");
-            OK = false;
-        }
+        assertFalse(treeCompare(node, node2));
+
         // Deep clone test also in testDocument
-        
-        if (!OK) System.err.println("\n*****The Node method calls listed above failed, all others worked correctly.*****"); 
     }
 
     /**

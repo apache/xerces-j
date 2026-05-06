@@ -391,7 +391,6 @@ public class DTest extends TestCase {
             test.testEntityReference(d);
             test.testNode(d);
             test.testNotation(d);
-            test.testPI(d);
             test.testText(d);
             test.testDOMerrors(d);
         
@@ -1221,61 +1220,33 @@ public class DTest extends TestCase {
      * This method tests ProcessingInstruction methods for the XML DOM implementation
      * version 2.0 10/12/98
      */
-    public void testPI(org.w3c.dom.Document document)
-    {
-        Node node, node2;
-        ProcessingInstruction pI, pI2;
-        String compare;
-        boolean OK = true;
-        pI = (ProcessingInstruction) document.getDocumentElement().getFirstChild();// Get doc's ProcessingInstruction
-        pI2 = (org.apache.xerces.dom.ProcessingInstructionImpl) pI.cloneNode(true);//*****?
+    public void testPI() {
+        ProcessingInstruction pI = (ProcessingInstruction) document.getDocumentElement().getFirstChild();// Get doc's ProcessingInstruction
+        ProcessingInstruction pI2 = (org.apache.xerces.dom.ProcessingInstructionImpl) pI.cloneNode(true);//*****?
         // Check nodes for equality, both their name and value or lack thereof
-        if (!(pI.getNodeName().equals(pI2.getNodeName()) &&         // Compares node names for equality
-             (pI.getNodeValue() != null && pI2.getNodeValue() != null)  // Checks to make sure each node has a value node
-            ? pI.getNodeValue().equals(pI2.getNodeValue())      // If both have value nodes test those value nodes for equality
-            :(pI.getNodeValue() == null && pI2.getNodeValue() == null)))// If one node doesn't have a value node make sure both don't
-        {   
-            System.out.println("'cloneNode' did not clone the Entity node correctly");
-            OK = false;
-        }
+        assertEquals("'cloneNode' did not clone the PI node name correctly", pI.getNodeName(), pI2.getNodeName());
+        assertEquals("'cloneNode' did not clone the PI node value correctly", pI.getNodeValue(), pI2.getNodeValue());
         // Deep clone test comparison is in testNode & testDocument
-        compare = "This is [#document: null]'s processing instruction";
-        if (!compare.equals(pI.getData()))
-        {
-            System.err.println("Warning!!! PI's 'getData' failed!");
-            OK = false;
-        }
+    
+        String compare = "This is [#document: null]'s processing instruction";
+        assertEquals("PI's 'getData' failed!", compare, pI.getData());
         
         pI.setData("PI's reset data");
         compare = "PI's reset data";
-        if (!compare.equals(pI.getData()))
-        {
-            System.err.println("Warning!!! PI's 'setData' failed!");
-            OK = false;
-        }   
+        assertEquals("PI's 'resetData' failed!", compare, pI.getData());
+ 
         compare = "dTargetProcessorChannel";
-        if (!compare.equals(pI.getTarget()))
-        {
-            System.err.println("Warning!!! PI's 'getTarget' failed!");
-            OK = false;
-        }   
-        
-        if (!OK) System.err.println("\n*****The PI method calls listed above failed, all others worked correctly.*****");
-        }
+        assertEquals("PI's 'getTarget' failed!", compare, pI.getTarget());
+    }
 
     /**
      * This method tests Text methods for the XML DOM implementation
-     * version 2.0 10/12/98
      */
-    public void testText(org.w3c.dom.Document document)
-    {
-        Node node, node2;
-        Text text;
-        String compare;
+    public void testText(org.w3c.dom.Document document) {
         boolean OK = true;
-        node = document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // charData gets textNode11
-        text = (Text) node;
-        node2 = node.cloneNode(true);//*****?
+        Node node = document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // charData gets textNode11
+        Text text = (Text) node;
+        Node node2 = node.cloneNode(true);//*****?
         // Check nodes for equality, both their name and value or lack thereof
         if (!(node.getNodeName().equals(node2.getNodeName()) &&         // Compares node names for equality
              (node.getNodeValue() != null && node2.getNodeValue() != null)  // Checks to make sure each node has a value node
@@ -1287,7 +1258,7 @@ public class DTest extends TestCase {
         }
         // Deep clone test comparison is in testNode & testDocument
         text.splitText(25);
-        compare = "dBodyLevel31'sChildTextNo";  // Three original text nodes were concatenated by 'normalize' in testElement
+        String compare = "dBodyLevel31'sChildTextNo";  // Three original text nodes were concatenated by 'normalize' in testElement
         if (!compare.equals(text.getNodeValue())) {
             System.err.println("First part of Text's split text failed!" );
             OK = false;

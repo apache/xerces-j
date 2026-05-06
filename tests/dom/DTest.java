@@ -95,7 +95,7 @@ public class DTest extends TestCase {
      * @param name document's name
      * @param type document's type
      */
-    private void docBuilder(org.w3c.dom.Document document, String name) {
+    private static void docBuilder(org.w3c.dom.Document document, String name) {
         Document doc = document;
         boolean OK = true;
             
@@ -308,7 +308,6 @@ public class DTest extends TestCase {
     public static void main(String args[]) {
         DTest test = new DTest();
     
-        boolean OK = true;
         long startTime = System.currentTimeMillis(); // Time the whole thing for efficiency of DOM implementation
     
         Document d = createDocument();
@@ -323,11 +322,9 @@ public class DTest extends TestCase {
             ((org.apache.xerces.dom.NodeImpl) docEntity).setReadOnly(true, true);
         docDocType.getEntities().setNamedItem(docEntity);
         
-        test.docBuilder(d, "d");
+        docBuilder(d, "d");
     
         test.findTestNodes((Node) d);
-        try {
-            test.testDocument(d);
         
     //!! Throws WRONG_DOCUMENT_ERR **********
             
@@ -381,16 +378,6 @@ public class DTest extends TestCase {
             .createEntityReference("String stuff");
             .createProcessingInstruction("String stuff", "Some more String stuff");
         */
-    
-        } catch (Exception e) {
-            System.out.println("Exception is: ");
-            e.printStackTrace();
-            OK = false;
-        }
-
-        if (!OK) {
-          System.exit(1);
-        }
     }
 
     /**
@@ -459,8 +446,7 @@ public class DTest extends TestCase {
     }
 
     /**
-     * This method tests CharacterData methods for the XML DOM implementation
-     * version 2.0 10/12/98
+     * This method tests CharacterData methods for the XML DOM implementation.
      */
     public void testCharacterData() {
         boolean OK = true;
@@ -588,74 +574,43 @@ public class DTest extends TestCase {
      *
      * ALL Document create methods are run in docBuilder except createAttribute which is in testAttribute.
      */
-    public void testDocument(org.w3c.dom.Document document) {
-        DTest make = new DTest();
-        DocumentFragment docFragment, docFragment2;
-        Element newElement;
-        Node node, node2;
+    public void testDocument() {
         String[] elementNames =  {"dFirstElement", "dTestBody", "dBodyLevel21","dBodyLevel31","dBodyLevel32",
                        "dBodyLevel22", "dBodyLevel33", "dBodyLevel34", "dBodyLevel23", "dBodyLevel24"};
         String[] newElementNames = {"dFirstElement", "dTestBody", "dBodyLevel22", "dBodyLevel33", "dBodyLevel34", "dBodyLevel23"};
-        boolean result;
-        boolean OK = true;
         
-        DocumentType checkDocType =  make.createDocumentType(document,"testDocument1");
+        DocumentType checkDocType = createDocumentType(document, "testDocument1");
         DocumentType docType = document.getDoctype();
-        if (! (checkDocType.getNodeName().equals(docType.getNodeName()) &&      // Compares node names for equality
-              (checkDocType.getNodeValue() != null && docType.getNodeValue() != null)   // Checks to make sure each node has a value node
-            ?  checkDocType.getNodeValue().equals(docType.getNodeValue())       // If both have value nodes test those value nodes for equality
-            : (checkDocType.getNodeValue() == null && docType.getNodeValue() == null))) // If one node doesn't have a value node make sure both don't
-        {
-            System.err.println("Warning!!! Document's 'getDocType method failed!" );
-            OK = false;
-        }
+        assertEquals(checkDocType.getNodeName(), docType.getNodeName());
+        assertEquals(checkDocType.getNodeValue(), docType.getNodeValue());
             
         Node rootElement = document.getLastChild();
-        if (! (rootElement.getNodeName().equals(document.getDocumentElement().getNodeName()) &&         // Compares node names for equality
-              (rootElement.getNodeValue() != null && document.getDocumentElement().getNodeValue() != null)   // Checks to make sure each node has a value node
-            ?  rootElement.getNodeValue().equals(document.getDocumentElement().getNodeValue())      // If both have value nodes test those value nodes for equality
-            : (rootElement.getNodeValue() == null && document.getDocumentElement().getNodeValue() == null)))    // If one node doesn't have a value node make sure both don't
-        {
-            System.err.println("Warning!!! Document's 'getDocumentElement' method failed!" );
-            OK = false;
-        }
+        assertEquals(rootElement.getNodeName(), document.getDocumentElement().getNodeName());
+        assertEquals(rootElement.getNodeValue(), document.getDocumentElement().getNodeValue());
         
         NodeList docElements = document.getElementsByTagName("*");
         int docSize = docElements.getLength();
         for (int i = 0; i < docSize; i++) {
             Node n = (Node) docElements.item(i);
-            if (! (elementNames[i].equals(n.getNodeName())))
-            {
-                System.out.println("Comparison of this document's elements failed at element number " + i + " : " + n.getNodeName());
-                OK = false;
-                break;
-            }
+            assertEquals(elementNames[i], n.getNodeName());
         }
-        if (document.equals(document.getImplementation()))
-        {
-            System.err.println("Warning!!! Document's 'getImplementation' method failed!" );
-            OK = false;     
-        }
+
+        assertFalse(document.equals(document.getImplementation()));
             
-        newElement = document.createElement("NewElementTestsInsertBefore");
+        Element newElement = document.createElement("NewElementTestsInsertBefore");
         //  doc.insertBefore(newElement,null);//!! Throws a HIERARCHY_REQUEST_ERR   ******* 
         //  doc.removeChild(docElements.item(9));//!! Throws a NOT_FOUND_ERR  ********
     
-        docFragment = document.createDocumentFragment();
+        DocumentFragment docFragment = document.createDocumentFragment();
         //Tests removeChild and stores removed branch for tree reconstruction
         docFragment.appendChild(docElements.item(1).removeChild(docElements.item(9)));
-        docFragment2 = document.createDocumentFragment();
+        DocumentFragment docFragment2 = document.createDocumentFragment();
         //Tests removeChild and stores removed branch for tree reconstruction
         docFragment2.appendChild(docElements.item(1).removeChild(docElements.item(2)));
         docSize = docElements.getLength();
         for (int i = 0; i < docSize; i++) {
             Node n = (Node) docElements.item(i);
-            if (! (newElementNames[i].equals(n.getNodeName())))
-            {
-                System.out.println("Comparison of new document's elements failed at element number " + i + " : " + n.getNodeName());
-                OK = false;
-                break;
-            }
+            assertEquals(newElementNames[i], n.getNodeName());
         }
         docElements.item(1).insertBefore(docFragment, null); //Reattaches removed branch to restore tree to the original
         docElements.item(1).insertBefore(docFragment2, docElements.item(2)); //Reattaches removed branch to restore tree to the original
@@ -663,15 +618,10 @@ public class DTest extends TestCase {
         docSize = docElements.getLength();
         for (int i = 0; i < docSize; i++) {
             Node n = (Node) docElements.item(i);
-            if (!(elementNames[i].equals(n.getNodeName())))
-            {
-                System.out.println("Comparison of restored document's elements failed at element number " + i + " : " + n.getNodeName());
-                OK = false;
-                break;
-            }
+            assertEquals("Comparison of restored document's elements failed at element number " + i + " : " + n.getNodeName(), elementNames[i], n.getNodeName());
         }
     
-    //    DTest tests = new DTest();
+    //  DTest tests = new DTest();
     //  Document z = tests.createDocument();
     //  tests.docBuilder(z, "z");
     
@@ -685,26 +635,20 @@ public class DTest extends TestCase {
     
         //  doc.setNodeValue("This shouldn't work");//!! Throws a NO_MODIFICATION_ALLOWED_ERR ********
         
-        node = document;
-        node2 = document.cloneNode(true);
-        result = treeCompare(node, node2); // Deep clone test comparison of document cloneNode
-        if (!result)
-        {
-            System.err.println("Warning!!! Deep clone of the document failed!");
-            OK = false;
-        }
+        Node node = document;
+        Node node2 = document.cloneNode(true);
+        boolean result = treeCompare(node, node2); // Deep clone test comparison of document cloneNode
+        assertTrue("Deep clone of the document failed!", result);
     
         // check on the ownerDocument of the cloned nodes
         Document doc2 = (Document) node2;
-        Assertion.verify(doc2.getDocumentElement().getOwnerDocument() == doc2);
+        assertSame(doc2.getDocumentElement().getOwnerDocument(), doc2);
     
         // Deep clone test comparison is also in testNode
     
         // try adding a new element to the cloned document
         node2 = doc2.createElement("foo");
-        doc2.getDocumentElement().appendChild(node2);
-        
-        if (!OK) System.err.println("\n*****The Document method calls listed above failed, all others worked correctly.*****");
+        doc2.getDocumentElement().appendChild(node2);        
     }
 
     /**

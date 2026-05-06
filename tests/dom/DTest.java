@@ -379,7 +379,6 @@ public class DTest extends TestCase {
         try {
             test.testDeepNodeList(d);
             test.testDocument(d);
-            test.testDOMImplementation(d);
             test.testElement(d);
             test.testNode(d);
             test.testDOMerrors(d);
@@ -853,30 +852,15 @@ public class DTest extends TestCase {
     }
 
     /**
-     * This method tests DOMImplementation methods for the XML DOM implementation
+     * This method tests DOMImplementation methods for the XML DOM implementation.
      */
-    public void testDOMImplementation(org.w3c.dom.Document document) {
-        DOMImplementation implementation;
-        boolean result = false;
-        boolean OK = true;
-        implementation = document.getImplementation(); //Uses getDOMImplementation to obtain implementation 
+    public void testDOMImplementation() {
+        DOMImplementation implementation = document.getImplementation(); 
     
-        result = implementation.hasFeature("XML", "1.0");
-        if (!result)
-        {
-            System.err.println("Warning!!! DOMImplementation's 'hasFeature' that should be 'true' failed!");
-            OK = false;
-        }
-        
-        result = implementation.hasFeature("HTML", "4.0");
-        if (result)
-        {
-            System.err.println("Warning!!! DOMImplementation's 'hasFeature' that should be 'false' failed!");
-            OK = false;
-        }
-        
-        if (!OK) System.err.println("\n*****The DOMImplementation method calls listed above failed, all others worked correctly.*****");
+        assertTrue(implementation.hasFeature("XML", "1.0"));
+        assertFalse(implementation.hasFeature("HTML", "4.0"));
     }
+
     /**
      * This method tests Element methods for the XML DOM implementation
      */
@@ -988,7 +972,7 @@ public class DTest extends TestCase {
     /**
      * This method tests Entity methods for the XML DOM implementation.
      */
-    public void testEntity(org.w3c.dom.Document document) {
+    public void testEntity() {
         boolean OK = true;
         Entity entity = (Entity) document.getDoctype().getEntities().getNamedItem("ourEntityNode");
         Node node = entity;

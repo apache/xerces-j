@@ -359,7 +359,6 @@ public class DTest extends TestCase {
     public static void main(String args[]) {
         DTest test = new DTest();
     
-        long avgTime = 0;
         boolean OK = true;
         long startTime = System.currentTimeMillis(); // Time the whole thing for efficiency of DOM implementation
     
@@ -379,7 +378,6 @@ public class DTest extends TestCase {
     
         test.findTestNodes((Node) d);
         try {
-            test.testChildNodeList(d);
             test.testDeepNodeList(d);
             test.testDocument(d);
             test.testDocumentFragment(d);
@@ -614,16 +612,12 @@ public class DTest extends TestCase {
     /**
      * This method tests ChildNodeList methods for the XML DOM implementation.
      */
-    public void testChildNodeList(org.w3c.dom.Document document) {
-    
-        boolean OK = true;
+    public void testChildNodeList() {
         Node node = document.getDocumentElement().getLastChild(); // node gets doc's testBody element
-        
-        if (!(node.getChildNodes().getLength() == 4)) OK = false;
+        assertEquals(4, node.getChildNodes().getLength());
+
         Node node2 = node.getChildNodes().item(2);
-        if (!node2.getNodeName().equals("dBodyLevel23")) OK = false;
-        
-        if (!OK) System.err.println("\n*****The ChildNodeList method calls listed above failed, all others worked correctly.*****");        
+        assertEquals("dBodyLevel23", node2.getNodeName());        
     }
 
     /**

@@ -34,10 +34,6 @@ public class IdIdrefCheckingTest extends BaseTest {
     
     public static final String NO_ID_BINDING = "cvc-id.1";
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(IdIdrefCheckingTest.class);
-    }
-    
     protected String getXMLDocument() {
         return "idIdref.xml";
     }

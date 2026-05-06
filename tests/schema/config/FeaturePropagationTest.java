@@ -44,10 +44,6 @@ public class FeaturePropagationTest extends TestCase {
     public final String FEATURE_STRING_DEFAULT_TRUE = "http://apache.org/xml/features/validation/schema-full-checking";
     public final String SECURITY_MANAGER = "http://apache.org/xml/properties/security-manager";
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(FeaturePropagationTest.class);
-    }
-    
     public FeaturePropagationTest(String name) {
         super(name);
     }

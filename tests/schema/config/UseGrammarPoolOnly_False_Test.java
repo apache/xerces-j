@@ -30,10 +30,6 @@ public class UseGrammarPoolOnly_False_Test extends BaseTest {
     private final static String UNKNOWN_TYPE_ERROR = "cvc-type.1";
     private final static String INVALID_DERIVATION_ERROR = "cvc-elt.4.3";
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(UseGrammarPoolOnly_False_Test.class);
-    }
-    
     protected String getXMLDocument() {
         return "otherNamespace.xml";
     }

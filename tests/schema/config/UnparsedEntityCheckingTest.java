@@ -31,10 +31,6 @@ public class UnparsedEntityCheckingTest extends BaseTest {
     
     public static final String UNDECLARED_ENTITY = "UndeclaredEntity";
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(UnparsedEntityCheckingTest.class);
-    }
-    
     protected String getXMLDocument() {
         return "unparsedEntity.xml";
     }
@@ -59,6 +55,7 @@ public class UnparsedEntityCheckingTest extends BaseTest {
         }
         
         checkDefault();
+        throw new RuntimeException();
     }
     
     public void testSetFalseValid() {

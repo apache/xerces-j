@@ -278,8 +278,4 @@ public class XSAttributeGroupAnnotationsTest extends TestCase {
             assertEquals(trim(expectedResult), trim(actual));
         }
     }
-
-    public static void main(String args[]) {
-        junit.textui.TestRunner.run(XSAttributeGroupAnnotationsTest.class);
-    }
 }

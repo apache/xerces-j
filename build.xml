@@ -822,13 +822,35 @@ Authors:
         <batchtest fork="yes" todir="test-reports">
           <fileset dir="${build.dir}/classes">
              <include name="dom/traversal/*Test.class"/>                    
-             <include name="dom/range/*Test*.class"/>                    
-             <exclude name="dom/range/Test.class"/>                    
+             <include name="dom/range/TestCompare.class"/>                    
+             <include name="idc/IDConstraintTests.class"/>                    
+             <include name="schema/annotations/*Test.class"/>                    
+             <include name="schema/config/BasicTest.class"/>                    
+             <include name="schema/config/FeaturePropagationTest.class"/>                    
+             <include name="schema/config/FixedAttrTest.class"/> 
+             <include name="schema/config/IdentityConstraintCheckingTest.class"/>
+             <include name="schema/config/IdIdrefCheckingTest.class"/>
+             <include name="schema/config/IgnoreXSIType_A_A_Test.class"/>
+             <include name="schema/config/IgnoreXSIType_A_C_Test.class"/>
+             <include name="schema/config/IgnoreXSIType_C_A_Test.class"/>
+             <include name="schema/config/RootSimpleTypeDefinitionTest.class"/>
+             <include name="schema/config/RootTypeDefinitionTest.class"/>
+             <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
+          <!-- These tests are failing. Fix them.
+             <include name="schema/config/IgnoreXSIType_C_AC_Test.class"/>
+             <include name="schema/config/IgnoreXSIType_C_CA_Test.class"/>
+             <include name="schema/config/IgnoreXSIType_C_C_Test.class"/>
+             <include name="schema/config/SurrogatePairLengthTest.class"/>
+             <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
+             <include name="schema/config/UnparsedEntityCheckingTest.class"/>
+            -->             
            </fileset>
          </batchtest>
+
          
        <formatter type="brief" usefile="false"/>
     </junit>
+    <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
     <echo message="Using classpath='${run.classpath.string}'" />
@@ -910,7 +932,6 @@ Authors:
           classpathref="test.classpath"
           failOnError="yes">
     </java>
-
 <!--  
      TODO fix this test
      [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
@@ -930,33 +951,6 @@ Authors:
           classpathref="test.classpath"
           failOnError="yes">
     </java>
-    <!-- TODO some of these tests pass so I need to split them in such a way that we can enable them -->
-    <!-- These tests are failing. Fix them. 
-    <echo message="Running schema.config.AllTests..." />
-    <junit fork="yes"
-           haltonfailure="no" 
-           haltonerror="no" 
-           failureproperty="test.failed" 
-           errorproperty="test.failed"
-           showoutput="yes">
-        <classpath refid="test.classpath"/>
-        <test name="schema.config.AllTests"/>
-        <formatter type="brief" usefile="false"/>
-    </junit>
-    -->
-    <echo message="Running schema.annotations.AllTests..." />
-    <junit haltonfailure="no" 
-           haltonerror="no" 
-           failureproperty="test.failed" 
-           errorproperty="test.failed"
-           showoutput="yes">
-        <classpath>
-          <path refid="test.classpath"/>
-          <pathelement location="tests"/>
-        </classpath>
-        <test name="schema.annotations.AllTests"/>
-        <formatter type="brief" usefile="false"/>
-    </junit>
     <echo message="Running jaxp.PropertyTest..." />
     <java fork="yes"
           classname="jaxp.PropertyTest"
@@ -990,16 +984,7 @@ Authors:
           classname="dom.dom3.Test"
           classpathref="test.classpath"
           failOnError="yes">
-    </java>
-    <echo message="Running idc.AllTests..." />
-    <java fork="yes"
-          classname="idc.AllTests"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
-    
-    <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
-    
+    </java>   
   </target>
 
   <target name="ci-test" depends="test">

@@ -27,10 +27,6 @@ import org.apache.xerces.xs.ItemPSVI;
  */
 public class UseGrammarPoolOnly_True_Test extends BaseTest {
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(UseGrammarPoolOnly_True_Test.class);
-    }
-    
     protected String getXMLDocument() {
         return "otherNamespace.xml";
     }

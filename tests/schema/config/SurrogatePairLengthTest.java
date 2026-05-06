@@ -34,10 +34,6 @@ public class SurrogatePairLengthTest extends BaseTest {
     
     private static final String LENGTH_ERROR = "cvc-length-valid";
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(SurrogatePairLengthTest.class);
-    }
-    
     protected String getXMLDocument() {
         return "surrogate.xml";
     }

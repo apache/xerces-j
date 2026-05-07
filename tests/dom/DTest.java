@@ -732,7 +732,6 @@ public class DTest extends TestCase {
         assertTrue(treeCompare(node, cloneNode)); // Deep clone test of cloneNode
 
         //!! The following gives a did not clone successfully message*********
-        node = document.getDocumentElement();
         Node node2 = node.getFirstChild();
         assertFalse(treeCompare(node, node2));
 

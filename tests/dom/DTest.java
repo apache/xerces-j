@@ -49,9 +49,6 @@ import org.w3c.dom.Text;
  */
 public class DTest extends TestCase {
 
-    /**
-     * @return org.w3c.dom.Document
-     */
     private static Document createDocument() {
         return new org.apache.xerces.dom.DocumentImpl();
     }

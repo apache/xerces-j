@@ -19,6 +19,7 @@ package dom;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 import junit.framework.TestCase;
 import org.w3c.dom.Attr;
@@ -45,22 +46,16 @@ import org.w3c.dom.Text;
  * DOMException errors are tested by calls to DOMExceptionsTest from: Main, docBuilder...
  *
  * @author Philip W. Davis
- * @version 2.0 
  */
 public class DTest extends TestCase {
 
     /**
-     * version 3.0 01/25/99
-     *  
      * @return org.w3c.dom.Document
      */
     private static Document createDocument() {
         return new org.apache.xerces.dom.DocumentImpl();
     }
 
-    /**
-     * version 3.0 01/25/99
-     */
     private static DocumentType createDocumentType(Document doc, String name) {
         return ((org.apache.xerces.dom.DocumentImpl) doc).createDocumentType(name, null, null);
     }
@@ -76,9 +71,8 @@ public class DTest extends TestCase {
     /**
      * This method builds test documents for the XML DOM implementation.
      *
-     * @param document org.w3c.dom.Document
+     * @param doc org.w3c.dom.Document
      * @param name document's name
-     * @param type document's type
      */
     private static void docBuilder(org.w3c.dom.Document doc, String name) {            
         Element docFirstElement = doc.createElement(name + "FirstElement");
@@ -431,12 +425,25 @@ public class DTest extends TestCase {
     /**
      * This method tests Comment methods for the XML DOM implementation.
      */
-    public void testComment() {
-        Node node = document.getDocumentElement().getElementsByTagName("dBodyLevel31").item(0).getFirstChild(); // node gets textNode11
-        Node cloneNode = node.cloneNode(true);
-        // Check nodes for equality, both their name and value
-        assertEquals("'cloneNode' did not clone the Comment node name correctly", node.getNodeName(), cloneNode.getNodeName());
-        assertEquals("'cloneNode' did not clone the Comment node value correctly", node.getNodeValue(), cloneNode.getNodeValue());
+     public void testComment() {
+         Node parent = document.getDocumentElement().getElementsByTagName("dBodyLevel23").item(0);
+         Node node = null;
+         NodeList children = parent.getChildNodes();
+         for (int i = 0; i < children.getLength(); i++) {
+             Node child = children.item(i);
+             if (child.getNodeType() == Node.COMMENT_NODE) {
+                 node = child;
+                 break;
+             }
+         }
+         assertNotNull("Expected a Comment node under dBodyLevel23", node);
+         assertEquals("'testComment' did not select a Comment node", Node.COMMENT_NODE, node.getNodeType());
+         Node cloneNode = node.cloneNode(true);
+         assertEquals("'cloneNode' did not clone a Comment node", Node.COMMENT_NODE, cloneNode.getNodeType());
+
+         // Check nodes for equality, both their name and value
+         assertEquals("'cloneNode' did not clone the Comment node name correctly", node.getNodeName(), cloneNode.getNodeName());
+         assertEquals("'cloneNode' did not clone the Comment node value correctly", node.getNodeValue(), cloneNode.getNodeValue());
     }
 
     /**
@@ -743,11 +750,10 @@ public class DTest extends TestCase {
      */
     public void testNotation() {
         Notation notation = (Notation) document.getDoctype().getNotations().getNamedItem("ourNotationNode");
-        Node node = notation;
-        Node node2 = notation.cloneNode(true);
+        Node cloneNode = notation.cloneNode(true);
         // Check nodes for equality, both their name and value or lack thereof
-        assertEquals("'cloneNode' did not clone the PI node name correctly", node.getNodeName(), node2.getNodeName());
-        assertEquals("'cloneNode' did not clone the PI node value correctly", node.getNodeValue(), node2.getNodeValue());
+        assertEquals("'cloneNode' did not clone the notation node name correctly", notation.getNodeName(), cloneNode.getNodeName());
+        assertEquals("'cloneNode' did not clone the notation node value correctly", notation.getNodeValue(), cloneNode.getNodeValue());
         // Deep clone test comparison is in testNode & testDocument
     
         ((org.apache.xerces.dom.NotationImpl) notation).setPublicId("testPublicId");
@@ -807,40 +813,42 @@ public class DTest extends TestCase {
         //  text.splitText(100);        
     }
 
-    private static boolean treeCompare(Node node, Node node2) {
-        boolean answer = true;
-            
+    private static boolean treeCompare(Node node, Node node2) {            
         // Check the subtree for equality
         Node kid = node.getFirstChild();
         Node kid2 = node2.getFirstChild();
+
         if (kid != null && kid2 != null) {
-            answer = treeCompare(kid, kid2);
-            if (!answer) {
-                return answer;
+            if (!treeCompare(kid, kid2)) {
+                return false;
             }
             else if (kid.getNextSibling() != null && kid2.getNextSibling() != null) {
                 while (kid.getNextSibling() != null && kid2.getNextSibling() != null) {
-                    answer = treeCompare(kid.getNextSibling(), kid2.getNextSibling());
-                    if (!answer)
-                        return answer;
-                    else
-                    {
+                    if (!treeCompare(kid.getNextSibling(), kid2.getNextSibling())) {
+                        return false;
+                    }
+                    else {
                         kid = kid.getNextSibling();
                         kid2 = kid2.getNextSibling();
                     }
                 }
-            } 
+            }
             else if (!(kid.getNextSibling() == null && kid2.getNextSibling() == null)) {
                 return false;
             }
-        } else if (kid != kid2) {
+        }
+        else if (kid != kid2) {
             return false;
         }
-    
-        // Check nodes for equality, both their name and value or lack thereof
-        assertEquals(node.getNodeName(), node2.getNodeName());
-        assertEquals(node.getNodeValue(), node2.getNodeValue());
 
-        return answer;
+        // Check nodes for equality, both their name and value or lack thereof
+        if (!Objects.equals(node.getNodeName(), node2.getNodeName())) {
+            return false;
+        }
+        if (!Objects.equals(node.getNodeValue(), node2.getNodeValue())) {
+            return false;
+        }
+
+        return true;
     }
 }

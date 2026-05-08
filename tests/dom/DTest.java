@@ -43,7 +43,7 @@ import org.w3c.dom.Text;
 
 /**
  * This class tests methods for XML DOM implementation.
- * DOMException errors are tested by calls to DOMExceptionsTest from: Main, docBuilder...
+ * DOMException errors are tested by calls to DOMExceptionsTest from: Main, buildDocument...
  *
  * @author Philip W. Davis
  */
@@ -71,7 +71,7 @@ public class DTest extends TestCase {
      * @param doc org.w3c.dom.Document
      * @param name document's name
      */
-    private static void docBuilder(org.w3c.dom.Document doc, String name) {            
+    private static void buildDocument(org.w3c.dom.Document doc, String name) {            
         Element docFirstElement = doc.createElement(name + "FirstElement");
         doc.appendChild(docFirstElement);
         docFirstElement.setAttribute(name + "FirstElement", name + "firstElement");
@@ -167,6 +167,8 @@ public class DTest extends TestCase {
          // docBodyLevel32.getAttributes().removeNamedItem(testAttribute.getName());    16  // To test removeNamedItem         
     }
 
+    // FIXME no need for this complicated reflection based approach.
+    // The common try-fail-catch pattern is cleaner and more obvious.
     private static void DOMExceptionsTest(Object node, String methodName, Class[] methodSignature, Object[] parameters, short code) {
         try {
             Method method = node.getClass().getMethod(methodName,methodSignature);
@@ -181,7 +183,7 @@ public class DTest extends TestCase {
               fail("Wrong Exception (" + realE.getClass().getName() + ")");
             }
         } catch (NoSuchMethodException | IllegalAccessException ex) {
-            fail();
+            fail(ex.getMessage());
         }
     }
 
@@ -202,7 +204,7 @@ public class DTest extends TestCase {
         ((org.apache.xerces.dom.NodeImpl) docEntity).setReadOnly(true, true);
         docDocType.getEntities().setNamedItem(docEntity);
 
-        docBuilder(document, "d");
+        buildDocument(document, "d");
     }
         
     // FIXME turn these into unit tests
@@ -460,7 +462,7 @@ public class DTest extends TestCase {
     /**
      * This method tests Document methods for the XML DOM implementation.
      *
-     * ALL Document create methods are run in docBuilder except createAttribute which is in testAttribute.
+     * ALL Document create methods are run in buildDocument except createAttribute which is in testAttribute.
      */
     public void testDocument() {
         String[] elementNames =  {"dFirstElement", "dTestBody", "dBodyLevel21","dBodyLevel31","dBodyLevel32",
@@ -511,7 +513,7 @@ public class DTest extends TestCase {
     
     //  DTest tests = new DTest();
     //  Document z = tests.createDocument();
-    //  tests.docBuilder(z, "z");
+    //  tests.buildDocument(z, "z");
     
     //!! Throws WRONG_DOCUMENT_ERR **********
     //  OK &= Assertion.assert(tests.DOMExceptionsTest(z, "appendChild", new Class[]{Node.class}, new Object[]{doc.createComment("Test doc d comment")}, DOMException.HIERARCHY_REQUEST_ERR )); 
@@ -571,7 +573,7 @@ public class DTest extends TestCase {
         DocumentType newDocumentType = createDocumentType(document, "TestDocument");
         document.removeChild(document.getFirstChild()); // Tests removeChild
         document.insertBefore(newDocumentType, document.getDocumentElement());
-        //** Other aspects of insertBefore are tested in docBuilder through appendChild*   
+        //** Other aspects of insertBefore are tested in buildDocument through appendChild*   
     }
 
     public void testDOMErrors() {

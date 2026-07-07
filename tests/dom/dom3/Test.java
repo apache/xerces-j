@@ -56,7 +56,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         System.setProperty(DOMImplementationRegistry.PROPERTY,
             "org.apache.xerces.dom.DOMImplementationSourceImpl org.apache.xerces.dom.DOMXSImplementationSourceImpl");
         impl = (DOMImplementationLS) DOMImplementationRegistry.newInstance().getDOMImplementation("LS");
-        assertNotNull("domImplementation != null", impl);
+        assertNotNull(impl);
         builder = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
         writer = impl.createLSSerializer();
         errorCounter = 0;
@@ -195,30 +195,29 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         doc.normalizeDocument();
 
         assertEquals("xsl:stylesheet", root.getNodeName());
-        String value = root.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl");
-        assertNotNull("xmlns:xsl != null", value);
-        assertEquals("xmlns:xsl", "http://www.w3.org/1999/XSL/Transform", value);
+        assertEquals("http://www.w3.org/1999/XSL/Transform",
+                root.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl"));
 
-        value = root.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1");
-        assertTrue("xmlns:NS1=" + value, value != null && value.equals("http://attr1"));
+        assertEquals("http://attr1",
+                root.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
 
         assertEquals("NS2:child1", child1.getNodeName());
-        value = child1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS2");
-        assertTrue("xmlns:NS2=" + value, value != null && value.equals("http://child1"));
-        value = child1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1");
-        assertTrue("xmlns:NS1=" + value, value != null && value.equals("http://attr2"));
+        assertEquals("http://child1",
+                child1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS2"));
+        assertEquals("http://attr2",
+                child1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
 
         assertEquals("xsl:child3", child3.getNodeName());
-        value = child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1");
-        assertTrue("xmlns:NS1=" + value, value != null && value.equals("http://a2"));
-        value = child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "a1");
-        assertTrue("xmlns:a1=" + value, value != null && value.equals("http://a1"));
-        value = child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl");
-        assertTrue("xmlns:xsl=" + value, value != null && value.equals("http://www.w3.org/1999/XSL/Transform"));
+        assertEquals("http://a2",
+                child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
+        assertEquals("http://a1",
+                child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "a1"));
+        assertEquals("http://www.w3.org/1999/XSL/Transform",
+                child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl"));
 
         Attr attr = child3.getAttributeNodeNS("http://a2", "attr2");
-        assertNotNull("NS1:attr2 !=null", attr);
-        assertEquals("xsl:child3 has 5 attrs", 5, child3.getAttributes().getLength());
+        assertNotNull(attr);
+        assertEquals(5, child3.getAttributes().getLength());
 
         Attr temp = child4.getAttributeNodeNS("http://www.w3.org/2000/xmlns/", "xmlns");
         assertEquals("attribute name is xmlns", "xmlns", temp.getNodeName());
@@ -265,30 +264,29 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         child3 = (Element) child2.getNextSibling();
 
         assertEquals("xsl:stylesheet", root.getNodeName());
-        String value = root.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl");
-        assertNotNull("xmlns:xsl != null", value);
-        assertEquals("xmlns:xsl", "http://www.w3.org/1999/XSL/Transform", value);
+        assertEquals("http://www.w3.org/1999/XSL/Transform",
+                root.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl"));
 
-        value = root.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1");
-        assertTrue("xmlns:NS1=" + value, value != null && value.equals("http://attr1"));
+        assertEquals("http://attr1",
+                root.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
 
         assertEquals("NS2:child1", child1.getNodeName());
-        value = child1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS2");
-        assertTrue("xmlns:NS2=" + value, value != null && value.equals("http://child1"));
-        value = child1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1");
-        assertTrue("xmlns:NS1=" + value, value != null && value.equals("http://attr2"));
+        assertEquals("http://child1",
+                child1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS2"));
+        assertEquals("http://attr2",
+                child1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
 
         assertEquals("xsl:child3", child3.getNodeName());
-        value = child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1");
-        assertTrue("xmlns:NS1=" + value, value != null && value.equals("http://a2"));
-        value = child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "a1");
-        assertTrue("xmlns:a1=" + value, value != null && value.equals("http://a1"));
-        value = child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl");
-        assertTrue("xmlns:xsl=" + value, value != null && value.equals("http://www.w3.org/1999/XSL/Transform"));
+        assertEquals("http://a2",
+                child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
+        assertEquals("http://a1",
+                child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "a1"));
+        assertEquals("http://www.w3.org/1999/XSL/Transform",
+                child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl"));
 
         Attr attr = child3.getAttributeNodeNS("http://a2", "attr2");
-        assertNotNull("attr2 !=null", attr);
-        assertEquals("xsl:child3 has 5 attrs", 5, child3.getAttributes().getLength());
+        assertNotNull(attr);
+        assertEquals(5, child3.getAttributes().getLength());
     }
 
     public void testWholeText() throws Exception {
@@ -330,9 +328,8 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
     }
 
     public void testSchemaType() throws Exception {
-        // The resolveResource helper used here does not correctly handle all DTD resolution
-        // paths, causing the schema parser to fail on the local personal.dtd file.
-        // This is a pre-existing issue with the test data.
+        // TODO fix the resolveResource helper: the else branch routes DTD resolution to
+        // personal.dtd which has an incomplete XML declaration.
         try {
             runSchemaTypeTests();
         } catch (Exception e) {

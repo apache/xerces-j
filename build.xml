@@ -845,6 +845,7 @@ Authors:
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
             -->             
+             <include name="schema/Test.class"/>
            </fileset>
          </batchtest>
 
@@ -939,12 +940,6 @@ Authors:
         <arg value="out.xml"/>
     </java>
     
-    <echo message="Running schema.Test..." />
-    <java fork="yes"
-          classname="schema.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
     <echo message="Running jaxp.PropertyTest..." />
     <java fork="yes"
           classname="jaxp.PropertyTest"

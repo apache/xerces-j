@@ -25,6 +25,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import junit.framework.TestCase;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -41,32 +43,41 @@ import org.w3c.dom.traversal.TreeWalker;
  * @author Christian Geuer-Pollmann <geuer-pollmann@nue.et-inf.uni-siegen.de>
  * @version $Id$
  */
-public class TestFirstChild {
+public class TestFirstChild extends TestCase {
 
-    public static void main(String args[]) throws Exception {
-
-
-        System.out.println(" --- "
-                           + org.apache.xerces.impl.Version.getVersion()
-                           + " --- ");
+    public void testTreeWalkerFirstChild() throws Exception {
         Document doc = getNodeSet1();
-        NodeFilter nodefilter = null;
-        boolean entityReferenceExpansion = true;
-        int whatToShow = NodeFilter.SHOW_ALL;
-        TreeWalker treewalker =
-        ((DocumentTraversal) doc).createTreeWalker(doc, whatToShow,
-                                                   nodefilter, entityReferenceExpansion);
-        ByteArrayOutputStream bytearrayoutputstream =
-        new ByteArrayOutputStream();
-        PrintWriter printwriter =
-        new PrintWriter(new OutputStreamWriter(bytearrayoutputstream,
-                                               "UTF8"));
-
-        process2(treewalker, printwriter);
-        printwriter.flush();
-
-        System.out.println();
-        System.out.println("Testing the following XML document:\n" + new String(bytearrayoutputstream.toByteArray()));
+        TreeWalker treewalker = ((DocumentTraversal) doc).createTreeWalker(
+            doc, NodeFilter.SHOW_ALL, null, true);
+        
+        // Starting at document, first child should be RootElement
+        Node first = treewalker.firstChild();
+        assertNotNull("Should have first child", first);
+        assertEquals("RootElement", first.getNodeName());
+        
+        // First child of RootElement should be Element1
+        Node child = treewalker.firstChild();
+        assertNotNull("RootElement should have children", child);
+        assertEquals("Element1", child.getNodeName());
+        
+        // Next sibling should be Element2
+        Node next = treewalker.nextSibling();
+        assertNotNull("Should have next sibling", next);
+        assertEquals("Element2", next.getNodeName());
+        
+        // Next sibling should be Element3
+        next = treewalker.nextSibling();
+        assertNotNull("Should have next sibling", next);
+        assertEquals("Element3", next.getNodeName());
+        
+        // First child of Element3 should be text node
+        child = treewalker.firstChild();
+        assertNotNull("Element3 should have text child", child);
+        assertEquals(Node.TEXT_NODE, child.getNodeType());
+        assertEquals("Text in Element3", child.getNodeValue());
+        
+        // Should be no next sibling for this text node
+        assertNull("Text node should have no next sibling", treewalker.nextSibling());
     }
 
     /**

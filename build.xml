@@ -845,6 +845,7 @@ Authors:
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
             -->             
+             <include name="dom/serialization/Test.class"/>
            </fileset>
          </batchtest>
 
@@ -931,13 +932,6 @@ Authors:
      [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
      [java] org.xml.sax.SAXNotRecognizedException: Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
 -->
-    <echo message="Running dom.serialization.Test..." />
-    <java classname="dom.serialization.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
-        <arg value="${data.dir}/personal-schema.xml"/>
-        <arg value="out.xml"/>
-    </java>
     
     <echo message="Running schema.Test..." />
     <java fork="yes"

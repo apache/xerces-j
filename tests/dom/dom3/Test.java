@@ -299,8 +299,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         test.appendChild(doc.createTextNode("City: "));
         test.appendChild(doc.createEntityReference("ent1"));
         DocumentType doctype = doc.getDoctype();
-        Node entity = doctype.getEntities().getNamedItem("ent3");
-
+        assertNotNull("ent3 entity should exist", doctype.getEntities().getNamedItem("ent3"));
         NodeList ls = test.getChildNodes();
         assertEquals("List length", 5, ls.getLength());
 

@@ -55,11 +55,12 @@ import org.w3c.dom.Notation;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
+import junit.framework.TestCase;
+import junit.framework.Assert;
 
-import dom.util.Assertion;
 
 
-public class Test {
+public class Test extends TestCase {
 
     /**
      * version 3.0 01/25/99
@@ -88,25 +89,14 @@ public class Test {
 	    Throwable realE = exc.getTargetException(); 
 	    if(realE instanceof DOMException) {
 		asExpected = (((DOMException)realE).code== code);
-		if(!asExpected)
-		    System.out.println("Wrong DOMException(" +
-				       ((DOMException)realE).code + ")");
-	    } else {
-		System.out.println("Wrong Exception (" + code + ")");
-	    }
-	    if(!asExpected) {
-		System.out.println("Expected DOMException (" +
-				   code + ") not thrown");
 	    }
 	} catch(Exception exc) {
-	    System.out.println("test invocation failure (" + exc + ")");
 	}
 	return (asExpected);
     }
 
-    public static void main(String argv[])
+    public void testDOMOperations() throws Exception
     {
-    System.out.println("DOM Memory Test...");
 
     //
     //  Test Doc01      Create a new empty document
@@ -241,23 +231,23 @@ public class Test {
         doc.appendChild(rootEl);
 
         Text        textNode = doc.createTextNode("Doc03 text stuff");
-        Assertion.verify(rootEl.getFirstChild() == null);
-        Assertion.verify(rootEl.getLastChild() == null);
+        assertNull(rootEl.getFirstChild());
+        assertNull(rootEl.getLastChild());
         rootEl.appendChild(textNode);
-        Assertion.verify(rootEl.getFirstChild() == textNode);
-        Assertion.verify(rootEl.getLastChild() == textNode);
+        assertSame(rootEl.getFirstChild(), textNode);
+        assertSame(rootEl.getLastChild(), textNode);
 
-        Assertion.verify(textNode.getNextSibling() == null);
-        Assertion.verify(textNode.getPreviousSibling() == null);
+        assertNull(textNode.getNextSibling());
+        assertNull(textNode.getPreviousSibling());
         Text        textNode2 = doc.createTextNode("Doc03 text stuff");
         rootEl.appendChild(textNode2);
-        Assertion.verify(textNode.getNextSibling() == textNode2);
-        Assertion.verify(textNode2.getNextSibling() == null);
-        Assertion.verify(textNode.getPreviousSibling() == null);
-        Assertion.verify(textNode2.getPreviousSibling() == textNode);
+        assertSame(textNode.getNextSibling(), textNode2);
+        assertNull(textNode2.getNextSibling());
+        assertNull(textNode.getPreviousSibling());
+        assertSame(textNode2.getPreviousSibling(), textNode);
 
-        Assertion.verify(rootEl.getFirstChild() == textNode);
-        Assertion.verify(rootEl.getLastChild() == textNode2);
+        assertSame(rootEl.getFirstChild(), textNode);
+        assertSame(rootEl.getLastChild(), textNode2);
 
         NodeList    nodeList = doc.getElementsByTagName("*");
     };
@@ -371,20 +361,20 @@ public class Test {
     
     {
         NamedNodeMap    nnm = null;
-        Assertion.verify(nnm == null);
+        assertNull(nnm);
 
         Document        doc = new DocumentImpl();
         nnm = doc.getAttributes();    // Should be null, because node type
                                       //   is not Element.
-        Assertion.verify(nnm == null);
-        Assertion.verify(!(nnm != null));
+        assertNull(nnm);
+        assertNull(nnm);
 
         Element el = doc.createElement("NamedNodeMap01");
         NamedNodeMap nnm2 = el.getAttributes();    // Should be an empty, but non-null map.
-        Assertion.verify(nnm2 != null);
-        Assertion.verify(nnm != nnm2);
+        assertNotNull(nnm2);
+        assertNotSame(nnm, nnm2);
         nnm = nnm2;
-        Assertion.verify(nnm == nnm2);
+        assertSame(nnm, nnm2);
     }
     
 
@@ -399,15 +389,15 @@ public class Test {
         
         Element     el1  = doc1.createElement("abc");
         doc1.appendChild(el1);
-        Assertion.verify(el1.getParentNode() != null);
+        assertNotNull(el1.getParentNode());
         el1.setAttribute("foo", "foovalue");
         Node        el2  = doc2.importNode(el1, true);
-        Assertion.verify(el2.getParentNode() == null);
+        assertNull(el2.getParentNode());
         String       tagName = el2.getNodeName();
-        Assertion.equals(tagName, "abc");
-        Assertion.verify(el2.getOwnerDocument() == doc2);
-        Assertion.equals(((Element) el2).getAttribute("foo"), "foovalue");
-        Assertion.verify(doc1 != doc2);
+        assertEquals("abc", tagName);
+        assertSame(el2.getOwnerDocument(), doc2);
+        assertEquals("foovalue", ((Element) el2).getAttribute("foo"));
+        assertNotSame(doc1, doc2);
     }
     
 
@@ -427,15 +417,15 @@ public class Test {
         el.appendChild(tx);
 
         int     textLength = tx.getLength();
-        Assertion.verify(textLength == 5);
+        assertEquals(5, textLength);
 
         NodeList      nl = tx.getChildNodes();
         int      nodeListLen = nl.getLength();
-        Assertion.verify(nodeListLen == 0);
+        assertEquals(0, nodeListLen);
 
         nl = el.getChildNodes();
         nodeListLen = nl.getLength();
-        Assertion.verify(nodeListLen == 1);
+        assertEquals(1, nodeListLen);
     }
 
 
@@ -446,24 +436,24 @@ public class Test {
     {
         NodeList    nl = null;
         NodeList    nl2 = null;
-        Assertion.verify(nl == null);
-        Assertion.verify(!(nl != null));
-        Assertion.verify(nl == nl2);
+        assertNull(nl);
+        assertNull(nl);
+        assertSame(nl, nl2);
 
         Document        doc = new DocumentImpl();
         nl = doc.getChildNodes();    // Should be non-null, but empty
 
-        Assertion.verify(nl != null);
+        assertNotNull(nl);
         int len = nl.getLength();
-        Assertion.verify(len == 0);
+        assertEquals(0, len);
 
         Element el = doc.createElement("NodeList01");
         doc.appendChild(el);
         len = nl.getLength();
-        Assertion.verify(len == 1);
-        Assertion.verify(nl != nl2);
+        assertEquals(1, len);
+        assertNotSame(nl, nl2);
         nl2 = nl;
-        Assertion.verify(nl == nl2);
+        assertSame(nl, nl2);
     }
     
 
@@ -475,10 +465,7 @@ public class Test {
     
     {
          Document        doc = new DocumentImpl();
-         Assertion.verify(DOMExceptionsTest(doc, "createElement",
-					  new Class[]{String.class},
-					  new Object[]{"!@@ bad element name"},
-					  DOMException.INVALID_CHARACTER_ERR));
+         assertTrue(DOMExceptionsTest(doc, "createElement", new Class[]{String.class}, new Object[]{"!@@ bad element name"}, DOMException.INVALID_CHARACTER_ERR));
     }
     
 
@@ -495,12 +482,12 @@ public class Test {
         Element n1, n2, n3;
         
         n1 = n2 = n3 = el;
-        Assertion.verify(n1 == n2);
-        Assertion.verify(n1 == n3);
-        Assertion.verify(n1 == el);
-        Assertion.verify(n1 != null);
+        assertSame(n1, n2);
+        assertSame(n1, n3);
+        assertSame(n1, el);
+        assertNotNull(n1);
         n1 = n2 = n3 = null;
-        Assertion.verify(n1 == null);
+        assertNull(n1);
     }
     
 
@@ -517,19 +504,19 @@ public class Test {
         root.setAttribute("CTestAttr", "CTestAttrValue");
 
         String s = root.getAttribute("CTestAttr");
-        Assertion.equals(s, "CTestAttrValue");
+        assertEquals("CTestAttrValue", s);
 
         Element     cloned = (Element)root.cloneNode(true);
         Attr a = cloned.getAttributeNode("CTestAttr");
-        Assertion.verify(a != null);
+        assertNotNull(a);
         s = a.getValue();
-        Assertion.equals(s, "CTestAttrValue");
+        assertEquals("CTestAttrValue", s);
         a = null;
 
         a = cloned.getAttributeNode("CTestAttr");
-        Assertion.verify(a != null);
+        assertNotNull(a);
         s = a.getValue();
-        Assertion.equals(s, "CTestAttrValue");
+        assertEquals("CTestAttrValue", s);
 
     }
     
@@ -550,14 +537,14 @@ public class Test {
 
         Element     cloned = (Element)root.cloneNode(true);
         Attr a = cloned.getAttributeNode("attr");
-        Assertion.verify(a.getSpecified() == false);
+        assertFalse(a.getSpecified());
         a = cloned.getAttributeNode("attr2");
-        Assertion.verify(a.getSpecified() == true);
+        assertTrue(a.getSpecified());
 
         // now if we clone the default attribute by itself the clone should be
         // specified
         a = (Attr)attr.cloneNode(true);
-        Assertion.verify(a.getSpecified() == true);
+        assertTrue(a.getSpecified());
     }
 
 
@@ -572,25 +559,25 @@ public class Test {
     
     {
         DOMImplementation  impl = DOMImplementationImpl.getDOMImplementation();
-        Assertion.verify(impl.hasFeature("XML", "2.0")    == true);
-        Assertion.verify(impl.hasFeature("XML", null)       == true);
+        assertTrue(impl.hasFeature("XML", "2.0"));
+        assertTrue(impl.hasFeature("XML", null));
         //  We also support 1.0
-        Assertion.verify(impl.hasFeature("XML", "1.0")    == true);
-        //Assertion.verify(impl.hasFeature("XML", "3.0")    == false);
-        Assertion.verify(impl.hasFeature("Traversal", null) == true);
+        assertTrue(impl.hasFeature("XML", "1.0"));
+        //assertFalse(impl.hasFeature("XML", "3.0"));
+        assertTrue(impl.hasFeature("Traversal", null));
 
 
-        Assertion.verify(impl.hasFeature("HTML", null)           == false);
-        Assertion.verify(impl.hasFeature("Views", null)          == false);
-        Assertion.verify(impl.hasFeature("StyleSheets", null)    == false);
-        Assertion.verify(impl.hasFeature("CSS", null)            == false);
-        Assertion.verify(impl.hasFeature("CSS2", null)           == false);
-        Assertion.verify(impl.hasFeature("Events", null)         == true);
-        Assertion.verify(impl.hasFeature("UIEvents", null)       == false);
-        Assertion.verify(impl.hasFeature("MouseEvents", null)    == false);
-        Assertion.verify(impl.hasFeature("MutationEvents", null) == true);
-        Assertion.verify(impl.hasFeature("HTMLEvents", null)     == false);
-        Assertion.verify(impl.hasFeature("Range", null)          == true);
+        assertFalse(impl.hasFeature("HTML", null));
+        assertFalse(impl.hasFeature("Views", null));
+        assertFalse(impl.hasFeature("StyleSheets", null));
+        assertFalse(impl.hasFeature("CSS", null));
+        assertFalse(impl.hasFeature("CSS2", null));
+        assertTrue(impl.hasFeature("Events", null));
+        assertFalse(impl.hasFeature("UIEvents", null));
+        assertFalse(impl.hasFeature("MouseEvents", null));
+        assertTrue(impl.hasFeature("MutationEvents", null));
+        assertFalse(impl.hasFeature("HTMLEvents", null));
+        assertTrue(impl.hasFeature("Range", null));
     }
     
 
@@ -608,21 +595,21 @@ public class Test {
         
         DocumentType dt = impl.createDocumentType(qName, pubId, sysId);
         
-        Assertion.verify(dt != null);
-        Assertion.verify(dt.getNodeType() == Node.DOCUMENT_TYPE_NODE);
-        Assertion.equals(dt.getNodeName(), qName);
-        Assertion.verify(dt.getNamespaceURI() == null);
-        Assertion.verify(dt.getPrefix() == null);
-        Assertion.verify(dt.getLocalName() == null);
-        Assertion.equals(dt.getPublicId(), pubId);
-        Assertion.equals(dt.getSystemId(), sysId);
-        Assertion.verify(dt.getInternalSubset() == null);
-        Assertion.verify(dt.getOwnerDocument() == null);
+        assertNotNull(dt);
+        assertEquals(Node.DOCUMENT_TYPE_NODE, dt.getNodeType());
+        assertEquals(qName, dt.getNodeName());
+        assertNull(dt.getNamespaceURI());
+        assertNull(dt.getPrefix());
+        assertNull(dt.getLocalName());
+        assertEquals(pubId, dt.getPublicId());
+        assertEquals(sysId, dt.getSystemId());
+        assertNull(dt.getInternalSubset());
+        assertNull(dt.getOwnerDocument());
         
         NamedNodeMap nnm = dt.getEntities();
-        Assertion.verify(nnm.getLength() == 0);
+        assertEquals(0, nnm.getLength());
         nnm = dt.getNotations();
-        Assertion.verify(nnm.getLength() == 0);
+        assertEquals(0, nnm.getLength());
 
         //
         // Qualified name without prefix should also work.
@@ -630,38 +617,23 @@ public class Test {
         qName = "docName";
         dt = impl.createDocumentType(qName, pubId, sysId);
 
-        Assertion.verify(dt != null);
-        Assertion.verify(dt.getNodeType() == Node.DOCUMENT_TYPE_NODE);
-        Assertion.equals(dt.getNodeName(), qName);
-        Assertion.verify(dt.getNamespaceURI() == null);
-        Assertion.verify(dt.getPrefix() == null);
-        Assertion.verify(dt.getLocalName() == null);
-        Assertion.equals(dt.getPublicId(), pubId);
-        Assertion.equals(dt.getSystemId(), sysId);
-        Assertion.verify(dt.getInternalSubset() == null);
-        Assertion.verify(dt.getOwnerDocument() == null);
+        assertNotNull(dt);
+        assertEquals(Node.DOCUMENT_TYPE_NODE, dt.getNodeType());
+        assertEquals(qName, dt.getNodeName());
+        assertNull(dt.getNamespaceURI());
+        assertNull(dt.getPrefix());
+        assertNull(dt.getLocalName());
+        assertEquals(pubId, dt.getPublicId());
+        assertEquals(sysId, dt.getSystemId());
+        assertNull(dt.getInternalSubset());
+        assertNull(dt.getOwnerDocument());
 
         // Creating a DocumentType with invalid or malformed qName should fail.
-        Assertion.verify(DOMExceptionsTest(impl, "createDocumentType",
-			new Class[]{String.class, String.class, String.class},
-			new Object[]{"<docName", pubId, sysId},
-			DOMException.INVALID_CHARACTER_ERR));     
-        Assertion.verify(DOMExceptionsTest(impl, "createDocumentType",
-			new Class[]{String.class, String.class, String.class},
-			new Object[]{":docName", pubId, sysId},
-			DOMException.NAMESPACE_ERR));     
-        Assertion.verify(DOMExceptionsTest(impl, "createDocumentType",
-			new Class[]{String.class, String.class, String.class},
-			new Object[]{"docName:", pubId, sysId},
-			DOMException.NAMESPACE_ERR));     
-        Assertion.verify(DOMExceptionsTest(impl, "createDocumentType",
-			new Class[]{String.class, String.class, String.class},
-			new Object[]{"<doc::Name", pubId, sysId},
-			DOMException.NAMESPACE_ERR));     
-        Assertion.verify(DOMExceptionsTest(impl, "createDocumentType",
-			new Class[]{String.class, String.class, String.class},
-			new Object[]{"<doc:N:ame", pubId, sysId},
-			DOMException.NAMESPACE_ERR));     
+        assertTrue(DOMExceptionsTest(impl, "createDocumentType", new Class[]{String.class, String.class, String.class}, new Object[]{"<docName", pubId, sysId}, DOMException.INVALID_CHARACTER_ERR));
+        assertTrue(DOMExceptionsTest(impl, "createDocumentType", new Class[]{String.class, String.class, String.class}, new Object[]{":docName", pubId, sysId}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(impl, "createDocumentType", new Class[]{String.class, String.class, String.class}, new Object[]{"docName:", pubId, sysId}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(impl, "createDocumentType", new Class[]{String.class, String.class, String.class}, new Object[]{"<doc::Name", pubId, sysId}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(impl, "createDocumentType", new Class[]{String.class, String.class, String.class}, new Object[]{"<doc:N:ame", pubId, sysId}, DOMException.NAMESPACE_ERR));
     }
 
     //
@@ -680,34 +652,29 @@ public class Test {
         String docNSURI = "http://document.namespace";
         Document doc = impl.createDocument(docNSURI, qName, dt);
 
-        Assertion.verify(dt.getOwnerDocument() == doc);
-        Assertion.verify(doc.getOwnerDocument() == null);
+        assertSame(dt.getOwnerDocument(), doc);
+        assertNull(doc.getOwnerDocument());
 
-        Assertion.verify(doc.getNodeType() == Node.DOCUMENT_NODE);
-        Assertion.verify(doc.getDoctype() == dt);
-        Assertion.equals(doc.getNodeName(), "#document");
-        Assertion.verify(doc.getNodeValue() == null);
+        assertEquals(Node.DOCUMENT_NODE, doc.getNodeType());
+        assertSame(doc.getDoctype(), dt);
+        assertEquals("#document", doc.getNodeName());
+        assertNull(doc.getNodeValue());
 
         Element el = doc.getDocumentElement();
 
-        Assertion.equals(el.getLocalName(), "docName");
-        Assertion.equals(el.getNamespaceURI(), docNSURI);
-        Assertion.equals(el.getNodeName(), qName);
-        Assertion.verify(el.getOwnerDocument() == doc);
-        Assertion.verify(el.getParentNode() == doc);
-        Assertion.equals(el.getPrefix(), "foo");
-        Assertion.equals(el.getTagName(), qName);
-        Assertion.verify(el.hasChildNodes() == false);
+        assertEquals("docName", el.getLocalName());
+        assertEquals(docNSURI, el.getNamespaceURI());
+        assertEquals(qName, el.getNodeName());
+        assertSame(el.getOwnerDocument(), doc);
+        assertSame(el.getParentNode(), doc);
+        assertEquals("foo", el.getPrefix());
+        assertEquals(qName, el.getTagName());
+        assertFalse(el.hasChildNodes());
 
         //
         // Creating a second document with the same docType object should fail.
         //
-        Assertion.verify(DOMExceptionsTest(impl, "createDocument",
-					   new Class[]{String.class,
-						       String.class,
-						       DocumentType.class},
-					   new Object[]{docNSURI, qName, dt},
-					   DOMException.WRONG_DOCUMENT_ERR));
+        assertTrue(DOMExceptionsTest(impl, "createDocument", new Class[]{String.class, String.class, DocumentType.class}, new Object[]{docNSURI, qName, dt}, DOMException.WRONG_DOCUMENT_ERR));
 
         // Namespace tests of createDocument are covered by createElementNS below
     }
@@ -743,129 +710,84 @@ public class Test {
         rootEl.appendChild(elb);
         rootEl.appendChild(elc);
 
-        Assertion.equals(ela.getNodeName(), "a:ela");
-        Assertion.equals(ela.getNamespaceURI(), "http://nsa");
-        Assertion.equals(ela.getPrefix(), "a");
-        Assertion.equals(ela.getLocalName(), "ela");
-        Assertion.equals(ela.getTagName(), "a:ela");
+        assertEquals("a:ela", ela.getNodeName());
+        assertEquals("http://nsa", ela.getNamespaceURI());
+        assertEquals("a", ela.getPrefix());
+        assertEquals("ela", ela.getLocalName());
+        assertEquals("a:ela", ela.getTagName());
 
-        Assertion.equals(elb.getNodeName(), "elb");
-        Assertion.equals(elb.getNamespaceURI(), "http://nsb");
-        Assertion.verify(elb.getPrefix() == null);
-        Assertion.equals(elb.getLocalName(), "elb");
-        Assertion.equals(elb.getTagName(), "elb");
+        assertEquals("elb", elb.getNodeName());
+        assertEquals("http://nsb", elb.getNamespaceURI());
+        assertNull(elb.getPrefix());
+        assertEquals("elb", elb.getLocalName());
+        assertEquals("elb", elb.getTagName());
 
-        Assertion.equals(elc.getNodeName(), "elc");
-        Assertion.verify(elc.getNamespaceURI() == null);
-        Assertion.verify(elc.getPrefix() ==  null);
-        Assertion.equals(elc.getLocalName(), "elc");
-        Assertion.equals(elc.getTagName(), "elc");
+        assertEquals("elc", elc.getNodeName());
+        assertNull(elc.getNamespaceURI());
+        assertNull(elc.getPrefix());
+        assertEquals("elc", elc.getLocalName());
+        assertEquals("elc", elc.getTagName());
 
         // Badly formed qualified name
-	Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "<a"},
-				      DOMException.INVALID_CHARACTER_ERR));
-	Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", ":a"},
-				      DOMException.NAMESPACE_ERR));
-	Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "a:"},
-				      DOMException.NAMESPACE_ERR));
-	Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "a::a"},
-				      DOMException.NAMESPACE_ERR));
-	Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "a:a:a"},
-				      DOMException.NAMESPACE_ERR));
+	assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "<a"}, DOMException.INVALID_CHARACTER_ERR));
+	assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", ":a"}, DOMException.NAMESPACE_ERR));
+	assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "a:"}, DOMException.NAMESPACE_ERR));
+	assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "a::a"}, DOMException.NAMESPACE_ERR));
+	assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "a:a:a"}, DOMException.NAMESPACE_ERR));
 
         // xml:a must have namespaceURI == "http://www.w3.org/XML/1998/namespace"
 	String xmlURI = "http://www.w3.org/XML/1998/namespace";
-	Assertion.equals(doc.createElementNS(xmlURI, "xml:a").getNamespaceURI(), xmlURI);
+	assertEquals(xmlURI, doc.createElementNS(xmlURI, "xml:a").getNamespaceURI());
 	
-        Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "xml:a"},
-				      DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "xml:a"}, DOMException.NAMESPACE_ERR));
         
-        Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"", "xml:a"},
-				      DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{"", "xml:a"}, DOMException.NAMESPACE_ERR));
 
-	Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{null, "xml:a"},
-				      DOMException.NAMESPACE_ERR));
+	assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{null, "xml:a"}, DOMException.NAMESPACE_ERR));
 
         //xmlns prefix must be bound to the xmlns namespace
-        Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-                                           new Class[]{String.class, String.class},
-				           new Object[]{"http://nsa", "xmlns"},
-				           DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-                                           new Class[]{String.class, String.class},
-				           new Object[]{xmlURI, "xmlns"},
-				           DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "xmlns"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{xmlURI, "xmlns"}, DOMException.NAMESPACE_ERR));
         
         
-    Assertion.verify(doc.createElementNS(null, "noNamespace").getNamespaceURI() == null);
+    assertNull(doc.createElementNS(null, "noNamespace").getNamespaceURI());
 
-	Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{null, "xmlns:a"},
-				      DOMException.NAMESPACE_ERR));
+	assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{null, "xmlns:a"}, DOMException.NAMESPACE_ERR));
 
         //In fact, any prefix != null should have a namespaceURI != null
-        Assertion.equals(doc.createElementNS("http://nsa", "foo:a").getNamespaceURI(), "http://nsa");
-	Assertion.verify(DOMExceptionsTest(doc, "createElementNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{null, "foo:a"},
-				      DOMException.NAMESPACE_ERR));
+        assertEquals("http://nsa", doc.createElementNS("http://nsa", "foo:a").getNamespaceURI());
+	assertTrue(DOMExceptionsTest(doc, "createElementNS", new Class[]{String.class, String.class}, new Object[]{null, "foo:a"}, DOMException.NAMESPACE_ERR));
 
         //Change prefix
         Element elem = doc.createElementNS("http://nsa", "foo:a");
         elem.setPrefix("bar");
-        Assertion.equals(elem.getNodeName(), "bar:a");
-        Assertion.equals(elem.getNamespaceURI(), "http://nsa");
-        Assertion.equals(elem.getPrefix(), "bar");
-        Assertion.equals(elem.getLocalName(), "a");
-        Assertion.equals(elem.getTagName(), "bar:a");
+        assertEquals("bar:a", elem.getNodeName());
+        assertEquals("http://nsa", elem.getNamespaceURI());
+        assertEquals("bar", elem.getPrefix());
+        assertEquals("a", elem.getLocalName());
+        assertEquals("bar:a", elem.getTagName());
         //The spec does not prevent us from setting prefix to a node without prefix
         elem = doc.createElementNS("http://nsa", "a");
-        Assertion.equals(elem.getPrefix(), null);
+        assertEquals(null, elem.getPrefix());
         elem.setPrefix("bar");
-        Assertion.equals(elem.getNodeName(), "bar:a");
-        Assertion.equals(elem.getNamespaceURI(), "http://nsa");
-        Assertion.equals(elem.getPrefix(), "bar");
-        Assertion.equals(elem.getLocalName(), "a");
-        Assertion.equals(elem.getTagName(), "bar:a");
+        assertEquals("bar:a", elem.getNodeName());
+        assertEquals("http://nsa", elem.getNamespaceURI());
+        assertEquals("bar", elem.getPrefix());
+        assertEquals("a", elem.getLocalName());
+        assertEquals("bar:a", elem.getTagName());
         //Special case for xml:a where namespaceURI must be xmlURI
         elem = doc.createElementNS(xmlURI, "foo:a");
         elem.setPrefix("xml");
         elem = doc.createElementNS("http://nsa", "foo:a");
-        Assertion.verify(DOMExceptionsTest(elem, "setPrefix",
-					  new Class[]{String.class},
-					  new Object[]{"xml"},
-					  DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(elem, "setPrefix", new Class[]{String.class}, new Object[]{"xml"}, DOMException.NAMESPACE_ERR));
         //However, there is no restriction on prefix xmlns
         elem.setPrefix("xmlns");
         //Also an element can not have a prefix with namespaceURI == null
         elem = doc.createElementNS(null, "a");
-        Assertion.verify(DOMExceptionsTest(elem, "setPrefix",
-					  new Class[]{String.class},
-					  new Object[]{"foo"},
-					  DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(elem, "setPrefix", new Class[]{String.class}, new Object[]{"foo"}, DOMException.NAMESPACE_ERR));
 
         //Only prefix of Element and Attribute can be changed
-        Assertion.verify(DOMExceptionsTest(doc, "setPrefix",
-					  new Class[]{String.class},
-					  new Object[]{"foo"},
-					  DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "setPrefix", new Class[]{String.class}, new Object[]{"foo"}, DOMException.NAMESPACE_ERR));
 
         //Prefix of readonly Element can not be changed.
         //However, there is no way to create such Element for testing yet.
@@ -900,162 +822,96 @@ public class Test {
         Attr attrb = doc.createAttributeNS("http://nsb", "attrb");         //  URI, no prefix.
         Attr attrc = doc.createAttributeNS(null, "attrc");    // No URI, no prefix.
 
-        Assertion.equals(attra.getNodeName(), "a:attra");
-        Assertion.equals(attra.getNamespaceURI(), "http://nsa");
-        Assertion.equals(attra.getPrefix(), "a");
-        Assertion.equals(attra.getLocalName(), "attra");
-        Assertion.equals(attra.getName(), "a:attra");
-        Assertion.verify(attra.getOwnerElement() == null);
+        assertEquals("a:attra", attra.getNodeName());
+        assertEquals("http://nsa", attra.getNamespaceURI());
+        assertEquals("a", attra.getPrefix());
+        assertEquals("attra", attra.getLocalName());
+        assertEquals("a:attra", attra.getName());
+        assertNull(attra.getOwnerElement());
 
-        Assertion.equals(attrb.getNodeName(), "attrb");
-        Assertion.equals(attrb.getNamespaceURI(), "http://nsb");
-        Assertion.equals(attrb.getPrefix(), null);
-        Assertion.equals(attrb.getLocalName(), "attrb");
-        Assertion.equals(attrb.getName(), "attrb");
-        Assertion.verify(attrb.getOwnerElement() == null);
+        assertEquals("attrb", attrb.getNodeName());
+        assertEquals("http://nsb", attrb.getNamespaceURI());
+        assertEquals(null, attrb.getPrefix());
+        assertEquals("attrb", attrb.getLocalName());
+        assertEquals("attrb", attrb.getName());
+        assertNull(attrb.getOwnerElement());
 
-        Assertion.equals(attrc.getNodeName(), "attrc");
-        Assertion.verify(attrc.getNamespaceURI() == null);
-        Assertion.verify(attrc.getPrefix() == null);
-        Assertion.equals(attrc.getLocalName(), "attrc");
-        Assertion.equals(attrc.getName(), "attrc");
-        Assertion.verify(attrc.getOwnerElement() == null);
+        assertEquals("attrc", attrc.getNodeName());
+        assertNull(attrc.getNamespaceURI());
+        assertNull(attrc.getPrefix());
+        assertEquals("attrc", attrc.getLocalName());
+        assertEquals("attrc", attrc.getName());
+        assertNull(attrc.getOwnerElement());
 
 
         // Badly formed qualified name
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "<a"},
-				      DOMException.INVALID_CHARACTER_ERR));
-	Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", ":a"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "a:"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "a::a"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "a:a:a"},
-				      DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "<a"}, DOMException.INVALID_CHARACTER_ERR));
+	assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", ":a"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "a:"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "a::a"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "a:a:a"}, DOMException.NAMESPACE_ERR));
 
         // xml:a must have namespaceURI == "http://www.w3.org/XML/1998/namespace"
         String xmlURI = "http://www.w3.org/XML/1998/namespace";
 
-        Assertion.equals(doc.createAttributeNS(xmlURI, "xml:a").getNamespaceURI(), xmlURI);
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "xml:a"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"", "xml:a"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{null,  "xml:a"},
-				      DOMException.NAMESPACE_ERR));
+        assertEquals(xmlURI, doc.createAttributeNS(xmlURI, "xml:a").getNamespaceURI());
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "xml:a"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"", "xml:a"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{null,  "xml:a"}, DOMException.NAMESPACE_ERR));
 
         //xmlns must have namespaceURI == "http://www.w3.org/2000/xmlns/"
         String xmlnsURI = "http://www.w3.org/2000/xmlns/";
-        Assertion.equals(doc.createAttributeNS(xmlnsURI, "xmlns").getNamespaceURI(), xmlnsURI);
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "xmlns"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{xmlURI, "xmlns"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"", "xmlns"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{null,  "xmlns"},
-				      DOMException.NAMESPACE_ERR));
+        assertEquals(xmlnsURI, doc.createAttributeNS(xmlnsURI, "xmlns").getNamespaceURI());
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "xmlns"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{xmlURI, "xmlns"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"", "xmlns"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{null,  "xmlns"}, DOMException.NAMESPACE_ERR));
 
         //xmlns:a must have namespaceURI == "http://www.w3.org/2000/xmlns/"
-        Assertion.equals(doc.createAttributeNS(xmlnsURI, "xmlns:a").getNamespaceURI(), xmlnsURI);
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"http://nsa", "xmlns:a"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{xmlURI, "xmlns:a"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{"", "xmlns:a"},
-				      DOMException.NAMESPACE_ERR));
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{null,  "xmlns:a"},
-				      DOMException.NAMESPACE_ERR));
+        assertEquals(xmlnsURI, doc.createAttributeNS(xmlnsURI, "xmlns:a").getNamespaceURI());
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"http://nsa", "xmlns:a"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{xmlURI, "xmlns:a"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{"", "xmlns:a"}, DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{null,  "xmlns:a"}, DOMException.NAMESPACE_ERR));
 
         //In fact, any prefix != null should have a namespaceURI != null
-        Assertion.equals(doc.createAttributeNS("http://nsa", "foo:a").getNamespaceURI(), "http://nsa");
-        Assertion.verify(DOMExceptionsTest(doc, "createAttributeNS",
-				      new Class[]{String.class, String.class},
-				      new Object[]{null,  "foo:a"},
-				      DOMException.NAMESPACE_ERR));
+        assertEquals("http://nsa", doc.createAttributeNS("http://nsa", "foo:a").getNamespaceURI());
+        assertTrue(DOMExceptionsTest(doc, "createAttributeNS", new Class[]{String.class, String.class}, new Object[]{null,  "foo:a"}, DOMException.NAMESPACE_ERR));
 
         //Change prefix
         Attr attr = doc.createAttributeNS("http://nsa", "foo:a");
         attr.setPrefix("bar");
-        Assertion.equals(attr.getNodeName(), "bar:a");
-        Assertion.equals(attr.getNamespaceURI(), "http://nsa");
-        Assertion.equals(attr.getPrefix(), "bar");
-        Assertion.equals(attr.getLocalName(), "a");
-        Assertion.equals(attr.getName(), "bar:a");
+        assertEquals("bar:a", attr.getNodeName());
+        assertEquals("http://nsa", attr.getNamespaceURI());
+        assertEquals("bar", attr.getPrefix());
+        assertEquals("a", attr.getLocalName());
+        assertEquals("bar:a", attr.getName());
         //The spec does not prevent us from setting prefix to a node without prefix
         attr = doc.createAttributeNS("http://nsa", "a");
-        Assertion.verify(attr.getPrefix() == null);
+        assertNull(attr.getPrefix());
         attr.setPrefix("bar");
-        Assertion.equals(attr.getNodeName(), "bar:a");
-        Assertion.equals(attr.getNamespaceURI(), "http://nsa");
-        Assertion.equals(attr.getPrefix(), "bar");
-        Assertion.equals(attr.getLocalName(), "a");
-        Assertion.equals(attr.getName(), "bar:a");
+        assertEquals("bar:a", attr.getNodeName());
+        assertEquals("http://nsa", attr.getNamespaceURI());
+        assertEquals("bar", attr.getPrefix());
+        assertEquals("a", attr.getLocalName());
+        assertEquals("bar:a", attr.getName());
         //Special case for xml:a where namespaceURI must be xmlURI
         attr = doc.createAttributeNS(xmlURI, "foo:a");
         attr.setPrefix("xml");
         attr = doc.createAttributeNS("http://nsa", "foo:a");
-        Assertion.verify(DOMExceptionsTest(attr, "setPrefix",
-					   new Class[]{String.class},
-					   new Object[]{"xml"},
-					   DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(attr, "setPrefix", new Class[]{String.class}, new Object[]{"xml"}, DOMException.NAMESPACE_ERR));
         //Special case for xmlns:a where namespaceURI must be xmlURI
         attr = doc.createAttributeNS("http://nsa", "foo:a");
-        Assertion.verify(DOMExceptionsTest(attr, "setPrefix",
-					   new Class[]{String.class},
-					   new Object[]{"xmlns"},
-					   DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(attr, "setPrefix", new Class[]{String.class}, new Object[]{"xmlns"}, DOMException.NAMESPACE_ERR));
         //Special case for xmlns where no prefix can be set
         attr = doc.createAttributeNS(xmlnsURI, "xmlns");
-        Assertion.verify(DOMExceptionsTest(attr, "setPrefix",
-					   new Class[]{String.class},
-					   new Object[]{"xml"},
-					   DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(attr, "setPrefix", new Class[]{String.class}, new Object[]{"xml"}, DOMException.NAMESPACE_ERR));
         //Also an attribute can not have a prefix with namespaceURI == null
         attr = doc.createAttributeNS(null, "a");
-        Assertion.verify(DOMExceptionsTest(attr, "setPrefix",
-					   new Class[]{String.class},
-					   new Object[]{"foo"},
-					   DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(attr, "setPrefix", new Class[]{String.class}, new Object[]{"foo"}, DOMException.NAMESPACE_ERR));
         
         //Only prefix of Element and Attribute can be changed
-        Assertion.verify(DOMExceptionsTest(attr, "setPrefix",
-					   new Class[]{String.class},
-					   new Object[]{"foo"},
-					   DOMException.NAMESPACE_ERR));
+        assertTrue(DOMExceptionsTest(attr, "setPrefix", new Class[]{String.class}, new Object[]{"foo"}, DOMException.NAMESPACE_ERR));
 
         //Prefix of readonly Attribute can not be changed.
         //However, there is no way to create such DOM_Attribute for testing yet.
@@ -1101,60 +957,60 @@ public class Test {
         //
 
         NodeList nl = doc.getElementsByTagName("a:ela");
-        Assertion.verify(nl.getLength() == 1);
-        Assertion.verify(nl.item(0) == ela);
+        assertEquals(1, nl.getLength());
+        assertSame(nl.item(0), ela);
 
         nl = doc.getElementsByTagName("elb");
-        Assertion.verify(nl.getLength() == 2);
-        Assertion.verify(nl.item(0) == elb);
-        Assertion.verify(nl.item(1) == ele);
+        assertEquals(2, nl.getLength());
+        assertSame(nl.item(0), elb);
+        assertSame(nl.item(1), ele);
 
         nl = doc.getElementsByTagName("d:ela");
-        Assertion.verify(nl.getLength() == 1);
-        Assertion.verify(nl.item(0) == eld);
+        assertEquals(1, nl.getLength());
+        assertSame(nl.item(0), eld);
 
         //
         //  Access with DOM Level 2 getElementsByTagNameNS
         //
 
         nl = doc.getElementsByTagNameNS(null, "elc");
-        Assertion.verify(nl.getLength() == 1);
-        Assertion.verify(nl.item(0) == elc);
+        assertEquals(1, nl.getLength());
+        assertSame(nl.item(0), elc);
        
         nl = doc.getElementsByTagNameNS("http://nsa", "ela");
-        Assertion.verify(nl.getLength() == 2);
-        Assertion.verify(nl.item(0) == ela);
-        Assertion.verify(nl.item(1) == eld);
+        assertEquals(2, nl.getLength());
+        assertSame(nl.item(0), ela);
+        assertSame(nl.item(1), eld);
 
         nl = doc.getElementsByTagNameNS(null, "elb");
-        Assertion.verify(nl.getLength() == 0);
+        assertEquals(0, nl.getLength());
 
         nl = doc.getElementsByTagNameNS("http://nsb", "elb");
-        Assertion.verify(nl.getLength() == 1);
-        Assertion.verify(nl.item(0) == elb);
+        assertEquals(1, nl.getLength());
+        assertSame(nl.item(0), elb);
 
         nl = doc.getElementsByTagNameNS("*", "elb");
-        Assertion.verify(nl.getLength() == 2);
-        Assertion.verify(nl.item(0) == elb);
-        Assertion.verify(nl.item(1) == ele);
+        assertEquals(2, nl.getLength());
+        assertSame(nl.item(0), elb);
+        assertSame(nl.item(1), ele);
 
         nl = doc.getElementsByTagNameNS("http://nsa", "*");
-        Assertion.verify(nl.getLength() == 2);
-        Assertion.verify(nl.item(0) == ela);
-        Assertion.verify(nl.item(1) == eld);
+        assertEquals(2, nl.getLength());
+        assertSame(nl.item(0), ela);
+        assertSame(nl.item(1), eld);
 
         nl = doc.getElementsByTagNameNS("*", "*");
-        Assertion.verify(nl.getLength() == 6);     // Gets the document root element, plus 5 more
+        assertEquals(6, nl.getLength());
 
-        Assertion.verify(nl.item(6) == null);
+        assertNull(nl.item(6));
         // Assertion.assert(nl.item(-1) == 0);
 
         nl = rootEl.getElementsByTagNameNS("*", "*");
-        Assertion.verify(nl.getLength() == 5);
+        assertEquals(5, nl.getLength());
 
 
         nl = doc.getElementsByTagNameNS("http://nsa", "d:ela");
-        Assertion.verify(nl.getLength() == 0);
+        assertEquals(0, nl.getLength());
 
 
         //
@@ -1164,16 +1020,16 @@ public class Test {
         nl = doc.getElementsByTagNameNS("*", "*");
         NodeList nla = ela.getElementsByTagNameNS("*", "*");
 
-        Assertion.verify(nl.getLength() == 6); 
-        Assertion.verify(nla.getLength() == 0);
+        assertEquals(6, nl.getLength());
+        assertEquals(0, nla.getLength());
 
         rootEl.removeChild(elc);
-        Assertion.verify(nl.getLength() == 5);
-        Assertion.verify(nla.getLength() == 0);
+        assertEquals(5, nl.getLength());
+        assertEquals(0, nla.getLength());
 
         ela.appendChild(elc);
-        Assertion.verify(nl.getLength() == 6);
-        Assertion.verify(nla.getLength() == 1);
+        assertEquals(6, nl.getLength());
+        assertEquals(1, nla.getLength());
     }
 
 
@@ -1212,26 +1068,26 @@ public class Test {
         //
         // Check that the attribute nodes were created with the correct properties.
         //
-        Assertion.equals(attra.getNodeName(), "a:attra");
-        Assertion.equals(attra.getNamespaceURI(), "http://nsa");
-        Assertion.equals(attra.getLocalName(), "attra");
-        Assertion.equals(attra.getName(), "a:attra");
-        Assertion.verify(attra.getNodeType() == Node.ATTRIBUTE_NODE);
-        Assertion.equals(attra.getNodeValue(), "");
-        Assertion.equals(attra.getPrefix(), "a");
-        Assertion.verify(attra.getSpecified() == true);
-        Assertion.equals(attra.getValue(), "");
-        Assertion.verify(attra.getOwnerElement() == null);
+        assertEquals("a:attra", attra.getNodeName());
+        assertEquals("http://nsa", attra.getNamespaceURI());
+        assertEquals("attra", attra.getLocalName());
+        assertEquals("a:attra", attra.getName());
+        assertEquals(Node.ATTRIBUTE_NODE, attra.getNodeType());
+        assertEquals("", attra.getNodeValue());
+        assertEquals("a", attra.getPrefix());
+        assertTrue(attra.getSpecified());
+        assertEquals("", attra.getValue());
+        assertNull(attra.getOwnerElement());
 
         // Test methods of NamedNodeMap
         NamedNodeMap nnm = rootEl.getAttributes();
-        Assertion.verify(nnm.getLength() == 4);
-        Assertion.verify(nnm.getNamedItemNS("http://nsa", "attra") == attrd);
-        Assertion.verify(nnm.getNamedItemNS("http://nsb", "attrb") == attrb);
-        Assertion.verify(nnm.getNamedItemNS("http://nse", "attrb") == attre);
-        Assertion.verify(nnm.getNamedItemNS(null, "attrc") == attrc);
-        Assertion.verify(nnm.getNamedItemNS(null, "attra") == null);
-        Assertion.verify(nnm.getNamedItemNS("http://nsa", "attrb") == null);
+        assertEquals(4, nnm.getLength());
+        assertSame(nnm.getNamedItemNS("http://nsa", "attra"), attrd);
+        assertSame(nnm.getNamedItemNS("http://nsb", "attrb"), attrb);
+        assertSame(nnm.getNamedItemNS("http://nse", "attrb"), attre);
+        assertSame(nnm.getNamedItemNS(null, "attrc"), attrc);
+        assertNull(nnm.getNamedItemNS(null, "attra"));
+        assertNull(nnm.getNamedItemNS("http://nsa", "attrb"));
     }
 
 
@@ -1245,19 +1101,18 @@ public class Test {
         DocumentType dt = impl.createDocumentType("foo", "PubId", "SysId");
 
         Document doc = impl.createDocument(null, "foo", dt);
-        Assertion.verify(((NodeImpl) doc).getTextContent() == null);
-        Assertion.verify(((NodeImpl) dt).getTextContent() == null);
+        assertNull(((NodeImpl) doc).getTextContent());
+        assertNull(((NodeImpl) dt).getTextContent());
         // no-ops:
         ((NodeImpl) doc).setTextContent("foo");
         ((NodeImpl) dt).setTextContent("foo");
 
         NodeImpl el = (NodeImpl) doc.getDocumentElement();
-        Assertion.equals(((NodeImpl) el).getTextContent(), "");
+        assertEquals("", ((NodeImpl) el).getTextContent());
         el.setTextContent("yo!");
         Node t = el.getFirstChild();
-        Assertion.verify(t != null && t.getNodeType() == Node.TEXT_NODE &&
-                         t.getNodeValue().equals("yo!"));
-        Assertion.equals(el.getTextContent(), "yo!");
+        assertTrue(t != null && t.getNodeType() == Node.TEXT_NODE && t.getNodeValue().equals("yo!"));
+        assertEquals("yo!", el.getTextContent());
 
         Comment c = doc.createComment("dummy");
         el.appendChild(c);
@@ -1265,23 +1120,23 @@ public class Test {
         NodeImpl el2 = (NodeImpl) doc.createElement("bar");
         el2.setTextContent("bye now");
         el.appendChild(el2);
-        Assertion.equals(el.getTextContent(), "yo!bye now");
+        assertEquals("yo!bye now", el.getTextContent());
         
         // check that empty element does not produce null value
 		NodeImpl el3 = (NodeImpl) doc.createElement("test");
 		el.appendChild(el3);
 		NodeImpl empty = (NodeImpl) doc.createElement("empty");
 		el3.appendChild(empty);
-		Assertion.verify(el3.getTextContent() != null);
+		assertNotNull(el3.getTextContent());
 		
 		empty.setTextContent("hello");
-		Assertion.verify(empty.getChildNodes().getLength() == 1);
+		assertEquals(1, empty.getChildNodes().getLength());
 		// check that setting to empty string or null, does not produce
 		// any text node
 		empty.setTextContent(null);
-		Assertion.verify(empty.getChildNodes().getLength() == 0);
+		assertEquals(0, empty.getChildNodes().getLength());
 		empty.setTextContent("");
-		Assertion.verify(empty.getChildNodes().getLength() == 0);
+		assertEquals(0, empty.getChildNodes().getLength());
 		
 		
 
@@ -1300,36 +1155,35 @@ public class Test {
             }
             public void handle(short operation, String key,
                                Object data, Node src, Node dst) {
-                Assertion.verify(operation == UserDataHandler.NODE_CLONED);
-                Assertion.verify(key == fKey && data == fData && src == fNode);
-                Assertion.verify(dst != null &&
-                                 dst.getNodeType() == fNode.getNodeType());
+                assertEquals(UserDataHandler.NODE_CLONED, operation);
+                assertTrue(key == fKey && data == fData && src == fNode);
+                assertTrue(dst != null && dst.getNodeType() == fNode.getNodeType());
                 fCalled = true;
             }
         }
 
         el.setUserData("mykey", c, null);
         el.setUserData("mykey2", el2, null);
-        Assertion.verify(el.getUserData("mykey") == c);
-        Assertion.verify(el.getUserData("mykey2") == el2);
+        assertSame(el.getUserData("mykey"), c);
+        assertSame(el.getUserData("mykey2"), el2);
         el.setUserData("mykey", null, null);
-        Assertion.verify(el.getUserData("mykey") == null);
+        assertNull(el.getUserData("mykey"));
         el.setUserData("mykey2", null, null);
-        Assertion.verify(el.getUserData("mykey2") == null);
+        assertNull(el.getUserData("mykey2"));
  
         MyHandler h = new MyHandler("mykey", c, el);
         el.setUserData("mykey", c, h);
         MyHandler h2 = new MyHandler("mykey2", el2, el);
         el.setUserData("mykey2", el2, h2);
         Node cl = el.cloneNode(false);
-        Assertion.verify(h.fCalled == true);
-        Assertion.verify(h2.fCalled == true);
+        assertTrue(h.fCalled);
+        assertTrue(h2.fCalled);
 
 
         el.setTextContent("zapped!");
         Node t2 = el.getFirstChild();
-        Assertion.verify(t2.getNodeValue().equals("zapped!"));
-        Assertion.verify(t2.getNextSibling() == null);
+        assertTrue(t2.getNodeValue().equals("zapped!"));
+        assertNull(t2.getNextSibling());
     }
 
 
@@ -1350,17 +1204,17 @@ public class Test {
         NodeImpl n2 = (NodeImpl) doc.createElement("el");
         n2.setTextContent("yo!");
 
-        Assertion.verify(n1.isEqualNode(n2) == true);
+        assertTrue(n1.isEqualNode(n2));
 
         n2.setTextContent("yoyo!");
-        Assertion.verify(n1.isEqualNode(n2) == false);
+        assertFalse(n1.isEqualNode(n2));
 
         n1.setTextContent("yoyo!");
         ((Element) n1).setAttribute("a1", "v1");
         ((Element) n1).setAttributeNS("uri", "a2", "v2");
         ((Element) n2).setAttribute("a1", "v1");
         ((Element) n2).setAttributeNS("uri", "a2", "v2");
-        Assertion.verify(n1.isEqualNode(n2) == true);
+        assertTrue(n1.isEqualNode(n2));
         
         Element elem = doc.createElementNS(null, "e2");
         root.appendChild(elem);
@@ -1370,26 +1224,26 @@ public class Test {
         // check that setAttribute sets both name and value
         elem.setAttributeNS("http://attr","p:attr1","v2");
         Attr attr2 = elem.getAttributeNodeNS("http://attr", "attr1");
-        Assertion.verify(attr2.getNodeName().equals("p:attr1"), "p:attr1");
-        Assertion.verify(attr2.getNodeValue().equals("v2"), "value v2");
+        assertTrue(attr2.getNodeName().equals("p:attr1"));
+        assertTrue(attr2.getNodeValue().equals("v2"));
         
         // check that prefix is not null
         elem.setAttributeNS("http://attr","attr1","v2");
         attr2 = elem.getAttributeNodeNS("http://attr", "attr1");
-        Assertion.verify(attr2.getNodeName().equals("attr1"), "attr1");
+        assertTrue(attr2.getNodeName().equals("attr1"));
         
 
         ((Element) n2).setAttribute("a1", "v2");
-        Assertion.verify(n1.isEqualNode(n2) == false);
+        assertFalse(n1.isEqualNode(n2));
 
         root.appendChild(n1);
         root.appendChild(n2);
 
         NodeImpl clone = (NodeImpl) root.cloneNode(true);
-        Assertion.verify(clone.isEqualNode(root) == true);
+        assertTrue(clone.isEqualNode(root));
 
     }
 
-    System.out.println("done.");
-    };
+    }
+
 }    

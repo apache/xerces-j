@@ -845,6 +845,7 @@ Authors:
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
             -->             
+             <include name="dom/mem/Test.class"/>
            </fileset>
          </batchtest>
 
@@ -907,12 +908,6 @@ Authors:
         <arg value="-time"/>
         <arg value="10"/>
         <arg value="${data.dir}/personal-schema.xml"/>
-    </java>
-    <echo message="Running dom.mem.Test..." />
-    <java fork="yes"
-          classname="dom.mem.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
     </java>
     <java fork="yes"
           classname="dom.range.Test"

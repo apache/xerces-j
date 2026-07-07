@@ -61,7 +61,6 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
     }
 
     public void testPrefixLookup() throws Exception {
-        boolean namespaces = true;
         LSParser parser = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
         Document doc = parser.parseURI("tests/dom/dom3/input.xml");
         NodeList ls = doc.getElementsByTagName("a:elem_a");

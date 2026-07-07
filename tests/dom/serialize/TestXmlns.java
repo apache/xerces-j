@@ -17,14 +17,15 @@
 
 package dom.serialize;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import junit.framework.TestCase;
 import org.apache.xerces.dom.DOMImplementationImpl;
 import org.apache.xerces.dom.DOMOutputImpl;
 import org.apache.xerces.dom.DocumentImpl;
-import org.apache.xerces.parsers.DOMParser;
 import org.apache.xml.serialize.DOMSerializerImpl;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.Serializer;
@@ -32,7 +33,6 @@ import org.apache.xml.serialize.SerializerFactory;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMErrorHandler;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
@@ -45,64 +45,37 @@ import org.w3c.dom.ls.LSSerializer;
  * @author Elena Litani, IBM
  * @version $Id$
  */
-public class TestXmlns implements DOMErrorHandler{
+public class TestXmlns extends TestCase implements DOMErrorHandler{
 
-      public static void main(String[] args) {
-
-            // Create a document.
+      public void testXmlnsSerialization() throws Exception {
             DocumentImpl document = new DocumentImpl();
             document.setXmlEncoding("utf-8");
-            // Create an element with a default namespace declaration.
             Element outerNode = document.createElement("outer");
             outerNode.setAttribute("xmlns", "myuri:");
             document.appendChild(outerNode);
-
-            // Create an inner element with no further namespace declaration.
             Element innerNode = document.createElement("inner");
             outerNode.appendChild(innerNode);
 
-            // DOM is complete, now serialize it.
             Writer writer = new StringWriter();
             OutputFormat format = new OutputFormat();
             format.setEncoding("utf-8");
             Serializer serializer = SerializerFactory.getSerializerFactory("xml").makeSerializer(writer, format);
-            try {
-                  serializer.asDOMSerializer().serialize(document);
-            } catch (IOException exception) {
-                  exception.printStackTrace();
-                  System.exit(1);
-            }
+            serializer.asDOMSerializer().serialize(document);
+            String output = writer.toString();
+            assertTrue("Should contain outer element", output.contains("outer"));
+            assertTrue("Should contain inner element", output.contains("inner"));
 
-            // Show the results on the console.
-            System.out.println("\n---XMLSerializer output---");
-            System.out.println(writer.toString());
-
-          DOMSerializerImpl s = new DOMSerializerImpl();
-                  DOMParser p = new DOMParser();
-                  try {
-       
-                      p.parse(args[0]);
-                  } catch (Exception e){
-                  }
-                  Document doc = p.getDocument();
-
-
-            // create DOM Serializer
-
-            System.out.println("\n---DOMWriter output---");
+            DOMSerializerImpl s = new DOMSerializerImpl();
             LSSerializer domWriter = ((DOMImplementationLS)DOMImplementationImpl.getDOMImplementation()).createLSSerializer();
             DOMConfiguration config = domWriter.getDomConfig();
-            config.setParameter("error-handler", new TestXmlns());
+            config.setParameter("error-handler", this);
             config.setParameter("namespaces", Boolean.FALSE);
-            try {
-                LSOutput dOut = new DOMOutputImpl();
-                dOut.setByteStream(System.out);
-                domWriter.write(document,dOut);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-
-            
+            LSOutput dOut = new DOMOutputImpl();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            dOut.setByteStream(baos);
+            domWriter.write(document, dOut);
+            output = baos.toString("utf-8");
+            assertTrue("DOMWriter output should contain outer", output.contains("outer"));
       }
     /* (non-Javadoc)
      * @see org.apache.xerces.dom3.DOMErrorHandler#handleError(org.apache.xerces.dom3.DOMError)

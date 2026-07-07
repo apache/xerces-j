@@ -845,6 +845,7 @@ Authors:
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
             -->             
+             <include name="dom/serialize/TestXmlns.class"/>
            </fileset>
          </batchtest>
 

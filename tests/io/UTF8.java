@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import junit.framework.TestCase;
 import org.apache.xerces.impl.io.UTF8Reader;
 
 /**
@@ -36,124 +37,52 @@ import org.apache.xerces.impl.io.UTF8Reader;
  *
  * @version $Id$
  */
-public class UTF8 {
+public class UTF8 extends TestCase {
 
-    //
-    // MAIN
-    //
+    public void testJavaUTF8CharByChar() throws Exception {
+        InputStream stream = new UTF8Producer();
+        Reader reader = new InputStreamReader(stream, "UTF8");
+        testCharByChar(reader);
+        reader.close();
+    }
 
-    /** Main program entry. */
-    public static void main(String[] argv) throws Exception {
-
+    public void testJavaUTF8CharArray() throws Exception {
         final int BLOCK_READ_SIZE = 2048;
+        InputStream stream = new UTF8Producer();
+        Reader reader = new InputStreamReader(stream, "UTF8");
+        testCharArray(reader, BLOCK_READ_SIZE);
+        reader.close();
+    }
 
-        //
-        // Test Java reference implementation of UTF-8 decoder
-        //
+    public void testCustomUTF8CharByChar() throws Exception {
+        InputStream stream = new UTF8Producer();
+        Reader reader = new UTF8Reader(stream);
+        testCharByChar(reader);
+        reader.close();
+    }
 
-        System.err.println("#");
-        System.err.println("# Testing Java UTF-8 decoder");
-        System.err.println("#");
+    public void testCustomUTF8CharArray() throws Exception {
+        final int BLOCK_READ_SIZE = 2048;
+        InputStream stream = new UTF8Producer();
+        Reader reader = new UTF8Reader(stream);
+        testCharArray(reader, BLOCK_READ_SIZE);
+        reader.close();
+    }
 
-        // test character by character
-        try {
-            InputStream stream = new UTF8Producer();
-            Reader reader = new InputStreamReader(stream, "UTF8");
-            long time = testCharByChar(reader);
-            System.err.println("PASS ("+time+" ms)");
-            reader.close();
-        } 
-        catch (IOException e) {
-            System.err.println("FAIL: "+e.getMessage());
-        }
-        
-        // test character array
-        try {
-            InputStream stream = new UTF8Producer();
-            Reader reader = new InputStreamReader(stream, "UTF8");
-            long time = testCharArray(reader, BLOCK_READ_SIZE);
-            System.err.println("PASS ("+time+" ms)");
-            reader.close();
-        } 
-        catch (IOException e) {
-            System.err.println("FAIL: "+e.getMessage());
-        }
-        
-        //
-        // Test custom implementation of UTF-8 decoder
-        //
-
-        System.err.println("#");
-        System.err.println("# Testing custom UTF-8 decoder");
-        System.err.println("#");
-
-        // test character by character
-        try {
-            InputStream stream = new UTF8Producer();
-            Reader reader = new UTF8Reader(stream);
-            long time = testCharByChar(reader);
-            System.err.println("PASS ("+time+" ms)");
-            reader.close();
-        } 
-        catch (IOException e) {
-            System.err.println("FAIL: "+e.getMessage());
-        }
-        
-        // test character array
-        try {
-            InputStream stream = new UTF8Producer();
-            Reader reader = new UTF8Reader(stream);
-            long time = testCharArray(reader, BLOCK_READ_SIZE);
-            System.err.println("PASS ("+time+" ms)");
-            reader.close();
-        } 
-        catch (IOException e) {
-            System.err.println("FAIL: "+e.getMessage());
-        }
-        
-    } // main(String[])
-
-    //
-    // Public static methods
-    //
-
-    /** This function tests the specified reader character by character. */
-    public static long testCharByChar(Reader reader) throws Exception {
-
-        long before = System.currentTimeMillis();
-        System.err.println("# Testing character by character");
-
-        System.err.println("testing 0x000000 -> 0x00007F");
+    private void testCharByChar(Reader reader) throws Exception {
         for (int i = 0; i < 0x0080; i++) {
-            int c = reader.read();
-            if (c != i) {
-                expectedChar(null, i, c);
-            }
+            assertEquals("character 0x" + Integer.toHexString(i) + " mismatch", i, reader.read());
         }
-        System.err.println("testing 0x000080 -> 0x0007FF");
         for (int i = 0x0080; i < 0x0800; i++) {
-            int c = reader.read();
-            if (c != i) {
-                expectedChar(null, i, c);
-            }
+            assertEquals("character 0x" + Integer.toHexString(i) + " mismatch", i, reader.read());
         }
-        System.err.println("testing 0x000800 -> 0x00D7FF");
         for (int i = 0x0800; i < 0xD800; i++) {
-            int c = reader.read();
-            if (c != i) {
-                expectedChar(null, i, c);
-            }
+            assertEquals("character 0x" + Integer.toHexString(i) + " mismatch", i, reader.read());
         }
-        System.err.println("testing 0x00E000 -> 0x00FFFF");
         for (int i = 0xE000; i < 0x010000; i++) {
-            int c = reader.read();
-            if (c != i) {
-                expectedChar(null, i, c);
-            }
+            assertEquals("character 0x" + Integer.toHexString(i) + " mismatch", i, reader.read());
         }
-        System.err.println("testing 0x010000 -> 0x110000");
         for (int i = 0x10000; i < 0x110000; i++) {
-            // vars
             int uuuuu = (i >> 16) & 0x001F;
             int wwww = uuuuu - 1;
             int zzzz = (i >> 12) & 0x000F;
@@ -161,88 +90,50 @@ public class UTF8 {
             int xxxxxx = i & 0x003F;
             int hs = 0xD800 | (wwww << 6) | (zzzz << 2) | (yyyyyy >> 4);
             int ls = 0xDC00 | ((yyyyyy << 6) & 0x03C0) | xxxxxx;
-            // high surrogate
-            int c = reader.read();
-            if (c != hs) {
-                expectedChar("high surrogate", hs, c);
-            }
-            // low surrogate
-            c = reader.read();
-            if (c != ls) {
-                expectedChar("low surrogate", ls, c);
-            }
+            assertEquals("high surrogate mismatch", hs, reader.read());
+            assertEquals("low surrogate mismatch", ls, reader.read());
         }
-        System.err.println("checking EOF");
-        int c = reader.read();
-        if (c != -1) {
-            extraChar(c);
-        }
-        long after = System.currentTimeMillis();
+        assertEquals("Expected EOF", -1, reader.read());
+    }
 
-        return after - before;
-
-    } // testCharByChar(Reader):long
-
-    /**
-     * This function tests the given reader by performing block character
-     * reads of the specified size.
-     */
-    public static long testCharArray(Reader reader, int size) throws Exception {
-
-        long before = System.currentTimeMillis();
-        System.err.println("# Testing character array of size "+size);
-
+    private void testCharArray(Reader reader, int size) throws Exception {
         char[] ch = new char[size];
         int count = 0;
         int position = 0;
 
-        System.err.println("testing 0x000000 -> 0x00007F");
         for (int i = 0; i < 0x0080; i++) {
             if (position == count) {
-                count = load(reader, ch);
+                count = reader.read(ch, 0, ch.length);
                 position = 0;
             }
             int c = ch[position++];
-            if (c != i) {
-                expectedChar(null, i, c);
-            }
+            assertEquals("character 0x" + Integer.toHexString(i) + " mismatch", i, c);
         }
-        System.err.println("testing 0x000080 -> 0x0007FF");
         for (int i = 0x0080; i < 0x0800; i++) {
             if (position == count) {
-                count = load(reader, ch);
+                count = reader.read(ch, 0, ch.length);
                 position = 0;
             }
             int c = ch[position++];
-            if (c != i) {
-                expectedChar(null, i, c);
-            }
+            assertEquals("character 0x" + Integer.toHexString(i) + " mismatch", i, c);
         }
-        System.err.println("testing 0x000800 -> 0x00D7FF");
         for (int i = 0x0800; i < 0xD800; i++) {
             if (position == count) {
-                count = load(reader, ch);
+                count = reader.read(ch, 0, ch.length);
                 position = 0;
             }
             int c = ch[position++];
-            if (c != i) {
-                expectedChar(null, i, c);
-            }
+            assertEquals("character 0x" + Integer.toHexString(i) + " mismatch", i, c);
         }
-        System.err.println("testing 0x00E000 -> 0x00FFFF");
         for (int i = 0xE000; i < 0x010000; i++) {
             if (position == count) {
-                count = load(reader, ch);
+                count = reader.read(ch, 0, ch.length);
                 position = 0;
             }
             int c = ch[position++];
-            if (c != i) {
-                expectedChar(null, i, c);
-            }
+            assertEquals("character 0x" + Integer.toHexString(i) + " mismatch", i, c);
         }
-        System.err.println("testing 0x010000 -> 0x10FFFF");
         for (int i = 0x10000; i < 0x110000; i++) {
-            // vars
             int uuuuu = (i >> 16) & 0x001F;
             int wwww = uuuuu - 1;
             int zzzz = (i >> 12) & 0x000F;
@@ -250,78 +141,25 @@ public class UTF8 {
             int xxxxxx = i & 0x003F;
             int hs = 0xD800 | (wwww << 6) | (zzzz << 2) | (yyyyyy >> 4);
             int ls = 0xDC00 | ((yyyyyy << 6) & 0x03C0) | xxxxxx;
-            // high surrogate
             if (position == count) {
-                count = load(reader, ch);
+                count = reader.read(ch, 0, ch.length);
                 position = 0;
             }
             int c = ch[position++];
-            if (c != hs) {
-                expectedChar("high surrogate", hs, c);
-            }
-            // low surrogate
+            assertEquals("high surrogate mismatch", hs, c);
             if (position == count) {
-                count = load(reader, ch);
+                count = reader.read(ch, 0, ch.length);
                 position = 0;
             }
             c = ch[position++];
-            if (c != ls) {
-                expectedChar("low surrogate", ls, c);
-            }
+            assertEquals("low surrogate mismatch", ls, c);
         }
-        System.err.println("checking EOF");
         if (position == count) {
-            count = load(reader, ch);
+            count = reader.read(ch, 0, ch.length);
             position = 0;
         }
-        if (count != -1) {
-            extraChar(ch[position]);
-        }
-        long after = System.currentTimeMillis();
-
-        return after - before;
-
-    } // testCharArray(Reader):long
-
-    //
-    // Package private static methods
-    //
-
-    /** Loads another block of characters from the reader. */
-    static int load(Reader reader, char[] ch) throws IOException {
-        int count = reader.read(ch, 0, ch.length);
-        return count;
-    } // load(Reader,char[]):int
-
-    /** Creates an I/O exception for expected character. */
-    static void expectedChar(String prefix, int ec, int fc) throws IOException {
-        StringBuffer str = new StringBuffer();
-        str.append("expected ");
-        if (prefix != null) {
-            str.append(prefix);
-            str.append(' ');
-        }
-        str.append("0x");
-        str.append(Integer.toHexString(ec));
-        str.append(" but found 0x");
-        if (fc != -1) {
-            str.append(Integer.toHexString(fc));
-        }
-        else {
-            str.append("EOF");
-        }
-        String message = str.toString();
-        throw new IOException(message);
-    } // expectedChar(String,int,int)
-
-    /** Creates an I/O exception for extra character. */
-    static void extraChar(int c) throws IOException {
-        StringBuffer str = new StringBuffer();
-        str.append("found extra character 0x");
-        str.append(Integer.toHexString(c));
-        String message = str.toString();
-        throw new IOException(message);
-    } // extraChar(int)
+        assertEquals("Expected EOF", -1, count);
+    }
 
     //
     // Classes

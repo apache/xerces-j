@@ -845,6 +845,8 @@ Authors:
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
             -->             
+             <include name="io/UTF8.class"/>
+             <include name="io/UTF16.class"/>
            </fileset>
          </batchtest>
 

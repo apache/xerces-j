@@ -49,7 +49,6 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
     private int errorCounter;
     private DOMImplementationLS impl;
     private LSParser builder;
-    private LSSerializer writer;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -58,7 +57,6 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         impl = (DOMImplementationLS) DOMImplementationRegistry.newInstance().getDOMImplementation("LS");
         assertNotNull(impl);
         builder = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
-        writer = impl.createLSSerializer();
         errorCounter = 0;
     }
 

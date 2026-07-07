@@ -23,13 +23,12 @@ import org.apache.xerces.dom.DOMImplementationImpl;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
-import dom.util.Assertion;
+import junit.framework.TestCase;
 
-public class Test {
+public class Test extends TestCase {
 
-    public static void main(String argv[])
-    {                                  
-        
+    public void testRegistry()
+    {
         System.out.println("Running dom.registry.Test...");
         // set DOMImplementationSource
         System.setProperty(DOMImplementationRegistry.PROPERTY,
@@ -39,30 +38,30 @@ public class Test {
         DOMImplementationRegistry registry = null;
         try {
             registry = DOMImplementationRegistry.newInstance();
-            Assertion.verify(registry != null);
+            assertNotNull("registry should not be null", registry);
         } catch (Exception e) {
-            e.printStackTrace();
+            fail("Unexpected exception: " + e.getMessage());
         }
 
         try {
             DOMImplementation i = registry.getDOMImplementation("XML");
 
-            Assertion.verify(i ==
+            assertSame(i,
                              CoreDOMImplementationImpl.getDOMImplementation());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            fail("Unexpected exception: " + e.getMessage());
         }
 
         try {
             DOMImplementation i =
                 registry.getDOMImplementation("XML MutationEvents");
 
-            Assertion.verify(i ==
+            assertSame(i,
                              DOMImplementationImpl.getDOMImplementation());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            fail("Unexpected exception: " + e.getMessage());
         }
     }
 }    

@@ -845,6 +845,7 @@ Authors:
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
             -->             
+             <include name="jaxp/JAXPSpecTest.class"/>
            </fileset>
          </batchtest>
 
@@ -950,16 +951,6 @@ Authors:
           classname="jaxp.PropertyTest"
           classpathref="test.classpath"
           failOnError="yes">
-    </java>
-    <echo message="Running jaxp.JAXPSpecTest..." />
-    <java fork="yes"
-          classname="jaxp.JAXPSpecTest"
-          classpathref="test.classpath"
-          failOnError="yes">
-        <arg value="testSchemaLanguageSAX"/>
-        <arg value="testSchemaSourceSAX"/>
-        <arg value="testSchemaLanguageDOM"/>
-        <arg value="testSchemaSourceDOM"/>
     </java>
     <echo message="Running xinclude.Test..." />
     <java fork="yes"

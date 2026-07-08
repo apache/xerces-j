@@ -844,8 +844,9 @@ Authors:
              <include name="schema/config/SurrogatePairLengthTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
-            -->             
-           </fileset>
+             -->             
+              <include name="xinclude/Test.class"/>
+            </fileset>
          </batchtest>
 
          
@@ -960,12 +961,6 @@ Authors:
         <arg value="testSchemaSourceSAX"/>
         <arg value="testSchemaLanguageDOM"/>
         <arg value="testSchemaSourceDOM"/>
-    </java>
-    <echo message="Running xinclude.Test..." />
-    <java fork="yes"
-          classname="xinclude.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
     </java>
     <echo message="Running dom.registry.Test..." />
     <java fork="yes"

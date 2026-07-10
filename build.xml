@@ -846,6 +846,7 @@ Authors:
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
             -->             
+             <include name="dom/ids/Test.class"/>
            </fileset>
          </batchtest>
 
@@ -920,12 +921,6 @@ Authors:
           classpathref="test.classpath"
           failOnError="yes">
       <arg value="all"/>
-    </java>
-    <echo message="Running dom.ids.Test..." />
-    <java fork="yes"
-          classname="dom.ids.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
     </java>
 <!--  
      TODO fix this test

@@ -846,6 +846,8 @@ Authors:
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
              -->             
               <include name="xinclude/Test.class"/>
+              <include name="jaxp/JAXPSpecTest.class"/>
+              <include name="dom/ids/Test.class"/>
             </fileset>
          </batchtest>
 
@@ -921,12 +923,6 @@ Authors:
           failOnError="yes">
       <arg value="all"/>
     </java>
-    <echo message="Running dom.ids.Test..." />
-    <java fork="yes"
-          classname="dom.ids.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
 <!--  
      TODO fix this test
      [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
@@ -952,16 +948,7 @@ Authors:
           classpathref="test.classpath"
           failOnError="yes">
     </java>
-    <echo message="Running jaxp.JAXPSpecTest..." />
-    <java fork="yes"
-          classname="jaxp.JAXPSpecTest"
-          classpathref="test.classpath"
-          failOnError="yes">
-        <arg value="testSchemaLanguageSAX"/>
-        <arg value="testSchemaSourceSAX"/>
-        <arg value="testSchemaLanguageDOM"/>
-        <arg value="testSchemaSourceDOM"/>
-    </java>
+
     <echo message="Running dom.registry.Test..." />
     <java fork="yes"
           classname="dom.registry.Test"

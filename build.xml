@@ -844,8 +844,10 @@ Authors:
              <include name="schema/config/SurrogatePairLengthTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
-            -->             
-             <include name="dom/serialize/TestSerializeDOMIn.class"/>
+             -->             
+              <include name="dom/serialize/TestSerializeDOMIn.class"/>
+              <include name="jaxp/JAXPSpecTest.class"/>
+              <include name="dom/ids/Test.class"/>
            </fileset>
          </batchtest>
 
@@ -921,12 +923,6 @@ Authors:
           failOnError="yes">
       <arg value="all"/>
     </java>
-    <echo message="Running dom.ids.Test..." />
-    <java fork="yes"
-          classname="dom.ids.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
 <!--  
      TODO fix this test
      [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
@@ -951,16 +947,6 @@ Authors:
           classname="jaxp.PropertyTest"
           classpathref="test.classpath"
           failOnError="yes">
-    </java>
-    <echo message="Running jaxp.JAXPSpecTest..." />
-    <java fork="yes"
-          classname="jaxp.JAXPSpecTest"
-          classpathref="test.classpath"
-          failOnError="yes">
-        <arg value="testSchemaLanguageSAX"/>
-        <arg value="testSchemaSourceSAX"/>
-        <arg value="testSchemaLanguageDOM"/>
-        <arg value="testSchemaSourceDOM"/>
     </java>
     <echo message="Running xinclude.Test..." />
     <java fork="yes"

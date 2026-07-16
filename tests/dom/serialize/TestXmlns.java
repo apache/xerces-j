@@ -48,6 +48,7 @@ import org.w3c.dom.ls.LSSerializer;
 public class TestXmlns extends TestCase implements DOMErrorHandler{
 
       public void testXmlnsSerialization() throws Exception {
+            // Create a document.
             DocumentImpl document = new DocumentImpl();
             document.setXmlEncoding("utf-8");
             Element outerNode = document.createElement("outer");
@@ -56,6 +57,7 @@ public class TestXmlns extends TestCase implements DOMErrorHandler{
             Element innerNode = document.createElement("inner");
             outerNode.appendChild(innerNode);
 
+            // DOM is complete, now serialize it.
             Writer writer = new StringWriter();
             OutputFormat format = new OutputFormat();
             format.setEncoding("utf-8");

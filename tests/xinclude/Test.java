@@ -37,6 +37,11 @@ import org.apache.xerces.xni.parser.XMLParserConfiguration;
 
 import xni.Writer;
 
+/**
+ * Tests for XInclude implementation.
+ * Use -f option to see the error message log
+ * @author Peter McCracken, IBM
+ */
 public class Test extends TestCase implements XMLErrorHandler {
     protected static final String NAMESPACES_FEATURE_ID =
         "http://xml.org/sax/features/namespaces";
@@ -49,6 +54,9 @@ public class Test extends TestCase implements XMLErrorHandler {
     protected static final String ERROR_HANDLER =
         "http://apache.org/xml/properties/internal/error-handler";
 
+    // this array contains whether the test number NN (contained in file testNN.xml)
+    // is meant to be a pass or fail test
+    // true means the test should pass
     private static final int NUM_TESTS = 41;
     private static final boolean[] TEST_RESULTS = new boolean[] {
         true, true, true, true, true, true, false, true, false, true,
@@ -71,6 +79,7 @@ public class Test extends TestCase implements XMLErrorHandler {
         parserConfig.setFeature(SCHEMA_VALIDATION_FEATURE_ID, true);
         parserConfig.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
         fWriter = new Writer(parserConfig);
+        // this has to be done AFTER fWriter is created
         parserConfig.setProperty(ERROR_HANDLER, this);
     }
 
@@ -221,13 +230,16 @@ public class Test extends TestCase implements XMLErrorHandler {
         String str = getPathWithoutEscapes(buf.toString());
 
         int start = 0, end = 0;
+        // strip ones in URI form
         while ((start = str.indexOf(userURI, start)) != -1) {
             end = start + userURI.length();
+            // we add one, to get rid of the '/' after the user directory path
             str = str.substring(0, start) + str.substring(end + 1);
         }
 
         while ((start = str.indexOf(userDir, start)) != -1) {
             end = start + userDir.length();
+            // we add one, to get rid of the '/' after the user directory path
             str = str.substring(0, start) + str.substring(end + 1);
         }
         return str;

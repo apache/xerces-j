@@ -35,7 +35,7 @@ public class Test extends TestCase {
 
     public void testSerializationRoundTrip() throws Exception {
         DocumentImpl doc = new DocumentImpl();
-        Element root = doc.createElement("root");
+        Element root = doc.createElementNS(null, "root");
         doc.appendChild(root);
         root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:foo", "boo");
         Text text = doc.createTextNode("hello");

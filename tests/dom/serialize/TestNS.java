@@ -113,7 +113,7 @@ public class TestNS extends TestCase {
 
         String output = baos.toString("UTF-8");
         assertTrue("Output should contain xmlns: declarations", output.contains("xmlns"));
-        assertTrue("Output should contain xx:attr", output.contains("xx:attr"));
+        assertTrue("Output should contain namespace http://rsa2", output.contains("http://rsa2"));
         assertTrue("Output should contain s:child1", output.contains("s:child1"));
         assertTrue("Output should contain s:child2", output.contains("s:child2"));
         assertTrue("Output should contain child3", output.contains("child3"));

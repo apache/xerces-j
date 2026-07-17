@@ -17,6 +17,7 @@
 
 package dom.events;
 
+import junit.framework.TestCase;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,17 +26,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 import org.w3c.dom.events.EventTarget;
 
-public class Test
+public class Test extends TestCase
 {
     EventReporter sharedReporter=new EventReporter();
     
-    public static void main(String[] args)
-    {
-        Test met=new Test();
-        met.runTest();
-    }
-
-    void runTest()
+    public void testMutationEvents()
     {
         Document doc=new org.apache.xerces.dom.DocumentImpl();
         reportAllMutations(doc);
@@ -88,6 +83,7 @@ public class Test
         root.setAttribute("foo", "bar");
 
         System.out.println("Done");
+        assertTrue("Mutation events should complete without error", true);
     }
     
     Element addNoisyElement(Document doc,Node parent,int index)

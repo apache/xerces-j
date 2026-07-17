@@ -835,15 +835,16 @@ Authors:
              <include name="schema/config/IgnoreXSIType_A_C_Test.class"/>
              <include name="schema/config/IgnoreXSIType_C_A_Test.class"/>
              <include name="schema/config/RootSimpleTypeDefinitionTest.class"/>
-             <include name="schema/config/RootTypeDefinitionTest.class"/>
-             <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
+              <include name="schema/config/RootTypeDefinitionTest.class"/>
+              <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
            <!-- These tests are failing. Fix them.
               <include name="schema/config/IgnoreXSIType_C_AC_Test.class"/>
               <include name="schema/config/IgnoreXSIType_C_CA_Test.class"/>
               <include name="schema/config/IgnoreXSIType_C_C_Test.class"/>
               <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
               <include name="schema/config/UnparsedEntityCheckingTest.class"/>
-             -->             
+             -->
+              <include name="schema/Test.class"/>
               <include name="jaxp/JAXPSpecTest.class"/>
               <include name="dom/ids/Test.class"/>
             </fileset>
@@ -944,12 +945,6 @@ Authors:
         <arg value="out.xml"/>
     </java>
     
-    <echo message="Running schema.Test..." />
-    <java fork="yes"
-          classname="schema.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
     <echo message="Running jaxp.PropertyTest..." />
     <java fork="yes"
           classname="jaxp.PropertyTest"

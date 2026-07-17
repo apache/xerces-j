@@ -367,7 +367,6 @@ public class Test extends TestCase {
         nnm = doc.getAttributes();    // Should be null, because node type
                                       //   is not Element.
         assertNull(nnm);
-        assertNull(nnm);
 
         Element el = doc.createElement("NamedNodeMap01");
         NamedNodeMap nnm2 = el.getAttributes();    // Should be an empty, but non-null map.
@@ -436,7 +435,6 @@ public class Test extends TestCase {
     {
         NodeList    nl = null;
         NodeList    nl2 = null;
-        assertNull(nl);
         assertNull(nl);
         assertSame(nl, nl2);
 
@@ -1156,8 +1154,10 @@ public class Test extends TestCase {
             public void handle(short operation, String key,
                                Object data, Node src, Node dst) {
                 assertEquals(UserDataHandler.NODE_CLONED, operation);
-                assertTrue(key == fKey && data == fData && src == fNode);
-                assertTrue(dst != null && dst.getNodeType() == fNode.getNodeType());
+                assertSame(key, fKey);
+                assertSame(data, fData);
+                assertSame(src, fNode);
+                assertEquals(dst.getNodeType(), fNode.getNodeType());
                 fCalled = true;
             }
         }

@@ -837,21 +837,30 @@ Authors:
              <include name="schema/config/RootSimpleTypeDefinitionTest.class"/>
              <include name="schema/config/RootTypeDefinitionTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
-          <!-- These tests are failing. Fix them.
-             <include name="schema/config/IgnoreXSIType_C_AC_Test.class"/>
-             <include name="schema/config/IgnoreXSIType_C_CA_Test.class"/>
-             <include name="schema/config/IgnoreXSIType_C_C_Test.class"/>
-             <include name="schema/config/SurrogatePairLengthTest.class"/>
-             <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
-             <include name="schema/config/UnparsedEntityCheckingTest.class"/>
-            -->             
-             <include name="jaxp/JAXPSpecTest.class"/>
-             <include name="dom/ids/Test.class"/>
-           </fileset>
-         </batchtest>
+           <!-- These tests are failing. Fix them.
+              <include name="schema/config/IgnoreXSIType_C_AC_Test.class"/>
+              <include name="schema/config/IgnoreXSIType_C_CA_Test.class"/>
+              <include name="schema/config/IgnoreXSIType_C_C_Test.class"/>
+              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
+              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
+             -->             
+              <include name="jaxp/JAXPSpecTest.class"/>
+              <include name="dom/ids/Test.class"/>
+            </fileset>
+          </batchtest>
 
-         
-       <formatter type="brief" usefile="false"/>
+        <formatter type="brief" usefile="false"/>
+     </junit>
+
+    <junit fork="yes" forkmode="perTest"
+           haltonfailure="no"
+           haltonerror="yes"
+           failureproperty="test.failed"
+           errorproperty="test.failed"
+           showoutput="yes">
+        <classpath refid="test.classpath"/>
+        <test name="schema.config.SurrogatePairLengthTest" todir="test-reports"/>
+        <formatter type="brief" usefile="false"/>
     </junit>
     <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
 

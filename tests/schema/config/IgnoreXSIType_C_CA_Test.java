@@ -136,7 +136,7 @@ public class IgnoreXSIType_C_CA_Test extends BaseTest {
         
         PSVIElementNSImpl child = super.getChild(1);
         assertValidity(ItemPSVI.VALIDITY_NOTKNOWN, child.getValidity());
-        assertValidationAttempted(ItemPSVI.VALIDATION_NONE, child
+        assertValidationAttempted(ItemPSVI.VALIDATION_PARTIAL, child
                 .getValidationAttempted());
         assertElementNull(child.getElementDeclaration());
         assertAnyType(child.getTypeDefinition());

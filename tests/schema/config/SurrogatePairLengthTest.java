@@ -17,9 +17,6 @@
 
 package schema.config;
 
-import java.lang.reflect.Field;
-
-import org.apache.xerces.impl.dv.xs.TypeValidator;
 import org.apache.xerces.xs.ElementPSVI;
 import org.apache.xerces.xs.ItemPSVI;
 
@@ -28,25 +25,8 @@ import org.apache.xerces.xs.ItemPSVI;
  */
 public class SurrogatePairLengthTest extends BaseTest {
 
-    private Field codePointCountField;
-    private boolean originalCodePointCount;
-
-    protected void setUp() throws Exception {
-        super.setUp();
+    static {
         System.setProperty("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength", "true");
-        Field f = TypeValidator.class.getDeclaredField("USE_CODE_POINT_COUNT_FOR_STRING_LENGTH");
-        f.setAccessible(true);
-        codePointCountField = f;
-        originalCodePointCount = f.getBoolean(null);
-        f.set(null, true);
-    }
-
-    protected void tearDown() throws Exception {
-        System.clearProperty("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength");
-        if (codePointCountField != null) {
-            codePointCountField.set(null, originalCodePointCount);
-        }
-        super.tearDown();
     }
 
     protected String getXMLDocument() {

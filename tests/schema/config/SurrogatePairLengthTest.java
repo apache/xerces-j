@@ -25,8 +25,22 @@ import org.apache.xerces.xs.ItemPSVI;
  */
 public class SurrogatePairLengthTest extends BaseTest {
 
-    static {
-        System.setProperty("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength", "true");
+    private static final String PROPERTY = "org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength";
+    private String originalProperty;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+        originalProperty = System.getProperty(PROPERTY);
+        System.setProperty(PROPERTY, "true");
+    }
+
+    protected void tearDown() throws Exception {
+        if (originalProperty != null) {
+            System.setProperty(PROPERTY, originalProperty);
+        } else {
+            System.clearProperty(PROPERTY);
+        }
+        super.tearDown();
     }
 
     protected String getXMLDocument() {

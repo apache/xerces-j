@@ -860,6 +860,7 @@ Authors:
            errorproperty="test.failed"
            showoutput="yes">
         <classpath refid="test.classpath"/>
+        <sysproperty key="org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength" value="true"/>
         <test name="schema.config.SurrogatePairLengthTest" todir="test-reports"/>
         <formatter type="brief" usefile="false"/>
     </junit>

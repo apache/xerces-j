@@ -17,6 +17,9 @@
 
 package schema.config;
 
+import java.lang.reflect.Field;
+
+import org.apache.xerces.impl.dv.xs.TypeValidator;
 import org.apache.xerces.xs.ElementPSVI;
 import org.apache.xerces.xs.ItemPSVI;
 
@@ -27,16 +30,29 @@ public class SurrogatePairLengthTest extends BaseTest {
 
     private static final String PROPERTY = "org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength";
     private static final String LENGTH_ERROR = "cvc-length-valid";
+    private static final Field codePointCountField;
+    
+    static {
+        try {
+            Field f = TypeValidator.class.getDeclaredField("USE_CODE_POINT_COUNT_FOR_STRING_LENGTH");
+            f.setAccessible(true);
+            codePointCountField = f;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
     
     // Tests run sequentially within a shared JVM, so setUp/tearDown
-    // can safely set and reset the system property before each test.
+    // can safely set and reset the flag before each test.
     protected void setUp() throws Exception {
         super.setUp();
         System.setProperty(PROPERTY, "true");
+        codePointCountField.set(null, true);
     }
     
     protected void tearDown() throws Exception {
         System.clearProperty(PROPERTY);
+        codePointCountField.set(null, false);
         super.tearDown();
     }
     

@@ -39,8 +39,15 @@ import org.apache.xerces.util.XMLChar;
  */
 public abstract class TypeValidator {
     
-    // Checked at runtime to allow tests to set the property via System.setProperty()
-    // before each test. Tests execute sequentially within a shared JVM.
+    private static boolean USE_CODE_POINT_COUNT_FOR_STRING_LENGTH = AccessController.doPrivileged(new PrivilegedAction() {
+        @Override
+        public Object run() {
+            try {
+                return Boolean.getBoolean("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength") ? Boolean.TRUE : Boolean.FALSE;
+            }
+            catch (SecurityException ex) {}
+            return Boolean.FALSE;
+        }}) == Boolean.TRUE;
 
     /**
      * Which facets are allowed for this type.
@@ -131,18 +138,12 @@ public abstract class TypeValidator {
     public int getDataLength(Object value) {
         if (value instanceof String) {
             final String str = (String)value;
-            if (!getCodePointCountEnabled()) {
+            if (!USE_CODE_POINT_COUNT_FOR_STRING_LENGTH) {
                 return str.length();
             }
             return getCodePointLength(str);
         }
         return -1;
-    }
-    
-    private static boolean getCodePointCountEnabled() {
-        return AccessController.doPrivileged((PrivilegedAction<Boolean>) () -> 
-            Boolean.getBoolean("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength")
-        );
     }
 
     /**

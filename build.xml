@@ -846,6 +846,7 @@ Authors:
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
              -->             
               <include name="dom/serialize/TestNS.class"/>
+              <include name="schema/Test.class"/>
               <include name="jaxp/JAXPSpecTest.class"/>
               <include name="dom/ids/Test.class"/>
            </fileset>
@@ -936,12 +937,6 @@ Authors:
         <arg value="out.xml"/>
     </java>
     
-    <echo message="Running schema.Test..." />
-    <java fork="yes"
-          classname="schema.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
     <echo message="Running jaxp.PropertyTest..." />
     <java fork="yes"
           classname="jaxp.PropertyTest"

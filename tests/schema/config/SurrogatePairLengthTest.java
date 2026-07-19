@@ -17,8 +17,6 @@
 
 package schema.config;
 
-import junit.framework.Assert;
-
 import org.apache.xerces.xs.ElementPSVI;
 import org.apache.xerces.xs.ItemPSVI;
 
@@ -27,12 +25,20 @@ import org.apache.xerces.xs.ItemPSVI;
  */
 public class SurrogatePairLengthTest extends BaseTest {
 
-    // Can only test when the property is set
-    static {
-        System.setProperty("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength", "true");
+    private static final String PROPERTY = "org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength";
+    private static final String LENGTH_ERROR = "cvc-length-valid";
+    
+    // Tests run sequentially within a shared JVM, so setUp/tearDown
+    // can safely set and reset the system property before each test.
+    protected void setUp() throws Exception {
+        super.setUp();
+        System.setProperty(PROPERTY, "true");
     }
     
-    private static final String LENGTH_ERROR = "cvc-length-valid";
+    protected void tearDown() throws Exception {
+        System.clearProperty(PROPERTY);
+        super.tearDown();
+    }
     
     protected String getXMLDocument() {
         return "surrogate.xml";
@@ -50,15 +56,8 @@ public class SurrogatePairLengthTest extends BaseTest {
         super(name);
     }
     
-    // Can only test when the property is set
-    public void testSetTrue() {
-        try {
-            validateDocument();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail("Validation failed: " + e.getMessage());
-        }
-        
+    public void testSetTrue() throws Exception {
+        validateDocument();
         checkValidResult();
     }
     

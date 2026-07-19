@@ -28,70 +28,63 @@ import org.apache.xerces.xs.ItemPSVI;
  */
 public class SurrogatePairLengthTest extends BaseTest {
 
-    private static final String PROPERTY = "org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength";
-    private static final String LENGTH_ERROR = "cvc-length-valid";
-    private static final Field codePointCountField;
-    
-    static {
-        try {
-            Field f = TypeValidator.class.getDeclaredField("USE_CODE_POINT_COUNT_FOR_STRING_LENGTH");
-            f.setAccessible(true);
-            codePointCountField = f;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
-    // Tests run sequentially within a shared JVM, so setUp/tearDown
-    // can safely set and reset the flag before each test.
+    private Field codePointCountField;
+    private boolean originalCodePointCount;
+
     protected void setUp() throws Exception {
         super.setUp();
-        System.setProperty(PROPERTY, "true");
-        codePointCountField.set(null, true);
+        System.setProperty("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength", "true");
+        Field f = TypeValidator.class.getDeclaredField("USE_CODE_POINT_COUNT_FOR_STRING_LENGTH");
+        f.setAccessible(true);
+        codePointCountField = f;
+        originalCodePointCount = f.getBoolean(null);
+        f.set(null, true);
     }
-    
+
     protected void tearDown() throws Exception {
-        System.clearProperty(PROPERTY);
-        codePointCountField.set(null, false);
+        System.clearProperty("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength");
+        if (codePointCountField != null) {
+            codePointCountField.set(null, originalCodePointCount);
+        }
         super.tearDown();
     }
-    
+
     protected String getXMLDocument() {
         return "surrogate.xml";
     }
-    
+
     protected String getSchemaFile() {
         return "surrogate.xsd";
     }
-    
+
     protected String[] getRelevantErrorIDs() {
-        return new String[] { LENGTH_ERROR };
+        return new String[] { "cvc-length-valid" };
     }
-    
+
     public SurrogatePairLengthTest(String name) {
         super(name);
     }
-    
+
     public void testSetTrue() throws Exception {
         validateDocument();
         checkValidResult();
     }
-    
+
     private void checkValidResult() {
-        assertNoError(LENGTH_ERROR);
-        
+        assertNoError("cvc-length-valid");
+
         assertValidity(ItemPSVI.VALIDITY_VALID, fRootNode.getValidity());
         assertValidationAttempted(ItemPSVI.VALIDATION_FULL, fRootNode
                 .getValidationAttempted());
         assertElementName("root", fRootNode.getElementDeclaration().getName());
-        
+
         ElementPSVI child = super.getChild(1);
         assertValidity(ItemPSVI.VALIDITY_VALID, child.getValidity());
         assertValidationAttempted(ItemPSVI.VALIDATION_FULL, child
                 .getValidationAttempted());
         assertElementName("e1", child.getElementDeclaration().getName());
         assertTypeName("length", child.getTypeDefinition().getName());
-        
+
         child = super.getChild(2);
         assertValidity(ItemPSVI.VALIDITY_VALID, child.getValidity());
         assertValidationAttempted(ItemPSVI.VALIDATION_FULL, child

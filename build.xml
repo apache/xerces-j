@@ -844,9 +844,9 @@ Authors:
               <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
               <include name="schema/config/UnparsedEntityCheckingTest.class"/>
              -->
-             <!-- SurrogatePairLengthTest sets a system property in setUp() that
-                  TypeValidator reads at runtime. Tests run sequentially within a
-                  shared JVM, so setUp/tearDown safely manage the property.        -->
+              <!-- SurrogatePairLengthTest uses reflection to modify a private
+                   static field in TypeValidator. This test is NOT safe for
+                   parallel execution and must run sequentially.                -->
               <include name="schema/config/SurrogatePairLengthTest.class"/>
               <include name="schema/Test.class"/>
               <include name="jaxp/JAXPSpecTest.class"/>

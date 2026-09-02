@@ -60,11 +60,15 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
     
     protected void tearDown() throws Exception {
         // This is imperfect. It still assumes tests aren't running in parallel. 
-        System.setProperty(DOMImplementationRegistry.PROPERTY, originalDOMImplementationRegistry);        
+        if (originalDOMImplementationRegistry == null) {
+            System.clearProperty(DOMImplementationRegistry.PROPERTY);
+        } else {
+            System.setProperty(DOMImplementationRegistry.PROPERTY, originalDOMImplementationRegistry);
+        }
         super.tearDown();
     }
 
-    public void testPrefixLookup() throws Exception {
+    public void testPrefixLookup() {
         LSParser parser = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
         Document doc = parser.parseURI("tests/dom/dom3/input.xml");
         NodeList ls = doc.getElementsByTagName("a:elem_a");
@@ -91,14 +95,13 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
                 "http://www.w3.org/2001/XMLSchema-instance", e1.lookupNamespaceURI("xsi"));
     }
 
-    public void testNormalizeDocument() throws Exception {
+    public void testNormalizeDocument() {
         DOMConfiguration config = builder.getDomConfig();
         config.setParameter("error-handler", this);
         config.setParameter("validate", Boolean.TRUE);
         Document core = builder.parseURI("tests/dom/dom3/schema.xml");
         assertEquals("No errors should be reported on initial parse", 0, errorCount);
 
-        errorCount = 0;
         NodeList ls2 = core.getElementsByTagName("decVal");
         Element testElem = (Element) ls2.item(0);
         testElem.removeAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns");
@@ -132,7 +135,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
             errorCount);
     }
 
-    public void testNormalizeDocumentPSVI() throws Exception {
+    public void testNormalizeDocumentPSVI() {
         DOMConfiguration config = builder.getDomConfig();
         config.setParameter("error-handler", this);
         config.setParameter("validate", Boolean.TRUE);
@@ -168,7 +171,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         assertEquals("person", ((ElementPSVI) e1).getElementDeclaration().getName());
     }
 
-    public void testNormalizeDocumentCore() throws Exception {
+    public void testNormalizeDocumentCore() {
         Document doc = new DocumentImpl();
         Element root = doc.createElementNS("http://www.w3.org/1999/XSL/Transform", "xsl:stylesheet");
         doc.appendChild(root);
@@ -226,7 +229,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         assertEquals("xmlns=''", 0, temp.getNodeValue().length());
     }
 
-    public void testNamespaceFixupSerialization() throws Exception {
+    public void testNamespaceFixupSerialization() {
         Document doc = new DocumentImpl();
         Element root = doc.createElementNS("http://www.w3.org/1999/XSL/Transform", "xsl:stylesheet");
         doc.appendChild(root);
@@ -291,7 +294,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         assertEquals(5, newChild3.getAttributes().getLength());
     }
 
-    public void testWholeText() throws Exception {
+    public void testWholeText() {
         DOMConfiguration config = builder.getDomConfig();
         config.setParameter("error-handler", this);
         config.setParameter("validate", Boolean.FALSE);
@@ -331,7 +334,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         assertEquals("can't replace", replaced.getNodeValue());
     }
 
-    public void testSchemaType() throws Exception {
+    public void testSchemaType() {
         // TODO fix the resolveResource helper: the else branch routes DTD resolution to
         // personal.dtd which has an incomplete XML declaration.
         try {
@@ -341,7 +344,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         }
     }
 
-    private void runSchemaTypeTests() throws Exception {
+    private void runSchemaTypeTests() {
         DOMConfiguration config = builder.getDomConfig();
         config.setParameter("error-handler", this);
         config.setParameter("resource-resolver", this);
@@ -377,7 +380,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         assertEquals("1 error should be reported: " + errorCount, 1, errorCount);
     }
 
-    public void testBaseURI() throws Exception {
+    public void testBaseURI() {
         LSParser parser = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
         Document doc = parser.parseURI("tests/dom/dom3/baseURI.xml");
         NodeList ls = doc.getElementsByTagNameNS(null, "streetNum");

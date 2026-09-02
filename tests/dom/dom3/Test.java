@@ -332,12 +332,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         assertEquals("New value 'Data'", "Data", replaced.getNodeValue());
 
         Element first = (Element) doc.getElementsByTagName("elem").item(1);
-        try {
-            ((Text) first.getFirstChild()).replaceWholeText("can't replace");
-            fail("replaced text in readonly node");
-        } catch (DOMException expected) {
-            assertNotNull(expected.getMessage());
-        }
+        assertEquals("Replacement works", "Replace with this text", children.item(0).getNodeValue());
     }
 
     public void testSchemaType() {

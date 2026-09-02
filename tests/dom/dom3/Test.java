@@ -28,6 +28,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMErrorHandler;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
@@ -319,19 +320,23 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         ((NodeImpl) ls.item(0)).setReadOnly(true, true);
         Text original = (Text) ls.item(0);
         Node newNode = original.replaceWholeText("Replace with this text");
-        ls = test.getChildNodes();
-        assertEquals("Length == 1", 1, ls.getLength());
-        assertEquals("Replacement works", "Replace with this text", ls.item(0).getNodeValue());
-        assertTrue("New node created", newNode != original);
+        NodeList children = test.getChildNodes();
+        assertEquals("Length == 1", 1, children.getLength());
+        assertEquals("Replacement works", "Replace with this text", children.item(0).getNodeValue());
+        assertNotSame("New node created", newNode, original);
 
         Text text = doc.createTextNode("readonly");
         ((NodeImpl) text).setReadOnly(true, true);
-        text = text.replaceWholeText("Data");
-        assertEquals("New value 'Data'", "Data", text.getNodeValue());
+        Text replaced = text.replaceWholeText("Data");
+        assertEquals("New value 'Data'", "Data", replaced.getNodeValue());
 
-        test = (Element) doc.getElementsByTagName("elem").item(1);
-        Text replaced = ((Text) test.getFirstChild()).replaceWholeText("can't replace");
-        assertEquals("can't replace", replaced.getNodeValue());
+        Element first = (Element) doc.getElementsByTagName("elem").item(1);
+        try {
+            ((Text) first.getFirstChild()).replaceWholeText("can't replace");
+            fail("replaced text in readonly node");
+        } catch (DOMException expected) {
+            assertNotNull(expected.getMessage());
+        }
     }
 
     public void testSchemaType() {

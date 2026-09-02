@@ -266,8 +266,9 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         
         Document document = builder.parse(in);
         Element newRoot = document.getDocumentElement();
-        Element newChild1 = (Element) root.getFirstChild();
-        Element newChild3 = (Element) child2.getNextSibling();
+        Element newChild1 = (Element) newRoot.getFirstChild();
+        Element newChild2 = (Element) newChild1.getNextSibling();
+        Element newChild3 = (Element) newChild2.getNextSibling();
 
         assertEquals("xsl:stylesheet", newRoot.getNodeName());
         assertEquals("http://www.w3.org/1999/XSL/Transform",

@@ -28,12 +28,9 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMErrorHandler;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.DOMLocator;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
@@ -46,18 +43,25 @@ import org.w3c.dom.ls.LSSerializer;
 
 public class Test extends TestCase implements DOMErrorHandler, LSResourceResolver {
 
-    private int errorCounter;
+    private int errorCount = 0;
     private DOMImplementationLS impl;
     private LSParser builder;
+    private String originalDOMImplementationRegistry;
 
     protected void setUp() throws Exception {
         super.setUp();
+        originalDOMImplementationRegistry = System.getProperty(DOMImplementationRegistry.PROPERTY);
         System.setProperty(DOMImplementationRegistry.PROPERTY,
             "org.apache.xerces.dom.DOMImplementationSourceImpl org.apache.xerces.dom.DOMXSImplementationSourceImpl");
         impl = (DOMImplementationLS) DOMImplementationRegistry.newInstance().getDOMImplementation("LS");
         assertNotNull(impl);
         builder = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
-        errorCounter = 0;
+    }
+    
+    protected void tearDown() throws Exception {
+        // This is imperfect. It still assumes tests aren't running in parallel. 
+        System.setProperty(DOMImplementationRegistry.PROPERTY, originalDOMImplementationRegistry);        
+        super.tearDown();
     }
 
     public void testPrefixLookup() throws Exception {
@@ -72,19 +76,19 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         assertEquals("[a:elem_a].lookupNamespaceURI('xsi')",
                 "http://www.w3.org/2001/XMLSchema-instance", elem.lookupNamespaceURI("xsi"));
 
-        ls = doc.getElementsByTagName("bar:leaf");
-        elem = (NodeImpl) ls.item(0);
-        assertEquals("[bar:leaf].lookupPrefix('url1:')", "foo", elem.lookupPrefix("url1:"));
+        NodeList leafList = doc.getElementsByTagName("bar:leaf");
+        NodeImpl leaf = (NodeImpl) leafList.item(0);
+        assertEquals("[bar:leaf].lookupPrefix('url1:')", "foo", leaf.lookupPrefix("url1:"));
 
-        ls = doc.getElementsByTagName("elem8");
-        elem = (NodeImpl) ls.item(0);
+        NodeList elem8 = doc.getElementsByTagName("elem8");
+        NodeImpl first = (NodeImpl) elem8.item(0);
         Element e1 = doc.createElementNS("b:", "p:baz");
         e1.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:x", "b:");
-        elem.appendChild(e1);
+        first.appendChild(e1);
 
-        assertEquals("[p:baz].lookupPrefix('b:')", "p", ((NodeImpl) e1).lookupPrefix("b:"));
+        assertEquals("[p:baz].lookupPrefix('b:')", "p", e1.lookupPrefix("b:"));
         assertEquals("[bar:leaf].lookupNamespaceURI('xsi')",
-                "http://www.w3.org/2001/XMLSchema-instance", elem.lookupNamespaceURI("xsi"));
+                "http://www.w3.org/2001/XMLSchema-instance", e1.lookupNamespaceURI("xsi"));
     }
 
     public void testNormalizeDocument() throws Exception {
@@ -92,9 +96,9 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         config.setParameter("error-handler", this);
         config.setParameter("validate", Boolean.TRUE);
         Document core = builder.parseURI("tests/dom/dom3/schema.xml");
-        assertEquals("No errors should be reported on initial parse", 0, errorCounter);
+        assertEquals("No errors should be reported on initial parse", 0, errorCount);
 
-        errorCounter = 0;
+        errorCount = 0;
         NodeList ls2 = core.getElementsByTagName("decVal");
         Element testElem = (Element) ls2.item(0);
         testElem.removeAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns");
@@ -118,13 +122,14 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         config.setParameter("validate", Boolean.TRUE);
         config.setParameter("schema-type", "http://www.w3.org/2001/XMLSchema");
         core.normalizeDocument();
-        assertEquals("3 errors should be reported after normalize", 3, errorCounter);
+        assertEquals("3 errors should be reported after normalize", 3, errorCount);
 
-        errorCounter = 0;
+        errorCount = 0;
         config.setParameter("validate", Boolean.FALSE);
         config.setParameter("comments", Boolean.FALSE);
         core.normalizeDocument();
-        assertEquals("No errors should be reported after normalize with validate=false", 0, errorCounter);
+        assertEquals("No errors should be reported after normalize with validate=false", 0,
+            errorCount);
     }
 
     public void testNormalizeDocumentPSVI() throws Exception {
@@ -133,7 +138,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         config.setParameter("validate", Boolean.TRUE);
         config.setParameter("psvi", Boolean.TRUE);
         Document core = builder.parseURI("data/personal-schema.xml");
-        assertEquals("No errors should be reported on initial parse", 0, errorCounter);
+        assertEquals("No errors should be reported on initial parse", 0, errorCount);
 
         NodeList ls2 = core.getElementsByTagName("person");
         Element testElem = (Element) ls2.item(0);
@@ -153,13 +158,13 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
 
         testElem.removeAttributeNode(testElem.getAttributeNodeNS(null, "contr"));
         config = core.getDomConfig();
-        errorCounter = 0;
+        errorCount = 0;
         config.setParameter("psvi", Boolean.TRUE);
         config.setParameter("error-handler", this);
         config.setParameter("validate", Boolean.TRUE);
         config.setParameter("schema-type", "http://www.w3.org/2001/XMLSchema");
         core.normalizeDocument();
-        assertEquals("No errors should be reported after normalize", 0, errorCounter);
+        assertEquals("No errors should be reported after normalize", 0, errorCount);
         assertEquals("person", ((ElementPSVI) e1).getElementDeclaration().getName());
     }
 
@@ -253,37 +258,37 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         Reader r = new StringReader(xmlData);
         LSInput in = impl.createLSInput();
         in.setCharacterStream(r);
-        doc = builder.parse(in);
+        
+        
+        Document document = builder.parse(in);
+        Element newRoot = document.getDocumentElement();
+        Element newChild1 = (Element) root.getFirstChild();
+        Element newChild3 = (Element) child2.getNextSibling();
 
-        root = doc.getDocumentElement();
-        child1 = (Element) root.getFirstChild();
-        child2 = (Element) child1.getNextSibling();
-        child3 = (Element) child2.getNextSibling();
-
-        assertEquals("xsl:stylesheet", root.getNodeName());
+        assertEquals("xsl:stylesheet", newRoot.getNodeName());
         assertEquals("http://www.w3.org/1999/XSL/Transform",
-                root.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl"));
+            newRoot.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl"));
 
         assertEquals("http://attr1",
-                root.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
+            newRoot.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
 
-        assertEquals("NS2:child1", child1.getNodeName());
+        assertEquals("NS2:child1", newChild1.getNodeName());
         assertEquals("http://child1",
-                child1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS2"));
+            newChild1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS2"));
         assertEquals("http://attr2",
-                child1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
+            newChild1.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
 
-        assertEquals("xsl:child3", child3.getNodeName());
+        assertEquals("xsl:child3", newChild3.getNodeName());
         assertEquals("http://a2",
-                child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
+            newChild3.getAttributeNS("http://www.w3.org/2000/xmlns/", "NS1"));
         assertEquals("http://a1",
-                child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "a1"));
+            newChild3.getAttributeNS("http://www.w3.org/2000/xmlns/", "a1"));
         assertEquals("http://www.w3.org/1999/XSL/Transform",
-                child3.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl"));
+            newChild3.getAttributeNS("http://www.w3.org/2000/xmlns/", "xsl"));
 
-        Attr attr = child3.getAttributeNodeNS("http://a2", "attr2");
+        Attr attr = newChild3.getAttributeNodeNS("http://a2", "attr2");
         assertNotNull(attr);
-        assertEquals(5, child3.getAttributes().getLength());
+        assertEquals(5, newChild3.getAttributes().getLength());
     }
 
     public void testWholeText() throws Exception {
@@ -343,22 +348,22 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         config.setParameter("validate", Boolean.TRUE);
         config.setParameter("psvi", Boolean.TRUE);
 
-        errorCounter = 0;
+        errorCount = 0;
         Document core2 = builder.parseURI("tests/dom/dom3/both-error.xml");
-        assertEquals("4 errors should be reported", 4, errorCounter);
+        assertEquals("4 errors should be reported", 4, errorCount);
 
-        errorCounter = 0;
+        errorCount = 0;
         config.setParameter("schema-type", "http://www.w3.org/2001/XMLSchema");
         core2 = builder.parseURI("tests/dom/dom3/both.xml");
-        assertEquals("No errors should be reported", 0, errorCounter);
+        assertEquals("No errors should be reported", 0, errorCount);
 
-        errorCounter = 0;
+        errorCount = 0;
         config.setParameter("schema-type", "http://www.w3.org/TR/REC-xml");
         core2 = builder.parseURI("tests/dom/dom3/both-error.xml");
-        assertEquals("3 errors should be reported", 3, errorCounter);
+        assertEquals("3 errors should be reported", 3, errorCount);
 
         core2 = builder.parseURI("tests/dom/dom3/both-error.xml");
-        errorCounter = 0;
+        errorCount = 0;
         Element root = core2.getDocumentElement();
         root.removeAttributeNS("http://www.w3.org/2001/XMLSchema", "xsi");
         root.removeAttributeNS("http://www.w3.org/2001/XMLSchema", "noNamespaceSchemaLocation");
@@ -369,7 +374,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
         config.setParameter("resource-resolver", this);
         config.setParameter("validate", Boolean.TRUE);
         core2.normalizeDocument();
-        assertEquals("1 error should be reported: " + errorCounter, 1, errorCounter);
+        assertEquals("1 error should be reported: " + errorCount, 1, errorCount);
     }
 
     public void testBaseURI() throws Exception {
@@ -391,7 +396,7 @@ public class Test extends TestCase implements DOMErrorHandler, LSResourceResolve
     public boolean handleError(DOMError error) {
         short severity = error.getSeverity();
         if (severity == DOMError.SEVERITY_ERROR || severity == DOMError.SEVERITY_FATAL_ERROR) {
-            errorCounter++;
+            errorCount++;
         }
         return true;
     }

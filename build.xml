@@ -835,8 +835,8 @@ Authors:
              <include name="schema/config/IgnoreXSIType_A_C_Test.class"/>
              <include name="schema/config/IgnoreXSIType_C_A_Test.class"/>
              <include name="schema/config/RootSimpleTypeDefinitionTest.class"/>
-              <include name="schema/config/RootTypeDefinitionTest.class"/>
-              <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
+             <include name="schema/config/RootTypeDefinitionTest.class"/>
+             <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
            <!-- These tests are failing. Fix them.
               <include name="schema/config/IgnoreXSIType_C_AC_Test.class"/>
               <include name="schema/config/IgnoreXSIType_C_CA_Test.class"/>
@@ -844,10 +844,11 @@ Authors:
               <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
               <include name="schema/config/UnparsedEntityCheckingTest.class"/>
              -->
-               <include name="schema/Test.class"/>
+              <include name="schema/Test.class"/>
               <include name="jaxp/JAXPSpecTest.class"/>
-              <include name="dom/ids/Test.class"/>
-            </fileset>
+              <include name="dom/ids/Test.class"/>           
+              <include name="xinclude/Test.class"/>
+           </fileset>
           </batchtest>
 
          <formatter type="brief" usefile="false"/>
@@ -951,12 +952,7 @@ Authors:
           classpathref="test.classpath"
           failOnError="yes">
     </java>
-    <echo message="Running xinclude.Test..." />
-    <java fork="yes"
-          classname="xinclude.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
+
     <echo message="Running dom.registry.Test..." />
     <java fork="yes"
           classname="dom.registry.Test"

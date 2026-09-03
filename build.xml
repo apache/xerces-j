@@ -821,10 +821,12 @@ Authors:
         
         <batchtest fork="yes" todir="test-reports">
           <fileset dir="${build.dir}/classes">
-             <include name="dom/DTest.class"/>                    
+             <include name="dom/DTest.class"/>    
+             <include name="dom/ids/Test.class"/>                                            
              <include name="dom/traversal/*Test.class"/>                    
              <include name="dom/range/TestCompare.class"/>                    
-             <include name="idc/IDConstraintTests.class"/>                    
+             <include name="idc/IDConstraintTests.class"/>    
+             <include name="jaxp/JAXPSpecTest.class"/>                
              <include name="schema/annotations/*Test.class"/>                    
              <include name="schema/config/BasicTest.class"/>                    
              <include name="schema/config/FeaturePropagationTest.class"/>                    
@@ -842,14 +844,13 @@ Authors:
              <include name="schema/config/IgnoreXSIType_C_C_Test.class"/>
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/Test.class"/>
+             <include name="xinclude/Test.class"/>
              <!-- These tests still need fixes:
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
              <include name="schema/config/SurrogatePairLengthTest.class"/>
-             -->
-             <include name="jaxp/JAXPSpecTest.class"/>
-             <include name="dom/ids/Test.class"/>
-            </fileset>
-         </batchtest>
+             -->         
+           </fileset>
+          </batchtest>
 
          
        <formatter type="brief" usefile="false"/>
@@ -942,12 +943,7 @@ Authors:
           classpathref="test.classpath"
           failOnError="yes">
     </java>
-    <echo message="Running xinclude.Test..." />
-    <java fork="yes"
-          classname="xinclude.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
+
     <echo message="Running dom.registry.Test..." />
     <java fork="yes"
           classname="dom.registry.Test"

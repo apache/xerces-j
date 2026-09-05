@@ -851,8 +851,8 @@ Authors:
              -->         
            </fileset>
           </batchtest>
-
-         <formatter type="brief" usefile="false"/>
+         
+       <formatter type="brief" usefile="false"/>
      </junit>
 
     <junit fork="yes"
@@ -865,6 +865,7 @@ Authors:
         <test name="schema.config.SurrogatePairLengthTest" todir="test-reports"/>
         <formatter type="brief" usefile="false"/>
     </junit>
+
     <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />

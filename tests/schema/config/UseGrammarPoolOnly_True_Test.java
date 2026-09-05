@@ -60,7 +60,7 @@ public class UseGrammarPoolOnly_True_Test extends BaseTest {
         }
         
         assertValidity(ItemPSVI.VALIDITY_NOTKNOWN, fRootNode.getValidity());
-        assertValidationAttempted(ItemPSVI.VALIDATION_NONE, fRootNode
+        assertValidationAttempted(ItemPSVI.VALIDATION_PARTIAL, fRootNode
                 .getValidationAttempted());
         assertElementNull(fRootNode.getElementDeclaration());
         assertAnyType(fRootNode.getTypeDefinition());

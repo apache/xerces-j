@@ -852,7 +852,19 @@ Authors:
           </batchtest>
          
        <formatter type="brief" usefile="false"/>
+     </junit>
+
+    <junit fork="yes"
+           haltonfailure="no"
+           haltonerror="yes"
+           failureproperty="test.failed"
+           errorproperty="test.failed"
+           showoutput="yes">
+        <classpath refid="test.classpath"/>
+        <test name="schema.config.SurrogatePairLengthTest" todir="test-reports"/>
+        <formatter type="brief" usefile="false"/>
     </junit>
+
     <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />

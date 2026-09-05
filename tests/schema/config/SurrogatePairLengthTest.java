@@ -17,8 +17,6 @@
 
 package schema.config;
 
-import junit.framework.Assert;
-
 import org.apache.xerces.xs.ElementPSVI;
 import org.apache.xerces.xs.ItemPSVI;
 
@@ -27,56 +25,64 @@ import org.apache.xerces.xs.ItemPSVI;
  */
 public class SurrogatePairLengthTest extends BaseTest {
 
-    // Can only test when the property is set
-    static {
-        System.setProperty("org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength", "true");
+    private String originalProperty;
+
+    protected void setUp() throws Exception {
+        originalProperty = System.getProperty(
+            "org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength");
+        System.setProperty(
+            "org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength", "true");
+        super.setUp();
     }
-    
-    private static final String LENGTH_ERROR = "cvc-length-valid";
-    
+
+    protected void tearDown() throws Exception {
+        if (originalProperty != null) {
+            System.setProperty(
+                "org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength",
+                originalProperty);
+        } else {
+            System.clearProperty(
+                "org.apache.xerces.impl.dv.xs.useCodePointCountForStringLength");
+        }
+        super.tearDown();
+    }
+
     protected String getXMLDocument() {
         return "surrogate.xml";
     }
-    
+
     protected String getSchemaFile() {
         return "surrogate.xsd";
     }
-    
+
     protected String[] getRelevantErrorIDs() {
-        return new String[] { LENGTH_ERROR };
+        return new String[] { "cvc-length-valid" };
     }
-    
+
     public SurrogatePairLengthTest(String name) {
         super(name);
     }
-    
-    // Can only test when the property is set
-    public void testSetTrue() {
-        try {
-            validateDocument();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail("Validation failed: " + e.getMessage());
-        }
-        
+
+    public void testSetTrue() throws Exception {
+        validateDocument();
         checkValidResult();
     }
-    
+
     private void checkValidResult() {
-        assertNoError(LENGTH_ERROR);
-        
+        assertNoError("cvc-length-valid");
+
         assertValidity(ItemPSVI.VALIDITY_VALID, fRootNode.getValidity());
         assertValidationAttempted(ItemPSVI.VALIDATION_FULL, fRootNode
                 .getValidationAttempted());
         assertElementName("root", fRootNode.getElementDeclaration().getName());
-        
+
         ElementPSVI child = super.getChild(1);
         assertValidity(ItemPSVI.VALIDITY_VALID, child.getValidity());
         assertValidationAttempted(ItemPSVI.VALIDATION_FULL, child
                 .getValidationAttempted());
         assertElementName("e1", child.getElementDeclaration().getName());
         assertTypeName("length", child.getTypeDefinition().getName());
-        
+
         child = super.getChild(2);
         assertValidity(ItemPSVI.VALIDITY_VALID, child.getValidity());
         assertValidationAttempted(ItemPSVI.VALIDATION_FULL, child

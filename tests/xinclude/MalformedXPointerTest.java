@@ -17,6 +17,7 @@
 package xinclude;
 
 import java.io.StringWriter;
+import java.util.concurrent.atomic.AtomicReference;
 
 import junit.framework.TestCase;
 
@@ -32,6 +33,7 @@ import xni.Writer;
  */
 public class MalformedXPointerTest extends TestCase {
 
+    // Timeout in milliseconds.
     private static final long PARSE_TIMEOUT = 10000;
 
     public void testUnbalancedOpenParenthesisDoesNotHang() throws Exception {
@@ -44,7 +46,7 @@ public class MalformedXPointerTest extends TestCase {
 
     private void assertMalformedXPointerRejected(final String testFile)
             throws Exception {
-        final Throwable[] failure = new Throwable[1];
+        final AtomicReference<Throwable> failure = new AtomicReference<Throwable>();
         Thread parserThread = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -52,12 +54,12 @@ public class MalformedXPointerTest extends TestCase {
                     Writer writer = new Writer(parserConfig);
                     writer.setOutput(new StringWriter());
                     writer.parse(new XMLInputSource(null, testFile, null));
-                    failure[0] = new AssertionError(
-                            "Malformed XPointer was accepted: " + testFile);
+                    failure.set(new AssertionError(
+                            "Malformed XPointer was accepted: " + testFile));
                 } catch (XNIException e) {
                     // Expected
                 } catch (Throwable t) {
-                    failure[0] = t;
+                    failure.set(t);
                 }
             }
         });
@@ -69,11 +71,12 @@ public class MalformedXPointerTest extends TestCase {
             fail("Parsing the malformed XPointer did not terminate within "
                     + PARSE_TIMEOUT + " ms");
         }
-        if (failure[0] != null) {
-            if (failure[0] instanceof AssertionError) {
-                throw (AssertionError) failure[0];
+        if (failure.get() != null) {
+            Throwable cause = failure.get();
+            if (cause instanceof AssertionError) {
+                throw (AssertionError) cause;
             }
-            throw new AssertionError(failure[0].toString());
+            throw new AssertionError(cause.toString());
         }
     }
 }

@@ -24,6 +24,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import junit.framework.TestCase;
 
+/** Tests JAXP 1.2 properties */
 public class PropertyTest extends TestCase {
 
     public void testSchemaProperties() throws Exception {

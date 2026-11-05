@@ -236,10 +236,11 @@ public final class XPointerHandler extends XIncludeHandler implements
                 closeParenCount++;
 
                 while (tokens.hasMore()) {
-                    if (tokens.getTokenString(tokens.peekToken()) != "XPTRTOKEN_OPEN_PAREN") {
+                    if (tokens.peekToken() != Tokens.XPTRTOKEN_CLOSE_PAREN) {
                         break;
                     }
                     closeParenCount++;
+                    tokens.nextToken();
                 }
 
                 // check if the number of open parenthesis are equal to the number of close parenthesis

@@ -27,21 +27,25 @@ import junit.framework.TestCase;
 
 public class Test extends TestCase {
 
-    public void testRegistry() throws Exception
-    {
-        System.out.println("Running dom.registry.Test...");
+    private DOMImplementationRegistry registry;
+
+    @Override
+    protected void setUp() throws Exception {
         // set DOMImplementationSource
         System.setProperty(DOMImplementationRegistry.PROPERTY,
                           "org.apache.xerces.dom.DOMImplementationSourceImpl" +
                           " org.apache.xerces.dom.DOMXSImplementationSourceImpl");
-
-        DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
+        registry = DOMImplementationRegistry.newInstance();
         assertNotNull(registry);
+    }
 
+    public void testGetDOMImplementationXML() {
         DOMImplementation implementation = registry.getDOMImplementation("XML");
         assertSame(CoreDOMImplementationImpl.getDOMImplementation(), implementation);
+    }
 
-        implementation = registry.getDOMImplementation("XML MutationEvents");
+    public void testGetDOMImplementationXMLMutationEvents() {
+        DOMImplementation implementation = registry.getDOMImplementation("XML MutationEvents");
         assertSame(DOMImplementationImpl.getDOMImplementation(), implementation);
     }
 }    

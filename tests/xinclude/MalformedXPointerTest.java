@@ -17,7 +17,11 @@
 package xinclude;
 
 import java.io.StringWriter;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import junit.framework.TestCase;
 
@@ -46,37 +50,30 @@ public class MalformedXPointerTest extends TestCase {
 
     private void assertMalformedXPointerRejected(final String testFile)
             throws Exception {
-        final AtomicReference<Throwable> failure = new AtomicReference<Throwable>();
-        Thread parserThread = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    XMLParserConfiguration parserConfig = new XIncludeParserConfiguration();
-                    Writer writer = new Writer(parserConfig);
-                    writer.setOutput(new StringWriter());
-                    writer.parse(new XMLInputSource(null, testFile, null));
-                    failure.set(new AssertionError(
-                            "Malformed XPointer was accepted: " + testFile));
-                } catch (XNIException e) {
-                    // Expected
-                } catch (Throwable t) {
-                    failure.set(t);
-                }
+        FutureTask<Void> parseTask = new FutureTask<Void>(new Callable<Void>() {
+            public Void call() throws Exception {
+                XMLParserConfiguration parserConfig = new XIncludeParserConfiguration();
+                Writer writer = new Writer(parserConfig);
+                writer.setOutput(new StringWriter());
+                writer.parse(new XMLInputSource(null, testFile, null));
+                return null;
             }
         });
+        Thread parserThread = new Thread(parseTask);
         parserThread.setDaemon(true);
         parserThread.start();
-        parserThread.join(PARSE_TIMEOUT);
 
-        if (parserThread.isAlive()) {
+        try {
+            parseTask.get(PARSE_TIMEOUT, TimeUnit.MILLISECONDS);
+            fail("Malformed XPointer was accepted: " + testFile);
+        } catch (ExecutionException e) {
+            Throwable cause = e.getCause();
+            if (!(cause instanceof XNIException)) {
+                throw new AssertionError("Unexpected exception: " + cause, cause);
+            }
+        } catch (TimeoutException e) {
             fail("Parsing the malformed XPointer did not terminate within "
                     + PARSE_TIMEOUT + " ms");
-        }
-        if (failure.get() != null) {
-            Throwable cause = failure.get();
-            if (cause instanceof AssertionError) {
-                throw (AssertionError) cause;
-            }
-            throw new AssertionError(cause.toString());
         }
     }
 }

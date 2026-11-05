@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 
 public class Test extends TestCase {
 
-    public void testRegistry()
+    public void testRegistry() throws Exception
     {
         System.out.println("Running dom.registry.Test...");
         // set DOMImplementationSource
@@ -35,33 +35,13 @@ public class Test extends TestCase {
                           "org.apache.xerces.dom.DOMImplementationSourceImpl" +
                           " org.apache.xerces.dom.DOMXSImplementationSourceImpl");
 
-        DOMImplementationRegistry registry = null;
-        try {
-            registry = DOMImplementationRegistry.newInstance();
-            assertNotNull("registry should not be null", registry);
-        } catch (Exception e) {
-            fail("Unexpected exception: " + e.getMessage());
-        }
+        DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
+        assertNotNull(registry);
 
-        try {
-            DOMImplementation i = registry.getDOMImplementation("XML");
+        DOMImplementation implementation = registry.getDOMImplementation("XML");
+        assertSame(CoreDOMImplementationImpl.getDOMImplementation(), implementation);
 
-            assertSame(i,
-                             CoreDOMImplementationImpl.getDOMImplementation());
-
-        } catch (Exception e) {
-            fail("Unexpected exception: " + e.getMessage());
-        }
-
-        try {
-            DOMImplementation i =
-                registry.getDOMImplementation("XML MutationEvents");
-
-            assertSame(i,
-                             DOMImplementationImpl.getDOMImplementation());
-
-        } catch (Exception e) {
-            fail("Unexpected exception: " + e.getMessage());
-        }
+        implementation = registry.getDOMImplementation("XML MutationEvents");
+        assertSame(DOMImplementationImpl.getDOMImplementation(), implementation);
     }
 }    

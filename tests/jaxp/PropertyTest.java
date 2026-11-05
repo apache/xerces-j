@@ -28,6 +28,40 @@ import junit.framework.TestCase;
 public class PropertyTest extends TestCase {
 
     public void testSchemaProperties() throws Exception {
+        SAXParser parser = newSchemaParser();
+        parser.setProperty(
+            "http://java.sun.com/xml/jaxp/properties/schemaSource",
+            new String[] { "personal.xsd", "ipo.xsd" });
+        parser.parse("tests/jaxp/data/personal-schema.xml", new DefaultHandler());
+    }
+
+    public void testSchemasWithSameTargetNamespace() throws Exception {
+        SAXParser parser = newSchemaParser();
+        parser.setProperty(
+            "http://java.sun.com/xml/jaxp/properties/schemaSource",
+            new String[] { "address.xsd", "ipo.xsd" });
+        try {
+            parser.parse("tests/jaxp/data/personal-schema.xml", new DefaultHandler());
+            fail("Should have thrown IllegalArgumentException for address.xsd, ipo.xsd");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+
+    public void testSchemasWithoutTargetNamespace() throws Exception {
+        SAXParser parser = newSchemaParser();
+        parser.setProperty(
+            "http://java.sun.com/xml/jaxp/properties/schemaSource",
+            new String[] { "personal.xsd", "ipo.xsd", "a.xsd" });
+        try {
+            parser.parse("tests/jaxp/data/personal-schema.xml", new DefaultHandler());
+            fail("Should have thrown IllegalArgumentException for personal.xsd, ipo.xsd, a.xsd");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+
+    private SAXParser newSchemaParser() throws Exception {
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setValidating(true);
         spf.setNamespaceAware(true);
@@ -35,39 +69,6 @@ public class PropertyTest extends TestCase {
         parser.setProperty(
             "http://java.sun.com/xml/jaxp/properties/schemaLanguage",
             "http://www.w3.org/2001/XMLSchema");
-        parser.setProperty(
-            "http://java.sun.com/xml/jaxp/properties/schemaSource",
-            new String[] { "personal.xsd", "ipo.xsd" });
-        parser.parse("tests/jaxp/data/personal-schema.xml", new DefaultHandler());
-
-        // Second parse should fail
-        parser = spf.newSAXParser();
-        parser.setProperty(
-            "http://java.sun.com/xml/jaxp/properties/schemaLanguage",
-            "http://www.w3.org/2001/XMLSchema");
-        parser.setProperty(
-            "http://java.sun.com/xml/jaxp/properties/schemaSource",
-            new String[] { "address.xsd", "ipo.xsd" });
-        try {
-            parser.parse("tests/jaxp/data/personal-schema.xml", new DefaultHandler());
-            fail("Should have thrown exception for address.xsd, ipo.xsd");
-        } catch (Exception e) {
-            // expected
-        }
-
-        // Third parse should fail
-        parser = spf.newSAXParser();
-        parser.setProperty(
-            "http://java.sun.com/xml/jaxp/properties/schemaLanguage",
-            "http://www.w3.org/2001/XMLSchema");
-        parser.setProperty(
-            "http://java.sun.com/xml/jaxp/properties/schemaSource",
-            new String[] { "personal.xsd", "ipo.xsd", "a.xsd" });
-        try {
-            parser.parse("tests/jaxp/data/personal-schema.xml", new DefaultHandler());
-            fail("Should have thrown exception for personal.xsd, ipo.xsd, a.xsd");
-        } catch (Exception e) {
-            // expected
-        }
+        return parser;
     }
 }

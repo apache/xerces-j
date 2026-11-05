@@ -35,6 +35,15 @@ public class MalformedXPointerTest extends TestCase {
     private static final long PARSE_TIMEOUT = 10000;
 
     public void testUnbalancedOpenParenthesisDoesNotHang() throws Exception {
+        assertMalformedXPointerRejected("tests/xinclude/tests/test42.xml");
+    }
+
+    public void testExtraWrappingParenthesesAreRejected() throws Exception {
+        assertMalformedXPointerRejected("tests/xinclude/tests/test43.xml");
+    }
+
+    private void assertMalformedXPointerRejected(final String testFile)
+            throws Exception {
         final Throwable[] failure = new Throwable[1];
         Thread parserThread = new Thread(new Runnable() {
             public void run() {
@@ -42,9 +51,9 @@ public class MalformedXPointerTest extends TestCase {
                     XMLParserConfiguration parserConfig = new XIncludeParserConfiguration();
                     Writer writer = new Writer(parserConfig);
                     writer.setOutput(new StringWriter());
-                    writer.parse(new XMLInputSource(null,
-                            "tests/xinclude/tests/test42.xml", null));
-                    failure[0] = new AssertionError("Malformed XPointer was accepted");
+                    writer.parse(new XMLInputSource(null, testFile, null));
+                    failure[0] = new AssertionError(
+                            "Malformed XPointer was accepted: " + testFile);
                 } catch (XNIException e) {
                     // Expected
                 } catch (Throwable t) {

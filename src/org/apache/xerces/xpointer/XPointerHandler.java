@@ -251,6 +251,11 @@ public final class XPointerHandler extends XIncludeHandler implements
                                     Integer.valueOf(closeParenCount) });
                 }
 
+                if (openParenCount > 1 && schemeName.equals(ELEMENT_SCHEME_NAME)) {
+                    reportError("InvalidXPointerExpression",
+                            new Object[] { xpointer });
+                }
+
                 // Perform scheme specific parsing of the pointer part
                 if (schemeName.equals(ELEMENT_SCHEME_NAME)) {
                     XPointerPart elementSchemePointer = new ElementSchemePointer(

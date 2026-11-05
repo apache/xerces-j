@@ -821,10 +821,12 @@ Authors:
         
         <batchtest fork="yes" todir="test-reports">
           <fileset dir="${build.dir}/classes">
-             <include name="dom/DTest.class"/>                    
+             <include name="dom/DTest.class"/>   
+             <include name="dom/ids/Test.class"/>                            
              <include name="dom/traversal/*Test.class"/>                    
              <include name="dom/range/TestCompare.class"/>                    
-             <include name="idc/IDConstraintTests.class"/>                    
+             <include name="idc/IDConstraintTests.class"/>
+             <include name="schema/Test.class"/>                   
              <include name="schema/annotations/*Test.class"/>                    
              <include name="schema/config/BasicTest.class"/>                    
              <include name="schema/config/FeaturePropagationTest.class"/>                    
@@ -848,13 +850,25 @@ Authors:
               <include name="jaxp/PropertyTest.class"/>
               <include name="schema/Test.class"/>
               <include name="jaxp/JAXPSpecTest.class"/>
+              <include name="xinclude/Test.class"/>
               <include name="dom/ids/Test.class"/>
            </fileset>
          </batchtest>
-
          
        <formatter type="brief" usefile="false"/>
+     </junit>
+
+    <junit fork="yes"
+           haltonfailure="no"
+           haltonerror="yes"
+           failureproperty="test.failed"
+           errorproperty="test.failed"
+           showoutput="yes">
+        <classpath refid="test.classpath"/>
+        <test name="schema.config.SurrogatePairLengthTest" todir="test-reports"/>
+        <formatter type="brief" usefile="false"/>
     </junit>
+
     <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
@@ -937,12 +951,22 @@ Authors:
         <arg value="out.xml"/>
     </java>
     
+<<<<<<< HEAD
     <echo message="Running xinclude.Test..." />
     <java fork="yes"
           classname="xinclude.Test"
           classpathref="test.classpath"
           failOnError="yes">
     </java>
+=======
+    <echo message="Running jaxp.PropertyTest..." />
+    <java fork="yes"
+          classname="jaxp.PropertyTest"
+          classpathref="test.classpath"
+          failOnError="yes">
+    </java>
+
+>>>>>>> main
     <echo message="Running dom.registry.Test..." />
     <java fork="yes"
           classname="dom.registry.Test"

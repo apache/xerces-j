@@ -843,7 +843,6 @@ Authors:
              <include name="schema/config/IgnoreXSIType_C_AC_Test.class"/>
              <include name="schema/config/IgnoreXSIType_C_CA_Test.class"/>
              <include name="schema/config/IgnoreXSIType_C_C_Test.class"/>
-             <include name="schema/config/SurrogatePairLengthTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
              -->             

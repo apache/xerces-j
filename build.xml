@@ -821,7 +821,8 @@ Authors:
         
         <batchtest fork="yes" todir="test-reports">
           <fileset dir="${build.dir}/classes">
-             <include name="dom/DTest.class"/>   
+             <include name="dom/DTest.class"/>                    
+             <include name="dom/dom3/Test.class"/> 
              <include name="dom/ids/Test.class"/>                            
              <include name="dom/traversal/*Test.class"/>                    
              <include name="dom/range/TestCompare.class"/>                    
@@ -960,12 +961,7 @@ Authors:
           classpathref="test.classpath"
           failOnError="yes">
     </java>
-    <echo message="Running dom.dom3.Test..." />
-    <java fork="yes"
-          classname="dom.dom3.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>   
+
   </target>
 
   <target name="ci-test" depends="test">

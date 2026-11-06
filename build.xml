@@ -37,6 +37,7 @@ Authors:
   <property name="src.dir" value="./src"/>
   <property name="tests.dir" value="./tests"/>
   <property name="tools.dir" value="./tools"/>
+  <property name="build.tests.dir" value="${build.dir}/tests/classes"/>
 
   <!-- enable compilation under JDK 1.4 and above. -->
   <!--
@@ -367,12 +368,13 @@ Authors:
   <!-- =================================================================== -->
   <target name="tests" depends="samples">
     <mkdir dir="${build.tests}"/>
+    <mkdir dir="${build.tests.dir}"/>
     <copy todir="${build.tests}">
         <fileset dir="${tests.dir}"
          excludes="dom/rename/**" />
     </copy>
     <xjavac srcdir="${build.tests}"
-           destdir="${build.dest}"
+           destdir="${build.tests.dir}"
            source="${javac.source}"
            target="${javac.target}"
            classpath="${tools.dir}/${jar.junit}:${tools.dir}/${jar.apis}:${build.dir}/classes"
@@ -808,6 +810,7 @@ Authors:
     <path id="test.classpath">
       <path refid="run.classpath"/>
       <pathelement location="${build.dir}/tests"/>
+      <pathelement location="${build.tests.dir}"/>
     </path>
     <pathconvert property="test.classpath.string" refid="test.classpath" pathsep="${path.separator}"/>
 

@@ -243,7 +243,7 @@ public final class XPointerHandler extends XIncludeHandler implements
                     tokens.nextToken();
                 }
 
-                // check if the number of open parenthesis are equal to the number of close parenthesis
+                // check if the number of open parentheses are equal to the number of close parentheses
                 if (openParenCount != closeParenCount) {
                     reportError("UnbalancedParenthesisInXPointerExpression",
                             new Object[] { xpointer,
@@ -252,7 +252,7 @@ public final class XPointerHandler extends XIncludeHandler implements
                 }
 
                 if (openParenCount > 1 && schemeName.equals(ELEMENT_SCHEME_NAME)) {
-                    reportError("InvalidXPointerExpression",
+                    reportError("MultipleParenthesesInElementExpression",
                             new Object[] { xpointer });
                 }
 

@@ -841,6 +841,7 @@ Authors:
              <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
              <include name="jaxp/JAXPSpecTest.class"/>
              <include name="xinclude/Test.class"/>
+             <include name="org/apache/xerces/impl/dv/xs/TestDateDV.class"/>
              <!-- These tests are failing. Fix them.
               <include name="schema/config/IgnoreXSIType_C_AC_Test.class"/>
               <include name="schema/config/IgnoreXSIType_C_CA_Test.class"/>

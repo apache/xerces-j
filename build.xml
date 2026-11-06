@@ -808,9 +808,9 @@ Authors:
     </path>
     <pathconvert property="run.classpath.string" refid="run.classpath" pathsep="${path.separator}"/>
     <path id="test.classpath">
+      <pathelement location="${build.tests.dir}"/>
       <path refid="run.classpath"/>
       <pathelement location="${build.dir}/tests"/>
-      <pathelement location="${build.tests.dir}"/>
     </path>
     <pathconvert property="test.classpath.string" refid="test.classpath" pathsep="${path.separator}"/>
 

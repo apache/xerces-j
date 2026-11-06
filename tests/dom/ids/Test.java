@@ -176,12 +176,12 @@ public class Test extends TestCase {
         assertTrue("attribute is id", attr.isId());
 
         Document clone = (Document) doc.cloneNode(true);
-        element = clone.getElementById("one.worker");
-        assertNotNull("cloned element != null", element);
-        attr = element.getAttributeNode("id");
-        assertTrue("cloned attribute is id", attr.isId());
+        Element clonedElement = clone.getElementById("one.worker");
+        assertNotNull("cloned element != null", clonedElement);
+        Attr clonedAttr = clonedElement.getAttributeNode("id");
+        assertTrue("cloned attribute is id", clonedAttr.isId());
 
-        element.removeAttribute("id");
+        clonedElement.removeAttribute("id");
         assertNull("removed cloned element id", clone.getElementById("one.worker"));
     }
 

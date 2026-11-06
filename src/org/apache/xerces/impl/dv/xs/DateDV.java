@@ -71,7 +71,7 @@ public class DateDV extends DateTimeDV {
         return date;
     }
 
-    protected int getDate(String buffer, int start, int end, DateTimeData date) throws RuntimeException {
+    protected int getDate(String buffer, int start, int end, DateTimeData date) {
         int endDate = super.getDate(buffer, start, end, date);
         // Date values have no time component. Use noon so normalizing the
         // time zone does not move the date.

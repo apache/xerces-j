@@ -236,18 +236,24 @@ public final class XPointerHandler extends XIncludeHandler implements
                 closeParenCount++;
 
                 while (tokens.hasMore()) {
-                    if (tokens.getTokenString(tokens.peekToken()) != "XPTRTOKEN_OPEN_PAREN") {
+                    if (tokens.peekToken() != Tokens.XPTRTOKEN_CLOSE_PAREN) {
                         break;
                     }
                     closeParenCount++;
+                    tokens.nextToken();
                 }
 
-                // check if the number of open parenthesis are equal to the number of close parenthesis
+                // check if the number of open parentheses are equal to the number of close parentheses
                 if (openParenCount != closeParenCount) {
                     reportError("UnbalancedParenthesisInXPointerExpression",
                             new Object[] { xpointer,
                                     Integer.valueOf(openParenCount),
                                     Integer.valueOf(closeParenCount) });
+                }
+
+                if (openParenCount > 1 && schemeName.equals(ELEMENT_SCHEME_NAME)) {
+                    reportError("MultipleParenthesesInElementExpression",
+                            new Object[] { xpointer });
                 }
 
                 // Perform scheme specific parsing of the pointer part

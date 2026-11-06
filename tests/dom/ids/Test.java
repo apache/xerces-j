@@ -166,4 +166,40 @@ public class Test extends TestCase {
 
     }
 
+    public void testCloneNodePreservesIdAttribute() throws Exception {
+
+        Document doc = createDocument();
+
+        Element element = doc.getElementById("one.worker");
+        assertNotNull("element != null", element);
+        Attr attr = element.getAttributeNode("id");
+        assertTrue("attribute is id", attr.isId());
+
+        Document clone = (Document) doc.cloneNode(true);
+        element = clone.getElementById("one.worker");
+        assertNotNull("cloned element != null", element);
+        attr = element.getAttributeNode("id");
+        assertTrue("cloned attribute is id", attr.isId());
+
+        element.removeAttribute("id");
+        assertNull("removed cloned element id", clone.getElementById("one.worker"));
+    }
+
+    private Document createDocument() throws Exception {
+
+        ParserWrapper parser = (ParserWrapper)
+            Class.forName(DEFAULT_PARSER_NAME).newInstance();
+
+        parser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
+        parser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
+        parser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
+        parser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, DEFAULT_SCHEMA_FULL_CHECKING);
+
+        if (parser instanceof dom.wrappers.Xerces) {
+            parser.setFeature(DEFERRED_DOM_FEATURE_ID, DEFAULT_DEFERRED_DOM);
+        }
+
+        return parser.parse("tests/dom/ids/input.xml");
+    }
+
 } // class Test

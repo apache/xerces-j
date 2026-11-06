@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <x xmlns:xi="http://www.w3.org/2001/XInclude">
-   <!-- Tests that an unbalanced open parenthesis in an xpointer does not hang the parser -->
+   <!-- Tests an unbalanced open parenthesis in an xpointer is rejected -->
    <!-- EXPECT FAILURE -->
    <xi:include href="../included/elem.xml"
                xpointer="element(/1)("/>

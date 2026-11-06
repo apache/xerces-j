@@ -23,8 +23,6 @@ import junit.framework.TestCase;
 
 /**
  * Tests {@link DateDV}.
- *
- * @version $Id: $
  */
 public class TestDateDV extends TestCase {
 

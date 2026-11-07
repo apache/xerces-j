@@ -31,6 +31,14 @@ import org.w3c.dom.Text;
 
 import org.apache.xerces.dom.DocumentImpl;
 
+/**
+ * A Java object serialization test. This sample program parses a
+ * document, then serializes it out to a file, then reloads
+ * it from the file.  The intent is to have zero exceptions
+ * in the process.
+ *
+ * @author <a href="mailto:sanders@apache.org">Scott Sanders</a>
+ */
 public class Test extends TestCase {
 
     public void testSerializationRoundTrip() throws Exception {

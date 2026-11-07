@@ -81,18 +81,17 @@ public class Test extends TestCase {
 					    short code)
     {
 	boolean asExpected = false;
-	Method method;
 	try {
-	    method = node.getClass().getMethod(methodName,methodSignature);
+	    Method method = node.getClass().getMethod(methodName,methodSignature);
 	    method.invoke(node, parameters);
 	} catch(InvocationTargetException exc) {
 	    Throwable realE = exc.getTargetException(); 
 	    if(realE instanceof DOMException) {
 		asExpected = (((DOMException)realE).code== code);
 	    }
-	} catch(Exception exc) {
+	} catch (Exception exc) {
 	}
-	return (asExpected);
+	return asExpected;
     }
 
     public void testDOMOperations() throws Exception
@@ -360,11 +359,8 @@ public class Test extends TestCase {
     //
     
     {
-        NamedNodeMap    nnm = null;
-        assertNull(nnm);
-
         Document        doc = new DocumentImpl();
-        nnm = doc.getAttributes();    // Should be null, because node type
+        NamedNodeMap nnm = doc.getAttributes();    // Should be null, because node type
                                       //   is not Element.
         assertNull(nnm);
 
@@ -372,8 +368,6 @@ public class Test extends TestCase {
         NamedNodeMap nnm2 = el.getAttributes();    // Should be an empty, but non-null map.
         assertNotNull(nnm2);
         assertNotSame(nnm, nnm2);
-        nnm = nnm2;
-        assertSame(nnm, nnm2);
     }
     
 
@@ -433,13 +427,10 @@ public class Test extends TestCase {
     //
     
     {
-        NodeList    nl = null;
         NodeList    nl2 = null;
-        assertNull(nl);
-        assertSame(nl, nl2);
 
         Document        doc = new DocumentImpl();
-        nl = doc.getChildNodes();    // Should be non-null, but empty
+        NodeList nl = doc.getChildNodes();    // Should be non-null, but empty
 
         assertNotNull(nl);
         int len = nl.getLength();
@@ -450,8 +441,6 @@ public class Test extends TestCase {
         len = nl.getLength();
         assertEquals(1, len);
         assertNotSame(nl, nl2);
-        nl2 = nl;
-        assertSame(nl, nl2);
     }
     
 
@@ -480,9 +469,6 @@ public class Test extends TestCase {
         Element n1, n2, n3;
         
         n1 = n2 = n3 = el;
-        assertSame(n1, n2);
-        assertSame(n1, n3);
-        assertSame(n1, el);
         assertNotNull(n1);
         n1 = n2 = n3 = null;
         assertNull(n1);
@@ -932,7 +918,7 @@ public class Test extends TestCase {
         DocumentType dt = impl.createDocumentType(qName, pubId, sysId);
         
         String docNSURI = "http://document.namespace";
-	Document doc = impl.createDocument(docNSURI, qName, dt);
+		Document doc = impl.createDocument(docNSURI, qName, dt);
         Element rootEl = doc.getDocumentElement();
 
         //
@@ -1224,14 +1210,13 @@ public class Test extends TestCase {
         // check that setAttribute sets both name and value
         elem.setAttributeNS("http://attr","p:attr1","v2");
         Attr attr2 = elem.getAttributeNodeNS("http://attr", "attr1");
-        assertTrue(attr2.getNodeName().equals("p:attr1"));
-        assertTrue(attr2.getNodeValue().equals("v2"));
+        assertEquals(attr2.getNodeName(), "p:attr1");
+        assertEquals(attr2.getNodeValue(), "v2");
         
         // check that prefix is not null
         elem.setAttributeNS("http://attr","attr1","v2");
         attr2 = elem.getAttributeNodeNS("http://attr", "attr1");
-        assertTrue(attr2.getNodeName().equals("attr1"));
-        
+        assertEquals(attr2.getNodeName(), "attr1");
 
         ((Element) n2).setAttribute("a1", "v2");
         assertFalse(n1.isEqualNode(n2));

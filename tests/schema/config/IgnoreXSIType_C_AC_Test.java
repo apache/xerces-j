@@ -144,7 +144,7 @@ public class IgnoreXSIType_C_AC_Test extends BaseTest {
         
         child = super.getChild(2);
         assertValidity(ItemPSVI.VALIDITY_NOTKNOWN, child.getValidity());
-        assertValidationAttempted(ItemPSVI.VALIDATION_NONE, child
+        assertValidationAttempted(ItemPSVI.VALIDATION_PARTIAL, child
                 .getValidationAttempted());
         assertElementNull(child.getElementDeclaration());
         assertAnyType(child.getTypeDefinition());

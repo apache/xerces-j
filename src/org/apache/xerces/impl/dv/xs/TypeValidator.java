@@ -17,9 +17,6 @@
 
 package org.apache.xerces.impl.dv.xs;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-
 import org.apache.xerces.impl.dv.InvalidDatatypeValueException;
 import org.apache.xerces.impl.dv.ValidationContext;
 import org.apache.xerces.util.XMLChar;

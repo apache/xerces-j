@@ -30,14 +30,11 @@ import org.w3c.dom.DocumentType;
  * so that's how I've implemented it.
  * </p>
  *
- * @deprecated Use {@link #getDOMImplementation()} instead.
- *
  * @xerces.internal
  *
  * @version $Id$
  * @since  PR-DOM-Level-1-19980818.
  */
-@Deprecated
 public class DOMImplementationImpl extends CoreDOMImplementationImpl
     implements DOMImplementation {
 

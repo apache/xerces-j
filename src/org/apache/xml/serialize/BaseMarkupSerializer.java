@@ -203,6 +203,12 @@ public abstract class BaseMarkupSerializer
 
 
     /**
+     * True if the document being serialized has a document type.
+     */
+    protected boolean       _hasDocumentType;
+
+
+    /**
      * The output format associated with this serializer. This will never
      * be a null reference. If no format was passed to the constructor,
      * the default one for this document type will be used. The format
@@ -388,6 +394,7 @@ public abstract class BaseMarkupSerializer
 
         _docTypePublicId = _format.getDoctypePublic();
         _docTypeSystemId = _format.getDoctypeSystem();
+        _hasDocumentType = false;
         _started = false;
         _prepared = true;
     }
@@ -824,6 +831,7 @@ public abstract class BaseMarkupSerializer
         _printer.enterDTD();
         _docTypePublicId = publicId;
         _docTypeSystemId = systemId;
+        _hasDocumentType = true;
         } catch ( IOException except ) {
             throw new SAXException( except );
         }
@@ -1177,6 +1185,7 @@ public abstract class BaseMarkupSerializer
             // If there is a document type, use the SAX events to
             // serialize it.
             docType = ( (Document) node ).getDoctype();
+            _hasDocumentType = docType != null;
             if (docType != null) {
                 // DOM Level 2 (or higher)
                 try {

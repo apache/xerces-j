@@ -30,11 +30,14 @@ import org.w3c.dom.DocumentType;
  * so that's how I've implemented it.
  * </p>
  *
+ * @deprecated Use {@link #getDOMImplementation()} instead.
+ *
  * @xerces.internal
  *
  * @version $Id$
  * @since  PR-DOM-Level-1-19980818.
  */
+@Deprecated
 public class DOMImplementationImpl extends CoreDOMImplementationImpl
     implements DOMImplementation {
 
@@ -47,6 +50,17 @@ public class DOMImplementationImpl extends CoreDOMImplementationImpl
     /** Dom implementation singleton. */
     static final DOMImplementationImpl singleton = new DOMImplementationImpl();
 
+
+    //
+    // Constructors
+    //
+
+    /**
+     * @deprecated Use {@link #getDOMImplementation()} instead.
+     */
+    @Deprecated
+    public DOMImplementationImpl() {
+    }
 
     //
     // Public methods

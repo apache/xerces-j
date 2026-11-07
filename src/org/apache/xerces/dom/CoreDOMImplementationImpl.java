@@ -50,11 +50,14 @@ import org.w3c.dom.ls.LSSerializer;
  * the more complete DOMImplementation class along with DocumentImpl.
  * </p>
  *
+ * @deprecated Use {@link #getDOMImplementation()} instead.
+ *
  * @xerces.internal
  * 
  * @version $Id$
  * @since PR-DOM-Level-1-19980818.
  */
+@Deprecated
 public class CoreDOMImplementationImpl
 	implements DOMImplementation, DOMImplementationLS {
     
@@ -94,6 +97,16 @@ public class CoreDOMImplementationImpl
 	// static
 	/** Dom implementation singleton. */
 	static final CoreDOMImplementationImpl singleton = new CoreDOMImplementationImpl();
+	
+	//
+	// Constructors
+	//
+	/**
+	 * @deprecated Use {@link #getDOMImplementation()} instead.
+	 */
+	@Deprecated
+	public CoreDOMImplementationImpl() {
+	}
 	
 	//
 	// Public methods

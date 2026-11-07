@@ -50,9 +50,6 @@ public class Test extends TestCase
         // InsertedInto/RemovedFrom tests.
         // ***** These do not currently cross the Attr/Element barrier.
         // DOM spec is pretty clear on that, but this may not be the intent.
-        System.out.println();
-        System.out.println("Add/remove a preconstructed tree; tests AddedToDocument");
-        System.out.println();
         sharedReporter.off();
         Element lateAdd=doc.createElement("lateAdd");
         reportAllMutations(lateAdd);
@@ -66,10 +63,6 @@ public class Test extends TestCase
         root.appendChild(lateAdd);
         root.removeChild(lateAdd);
 
-        System.out.println();
-        System.out.println("Replace a preconstructed tree; tests AddedToDocument");
-        System.out.println();
-
         sharedReporter.off();
         Node e0=root.replaceChild(lateAdd,root.getFirstChild());
         sharedReporter.on();
@@ -81,9 +74,6 @@ public class Test extends TestCase
         t.insertData(1, "o");
 
         root.setAttribute("foo", "bar");
-
-        System.out.println("Done");
-        assertTrue("Mutation events should complete without error", true);
     }
     
     Element addNoisyElement(Document doc,Node parent,int index)

@@ -22,7 +22,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -357,24 +356,10 @@ extends ParentNode implements Document  {
         }
 
         if (deep) {
-            HashMap reversedIdentifiers = null;
-            if (identifiers != null) {
-                // Build a reverse mapping from element to identifier.
-                reversedIdentifiers = new HashMap();
-                Iterator entries = identifiers.entrySet().iterator();
-                while (entries.hasNext()) {
-                    Map.Entry entry = (Map.Entry) entries.next();
-                    Object elementId = entry.getKey();
-                    Object elementNode = entry.getValue();
-                    reversedIdentifiers.put(elementNode, elementId);
-                }
-            }
-
             // Copy children into new document.
             for (ChildNode kid = firstChild; kid != null;
             kid = kid.nextSibling) {
-                newdoc.appendChild(newdoc.importNode(kid, true, true,
-                reversedIdentifiers));
+                newdoc.appendChild(newdoc.importNode(kid, true, true));
             }
         }
 
@@ -1615,23 +1600,15 @@ extends ParentNode implements Document  {
     @Override
     public Node importNode(Node source, boolean deep)
     throws DOMException {
-        return importNode(source, deep, false, null);
+        return importNode(source, deep, false);
     } // importNode(Node,boolean):Node
 
     /**
      * Overloaded implementation of DOM's importNode method. This method
      * provides the core functionality for the public importNode and cloneNode
      * methods.
-     *
-     * The reversedIdentifiers parameter is provided for cloneNode to
-     * preserve the document's identifiers. The HashMap has Elements as the
-     * keys and their identifiers as the values. When an element is being
-     * imported, a check is done for an associated identifier. If one exists,
-     * the identifier is registered with the new, imported element. If
-     * reversedIdentifiers is null, the parameter is not applied.
      */
-    private Node importNode(Node source, boolean deep, boolean cloningDoc,
-    HashMap reversedIdentifiers)
+    private Node importNode(Node source, boolean deep, boolean cloningDoc)
     throws DOMException {
         Node newnode=null;
 		Hashtable userData = null;
@@ -1673,8 +1650,7 @@ extends ParentNode implements Document  {
                         // clonning default attributes should be copied.
                         // But for importNode defaults should be ignored.
                         if (attr.getSpecified() || cloningDoc) {
-                            Attr newAttr = (Attr)importNode(attr, true, cloningDoc,
-                            reversedIdentifiers);
+                            Attr newAttr = (Attr)importNode(attr, true, cloningDoc);
 
                             // Attach attribute according to namespace
                             // support/qualification.
@@ -1683,19 +1659,12 @@ extends ParentNode implements Document  {
                                 newElement.setAttributeNode(newAttr);
                             else
                                 newElement.setAttributeNodeNS(newAttr);
+
+                            if (cloningDoc && attr.isId()) {
+                                ((AttrImpl) newAttr).setType("ID");
+                                newElement.setIdAttributeNode(newAttr, true);
+                            }
                         }
-                    }
-                }
-
-                // Register element identifier.
-                if (reversedIdentifiers != null) {
-                    // Does element have an associated identifier?
-                    Object elementId = reversedIdentifiers.get(source);
-                    if (elementId != null) {
-                        if (identifiers == null)
-                            identifiers = new Hashtable();
-
-                        identifiers.put(elementId, newElement);
                     }
                 }
 
@@ -1806,16 +1775,14 @@ extends ParentNode implements Document  {
                 NamedNodeMap tmap = newdoctype.getEntities();
                 if(smap != null) {
                     for(int i = 0; i < smap.getLength(); i++) {
-                        tmap.setNamedItem(importNode(smap.item(i), true, true,
-                        reversedIdentifiers));
+                        tmap.setNamedItem(importNode(smap.item(i), true, true));
                     }
                 }
                 smap = srcdoctype.getNotations();
                 tmap = newdoctype.getNotations();
                 if (smap != null) {
                     for(int i = 0; i < smap.getLength(); i++) {
-                        tmap.setNamedItem(importNode(smap.item(i), true, true,
-                        reversedIdentifiers));
+                        tmap.setNamedItem(importNode(smap.item(i), true, true));
                     }
                 }
 
@@ -1860,8 +1827,7 @@ extends ParentNode implements Document  {
             for (Node srckid = source.getFirstChild();
             srckid != null;
             srckid = srckid.getNextSibling()) {
-                newnode.appendChild(importNode(srckid, true, cloningDoc,
-                reversedIdentifiers));
+                newnode.appendChild(importNode(srckid, true, cloningDoc));
             }
         }
         if (newnode.getNodeType() == Node.ENTITY_NODE) {
@@ -1869,7 +1835,7 @@ extends ParentNode implements Document  {
         }
         return newnode;
 
-    } // importNode(Node,boolean,boolean,Hashtable):Node
+    } // importNode(Node,boolean,boolean):Node
 
     /**
      * DOM Level 3 WD - Experimental

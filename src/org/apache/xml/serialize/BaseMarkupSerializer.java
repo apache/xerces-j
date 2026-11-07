@@ -168,8 +168,8 @@ public abstract class BaseMarkupSerializer
 
 
     /**
-     * The number of comments and PIs in {@link #_preRoot} that were
-     * serialized before the document type declaration. These must be
+     * The number of comments and PIs in {@link #_preRoot} that appear
+     * before the document type declaration. These must be
      * printed before the doctype, while the remaining ones are printed
      * after it. A value of -1 means that no doctype was declared.
      */

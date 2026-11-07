@@ -71,6 +71,14 @@ public class DateDV extends DateTimeDV {
         return date;
     }
 
+    protected int getDate(String buffer, int start, int end, DateTimeData date) {
+        int endDate = super.getDate(buffer, start, end, date);
+        // Date values have no time component. Use noon so normalizing the
+        // time zone does not move the date.
+        date.hour = 12;
+        return endDate;
+    }
+
     protected String dateToString(DateTimeData date) {
         StringBuffer message = new StringBuffer(25);
         append(message, date.year, 4);
@@ -78,7 +86,27 @@ public class DateDV extends DateTimeDV {
         append(message, date.month, 2);
         message.append('-');
         append(message, date.day, 2);
-        append(message, (char)date.utc, 0);
+        if (date.hasTimeZone()) {
+            int timezone = date.timezoneHr * 60 + date.timezoneMin;
+            if (timezone == 0) {
+                message.append('Z');
+            }
+            else {
+                // The recoverable time zone is in the range (-12:00, +12:00].
+                if (timezone <= -720) {
+                    timezone += 1440;
+                }
+                else if (timezone > 720) {
+                    timezone -= 1440;
+                }
+                int hours = timezone / 60;
+                int minutes = timezone % 60;
+                message.append(timezone < 0 ? '-' : '+');
+                append(message, Math.abs(hours), 2);
+                message.append(':');
+                append(message, Math.abs(minutes), 2);
+            }
+        }
         return message.toString();
     }
     

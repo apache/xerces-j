@@ -627,12 +627,15 @@ extends BaseMarkupSerializer {
 
                     _printer.printText( ">" );
                     _printer.breakLine();
-                } else if (dtd != null && dtd.length() > 0) {
+                } else if (_hasDocumentType || (dtd != null && dtd.length() > 0)) {
                     _printer.printText( "<!DOCTYPE " );
                     _printer.printText( rootTagName );
-                    _printer.printText( " [" );
-                    printText( dtd, true, true );
-                    _printer.printText( "]>" );
+                    if (dtd != null && dtd.length() > 0) {
+                        _printer.printText( " [" );
+                        printText( dtd, true, true );
+                        _printer.printText( "]" );
+                    }
+                    _printer.printText( ">" );
                     _printer.breakLine();
                 }
             }

@@ -1,6 +1,9 @@
 github:
   description: "Apache Xerces-J"
   homepage: https://xerces.apache.org/xerces2-j/
+  pull_requests:
+    # auto-delete head branches after merge
+    del_branch_on_merge: true
   protected_branches:
     main:
       required_status_checks:

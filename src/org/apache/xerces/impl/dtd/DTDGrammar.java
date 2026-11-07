@@ -61,7 +61,7 @@ import org.apache.xerces.xni.parser.XMLDTDSource;
  * @version $Id$
  */
 public class DTDGrammar 
-    implements XMLDTDHandler, XMLDTDContentModelHandler, EntityState, Grammar {
+    implements XMLDTDHandler, XMLDTDContentModelHandler, EntityState, Grammar, XMLContentSpec.Provider {
 
     //
     // Constants

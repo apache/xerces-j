@@ -50,7 +50,4 @@ run the build batch file or shell script specifying an Ant build "all"
 target instead of "jars".
 
 We use the [JProfiler](https://www.ej-technologies.com/jprofiler) tool for Java software run-time 
-analysis and optimization of Xerces-J software. 
-
-Sincerely,<br>
-Apache Xerces Team
+analysis and optimization of Xerces-J software.

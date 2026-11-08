@@ -5,9 +5,11 @@ It is generally not intended for direct use by end users. However, its core
 functions do include parsing and validating potentially malicious documents
 supplied by untrusted users. It is critical that Xerces does this correctly
 according to spec regardless of input.
-When faced with hostile input, it should report the problem without 
+When faced with hostile input, Xerces should report the problem without 
 crashing or failing.
-It is safe to provide possibly malicious external input to Xerces unless otherwise specified.
+
+By default, Xerces does what the XML specifications require. In some cases, this may not be appropriate behavior when working with untrusted input. There are multiple methods for blocking access to external entities and for disallowing DOCTYPE declarations, and it is up to the downstream user of Xerces-J to block/reject these constructs where appropriate.
+With this caveat, it is safe to provide possibly malicious external input to Xerces unless otherwise specified. 
 
 ## Reporting Security Issues
 
@@ -30,9 +32,9 @@ Please do not simply echo the output of tools you do not personally understand.
 
 ## Possible Security Bugs in Xerces
 
-* Any XML document, schema, or other external input to Xerces that causes infinite loops in the parser or exponential performance problems.
+* Any XML document, schema, or other external input to Xerces that causes infinite loops in the parser or exponential performance problems, and cannot be prevented by documented configuration options.
 * Documents, well-formed or otherwise, that cause unexpected runtime exceptions when fed to Xerces. For example, if you pass null directly to a method via an API call, an exception is expected. However, if you're parsing a non-null document and you get a `NullPointerException` or `IndexOutOfBoundsException`, that is at least a bug, and maybe a security issue.
 * Executing arbitrary shell commands or other non-Java code 
 * Bugs in XML processing or schema validation. Most of these are likely just bugs we should fix, but in the right context such a bug could have security implications.
 * Stack traces shown directly to end-users on the terminal instead of passing through a logging API or an exception chain. This issue is about a 1 on a scale of 1-10, but it's still at least a bug we should address.
-* The use of Java object serialization in a way that violates Xerces' normal protections and invariants
+* The use of Java object serialization in a way that violates Xerces's normal protections and invariants

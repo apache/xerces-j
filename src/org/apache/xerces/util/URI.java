@@ -943,7 +943,7 @@ import java.util.Locale;
       m_userinfo = userinfo;
       return true;
     }
-    // If the host is a well formed address then this authority was
+    // If the host is a well-formed address, then this authority was
     // intended to be server based. An invalid port is an error rather
     // than a reason to fall back to a registry based authority.
     else if (hasPort && port != null && !isValidPort(port) &&

@@ -222,6 +222,9 @@ import java.util.Locale;
 
   /** If specified, stores the port for this URI; otherwise -1 */
   private int m_port = -1;
+
+  /** If specified, stores the port component as it appeared in the URI; otherwise null */
+  private String m_portStr = null;
   
   /** If specified, stores the registry based authority for this URI; otherwise -1 */
   private String m_regAuthority = null;
@@ -460,6 +463,7 @@ import java.util.Locale;
     m_userinfo = p_other.getUserinfo();
     m_host = p_other.getHost();
     m_port = p_other.getPort();
+    m_portStr = p_other.m_portStr;
     m_regAuthority = p_other.getRegBasedAuthority();
     m_path = p_other.getPath();
     m_queryString = p_other.getQueryString();
@@ -723,6 +727,7 @@ import java.util.Locale;
           m_userinfo = p_base.getUserinfo();
           m_host = p_base.getHost();
           m_port = p_base.getPort();
+          m_portStr = p_base.m_portStr;
           m_regAuthority = p_base.getRegBasedAuthority();
           m_path = p_base.getPath();
           
@@ -751,6 +756,7 @@ import java.util.Locale;
           m_userinfo = p_base.getUserinfo();
           m_host = p_base.getHost();
           m_port = p_base.getPort();
+          m_portStr = p_base.m_portStr;
           m_regAuthority = p_base.getRegBasedAuthority();
       }
       else {
@@ -870,7 +876,8 @@ import java.util.Locale;
   * @return true if the given string matched server or registry
   * based authority
   */
-  private boolean initializeAuthority(String p_uriSpec) {
+  private boolean initializeAuthority(String p_uriSpec)
+    throws MalformedURIException {
     
     int index = 0;
     int start = 0;
@@ -916,7 +923,7 @@ import java.util.Locale;
       }
     }
     host = p_uriSpec.substring(start, index);
-    int port = -1;
+    String port = null;
     if (host.length() > 0) {
       // port
       if (hasPort) {
@@ -925,34 +932,23 @@ import java.util.Locale;
         while (index < end) {
           index++;
         }
-        String portStr = p_uriSpec.substring(start, index);
-        if (portStr.length() > 0) {
-          // REVISIT: Remove this code.
-          /** for (int i = 0; i < portStr.length(); i++) {
-            if (!isDigit(portStr.charAt(i))) {
-              throw new MalformedURIException(
-                   portStr +
-                   " is invalid. Port should only contain digits!");
-            }
-          }**/
-          // REVISIT: Remove this code.
-          // Store port value as string instead of integer.
-          try {
-            port = Integer.parseInt(portStr);
-            if (port == -1) --port;
-          }
-          catch (NumberFormatException nfe) {
-            port = -2;
-          }
-        }
+        port = p_uriSpec.substring(start, index);
       }
     }
     
     if (isValidServerBasedAuthority(host, port, userinfo)) {
       m_host = host;
-      m_port = port;
+      m_portStr = port;
+      m_port = parsePort(port);
       m_userinfo = userinfo;
       return true;
+    }
+    // If the host is a well formed address then this authority was
+    // intended to be server based. An invalid port is an error rather
+    // than a reason to fall back to a registry based authority.
+    else if (hasPort && port != null && !isValidPort(port) &&
+             isWellFormedAddress(host)) {
+      throw new MalformedURIException("Port is not well formed.");
     }
     // Note: Registry based authority is being removed from a
     // new spec for URI which would obsolete RFC 2396. If the
@@ -970,13 +966,13 @@ import java.util.Locale;
    * are valid as a server authority.
    * 
    * @param host the host component of authority
-   * @param port the port number component of authority
+   * @param port the port component of authority
    * @param userinfo the user info component of authority
    * 
    * @return true if the given host, port, and userinfo compose
    * a valid server authority
    */
-  private boolean isValidServerBasedAuthority(String host, int port, String userinfo) {
+  private boolean isValidServerBasedAuthority(String host, String port, String userinfo) {
     
     // Check if the host is well formed.
     if (!isWellFormedAddress(host)) {
@@ -984,10 +980,7 @@ import java.util.Locale;
     }
     
     // Check that port is well formed if it exists.
-    // REVISIT: There's no restriction on port value ranges, but
-    // perform the same check as in setPort to be consistent. Pass
-    // in a string to this method instead of an integer.
-    if (port < -1 || port > 65535) {
+    if (port != null && !isValidPort(port)) {
       return false;
     }
     
@@ -1015,6 +1008,44 @@ import java.util.Locale;
       }
     }
     return true;
+  }
+
+  /**
+   * Determines whether the given string is a syntactically valid port.
+   * A port consists of zero or more digits.
+   *
+   * @param port the port component of authority
+   *
+   * @return true if the given string is a valid port
+   */
+  private static boolean isValidPort(String port) {
+    int length = port.length();
+    for (int i = 0; i < length; ++i) {
+      if (!isDigit(port.charAt(i))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Parses the given port string into an integer. Returns -1 if the
+   * port is absent, empty or cannot be represented as an integer.
+   *
+   * @param port the port component of authority
+   *
+   * @return the port as an integer, or -1
+   */
+  private static int parsePort(String port) {
+    if (port == null || port.length() == 0) {
+      return -1;
+    }
+    try {
+      return Integer.parseInt(port);
+    }
+    catch (NumberFormatException nfe) {
+      return -1;
+    }
   }
   
   /**
@@ -1193,6 +1224,30 @@ import java.util.Locale;
     }
   }
 
+  /**
+   * Returns the port component as a string, or null if no port is present.
+   */
+  private String getPortString() {
+    if (m_portStr != null) {
+      return m_portStr;
+    }
+    if (m_port != -1) {
+      return Integer.toString(m_port);
+    }
+    return null;
+  }
+
+  /**
+   * Appends the port component, including the preceding colon, if present.
+   */
+  private void appendPort(StringBuffer buffer) {
+    String port = getPortString();
+    if (port != null) {
+      buffer.append(':');
+      buffer.append(port);
+    }
+  }
+
  /**
   * Get the scheme for this URI.
   *
@@ -1224,10 +1279,7 @@ import java.util.Locale;
         
         schemespec.append(m_host);
         
-        if (m_port != -1) {
-          schemespec.append(':');
-          schemespec.append(m_port);
-        }
+        appendPort(schemespec);
       }
       // Registry based authority.
       else {
@@ -1308,10 +1360,7 @@ import java.util.Locale;
               
               authority.append(m_host);
               
-              if (m_port != -1) {
-                  authority.append(':');
-                  authority.append(m_port);
-              }
+              appendPort(authority);
           }
           // Registry based authority.
           else {
@@ -1469,6 +1518,7 @@ import java.util.Locale;
       m_host = p_host;
       m_userinfo = null;
       m_port = -1;
+      m_portStr = null;
       return;
     }
     else if (!isWellFormedAddress(p_host)) {
@@ -1480,7 +1530,7 @@ import java.util.Locale;
 
  /**
   * Set the port for this URI. -1 is used to indicate that the port is
-  * not specified, otherwise valid port numbers are  between 0 and 65535.
+  * not specified, otherwise the port must be a non-negative integer.
   * If a valid port number is passed in and the host field is null,
   * an exception is thrown.
   *
@@ -1490,7 +1540,7 @@ import java.util.Locale;
   *                                  valid port number
   */
   public void setPort(int p_port) throws MalformedURIException {
-    if (p_port >= 0 && p_port <= 65535) {
+    if (p_port >= 0) {
       if (m_host == null) {
         throw new MalformedURIException(
                       "Port cannot be set when host is null!");
@@ -1500,6 +1550,7 @@ import java.util.Locale;
       throw new MalformedURIException("Invalid port number!");
     }
     m_port = p_port;
+    m_portStr = (p_port == -1) ? null : Integer.toString(p_port);
   }
   
   /**
@@ -1531,6 +1582,7 @@ import java.util.Locale;
   	m_host = null;
   	m_userinfo = null;
   	m_port = -1;
+  	m_portStr = null;
   }
 
  /**
@@ -1692,7 +1744,9 @@ import java.util.Locale;
           ((m_host == null && testURI.m_host == null) ||
            (m_host != null && testURI.m_host != null &&
             m_host.equals(testURI.m_host))) &&
-            m_port == testURI.m_port &&
+          ((getPortString() == null && testURI.getPortString() == null) ||
+           (getPortString() != null && testURI.getPortString() != null &&
+            getPortString().equals(testURI.getPortString()))) &&
           ((m_path == null && testURI.m_path == null) ||
            (m_path != null && testURI.m_path != null &&
             m_path.equals(testURI.m_path))) &&

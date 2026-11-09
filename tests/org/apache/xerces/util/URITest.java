@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-package util;
+package org.apache.xerces.util;
 
 import junit.framework.TestCase;
 
-import org.apache.xerces.util.URI;
 import org.apache.xerces.util.URI.MalformedURIException;
 
 /**
@@ -94,10 +93,11 @@ public class URITest extends TestCase {
             "http://example.com:-1",
             "http://example.com:+80",
             "http://example.com:80.0",
-            "http://example.com: 80"
+            "http://example.com: 80",
+            "http://example.com:\u0661\u0662"
         };
-        for (int i = 0; i < invalidURIs.length; i++) {
-            assertMalformed(invalidURIs[i]);
+        for (String invalidURI : invalidURIs) {
+            assertMalformed(invalidURI);
         }
     }
 

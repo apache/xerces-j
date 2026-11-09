@@ -1021,7 +1021,8 @@ import java.util.Locale;
   private static boolean isValidPort(String port) {
     int length = port.length();
     for (int i = 0; i < length; ++i) {
-      if (!isDigit(port.charAt(i))) {
+      char testChar = port.charAt(i);
+      if (testChar < '0' || testChar > '9') {
         return false;
       }
     }
@@ -1030,7 +1031,7 @@ import java.util.Locale;
 
   /**
    * Parses the given port string into an integer. Returns -1 if the
-   * port is absent, empty or cannot be represented as an integer.
+   * port is absent, empty, or cannot be represented as an integer.
    *
    * @param port the port component of authority
    *
@@ -1530,7 +1531,7 @@ import java.util.Locale;
 
  /**
   * Set the port for this URI. -1 is used to indicate that the port is
-  * not specified, otherwise the port must be a non-negative integer.
+  * not specified. Otherwise the port must be a non-negative integer.
   * If a valid port number is passed in and the host field is null,
   * an exception is thrown.
   *

@@ -15,14 +15,11 @@
  * limitations under the License.
  */
 
-package dom.serialize;
+package org.apache.xml.serialize;
 
 import java.io.ByteArrayOutputStream;
 
 import junit.framework.TestCase;
-
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 
 /**
  * Tests serialization of ignorable whitespace in element content.

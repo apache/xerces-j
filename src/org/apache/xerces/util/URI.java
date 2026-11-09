@@ -1012,7 +1012,7 @@ import java.util.Locale;
 
   /**
    * Determines whether the given string is a syntactically valid port.
-   * A port consists of zero or more digits.
+   * A port consists of zero or more ASCII digits.
    *
    * @param port the port component of authority
    *

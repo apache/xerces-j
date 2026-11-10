@@ -132,13 +132,16 @@ public class DOMUtil {
             }
             
             // advance
-            else {
+            else if (place != start) {
                 place = place.getNextSibling();
                 while (place == null && parent != start) {
                     place  = parent.getNextSibling();
                     parent = parent.getParentNode();
                     dest   = dest.getParentNode();
                 }
+            }
+            else {
+                place = null;
             }
             
         }

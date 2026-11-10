@@ -832,6 +832,7 @@ Authors:
              <include name="dom/range/TestCompare.class"/>                    
              <include name="dom/serialize/TestDocumentTypeSerialization.class"/>
              <include name="dom/serialize/TestPreRootSerialization.class"/>
+             <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>
              <include name="idc/IDConstraintTests.class"/>
              <include name="schema/Test.class"/>                   
              <include name="schema/annotations/*Test.class"/>                    

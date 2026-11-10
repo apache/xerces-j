@@ -862,6 +862,7 @@ Authors:
               <include name="jaxp/JAXPSpecTest.class"/>
               <include name="xinclude/Test.class"/>
               <include name="xinclude/MalformedXPointerTest.class"/>
+              <include name="xinclude/XPointerIncludeCycleTest.class"/>
             </fileset>
           </batchtest>
        <formatter type="brief" usefile="false"/>

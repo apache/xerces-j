@@ -35,7 +35,7 @@ public class XMLSymbols {
     /**
      * The empty string.
      */
-    public final static String EMPTY_STRING = "".intern();
+    public final static String EMPTY_STRING = "";
 
     //==========================
     // Namespace prefixes/uris
@@ -44,58 +44,58 @@ public class XMLSymbols {
     /**
      * The internalized "xml" prefix.
      */
-    public final static String PREFIX_XML = "xml".intern();
+    public final static String PREFIX_XML = "xml";
 
     /**
      * The internalized "xmlns" prefix.
      */
-    public final static String PREFIX_XMLNS = "xmlns".intern();
+    public final static String PREFIX_XMLNS = "xmlns";
 
     //==========================
     // DTD symbols
     //==========================
     
     /** Symbol: "ANY". */
-    public static final String fANYSymbol = "ANY".intern();
+    public static final String fANYSymbol = "ANY";
 
     /** Symbol: "CDATA". */
-    public static final String fCDATASymbol = "CDATA".intern();
+    public static final String fCDATASymbol = "CDATA";
 
     /** Symbol: "ID". */
-    public static final String fIDSymbol = "ID".intern();
+    public static final String fIDSymbol = "ID";
 
     /** Symbol: "IDREF". */
-    public static final String fIDREFSymbol = "IDREF".intern();
+    public static final String fIDREFSymbol = "IDREF";
 
     /** Symbol: "IDREFS". */
-    public static final String fIDREFSSymbol = "IDREFS".intern();
+    public static final String fIDREFSSymbol = "IDREFS";
 
     /** Symbol: "ENTITY". */
-    public static final String fENTITYSymbol = "ENTITY".intern();
+    public static final String fENTITYSymbol = "ENTITY";
 
     /** Symbol: "ENTITIES". */
-    public static final String fENTITIESSymbol = "ENTITIES".intern();
+    public static final String fENTITIESSymbol = "ENTITIES";
 
     /** Symbol: "NMTOKEN". */
-    public static final String fNMTOKENSymbol = "NMTOKEN".intern();
+    public static final String fNMTOKENSymbol = "NMTOKEN";
 
     /** Symbol: "NMTOKENS". */
-    public static final String fNMTOKENSSymbol = "NMTOKENS".intern();
+    public static final String fNMTOKENSSymbol = "NMTOKENS";
 
     /** Symbol: "NOTATION". */
-    public static final String fNOTATIONSymbol = "NOTATION".intern();
+    public static final String fNOTATIONSymbol = "NOTATION";
 
     /** Symbol: "ENUMERATION". */
-    public static final String fENUMERATIONSymbol = "ENUMERATION".intern();
+    public static final String fENUMERATIONSymbol = "ENUMERATION";
 
     /** Symbol: "#IMPLIED. */
-    public static final String fIMPLIEDSymbol = "#IMPLIED".intern();
+    public static final String fIMPLIEDSymbol = "#IMPLIED";
 
     /** Symbol: "#REQUIRED". */
-    public static final String fREQUIREDSymbol = "#REQUIRED".intern();
+    public static final String fREQUIREDSymbol = "#REQUIRED";
 
     /** Symbol: "#FIXED". */
-    public static final String fFIXEDSymbol = "#FIXED".intern();
+    public static final String fFIXEDSymbol = "#FIXED";
     
     
 }

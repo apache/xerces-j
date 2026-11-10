@@ -15,16 +15,13 @@
  * limitations under the License.
  */
 
-package dom.serialize;
+package org.apache.xml.serialize;
 
 import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
 import org.apache.xerces.dom.DocumentImpl;
-import org.apache.xml.serialize.HTMLSerializer;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XHTMLSerializer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

@@ -17,6 +17,7 @@
 
 package dom.events;
 
+import junit.framework.TestCase;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,17 +26,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 import org.w3c.dom.events.EventTarget;
 
-public class Test
+public class Test extends TestCase
 {
     EventReporter sharedReporter=new EventReporter();
     
-    public static void main(String[] args)
-    {
-        Test met=new Test();
-        met.runTest();
-    }
-
-    void runTest()
+    public void testMutationEvents()
     {
         Document doc=new org.apache.xerces.dom.DocumentImpl();
         reportAllMutations(doc);
@@ -55,9 +50,6 @@ public class Test
         // InsertedInto/RemovedFrom tests.
         // ***** These do not currently cross the Attr/Element barrier.
         // DOM spec is pretty clear on that, but this may not be the intent.
-        System.out.println();
-        System.out.println("Add/remove a preconstructed tree; tests AddedToDocument");
-        System.out.println();
         sharedReporter.off();
         Element lateAdd=doc.createElement("lateAdd");
         reportAllMutations(lateAdd);
@@ -71,10 +63,6 @@ public class Test
         root.appendChild(lateAdd);
         root.removeChild(lateAdd);
 
-        System.out.println();
-        System.out.println("Replace a preconstructed tree; tests AddedToDocument");
-        System.out.println();
-
         sharedReporter.off();
         Node e0=root.replaceChild(lateAdd,root.getFirstChild());
         sharedReporter.on();
@@ -86,8 +74,6 @@ public class Test
         t.insertData(1, "o");
 
         root.setAttribute("foo", "bar");
-
-        System.out.println("Done");
     }
     
     Element addNoisyElement(Document doc,Node parent,int index)

@@ -664,6 +664,8 @@ public class HTMLSerializer
                 }
             }
 
+            serializePreRootBeforeDoctype();
+
             if ( ! _format.getOmitDocumentType() ) {
                 // XHTML: If public identifier and system identifier
                 //  specified, print them, else print just system identifier

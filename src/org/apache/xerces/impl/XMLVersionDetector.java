@@ -67,10 +67,10 @@ public class XMLVersionDetector {
     //
 
     /** Symbol: "version". */
-    protected static final String fVersionSymbol = "version".intern();
+    protected static final String fVersionSymbol = "version";
 
     // symbol:  [xml]:
-    protected static final String fXMLSymbol = "[xml]".intern();
+    protected static final String fXMLSymbol = "[xml]";
 
     /** Symbol table. */
     protected SymbolTable fSymbolTable;

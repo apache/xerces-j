@@ -102,4 +102,10 @@ public class DatatypeException extends Exception {
 
         return msg;
     }
+
+    @Override
+    public Throwable fillInStackTrace() {
+        // This is an internal exception; the stack trace is irrelevant.
+        return this;
+    }
 }

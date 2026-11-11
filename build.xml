@@ -859,6 +859,7 @@ Authors:
               <include name="dom/ids/Test.class"/>
               <include name="io/UTF8.class"/>
               <include name="io/UTF16.class"/>
+              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
               <include name="org/apache/xerces/util/URITest.class"/>
               <include name="schema/Test.class"/>
               <include name="jaxp/JAXPSpecTest.class"/>

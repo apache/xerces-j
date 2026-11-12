@@ -90,7 +90,7 @@ public class XSCMLeaf
 
     // package
 
-    public boolean isNullable() {
+    protected boolean calcNullable() {
         // Leaf nodes are never nullable unless its an epsilon node
         return (fPosition == -1);
     }

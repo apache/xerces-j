@@ -595,6 +595,8 @@ extends BaseMarkupSerializer {
                 _printer.breakLine();
             }
 
+            serializePreRootBeforeDoctype();
+
             if (! _format.getOmitDocumentType()) {
                 if (_docTypeSystemId != null) {
                     // System identifier must be specified to print DOCTYPE.

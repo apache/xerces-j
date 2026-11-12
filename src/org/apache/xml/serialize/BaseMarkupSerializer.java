@@ -593,14 +593,13 @@ public abstract class BaseMarkupSerializer
         try {
         content();
 
-        // Print ignorable whitespaces only when indenting, after
-        // all they are indentation. Cancel the indentation to
-        // not indent twice.
+        // When indenting, ignorable whitespace is indentation. Cancel
+        // the indentation to not indent twice.
         if ( _indenting ) {
             _printer.setThisIndent( 0 );
-            for ( i = start ; length-- > 0 ; ++i )
-                _printer.printText( chars[ i ] );
         }
+        for ( i = start ; length-- > 0 ; ++i )
+            _printer.printText( chars[ i ] );
         } catch ( IOException except ) {
             throw new SAXException( except );
         }

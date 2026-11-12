@@ -1537,7 +1537,6 @@ public class XMLDTDValidator
         boolean spaceStart = false;
         boolean readingNonSpace = false;
         int count = 0;
-        int eaten = 0;
         String attrValue = attributes.getValue(index);
         char[] attValue = new char[attrValue.length()];
 
@@ -1558,30 +1557,6 @@ public class XMLDTDValidator
                     fBuffer.append(attValue[i]);
                     count++;
                 }
-                else {
-                    if (leadingSpace || !spaceStart) {
-                        eaten ++;
-                        /*** BUG #3512 ***
-                        int entityCount = attributes.getEntityCount(index);
-                        for (int j = 0;  j < entityCount; j++) {
-                            int offset = attributes.getEntityOffset(index, j);
-                            int length = attributes.getEntityLength(index, j);
-                            if (offset <= i-eaten+1) {
-                                if (offset+length >= i-eaten+1) {
-                                    if (length > 0)
-                                        length--;
-                                }
-                            } 
-                            else {
-                                if (offset > 0)
-                                    offset--;
-                            }
-                            attributes.setEntityOffset(index, j, offset);
-                            attributes.setEntityLength(index, j, length);
-                        }
-                        /***/
-                    }
-                }
 
             }
             else {
@@ -1596,23 +1571,6 @@ public class XMLDTDValidator
         // check if the last appended character is a space.
         if (count > 0 && fBuffer.charAt(count-1) == ' ') {
             fBuffer.setLength(count-1);
-            /*** BUG #3512 ***
-            int entityCount = attributes.getEntityCount(index);
-            for (int j=0;  j < entityCount; j++) {
-                int offset = attributes.getEntityOffset(index, j);
-                int length = attributes.getEntityLength(index, j);
-                if (offset < count-1) {
-                    if (offset+length == count) {
-                        length--;
-                    }
-                } 
-                else {
-                    offset--;
-                }
-                attributes.setEntityOffset(index, j, offset);
-                attributes.setEntityLength(index, j, length);
-            }
-            /***/
         }
         String newValue = fBuffer.toString();
         attributes.setValue(index, newValue);

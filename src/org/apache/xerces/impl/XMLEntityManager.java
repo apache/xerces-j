@@ -204,8 +204,8 @@ public class XMLEntityManager
         null,
     };
 
-    private static final String XMLEntity = "[xml]".intern();
-    private static final String DTDEntity = "[dtd]".intern();
+    private static final String XMLEntity = "[xml]";
+    private static final String DTDEntity = "[dtd]";
     
     // debugging
 

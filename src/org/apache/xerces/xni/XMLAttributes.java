@@ -69,9 +69,8 @@ public interface XMLAttributes {
      */
     public int addAttribute(QName attrName, String attrType, String attrValue);
 
-    /** 
-     * Removes all of the attributes. This method will also remove all
-     * entities associated to the attributes.
+    /**
+     * Removes all of the attributes.
      */
     public void removeAllAttributes();
 

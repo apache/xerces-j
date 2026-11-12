@@ -716,6 +716,11 @@ public final class XPointerHandler extends XIncludeHandler implements
 
                 switch (chartype) {
 
+                case CHARTYPE_INVALID:
+                    reportError("InvalidXPointerExpression",
+                            new Object[] { data });
+                    return false;
+
                 case CHARTYPE_OPEN_PAREN: // '('
                     addToken(tokens, Tokens.XPTRTOKEN_OPEN_PAREN);
                     openParen++;

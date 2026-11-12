@@ -48,6 +48,10 @@ public class MalformedXPointerTest extends TestCase {
         assertMalformedXPointerRejected("tests/xinclude/tests/test43.xml");
     }
 
+    public void testInvalidControlCharacterDoesNotHang() throws Exception {
+        assertMalformedXPointerRejected("tests/xinclude/tests/test44.xml");
+    }
+
     private void assertMalformedXPointerRejected(final String testFile)
             throws Exception {
         FutureTask<Void> parseTask = new FutureTask<Void>(new Callable<Void>() {

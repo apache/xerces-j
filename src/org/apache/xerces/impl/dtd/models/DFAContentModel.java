@@ -47,16 +47,10 @@ public class DFAContentModel
     // special strings
 
     /** Epsilon string. */
-    private static String fEpsilonString = "<<CMNODE_EPSILON>>";
+    private static final String fEpsilonString = "<<CMNODE_EPSILON>>";
 
     /** End-of-content string. */
-    private static String fEOCString = "<<CMNODE_EOC>>";
-
-    /** initializing static members **/
-    static {
-        fEpsilonString = fEpsilonString.intern();
-        fEOCString = fEOCString.intern();
-    }
+    private static final String fEOCString = "<<CMNODE_EOC>>";
 
     // debugging
 

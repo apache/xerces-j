@@ -581,7 +581,7 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
                 
                 XSAttributeUseImpl documentationLangAttr = new XSAttributeUseImpl();
                 documentationLangAttr.fAttrDecl = new XSAttributeDecl();
-                documentationLangAttr.fAttrDecl.setValues("lang".intern(), NamespaceContext.XML_URI, (XSSimpleType) fGlobalTypeDecls.get(SchemaSymbols.ATTVAL_LANGUAGE),
+                documentationLangAttr.fAttrDecl.setValues("lang", NamespaceContext.XML_URI, (XSSimpleType) fGlobalTypeDecls.get(SchemaSymbols.ATTVAL_LANGUAGE),
                         XSConstants.VC_NONE, XSConstants.SCOPE_LOCAL, null, documentationType, null);
                 documentationLangAttr.fUse = SchemaSymbols.USE_OPTIONAL;
                 documentationLangAttr.fConstraintType = XSConstants.VC_NONE;

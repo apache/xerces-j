@@ -21,23 +21,24 @@
 <p> Before you report a bug, please, <em>read</em> the following instructions:</p>
   <ul>
 	<li>If doubt exists whether the behavior in question is a bug 
-          or a feature, please post a message to the <jump href="http://xml.apache.org/mail.html#xerces-j-user">
+          or a feature, please post a message to the <jump href="https://xerces.apache.org/mail.html#xerces-j-user">
           j-users@xerces.apache.org</jump> list for clarification.
          </li>
 	<li>To help to eliminate duplicate or invalid bug reports, such as the
 	    <jump href="https://issues.apache.org/jira/browse/XERCESJ-581">external-schemaLocation</jump> bug, 
-	    <em>please take a quick look at bugs in JIRA</em> opened against the version you're working 
+	    <em>please take a quick look at the <jump href="https://issues.apache.org/jira/projects/XERCESJ/summary">Xerces2-J issues in Jira</jump></em>
+	    opened against the version you're working
         with to see whether the bug has been already reported and/or fixed.
 	    You can also download or clone the 
 	    <jump href='https://github.com/apache/xerces-j/tree/main'>latest code</jump> 
-	    from github and check if you can reproduce the bug.</li>
+	    from GitHub and check if you can reproduce the bug.</li>
 	  <li>Report bugs against the newest release.</li>
-	  <li>Sign up for an account on the <jump href="https://issues.apache.org/jira">Apache JIRA instance</jump>.
+	  <li>Sign up for an account on the <jump href="https://issues.apache.org/jira">Apache Jira instance</jump>.
           Go to the <jump href='https://selfserve.apache.org/jira-account.html'>self-serve signup page</jump>
           to apply for an account, which needs the project's approval.</li>
       </ul>
       <p>We strongly encourage you to write patches for problems you find and submit 
-         them to <jump href="https://xml.apache.org/mail.html#xerces-j-dev">j-dev@xerces.apache.org</jump>.
+         them to <jump href="https://xerces.apache.org/mail.html#xerces-j-dev">j-dev@xerces.apache.org</jump>.
          Being specific in the description of your bug report, and providing enough information to reproduce the 
          bug will improve the likelihood that the bug you found will be fixed in the foreseeable future. In the 
          interest of fixing bugs, adding enhancements, and addressing outstanding design issues, we need your 
@@ -48,7 +49,8 @@
 
 <s2 title="Report a bug">
 <p> Have you read the instructions above?
-If yes, please click <jump href="https://issues.apache.org/jira/browse/XERCESJ">here</jump>
-to submit a bug report.  </p>
+If yes, please <jump href="https://issues.apache.org/jira/secure/CreateIssue!default.jspa?pid=10520">create a new Xerces2-J issue in Jira</jump>
+(you will need to log in first). You can also browse the
+<jump href="https://issues.apache.org/jira/projects/XERCESJ/summary">existing Xerces2-J issues</jump>. </p>
 </s2>
 </s1>

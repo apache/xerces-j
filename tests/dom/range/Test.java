@@ -19,6 +19,7 @@ package dom.range;
 
 import java.io.StringReader;
 
+import junit.framework.TestCase;
 import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xerces.parsers.DOMParser;
 import org.w3c.dom.Attr;
@@ -30,8 +31,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ranges.Range;
 import org.xml.sax.InputSource;
 
-import dom.Writer;
-
 /** 
  * This RangeTest tests all of the cases delineated as examples
  * in the DOM Level 2 Range specification, and a few others.
@@ -40,10 +39,9 @@ import dom.Writer;
  * 
  * @version $Id$
  */
-public class Test {
+public class Test extends TestCase {
     
     static final boolean DEBUG = false;
-    static boolean fStdOut = false;
     
     static final String [] tests = {
         "<FOO>AB<MOO>CD</MOO>CD</FOO>",
@@ -119,388 +117,312 @@ public class Test {
     "<P>Abcd efgh XY blahINSERTED TEXT ijkl</P>"
     };
     
+    private DOMParser parser;
     
-    public static void main(String args[]) {
-        // is there anything to do?
-        if ( args.length == 0 ) {
-            printUsage();
-            System.exit(1);
-        }
-        if (args.length > 1) {
-            if (args[1].equals("yes")){
-                fStdOut = true;
-            }
-            
-            
-        }
-        new Test(args[0]);
+    protected void setUp() throws Exception {
+        parser = new DOMParser();
     }
     
-   /** Prints the usage. */
-   private static void printUsage() {
-
-      System.err.println("usage: java dom.range.Test (option) (stdout)");
-      System.err.println();
-      System.err.println("options:");
-      System.err.println("  all             all tests");
-      System.err.println("  delete          delete test");
-      System.err.println("  extract         extract test");
-      System.err.println("  clone           clone test");
-      System.err.println("  insert          insert test");
-      System.err.println("  surround        surround test");
-      System.err.println("  insert2         insert mutation test");
-      System.err.println("  delete2         delete mutation test");
-      System.err.println("stdout:");
-      System.err.println("  yes             print to standard output");
-      System.err.println("  no              don't print any messages to standard output [default]");
-
-
-   } // printUsage()
-    
-    
-    public Test(String arg) {
-        if (arg.equals("all")) {
-            boolean all = false;
-            all = performTest("delete");
-            all = performTest("extract")&&all;
-            all = performTest("clone")&&all;
-            all = performTest("insert")&&all;
-            all = performTest("surround")&&all;
-            all = performTest("insert2")&&all;
-            all = performTest("delete2")&&all;
-            if (all) {
-                System.out.println("Done.");
-                
+    public void testDelete() throws Exception {
+        for (int i = 0; i < tests.length; i++) {
+            parser.parse(new InputSource(new StringReader(tests[i])));
+            DocumentImpl document = (DocumentImpl)parser.getDocument();
+            Range range = document.createRange();
+            Node root = document.getDocumentElement();
+            
+            if (i == 0) { 
+                range.setStart(root.getFirstChild(), 1);
+                range.setEndBefore(root.getLastChild());
             }
-            else {
-                System.out.println("*** ONE OR MORE TESTS FAILED! ***");
-                System.exit(1);
+            else if (i == 1) {
+                Node n1 = root.getFirstChild().getNextSibling().
+                getFirstChild();
+                range.setStart(n1, 1);
+                range.setEnd(root.getLastChild(), 1);
+            }
+            else if (i == 2) {
+                range.setStart(root.getFirstChild(), 1);
+                Node n2 = root.getFirstChild().getNextSibling().getFirstChild();
+                range.setEnd(n2, 1);
+            }
+            else if (i == 3) {
+                Node n3 = root.getFirstChild().getFirstChild();
+                range.setStart(n3, 1);
+                range.setEnd(root.getLastChild().getFirstChild(), 1);
+            }
+            else if (i == 4) {
+                Node n4 = root.getFirstChild().getFirstChild().getNextSibling().getFirstChild();
+                range.setStartAfter(n4);
+                range.setEndAfter(root.getLastChild().getFirstChild());
             }
             
-        } else {
-            performTest(arg);            
+            range.deleteContents();
+            String result = toString(document);
+            assertEquals("Delete test[" + i + "]", deleteResult[i], result);
         }
     }
     
-    public boolean performTest(String arg) {
-        boolean passed = true;
-        try {
-            Writer writer = new Writer(false);
-            DOMParser parser = new DOMParser();
-            if (!arg.equals("delete2") && !arg.equals("insert2")) {
-            if (fStdOut) System.out.println("\n*************** Test == "+arg+" ***************");
-            for (int i = 0; i < tests.length; i++) {
-                if (fStdOut) System.out.println("\n\nTest["+i+"]");
-                if (fStdOut) System.out.println("\nBefore "+arg+": document="+tests[i]+":");
-                parser.parse(new InputSource(new StringReader(tests[i])));
-                DocumentImpl document = (DocumentImpl)parser.getDocument();
-                Range range = document.createRange();
-                Node root = document.getDocumentElement();
-                boolean surround = false;
-                Node surroundNode=document.createElement(SURROUND);
-                if (arg.equals("surround")) {
-                    surround = true;
-                }
-                
-                if (i == 0) { 
-                    range.setStart(root.getFirstChild(), 1);
-                    range.setEndBefore(root.getLastChild());
-                    if (surround)
-                        range.setEnd(root.getLastChild(),1);
-                    
-                }
-                else if (i == 1) {
-                    Node n1 = root.getFirstChild().getNextSibling().
-                    getFirstChild();
-                    range.setStart(n1, 1);
-                    range.setEnd(root.getLastChild(), 1);
-                    if (surround)
-                        range.setEnd(n1,2);
-                }
-                else if (i == 2) {
-                    range.setStart(root.getFirstChild(), 1);
-                    Node n2 = root.getFirstChild().getNextSibling().getFirstChild();
-                    range.setEnd(n2, 1);
-                    if (surround)
-                        range.setEndBefore(root.getLastChild());
-                }
-                else if (i == 3) {
-                    Node n3 = root.getFirstChild().getFirstChild();
-                    range.setStart(n3, 1);
-                    range.setEnd(root.getLastChild().getFirstChild(), 1);
-                    if (surround) {
-                        range.selectNode(root.getFirstChild().getNextSibling());
-                    }
-                }
-                else if (i == 4) {
-                    Node n4 = root.getFirstChild().getFirstChild().getNextSibling().getFirstChild();
-                    range.setStartAfter(n4);
-                    range.setEndAfter(root.getLastChild().getFirstChild());
-                    if (surround) {
-                        range.selectNodeContents(root.getFirstChild().getNextSibling());
-                    }
-                }
-                
-                if (fStdOut) System.out.println("range.toString="+range.toString());
-                DocumentFragment frag = null;
-                
-                if (arg.equals("surround")) {
-                    try {
-                        if (fStdOut) System.out.println("surroundNode="+surroundNode);
-                        range.surroundContents(surroundNode);
-                    } catch (org.w3c.dom.ranges.RangeException e) {
-                        if (fStdOut) System.out.println(e);
-                    }
-                   String result = toString(document);
-                   if (fStdOut) System.out.println("After surround: document="+result+":");
-                   if (!result.equals(surroundResult[i])) {
-                        if (fStdOut) System.out.println("Should be: document="+surroundResult[i]+":");
-                        passed = false;
-                        if (fStdOut) System.out.println("Test FAILED!");
-                        if (fStdOut) System.out.println("*** Surround document Test["+i+"] FAILED!");
-                   }
-                }
-                
-                if (arg.equals("insert")) {
-                    range.insertNode(document.createTextNode(INSERT));
-                   String result = toString(document);
-                   if (fStdOut) System.out.println("After  insert: document="+result+":");
-                   if (!result.equals(insertResult[i])) {
-                        if (fStdOut) System.out.println("Should be: document="+insertResult[i]+":");
-                        passed = false;
-                        if (fStdOut) System.out.println("Test FAILED!");
-                        if (fStdOut) System.out.println("*** Insert document Test["+i+"] FAILED!");
-                   }
-                    
-                } else 
-                if (arg.equals("delete")) {
-                   range.deleteContents();
-                   String result = toString(document);
-                   if (fStdOut) System.out.println("After delete:"+result+":");
-                   if (!result.equals(deleteResult[i])) {
-                        if (fStdOut) System.out.println("Should be: document="+deleteResult[i]+":");
-                        passed = false;
-                        if (fStdOut) System.out.println("Test FAILED!");
-                        if (fStdOut) System.out.println("*** Delete document Test["+i+"] FAILED!");
-                   }
-                }
-                else 
-                if (arg.equals("extract")) {
-                    frag = range.extractContents();
-                    //range.insertNode(document.createTextNode("^"));
-                   String result = toString(document);
-                   if (fStdOut) System.out.println("After extract: document="+result+":");
-                   if (!result.equals(deleteResult[i])) {
-                        if (fStdOut) System.out.println("Should be: document="+deleteResult[i]+":");
-                        passed = false;
-                        if (fStdOut) System.out.println("*** Extract document Test["+i+"] FAILED!");
-                   }
-                   String fragResult = toString(frag);
-                   if (fStdOut) System.out.println("After extract: fragment="+fragResult+":");
-                   if (!fragResult.equals(extractResult[i])) {
-                        if (fStdOut) System.out.println("Should be: fragment="+extractResult[i]+":");
-                        passed = false;
-                        if (fStdOut) System.out.println("*** Extract Fragment Test["+i+"] FAILED!");
-                   }
-                }
-                   
-                else 
-                if (arg.equals("clone")) {
-                    frag = range.cloneContents();
-                   String fragResult = toString(frag);
-                   if (fStdOut) System.out.println("After clone: fragment="+fragResult);
-                   if (!fragResult.equals(extractResult[i])) {
-                        if (fStdOut) System.out.println("Should be: fragment="+extractResult[i]+":");
-                        passed = false;
-                        if (fStdOut) System.out.println("*** Clone Fragment Test["+i+"] FAILED!");
-                   }
-                }
-                
+    public void testExtract() throws Exception {
+        for (int i = 0; i < tests.length; i++) {
+            parser.parse(new InputSource(new StringReader(tests[i])));
+            DocumentImpl document = (DocumentImpl)parser.getDocument();
+            Range range = document.createRange();
+            Node root = document.getDocumentElement();
+            
+            if (i == 0) { 
+                range.setStart(root.getFirstChild(), 1);
+                range.setEndBefore(root.getLastChild());
+            }
+            else if (i == 1) {
+                Node n1 = root.getFirstChild().getNextSibling().
+                getFirstChild();
+                range.setStart(n1, 1);
+                range.setEnd(root.getLastChild(), 1);
+            }
+            else if (i == 2) {
+                range.setStart(root.getFirstChild(), 1);
+                Node n2 = root.getFirstChild().getNextSibling().getFirstChild();
+                range.setEnd(n2, 1);
+            }
+            else if (i == 3) {
+                Node n3 = root.getFirstChild().getFirstChild();
+                range.setStart(n3, 1);
+                range.setEnd(root.getLastChild().getFirstChild(), 1);
+            }
+            else if (i == 4) {
+                Node n4 = root.getFirstChild().getFirstChild().getNextSibling().getFirstChild();
+                range.setStartAfter(n4);
+                range.setEndAfter(root.getLastChild().getFirstChild());
             }
             
-            } else
-            if (arg.equals("insert2")) {
-            if (fStdOut) System.out.println("\n*************** Test == "+arg+" ***************");
-            for (int i = 0; i < 4; i++) {
-
-                if (fStdOut) System.out.println("\n\nTest["+i+"]");
-                if (fStdOut) System.out.println("\nBefore "+arg+": document="+INSERT2+":");
-                parser.parse(new InputSource(new StringReader(INSERT2)));
-                DocumentImpl document = (DocumentImpl)parser.getDocument();
-                Node root = document.getDocumentElement();
-                Range range = document.createRange();
-                range.setStart(root.getFirstChild(),11);
-                range.setEnd(root.getFirstChild(),18);
-                Range rangei = document.createRange();
-                if (i == 0) { 
-                    rangei.setStart(root.getFirstChild(), 10);
-                    rangei.setEnd(root.getFirstChild(), 10);
-                }
-                if (i == 1) { 
-                    rangei.setStart(root.getFirstChild(), 11);
-                    rangei.setEnd(root.getFirstChild(), 11);
-                }
-                if (i == 2) { 
-                    rangei.setStart(root.getFirstChild(), 12);
-                    rangei.setEnd(root.getFirstChild(), 12);
-                }
-                if (i == 3) { 
-                    rangei.setStart(root.getFirstChild(), 17);
-                    rangei.setEnd(root.getFirstChild(), 17);
-                }
-                //if (fStdOut) System.out.println("range: start1=="+range.getStartContainer());
-                //root.insertBefore(document.createTextNode("YES!"), root.getFirstChild());
-                //if (fStdOut) System.out.println("range: start2=="+range.getStartContainer());
-   
-                if (DEBUG) if (fStdOut) System.out.println("before insert start="+range.getStartOffset());
-                if (DEBUG) if (fStdOut) System.out.println("before insert end="+range.getEndOffset());
-                rangei.insertNode(document.createTextNode(INSERTED_TEXT));
-                if (DEBUG) if (fStdOut) System.out.println("after insert start="+range.getStartOffset());
-                if (DEBUG) if (fStdOut) System.out.println("after insert end="+range.getEndOffset());
-                
-                String result = toString(document);
-                if (fStdOut) System.out.println("After insert2: document="+result+":");
-                if (!result.equals(rangeInsertResult[i])) {
-                    if (fStdOut) System.out.println("Should be: document="+rangeInsertResult[i]+":");
-                    passed = false;
-                    if (fStdOut) System.out.println("Test FAILED!");
-                    if (fStdOut) System.out.println("*** Delete Ranges document Test["+i+"] FAILED!");
-                }
-            }
-            } else
-            if (arg.equals("delete2")) {
-            //
-            // Range Deletion, acting upon another range.
-            //
-       
-            if (fStdOut) System.out.println("\n*************** Test == "+arg+" ***************");
-            for (int i = 0; i < rangeDelete.length; i++) {
-                if (fStdOut) System.out.println("\n\nTest["+i+"]");
-                if (fStdOut) System.out.println("\nBefore "+arg+": document="+rangeDelete[i]+":");
-                parser.parse(new InputSource(new StringReader(rangeDelete[i])));
-                DocumentImpl document = (DocumentImpl)parser.getDocument();
-                Range range = document.createRange();
-                Range ranged = document.createRange();
-                Node root = document.getDocumentElement();
-                boolean surround = false;
-                Node surroundNode=document.createElement(SURROUND);
-                if (arg.equals("surround")) {
-                    surround = true;
-                }
-                
-                if (i == 0) { 
-                    ranged.setStart(root.getFirstChild(), 5);
-                    ranged.setEnd(root.getFirstChild(), 14);
-                    
-                    range.setStart(root.getFirstChild(), 11);
-                    range.setEnd(root.getFirstChild(), 19);
-                }
-                else if (i == 1) {
-                    ranged.setStart(root.getFirstChild(), 5);
-                    ranged.setEnd(root.getFirstChild(), 22);
-                    
-                    range.setStart(root.getFirstChild(), 11);
-                    range.setEnd(root.getFirstChild(), 21);
-                }
-                else if (i == 2) {
-                    ranged.setStart(root.getFirstChild(), 5);
-                    ranged.setEnd(root.getFirstChild().getNextSibling()
-                        .getFirstChild(), 1);
-                        
-                    range.setStart(root.getFirstChild(), 11);
-                    
-                    range.setEndAfter(root.getFirstChild().getNextSibling()
-                        .getFirstChild());
-                }
-                else if (i == 3) {
-                    ranged.setStart(root.getFirstChild(), 5);
-                    ranged.setEnd(root.getFirstChild(), 11);
-                    
-                    range.setStart(root.getFirstChild(), 11);
-                    range.setEnd(root.getFirstChild(), 21);
-                }
-                else if (i == 4) {
-                    ranged.selectNode(root.getFirstChild().getNextSibling());
-                    
-                    range.setStart(root.getFirstChild().getNextSibling()
-                        .getFirstChild(), 6);
-                    range.setEnd(root.getFirstChild().getNextSibling()
-                        .getFirstChild(), 15);
-                }
-                
-                DocumentFragment frag = null;
-                
-                if (arg.equals("delete2")) {
-                    if (DEBUG) {
-                   if (fStdOut) System.out.println("BEFORE deleteContents()");
-                   if (fStdOut) System.out.println("ranged: startc="+ranged.getStartContainer());
-                   if (fStdOut) System.out.println("ranged: starto="+ranged.getStartOffset());
-                   if (fStdOut) System.out.println("ranged:   endc="+ranged.getEndContainer());
-                   if (fStdOut) System.out.println("ranged:   endo="+ranged.getEndOffset());
-             
-                   if (fStdOut) System.out.println("range: startc="+range.getStartContainer());
-                   if (fStdOut) System.out.println("range: starto="+range.getStartOffset());
-                   if (fStdOut) System.out.println("range:   endc="+range.getEndContainer());
-                   if (fStdOut) System.out.println("range:   endo="+range.getEndOffset());
-                    }
-                   ranged.deleteContents();
-                   String result = null;
-                   if (DEBUG) {
-                   if (fStdOut) System.out.println("AFTER deleteContents()");
-                   result = toString(document);
-                   if (fStdOut) System.out.println("ranged: startc="+ranged.getStartContainer());
-                   if (fStdOut) System.out.println("ranged: starto="+ranged.getStartOffset());
-                   if (fStdOut) System.out.println("ranged:   endc="+ranged.getEndContainer());
-                   if (fStdOut) System.out.println("ranged:   endo="+ranged.getEndOffset());
-             
-                   if (fStdOut) System.out.println("range: startc="+range.getStartContainer());
-                   if (fStdOut) System.out.println("range: starto="+range.getStartOffset());
-                   if (fStdOut) System.out.println("range:   endc="+range.getEndContainer());
-                   if (fStdOut) System.out.println("range:   endo="+range.getEndOffset());
-                   }
-                   
-                   ranged.insertNode(document.createTextNode("^"));
-                   
-                   result = toString(document);
-                   if (fStdOut) System.out.println("After delete2: document="+result+":");
-                   if (!result.equals(rangeDeleteResult[i])) {
-                        if (fStdOut) System.out.println("Should be: document="+rangeDeleteResult[i]+":");
-                        passed = false;
-                        if (fStdOut) System.out.println("Test FAILED!");
-                        if (fStdOut) System.out.println("*** Delete Ranges document Test["+i+"] FAILED!");
-                   }
-                }
-            }
-                
-            }
-            
-       
+            DocumentFragment frag = range.extractContents();
+            String result = toString(document);
+            assertEquals("Extract document test[" + i + "]", deleteResult[i], result);
+            String fragResult = toString(frag);
+            assertEquals("Extract fragment test[" + i + "]", extractResult[i], fragResult);
         }
-        catch (org.xml.sax.SAXParseException spe) {
-            passed = false;
-        }
-        catch (org.xml.sax.SAXException se) {
-            if (se.getException() != null)
-                se.getException().printStackTrace(System.err);
-            else
-                se.printStackTrace(System.err);
-            passed = false;
-        }
-        catch (Exception e) {
-            e.printStackTrace(System.err);
-            passed = false;
-        }
-        if (!passed) if (fStdOut) System.out.println("*** The "+arg+" Test FAILED! ***");
-        
-        return passed;
     }
+    
+    public void testClone() throws Exception {
+        for (int i = 0; i < tests.length; i++) {
+            parser.parse(new InputSource(new StringReader(tests[i])));
+            DocumentImpl document = (DocumentImpl)parser.getDocument();
+            Range range = document.createRange();
+            Node root = document.getDocumentElement();
+            
+            if (i == 0) { 
+                range.setStart(root.getFirstChild(), 1);
+                range.setEndBefore(root.getLastChild());
+            }
+            else if (i == 1) {
+                Node n1 = root.getFirstChild().getNextSibling().
+                getFirstChild();
+                range.setStart(n1, 1);
+                range.setEnd(root.getLastChild(), 1);
+            }
+            else if (i == 2) {
+                range.setStart(root.getFirstChild(), 1);
+                Node n2 = root.getFirstChild().getNextSibling().getFirstChild();
+                range.setEnd(n2, 1);
+            }
+            else if (i == 3) {
+                Node n3 = root.getFirstChild().getFirstChild();
+                range.setStart(n3, 1);
+                range.setEnd(root.getLastChild().getFirstChild(), 1);
+            }
+            else if (i == 4) {
+                Node n4 = root.getFirstChild().getFirstChild().getNextSibling().getFirstChild();
+                range.setStartAfter(n4);
+                range.setEndAfter(root.getLastChild().getFirstChild());
+            }
+            
+            DocumentFragment frag = range.cloneContents();
+            String fragResult = toString(frag);
+            assertEquals("Clone test[" + i + "]", extractResult[i], fragResult);
+        }
+    }
+    
+    public void testInsert() throws Exception {
+        for (int i = 0; i < tests.length; i++) {
+            parser.parse(new InputSource(new StringReader(tests[i])));
+            DocumentImpl document = (DocumentImpl)parser.getDocument();
+            Range range = document.createRange();
+            Node root = document.getDocumentElement();
+            
+            if (i == 0) { 
+                range.setStart(root.getFirstChild(), 1);
+                range.setEndBefore(root.getLastChild());
+            }
+            else if (i == 1) {
+                Node n1 = root.getFirstChild().getNextSibling().
+                getFirstChild();
+                range.setStart(n1, 1);
+                range.setEnd(root.getLastChild(), 1);
+            }
+            else if (i == 2) {
+                range.setStart(root.getFirstChild(), 1);
+                Node n2 = root.getFirstChild().getNextSibling().getFirstChild();
+                range.setEnd(n2, 1);
+            }
+            else if (i == 3) {
+                Node n3 = root.getFirstChild().getFirstChild();
+                range.setStart(n3, 1);
+                range.setEnd(root.getLastChild().getFirstChild(), 1);
+            }
+            else if (i == 4) {
+                Node n4 = root.getFirstChild().getFirstChild().getNextSibling().getFirstChild();
+                range.setStartAfter(n4);
+                range.setEndAfter(root.getLastChild().getFirstChild());
+            }
+            
+            range.insertNode(document.createTextNode(INSERT));
+            String result = toString(document);
+            assertEquals("Insert test[" + i + "]", insertResult[i], result);
+        }
+    }
+    
+    public void testSurround() throws Exception {
+        for (int i = 0; i < tests.length; i++) {
+            parser.parse(new InputSource(new StringReader(tests[i])));
+            DocumentImpl document = (DocumentImpl)parser.getDocument();
+            Range range = document.createRange();
+            Node root = document.getDocumentElement();
+            Node surroundNode = document.createElement(SURROUND);
+            
+            if (i == 0) { 
+                range.setStart(root.getFirstChild(), 1);
+                range.setEnd(root.getLastChild(), 1);
+            }
+            else if (i == 1) {
+                Node n1 = root.getFirstChild().getNextSibling().
+                getFirstChild();
+                range.setStart(n1, 1);
+                range.setEnd(n1, 2);
+            }
+            else if (i == 2) {
+                range.setStart(root.getFirstChild(), 1);
+                Node n2 = root.getFirstChild().getNextSibling().getFirstChild();
+                range.setEnd(n2, 1);
+                range.setEndBefore(root.getLastChild());
+            }
+            else if (i == 3) {
+                Node n3 = root.getFirstChild().getFirstChild();
+                range.setStart(n3, 1);
+                range.setEnd(root.getLastChild().getFirstChild(), 1);
+                range.selectNode(root.getFirstChild().getNextSibling());
+            }
+            else if (i == 4) {
+                Node n4 = root.getFirstChild().getFirstChild().getNextSibling().getFirstChild();
+                range.setStartAfter(n4);
+                range.setEndAfter(root.getLastChild().getFirstChild());
+                range.selectNodeContents(root.getFirstChild().getNextSibling());
+            }
+            
+            // TODO: surroundContents may throw RangeException for some cases
+            try {
+                range.surroundContents(surroundNode);
+            } catch (org.w3c.dom.ranges.RangeException e) {
+            }
+            String result = toString(document);
+            assertEquals("Surround test[" + i + "]", surroundResult[i], result);
+        }
+    }
+    
+    public void testInsert2() throws Exception {
+        for (int i = 0; i < 4; i++) {
+            parser.parse(new InputSource(new StringReader(INSERT2)));
+            DocumentImpl document = (DocumentImpl)parser.getDocument();
+            Node root = document.getDocumentElement();
+            Range range = document.createRange();
+            range.setStart(root.getFirstChild(), 11);
+            range.setEnd(root.getFirstChild(), 18);
+            Range rangei = document.createRange();
+            if (i == 0) { 
+                rangei.setStart(root.getFirstChild(), 10);
+                rangei.setEnd(root.getFirstChild(), 10);
+            }
+            if (i == 1) { 
+                rangei.setStart(root.getFirstChild(), 11);
+                rangei.setEnd(root.getFirstChild(), 11);
+            }
+            if (i == 2) { 
+                rangei.setStart(root.getFirstChild(), 12);
+                rangei.setEnd(root.getFirstChild(), 12);
+            }
+            if (i == 3) { 
+                rangei.setStart(root.getFirstChild(), 17);
+                rangei.setEnd(root.getFirstChild(), 17);
+            }
+            
+            rangei.insertNode(document.createTextNode(INSERTED_TEXT));
+            
+            String result = toString(document);
+            assertEquals("Insert2 test[" + i + "]", rangeInsertResult[i], result);
+        }
+    }
+    
+    public void testDelete2() throws Exception {
+        for (int i = 0; i < rangeDelete.length; i++) {
+            parser.parse(new InputSource(new StringReader(rangeDelete[i])));
+            DocumentImpl document = (DocumentImpl)parser.getDocument();
+            Range range = document.createRange();
+            Range ranged = document.createRange();
+            Node root = document.getDocumentElement();
+            
+            if (i == 0) { 
+                ranged.setStart(root.getFirstChild(), 5);
+                ranged.setEnd(root.getFirstChild(), 14);
+                
+                range.setStart(root.getFirstChild(), 11);
+                range.setEnd(root.getFirstChild(), 19);
+            }
+            else if (i == 1) {
+                ranged.setStart(root.getFirstChild(), 5);
+                ranged.setEnd(root.getFirstChild(), 22);
+                
+                range.setStart(root.getFirstChild(), 11);
+                range.setEnd(root.getFirstChild(), 21);
+            }
+            else if (i == 2) {
+                ranged.setStart(root.getFirstChild(), 5);
+                ranged.setEnd(root.getFirstChild().getNextSibling()
+                    .getFirstChild(), 1);
+                    
+                range.setStart(root.getFirstChild(), 11);
+                
+                range.setEndAfter(root.getFirstChild().getNextSibling()
+                    .getFirstChild());
+            }
+            else if (i == 3) {
+                ranged.setStart(root.getFirstChild(), 5);
+                ranged.setEnd(root.getFirstChild(), 11);
+                
+                range.setStart(root.getFirstChild(), 11);
+                range.setEnd(root.getFirstChild(), 21);
+            }
+            else if (i == 4) {
+                ranged.selectNode(root.getFirstChild().getNextSibling());
+                
+                range.setStart(root.getFirstChild().getNextSibling()
+                    .getFirstChild(), 6);
+                range.setEnd(root.getFirstChild().getNextSibling()
+                    .getFirstChild(), 15);
+            }
+            
+            ranged.deleteContents();
+            ranged.insertNode(document.createTextNode("^"));
+            
+            String result = toString(document);
+            assertEquals("Delete2 test[" + i + "]", rangeDeleteResult[i], result);
+        }
+    }
+    
     StringBuffer sb;
     boolean canonical = true;
     
     String toString(Node node) {
         sb = new StringBuffer();
         return print(node);
-    
     }
    
    /** Prints the specified node, recursively. */
@@ -516,8 +438,6 @@ public class Test {
          // print document
          case Node.DOCUMENT_NODE: {
                return print(((Document)node).getDocumentElement());
-               //out.flush();
-               //break;
             }
 
             // print element with attributes
@@ -676,7 +596,6 @@ public class Test {
                      str.append(';');
                      break;
                   }
-                  // else, default append char
                }
             default: {
                   str.append(ch);
@@ -687,6 +606,6 @@ public class Test {
       return (str.toString());
 
    } // normalize(String):String
-   
     
+     
 }

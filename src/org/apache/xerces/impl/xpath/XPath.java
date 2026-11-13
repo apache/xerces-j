@@ -1283,29 +1283,29 @@ public class XPath {
 
         // symbols
 
-        private static final String fAndSymbol = "and".intern();
-        private static final String fOrSymbol = "or".intern();
-        private static final String fModSymbol = "mod".intern();
-        private static final String fDivSymbol = "div".intern();
+        private static final String fAndSymbol = "and";
+        private static final String fOrSymbol = "or";
+        private static final String fModSymbol = "mod";
+        private static final String fDivSymbol = "div";
 
-        private static final String fCommentSymbol = "comment".intern();
-        private static final String fTextSymbol = "text".intern();
-        private static final String fPISymbol = "processing-instruction".intern();
-        private static final String fNodeSymbol = "node".intern();
+        private static final String fCommentSymbol = "comment";
+        private static final String fTextSymbol = "text";
+        private static final String fPISymbol = "processing-instruction";
+        private static final String fNodeSymbol = "node";
 
-        private static final String fAncestorSymbol = "ancestor".intern();
-        private static final String fAncestorOrSelfSymbol = "ancestor-or-self".intern();
-        private static final String fAttributeSymbol = "attribute".intern();
-        private static final String fChildSymbol = "child".intern();
-        private static final String fDescendantSymbol = "descendant".intern();
-        private static final String fDescendantOrSelfSymbol = "descendant-or-self".intern();
-        private static final String fFollowingSymbol = "following".intern();
-        private static final String fFollowingSiblingSymbol = "following-sibling".intern();
-        private static final String fNamespaceSymbol = "namespace".intern();
-        private static final String fParentSymbol = "parent".intern();
-        private static final String fPrecedingSymbol = "preceding".intern();
-        private static final String fPrecedingSiblingSymbol = "preceding-sibling".intern();
-        private static final String fSelfSymbol = "self".intern();
+        private static final String fAncestorSymbol = "ancestor";
+        private static final String fAncestorOrSelfSymbol = "ancestor-or-self";
+        private static final String fAttributeSymbol = "attribute";
+        private static final String fChildSymbol = "child";
+        private static final String fDescendantSymbol = "descendant";
+        private static final String fDescendantOrSelfSymbol = "descendant-or-self";
+        private static final String fFollowingSymbol = "following";
+        private static final String fFollowingSiblingSymbol = "following-sibling";
+        private static final String fNamespaceSymbol = "namespace";
+        private static final String fParentSymbol = "parent";
+        private static final String fPrecedingSymbol = "preceding";
+        private static final String fPrecedingSiblingSymbol = "preceding-sibling";
+        private static final String fSelfSymbol = "self";
 
         //
         // Constructors

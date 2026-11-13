@@ -425,7 +425,17 @@ public class HTMLSerializer
 
         if ( _xhtml) {
             if ( state.empty ) {
-                _printer.printText( " />" );
+                // XHTML: only elements which are declared empty in HTML may
+                // use the self-closing syntax. Other elements need an explicit
+                // end tag so that the output remains valid HTML.
+                if ( htmlName != null && ! HTMLdtd.isEmptyTag( htmlName ) ) {
+                    _printer.printText( '>' );
+                    _printer.printText( "</" );
+                    _printer.printText( state.rawName.toLowerCase(Locale.ENGLISH) );
+                    _printer.printText( '>' );
+                }
+                else
+                    _printer.printText( " />" );
             } else {
                 // Must leave CData section first
                 if ( state.inCData )

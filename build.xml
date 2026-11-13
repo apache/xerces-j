@@ -869,6 +869,8 @@ Authors:
              <include name="schema/Test.class"/>
              <include name="xinclude/Test.class"/>
              <include name="xinclude/MalformedXPointerTest.class"/>
+             <include name="xinclude/XIncludeCycleTest.class"/>
+             <include name="xinclude/XPointerIncludeCycleTest.class"/>
             </fileset>
           </batchtest>
        <formatter type="brief" usefile="false"/>

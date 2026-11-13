@@ -1,0 +1,15 @@
+<!DOCTYPE book [
+<!ATTLIST chapter id ID #IMPLIED>
+]>
+<book xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    id="a-book"
+    version="5.0">
+    <title>A</title>
+    <chapter id="a-chapter">
+        <title>a chapter</title>
+        <para>foo</para>
+    </chapter>
+    <xi:include href="xpointer-cycle-b.xml" xpointer="b-chapter"/>
+</book>

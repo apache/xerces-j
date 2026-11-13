@@ -25,8 +25,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import dom.ParserWrapper;
 
@@ -83,64 +81,21 @@ public class Test extends TestCase implements UserDataHandler {
     protected void setUp() throws Exception {
         ParserWrapper parser = (ParserWrapper)
             Class.forName(DEFAULT_PARSER_NAME).newInstance();
-        try {
-            parser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
-        }
-        catch (SAXException e) {
-            // ignore
-        }
-        try {
-            parser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
-        }
-        catch (SAXException e) {
-            // ignore
-        }
-        try {
-            parser.setFeature(SCHEMA_VALIDATION_FEATURE_ID,
-                              DEFAULT_SCHEMA_VALIDATION);
-        }
-        catch (SAXException e) {
-            // ignore
-        }
-        try {
-            parser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID,
-                              DEFAULT_SCHEMA_FULL_CHECKING);
-        }
-        catch (SAXException e) {
-            // ignore
-        }
+        parser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
+        parser.setFeature(VALIDATION_FEATURE_ID, DEFAULT_VALIDATION);
+        parser.setFeature(SCHEMA_VALIDATION_FEATURE_ID,
+                          DEFAULT_SCHEMA_VALIDATION);
+        parser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID,
+                          DEFAULT_SCHEMA_FULL_CHECKING);
         if (parser instanceof dom.wrappers.Xerces) {
-            try {
-                parser.setFeature(DEFERRED_DOM_FEATURE_ID,
-                                  DEFAULT_DEFERRED_DOM);
-            }
-            catch (SAXException e) {
-                // ignore
-            }
+            parser.setFeature(DEFERRED_DOM_FEATURE_ID,
+                              DEFAULT_DEFERRED_DOM);
         }
-        try {
-            document = parser.parse("tests/dom/rename/input.xml");
-        }
-        catch (SAXParseException e) {
-            fail("Parse error: " + e.getMessage());
-        }
-        catch (Exception e) {
-            String msg = e.getMessage();
-            if (e instanceof SAXException) {
-                msg = ((SAXException)e).getException().getMessage();
-            }
-            fail("Parse error: " + msg);
-        }
+        document = parser.parse("tests/dom/rename/input.xml");
     }
 
     public void testRename() {
-        doTestRename(document);
-    }
-
-    /** Performs the actual test. */
-    public void doTestRename(Document doc) {
-
-        System.out.println("DOM rename Test...");
+        Document doc = document;
 
 	// getting the first "email" element
 	NodeList elements = doc.getElementsByTagName("email");
@@ -179,8 +134,8 @@ public class Test extends TestCase implements UserDataHandler {
 	assertEquals("user data should still be 'yo'", "yo", (String) newChild.getUserData("mydata"));
 	// and handler must have been called if new node was created
 	if (newChild != child) {
-	    assertTrue("operation should be NODE_RENAMED",
-                       lastOperation == UserDataHandler.NODE_RENAMED);
+	    assertEquals("operation should be NODE_RENAMED",
+                       UserDataHandler.NODE_RENAMED, lastOperation);
 	    assertEquals("key should be 'mydata'", "mydata", lastKey);
 	    assertEquals("data should be 'yo'", "yo", (String) lastData);
 	    assertTrue("source should be original child", lastSource == child);
@@ -200,8 +155,8 @@ public class Test extends TestCase implements UserDataHandler {
                      "yo", (String) newChild2.getUserData("mydata"));
 	// and handler must have been called if new node was created
 	if (newChild2 != newChild) {
-	    assertTrue("operation should be NODE_RENAMED",
-                       lastOperation == UserDataHandler.NODE_RENAMED);
+	    assertEquals("operation should be NODE_RENAMED",
+                       UserDataHandler.NODE_RENAMED, lastOperation);
 	    assertEquals("key should be 'mydata'", "mydata", lastKey);
 	    assertEquals("data should be 'yo'", "yo", (String) lastData);
 	    assertTrue("source should be previous child", lastSource == newChild);
@@ -239,8 +194,8 @@ public class Test extends TestCase implements UserDataHandler {
                      "yo", (String) newAt.getUserData("mydata"));
 	// and handler must have been called if new node was created
 	if (newAt != at) {
-	    assertTrue("operation should be NODE_RENAMED",
-                       lastOperation == UserDataHandler.NODE_RENAMED);
+	    assertEquals("operation should be NODE_RENAMED",
+                       UserDataHandler.NODE_RENAMED, lastOperation);
 	    assertEquals("key should be 'mydata'", "mydata", lastKey);
 	    assertEquals("data should be 'yo'", "yo", (String) lastData);
 	    assertTrue("source should be original attr", lastSource == at);
@@ -262,8 +217,8 @@ public class Test extends TestCase implements UserDataHandler {
                      "yo", (String) newAt2.getUserData("mydata"));
 	// and handler must have been called if new node was created
 	if (newAt2 != newAt) {
-	    assertTrue("operation should be NODE_RENAMED",
-                       lastOperation == UserDataHandler.NODE_RENAMED);
+	    assertEquals("operation should be NODE_RENAMED",
+                       UserDataHandler.NODE_RENAMED, lastOperation);
 	    assertEquals("key should be 'mydata'", "mydata", lastKey);
 	    assertEquals("data should be 'yo'", "yo", (String) lastData);
 	    assertTrue("source should be previous attr", lastSource == newAt);
@@ -271,10 +226,7 @@ public class Test extends TestCase implements UserDataHandler {
 	    resetHandlerData();
 	}
 
-
-        System.out.println("done.");
-
-    } // doTestRename(Document)
+    } // testRename()
 
     // UserDataHandler related data
     short lastOperation = -1;

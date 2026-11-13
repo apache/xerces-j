@@ -836,11 +836,15 @@ Authors:
              <include name="dom/serialize/TestDocumentTypeSerialization.class"/>
              <include name="dom/treewalker/TestFirstChild.class"/>
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
-             <include name="org/apache/xml/serialize/TestIgnorableWhitespaceSerialization.class"/>
+             <include name="org/apache/xerces/impl/dtd/DTDContentModelDepthTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
+             <include name="org/apache/xml/serialize/TestIgnorableWhitespaceSerialization.class"/>
              <include name="dom/serialize/TestPreRootSerialization.class"/>
              <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>
              <include name="idc/IDConstraintTests.class"/>
+             <include name="io/UTF8.class"/>
+             <include name="io/UTF16.class"/>
+             <include name="jaxp/JAXPSpecTest.class"/>
              <include name="schema/Test.class"/>                   
              <include name="schema/annotations/*Test.class"/>                    
              <include name="schema/config/BasicTest.class"/>                    
@@ -854,10 +858,6 @@ Authors:
              <include name="schema/config/RootSimpleTypeDefinitionTest.class"/>
              <include name="schema/config/RootTypeDefinitionTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>         
-             <include name="io/UTF8.class"/>
-             <include name="io/UTF16.class"/>
-             <include name="schema/Test.class"/>
-             <include name="jaxp/JAXPSpecTest.class"/>
              <include name="xinclude/Test.class"/>
              <include name="xinclude/MalformedXPointerTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>

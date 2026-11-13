@@ -2205,7 +2205,7 @@ public class DTDGrammar
             //  simple content model.
             //
 
-            fQName.setValues(null, (String)contentSpec.value, 
+            fQName.setValues(null, (String)contentSpec.value,
                               (String)contentSpec.value, (String)contentSpec.otherValue);
             return new SimpleContentModel(contentSpec.type, fQName, null);
         } else if ((contentSpec.type == XMLContentSpec.CONTENTSPECNODE_CHOICE)
@@ -2276,68 +2276,97 @@ public class DTDGrammar
     private final CMNode buildSyntaxTree(int startNode, 
                                          XMLContentSpec contentSpec) {
 
-        // We will build a node at this level for the new tree
-        CMNode nodeRet = null;
-        getContentSpec(startNode, contentSpec);
-        if ((contentSpec.type & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY) {
-            //nodeRet = new CMAny(contentSpec.type, -1, fLeafCount++);
-            nodeRet = new CMAny(contentSpec.type, (String)contentSpec.otherValue, fLeafCount++);
-        }
-        else if ((contentSpec.type & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY_OTHER) {
-            nodeRet = new CMAny(contentSpec.type, (String)contentSpec.otherValue, fLeafCount++);
-        }
-        else if ((contentSpec.type & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY_LOCAL) {
-            nodeRet = new CMAny(contentSpec.type, null, fLeafCount++);
-        }
         //
-        //  If this node is a leaf, then its an easy one. We just add it
-        //  to the tree.
+        //  Build the tree iteratively so that deeply nested content models
+        //  cannot exhaust the Java stack.
         //
-        else if (contentSpec.type == XMLContentSpec.CONTENTSPECNODE_LEAF) {
-            //
-            //  Create a new leaf node, and pass it the current leaf count,
-            //  which is its DFA state position. Bump the leaf count after
-            //  storing it. This makes the positions zero based since we
-            //  store first and then increment.
-            //
-            fQName.setValues(null, (String)contentSpec.value, 
-                              (String)contentSpec.value, (String)contentSpec.otherValue);
-            nodeRet = new CMLeaf(fQName, fLeafCount++);
-        } 
-        else {
-            //
-            //  Its not a leaf, so we have to recurse its left and maybe right
-            //  nodes. Save both values before we recurse and trash the node.
-            final int leftNode = ((int[])contentSpec.value)[0];
-            final int rightNode = ((int[])contentSpec.otherValue)[0];
+        final ArrayList<int[]> frameStack = new ArrayList<int[]>();
+        final ArrayList<CMNode> nodeStack = new ArrayList<CMNode>();
+        frameStack.add(new int[] { startNode, 0, 0, 0, 0 });
 
-            if ((contentSpec.type == XMLContentSpec.CONTENTSPECNODE_CHOICE)
-                ||  (contentSpec.type == XMLContentSpec.CONTENTSPECNODE_SEQ)) {
-                //
-                //  Recurse on both children, and return a binary op node
-                //  with the two created sub nodes as its children. The node
-                //  type is the same type as the source.
-                //
+        while (!frameStack.isEmpty()) {
+            final int last = frameStack.size() - 1;
+            final int[] frame = frameStack.get(last);
 
-                nodeRet = new CMBinOp( contentSpec.type, buildSyntaxTree(leftNode, contentSpec)
-                                       , buildSyntaxTree(rightNode, contentSpec));
-            } 
-            else if (contentSpec.type == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_MORE) {
-                nodeRet = new CMUniOp( contentSpec.type, buildSyntaxTree(leftNode, contentSpec));
-            } 
-            else if (contentSpec.type == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_MORE
-                  || contentSpec.type == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_ONE
-                  || contentSpec.type == XMLContentSpec.CONTENTSPECNODE_ONE_OR_MORE) {
-                nodeRet = new CMUniOp(contentSpec.type, buildSyntaxTree(leftNode, contentSpec));
-            } 
+            if (frame[1] == 0) {
+                //  Read this node and create it if it is a leaf.
+                getContentSpec(frame[0], contentSpec);
+                if ((contentSpec.type & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY) {
+                    nodeStack.add(new CMAny(contentSpec.type, (String)contentSpec.otherValue, fLeafCount++));
+                    frameStack.remove(last);
+                }
+                else if ((contentSpec.type & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY_OTHER) {
+                    nodeStack.add(new CMAny(contentSpec.type, (String)contentSpec.otherValue, fLeafCount++));
+                    frameStack.remove(last);
+                }
+                else if ((contentSpec.type & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY_LOCAL) {
+                    nodeStack.add(new CMAny(contentSpec.type, null, fLeafCount++));
+                    frameStack.remove(last);
+                }
+                else if (contentSpec.type == XMLContentSpec.CONTENTSPECNODE_LEAF) {
+                    //
+                    //  Create a new leaf node, and pass it the current leaf count,
+                    //  which is its DFA state position. Bump the leaf count after
+                    //  storing it. This makes the positions zero based since we
+                    //  store first and then increment.
+                    //
+                    fQName.setValues(null, (String)contentSpec.value,
+                                      (String)contentSpec.value, (String)contentSpec.otherValue);
+                    nodeStack.add(new CMLeaf(fQName, fLeafCount++));
+                    frameStack.remove(last);
+                }
+                else {
+                    //
+                    //  Save the operation and its children before processing them.
+                    //
+                    frame[2] = contentSpec.type;
+                    frame[3] = ((int[])contentSpec.value)[0];
+                    frame[4] = ((int[])contentSpec.otherValue)[0];
+                    frame[1] = 1;
+                }
+            }
+            else if (frame[1] == 1) {
+                //  Process the left child.
+                final int type = frame[2];
+                if (type == XMLContentSpec.CONTENTSPECNODE_CHOICE
+                    || type == XMLContentSpec.CONTENTSPECNODE_SEQ) {
+                    frame[1] = 2;
+                }
+                else if (type == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_MORE
+                      || type == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_ONE
+                      || type == XMLContentSpec.CONTENTSPECNODE_ONE_OR_MORE) {
+                    frame[1] = 3;
+                }
+                else {
+                    throw new RuntimeException("ImplementationMessages.VAL_CST");
+                }
+                frameStack.add(new int[] { frame[3], 0, 0, 0, 0 });
+            }
+            else if (frame[1] == 2) {
+                //  Process the right child.
+                frame[1] = 3;
+                frameStack.add(new int[] { frame[4], 0, 0, 0, 0 });
+            }
             else {
-                throw new RuntimeException("ImplementationMessages.VAL_CST");
+                //  Both children have been processed, so create this node.
+                final int type = frame[2];
+                if (type == XMLContentSpec.CONTENTSPECNODE_CHOICE
+                    || type == XMLContentSpec.CONTENTSPECNODE_SEQ) {
+                    final CMNode rightNode = nodeStack.remove(nodeStack.size() - 1);
+                    final CMNode leftNode = nodeStack.remove(nodeStack.size() - 1);
+                    nodeStack.add(new CMBinOp(type, leftNode, rightNode));
+                }
+                else {
+                    final CMNode childNode = nodeStack.remove(nodeStack.size() - 1);
+                    nodeStack.add(new CMUniOp(type, childNode));
+                }
+                frameStack.remove(last);
             }
         }
-        // And return our new node for this level
-        return nodeRet;
+        // And return the new node for the root level
+        return nodeStack.get(0);
     }
-   
+
     /**
      * Build a vector of valid QNames from Content Spec
      * table.

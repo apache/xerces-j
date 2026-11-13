@@ -95,6 +95,13 @@ public class CoreDOMImplementationImpl
 	/** Dom implementation singleton. */
 	static final CoreDOMImplementationImpl singleton = new CoreDOMImplementationImpl();
 	
+	/**
+	 * @deprecated Use {@link #getDOMImplementation()} instead.
+	 */
+	@Deprecated
+	public CoreDOMImplementationImpl() {
+	}
+	
 	//
 	// Public methods
 	//

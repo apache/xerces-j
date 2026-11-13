@@ -127,41 +127,41 @@ public class XIncludeHandler
     public final static String XPOINTER = "xpointer";
 
     public final static String XINCLUDE_NS_URI =
-        "http://www.w3.org/2001/XInclude".intern();
-    public final static String XINCLUDE_INCLUDE = "include".intern();
-    public final static String XINCLUDE_FALLBACK = "fallback".intern();
+        "http://www.w3.org/2001/XInclude";
+    public final static String XINCLUDE_INCLUDE = "include";
+    public final static String XINCLUDE_FALLBACK = "fallback";
 
-    public final static String XINCLUDE_PARSE_XML = "xml".intern();
-    public final static String XINCLUDE_PARSE_TEXT = "text".intern();
+    public final static String XINCLUDE_PARSE_XML = "xml";
+    public final static String XINCLUDE_PARSE_TEXT = "text";
 
-    public final static String XINCLUDE_ATTR_HREF = "href".intern();
-    public final static String XINCLUDE_ATTR_PARSE = "parse".intern();
-    public final static String XINCLUDE_ATTR_ENCODING = "encoding".intern();
-    public final static String XINCLUDE_ATTR_ACCEPT = "accept".intern();
-    public final static String XINCLUDE_ATTR_ACCEPT_LANGUAGE = "accept-language".intern();
+    public final static String XINCLUDE_ATTR_HREF = "href";
+    public final static String XINCLUDE_ATTR_PARSE = "parse";
+    public final static String XINCLUDE_ATTR_ENCODING = "encoding";
+    public final static String XINCLUDE_ATTR_ACCEPT = "accept";
+    public final static String XINCLUDE_ATTR_ACCEPT_LANGUAGE = "accept-language";
 
     // Top Level Information Items have [included] property in infoset
-    public final static String XINCLUDE_INCLUDED = "[included]".intern();
+    public final static String XINCLUDE_INCLUDED = "[included]";
 
     /** The identifier for the Augmentation that contains the current base URI */
     public final static String CURRENT_BASE_URI = "currentBaseURI";
 
     // used for adding [base URI] attributes
-    private final static String XINCLUDE_BASE = "base".intern();
+    private final static String XINCLUDE_BASE = "base";
     private final static QName XML_BASE_QNAME =
         new QName(
             XMLSymbols.PREFIX_XML,
             XINCLUDE_BASE,
-            (XMLSymbols.PREFIX_XML + ":" + XINCLUDE_BASE).intern(),
+            (XMLSymbols.PREFIX_XML + ":" + XINCLUDE_BASE),
             NamespaceContext.XML_URI);
     
     // used for adding [language] attributes
-    private final static String XINCLUDE_LANG = "lang".intern();
+    private final static String XINCLUDE_LANG = "lang";
     private final static QName XML_LANG_QNAME = 
         new QName(
             XMLSymbols.PREFIX_XML,
             XINCLUDE_LANG,
-            (XMLSymbols.PREFIX_XML + ":" + XINCLUDE_LANG).intern(),
+            (XMLSymbols.PREFIX_XML + ":" + XINCLUDE_LANG),
             NamespaceContext.XML_URI);
 
     private final static QName NEW_NS_ATTR_QNAME =

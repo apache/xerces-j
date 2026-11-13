@@ -838,6 +838,7 @@ Authors:
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
              <include name="org/apache/xml/serialize/TestIgnorableWhitespaceSerialization.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
+             <include name="org/apache/xerces/impl/xpath/regex/RegexParserDepthTest.class"/>
              <include name="dom/serialize/TestPreRootSerialization.class"/>
              <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>
              <include name="idc/IDConstraintTests.class"/>

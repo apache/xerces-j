@@ -100,10 +100,17 @@ class ParserForXMLSchema extends RegexParser {
     }
     Token processParen() throws ParseException {
         this.next();
-        Token tok = Token.createParen(this.parseRegex(), 0);
+        int p = this.openParen();
+        return this.closeParen(this.parseRegex(), p);
+    }
+    protected int openParen() {
+        return 0;
+    }
+    protected Token closeParen(Token tok, int p) throws ParseException {
+        Token result = Token.createParen(tok, 0);
         if (this.read() != T_RPAREN)  throw ex("parser.factor.1", this.offset-1);
         this.next();                            // Skips ')'
-        return tok;
+        return result;
     }
     Token processParen2() throws ParseException {
         throw ex("parser.process.1", this.offset);

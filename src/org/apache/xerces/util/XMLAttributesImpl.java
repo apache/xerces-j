@@ -301,9 +301,8 @@ public class XMLAttributesImpl
 
     } // addAttribute(QName,String,XMLString)
 
-    /** 
-     * Removes all of the attributes. This method will also remove all
-     * entities associated to the attributes.
+    /**
+     * Removes all of the attributes.
      */
     public void removeAllAttributes() {
         fLength = 0;

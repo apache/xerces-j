@@ -168,6 +168,22 @@ public abstract class BaseMarkupSerializer
 
 
     /**
+     * The number of comments and PIs in {@link #_preRoot} that appear
+     * before the document type declaration. These must be
+     * printed before the doctype, while the remaining ones are printed
+     * after it. A value of -1 means that no doctype was declared.
+     */
+    private int             _preRootDoctypeIndex = -1;
+
+
+    /**
+     * The index of the first comment or PI in {@link #_preRoot} that has
+     * not been serialized yet.
+     */
+    private int             _preRootStart = 0;
+
+
+    /**
      * If the document has been started (header serialized), this
      * flag is set to true so it's not started twice.
      */
@@ -396,6 +412,8 @@ public abstract class BaseMarkupSerializer
         _docTypeSystemId = _format.getDoctypeSystem();
         _hasDocumentType = false;
         _started = false;
+        _preRootDoctypeIndex = -1;
+        _preRootStart = 0;
         _prepared = true;
     }
 
@@ -575,14 +593,13 @@ public abstract class BaseMarkupSerializer
         try {
         content();
 
-        // Print ignorable whitespaces only when indenting, after
-        // all they are indentation. Cancel the indentation to
-        // not indent twice.
+        // When indenting, ignorable whitespace is indentation. Cancel
+        // the indentation to not indent twice.
         if ( _indenting ) {
             _printer.setThisIndent( 0 );
-            for ( i = start ; length-- > 0 ; ++i )
-                _printer.printText( chars[ i ] );
         }
+        for ( i = start ; length-- > 0 ; ++i )
+            _printer.printText( chars[ i ] );
         } catch ( IOException except ) {
             throw new SAXException( except );
         }
@@ -832,6 +849,9 @@ public abstract class BaseMarkupSerializer
         _docTypePublicId = publicId;
         _docTypeSystemId = systemId;
         _hasDocumentType = true;
+        if ( _preRootDoctypeIndex < 0 ) {
+            _preRootDoctypeIndex = _preRoot == null ? 0 : _preRoot.size();
+        }
         } catch ( IOException except ) {
             throw new SAXException( except );
         }
@@ -1179,58 +1199,61 @@ public abstract class BaseMarkupSerializer
             serializeElement( (Element) node );
             break;
         }
-        case Node.DOCUMENT_NODE : {
+        case Node.DOCUMENT_TYPE_NODE : {
             DocumentType      docType;
-            
+
             // If there is a document type, use the SAX events to
             // serialize it.
-            docType = ( (Document) node ).getDoctype();
-            _hasDocumentType = docType != null;
-            if (docType != null) {
-                // DOM Level 2 (or higher)
-                try {
-                    String internal;
+            docType = (DocumentType) node;
+            _hasDocumentType = true;
+            // DOM Level 2 (or higher)
+            try {
+                String internal;
 
-                    _printer.enterDTD();
-                    _docTypePublicId = docType.getPublicId();
-                    _docTypeSystemId = docType.getSystemId();
-                    internal = docType.getInternalSubset();
-                    if ( internal != null && internal.length() > 0 )
-                        _printer.printText( internal );
-                    endDTD();
-                }
-                // DOM Level 1 -- does implementation have methods?
-                catch (NoSuchMethodError nsme) {
-                    Class docTypeClass = docType.getClass();
-
-                    String docTypePublicId = null;
-                    String docTypeSystemId = null;
-                    try {
-                        java.lang.reflect.Method getPublicId = docTypeClass.getMethod("getPublicId", (Class[]) null);
-                        if (getPublicId.getReturnType().equals(String.class)) {
-                            docTypePublicId = (String)getPublicId.invoke(docType, (Object[]) null);
-                        }
-                    }
-                    catch (Exception e) {
-                        // ignore
-                    }
-                    try {
-                        java.lang.reflect.Method getSystemId = docTypeClass.getMethod("getSystemId", (Class[]) null);
-                        if (getSystemId.getReturnType().equals(String.class)) {
-                            docTypeSystemId = (String)getSystemId.invoke(docType, (Object[]) null);
-                        }
-                    }
-                    catch (Exception e) {
-                        // ignore
-                    }
-                    _printer.enterDTD();
-                    _docTypePublicId = docTypePublicId;
-                    _docTypeSystemId = docTypeSystemId;
-                    endDTD();
-                }
+                _printer.enterDTD();
+                _docTypePublicId = docType.getPublicId();
+                _docTypeSystemId = docType.getSystemId();
+                internal = docType.getInternalSubset();
+                if ( internal != null && internal.length() > 0 )
+                    _printer.printText( internal );
+                endDTD();
             }
-            // !! Fall through
+            // DOM Level 1 -- does implementation have methods?
+            catch (NoSuchMethodError nsme) {
+                Class docTypeClass = docType.getClass();
+
+                String docTypePublicId = null;
+                String docTypeSystemId = null;
+                try {
+                    java.lang.reflect.Method getPublicId = docTypeClass.getMethod("getPublicId", (Class[]) null);
+                    if (getPublicId.getReturnType().equals(String.class)) {
+                        docTypePublicId = (String)getPublicId.invoke(docType, (Object[]) null);
+                    }
+                }
+                catch (Exception e) {
+                    // ignore
+                }
+                try {
+                    java.lang.reflect.Method getSystemId = docTypeClass.getMethod("getSystemId", (Class[]) null);
+                    if (getSystemId.getReturnType().equals(String.class)) {
+                        docTypeSystemId = (String)getSystemId.invoke(docType, (Object[]) null);
+                    }
+                }
+                catch (Exception e) {
+                    // ignore
+                }
+                _printer.enterDTD();
+                _docTypePublicId = docTypePublicId;
+                _docTypeSystemId = docTypeSystemId;
+                endDTD();
+            }
+            if ( _preRootDoctypeIndex < 0 ) {
+                _preRootDoctypeIndex = _preRoot == null ? 0 : _preRoot.size();
+            }
+            break;
         }
+        case Node.DOCUMENT_NODE :
+            // !! Fall through
         case Node.DOCUMENT_FRAGMENT_NODE : {
             Node         child;
 
@@ -1368,27 +1391,48 @@ public abstract class BaseMarkupSerializer
 
 
     /**
-     * Comments and PIs cannot be serialized before the root element,
-     * because the root element serializes the document type, which
-     * generally comes first. Instead such PIs and comments are
-     * accumulated inside a vector and serialized by calling this
-     * method. Will be called when the root element is serialized
-     * and when the document finished serializing.
+     * Serializes comments and processing instructions that appear before
+     * the root element and have not been serialized yet. This method is
+     * called when the root element is serialized and when the document
+     * finishes serializing.
      *
      * @throws IOException if an I/O error occurred while serializing
      */
     protected void serializePreRoot()
         throws IOException
     {
-        int i;
-
         if ( _preRoot != null ) {
-            for ( i = 0 ; i < _preRoot.size() ; ++i ) {
+            for ( int i = _preRootStart ; i < _preRoot.size() ; ++i ) {
                 printText( (String) _preRoot.elementAt( i ), true, true );
                 if ( _indenting )
                 _printer.breakLine();
             }
             _preRoot.removeAllElements();
+        }
+        _preRootStart = 0;
+        _preRootDoctypeIndex = -1;
+    }
+
+
+    /**
+     * Serializes the comments and processing instructions that appear
+     * before the document type declaration. Whether a document type
+     * declaration is serialized is determined by the {@link OutputFormat}
+     * and by calls to {@link #startDTD}.
+     *
+     * @throws IOException if an I/O error occurred while serializing
+     */
+    protected void serializePreRootBeforeDoctype()
+        throws IOException
+    {
+        if ( _preRoot != null ) {
+            int end = _preRootDoctypeIndex < 0 ? _preRootStart : _preRootDoctypeIndex;
+            for ( int i = _preRootStart ; i < end ; ++i ) {
+                printText( (String) _preRoot.elementAt( i ), true, true );
+                if ( _indenting )
+                _printer.breakLine();
+            }
+            _preRootStart = end;
         }
     }
 

@@ -186,7 +186,7 @@ public final class XPointerHandler extends XIncludeHandler implements
             }
             case Tokens.XPTRTOKEN_SCHEMENAME: {
 
-                // Retreive the local name and prefix to form the scheme name
+                // Retrieve the local name and prefix to form the scheme name
                 token = tokens.nextToken();
                 String prefix = tokens.getTokenString(token);
                 token = tokens.nextToken();
@@ -544,7 +544,7 @@ public final class XPointerHandler extends XIncludeHandler implements
         }
 
         /**
-         * Returns true if the {@link #getNextToken()} method
+         * Returns true if the {@link #nextToken()} method
          * returns a valid token.
          */
         private boolean hasMore() {
@@ -578,23 +578,6 @@ public final class XPointerHandler extends XIncludeHandler implements
                 reportError("XPointerProcessingError", null);
             }
             return fTokens[fCurrentTokenIndex];
-        }
-
-        /**
-         * Obtains the token at the current position as a String.
-         * <p>
-         * If there's no current token or if the current token
-         * is not a string token, this method throws 
-         * If there's no such next token, this method throws
-         * <code>new XNIException("XPointerProcessingError");</code>.
-         * </p>
-         */
-        private String nextTokenAsString() throws XNIException {
-            String tokenStrint = getTokenString(nextToken());
-            if (tokenStrint == null) {
-                reportError("XPointerProcessingError", null);
-            }
-            return tokenStrint;
         }
     }
 

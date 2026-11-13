@@ -172,6 +172,11 @@ public class XIncludeHandler
             NamespaceContext.XMLNS_URI);
 
     // Processing States
+    // The maximum number of nested XInclude operations that will be processed.
+    // This prevents hostile or accidentally recursive documents from exhausting
+    // the parser stack.
+    private final static int MAX_INCLUDE_DEPTH = 100;
+
     private final static int STATE_NORMAL_PROCESSING = 1;
     // we go into this state after a successful include (thus we ignore the children
     // of the include) or after a fallback
@@ -260,6 +265,9 @@ public class XIncludeHandler
 
     // for XIncludeHandler
     protected XIncludeHandler fParentXIncludeHandler;
+
+    // The number of include levels above this handler.
+    private int fIncludeDepth;
     
     // for buffer size in XIncludeTextReader
     protected int fBufferSize = XMLEntityManager.DEFAULT_BUFFER_SIZE;
@@ -1533,6 +1541,12 @@ public class XIncludeHandler
             acceptLanguage = null;
         }
 
+        if (XINCLUDE_PARSE_XML.equals(parse)
+                && fIncludeDepth >= MAX_INCLUDE_DEPTH) {
+            reportFatalError("IncludeDepthExceeded",
+                    new Object[] { Integer.valueOf(MAX_INCLUDE_DEPTH) });
+        }
+
         XMLInputSource includedSource = null;
         if (fEntityResolver != null) {
             try {
@@ -1932,15 +1946,14 @@ public class XIncludeHandler
      * @return true if the source has already been included
      */
     protected boolean searchForRecursiveIncludes(String includedSysId) {
-        if (includedSysId.equals(fCurrentBaseURI.getExpandedSystemId())) {
-            return true;
+        XIncludeHandler current = this;
+        while (current != null) {
+            if (includedSysId.equals(current.fCurrentBaseURI.getExpandedSystemId())) {
+                return true;
+            }
+            current = current.fParentXIncludeHandler;
         }
-        else if (fParentXIncludeHandler == null) {
-            return false;
-        }
-        else {
-            return fParentXIncludeHandler.searchForRecursiveIncludes(includedSysId);
-        }
+        return false;
     }
 
     /**
@@ -2405,6 +2418,7 @@ public class XIncludeHandler
      */
     protected void setParent(XIncludeHandler parent) {
         fParentXIncludeHandler = parent;
+        fIncludeDepth = parent == null ? 0 : parent.fIncludeDepth + 1;
     }
 
     protected void setHref(String href) {

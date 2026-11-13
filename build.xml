@@ -869,6 +869,7 @@ Authors:
              <include name="schema/Test.class"/>
              <include name="xinclude/Test.class"/>
              <include name="xinclude/MalformedXPointerTest.class"/>
+             <include name="org/apache/xerces/xinclude/XIncludeDepthTest.class"/>
             </fileset>
           </batchtest>
        <formatter type="brief" usefile="false"/>

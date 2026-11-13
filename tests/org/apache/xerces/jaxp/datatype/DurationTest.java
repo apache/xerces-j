@@ -27,19 +27,23 @@ import junit.framework.TestCase;
  */
 public class DurationTest extends TestCase {
 
-    public void testSubtractFractionalSeconds() throws Exception {
-        DatatypeFactory factory = new DatatypeFactoryImpl();
+    private DatatypeFactory factory;
+    private Duration fourHours;
 
-        Duration fourHours = factory.newDuration("PT4H");
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        factory = new DatatypeFactoryImpl();
+        fourHours = factory.newDuration("PT4H");
+    }
+
+    public void testSubtractFractionalSeconds() throws Exception {
         Duration oneSecond = factory.newDuration("PT1.0S");
 
         assertEquals("PT3H59M59S", fourHours.subtract(oneSecond).toString());
     }
 
     public void testSubtractFractionalSecondsKeepsNonZeroFraction() throws Exception {
-        DatatypeFactory factory = new DatatypeFactoryImpl();
-
-        Duration fourHours = factory.newDuration("PT4H");
         Duration oneAndAHalfSeconds = factory.newDuration("PT1.5S");
 
         assertEquals("PT3H59M58.5S",

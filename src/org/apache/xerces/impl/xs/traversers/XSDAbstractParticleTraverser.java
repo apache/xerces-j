@@ -17,6 +17,8 @@
 
 package org.apache.xerces.impl.xs.traversers;
 
+import java.util.ArrayList;
+
 import org.apache.xerces.impl.xs.SchemaGrammar;
 import org.apache.xerces.impl.xs.SchemaSymbols;
 import org.apache.xerces.impl.xs.XSAnnotationImpl;
@@ -196,107 +198,162 @@ abstract class XSDAbstractParticleTraverser extends XSDAbstractTraverser {
             int allContextFlags,
             boolean choice,
             XSObject parent) {
-        
-        // General Attribute Checking
-        Object[] attrValues = fAttrChecker.checkAttributes(decl, false, schemaDoc);
-        
-        Element child = DOMUtil.getFirstChildElement(decl);
-        XSAnnotationImpl annotation = null;
-        if (child !=null && DOMUtil.getLocalName(child).equals(SchemaSymbols.ELT_ANNOTATION)) {
-            annotation = traverseAnnotationDecl(child, attrValues, false, schemaDoc);
-            child = DOMUtil.getNextSiblingElement(child);
-        }
-        else {
-            String text = DOMUtil.getSyntheticAnnotation(decl);
-            if (text != null) {
-                annotation = traverseSyntheticAnnotation(decl, text, attrValues, false, schemaDoc);
-            }
-        }
-        
-        String childName = null;
-        XSParticleDecl particle;
-        fPArray.pushContext();
-        
-        for (;child != null;child = DOMUtil.getNextSiblingElement(child)) {
-            
-            particle = null;
-            
-            childName = DOMUtil.getLocalName(child);
-            if (childName.equals(SchemaSymbols.ELT_ELEMENT)) {
-                particle = fSchemaHandler.fElementTraverser.traverseLocal(child, schemaDoc, grammar, NOT_ALL_CONTEXT, parent);
-            }
-            else if (childName.equals(SchemaSymbols.ELT_GROUP)) {
-                particle = fSchemaHandler.fGroupTraverser.traverseLocal(child, schemaDoc, grammar);
-                
-                // A content type of all can only appear
-                // as the content type of a complex type definition.
-                if (hasAllContent(particle)) {
-                    // don't insert the "all" particle, otherwise we won't be
-                    // able to create DFA from this content model
-                    particle = null;
-                    reportSchemaError("cos-all-limited.1.2", null, child);
+
+        //
+        //  Traverse nested model groups with an explicit stack rather than
+        //  by recursing, so that deeply nested sequences and choices cannot
+        //  exhaust the Java stack.
+        //
+        final ArrayList<ParticleFrame> frames = new ArrayList<ParticleFrame>();
+        frames.add(new ParticleFrame(decl, schemaDoc, grammar, allContextFlags,
+                choice, parent));
+
+        while (true) {
+            final int last = frames.size() - 1;
+            final ParticleFrame frame = frames.get(last);
+            final Element child = frame.fNextChild;
+
+            if (child != null) {
+                frame.fNextChild = DOMUtil.getNextSiblingElement(child);
+
+                final String childName = DOMUtil.getLocalName(child);
+                XSParticleDecl particle = null;
+                if (childName.equals(SchemaSymbols.ELT_ELEMENT)) {
+                    particle = fSchemaHandler.fElementTraverser.traverseLocal(child,
+                            frame.fSchemaDoc, frame.fGrammar, NOT_ALL_CONTEXT, frame.fParent);
                 }
-                
-            }
-            else if (childName.equals(SchemaSymbols.ELT_CHOICE)) {
-                particle = traverseChoice(child, schemaDoc, grammar, NOT_ALL_CONTEXT, parent);
-            }
-            else if (childName.equals(SchemaSymbols.ELT_SEQUENCE)) {
-                particle = traverseSequence(child, schemaDoc, grammar, NOT_ALL_CONTEXT, parent);
-            }
-            else if (childName.equals(SchemaSymbols.ELT_ANY)) {
-                particle = fSchemaHandler.fWildCardTraverser.traverseAny(child, schemaDoc, grammar);
-            }
-            else {
-                Object [] args;
-                if (choice) {
-                    args = new Object[]{"choice", "(annotation?, (element | group | choice | sequence | any)*)", DOMUtil.getLocalName(child)};
+                else if (childName.equals(SchemaSymbols.ELT_GROUP)) {
+                    particle = fSchemaHandler.fGroupTraverser.traverseLocal(child,
+                            frame.fSchemaDoc, frame.fGrammar);
+
+                    // A content type of all can only appear
+                    // as the content type of a complex type definition.
+                    if (hasAllContent(particle)) {
+                        // don't insert the "all" particle, otherwise we won't be
+                        // able to create DFA from this content model
+                        particle = null;
+                        reportSchemaError("cos-all-limited.1.2", null, child);
+                    }
+                }
+                else if (childName.equals(SchemaSymbols.ELT_CHOICE)) {
+                    frames.add(new ParticleFrame(child, frame.fSchemaDoc,
+                            frame.fGrammar, NOT_ALL_CONTEXT, true, frame.fParent));
+                    continue;
+                }
+                else if (childName.equals(SchemaSymbols.ELT_SEQUENCE)) {
+                    frames.add(new ParticleFrame(child, frame.fSchemaDoc,
+                            frame.fGrammar, NOT_ALL_CONTEXT, false, frame.fParent));
+                    continue;
+                }
+                else if (childName.equals(SchemaSymbols.ELT_ANY)) {
+                    particle = fSchemaHandler.fWildCardTraverser.traverseAny(child,
+                            frame.fSchemaDoc, frame.fGrammar);
                 }
                 else {
-                    args = new Object[]{"sequence", "(annotation?, (element | group | choice | sequence | any)*)", DOMUtil.getLocalName(child)};
+                    Object [] args;
+                    if (frame.fChoice) {
+                        args = new Object[]{"choice", "(annotation?, (element | group | choice | sequence | any)*)", childName};
+                    }
+                    else {
+                        args = new Object[]{"sequence", "(annotation?, (element | group | choice | sequence | any)*)", childName};
+                    }
+                    reportSchemaError("s4s-elt-must-match.1", args, child);
                 }
-                reportSchemaError("s4s-elt-must-match.1", args, child);
+
+                if (particle != null) {
+                    fPArray.addParticle(particle);
+                }
             }
-            
-            if (particle != null)
-                fPArray.addParticle(particle);
+            else {
+                final XSParticleDecl particle = frame.finish();
+                frames.remove(last);
+                if (last == 0) {
+                    return particle;
+                }
+                if (particle != null) {
+                    fPArray.addParticle(particle);
+                }
+            }
         }
-        
-        particle = null;
-        
-        XInt minAtt = (XInt)attrValues[XSAttributeChecker.ATTIDX_MINOCCURS];
-        XInt maxAtt = (XInt)attrValues[XSAttributeChecker.ATTIDX_MAXOCCURS];
-        Long defaultVals = (Long)attrValues[XSAttributeChecker.ATTIDX_FROMDEFAULT];
-        
-        XSModelGroupImpl group = new XSModelGroupImpl();
-        group.fCompositor = choice ? XSModelGroupImpl.MODELGROUP_CHOICE : XSModelGroupImpl.MODELGROUP_SEQUENCE;
-        group.fParticleCount = fPArray.getParticleCount();
-        group.fParticles = fPArray.popContext();
-        XSObjectList annotations;
-        if (annotation != null) {
-            annotations = new XSObjectListImpl();
-            ((XSObjectListImpl)annotations).addXSObject (annotation);
-        } else {
-            annotations = XSObjectListImpl.EMPTY_LIST;
-        }
-        group.fAnnotations = annotations;
-        particle = new XSParticleDecl();
-        particle.fType = XSParticleDecl.PARTICLE_MODELGROUP;
-        particle.fMinOccurs = minAtt.intValue();
-        particle.fMaxOccurs = maxAtt.intValue();
-        particle.fValue = group;
-        particle.fAnnotations = annotations;
-        
-        particle = checkOccurrences(particle,
-                choice ? SchemaSymbols.ELT_CHOICE : SchemaSymbols.ELT_SEQUENCE,
-                        (Element)decl.getParentNode(),
-                        allContextFlags,
-                        defaultVals.longValue());
-        fAttrChecker.returnAttrArray(attrValues, schemaDoc);
-        
-        return particle;
     }
-    
+
+    /**
+     * Holds the in-progress traversal state for one model group.
+     */
+    private final class ParticleFrame {
+        final Element fDecl;
+        final XSDocumentInfo fSchemaDoc;
+        final SchemaGrammar fGrammar;
+        final int fAllContextFlags;
+        final boolean fChoice;
+        final XSObject fParent;
+        final Object[] fAttrValues;
+        final XSAnnotationImpl fAnnotation;
+        Element fNextChild;
+
+        ParticleFrame(Element decl, XSDocumentInfo schemaDoc,
+                SchemaGrammar grammar, int allContextFlags, boolean choice,
+                XSObject parent) {
+            fDecl = decl;
+            fSchemaDoc = schemaDoc;
+            fGrammar = grammar;
+            fAllContextFlags = allContextFlags;
+            fChoice = choice;
+            fParent = parent;
+            fAttrValues = fAttrChecker.checkAttributes(decl, false, schemaDoc);
+
+            Element child = DOMUtil.getFirstChildElement(decl);
+            XSAnnotationImpl annotation = null;
+            if (child != null && DOMUtil.getLocalName(child).equals(SchemaSymbols.ELT_ANNOTATION)) {
+                annotation = traverseAnnotationDecl(child, fAttrValues, false, schemaDoc);
+                child = DOMUtil.getNextSiblingElement(child);
+            }
+            else {
+                String text = DOMUtil.getSyntheticAnnotation(decl);
+                if (text != null) {
+                    annotation = traverseSyntheticAnnotation(decl, text, fAttrValues, false, schemaDoc);
+                }
+            }
+            fAnnotation = annotation;
+            fNextChild = child;
+            fPArray.pushContext();
+        }
+
+        XSParticleDecl finish() {
+            XInt minAtt = (XInt)fAttrValues[XSAttributeChecker.ATTIDX_MINOCCURS];
+            XInt maxAtt = (XInt)fAttrValues[XSAttributeChecker.ATTIDX_MAXOCCURS];
+            Long defaultVals = (Long)fAttrValues[XSAttributeChecker.ATTIDX_FROMDEFAULT];
+
+            XSModelGroupImpl group = new XSModelGroupImpl();
+            group.fCompositor = fChoice ? XSModelGroupImpl.MODELGROUP_CHOICE : XSModelGroupImpl.MODELGROUP_SEQUENCE;
+            group.fParticleCount = fPArray.getParticleCount();
+            group.fParticles = fPArray.popContext();
+            XSObjectList annotations;
+            if (fAnnotation != null) {
+                annotations = new XSObjectListImpl();
+                ((XSObjectListImpl)annotations).addXSObject(fAnnotation);
+            } else {
+                annotations = XSObjectListImpl.EMPTY_LIST;
+            }
+            group.fAnnotations = annotations;
+            XSParticleDecl particle = new XSParticleDecl();
+            particle.fType = XSParticleDecl.PARTICLE_MODELGROUP;
+            particle.fMinOccurs = minAtt.intValue();
+            particle.fMaxOccurs = maxAtt.intValue();
+            particle.fValue = group;
+            particle.fAnnotations = annotations;
+
+            particle = checkOccurrences(particle,
+                    fChoice ? SchemaSymbols.ELT_CHOICE : SchemaSymbols.ELT_SEQUENCE,
+                            (Element)fDecl.getParentNode(),
+                            fAllContextFlags,
+                            defaultVals.longValue());
+            fAttrChecker.returnAttrArray(fAttrValues, fSchemaDoc);
+
+            return particle;
+        }
+    }
+
     // Determines whether a content spec tree represents an "all" content model
     protected boolean hasAllContent(XSParticleDecl particle) {
         // If the content is not empty, is the top node ALL?

@@ -839,6 +839,7 @@ Authors:
              <include name="dom/treewalker/TestFirstChild.class"/>
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
+             <include name="org/apache/xerces/impl/xs/XSDAbstractParticleTraverserDepthTest.class"/>
              <include name="dom/serialize/TestPreRootSerialization.class"/>
              <include name="org/apache/xml/serialize/TestIgnorableWhitespaceSerialization.class"/>
              <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>

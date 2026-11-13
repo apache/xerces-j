@@ -17,6 +17,7 @@
 
 package org.apache.xerces.impl.xpath.regex;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -316,18 +317,89 @@ class RegexParser {
      *          | '\w' | '\W' | '\d' | '\D' | '\s' | '\S' | category-block 
      */
     Token parseRegex() throws ParseException {
-        Token tok = this.parseTerm();
-        Token parent = null;
-        while (this.read() == T_OR) {
-            this.next();                    // '|'
-            if (parent == null) {
-                parent = Token.createUnion();
-                parent.addChild(tok);
-                tok = parent;
+        //
+        //  Parse groups with an explicit stack rather than by recursing, so
+        //  that deeply nested parentheses cannot exhaust the Java stack.
+        //
+        final ArrayList<RegexFrame> frames = new ArrayList<RegexFrame>();
+        frames.add(new RegexFrame());
+
+        while (true) {
+            final int last = frames.size() - 1;
+            final RegexFrame frame = frames.get(last);
+            final int ch = this.read();
+
+            if (ch == T_OR) {
+                frame.addTerm();
+                this.next();                    // '|'
             }
-            tok.addChild(this.parseTerm());
+            else if (ch == T_RPAREN || ch == T_EOF) {
+                final Token result = frame.finish();
+                if (last == 0) {
+                    return result;
+                }
+                if (ch == T_EOF) {
+                    throw ex("parser.factor.1", this.offset-1);
+                }
+
+                frames.remove(last);
+                final RegexFrame parent = frames.get(last - 1);
+                final Token tok = this.closeParen(result, frame.fParenNumber);
+                parent.addFactor(this.processQuantifier(tok));
+            }
+            else if (ch == T_LPAREN) {
+                this.next();
+                final RegexFrame child = new RegexFrame();
+                child.fParenNumber = this.openParen();
+                frames.add(child);
+            }
+            else {
+                frame.addFactor(this.parseFactor());
+            }
         }
-        return tok;
+    }
+
+    /**
+     * Holds the in-progress state for one level of a regular expression.
+     */
+    private static final class RegexFrame {
+        int fParenNumber;
+        Token fTerm;
+        Token fConcat;
+        Token fUnion;
+
+        void addFactor(Token token) {
+            if (fTerm == null) {
+                fTerm = token;
+            }
+            else {
+                if (fConcat == null) {
+                    fConcat = Token.createConcat();
+                    fConcat.addChild(fTerm);
+                    fTerm = fConcat;
+                }
+                fConcat.addChild(token);
+            }
+        }
+
+        void addTerm() {
+            final Token term = fTerm == null ? Token.createEmpty() : fTerm;
+            if (fUnion == null) {
+                fUnion = Token.createUnion();
+            }
+            fUnion.addChild(term);
+            fTerm = null;
+            fConcat = null;
+        }
+
+        Token finish() {
+            final Token term = fTerm == null ? Token.createEmpty() : fTerm;
+            if (fUnion == null) {
+                return term;
+            }
+            fUnion.addChild(term);
+            return fUnion;
+        }
     }
 
     /**
@@ -455,12 +527,18 @@ class RegexParser {
     }
     Token processParen() throws ParseException {
         this.next();
-        int p = this.parenOpened++;
-        Token tok = Token.createParen(this.parseRegex(), p);
+        int p = this.openParen();
+        return this.closeParen(this.parseRegex(), p);
+    }
+    protected int openParen() {
+        return this.parenOpened++;
+    }
+    protected Token closeParen(Token tok, int p) throws ParseException {
+        Token result = Token.createParen(tok, p);
         if (this.read() != T_RPAREN)  throw ex("parser.factor.1", this.offset-1);
         this.parennumber++;
         this.next();                            // Skips ')'
-        return tok;
+        return result;
     }
     Token processParen2() throws ParseException {
         this.next();
@@ -681,7 +759,11 @@ class RegexParser {
                                                 // through down
         }
         tok = this.parseAtom();
-        ch = this.read();
+        return this.processQuantifier(tok);
+    }
+
+    Token processQuantifier(Token tok) throws ParseException {
+        int ch = this.read();
         switch (ch) {
           case T_STAR:  return this.processStar(tok);
           case T_PLUS:  return this.processPlus(tok);
@@ -712,7 +794,7 @@ class RegexParser {
                    if (off >= this.regexlen) {
                        throw ex("parser.quantifier.3", this.offset);
                    }
-                   else if ((ch = this.regex.charAt(off++)) >= '0' && ch <= '9') {                       
+                   else if ((ch = this.regex.charAt(off++)) >= '0' && ch <= '9') {
 
                         max = ch -'0';       // {min,max}
                         while (off < this.regexlen
@@ -727,7 +809,7 @@ class RegexParser {
                             throw ex("parser.quantifier.4", this.offset);
                    }
                    else { // assume {min,}
-                        max = -1;           
+                        max = -1;
                     }
                 }
 

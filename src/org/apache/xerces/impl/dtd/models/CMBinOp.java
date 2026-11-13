@@ -69,8 +69,8 @@ public class CMBinOp extends CMNode
     {
         if (fNullable == -1) {
             //
-            //  If its an alternation, then if either child is nullable then
-            //  this node is nullable. If its a concatenation, then both of
+            //  If it's an alternation, then if either child is nullable then
+            //  this node is nullable. If it's a concatenation, then both of
             //  them have to be nullable.
             //
             if (type() == XMLContentSpec.CONTENTSPECNODE_CHOICE)

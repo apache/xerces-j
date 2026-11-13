@@ -828,6 +828,7 @@ Authors:
              <include name="dom/dom3/Test.class"/>
              <include name="dom/events/Test.class"/>
              <include name="dom/ids/Test.class"/>                            
+             <include name="dom/mem/Test.class"/>
              <include name="dom/serialize/TestNS.class"/>
              <include name="dom/registry/Test.class"/>
              <include name="dom/traversal/*Test.class"/>                    
@@ -943,12 +944,6 @@ Authors:
         <arg value="-time"/>
         <arg value="10"/>
         <arg value="${data.dir}/personal-schema.xml"/>
-    </java>
-    <echo message="Running dom.mem.Test..." />
-    <java fork="yes"
-          classname="dom.mem.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
     </java>
 <!--  
      TODO fix this test

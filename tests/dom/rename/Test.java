@@ -95,40 +95,35 @@ public class Test extends TestCase implements UserDataHandler {
     }
 
     public void testRename() {
-        Document doc = document;
-
 	// getting the first "email" element
-	NodeList elements = doc.getElementsByTagName("email");
+	NodeList elements = document.getElementsByTagName("email");
 	Element child = (Element) elements.item(0);
-	assertTrue("child should not be null", child != null);
 	assertEquals("nodeName should be email", "email", child.getNodeName());
 
 	// default must be there
 	Attr at = child.getAttributeNode("defaultEmailAttr");
-	assertTrue("defaultEmailAttr should not be null", at != null);
 	assertEquals("default value of defaultEmailAttr", "defaultEmailValue", at.getValue());
-	assertTrue("defaultEmailAttr should not be specified", !at.getSpecified());
+	assertFalse("defaultEmailAttr should not be specified", at.getSpecified());
 
 	// attach some data
 	child.setUserData("mydata", "yo", this);
 	assertEquals("user data should be 'yo'", "yo", (String) child.getUserData("mydata"));
 
 	// renaming an element without a url
-	Element newChild = (Element) doc.renameNode(child, null, "url");
+	Element newChild = (Element) document.renameNode(child, null, "url");
 
 	assertEquals("renamed node name should be url", "url", newChild.getNodeName());
-	assertTrue("namespace should be null", newChild.getNamespaceURI() == null);
+	assertNull("namespace should be null", newChild.getNamespaceURI());
 
 	// old default must no longer be there
-	assertTrue("should not have defaultEmailAttr after rename",
-                   !newChild.hasAttribute("defaultEmailAttr"));
+	assertFalse("should not have defaultEmailAttr after rename",
+                    newChild.hasAttribute("defaultEmailAttr"));
 	assertTrue("defaultEmailAttr should now be specified", at.getSpecified());
 
 	// new default must be there
 	at = newChild.getAttributeNode("defaultUrlAttr");
-	assertTrue("defaultUrlAttr should not be null", at != null);
 	assertEquals("default value of defaultUrlAttr", "defaultUrlValue", at.getValue());
-	assertTrue("defaultUrlAttr should not be specified", !at.getSpecified());
+	assertFalse("defaultUrlAttr should not be specified", at.getSpecified());
 
 	// data must still be there
 	assertEquals("user data should still be 'yo'", "yo", (String) newChild.getUserData("mydata"));
@@ -138,18 +133,18 @@ public class Test extends TestCase implements UserDataHandler {
                        UserDataHandler.NODE_RENAMED, lastOperation);
 	    assertEquals("key should be 'mydata'", "mydata", lastKey);
 	    assertEquals("data should be 'yo'", "yo", (String) lastData);
-	    assertTrue("source should be original child", lastSource == child);
-	    assertTrue("destination should be new child", lastDestination == newChild);
+	    assertSame("source should be original child", child, lastSource);
+	    assertSame("destination should be new child", newChild, lastDestination);
 	    resetHandlerData();
 	}
 
 	// renaming an element with a url
-	Element newChild2 = (Element) doc.renameNode(newChild, "ns1", "foo");
+	Element newChild2 = (Element) document.renameNode(newChild, "ns1", "foo");
 
 	assertEquals("renamed node name should be foo", "foo", newChild2.getNodeName());
 	assertEquals("namespace should be ns1", "ns1", newChild2.getNamespaceURI());
-	assertTrue("should not have defaultUrlAttr after rename",
-                   !newChild2.hasAttribute("defaultUrlAttr"));
+	assertFalse("should not have defaultUrlAttr after rename",
+                    newChild2.hasAttribute("defaultUrlAttr"));
 	// data must still be there
 	assertEquals("user data should still be 'yo'",
                      "yo", (String) newChild2.getUserData("mydata"));
@@ -159,31 +154,28 @@ public class Test extends TestCase implements UserDataHandler {
                        UserDataHandler.NODE_RENAMED, lastOperation);
 	    assertEquals("key should be 'mydata'", "mydata", lastKey);
 	    assertEquals("data should be 'yo'", "yo", (String) lastData);
-	    assertTrue("source should be previous child", lastSource == newChild);
-	    assertTrue("destination should be new child2", lastDestination == newChild2);
+	    assertSame("source should be previous child", newChild, lastSource);
+	    assertSame("destination should be new child2", newChild2, lastDestination);
 	    resetHandlerData();
 	}
 
 	// getting the second "email" element
 	child = (Element) elements.item(1);
-	assertTrue("second child should not be null", child != null);
 	assertEquals("second child nodeName should be email", "email", child.getNodeName());
 
 	// default must be there
 	at = child.getAttributeNode("defaultEmailAttr");
-	assertTrue("second child defaultEmailAttr should not be null", at != null);
 	assertEquals("second child default value", "defaultEmailValue", at.getValue());
-	assertTrue("second child defaultEmailAttr should not be specified", !at.getSpecified());
+	assertFalse("second child defaultEmailAttr should not be specified", at.getSpecified());
 
 	// attach some data
 	at.setUserData("mydata", "yo", this);
 	assertEquals("attr user data should be 'yo'", "yo", (String) at.getUserData("mydata"));
 
 	// renaming an attribute without a url
-	Attr newAt = (Attr) doc.renameNode(at, null, "foo");
-	assertTrue("renamed attr should not be null", newAt != null);
+	Attr newAt = (Attr) document.renameNode(at, null, "foo");
 	assertEquals("renamed attr name should be foo", "foo", newAt.getNodeName());
-	assertTrue("renamed attr namespace should be null", newAt.getNamespaceURI() == null);
+	assertNull("renamed attr namespace should be null", newAt.getNamespaceURI());
 	assertEquals("renamed attr value should remain", "defaultEmailValue", newAt.getValue());
 	assertTrue("renamed attr should be specified", newAt.getSpecified());
 	assertTrue("child should have 'foo' attribute", child.hasAttribute("foo"));
@@ -198,14 +190,13 @@ public class Test extends TestCase implements UserDataHandler {
                        UserDataHandler.NODE_RENAMED, lastOperation);
 	    assertEquals("key should be 'mydata'", "mydata", lastKey);
 	    assertEquals("data should be 'yo'", "yo", (String) lastData);
-	    assertTrue("source should be original attr", lastSource == at);
-	    assertTrue("destination should be new attr", lastDestination == newAt);
+	    assertSame("source should be original attr", at, lastSource);
+	    assertSame("destination should be new attr", newAt, lastDestination);
 	    resetHandlerData();
 	}
 
 	// renaming an attribute with a url
-	Attr newAt2 = (Attr) doc.renameNode(newAt, "ns1", "bar");
-	assertTrue("renamed attr2 should not be null", newAt2 != null);
+	Attr newAt2 = (Attr) document.renameNode(newAt, "ns1", "bar");
 	assertEquals("renamed attr2 name should be bar", "bar", newAt2.getNodeName());
 	assertEquals("renamed attr2 namespace should be ns1", "ns1", newAt2.getNamespaceURI());
 	assertEquals("renamed attr2 value should remain", "defaultEmailValue", newAt2.getValue());
@@ -221,8 +212,8 @@ public class Test extends TestCase implements UserDataHandler {
                        UserDataHandler.NODE_RENAMED, lastOperation);
 	    assertEquals("key should be 'mydata'", "mydata", lastKey);
 	    assertEquals("data should be 'yo'", "yo", (String) lastData);
-	    assertTrue("source should be previous attr", lastSource == newAt);
-	    assertTrue("destination should be new attr2", lastDestination == newAt2);
+	    assertSame("source should be previous attr", newAt, lastSource);
+	    assertSame("destination should be new attr2", newAt2, lastDestination);
 	    resetHandlerData();
 	}
 

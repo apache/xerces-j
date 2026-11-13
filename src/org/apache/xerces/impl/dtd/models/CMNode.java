@@ -36,18 +36,10 @@ public abstract class CMNode
 
 
     // -------------------------------------------------------------------
-    //  Package, final methods
+    //  Package, abstract methods
     // -------------------------------------------------------------------
-    /**
-     * Returns whether this node can match the empty string.
-     */
-    public final boolean isNullable()
-    {
-        if (fNullable == -1) {
-            fNullable = calcNullable() ? 1 : 0;
-        }
-        return fNullable == 1;
-    }
+    // made this public so it could be implemented and used outside this package -neilg.
+    public abstract boolean isNullable() ;
 
 
     // -------------------------------------------------------------------
@@ -102,8 +94,6 @@ public abstract class CMNode
     // -------------------------------------------------------------------
     //  Protected, abstract methods
     // -------------------------------------------------------------------
-    protected abstract boolean calcNullable() ;
-
     protected abstract void calcFirstPos(CMStateSet toSet) ;
 
     protected abstract void calcLastPos(CMStateSet toSet) ;
@@ -144,7 +134,6 @@ public abstract class CMNode
     private CMStateSet fFollowPos  = null;
     private CMStateSet fLastPos    = null;
     private int        fMaxStates  = -1;
-    private int        fNullable   = -1;
 
     /*
      * This boolean is true if the model represented by the CMNode does not represent

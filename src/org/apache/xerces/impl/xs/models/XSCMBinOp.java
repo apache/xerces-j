@@ -65,7 +65,7 @@ public class XSCMBinOp extends CMNode {
     // -------------------------------------------------------------------
     //  Package, inherited methods
     // -------------------------------------------------------------------
-    protected boolean calcNullable() {
+    public boolean isNullable() {
         //
         //  If its an alternation, then if either child is nullable then
         //  this node is nullable. If its a concatenation, then both of

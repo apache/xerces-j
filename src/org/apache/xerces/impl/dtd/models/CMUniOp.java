@@ -60,16 +60,19 @@ public class CMUniOp extends CMNode
     // -------------------------------------------------------------------
     //  Package, inherited methods
     // -------------------------------------------------------------------
-    protected boolean calcNullable()
+    public boolean isNullable()
     {
-        //
-        //  For debugging purposes, make sure we got rid of all non '*'
-        //  repetitions. Otherwise, '*' style nodes are always nullable.
-        //
-        if (type() == XMLContentSpec.CONTENTSPECNODE_ONE_OR_MORE)
-	    return fChild.isNullable();
-	else
-	    return true;
+        if (fNullable == -1) {
+            //
+            //  For debugging purposes, make sure we got rid of all non '*'
+            //  repetitions. Otherwise, '*' style nodes are always nullable.
+            //
+            if (type() == XMLContentSpec.CONTENTSPECNODE_ONE_OR_MORE)
+                fNullable = fChild.isNullable() ? 1 : 0;
+            else
+                fNullable = 1;
+        }
+        return fNullable == 1;
     }
 
 
@@ -97,5 +100,8 @@ public class CMUniOp extends CMNode
     //      unary operation.
     // -------------------------------------------------------------------
     private final CMNode fChild;
+
+    //  Cached result of isNullable(); -1 means not yet calculated.
+    private int fNullable = -1;
 };
 

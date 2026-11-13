@@ -60,7 +60,7 @@ public class XSCMUniOp extends CMNode {
     // -------------------------------------------------------------------
     //  Package, inherited methods
     // -------------------------------------------------------------------
-    protected boolean calcNullable() {
+    public boolean isNullable() {
         //
         //  For debugging purposes, make sure we got rid of all non '*'
         //  repetitions. Otherwise, '*' style nodes are always nullable.

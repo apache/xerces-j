@@ -65,19 +65,22 @@ public class CMBinOp extends CMNode
     // -------------------------------------------------------------------
     //  Package, inherited methods
     // -------------------------------------------------------------------
-    protected boolean calcNullable()
+    public boolean isNullable()
     {
-        //
-        //  If its an alternation, then if either child is nullable then
-        //  this node is nullable. If its a concatenation, then both of
-        //  them have to be nullable.
-        //
-        if (type() == XMLContentSpec.CONTENTSPECNODE_CHOICE)
-            return (fLeftChild.isNullable() || fRightChild.isNullable());
-        else if (type() == XMLContentSpec.CONTENTSPECNODE_SEQ)
-            return (fLeftChild.isNullable() && fRightChild.isNullable());
-        else
-            throw new RuntimeException("ImplementationMessages.VAL_BST");
+        if (fNullable == -1) {
+            //
+            //  If its an alternation, then if either child is nullable then
+            //  this node is nullable. If its a concatenation, then both of
+            //  them have to be nullable.
+            //
+            if (type() == XMLContentSpec.CONTENTSPECNODE_CHOICE)
+                fNullable = (fLeftChild.isNullable() || fRightChild.isNullable()) ? 1 : 0;
+            else if (type() == XMLContentSpec.CONTENTSPECNODE_SEQ)
+                fNullable = (fLeftChild.isNullable() && fRightChild.isNullable()) ? 1 : 0;
+            else
+                throw new RuntimeException("ImplementationMessages.VAL_BST");
+        }
+        return fNullable == 1;
     }
 
 
@@ -145,5 +148,8 @@ public class CMBinOp extends CMNode
     // -------------------------------------------------------------------
     private final CMNode fLeftChild;
     private final CMNode fRightChild;
+
+    //  Cached result of isNullable(); -1 means not yet calculated.
+    private int fNullable = -1;
 };
 

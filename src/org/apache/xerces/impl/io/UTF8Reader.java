@@ -288,6 +288,7 @@ public final class UTF8Reader
 
         // read bytes
         int out = offset;
+        int surrogateOffset = 0;
         int count = 0;
         if (fOffset == 0) {
             // adjust length to read
@@ -299,6 +300,7 @@ public final class UTF8Reader
             if (fSurrogate != -1) {
                 ch[out++] = (char)fSurrogate;
                 fSurrogate = -1;
+                surrogateOffset++;
                 length--;
             }
 
@@ -323,7 +325,7 @@ public final class UTF8Reader
         }
 
         // convert bytes to characters
-        final int total = count;
+        final int total = count - surrogateOffset;
         int in;
         byte byte1;
         final byte byte0 = 0;

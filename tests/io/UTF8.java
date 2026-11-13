@@ -17,6 +17,7 @@
 
 package io;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -67,6 +68,35 @@ public class UTF8 extends TestCase {
         Reader reader = new UTF8Reader(stream);
         testCharArray(reader, BLOCK_READ_SIZE);
         reader.close();
+    }
+
+    public void testSurrogatesInFrames() throws Exception {
+        final int bufferSize = 2048;
+        final int lastReadOffset = 1;
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < bufferSize - 1; i++) {
+            sb.append(' ');
+        }
+        sb.append('\uD835');
+        sb.append('\uDC37');
+        for (int i = 0; i < bufferSize - 2; i++) {
+            sb.append(' ');
+        }
+
+        byte[] bytes = sb.toString().getBytes("UTF-8");
+        UTF8Reader reader = new UTF8Reader(new ByteArrayInputStream(bytes));
+        char[] buffer = new char[bufferSize];
+
+        int count = reader.read(buffer, 0, bufferSize);
+        assertEquals(bufferSize, count);
+        assertEquals('\uD835', buffer[bufferSize - 1]);
+
+        count = reader.read(buffer, lastReadOffset, bufferSize - lastReadOffset);
+        assertEquals(bufferSize - lastReadOffset, count);
+        assertEquals('\uDC37', buffer[lastReadOffset]);
+
+        assertEquals(-1, reader.read(buffer, lastReadOffset, bufferSize - lastReadOffset));
     }
 
     private void testCharByChar(Reader reader) throws Exception {

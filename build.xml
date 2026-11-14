@@ -847,6 +847,7 @@ Authors:
              <include name="io/UTF16.class"/>
              <include name="jaxp/JAXPSpecTest.class"/>
              <include name="jaxp/PropertyTest.class"/>
+             <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
              <include name="schema/Test.class"/>                   

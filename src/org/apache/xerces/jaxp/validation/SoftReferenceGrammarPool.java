@@ -164,6 +164,9 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
                 for (Entry entry = fGrammars[index]; entry != null; entry = entry.next) {
                     if (entry.hash == hash && equals(entry.desc, desc)) {
                         if (entry.grammar.get() != grammar) {
+                            // Detach the old reference so it cannot remove this
+                            // entry if it is already waiting in the reference queue.
+                            entry.grammar.entry = null;
                             entry.grammar = new SoftGrammarReference(entry, grammar, fReferenceQueue);
                         }
                         return;
@@ -377,8 +380,12 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
     private void clean() {
         Reference ref = fReferenceQueue.poll();
         while (ref != null) {
-            Entry entry = ((SoftGrammarReference) ref).entry;
-            if (entry != null) {
+            SoftGrammarReference grammarRef = (SoftGrammarReference) ref;
+            Entry entry = grammarRef.entry;
+            // The entry may have been cleared, or its grammar reference may
+            // have been replaced, since this reference was queued. Only remove
+            // the entry if this is still its current grammar reference.
+            if (entry != null && entry.grammar == grammarRef) {
                 removeEntry(entry);
             }
             ref = fReferenceQueue.poll();
@@ -414,7 +421,12 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
         // since reduces reference count of objects to be destroyed
         protected void clear () {
             desc = null;
-            grammar = null;
+            if (grammar != null) {
+                // Detach the reference so it cannot remove this cleared entry
+                // if it is already waiting in the reference queue.
+                grammar.entry = null;
+                grammar = null;
+            }
             if(next != null) {
                 next.clear();
                 next = null;

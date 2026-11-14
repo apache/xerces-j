@@ -76,9 +76,9 @@ public class XMLGrammarCachingConfiguration
     protected static final SynchronizedSymbolTable fStaticSymbolTable = 
             new SynchronizedSymbolTable(BIG_PRIME);
 
-    // the Grammar Pool to be shared similarly
-    protected static final XMLGrammarPoolImpl fStaticGrammarPool =
-            new XMLGrammarPoolImpl();
+    // the Grammar Pool to be shared similarly, wrapped for thread-safety
+    protected static final XMLGrammarPool fStaticGrammarPool =
+            new CachingParserPool.SynchronizedGrammarPool(new XMLGrammarPoolImpl());
 
     // schema full checking constant
     protected static final String SCHEMA_FULL_CHECKING =

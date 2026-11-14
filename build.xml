@@ -370,8 +370,7 @@ Authors:
     <mkdir dir="${build.tests}"/>
     <mkdir dir="${build.tests.dir}"/>
     <copy todir="${build.tests}">
-        <fileset dir="${tests.dir}"
-         excludes="dom/rename/**" />
+        <fileset dir="${tests.dir}" />
     </copy>
     <xjavac srcdir="${build.tests}"
            destdir="${build.tests.dir}"
@@ -831,22 +830,26 @@ Authors:
              <include name="dom/mem/Test.class"/>
              <include name="dom/serialize/TestNS.class"/>
              <include name="dom/registry/Test.class"/>
+             <include name="dom/rename/Test.class"/>
              <include name="dom/traversal/*Test.class"/>                    
              <include name="dom/range/TestCompare.class"/>                    
              <include name="dom/serialize/TestSerializeDOMIn.class"/>
              <include name="dom/range/Test.class"/>                    
              <include name="dom/serialize/TestDocumentTypeSerialization.class"/>
+             <include name="dom/serialize/TestPreRootSerialization.class"/>
              <include name="dom/treewalker/TestFirstChild.class"/>
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
-             <include name="dom/serialize/TestPreRootSerialization.class"/>
              <include name="org/apache/xml/serialize/TestIgnorableWhitespaceSerialization.class"/>
              <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>
              <include name="idc/IDConstraintTests.class"/>
              <include name="io/UTF8.class"/>
              <include name="io/UTF16.class"/>
+             <include name="jaxp/PropertyTest.class"/>
              <include name="jaxp/JAXPSpecTest.class"/>
-             <include name="schema/Test.class"/>
+             <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
+             <include name="org/apache/xerces/util/URITest.class"/>
+             <include name="schema/Test.class"/>                   
              <include name="schema/annotations/*Test.class"/>                    
              <include name="schema/config/BasicTest.class"/>                    
              <include name="schema/config/FeaturePropagationTest.class"/>                    
@@ -856,6 +859,9 @@ Authors:
              <include name="schema/config/IgnoreXSIType_A_A_Test.class"/>
              <include name="schema/config/IgnoreXSIType_A_C_Test.class"/>
              <include name="schema/config/IgnoreXSIType_C_A_Test.class"/>
+             <include name="schema/config/RootSimpleTypeDefinitionTest.class"/>
+             <include name="schema/config/RootTypeDefinitionTest.class"/>
+             <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/> 
              <include name="schema/config/IgnoreXSIType_C_AC_Test.class"/>
              <include name="schema/config/IgnoreXSIType_C_CA_Test.class"/>
              <include name="schema/config/IgnoreXSIType_C_C_Test.class"/>
@@ -952,14 +958,7 @@ Authors:
           failOnError="yes">
         <arg value="${data.dir}/personal-schema.xml"/>
         <arg value="out.xml"/>
-    </java>
-    
-    <echo message="Running jaxp.PropertyTest..." />
-    <java fork="yes"
-          classname="jaxp.PropertyTest"
-          classpathref="test.classpath"
-          failOnError="yes">
-    </java>
+    </java> 
 
   </target>
 

@@ -117,9 +117,11 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      *  		  returned; order is not significant.
      */
     public void cacheGrammars(String grammarType, Grammar[] grammars) {
-        if (!fPoolIsLocked) {
-            for (int i = 0; i < grammars.length; ++i) {
-                putGrammar(grammars[i]);
+        synchronized (fGrammars) {
+            if (!fPoolIsLocked) {
+                for (int i = 0; i < grammars.length; ++i) {
+                    putGrammar(grammars[i]);
+                }
             }
         }
     } // cacheGrammars(String, Grammar[]);
@@ -153,8 +155,8 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      * @param grammar The Grammar.
      */
     public void putGrammar(Grammar grammar) {
-        if (!fPoolIsLocked) {
-            synchronized (fGrammars) {
+        synchronized (fGrammars) {
+            if (!fPoolIsLocked) {
                 clean();
                 XMLGrammarDescription desc = grammar.getGrammarDescription();
                 int hash = hashCode(desc);
@@ -162,6 +164,9 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
                 for (Entry entry = fGrammars[index]; entry != null; entry = entry.next) {
                     if (entry.hash == hash && equals(entry.desc, desc)) {
                         if (entry.grammar.get() != grammar) {
+                            // Detach the old reference so it cannot remove this
+                            // entry if it is already waiting in the reference queue.
+                            entry.grammar.entry = null;
                             entry.grammar = new SoftGrammarReference(entry, grammar, fReferenceQueue);
                         }
                         return;
@@ -255,7 +260,9 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      * no new grammars will be added until it is "unlocked".
      */
     public void lockPool() {
-        fPoolIsLocked = true;
+        synchronized (fGrammars) {
+            fPoolIsLocked = true;
+        }
     } // lockPool()
     
     /* <p> Sets this grammar pool to an "unlocked" state--i.e.,
@@ -263,7 +270,9 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      * are called.
      */
     public void unlockPool() {
-        fPoolIsLocked = false;
+        synchronized (fGrammars) {
+            fPoolIsLocked = false;
+        }
     } // unlockPool()
     
     /*
@@ -271,13 +280,15 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      * to all the grammars in it.</p>
      */
     public void clear() {
-        for (int i=0; i<fGrammars.length; i++) {
-            if(fGrammars[i] != null) {
-                fGrammars[i].clear();
-                fGrammars[i] = null;
+        synchronized (fGrammars) {
+            for (int i=0; i<fGrammars.length; i++) {
+                if(fGrammars[i] != null) {
+                    fGrammars[i].clear();
+                    fGrammars[i] = null;
+                }
             }
+            fGrammarCount = 0;
         }
-        fGrammarCount = 0;
     } // clear()
     
     /**
@@ -369,8 +380,12 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
     private void clean() {
         Reference ref = fReferenceQueue.poll();
         while (ref != null) {
-            Entry entry = ((SoftGrammarReference) ref).entry;
-            if (entry != null) {
+            SoftGrammarReference grammarRef = (SoftGrammarReference) ref;
+            Entry entry = grammarRef.entry;
+            // The entry may have been cleared, or its grammar reference may
+            // have been replaced, since this reference was queued. Only remove
+            // the entry if this is still its current grammar reference.
+            if (entry != null && entry.grammar == grammarRef) {
                 removeEntry(entry);
             }
             ref = fReferenceQueue.poll();
@@ -406,7 +421,12 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
         // since reduces reference count of objects to be destroyed
         protected void clear () {
             desc = null;
-            grammar = null;
+            if (grammar != null) {
+                // Detach the reference so it cannot remove this cleared entry
+                // if it is already waiting in the reference queue.
+                grammar.entry = null;
+                grammar = null;
+            }
             if(next != null) {
                 next.clear();
                 next = null;

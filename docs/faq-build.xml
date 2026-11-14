@@ -17,29 +17,20 @@
 -->
 <!DOCTYPE faqs SYSTEM 'dtd/faqs.dtd'>
 <faqs title='Building and Running FAQs'>
- <faq title='Swing version?'>
-  <q>Which version of Swing is required?</q>
-  <a>
-   <p>
-    This release uses Swing 1.1 (JFC 1.1). Swing is only used by
-    the sample programs and is not required by the parser itself.
-   </p>
-  </a>
- </faq>
- <faq title='Recompling source files?'>
+ <faq title='Recompiling source files?'>
   <q>How do I recompile the source files?</q>
   <a>
    <p>
     To build &ParserName; you need the Java Development
-    Kit (JDK) version 1.3 (or higher) installed on your machine.
+    Kit (JDK) version 1.7 (or higher) installed on your machine.
     The actual build is performed by the Ant program which is
     written in Java and is a subproject of the Apache
-    <jump href='http://ant.apache.org/'>Ant</jump>
+    <jump href='https://ant.apache.org/'>Ant</jump>
     project. The build also requires a few other tools but
     all of the tools you need (including Ant) are contained
     in the <ref>&ParserName;-tools.&parserversion;.zip</ref>
     file, packaged separately. Go to the &ParserName; 
-    <jump href='http://xerces.apache.org/mirrors.cgi'>download</jump>
+    <jump href='https://xerces.apache.org/mirrors.cgi'>download</jump>
     page to download the tools package and then extract it in the
     same location as the source package.
    </p>
@@ -268,86 +259,4 @@
   </a>
  </faq>
  -->
- <faq title='Running on the Mac?'>
-  <q>How do I get &ParserName; to run on the Mac under MRJ?</q>
-  <a>
-   <p>
-    <em>Prerequisites</em> (available from 
-    <jump href="http://developer.apple.com/java/">http://developer.apple.com/java/</jump>):
-   </p>
-   <ul>
-    <li>MRJ 2.1 (this is the most recent version of the JVM)</li>
-    <li>
-     MRJ SDK 2.1 (this is the most recent version of the Java
-     developer tools)
-    </li>
-   </ul>
-   <p>
-    <em>Instructions </em>(other variations would work also):
-   </p>
-   <ol>
-    <li>Download the .tar.gz file containing &ParserName;.</li>
-    <li>
-     Use Stuffit Expander(tm), Suntar, or some other Macintosh tool 
-     that supports the .tar.gz format to expand the downloaded file.
-    </li>
-    <li>
-     JBindery, part of MRJ SDK 2.1, is used to create a double-clickable 
-     Java application with the necessary configuration information built
-     in. It is analogous to writing a .bat or .sh script. 
-    </li>
-    <li><em>To run the dom.DOMWriter example:</em></li>
-    <ol>
-     <li>Double click on JBindery to start it up.</li>
-     <li>Click on the Classpath panel.</li>
-     <li>
-      Click on the &quot;Add .zip File&quot; button and add both the 
-      &quot;xerces.jar&quot; and &quot;xercesSamples.jar&quot; files.
-     </li>
-     <li>Click on the Command panel.</li>
-     <li>
-      Enter &quot;dom.Writer&quot; as the Class name. Enter 
-      &quot;data/personal.xml&quot; in the Optional parameters box.
-     </li>
-     <li>
-      Click on Save Settings button, pick a name such as &quot;Run
-      <code>dom.Writer</code>&quot; for the file, and <em>be 
-      sure</em> that &quot;Save as Application&quot; is selected 
-      (this is the default) and save the file.
-     </li>
-     <li>Quit JBindery.</li>
-     <li>
-      You can now double click on the file you created in step (f) to
-      run the XJParse example.
-     </li>
-    </ol>
-   </ol>
-  </a>
- </faq>
- <faq title='Visual Cafe exception error?'>
-  <q>Why do I get an ArrayIndexOutOfBoundsException in the Symantec Visual Cafe debugger?</q>
-  <a>
-   <p>
-    The Visual Cafe debugger is set to trap 
-    <code>ArrayIndexOutOfBoundsException</code> exceptions by 
-    default. &ParserName; sometimes uses 
-    <code>ArrayIndexOutOfBoundsException</code> internally to 
-    signal exceptional, but not erroneous conditions. In order to 
-    run &ParserName; inside Visual Cafe's debugger, you need to
-    turn off the trapping of these exceptions.
-   </p>
-   <p><em>To do this:</em></p>
-   <ol>
-    <li>Select the &quot;Options&quot; item in the "Project" menu.</li>
-    <li>
-     Select the &quot;Debugger&quot; tab in the dialog which appears.
-    </li>
-    <li>Select &quot;Exceptions&quot; from the popup menu.</li>
-    <li>
-     Remove the check from the checkbox for 
-     <code>java.lang.ArrayIndexOutOfBoundsException</code>.
-    </li>
-   </ol>
-  </a>
- </faq>
 </faqs>

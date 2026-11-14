@@ -117,9 +117,11 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      *  		  returned; order is not significant.
      */
     public void cacheGrammars(String grammarType, Grammar[] grammars) {
-        if (!fPoolIsLocked) {
-            for (int i = 0; i < grammars.length; ++i) {
-                putGrammar(grammars[i]);
+        synchronized (fGrammars) {
+            if (!fPoolIsLocked) {
+                for (int i = 0; i < grammars.length; ++i) {
+                    putGrammar(grammars[i]);
+                }
             }
         }
     } // cacheGrammars(String, Grammar[]);
@@ -153,8 +155,8 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      * @param grammar The Grammar.
      */
     public void putGrammar(Grammar grammar) {
-        if (!fPoolIsLocked) {
-            synchronized (fGrammars) {
+        synchronized (fGrammars) {
+            if (!fPoolIsLocked) {
                 clean();
                 XMLGrammarDescription desc = grammar.getGrammarDescription();
                 int hash = hashCode(desc);
@@ -255,7 +257,9 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      * no new grammars will be added until it is "unlocked".
      */
     public void lockPool() {
-        fPoolIsLocked = true;
+        synchronized (fGrammars) {
+            fPoolIsLocked = true;
+        }
     } // lockPool()
     
     /* <p> Sets this grammar pool to an "unlocked" state--i.e.,
@@ -263,7 +267,9 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      * are called.
      */
     public void unlockPool() {
-        fPoolIsLocked = false;
+        synchronized (fGrammars) {
+            fPoolIsLocked = false;
+        }
     } // unlockPool()
     
     /*
@@ -271,13 +277,15 @@ final class SoftReferenceGrammarPool implements XMLGrammarPool {
      * to all the grammars in it.</p>
      */
     public void clear() {
-        for (int i=0; i<fGrammars.length; i++) {
-            if(fGrammars[i] != null) {
-                fGrammars[i].clear();
-                fGrammars[i] = null;
+        synchronized (fGrammars) {
+            for (int i=0; i<fGrammars.length; i++) {
+                if(fGrammars[i] != null) {
+                    fGrammars[i].clear();
+                    fGrammars[i] = null;
+                }
             }
+            fGrammarCount = 0;
         }
-        fGrammarCount = 0;
     } // clear()
     
     /**

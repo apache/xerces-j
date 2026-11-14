@@ -35,6 +35,15 @@ import org.apache.xerces.impl.dv.ValidationContext;
  */
 public class DateDV extends DateTimeDV {
 
+    /** Number of minutes in an hour. */
+    private static final int MINUTES_PER_HOUR = 60;
+
+    /** Number of minutes in a day. */
+    private static final int MINUTES_PER_DAY = 24 * MINUTES_PER_HOUR;
+
+    /** Largest recoverable time zone offset in minutes. */
+    private static final int MAX_TIMEZONE_MINUTES = 12 * MINUTES_PER_HOUR;
+
     public Object getActualValue(String content, ValidationContext context) throws InvalidDatatypeValueException {
         try{
             return parse(content);
@@ -71,6 +80,14 @@ public class DateDV extends DateTimeDV {
         return date;
     }
 
+    protected int getDate(String buffer, int start, int end, DateTimeData date) {
+        int endDate = super.getDate(buffer, start, end, date);
+        // Date values have no time component. Use noon so normalizing the
+        // time zone does not move the date.
+        date.hour = 12;
+        return endDate;
+    }
+
     protected String dateToString(DateTimeData date) {
         StringBuffer message = new StringBuffer(25);
         append(message, date.year, 4);
@@ -78,7 +95,27 @@ public class DateDV extends DateTimeDV {
         append(message, date.month, 2);
         message.append('-');
         append(message, date.day, 2);
-        append(message, (char)date.utc, 0);
+        if (date.hasTimeZone()) {
+            int timezone = date.timezoneHr * MINUTES_PER_HOUR + date.timezoneMin;
+            if (timezone == 0) {
+                message.append('Z');
+            }
+            else {
+                // The recoverable time zone is in the range (-12:00, +12:00].
+                if (timezone <= -MAX_TIMEZONE_MINUTES) {
+                    timezone += MINUTES_PER_DAY;
+                }
+                else if (timezone > MAX_TIMEZONE_MINUTES) {
+                    timezone -= MINUTES_PER_DAY;
+                }
+                int hours = timezone / MINUTES_PER_HOUR;
+                int minutes = timezone % MINUTES_PER_HOUR;
+                message.append(timezone < 0 ? '-' : '+');
+                append(message, Math.abs(hours), 2);
+                message.append(':');
+                append(message, Math.abs(minutes), 2);
+            }
+        }
         return message.toString();
     }
     
@@ -86,7 +123,7 @@ public class DateDV extends DateTimeDV {
         return datatypeFactory.newXMLGregorianCalendar(date.unNormYear, date.unNormMonth, 
                 date.unNormDay, DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED, 
                 DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED, 
-                date.hasTimeZone() ? (date.timezoneHr * 60 + date.timezoneMin) : DatatypeConstants.FIELD_UNDEFINED);
+                date.hasTimeZone() ? (date.timezoneHr * MINUTES_PER_HOUR + date.timezoneMin) : DatatypeConstants.FIELD_UNDEFINED);
     }
 
 }

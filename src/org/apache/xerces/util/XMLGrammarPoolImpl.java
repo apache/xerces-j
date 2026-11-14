@@ -121,14 +121,16 @@ public class XMLGrammarPoolImpl implements XMLGrammarPool {
      *  		  returned; order is not significant.
      */
     public void cacheGrammars(String grammarType, Grammar[] grammars) {
-        if(!fPoolIsLocked) {
-            for (int i = 0; i < grammars.length; i++) {
-                if(DEBUG) {
-                    System.out.println("CACHED GRAMMAR " + (i+1) ) ;
-                    Grammar temp = grammars[i] ;
-                    //print(temp.getGrammarDescription());
+        synchronized (fGrammars) {
+            if(!fPoolIsLocked) {
+                for (int i = 0; i < grammars.length; i++) {
+                    if(DEBUG) {
+                        System.out.println("CACHED GRAMMAR " + (i+1) ) ;
+                        Grammar temp = grammars[i] ;
+                        //print(temp.getGrammarDescription());
+                    }
+                    putGrammar(grammars[i]);
                 }
-                putGrammar(grammars[i]);
             }
         }
     } // cacheGrammars(String, Grammar[]);
@@ -166,8 +168,8 @@ public class XMLGrammarPoolImpl implements XMLGrammarPool {
      * @param grammar The Grammar.
      */
     public void putGrammar(Grammar grammar) {
-        if(!fPoolIsLocked) {
-            synchronized (fGrammars) {
+        synchronized (fGrammars) {
+            if(!fPoolIsLocked) {
                 XMLGrammarDescription desc = grammar.getGrammarDescription();
                 int hash = hashCode(desc);
                 int index = (hash & 0x7FFFFFFF) % fGrammars.length;
@@ -261,7 +263,9 @@ public class XMLGrammarPoolImpl implements XMLGrammarPool {
      * no new grammars will be added until it is "unlocked".
      */
     public void lockPool() {
-        fPoolIsLocked = true;
+        synchronized (fGrammars) {
+            fPoolIsLocked = true;
+        }
     } // lockPool()
 
     /* <p> Sets this grammar pool to an "unlocked" state--i.e.,
@@ -269,7 +273,9 @@ public class XMLGrammarPoolImpl implements XMLGrammarPool {
      * are called.
      */
     public void unlockPool() {
-        fPoolIsLocked = false;
+        synchronized (fGrammars) {
+            fPoolIsLocked = false;
+        }
     } // unlockPool()
 
     /*
@@ -277,13 +283,15 @@ public class XMLGrammarPoolImpl implements XMLGrammarPool {
      * to all the grammars in it.</p>
      */
     public void clear() {
-        for (int i=0; i<fGrammars.length; i++) {
-            if(fGrammars[i] != null) {
-                fGrammars[i].clear();
-                fGrammars[i] = null;
+        synchronized (fGrammars) {
+            for (int i=0; i<fGrammars.length; i++) {
+                if(fGrammars[i] != null) {
+                    fGrammars[i].clear();
+                    fGrammars[i] = null;
+                }
             }
+            fGrammarCount = 0;
         }
-        fGrammarCount = 0;
     } // clear()
 
     /**

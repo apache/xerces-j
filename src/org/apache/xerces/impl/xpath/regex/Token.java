@@ -970,19 +970,11 @@ class Token implements java.io.Serializable {
         return range;
     }
 
-    static Hashtable nonxs = null;
-    /**
-     * This method is called by only getRange().
-     * So this method need not MT-safe.
-     */
+    static final Hashtable nonxs = new Hashtable();
     static protected void registerNonXS(String name) {
-        if (Token.nonxs == null)
-            Token.nonxs = new Hashtable();
         Token.nonxs.put(name, name);
     }
     static protected boolean isRegisterNonXS(String name) {
-        if (Token.nonxs == null)
-            return false;
         //DEBUG
         //System.err.println("isRegisterNonXS: "+name);
         return Token.nonxs.containsKey(name);

@@ -66,34 +66,38 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
     // size of stack to hold globals:
     private final static int GLOBAL_NUM = 11;
     
-    private static XSParticleDecl fErrorContent = null;
-    private static XSWildcardDecl fErrorWildcard = null;
+    private static final XSWildcardDecl fErrorWildcard = createErrorWildcard();
+    private static final XSParticleDecl fErrorContent = createErrorContent(fErrorWildcard);
+
     private static XSParticleDecl getErrorContent() {
-        if (fErrorContent == null) {
-            XSParticleDecl particle = new XSParticleDecl();
-            particle.fType = XSParticleDecl.PARTICLE_WILDCARD;
-            particle.fValue = getErrorWildcard();
-            particle.fMinOccurs = 0;
-            particle.fMaxOccurs = SchemaSymbols.OCCURRENCE_UNBOUNDED;
-            XSModelGroupImpl group = new XSModelGroupImpl();
-            group.fCompositor = XSModelGroupImpl.MODELGROUP_SEQUENCE;
-            group.fParticleCount = 1;
-            group.fParticles = new XSParticleDecl[1];
-            group.fParticles[0] = particle;
-            XSParticleDecl errorContent = new XSParticleDecl();
-            errorContent.fType = XSParticleDecl.PARTICLE_MODELGROUP;
-            errorContent.fValue = group;
-            fErrorContent = errorContent;
-        }
         return fErrorContent;
     }
+
     private static XSWildcardDecl getErrorWildcard() {
-        if (fErrorWildcard == null) {
-            XSWildcardDecl wildcard = new XSWildcardDecl();
-            wildcard.fProcessContents = XSWildcardDecl.PC_SKIP;
-            fErrorWildcard = wildcard;
-        }
         return fErrorWildcard;
+    }
+
+    private static XSParticleDecl createErrorContent(XSWildcardDecl wildcard) {
+        XSParticleDecl particle = new XSParticleDecl();
+        particle.fType = XSParticleDecl.PARTICLE_WILDCARD;
+        particle.fValue = wildcard;
+        particle.fMinOccurs = 0;
+        particle.fMaxOccurs = SchemaSymbols.OCCURRENCE_UNBOUNDED;
+        XSModelGroupImpl group = new XSModelGroupImpl();
+        group.fCompositor = XSModelGroupImpl.MODELGROUP_SEQUENCE;
+        group.fParticleCount = 1;
+        group.fParticles = new XSParticleDecl[1];
+        group.fParticles[0] = particle;
+        XSParticleDecl errorContent = new XSParticleDecl();
+        errorContent.fType = XSParticleDecl.PARTICLE_MODELGROUP;
+        errorContent.fValue = group;
+        return errorContent;
+    }
+
+    private static XSWildcardDecl createErrorWildcard() {
+        XSWildcardDecl wildcard = new XSWildcardDecl();
+        wildcard.fProcessContents = XSWildcardDecl.PC_SKIP;
+        return wildcard;
     }
     
     // globals for building XSComplexTypeDecls

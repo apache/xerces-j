@@ -370,8 +370,7 @@ Authors:
     <mkdir dir="${build.tests}"/>
     <mkdir dir="${build.tests.dir}"/>
     <copy todir="${build.tests}">
-        <fileset dir="${tests.dir}"
-         excludes="dom/rename/**" />
+        <fileset dir="${tests.dir}" />
     </copy>
     <xjavac srcdir="${build.tests}"
            destdir="${build.tests.dir}"
@@ -831,6 +830,7 @@ Authors:
              <include name="dom/mem/Test.class"/>
              <include name="dom/serialize/TestNS.class"/>
              <include name="dom/registry/Test.class"/>
+             <include name="dom/rename/Test.class"/>
              <include name="dom/traversal/*Test.class"/>                    
              <include name="dom/range/TestCompare.class"/>                    
              <include name="dom/serialize/TestSerializeDOMIn.class"/>

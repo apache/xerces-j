@@ -1469,14 +1469,14 @@ class XMLGregorianCalendarImpl
 
             // Both instances have different timezones.
             // Normalize to UTC time and compare.
-            P = (XMLGregorianCalendarImpl) P.normalize();
-            Q = (XMLGregorianCalendarImpl) Q.normalize();
+            P = P.normalize();
+            Q = Q.normalize();
             return internalCompare(P, Q);
         } 
         else if (P.getTimezone() != DatatypeConstants.FIELD_UNDEFINED) {
 
             if (P.getTimezone() != 0) {
-                P = (XMLGregorianCalendarImpl) P.normalize();
+                P = P.normalize();
             }
 
             // C. step 1
@@ -1500,7 +1500,7 @@ class XMLGregorianCalendarImpl
         else { // Q.getTimezone() != DatatypeConstants.FIELD_UNDEFINED
             // P has no timezone and Q does.
             if (Q.getTimezone() != 0 ) { 
-                Q = (XMLGregorianCalendarImpl) normalizeToTimezone(Q, Q.getTimezone());
+                Q = normalizeToTimezone(Q, Q.getTimezone());
             }
 
             // D. step 1

@@ -433,7 +433,9 @@ public class AttrImpl
             // directly store the string
             value = newvalue;
             hasStringValue(true);
-            changed();
+            if ("name".equals(name)) {
+                changed();
+            }
         }
         if (isIdAttribute() && ownerElement != null) {
             ownerDocument.putIdentifier(newvalue, ownerElement);

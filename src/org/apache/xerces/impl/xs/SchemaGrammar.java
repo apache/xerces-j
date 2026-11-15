@@ -581,7 +581,7 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
                 
                 XSAttributeUseImpl documentationLangAttr = new XSAttributeUseImpl();
                 documentationLangAttr.fAttrDecl = new XSAttributeDecl();
-                documentationLangAttr.fAttrDecl.setValues("lang".intern(), NamespaceContext.XML_URI, (XSSimpleType) fGlobalTypeDecls.get(SchemaSymbols.ATTVAL_LANGUAGE),
+                documentationLangAttr.fAttrDecl.setValues("lang", NamespaceContext.XML_URI, (XSSimpleType) fGlobalTypeDecls.get(SchemaSymbols.ATTVAL_LANGUAGE),
                         XSConstants.VC_NONE, XSConstants.SCOPE_LOCAL, null, documentationType, null);
                 documentationLangAttr.fUse = SchemaSymbols.USE_OPTIONAL;
                 documentationLangAttr.fConstraintType = XSConstants.VC_NONE;
@@ -1417,7 +1417,9 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
         }
         // REVISIT:  when schema handles XML 1.1, will need to 
         // revisit this (and the practice of not prepending an XML decl to the annotation string
-        XML11Configuration config = new XML11Configuration(fSymbolTable);
+        // Use a symbol table dedicated to the annotation parser so parsing
+        // annotations cannot mutate the grammar's symbol table concurrently.
+        XML11Configuration config = new XML11Configuration(new SymbolTable());
         // note that this should never produce errors or require
         // entity resolution, so just a barebones configuration with
         // a couple of feature  set will do fine
@@ -1442,7 +1444,9 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
         }
         // REVISIT:  when schema handles XML 1.1, will need to 
         // revisit this (and the practice of not prepending an XML decl to the annotation string
-        XML11Configuration config = new XML11Configuration(fSymbolTable);
+        // Use a symbol table dedicated to the annotation parser so parsing
+        // annotations cannot mutate the grammar's symbol table concurrently.
+        XML11Configuration config = new XML11Configuration(new SymbolTable());
         // note that this should never produce errors or require
         // entity resolution, so just a barebones configuration with
         // a couple of feature  set will do fine

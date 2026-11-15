@@ -35,8 +35,6 @@ import org.apache.xerces.xs.datatypes.XSQName;
  */
 public class QNameDV extends TypeValidator {
 
-    private static final String EMPTY_STRING = "".intern();
-
     public short getAllowedFacets() {
         return (XSSimpleTypeDecl.FACET_LENGTH | XSSimpleTypeDecl.FACET_MINLENGTH | XSSimpleTypeDecl.FACET_MAXLENGTH | XSSimpleTypeDecl.FACET_PATTERN | XSSimpleTypeDecl.FACET_ENUMERATION | XSSimpleTypeDecl.FACET_WHITESPACE);
     }
@@ -52,7 +50,7 @@ public class QNameDV extends TypeValidator {
             prefix = context.getSymbol(content.substring(0,colonptr));
             localpart = content.substring(colonptr+1);
         } else {
-            prefix = EMPTY_STRING;
+            prefix = "";
             localpart = content;
         }
 

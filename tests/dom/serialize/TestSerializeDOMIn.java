@@ -17,15 +17,17 @@
 
 package dom.serialize;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import junit.framework.TestCase;
 
 import org.apache.xerces.dom.DocumentImpl;
-import org.apache.xerces.dom.NodeImpl;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import dom.Writer;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 
 /**
@@ -38,7 +40,7 @@ import dom.Writer;
  * @version $Id$
  * @see                      TestSerializeDOMIn
  */
-public class TestSerializeDOMIn {
+public class TestSerializeDOMIn extends TestCase {
 
     public TestSerializeDOMIn() {
     }
@@ -65,39 +67,24 @@ public class TestSerializeDOMIn {
     }
 
 
-    public static void main( String argv[]  ){
-        if ( argv.length != 2 ) {
-            System.out.println("Error - Usage: java TestSerializeDOMIn yourFile.ser elementName" );
-            System.exit(1);
-        }
-
-        String    xmlFilename = argv[0];
-
-        TestSerializeDOMIn         tst  = new TestSerializeDOMIn();
-        DocumentImpl   doc  = tst.deserializeDOM( xmlFilename );
-
-        NodeList nl         = doc.getElementsByTagName( argv[1]);
-
-
-        int length      = nl.getLength();
-
-        if ( length == 0 )
-            System.out.println(argv[1] + ": is not in the document!");
-
-        NodeImpl node = null;
-        for ( int i = 0;i<length;i++ ){
-            node                = (NodeImpl) nl.item(i);
-            Node childOfElement = node.getFirstChild();
-            if ( childOfElement != null ){
-                System.out.println( node.getNodeName() + ": " +
-                                    childOfElement.getNodeValue() );
-            }
-        }
+    public void testDeserialize() throws Exception {
+        DocumentImpl doc = new DocumentImpl();
+        Element root = doc.createElement("root");
+        doc.appendChild(root);
+        Text text = doc.createTextNode("test");
+        root.appendChild(text);
+        File temp = File.createTempFile("xerces-serialize", ".ser");
+        temp.deleteOnExit();
         try {
-           Writer prettyWriter = new Writer( false );
-           System.out.println( "Here is the whole Document" );
-           prettyWriter.write(  doc.getDocumentElement() );
-        } catch( Exception ex ){
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(temp));
+            out.writeObject(doc);
+            out.close();
+            TestSerializeDOMIn tst = new TestSerializeDOMIn();
+            DocumentImpl result = tst.deserializeDOM(temp.getAbsolutePath());
+            assertNotNull("Deserialized document should not be null", result);
+            assertEquals("root element", "root", result.getDocumentElement().getNodeName());
+        } finally {
+            temp.delete();
         }
     }
 }

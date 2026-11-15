@@ -48,6 +48,13 @@ public class DOMImplementationImpl extends CoreDOMImplementationImpl
     static final DOMImplementationImpl singleton = new DOMImplementationImpl();
 
 
+    /**
+     * @deprecated Use {@link #getDOMImplementation()} instead.
+     */
+    @Deprecated
+    public DOMImplementationImpl() {
+    }
+
     //
     // Public methods
     //

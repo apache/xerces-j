@@ -44,6 +44,7 @@ package org.apache.xml.serialize;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -1891,11 +1892,12 @@ public abstract class BaseMarkupSerializer
      */
     private String getPrefix( Hashtable prefixes, String namespaceURI )
     {
-        java.util.Enumeration keys = prefixes.keys();
-        while ( keys.hasMoreElements() ) {
+        Enumeration keys = prefixes.keys();
+        while (keys.hasMoreElements()) {
             String prefix = (String) keys.nextElement();
-            if ( namespaceURI.equals( prefixes.get( prefix ) ) )
+            if (namespaceURI.equals(prefixes.get(prefix))) {
                 return prefix;
+			}
         }
         return null;
     }

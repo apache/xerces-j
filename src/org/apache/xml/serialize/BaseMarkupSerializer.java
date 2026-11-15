@@ -1885,9 +1885,9 @@ public abstract class BaseMarkupSerializer
     /**
      * Finds a prefix bound to the specified namespace URI.
      *
-     * @param prefixes Association between namespace prefixes (keys) and URIs (values)
-     * @param namespaceURI The namespace URI
-     * @return The namespace prefix if known, or <code>null</code>
+     * @param prefixes association between namespace prefixes (keys) and URIs (values)
+     * @param namespaceURI ahe namespace URI
+     * @return the namespace prefix if known, or <code>null</code>
      */
     private String getPrefix( Hashtable prefixes, String namespaceURI )
     {

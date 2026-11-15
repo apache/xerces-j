@@ -51,9 +51,12 @@ public class TestXmlns extends TestCase implements DOMErrorHandler{
             // Create a document.
             DocumentImpl document = new DocumentImpl();
             document.setXmlEncoding("utf-8");
+            // Create an element with a default namespace declaration.
             Element outerNode = document.createElement("outer");
             outerNode.setAttribute("xmlns", "myuri:");
             document.appendChild(outerNode);
+
+            // Create an inner element with no further namespace declaration.
             Element innerNode = document.createElement("inner");
             outerNode.appendChild(innerNode);
 

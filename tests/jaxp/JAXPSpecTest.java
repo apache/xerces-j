@@ -39,6 +39,8 @@ import org.xml.sax.helpers.DefaultHandler;
  *  set without setting SchemaLanguage property.
  * 3.DOMParser should throw IllegalArgumentException when SchemaSource property is
  *  set without setting SchemaLanguage property.
+ * 4.Parser(SAX and DOM) should ignore SchemaSource property when validation
+ *  feature is set to false.
  *
  * @author k.venugopal@sun.com
  * 
@@ -82,6 +84,44 @@ public class JAXPSpecTest extends TestCase {
         }
     }
     
+    /** Schema Source property should be ignored if
+     * validation feature is set to false
+     * @throws Exception
+     */
+
+    public void testSchemaSourceSAXNotValidating() throws Exception{
+        SAXParserFactory spf = SAXParserFactory.newInstance();
+        spf.setValidating(false);
+        SAXParser saxParser = spf.newSAXParser();
+        saxParser.setProperty(
+        "http://java.sun.com/xml/jaxp/properties/schemaLanguage",
+        "http://www.w3.org/2001/XMLSchema");
+        saxParser.setProperty(
+        "http://java.sun.com/xml/jaxp/properties/schemaSource",
+        "tests/jaxp/data/personal-schema.xsd");
+        saxParser.parse("tests/jaxp/data/personal-schema.xml", new DefaultHandler());
+    }
+
+    /** Schema Source property should be ignored if
+     * validation feature is set to false
+     * @throws Exception
+     */
+
+    public void testSchemaSourceDOMNotValidating() throws Exception {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setValidating(false);
+        dbf.setAttribute(
+        "http://java.sun.com/xml/jaxp/properties/schemaLanguage",
+        "http://www.w3.org/2001/XMLSchema");
+        dbf.setAttribute(
+        "http://java.sun.com/xml/jaxp/properties/schemaSource",
+        "tests/jaxp/data/personal-schema.xsd");
+        DocumentBuilder docBuilder = dbf.newDocumentBuilder();
+        docBuilder.setErrorHandler(new DefaultHandler());
+        Document document = docBuilder.parse(
+        new File("tests/jaxp/data/personal-schema.xml"));
+    }
+
     /** Schema Language property should be ignored if
      * validation feature is set to false
      * @throws Exception  */

@@ -54,21 +54,23 @@ public class XSConstraints {
     static final int OCCURRENCE_UNKNOWN = SchemaSymbols.OCCURRENCE_UNBOUNDED-1;
     static final XSSimpleType STRING_TYPE = (XSSimpleType)SchemaGrammar.SG_SchemaNS.getGlobalTypeDecl(SchemaSymbols.ATTVAL_STRING);
 
-    private static XSParticleDecl fEmptyParticle = null;
+    private static final XSParticleDecl fEmptyParticle = createEmptyParticle();
+
     public static XSParticleDecl getEmptySequence() {
-        if (fEmptyParticle == null) {
-            XSModelGroupImpl group = new XSModelGroupImpl();
-            group.fCompositor = XSModelGroupImpl.MODELGROUP_SEQUENCE;
-            group.fParticleCount = 0;
-            group.fParticles = null;
-            group.fAnnotations = XSObjectListImpl.EMPTY_LIST;
-            XSParticleDecl particle = new XSParticleDecl();
-            particle.fType = XSParticleDecl.PARTICLE_MODELGROUP;
-            particle.fValue = group;
-            particle.fAnnotations = XSObjectListImpl.EMPTY_LIST;
-            fEmptyParticle = particle;
-        }
         return fEmptyParticle;
+    }
+
+    private static XSParticleDecl createEmptyParticle() {
+        XSModelGroupImpl group = new XSModelGroupImpl();
+        group.fCompositor = XSModelGroupImpl.MODELGROUP_SEQUENCE;
+        group.fParticleCount = 0;
+        group.fParticles = null;
+        group.fAnnotations = XSObjectListImpl.EMPTY_LIST;
+        XSParticleDecl particle = new XSParticleDecl();
+        particle.fType = XSParticleDecl.PARTICLE_MODELGROUP;
+        particle.fValue = group;
+        particle.fAnnotations = XSObjectListImpl.EMPTY_LIST;
+        return particle;
     }
     
     private static final Comparator ELEMENT_PARTICLE_COMPARATOR = new Comparator() {

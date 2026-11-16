@@ -102,7 +102,7 @@ public class ElementState
 
 
     /**
-     * Association between namespace URIs (keys) and prefixes (values).
+     * Association between namespace prefixes (keys) and URIs (values).
      */
     public Hashtable prefixes;
 

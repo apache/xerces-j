@@ -126,49 +126,58 @@ public class XSAnnotationImpl implements XSAnnotation {
     }
 
     // private methods
-    private synchronized void writeToSAX(ContentHandler handler) {
+    private void writeToSAX(ContentHandler handler) {
         // nothing must go wrong with this parse...
         SAXParser parser = fGrammar.getSAXParser();
-        StringReader aReader = new StringReader(fData);
-        InputSource aSource = new InputSource(aReader);
-        parser.setContentHandler(handler);
-        try {
-            parser.parse(aSource);
-        } 
-        catch (SAXException e) {
-            // this should never happen!
-            // REVISIT:  what to do with this?; should really not
-            // eat it...
-        } 
-        catch (IOException i) {
-            // ditto with above
+        // The parser is shared by all the annotations owned by the grammar,
+        // so access to it must be serialized.
+        synchronized (parser) {
+            StringReader aReader = new StringReader(fData);
+            InputSource aSource = new InputSource(aReader);
+            parser.setContentHandler(handler);
+            try {
+                parser.parse(aSource);
+            }
+            catch (SAXException e) {
+                // this should never happen!
+                // REVISIT:  what to do with this?; should really not
+                // eat it...
+            }
+            catch (IOException i) {
+                // ditto with above
+            }
+            // Release the reference to the user's ContentHandler.
+            parser.setContentHandler(null);
         }
-        // Release the reference to the user's ContentHandler.
-        parser.setContentHandler(null);
     }
 
     // this creates the new Annotation element as the first child
     // of the Node
-    private synchronized void writeToDOM(Node target, short type) {
+    private void writeToDOM(Node target, short type) {
         Document futureOwner = (type == XSAnnotation.W3C_DOM_ELEMENT) ? 
                 target.getOwnerDocument() : (Document)target;
         DOMParser parser = fGrammar.getDOMParser();
-        StringReader aReader = new StringReader(fData);
-        InputSource aSource = new InputSource(aReader);
-        try {
-            parser.parse(aSource);
-        } 
-        catch (SAXException e) {
-            // this should never happen!
-            // REVISIT:  what to do with this?; should really not
-            // eat it...
-        } 
-        catch (IOException i) {
-            // ditto with above
+        Element annotation;
+        // The parser is shared by all the annotations owned by the grammar,
+        // so access to it must be serialized.
+        synchronized (parser) {
+            StringReader aReader = new StringReader(fData);
+            InputSource aSource = new InputSource(aReader);
+            try {
+                parser.parse(aSource);
+            }
+            catch (SAXException e) {
+                // this should never happen!
+                // REVISIT:  what to do with this?; should really not
+                // eat it...
+            }
+            catch (IOException i) {
+                // ditto with above
+            }
+            Document aDocument = parser.getDocument();
+            parser.dropDocumentReferences();
+            annotation = aDocument.getDocumentElement();
         }
-        Document aDocument = parser.getDocument();
-        parser.dropDocumentReferences();
-        Element annotation = aDocument.getDocumentElement();
         Node newElem = null;
         if (futureOwner instanceof CoreDocumentImpl) {
             newElem = futureOwner.adoptNode(annotation);

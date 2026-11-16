@@ -107,6 +107,7 @@ public class XIncludeDepthTest extends TestCase {
         File root = null;
         for (int i = 0; i < depth; i++) {
             File file = new File(directory, i + ".xml");
+            file.deleteOnExit();
             if (i == 0) {
                 root = file;
             }

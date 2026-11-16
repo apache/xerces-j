@@ -1356,30 +1356,6 @@ class DurationImpl
         return getCalendarTimeInMillis(cal) - startInstant.getTime();
     }
     
-//    /**
-//     * Returns an equivalent but "normalized" duration value.
-//     * 
-//     * Intuitively, the normalization moves YEARS into
-//     * MONTHS (by x12) and moves DAYS, HOURS, and MINUTES fields
-//     * into SECONDS (by x86400, x3600, and x60 respectively.)
-//     * 
-//     * 
-//     * Formally, this method satisfies the following conditions:
-//     * <ul>
-//     *  <li>x.normalize().equals(x)
-//     *  <li>!x.normalize().isSet(Duration.YEARS)
-//     *  <li>!x.normalize().isSet(Duration.DAYS)
-//     *  <li>!x.normalize().isSet(Duration.HOURS)
-//     *  <li>!x.normalize().isSet(Duration.MINUTES)
-//     * </ul>
-//     * 
-//     * @return
-//     *      always return a non-null valid value. 
-//     */
-//    public Duration normalize() {
-//        return null;
-//    }
-    
     /**
      * <p>Converts the years and months fields into the days field
      * by using a specific time instant as the reference point.</p>
@@ -1707,10 +1683,6 @@ class DurationImpl
     /**
      * Returns the given value without trailing fractional zeros. The scale of
      * the returned value is never negative.
-     *
-     * @param value value to normalize
-     *
-     * @return normalized value
      */
     private static BigDecimal removeTrailingZeros(BigDecimal value) {
         if (value.signum() == 0) {

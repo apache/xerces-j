@@ -274,6 +274,14 @@ final class ObjectFactory {
         }
     } // debugPrintln(String)
 
+    /** Returns true if the class is part of the Xerces distribution. */
+    private static boolean isInternalClassName(String className) {
+        return className.startsWith("org.apache.xerces.")
+                || className.startsWith("org.apache.html.")
+                || className.startsWith("org.apache.wml.")
+                || className.startsWith("org.apache.xml.serialize.");
+    } // isInternalClassName(String):boolean
+
     /**
      * Figure out which ClassLoader to use.  For JDK 1.2 and later use
      * the context ClassLoader.
@@ -363,6 +371,14 @@ final class ObjectFactory {
                                       boolean doFallback)
         throws ClassNotFoundException, ConfigurationError
     {
+        // Classes that are part of the Xerces distribution must be loaded
+        // with the ClassLoader that loaded this factory. The context
+        // ClassLoader may see a different copy of Xerces, which would result
+        // in a ClassCastException when the returned instance is used.
+        if (isInternalClassName(className)) {
+            cl = ObjectFactory.class.getClassLoader();
+        }
+
         //throw security exception if the calling thread is not allowed to access the package
         //restrict the access to package as specified in java.security policy
         SecurityManager security = System.getSecurityManager();

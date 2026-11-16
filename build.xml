@@ -846,7 +846,9 @@ Authors:
              <include name="jaxp/JAXPSpecTest.class"/>
              <include name="jaxp/PropertyTest.class"/>
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
+             <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
+             <include name="org/apache/xml/serialize/TestDuplicateNamespaceDeclarations.class"/>
              <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>
              <include name="org/apache/xml/serialize/TestIgnorableWhitespaceSerialization.class"/>
              <include name="schema/Test.class"/>
@@ -871,6 +873,8 @@ Authors:
              -->
              <include name="xinclude/MalformedXPointerTest.class"/>
              <include name="xinclude/Test.class"/>
+             <include name="xinclude/XIncludeCycleTest.class"/>
+             <include name="xinclude/XPointerIncludeCycleTest.class"/>
             </fileset>
           </batchtest>
        <formatter type="brief" usefile="false"/>

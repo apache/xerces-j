@@ -44,6 +44,7 @@ package org.apache.xml.serialize;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -199,9 +200,10 @@ public abstract class BaseMarkupSerializer
 
 
     /**
-     * Association between namespace URIs (keys) and prefixes (values).
+     * Association between namespace prefixes (keys) and URIs (values).
      * Accumulated here prior to starting an element and placing this
-     * list in the element state.
+     * list in the element state. Prefixes are used as keys so that
+     * multiple prefixes bound to the same namespace URI are retained.
      */
     protected Hashtable     _prefixes;
 
@@ -826,7 +828,7 @@ public abstract class BaseMarkupSerializer
     {
         if ( _prefixes == null )
             _prefixes = new Hashtable();
-        _prefixes.put( uri, prefix == null ? "" : prefix );
+        _prefixes.put( prefix == null ? "" : prefix, uri );
     }
 
 
@@ -1864,7 +1866,7 @@ public abstract class BaseMarkupSerializer
         String    prefix;
 
         if ( _prefixes != null ) {
-            prefix = (String) _prefixes.get( namespaceURI );
+            prefix = getPrefix( _prefixes, namespaceURI );
             if ( prefix != null )
                 return prefix;
         }
@@ -1873,10 +1875,29 @@ public abstract class BaseMarkupSerializer
         }
         for ( int i = _elementStateCount ; i > 0 ; --i ) {
             if ( _elementStates[ i ].prefixes != null ) {
-                prefix = (String) _elementStates[ i ].prefixes.get( namespaceURI );
+                prefix = getPrefix( _elementStates[ i ].prefixes, namespaceURI );
                 if ( prefix != null )
                     return prefix;
             }
+        }
+        return null;
+    }
+
+    /**
+     * Finds a prefix bound to the specified namespace URI.
+     *
+     * @param prefixes association between namespace prefixes (keys) and URIs (values)
+     * @param namespaceURI ahe namespace URI
+     * @return the namespace prefix if known, or <code>null</code>
+     */
+    private String getPrefix( Hashtable prefixes, String namespaceURI )
+    {
+        Enumeration keys = prefixes.keys();
+        while (keys.hasMoreElements()) {
+            String prefix = (String) keys.nextElement();
+            if (namespaceURI.equals(prefixes.get(prefix))) {
+                return prefix;
+			}
         }
         return null;
     }

@@ -40,12 +40,21 @@ public class MalformedXPointerTest extends TestCase {
     // Timeout in milliseconds.
     private static final long PARSE_TIMEOUT = 10000;
 
+    public void testInvalidControlCharacterInElementSchemeDoesNotHang()
+            throws Exception {
+        assertMalformedXPointerRejected("tests/xinclude/tests/test45.xml");
+    }
+
     public void testUnbalancedOpenParenthesisDoesNotHang() throws Exception {
         assertMalformedXPointerRejected("tests/xinclude/tests/test42.xml");
     }
 
     public void testExtraWrappingParenthesesAreRejected() throws Exception {
         assertMalformedXPointerRejected("tests/xinclude/tests/test43.xml");
+    }
+
+    public void testInvalidControlCharacterDoesNotHang() throws Exception {
+        assertMalformedXPointerRejected("tests/xinclude/tests/test44.xml");
     }
 
     private void assertMalformedXPointerRejected(final String testFile)

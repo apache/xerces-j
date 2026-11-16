@@ -748,6 +748,11 @@ final class ElementSchemePointer implements XPointerPart {
 
                 switch (chartype) {
 
+                case CHARTYPE_INVALID:
+                    reportError("InvalidElementSchemeXPointer",
+                            new Object[] { data });
+                    return false;
+
                 case CHARTYPE_SLASH:
                     // if last character is '/', break and report an error
                     if (++currentOffset == endOffset) {

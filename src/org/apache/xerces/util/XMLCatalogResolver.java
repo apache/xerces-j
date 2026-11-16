@@ -157,7 +157,7 @@ public class XMLCatalogResolver
      * 
      * @return the prefer public setting
      */
-    public final boolean getPreferPublic () {
+    public final synchronized boolean getPreferPublic () {
         return fPreferPublic;
     }
     
@@ -169,7 +169,7 @@ public class XMLCatalogResolver
      * 
      * @param preferPublic the prefer public setting
      */
-    public final void setPreferPublic (boolean preferPublic) {
+    public final synchronized void setPreferPublic (boolean preferPublic) {
         fPreferPublic = preferPublic;
         fResolverCatalogManager.setPreferPublic(preferPublic);
     }
@@ -186,7 +186,7 @@ public class XMLCatalogResolver
      * 
      * @see #setUseLiteralSystemId
      */
-    public final boolean getUseLiteralSystemId () {
+    public final synchronized boolean getUseLiteralSystemId () {
         return fUseLiteralSystemId;
     }
     
@@ -210,7 +210,7 @@ public class XMLCatalogResolver
      * @param useLiteralSystemId the preference for using 
      * literal system identifiers for catalog resolution
      */
-    public final void setUseLiteralSystemId (boolean useLiteralSystemId) {
+    public final synchronized void setUseLiteralSystemId (boolean useLiteralSystemId) {
         fUseLiteralSystemId = useLiteralSystemId;
     }
     

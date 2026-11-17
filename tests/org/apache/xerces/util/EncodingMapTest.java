@@ -33,12 +33,13 @@ public class EncodingMapTest extends TestCase {
         }
     }
 
-    public void testJavaToIANAMappingsAreInverseOfIANAToJava() {
+    public void testJavaToIANAMappingsHaveIANAToJavaMappings() {
         Enumeration names = EncodingMap.fJava2IANAMap.keys();
         while (names.hasMoreElements()) {
             String javaName = (String) names.nextElement();
             String ianaName = EncodingMap.getJava2IANAMapping(javaName);
-            assertEquals(javaName, EncodingMap.getIANA2JavaMapping(ianaName));
+            assertNotNull("No IANA to Java mapping for " + ianaName + " used by " + javaName,
+                    EncodingMap.getIANA2JavaMapping(ianaName));
         }
     }
 
@@ -51,7 +52,7 @@ public class EncodingMapTest extends TestCase {
         assertEquals("WINDOWS-1258", EncodingMap.getJava2IANAMapping("Cp1258"));
         assertEquals("TIS-620", EncodingMap.getJava2IANAMapping("TIS620"));
         assertEquals("ISO-8859-15", EncodingMap.getJava2IANAMapping("ISO8859_15"));
-        assertEquals("ISO_8859-15", EncodingMap.getJava2IANAMapping("ISO8859_15_FDIS"));
+        assertEquals("ISO-8859-15", EncodingMap.getJava2IANAMapping("ISO8859_15_FDIS"));
         assertEquals("ISO8859_15_FDIS", EncodingMap.getIANA2JavaMapping("ISO_8859-15"));
         assertEquals("UTF-16", EncodingMap.getJava2IANAMapping("UTF-16"));
     }

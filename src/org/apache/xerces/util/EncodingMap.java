@@ -660,7 +660,7 @@ public class EncodingMap {
         fJava2IANAMap.put("ISO8859_9",    "ISO-8859-9");
         fJava2IANAMap.put("ISO8859_13",    "ISO-8859-13");
         fJava2IANAMap.put("ISO8859_15",    "ISO-8859-15");
-        fJava2IANAMap.put("ISO8859_15_FDIS",    "ISO_8859-15");
+        fJava2IANAMap.put("ISO8859_15_FDIS",    "ISO-8859-15");
         fJava2IANAMap.put("Big5",      "BIG5");
         fJava2IANAMap.put("CP037",     "EBCDIC-CP-US");
         fJava2IANAMap.put("CP273",     "IBM273");

@@ -177,7 +177,7 @@ a) Accepting new subproject proposals, voting on these
    proposals and creating the
    subproject (see SUBPROJECTS below).  This is done in collaboration
    with the Incubator (see 
-   <jump href='http://incubator.apache.org'>http://incubator.apache.org</jump>).
+   <jump href='https://incubator.apache.org'>https://incubator.apache.org</jump>).
 
 </p>
 <p>
@@ -223,8 +223,8 @@ majority vote of PMC members.
 </p><p>
 5.7 Upon agreement by the Apache Board, the recommended Chairperson will, 
 if they are not already, be appointed an officer of the corporation. 
-See <jump href='http://www.apache.org/foundation/bylaws.html'>
-http://www.apache.org/foundation/bylaws.html</jump> for more information.
+See <jump href='https://www.apache.org/foundation/bylaws.html'>
+https://www.apache.org/foundation/bylaws.html</jump> for more information.
 </p><p>
 5.8 In the unlikely event that a member of the PMC becomes disruptive to
 the process, ceases to make codebase contributions for an extended 
@@ -271,12 +271,12 @@ to contribute a new feature to Xerces must either sign:
 </p><p>
 a) If contributing as an individual, sign the "Individual 
    Contributor License Agreement (CLA)" 
-   (<jump href='http://www.apache.org/licenses/icla.txt'>http://www.apache.org/licenses/icla.txt</jump>)
+   (<jump href='https://www.apache.org/licenses/icla.txt'>https://www.apache.org/licenses/icla.txt</jump>)
    and file a copy with the Secretary of the Corporation; or 
 </p><p>
 b) If making the contribution as part of their employment
    responsibilities, sign the "Corporate CLA (CCLA)", 
-   (<jump href='http://www.apache.org/licenses/cla-corporate.txt'>http://www.apache.org/licenses/cla-corporate.txt</jump>)
+   (<jump href='https://www.apache.org/licenses/cla-corporate.txt'>https://www.apache.org/licenses/cla-corporate.txt</jump>)
    and file a copy with the Secretary of the Corporation.
 
 </p><p>
@@ -292,7 +292,7 @@ b) Are you the author of the code being contributed?
 </p><p>
 c) Do you have the right to grant the copyright and patent 
    licenses for the contribution that are set forth in the ASF v.2.0 
-   license (<jump href='http://www.apache.org/licenses/LICENSE-2.0'>http://www.apache.org/licenses/LICENSE-2.0</jump>)?
+   license (<jump href='https://www.apache.org/licenses/LICENSE-2.0'>https://www.apache.org/licenses/LICENSE-2.0</jump>)?
 </p><p>
 d) Does your employer have any rights to code that you have 
    written, for example, through your contract for employment?  If 
@@ -376,7 +376,7 @@ b) Subproject Source Repositories -- These are several repositories
    subprojects.  
 
 </p><p>
-c) Website -- A <jump href='http://xerces.apache.org'>xerces.apache.org</jump>
+c) Website -- A <jump href='https://xerces.apache.org'>xerces.apache.org</jump>
    website will contain information about
    the Apache Xerces project, including documentation, downloads of
    releases, and this charter. Each subproject will have its own website
@@ -405,7 +405,7 @@ devoted mailing
 <p>
 10.1 All contributions to the Apache Xerces project adhere to the 
 Apache Software Foundation License, v.2.0 
-(<jump href='http://www.apache.org/licenses/LICENSE-2.0'>http://www.apache.org/licenses/LICENSE-2.0</jump>)?
+(<jump href='https://www.apache.org/licenses/LICENSE-2.0'>https://www.apache.org/licenses/LICENSE-2.0</jump>)?
 All further contributions must be made under the
 same terms. 
 

@@ -21,9 +21,9 @@
 <p> Xerces2 provides an implementation of SAX 2.0.2 and SAX2 Extensions 1.1.</p>
 <p> SAX 1.0 and SAX 2.0 information: </p>
 <ul>
-<li><jump href='http://www.saxproject.org/sax1-roadmap.html'>SAX 1.0 Overview</jump></li>
-<li><jump href='http://www.saxproject.org/sax2-history.html'>SAX 2.0 Changes</jump></li>
-<li><jump href='http://www.saxproject.org/sax2-ext.html'>SAX 2.0 Extensions</jump></li>
+<li><jump href='https://www.saxproject.org/sax1-roadmap.html'>SAX 1.0 Overview</jump></li>
+<li><jump href='https://www.saxproject.org/sax2-history.html'>SAX 2.0 Changes</jump></li>
+<li><jump href='https://www.saxproject.org/sax2-ext.html'>SAX 2.0 Extensions</jump></li>
 </ul>
 </s2>
 
@@ -32,7 +32,7 @@
 <p>This section provides the following topics:</p>
 
 <ul>
-<li><jump href='http://www.saxproject.org'>About SAX</jump></li>
+<li><jump href='https://www.saxproject.org'>About SAX</jump></li>
 <li><link idref='faq-sax'>How do I?</link> -- the most frequently asked questions about SAX.</li>
 <li><link idref='samples-sax'>SAX Samples</link> -- documents various SAX samples included with Xerces.</li>
 </ul>

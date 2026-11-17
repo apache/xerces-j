@@ -62,7 +62,7 @@ ErrorHandler handler = new ErrorHandler() {
 
 DocumentBuilder builder = /* builder instance */;
 builder.setErrorHandler(handler);</source>
-   <p>If you are using <jump href="http://www.w3.org/DOM/DOMTR#DOML3">DOM Level 3</jump> 
+   <p>If you are using <jump href="https://www.w3.org/DOM/DOMTR#DOML3">DOM Level 3</jump> 
     you can register an error handler with the <code>DOMBuilder</code> by supplying
     a class which implements the <code>org.w3c.dom.DOMErrorHandler</code>
     interface. For more information, refer to <link idref="faq-dom">FAQ</link></p>

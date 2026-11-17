@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+import org.apache.xerces.util.ClassLoaderUtil;
+
 /**
  * This class is duplicated for each JAXP subpackage so keep it in sync.
  * It is package private and therefore is not exposed as part of the JAXP
@@ -272,14 +274,6 @@ final class ObjectFactory {
         }
     } // debugPrintln(String)
 
-    /** Returns true if the class is part of the Xerces distribution. */
-    private static boolean isInternalClassName(String className) {
-        return className.startsWith("org.apache.xerces.")
-                || className.startsWith("org.apache.html.")
-                || className.startsWith("org.apache.wml.")
-                || className.startsWith("org.apache.xml.serialize.");
-    } // isInternalClassName(String):boolean
-
     /**
      * Figure out which ClassLoader to use.  For JDK 1.2 and later use
      * the context ClassLoader.
@@ -373,7 +367,7 @@ final class ObjectFactory {
         // with the ClassLoader that loaded this factory. The context
         // ClassLoader may see a different copy of Xerces, which would result
         // in a ClassCastException when the returned instance is used.
-        if (isInternalClassName(className)) {
+        if (ClassLoaderUtil.isInternalClassName(className)) {
             cl = ObjectFactory.class.getClassLoader();
         }
 

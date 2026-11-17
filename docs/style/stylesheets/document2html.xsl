@@ -52,21 +52,21 @@
             <td width="168" height="20" valign="top" align="left">
               <img width="168" height="20" src="resources/bottom.gif" hspace="0" vspace="0" border="0"/></td>
             <td width="96" height="20" valign="top" align="left">
-              <a href="http://xml.apache.org/" onMouseOver="rolloverOn('xml');" onMouseOut="rolloverOff('xml');" target="new">
+              <a href="https://xml.apache.org/" onMouseOver="rolloverOn('xml');" onMouseOut="rolloverOff('xml');" target="new">
                 <img alt="http://xml.apache.org/" width="96" height="20" src="resources/button-xml-lo.gif"
                      name="xml" hspace="0" vspace="0" border="0"
                      onLoad="rolloverLoad('xml','resources/button-xml-hi.gif','resources/button-xml-lo.gif');"/>
               </a>
             </td>
             <td width="96" height="20" valign="top" align="left">
-              <a href="http://www.apache.org/" onMouseOver="rolloverOn('asf');" onMouseOut="rolloverOff('asf');" target="new">
+              <a href="https://www.apache.org/" onMouseOver="rolloverOn('asf');" onMouseOut="rolloverOff('asf');" target="new">
                 <img alt="http://www.apache.org/" width="96" height="20" src="resources/button-asf-lo.gif"
                      name="asf" hspace="0" vspace="0" border="0"
                      onLoad="rolloverLoad('asf','resources/button-asf-hi.gif','resources/button-asf-lo.gif');"/>
               </a>
             </td>
             <td width="96" height="20" valign="top" align="left">
-              <a href="http://www.w3.org/" onMouseOver="rolloverOn('w3c');" onMouseOut="rolloverOff('w3c');" target="new">
+              <a href="https://www.w3.org/" onMouseOver="rolloverOn('w3c');" onMouseOut="rolloverOff('w3c');" target="new">
                 <img alt="http://www.w3.org/" width="96" height="20" src="resources/button-w3c-lo.gif"
                      name="w3c" hspace="0" vspace="0" border="0"
                      onLoad="rolloverLoad('w3c','resources/button-w3c-hi.gif','resources/button-w3c-lo.gif');"/>
@@ -95,7 +95,7 @@
           <tr><td bgcolor="#0086b2"><img src="images/dot.gif" width="1" height="1"/></td></tr>
           <tr>
             <td align="center"><font size="-1" color="#0086b2"><i>
-              Copyright &#169; <a href="http://www.apache.org/licenses/">The Apache Software Foundation</a>.
+              Copyright &#169; <a href="https://www.apache.org/licenses/">The Apache Software Foundation</a>.
               All Rights Reserved.
             </i></font></td>
           </tr>

@@ -1,0 +1,4 @@
+<root xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>A</title>
+    <xi:include href="xinclude-cycle-b.xml"/>
+</root>

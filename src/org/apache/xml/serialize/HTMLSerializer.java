@@ -339,8 +339,8 @@ public class HTMLSerializer
                 while (entries.hasNext()) {
                     _printer.printSpace();
                     Map.Entry entry = (Map.Entry) entries.next();
-                    value = (String) entry.getKey();
-                    name = (String) entry.getValue();
+                    name = (String) entry.getKey();
+                    value = (String) entry.getValue();
                     if ( name.length() == 0 ) {
                         _printer.printText( "xmlns=\"" );
                         printEscaped( value );

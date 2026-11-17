@@ -24,6 +24,26 @@ checked exception reported through standard Java exception handling.
 When faced with input it cannot recognize as XML, Xerces should report
 the problem without crashing or failing.
 
+## Supported Specifications
+
+Xerces Java supports the following specifications:
+
+* [XML 1.0](https://www.w3.org/TR/xml/)
+* [Namespaces in XML 1.0](https://www.w3.org/TR/REC-xml-names/) 
+* [XML Schema Part 1: Structures](https://www.w3.org/TR/xmlschema-1/)
+* [XML Schema Part 2: Datatypes Second Edition](https://www.w3.org/TR/xmlschema-2/)
+* [XML Inclusions (XInclude) Version 1.0](https://www.w3.org/TR/xinclude/) (Off by default)
+* [Document Object Model (DOM) Level 2 Core Specification](https://www.w3.org/TR/DOM-Level-2-Core/)
+* [Document Object Model (DOM) Level 3 Load and Save Specification](http://www.w3.org/TR/DOM-Level-3-LS)
+* [SAX 2.0.2](http://www.saxproject.org/)
+
+Unfortunately not all of these specifications have been stable so there 
+are some discrepancies depending on which version of the spec you're consulting.
+
+Issues caused by strict adherence to the specifications are not considered security issues in Xerces.
+Failure to adhere to a specification can be a security issue, but usually it's just a bug.
+
+
 ## Reporting Security Issues
 
 If you have personally discovered a security issue in Apache Xerces Java
@@ -31,7 +51,8 @@ and can explain it, submit it
 by following the 
 [Apache reporting guidelines](https://security.apache.org/report-code/).
 
-If some security tool is logging a warning, that is as likely as not to be a bug in the tool. You can file that here after you have investigated
+If some security tool is logging a warning, that is as likely as not to be a bug in the tool.
+You can file that here after you have investigated
 if you are willing and able to vouch that it is a true security issue.
 Please do not simply echo the output of tools you do not personally understand.
 
@@ -39,7 +60,7 @@ Please do not simply echo the output of tools you do not personally understand.
 
 1. Anything in your dependency tree whose source code is not in this repo. You control your classpath. Xerces doesn't. If you don't like what's in the classpath, change it.
 2. Properly implementing XML 1.0 according to the specification. This includes entity expansion and loading external entity references and DTDs.
-3. Properly implementing DTD or W3C XML Schema validation according to the specification.
+3. Properly implementing DTD or W3C XML Schema validation according to the specifications.
 4. Arbitrary code execution and sandbox escape. Xerces-J is pure Java. Any bug of this nature is almost certainly a bug in the JDK itself and should be reported to the OpenJDK project. You can report a bug like this to us too, but it's unlikely we'll be able to fix the root cause. 
 5. Issues that require direct calls to the Xerces Java API.
 

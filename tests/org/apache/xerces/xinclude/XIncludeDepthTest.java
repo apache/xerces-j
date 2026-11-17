@@ -53,6 +53,13 @@ public class XIncludeDepthTest extends TestCase {
                 "http://example.com/not-included.xml"));
     }
 
+    public void testRecursiveIncludeSearchHandlesNullSystemId() {
+        XIncludeHandler handler = new XIncludeHandler();
+        handler.fCurrentBaseURI.setExpandedSystemId(
+                "http://example.com/current.xml");
+        assertFalse(handler.searchForRecursiveIncludes(null));
+    }
+
     public void testIncludeChainBelowMaximumDepthIsExpanded()
             throws Exception {
         File directory = Files.createTempDirectory("xinclude-depth").toFile();

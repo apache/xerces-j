@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -1948,7 +1949,8 @@ public class XIncludeHandler
     protected boolean searchForRecursiveIncludes(String includedSysId) {
         XIncludeHandler current = this;
         while (current != null) {
-            if (includedSysId.equals(current.fCurrentBaseURI.getExpandedSystemId())) {
+            if (Objects.equals(includedSysId,
+                    current.fCurrentBaseURI.getExpandedSystemId())) {
                 return true;
             }
             current = current.fParentXIncludeHandler;

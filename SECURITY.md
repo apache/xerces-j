@@ -28,14 +28,22 @@ the problem without crashing or failing.
 
 Xerces Java supports the following specifications:
 
-* [XML 1.0](https://www.w3.org/TR/xml/)
-* [Namespaces in XML 1.0](https://www.w3.org/TR/REC-xml-names/) 
+* [XML 1.0 4th Edition](https://www.w3.org/TR/2006/REC-xml-20060816/)
+* [XML 1.1 2nd Edition](https://www.w3.org/TR/2006/REC-xml11-20060816/)
+* [Namespaces in XML 1.0 Second Edition](https://www.w3.org/TR/2006/REC-xml-names-20060816/)
+* [Namespaces in XML 1.1 Second Edition](https://www.w3.org/TR/2006/REC-xml-names11-20060816/)
 * [XML Schema Part 1: Structures](https://www.w3.org/TR/xmlschema-1/)
 * [XML Schema Part 2: Datatypes Second Edition](https://www.w3.org/TR/xmlschema-2/)
-* [XML Inclusions (XInclude) Version 1.0](https://www.w3.org/TR/xinclude/) (Off by default)
+* [XML Inclusions (XInclude) Version 1.0 2nd Edition](https://www.w3.org/TR/xinclude/) (Off by default)
 * [Document Object Model (DOM) Level 2 Core Specification](https://www.w3.org/TR/DOM-Level-2-Core/)
-* [Document Object Model (DOM) Level 3 Load and Save Specification](http://www.w3.org/TR/DOM-Level-3-LS)
-* [SAX 2.0.2](http://www.saxproject.org/)
+* [Document Object Model (DOM) Level 2 Traversal and Range](https://www.w3.org/TR/2000/REC-DOM-Level-2-Traversal-Range-20001113/)
+* [Document Object Model (DOM) Level 2 Element Traversal](https://www.w3.org/TR/2008/REC-ElementTraversal-20081222/)
+* [Document Object Model (DOM) Level 3 Core](https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/)
+* [Document Object Model (DOM) Level 3 Load and Save Specification](https://www.w3.org/TR/DOM-Level-3-LS)
+* [Document Object Model (DOM) Level 3 Events](https://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113/)
+* [SAX 2.0.2](https://www.saxproject.org/)
+* [Java APIs for XML Processing (JAXP) 1.4](https://www.jcp.org/en/jsr/summary?id=206)
+* [Streaming API For XML (StAX) 1.0](https://www.jcp.org/en/jsr/summary?id=173)
 
 Unfortunately not all of these specifications have been stable so there 
 are some discrepancies depending on which version of the spec you're consulting.

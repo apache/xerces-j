@@ -567,8 +567,7 @@ public class EncodingMap {
         fIANA2JavaMap.put("ISO-8859-13",      "ISO8859_13"); 
         
         fIANA2JavaMap.put("ISO-8859-15",      "ISO8859_15");
-        fIANA2JavaMap.put("ISO_8859-15",      "ISO8859_15_FDIS");
-        fIANA2JavaMap.put("LATIN-9",          "ISO8859_15_FDIS");
+        fIANA2JavaMap.put("LATIN-9",          "ISO8859_15");
 
         fIANA2JavaMap.put("KOI8-R",          "KOI8_R");
         fIANA2JavaMap.put("CSKOI8R",          "KOI8_R");

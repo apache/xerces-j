@@ -60,7 +60,7 @@
             </td>
             <td width="96" height="20" valign="top" align="left">
               <a href="https://www.w3.org/" onMouseOver="rolloverOn('w3c');" onMouseOut="rolloverOff('w3c');" target="new">
-                <img alt="http://www.w3.org/" width="96" height="20" src="resources/button-w3c-lo.gif"
+                <img alt="https://www.w3.org/" width="96" height="20" src="resources/button-w3c-lo.gif"
                      name="w3c" hspace="0" vspace="0" border="0"
                      onLoad="rolloverLoad('w3c','resources/button-w3c-hi.gif','resources/button-w3c-lo.gif');"/>
               </a>

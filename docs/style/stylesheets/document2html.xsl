@@ -52,13 +52,6 @@
             <td width="168" height="20" valign="top" align="left">
               <img width="168" height="20" src="resources/bottom.gif" hspace="0" vspace="0" border="0"/></td>
             <td width="96" height="20" valign="top" align="left">
-              <a href="https://xml.apache.org/" onMouseOver="rolloverOn('xml');" onMouseOut="rolloverOff('xml');" target="new">
-                <img alt="http://xml.apache.org/" width="96" height="20" src="resources/button-xml-lo.gif"
-                     name="xml" hspace="0" vspace="0" border="0"
-                     onLoad="rolloverLoad('xml','resources/button-xml-hi.gif','resources/button-xml-lo.gif');"/>
-              </a>
-            </td>
-            <td width="96" height="20" valign="top" align="left">
               <a href="https://www.apache.org/" onMouseOver="rolloverOn('asf');" onMouseOut="rolloverOff('asf');" target="new">
                 <img alt="http://www.apache.org/" width="96" height="20" src="resources/button-asf-lo.gif"
                      name="asf" hspace="0" vspace="0" border="0"

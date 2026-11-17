@@ -154,12 +154,12 @@
  <anchor name="xml-schema-api-documentation"/>
  <s2 title='XML Schema API Documentation'>
   <p>
-   The <jump href="http://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/">XML Schema API</jump> 
+   The <jump href="https://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/">XML Schema API</jump> 
    specification defines a set of interfaces for accessing and querying the post schema 
    validation infoset (PSVI) defined in 
-   <jump href="http://www.w3.org/TR/xmlschema-1/#PSVI_contributions">Contributions 
+   <jump href="https://www.w3.org/TR/xmlschema-1/#PSVI_contributions">Contributions 
    to the post-schema-validation infoset (Appendix C.2) [XML Schema 1.0]</jump> and 
-   <jump href="http://www.w3.org/TR/xmlschema11-1/#PSVI_contributions">Contributions 
+   <jump href="https://www.w3.org/TR/xmlschema11-1/#PSVI_contributions">Contributions 
    to the post-schema-validation infoset (Appendix B.2) [XML Schema 1.1]</jump>. These interfaces
    provide access to the XML Schema components, which follow as a consequence of 
    validation and/or assessment and also provide a means for accessing the PSVI 
@@ -167,7 +167,7 @@
   </p>
   <p>
    Some of the interfaces in the XML Schema API reference interfaces
-   from <jump href="http://www.w3.org/DOM/DOMTR#dom3">DOM Level 3</jump>
+   from <jump href="https://www.w3.org/DOM/DOMTR#dom3">DOM Level 3</jump>
    which is now a W3C Recommendation.
   </p>
   <ul>

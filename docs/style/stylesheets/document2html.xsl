@@ -53,7 +53,7 @@
               <img width="168" height="20" src="resources/bottom.gif" hspace="0" vspace="0" border="0"/></td>
             <td width="96" height="20" valign="top" align="left">
               <a href="https://www.apache.org/" onMouseOver="rolloverOn('asf');" onMouseOut="rolloverOff('asf');" target="new">
-                <img alt="http://www.apache.org/" width="96" height="20" src="resources/button-asf-lo.gif"
+                <img alt="https://www.apache.org/" width="96" height="20" src="resources/button-asf-lo.gif"
                      name="asf" hspace="0" vspace="0" border="0"
                      onLoad="rolloverLoad('asf','resources/button-asf-hi.gif','resources/button-asf-lo.gif');"/>
               </a>

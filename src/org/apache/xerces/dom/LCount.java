@@ -43,6 +43,21 @@ class LCount
         return lc;	        
     }
 
+    int getCaptures()
+    {
+        return captures;
+    }
+
+    int getBubbles()
+    {
+        return bubbles;
+    }
+
+    int getTotal()
+    {
+        return total;
+    }
+
     void add(String evtName, boolean useCapture)
     {
         LCount lc = lookup(evtName);

@@ -23,6 +23,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+import java.nio.charset.IllegalCharsetNameException;
 
 import org.apache.xerces.util.EncodingMap;
 

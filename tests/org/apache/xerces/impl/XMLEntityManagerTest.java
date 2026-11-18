@@ -53,7 +53,7 @@ public class XMLEntityManagerTest extends TestCase {
 
     public void testChainedParameterEntityUsesDeclaredSystemId() throws Exception {
         XMLReader parser = new SAXParser();
-        final StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         parser.setEntityResolver(new EntityResolver() {
             public InputSource resolveEntity(String publicId, String systemId)
                     throws SAXException, IOException {

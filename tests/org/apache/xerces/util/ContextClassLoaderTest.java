@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package jaxp;
+package org.apache.xerces.util;
 
 import java.io.File;
 import java.net.URL;

@@ -62,7 +62,7 @@ public class EncodingsTest extends TestCase {
     // https://issues.apache.org/jira/projects/XERCESJ/issues/XERCESJ-762
     public void testUnicodeLittle) throws Exception {
         EncodingInfo unicodeLittle = Encodings.getEncodingInfo("UnicodeLittle", true);
-        assertEquals("UTF-8", unicodeLittle.getIANAName());
+        assertEquals("UTF-16LE", unicodeLittle.getIANAName());
         assertTrue(unicodeLittle.isPrintable('\uffff'));
     }
 

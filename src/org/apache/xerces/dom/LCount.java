@@ -16,6 +16,7 @@
  */
 package org.apache.xerces.dom;
 
+import java.util.Hashtable;
 
 /** Internal class LCount tracks the number of listeners registered
     for a given event name within a document. This allows the document
@@ -27,12 +28,12 @@ package org.apache.xerces.dom;
  * 
  * @version $Id$
  */
-
 class LCount 
 { 
-    private final java.util.Hashtable<String, LCount> counts =
-            new java.util.Hashtable<>();
-    int captures=0;
+    private final Hashtable<String, LCount> counts = new Hashtable<>();
+    private int captures=0;
+    private int bubbles = 0;
+    private int total = 0;
 
     LCount lookup(String evtName)
     {

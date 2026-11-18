@@ -41,12 +41,14 @@ public class EncodingsTest extends TestCase {
         assertTrue(utf8.isPrintable('\uffff'));
     }
 
-    public void testIANAEncodingNamesAreCaseSensitive() {
-        try {
-            Encodings.getEncodingInfo("utf-8", false);
-            fail("Lowercase IANA encoding name should not be recognized");
-        } catch (UnsupportedEncodingException expected) {
-        }
+    public void testIANAEncodingNamesAreCaseInsensitive() throws Exception {
+        EncodingInfo lowerCase = Encodings.getEncodingInfo("utf-8", false);
+        assertEquals("UTF-8", lowerCase.getIANAName());
+        assertTrue(lowerCase.isPrintable('\uffff'));
+
+        EncodingInfo mixedCase = Encodings.getEncodingInfo("Utf-8", false);
+        assertEquals("UTF-8", mixedCase.getIANAName());
+        assertSame(lowerCase, mixedCase);
     }
 
     public void testJavaEncodingNameNotAllowed() {

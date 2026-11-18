@@ -19,6 +19,7 @@ package org.apache.xml.serialize;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
+import java.util.Locale;
 
 import org.apache.xerces.util.EncodingMap;
 
@@ -70,6 +71,15 @@ public class Encodings {
             return eInfo;
         }
         String javaEncodingName = EncodingMap.getIANA2JavaMapping(encoding);
+        String ianaEncodingName = encoding;
+        if (javaEncodingName == null) {
+            // IANA charset names are case-insensitive.
+            String upperCaseEncoding = encoding.toUpperCase(Locale.ENGLISH);
+            javaEncodingName = EncodingMap.getIANA2JavaMapping(upperCaseEncoding);
+            if (javaEncodingName != null) {
+                ianaEncodingName = upperCaseEncoding;
+            }
+        }
         if (javaEncodingName == null) {
             // see if the encoding passed in is a Java encoding name.
             if (allowJavaNames) {
@@ -99,12 +109,12 @@ public class Encodings {
         int i=0;
         for(; i<UNICODE_ENCODINGS.length; i++) {
             if(UNICODE_ENCODINGS[i].equalsIgnoreCase(javaEncodingName)) {
-                eInfo = new EncodingInfo(encoding, javaEncodingName, LAST_PRINTABLE_UNICODE);
+                eInfo = new EncodingInfo(ianaEncodingName, javaEncodingName, LAST_PRINTABLE_UNICODE);
                 break;
             }
         }
         if(i == UNICODE_ENCODINGS.length) {
-            eInfo = new EncodingInfo(encoding, javaEncodingName, DEFAULT_LAST_PRINTABLE);
+            eInfo = new EncodingInfo(ianaEncodingName, javaEncodingName, DEFAULT_LAST_PRINTABLE);
         }
         _encodings.put(javaEncodingName, eInfo);
         return eInfo;

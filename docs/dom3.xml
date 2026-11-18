@@ -21,8 +21,8 @@
 	<s2 title="Introduction">
 		<p>
 			The &ParserNameLong; &ParserVersion; contains an implementation of 
-			the Document Object Model Level 3 <jump href="http://www.w3.org/TR/DOM-Level-3-Core/">Core</jump> 
-			and Document Object Model Level 3 <jump href="http://www.w3.org/TR/DOM-Level-3-LS/">Load and Save</jump> Recommendations.
+			the Document Object Model Level 3 <jump href="https://www.w3.org/TR/DOM-Level-3-Core/">Core</jump> 
+			and Document Object Model Level 3 <jump href="https://www.w3.org/TR/DOM-Level-3-LS/">Load and Save</jump> Recommendations.
 			To learn how to program with the DOM Level 3 see <jump href="samples-dom.html#DOM3">dom.DOM3</jump> sample.
 		</p>
 
@@ -219,11 +219,11 @@
 		<ul>
 
     		<li>
-    			<strong>LSParser</strong> <jump href="http://www.w3.org/TR/DOM-Level-3-LS/load-save.html#LS-LSParser-parseWithContext">
+    			<strong>LSParser</strong> <jump href="https://www.w3.org/TR/DOM-Level-3-LS/load-save.html#LS-LSParser-parseWithContext">
     			parserWithContext</jump>
     			 -- not supported.
 	    	</li>
-	      <li><strong>DOMImplementationLS</strong> <jump href="http://www.w3.org/TR/DOM-Level-3-LS/load-save.html#LS-DOMImplementationLS-MODE_ASYNCH">
+	      <li><strong>DOMImplementationLS</strong> <jump href="https://www.w3.org/TR/DOM-Level-3-LS/load-save.html#LS-DOMImplementationLS-MODE_ASYNCH">
 			MODE_ASYNCHRONOUS</jump> 
 				-- not supported.
 			</li>

@@ -67,7 +67,7 @@ catch (IOException e) {
 }</source>
       <anchor name="domparser"/>
       <p>  
-	The following source code shows how to create the parser using <jump href="http://www.w3.org/DOM/DOMTR#DOML3">DOM Level 3</jump>:
+	The following source code shows how to create the parser using <jump href="https://www.w3.org/DOM/DOMTR#DOML3">DOM Level 3</jump>:
       </p>
       <source>import  org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import  org.w3c.dom.Document;
@@ -206,9 +206,9 @@ serializer.serialize(document);</source>
    <faq title="Using DOM Level 3 with JDK 1.4 and higher">
     <q>How do I run DOM Level 3 applications under JDK 1.4 and higher?</q>
     <a>    <anchor name="dom3-run"/>
-    <p>Use the <jump href="http://download.oracle.com/javase/1.4.2/docs/guide/standards/">
+    <p>Use the <jump href="https://download.oracle.com/javase/1.4.2/docs/guide/standards/">
     Endorsed Standards Override Mechanism</jump> to specify xercesImpl.jar and xml-apis.jar.
-    A more complete description is available <jump href="http://xml.apache.org/xalan-j/faq.html#faq-N100D6">here</jump>.
+    A more complete description is available <jump href="https://xml.apache.org/xalan-j/faq.html#faq-N100D6">here</jump>.
     </p>
     </a>
   </faq>
@@ -219,7 +219,7 @@ serializer.serialize(document);</source>
 <a> <anchor name="xsdom"/>
 <p>By default Xerces does not store the PSVI information in the DOM tree. </p>
 <p>
-The following source shows you how to parse an XML document (using JAXP) and how to retrieve PSVI (using the <jump href="http://www.w3.org/Submission/xmlschema-api/">XML Schema API</jump>):
+The following source shows you how to parse an XML document (using JAXP) and how to retrieve PSVI (using the <jump href="https://www.w3.org/Submission/xmlschema-api/">XML Schema API</jump>):
 <source>
 //<code>dbf</code> is JAXP DocumentBuilderFactory
 
@@ -253,7 +253,7 @@ DOMImplementation impl =
     (DOMImplementation) registry.getDOMImplementation("psvi");
 </source>
 
-The PSVI information will not be added or modified as you modify the tree in memory. Instead, if you want to get updated PSVI information, you need to validate your DOM in memory using the <jump href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Document3-normalizeDocument">normalizeDocument</jump> method as described in the <jump href="#xsrevalidate">next question</jump>.
+The PSVI information will not be added or modified as you modify the tree in memory. Instead, if you want to get updated PSVI information, you need to validate your DOM in memory using the <jump href="https://www.w3.org/TR/DOM-Level-3-Core/core.html#Document3-normalizeDocument">normalizeDocument</jump> method as described in the <jump href="#xsrevalidate">next question</jump>.
 
 <p>You can find more information about how to use the XML Schema API <jump href="faq-xs.html">here</jump>.</p>
 </a>
@@ -287,7 +287,7 @@ The PSVI information will not be added or modified as you modify the tree in mem
   			</li>
   			<li>
   				Relative URIs for the schema documents will be resolved relative to the
-  		       <jump href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Document3-documentURI">documentURI</jump>
+  		       <jump href="https://www.w3.org/TR/DOM-Level-3-Core/core.html#Document3-documentURI">documentURI</jump>
   		       (which should be set).
   		       Otherwise, you can implement your own <code>LSResourceResolver</code> and set it 
   		       via <code>resource-resolver</code> on the <code>DOMConfiguration</code>.
@@ -296,10 +296,10 @@ The PSVI information will not be added or modified as you modify the tree in mem
   		<p>
   			<strong>Note:</strong> if a document contains any DOM Level 1 nodes (the nodes created using createElement, 
   			createAttribute, etc.) a fatal error will occur as described in the 
-  			<jump href='http://www.w3.org/TR/DOM-Level-3-Core/namespaces-algorithms.html'>Namespace Normalization</jump>
+  			<jump href='https://www.w3.org/TR/DOM-Level-3-Core/namespaces-algorithms.html'>Namespace Normalization</jump>
   			algorithm.
   			In general, the
-  			<jump href='http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations'>DOM specification</jump>
+  			<jump href='https://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations'>DOM specification</jump>
   			discourages using DOM Level 1 nodes in the namespace aware application:
   		</p>
   		<p><em>DOM Level 1 methods are namespace ignorant. Therefore, while it is safe to use these methods when not 
@@ -363,7 +363,7 @@ ErrorHandler handler = new ErrorHandler() {
 
 DocumentBuilder builder = /* builder instance */;
 builder.setErrorHandler(handler);</source>
-      <p>If you are using <jump href="http://www.w3.org/DOM/DOMTR#DOML3">DOM Level 3</jump> 
+      <p>If you are using <jump href="https://www.w3.org/DOM/DOMTR#DOML3">DOM Level 3</jump> 
 	you can register an error handler with the <code>LSParser</code> by supplying
 	a class which implements the <code>org.w3c.dom.DOMErrorHandler</code>
 	interface. <strong>Note:</strong> all exceptions during parsing or saving XML data 
@@ -440,7 +440,7 @@ builder.setErrorHandler(handler);</source>
   
      <faq title="Accessing type information">
     <q>How do I access type information in the DOM?</q>
-    <a> <p><jump href="#dom3">DOM Level 3</jump> defines a  <jump href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#TypeInfo">TypeInfo</jump> 
+    <a> <p><jump href="#dom3">DOM Level 3</jump> defines a  <jump href="https://www.w3.org/TR/DOM-Level-3-Core/core.html#TypeInfo">TypeInfo</jump> 
     interface that exposes type information for 
      element and attribute nodes. The type information depends on the document schema and is only available
      if Xerces was able to find the corresponding grammar (DOM Level 3 <code>validate</code> or 

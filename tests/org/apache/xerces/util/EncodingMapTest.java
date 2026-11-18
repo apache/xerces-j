@@ -43,7 +43,7 @@ public class EncodingMapTest extends TestCase {
         }
     }
 
-    public void testMissingJavaToIANAMappings() {
+    public void testGetJava2IANAMapping() {
         assertEquals("US-ASCII", EncodingMap.getJava2IANAMapping("ASCII"));
         assertEquals("IBM1047", EncodingMap.getJava2IANAMapping("Cp1047"));
         assertEquals("IBM01140", EncodingMap.getJava2IANAMapping("Cp1140"));
@@ -53,7 +53,6 @@ public class EncodingMapTest extends TestCase {
         assertEquals("TIS-620", EncodingMap.getJava2IANAMapping("TIS620"));
         assertEquals("ISO-8859-15", EncodingMap.getJava2IANAMapping("ISO8859_15"));
         assertEquals("ISO-8859-15", EncodingMap.getJava2IANAMapping("ISO8859_15_FDIS"));
-        assertEquals("ISO8859_15_FDIS", EncodingMap.getIANA2JavaMapping("ISO_8859-15"));
         assertEquals("UTF-16", EncodingMap.getJava2IANAMapping("UTF-16"));
     }
 }

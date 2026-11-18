@@ -54,7 +54,7 @@ public class XMLEntityManagerTest extends TestCase {
     // https://issues.apache.org/jira/projects/XERCESJ/issues/XERCESJ-280
     public void testChainedParameterEntityUsesDeclaredSystemId() throws Exception {
         XMLReader parser = new SAXParser();
-        StringBuilder content = new StringBuilder();
+        final StringBuilder content = new StringBuilder();
         parser.setEntityResolver(new EntityResolver() {
             public InputSource resolveEntity(String publicId, String systemId)
                     throws SAXException, IOException {

@@ -58,9 +58,9 @@
   <q>How can I use JAXP 1.4 on JDK 1.4 and above?</q>
   <a>
    <p>
-    Use the <jump href="http://download.oracle.com/javase/1.4.2/docs/guide/standards/">Endorsed Standards Override Mechanism</jump>
+    Use the <jump href="https://download.oracle.com/javase/1.4.2/docs/guide/standards/">Endorsed Standards Override Mechanism</jump>
     to specify xml-apis.jar and xercesImpl.jar. This will override the version of JAXP in the JDK. A more complete 
-    description is available <jump href="http://xml.apache.org/xalan-j/faq.html#faq-N100EF">here</jump>.
+    description is available <jump href="https://xml.apache.org/xalan-j/faq.html#faq-N100EF">here</jump>.
    </p>
    <p>
      The following methods <strong>do not work</strong>:
@@ -87,9 +87,9 @@
       For example, ClassCastExceptions may occur when utility EAR classes that use Xerces load Xerces classes from WAR modules. 
      </p>
      <p>
-      We suggest you read the <jump href="http://www-106.ibm.com/developerworks/websphere/library/techarticles/0310_searle/searle.html">"Avoiding ClassCastExceptions..."</jump>
+      We suggest you read the <jump href="https://www-106.ibm.com/developerworks/websphere/library/techarticles/0310_searle/searle.html">"Avoiding ClassCastExceptions..."</jump>
       article which explains a workaround for this problem. Also you might want to read the
-      <jump href="http://www-106.ibm.com/developerworks/websphere/library/techarticles/0112_deboer/deboer.html">"J2EE Class Loading Demystified"</jump>
+      <jump href="https://www-106.ibm.com/developerworks/websphere/library/techarticles/0112_deboer/deboer.html">"J2EE Class Loading Demystified"</jump>
       article that explains how multiple classloaders work in WebSphere Application Server.
     </p>
   </a>
@@ -103,15 +103,15 @@ As of the 2.9.0 release Xerces-J began sharing a common serialization codebase w
 with its distribution for DOM Level 3 serialization support. The entire <code>org.apache.xml.serialize</code> package was 
 <strong>deprecated</strong> in Xerces 2.9.0. The HTML and XHTML serializers were previously <strong>deprecated</strong> in the 
 Xerces 2.6.2 release. You can find more details about the rationale for this decision here in the 
-<jump href="http://marc.theaimsgroup.com/?l=xalan-dev&amp;m=107593381313807&amp;w=2">archives</jump>.
+<jump href="https://marc.theaimsgroup.com/?l=xalan-dev&amp;m=107593381313807&amp;w=2">archives</jump>.
 </p>
 
 <p>
 If you want to achieve interoperability and avoid using deprecated APIs, you should not be using Xerces serialization code directly.
-Instead, the <jump href="http://jcp.org/en/jsr/summary?id=206">JAXP</jump> Transformer API should be used to serialize HTML, XHTML, and SAX. The <jump href="http://www.w3.org/DOM/DOMTR">DOM</jump> Level 3 Load and Save API (or JAXP Transformer API) should be used to serialize DOM.
+Instead, the <jump href="https://jcp.org/en/jsr/summary?id=206">JAXP</jump> Transformer API should be used to serialize HTML, XHTML, and SAX. The <jump href="https://www.w3.org/DOM/DOMTR">DOM</jump> Level 3 Load and Save API (or JAXP Transformer API) should be used to serialize DOM.
 </p>
 
-    <p>Using <jump href="http://www.w3.org/DOM/DOMTR">DOM</jump> Level 3 you can serialize XML as follows:</p>
+    <p>Using <jump href="https://www.w3.org/DOM/DOMTR">DOM</jump> Level 3 you can serialize XML as follows:</p>
 
 <source>import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.Document;
@@ -133,7 +133,7 @@ LSOutput output = impl.createLSOutput();
 output.setByteStream(System.out);
 writer.write(document, output);</source>
 
-    <p>Using <jump href="http://jcp.org/en/jsr/summary?id=206">JAXP</jump> you can serialize HTML and XHTML as follows:</p>
+    <p>Using <jump href="https://jcp.org/en/jsr/summary?id=206">JAXP</jump> you can serialize HTML and XHTML as follows:</p>
 
 <source>
 // Create an "identity" transformer - copies input to output

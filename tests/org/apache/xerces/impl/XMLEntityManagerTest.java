@@ -51,7 +51,7 @@ public class XMLEntityManagerTest extends TestCase {
 
     private static final String ENTITIES = "<!ENTITY greeting \"Hello\">";
 
-    // https://issues.apache.org/jira/projects/XERCESJ/issues/XERCESJ-279
+    // https://issues.apache.org/jira/projects/XERCESJ/issues/XERCESJ-280
     public void testChainedParameterEntityUsesDeclaredSystemId() throws Exception {
         XMLReader parser = new SAXParser();
         StringBuilder content = new StringBuilder();

@@ -273,9 +273,7 @@ public class EncodingInfo {
                 fgCanConvertMethod = clazz.getMethod("canConvert", new Class [] {Character.TYPE});
                 fgConvertersAvailable = true;
             }
-            // ClassNotFoundException, NoSuchMethodException or SecurityException
-            // Whatever the case, we cannot use sun.io.CharToByteConverter.
-            catch (Exception exc) {
+            catch (ClassNotFoundException | NoSuchMethodException | SecurityException exc) {
                 fgGetConverterMethod = null;
                 fgCanConvertMethod = null;
                 fgConvertersAvailable = false;

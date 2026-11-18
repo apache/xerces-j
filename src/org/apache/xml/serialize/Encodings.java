@@ -19,7 +19,6 @@ package org.apache.xml.serialize;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
-import java.util.Locale;
 
 import org.apache.xerces.util.EncodingMap;
 

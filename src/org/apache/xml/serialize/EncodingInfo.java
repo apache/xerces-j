@@ -40,11 +40,11 @@ public class EncodingInfo {
     
     // name of encoding as registered with IANA;
     // preferably a MIME name, but aliases are fine too.
-    String ianaName;
-    String javaName;
-    int lastPrintable;
+    private String ianaName;
+    private String javaName;
+    private int lastPrintable;
     
-    // The CharsetEncoder with which we test unusual characters.
+    // The CharsetEncoder which tests unusual characters.
     private CharsetEncoder fCharsetEncoder = null;
     
     // Is the charset encoder usable or available.

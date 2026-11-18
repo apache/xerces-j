@@ -844,6 +844,8 @@ Authors:
              <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
              <include name="org/apache/xerces/util/EncodingMapTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
+             <include name="org/apache/xml/serialize/EncodingInfoTest.class"/>
+             <include name="org/apache/xml/serialize/EncodingsTest.class"/>
              <include name="org/apache/xml/serialize/TestDuplicateNamespaceDeclarations.class"/>
              <include name="org/apache/xml/serialize/TestIgnorableWhitespaceSerialization.class"/>
              <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>

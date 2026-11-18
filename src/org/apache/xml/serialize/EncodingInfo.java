@@ -138,9 +138,19 @@ public class EncodingInfo {
      *
      * @param name the charset name
      * @throws UnsupportedEncodingException if the charset name is not recognized by the JDK
+     * @deprecated Call {@link Charset#isSupported(String)} instead.
      */
-    public static void testJavaEncodingName(String name)  throws UnsupportedEncodingException {
-        final byte [] bTest = {(byte)'v', (byte)'a', (byte)'l', (byte)'i', (byte)'d'};
-        String s = new String(bTest, name);
-    }
+    @Deprecated
+    public static void testJavaEncodingName(String name) throws UnsupportedEncodingException {
+        Objects.requireNonNull(name, "name must not be null");
+        try {
+            if (!Charset.isSupported(name)) {
+                throw new UnsupportedEncodingException(name);
+            }
+        } catch (IllegalCharsetNameException ex) {
+            UnsupportedEncodingException uee = new UnsupportedEncodingException(name);
+            uee.initCause(ex);
+            throw uee;
+        }
+  }
 }

@@ -32,7 +32,7 @@ class LCount
 { 
     private final java.util.Hashtable<String, LCount> counts =
             new java.util.Hashtable<>();
-    int captures=0,bubbles=0,defaults, total=0;
+    int captures=0;
 
     LCount lookup(String evtName)
     {

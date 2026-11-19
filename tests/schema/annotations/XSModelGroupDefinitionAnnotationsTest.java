@@ -210,9 +210,4 @@ public class XSModelGroupDefinitionAnnotationsTest extends TestCase {
                 expected,
                 trim(((XSAnnotation) annotations.item(0)).getAnnotationString()));
     }
-
-    public static void main(String args[]) {
-        junit.textui.TestRunner
-                .run(XSModelGroupDefinitionAnnotationsTest.class);
-    }
 }

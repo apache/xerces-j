@@ -41,11 +41,11 @@ public class XMLEntityDescriptionImpl
     /**
      * Constructs an entity description.
      *
-     * @param entityName The name of the entity.
-     * @param publicId The public identifier.
-     * @param literalSystemId The literal system identifier.
-     * @param baseSystemId The base system identifier.
-     * @param expandedSystemId The expanded system identifier.
+     * @param entityName the name of the entity
+     * @param publicId the public identifier
+     * @param literalSystemId the literal system identifier
+     * @param baseSystemId the base URI against which the system identifier is resolved
+     * @param expandedSystemId the expanded system identifier resolved against the base system identifier
      */
     public XMLEntityDescriptionImpl(String entityName, String publicId, String literalSystemId, 
                                     String baseSystemId, String expandedSystemId) {
@@ -55,12 +55,12 @@ public class XMLEntityDescriptionImpl
     /**
      * Constructs a resource identifier.
      *
-     * @param entityName The name of the entity.
-     * @param publicId The public identifier.
-     * @param literalSystemId The literal system identifier.
-     * @param baseSystemId The base system identifier.
-     * @param expandedSystemId The expanded system identifier.
-     * @param namespace The namespace.
+     * @param entityName the name of the entity
+     * @param publicId the public identifier
+     * @param literalSystemId the literal system identifier
+     * @param baseSystemId the base URI against which the system identifier is resolved
+     * @param expandedSystemId the expanded system identifier resolved against the base system identifier
+     * @param namespace the namespace
      */
     public XMLEntityDescriptionImpl(String entityName, String publicId, String literalSystemId,
                                     String baseSystemId, String expandedSystemId, String namespace) {
@@ -98,12 +98,12 @@ public class XMLEntityDescriptionImpl
     
     /** 
      * <p>Sets the values of this entity description.</p>
-     * 
-     * @param entityName The name of the entity.
-     * @param publicId The public identifier.
-     * @param literalSystemId The literal system identifier.
-     * @param baseSystemId The base system identifier.
-     * @param expandedSystemId The expanded system identifier.
+     *
+     * @param entityName the name of the entity
+     * @param publicId the public identifier
+     * @param literalSystemId the literal system identifier
+     * @param baseSystemId the base URI against which the system identifier is resolved
+     * @param expandedSystemId the expanded system identifier resolved against the base system identifier
      */
     public void setDescription(String entityName, String publicId, String literalSystemId,
                                String baseSystemId, String expandedSystemId) {
@@ -112,13 +112,13 @@ public class XMLEntityDescriptionImpl
 
     /** 
      * <p>Sets the values of this entity description.</p>
-     * 
-     * @param entityName The name of the entity.
-     * @param publicId The public identifier.
-     * @param literalSystemId The literal system identifier.
-     * @param baseSystemId The base system identifier.
-     * @param expandedSystemId The expanded system identifier.
-     * @param namespace The namespace.
+     *
+     * @param entityName the name of the entity
+     * @param publicId the public identifier
+     * @param literalSystemId the literal system identifier
+     * @param baseSystemId the base URI against which the system identifier is resolved
+     * @param expandedSystemId the expanded system identifier resolved against the base system identifier
+     * @param namespace the namespace
      */
     public void setDescription(String entityName, String publicId, String literalSystemId,
                                String baseSystemId, String expandedSystemId, String namespace) {

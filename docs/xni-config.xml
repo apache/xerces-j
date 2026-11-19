@@ -62,7 +62,7 @@
    performance; and a third component may even manage the
    resolution of external parsed entities and the transcoding
    of these entities from various international encodings into
-   <jump href='http://www.unicode.org/'>Unicode</jump> used 
+   <jump href='https://www.unicode.org/'>Unicode</jump> used 
    within the Java virtual machine. When these components are
    assembled in a certain way, they constitute a single parser
    configuration but they can also be used interchangeably with

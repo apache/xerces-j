@@ -29,10 +29,6 @@ import org.xml.sax.SAXException;
  */
 public class IgnoreXSIType_A_C_Test extends BaseTest {
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(IgnoreXSIType_A_C_Test.class);
-    }
-    
     protected String getXMLDocument() {
         return "xsitype_A_C.xml";
     }

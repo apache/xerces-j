@@ -37,7 +37,6 @@ import org.apache.xerces.xs.datatypes.XSQName;
  */
 public class QNameDV extends TypeValidator {
 
-    private static final String EMPTY_STRING = "".intern();
 
     public Object getActualValue(String content, ValidationContext context)
         throws InvalidDatatypeValueException {
@@ -50,7 +49,7 @@ public class QNameDV extends TypeValidator {
             prefix = context.getSymbol(content.substring(0,colonptr));
             localpart = content.substring(colonptr+1);
         } else {
-            prefix = EMPTY_STRING;
+            prefix = "";
             localpart = content;
         }
 

@@ -41,18 +41,23 @@ public interface XMLComponent {
      * Resets the component. The component can query the component manager
      * about any features and properties that affect the operation of the
      * component.
-     * 
-     * @param componentManager The component manager.
      *
-     * @throws XNIException Thrown by component on initialization error.
+     * @param componentManager the component manager
+     *
+     * @throws XMLConfigurationException if not handled when getting features or properties from the component manager
+     *
+     * @see XMLComponentManager#getFeature(String)
+     * @see XMLComponentManager#getProperty(String)
      */
-    public void reset(XMLComponentManager componentManager) 
+    public void reset(XMLComponentManager componentManager)
         throws XMLConfigurationException;
 
     /**
      * Returns a list of feature identifiers that are recognized by
      * this component. This method may return null if no features
      * are recognized by this component.
+     *
+     * @return an array of feature identifiers
      */
     public String[] getRecognizedFeatures();
 
@@ -62,7 +67,8 @@ public interface XMLComponent {
      * <p>
      * <strong>Note:</strong> Components should silently ignore features
      * that do not affect the operation of the component.
-     * 
+     * </p>
+     *
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
@@ -79,6 +85,8 @@ public interface XMLComponent {
      * Returns a list of property identifiers that are recognized by
      * this component. This method may return null if no properties
      * are recognized by this component.
+     *
+     * @return an array of property identifiers
      */
     public String[] getRecognizedProperties();
 

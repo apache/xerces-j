@@ -19,44 +19,81 @@ package org.apache.xerces.xni;
 
 /**
  * <p> This represents the basic physical description of the location of any
- * XML resource (a Schema grammar, a DTD, a general entity etc.) </p>
+ * XML resource (a Schema grammar, a DTD, a general entity etc.)</p>
  *
  * @author Neil Graham, IBM
  * @version $Id$
  */
-
 public interface XMLResourceIdentifier {
     
-    /** Sets the public identifier. */
+    /**
+     * Sets the public identifier.
+     *
+     * @param publicId Sets the identifier
+     */
     public void setPublicId(String publicId);
 
-    /** Returns the public identifier. */
+    /**
+     * Returns the public identifier.
+     *
+     * @return The public identifier
+     */
     public String getPublicId();
     
-    /** Sets the expanded system identifier. */
+    /**
+     * Sets the expanded system identifier.
+     *
+     * @param systemId Sets the expanded system identifier.
+     */
     public void setExpandedSystemId(String systemId);
     
-    /** Returns the expanded system identifier. */
+    /**
+     * Returns the expanded system identifier.
+     *
+     * @return The expanded system identifier
+     */
     public String getExpandedSystemId();
     
-    /** Sets the literal system identifier. */
+    /**
+     * Sets the literal system identifier.
+     *
+     * @param systemId Sets the literal system identifier
+     */
     public void setLiteralSystemId(String systemId);
      
-    /** Returns the literal system identifier. */
+    /**
+     * Returns the literal system identifier.
+     *
+     * @return the literal system identifier
+     */
     public String getLiteralSystemId();
     
-    /** Sets the base URI against which the literal SystemId is to be 
-        resolved.*/
-    public void setBaseSystemId(String systemId); 
-    
-    /** <p> Returns the base URI against which the literal SystemId is to be 
-        resolved. </p> */
+    /**
+     * Sets the base URI against which the literal SystemId is to be resolved.
+     *
+     * @param systemId Sets the base URI against which the literal SystemId is to be resolved
+     */
+    public void setBaseSystemId(String systemId);
+
+    /**
+     * Returns the base URI against which the literal SystemId is to be resolved.
+     *
+     * @return the base URI against which the literal SystemId is to be resolved
+     */
     public String getBaseSystemId();
 
-    /** Sets the namespace of the resource. */
+    /**
+     * Sets the namespace of the resource.
+     *
+     * @param namespace the namespace of the resource
+     */
     public void setNamespace(String namespace);
      
-    /** Returns the namespace of the resource. */
+    /**
+     * Returns the namespace of the resource.
+     *
+     * @return the namespace of the resource
+     */
     public String getNamespace();
     
 } // XMLResourceIdentifier

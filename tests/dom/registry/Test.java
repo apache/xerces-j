@@ -23,46 +23,29 @@ import org.apache.xerces.dom.DOMImplementationImpl;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
-import dom.util.Assertion;
+import junit.framework.TestCase;
 
-public class Test {
+public class Test extends TestCase {
 
-    public static void main(String argv[])
-    {                                  
-        
-        System.out.println("Running dom.registry.Test...");
+    private DOMImplementationRegistry registry;
+
+    @Override
+    protected void setUp() throws Exception {
         // set DOMImplementationSource
         System.setProperty(DOMImplementationRegistry.PROPERTY,
                           "org.apache.xerces.dom.DOMImplementationSourceImpl" +
                           " org.apache.xerces.dom.DOMXSImplementationSourceImpl");
+        registry = DOMImplementationRegistry.newInstance();
+        assertNotNull(registry);
+    }
 
-        DOMImplementationRegistry registry = null;
-        try {
-            registry = DOMImplementationRegistry.newInstance();
-            Assertion.verify(registry != null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void testGetDOMImplementationXML() {
+        DOMImplementation implementation = registry.getDOMImplementation("XML");
+        assertSame(CoreDOMImplementationImpl.getDOMImplementation(), implementation);
+    }
 
-        try {
-            DOMImplementation i = registry.getDOMImplementation("XML");
-
-            Assertion.verify(i ==
-                             CoreDOMImplementationImpl.getDOMImplementation());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            DOMImplementation i =
-                registry.getDOMImplementation("XML MutationEvents");
-
-            Assertion.verify(i ==
-                             DOMImplementationImpl.getDOMImplementation());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void testGetDOMImplementationXMLMutationEvents() {
+        DOMImplementation implementation = registry.getDOMImplementation("XML MutationEvents");
+        assertSame(DOMImplementationImpl.getDOMImplementation(), implementation);
     }
 }    

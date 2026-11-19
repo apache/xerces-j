@@ -19,9 +19,8 @@ package org.apache.xerces.xs.datatypes;
 import java.util.List;
 
 /**
- * <p>The <code>ObjectList</code> is an immutable ordered collection of 
- * <code>Object</code>.</p> 
- * 
+ * The <code>ObjectList</code> is an immutable, ordered collection of <code>Object</code>.
+ *
  * @author Ankit Pasricha, IBM
  * 
  * @version $Id$
@@ -30,26 +29,27 @@ public interface ObjectList extends List {
     
     /**
      * The number of <code>Object</code>s in the list. The range of 
-     * valid child object indices is 0 to <code>length-1</code> inclusive. 
+     * valid child object indices is 0 to <code>length-1</code> inclusive.
+     *
+     * @return the number of <code>Object</code>s in the list
      */
     public int getLength();
     
     /**
-     * Checks if the <code>Object</code> <code>item</code> is a 
-     * member of this list. 
-     * @param item  <code>Object</code> whose presence in this list 
-     *   is to be tested. 
-     * @return  True if this list contains the <code>Object</code> 
-     *   <code>item</code>. 
+     * Checks if the <code>Object</code> <code>item</code> is a member of this list.
+     *
+     * @param item the <code>Object</code> whose presence in this list is to be tested
+     * @return true if this list contains the <code>Object</code> <code>item</code>
      */
     public boolean contains(Object item);
     
     /**
      * Returns the <code>index</code>th item in the collection or 
      * <code>null</code> if <code>index</code> is greater than or equal to 
-     * the number of objects in the list. The index starts at 0. 
-     * @param index  index into the collection. 
-     * @return  The <code>Object</code> at the <code>index</code>th 
+     * the number of objects in the list. The index starts at 0.
+     *
+     * @param index the index into the collection
+     * @return the <code>Object</code> at the <code>index</code>th
      *   position in the <code>ObjectList</code>, or <code>null</code> if 
      *   the index specified is not valid - greater than or equal to the
      *   number of items in the list or less than zero. 

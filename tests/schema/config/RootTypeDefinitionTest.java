@@ -47,10 +47,6 @@ public class RootTypeDefinitionTest extends BaseTest {
     
     private final static String INVALID_DERIVATION_ERROR = "cvc-elt.4.3";
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(RootTypeDefinitionTest.class);
-    }
-    
     protected String getXMLDocument() {
         return "base.xml";
     }

@@ -73,23 +73,30 @@ public abstract class ChildNode
      * generic "copy constructor" for nodes. The newly returned object should
      * be completely independent of the source object's subtree, so changes
      * in one after the clone has been made will not affect the other.
-     * <P>
+     * <p>
      * Note: since we never have any children deep is meaningless here,
      * ParentNode overrides this behavior.
+     * </p>
      * @see ParentNode
      *
      * <p>
      * Example: Cloning a Text node will copy both the node and the text it
      * contains.
+     * </p>
      * <p>
      * Example: Cloning something that has children -- Element or Attr, for
      * example -- will _not_ clone those children unless a "deep clone"
      * has been requested. A shallow clone of an Attr node will yield an
      * empty Attr of the same name.
+     * </p>
      * <p>
      * NOTE: Clones will always be read/write, even if the node being cloned
      * is read-only, to permit applications using only the DOM API to obtain
      * editable copies of locked portions of the tree.
+     * </p>
+     *
+     * @param deep if true, recursively clone the subtree under the specified
+     *    node; if false, clone only the node itself (and its attributes, if it is an Element)
      */
     public Node cloneNode(boolean deep) {
 

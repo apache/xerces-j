@@ -35,11 +35,11 @@ public final class Constants {
     // Constants
     //
     // Schema Types:
-    public static final String NS_XMLSCHEMA = "http://www.w3.org/2001/XMLSchema".intern();
-    public static final String NS_DTD = "http://www.w3.org/TR/REC-xml".intern();
+    public static final String NS_XMLSCHEMA = "http://www.w3.org/2001/XMLSchema";
+    public static final String NS_DTD = "http://www.w3.org/TR/REC-xml";
     
     // Schema Versions:
-    public static final String W3C_XML_SCHEMA10_NS_URI = "http://www.w3.org/XML/XMLSchema/v1.0".intern();
+    public static final String W3C_XML_SCHEMA10_NS_URI = "http://www.w3.org/XML/XMLSchema/v1.0";
     public static final String W3C_XML_SCHEMA11_NS_URI = "http://www.w3.org/XML/XMLSchema/v1.1".intern();
     public static final String W3C_XML_SCHEMA10EX_NS_URI = "http://www.w3.org/XML/XMLSchema/v1.0EX".intern();
 
@@ -476,7 +476,7 @@ public final class Constants {
     
     /**
      * Boolean indicating whether a character is a probable white space
-     * character (ch <= 0x20) that was the replacement text of a character 
+     * character (ch &lt;= 0x20) that was the replacement text of a character
      * reference is stored in augmentations using the string "CHAR_REF_PROBABLE_WS". 
      * The absence of this augmentation indicates that the character is not 
      * probable white space and/or was not included from a character reference.

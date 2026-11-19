@@ -65,9 +65,10 @@ public interface XMLDocumentScanner
      *                 permitted to completely scan a document if it does
      *                 not support this "pull" scanning model.
      *
-     * @return True if there is more to scan, false otherwise.
+     * @return true if there is more to scan, false otherwise
+     * @throws IOException may be thrown by the dispatcher on i/o error
+     * @throws XNIException may be thrown by the dispatcher on parse error
      */
-    public boolean scanDocument(boolean complete)
-        throws IOException, XNIException;
+    public boolean scanDocument(boolean complete) throws IOException, XNIException;
 
 } // interface XMLDocumentScanner

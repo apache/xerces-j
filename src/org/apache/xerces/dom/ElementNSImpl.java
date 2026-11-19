@@ -28,11 +28,12 @@ import org.w3c.dom.DOMException;
 
 /**
  * ElementNSImpl inherits from ElementImpl and adds namespace support.
- * <P>
+ * <p>
  * The qualified name is the node name, and we store localName which is also
  * used in all queries. On the other hand we recompute the prefix when
  * necessary.
- * 
+ * </p>
+ *
  * @xerces.internal
  * 
  * @author Elena litani, IBM
@@ -217,12 +218,10 @@ public class ElementNSImpl
     }
 
     /**
-     * Introduced in DOM Level 2. <p>
-     *
-     * The namespace prefix of this node, or null if it is unspecified. <p>
-     *
-     * For nodes created with a DOM Level 1 method, such as createElement
-     * from the Document interface, this is null. <p>
+     * Introduced in DOM Level 2.
+     * <p>The namespace prefix of this node, or null if it is unspecified.</p>
+     * <p>For nodes created with a DOM Level 1 method, such as createElement
+     * from the Document interface, this is null.</p>
      *
      * @since WD-DOM-Level-2-19990923
      */
@@ -237,18 +236,16 @@ public class ElementNSImpl
     }
 
     /**
-     * Introduced in DOM Level 2. <p>
+     * Introduced in DOM Level 2.
+     * <p>Note that setting this attribute changes the nodeName attribute, which holds the qualified name,
+     * as well as the tagName and name attributes of the Element and Attr interfaces, when applicable.</p>
      *
-     * Note that setting this attribute changes the nodeName attribute, which holds the
-     * qualified name, as well as the tagName and name attributes of the Element
-     * and Attr interfaces, when applicable.<p>
+     * @param prefix the namespace prefix of this node, or null(empty string) if it is unspecified
      *
-     * @param prefix The namespace prefix of this node, or null(empty string) if it is unspecified.
-     *
-     * @exception INVALID_CHARACTER_ERR
+     * @throws DOMException INVALID_CHARACTER_ERR
      *                   Raised if the specified
      *                   prefix contains an invalid character.
-     * @exception DOMException
+     *
      * @since WD-DOM-Level-2-19990923
      */
     public void setPrefix(String prefix)
@@ -342,13 +339,13 @@ public class ElementNSImpl
      * http://www.w3.org/TR/DOM-Level-3-Core/core.html#TypeInfo-isDerivedFrom
      * 
      * @param typeNamespaceArg 
-     *        The namspace of the ancestor type declaration
+     *        The namespace of the ancestor type declaration
      * @param typeNameArg
      *        The name of the ancestor type declaration
      * @param derivationMethod
      *        The derivation method
      * 
-     * @return boolean True if the type is derived by restriciton for the
+     * @return boolean True if the type is derived by restriction for the
      *         reference type
      */
     public boolean isDerivedFrom(String typeNamespaceArg, String typeNameArg, 

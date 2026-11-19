@@ -58,7 +58,7 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
     // optional annotation
     public XSObjectList fAnnotations;
     
-    protected XSObjectListImpl fAttrUses = null;
+    protected volatile XSObjectListImpl fAttrUses = null;
     
     // The namespace schema information item corresponding to the target namespace 
     // of the attribute group definition, if it is globally declared; or null otherwise.
@@ -393,7 +393,11 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
     public XSObjectList getAttributeUses() {
         if (fAttrUses == null) {
             if (fAttrUseNum > 0) {
-                fAttrUses = new XSObjectListImpl(fAttributeUses, fAttrUseNum);
+                synchronized (this) {
+                    if (fAttrUses == null) {
+                        fAttrUses = new XSObjectListImpl(fAttributeUses, fAttrUseNum);
+                    }
+                }
             }
             else {
                 fAttrUses = XSObjectListImpl.EMPTY_LIST;

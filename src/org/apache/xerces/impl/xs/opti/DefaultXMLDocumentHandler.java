@@ -203,7 +203,7 @@ public class DefaultXMLDocumentHandler implements XMLDocumentHandler,
      *                 parsed from a java.io.Reader).
      * @param augs     Additional information that may include infoset augmentations
      *                 
-     * @exception XNIException Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}.
      */
     public void startGeneralEntity(String name, 
                                    XMLResourceIdentifier identifier,
@@ -342,16 +342,14 @@ public class DefaultXMLDocumentHandler implements XMLDocumentHandler,
     /**
      * The start of the DTD.
      *
-     * @param locator  The document locator, or null if the document
-     *                 location cannot be reported during the parsing of 
+     * @param locator  the document locator, or null if the document
+     *                 location cannot be reported during the parsing of
      *                 the document DTD. However, it is <em>strongly</em>
-     *                 recommended that a locator be supplied that can 
-     *                 at least report the base system identifier of the
-     *                 DTD.
-     * @param augmentations Additional information that may include infoset
-     *                      augmentations.
+     *                 recommended that a locator be supplied that can
+     *                 at least report the base URI of the DTD.
+     * @param augmentations additional information that may include infoset augmentations
      *
-     * @throws XNIException Thrown by handler to signal an error.
+     * @throws XNIException thrown by handler to signal an error
      */
     public void startDTD(XMLLocator locator, Augmentations augmentations) 
         throws XNIException {

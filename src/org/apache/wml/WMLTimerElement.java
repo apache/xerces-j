@@ -17,18 +17,18 @@
 package org.apache.wml;
 
 /**
- * <p>The interface is modeled after DOM1 Spec for HTML from W3C.
+ * The interface is modeled after DOM1 Spec for HTML from W3C.
  * The DTD used in this DOM model is from 
- * <a href="http://www.wapforum.org/DTD/wml_1.1.xml">
- * http://www.wapforum.org/DTD/wml_1.1.xml</a></p>
+ * <a href="https://www.wapforum.org/DTD/wml_1.1.xml">https://www.wapforum.org/DTD/wml_1.1.xml</a>
  *
  * <p>'timer' elements declares a card timer.
  * (Section 11.6.7, WAP WML Version 16-Jun-1999)</p>
  *
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
-
+@Deprecated
 public interface WMLTimerElement extends WMLElement {
     /**
      * 'name' specifies the name of variable ot be set with the value

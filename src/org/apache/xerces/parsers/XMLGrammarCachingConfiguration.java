@@ -38,7 +38,7 @@ import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.apache.xerces.xni.parser.XMLInputSource;
 
 /**
- * <p> This configuration provides a generic way of using
+ * <p>This configuration provides a generic way of using
  * Xerces's grammar caching facilities.  It extends the
  * XIncludeAwareParserConfiguration and thus may validate documents
  * according to XML schemas or DTD's.  It also allows the user to
@@ -54,8 +54,6 @@ import org.apache.xerces.xni.parser.XMLInputSource;
  * In addition to the features and properties recognized by the base
  * parser configuration, this class recognizes these additional 
  * features and properties:
- * <ul>
- * </ul>
  *
  * @author Neil Graham, IBM
  *
@@ -78,9 +76,9 @@ public class XMLGrammarCachingConfiguration
     protected static final SynchronizedSymbolTable fStaticSymbolTable = 
             new SynchronizedSymbolTable(BIG_PRIME);
 
-    // the Grammar Pool to be shared similarly
-    protected static final XMLGrammarPoolImpl fStaticGrammarPool =
-            new XMLGrammarPoolImpl();
+    // the Grammar Pool to be shared similarly, wrapped for thread-safety
+    protected static final XMLGrammarPool fStaticGrammarPool =
+            new CachingParserPool.SynchronizedGrammarPool(new XMLGrammarPoolImpl());
 
     // schema full checking constant
     protected static final String SCHEMA_FULL_CHECKING =

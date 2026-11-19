@@ -83,10 +83,9 @@ public class XPointerParserConfiguration extends XML11Configuration {
     /**
      * Constructs a parser configuration using the specified symbol table and
      * grammar pool.
-     * <p>
      *
-     * @param symbolTable The symbol table to use.
-     * @param grammarPool The grammar pool to use.
+     * @param symbolTable the symbol table to use
+     * @param grammarPool the grammar pool to use
      */
     public XPointerParserConfiguration(
         SymbolTable symbolTable,
@@ -97,11 +96,10 @@ public class XPointerParserConfiguration extends XML11Configuration {
     /**
      * Constructs a parser configuration using the specified symbol table,
      * grammar pool, and parent settings.
-     * <p>
      *
-     * @param symbolTable    The symbol table to use.
-     * @param grammarPool    The grammar pool to use.
-     * @param parentSettings The parent settings.
+     * @param symbolTable    the symbol table to use
+     * @param grammarPool    the grammar pool to use
+     * @param parentSettings the parent settings
      */
     public XPointerParserConfiguration(
         SymbolTable symbolTable,
@@ -147,10 +145,8 @@ public class XPointerParserConfiguration extends XML11Configuration {
         fDTDScanner.setDTDHandler(fDTDProcessor);
         fDTDProcessor.setDTDSource(fDTDScanner);
 
-        fDTDProcessor.setDTDHandler(fXIncludeHandler);
-        fXIncludeHandler.setDTDSource(fDTDProcessor);
-        fXIncludeHandler.setDTDHandler(fXPointerHandler);
-        fXPointerHandler.setDTDSource(fXIncludeHandler);
+        fDTDProcessor.setDTDHandler(fXPointerHandler);
+        fXPointerHandler.setDTDSource(fDTDProcessor);
         fXPointerHandler.setDTDHandler(fDTDHandler);
         if (fDTDHandler != null) {
             fDTDHandler.setDTDSource(fXPointerHandler);
@@ -171,16 +167,13 @@ public class XPointerParserConfiguration extends XML11Configuration {
         }
 
         XMLDocumentHandler next = prev.getDocumentHandler();
-		prev.setDocumentHandler(fXIncludeHandler);
-		fXIncludeHandler.setDocumentSource(prev);
+        prev.setDocumentHandler(fXPointerHandler);
+        fXPointerHandler.setDocumentSource(prev);
 
-		if (next != null) {
-			fXIncludeHandler.setDocumentHandler(next);
-            next.setDocumentSource(fXIncludeHandler);
+        if (next != null) {
+            fXPointerHandler.setDocumentHandler(next);
+            next.setDocumentSource(fXPointerHandler);
         }
-
-		fXIncludeHandler.setDocumentHandler(fXPointerHandler);
-		fXPointerHandler.setDocumentSource(fXIncludeHandler);
     } // configurePipeline()
 
 	protected void configureXML11Pipeline() {
@@ -190,10 +183,8 @@ public class XPointerParserConfiguration extends XML11Configuration {
 		fXML11DTDScanner.setDTDHandler(fXML11DTDProcessor);
 		fXML11DTDProcessor.setDTDSource(fXML11DTDScanner);
 		
-        fDTDProcessor.setDTDHandler(fXIncludeHandler);
-        fXIncludeHandler.setDTDSource(fXML11DTDProcessor);
-        fXIncludeHandler.setDTDHandler(fXPointerHandler);
-        fXPointerHandler.setDTDSource(fXIncludeHandler);
+        fDTDProcessor.setDTDHandler(fXPointerHandler);
+        fXPointerHandler.setDTDSource(fXML11DTDProcessor);
         fXPointerHandler.setDTDHandler(fDTDHandler);
         if (fDTDHandler != null) {
             fDTDHandler.setDTDSource(fXPointerHandler);
@@ -215,19 +206,15 @@ public class XPointerParserConfiguration extends XML11Configuration {
 		}
 
         XMLDocumentHandler next = prev.getDocumentHandler();
-		prev.setDocumentHandler(fXIncludeHandler);
-		fXIncludeHandler.setDocumentSource(prev);
+        prev.setDocumentHandler(fXPointerHandler);
+        fXPointerHandler.setDocumentSource(prev);
 
-		if (next != null) {
-			fXIncludeHandler.setDocumentHandler(next);
-            next.setDocumentSource(fXIncludeHandler);
+        if (next != null) {
+            fXPointerHandler.setDocumentHandler(next);
+            next.setDocumentSource(fXPointerHandler);
         }
-		
-		fXIncludeHandler.setDocumentHandler(fXPointerHandler);
-		fXPointerHandler.setDocumentSource(fXIncludeHandler);
 
-		
-	} // configureXML11Pipeline()
+    } // configureXML11Pipeline()
     
     public void setProperty(String propertyId, Object value)
         throws XMLConfigurationException {

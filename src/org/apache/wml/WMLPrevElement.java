@@ -17,14 +17,14 @@
 package org.apache.wml;
 
 /**
- * <p>The interface is modeled after DOM1 Spec for HTML from W3C.
+ * The interface is modeled after DOM1 Spec for HTML from W3C.
  * The DTD used in this DOM model is from 
- * <a href="http://www.wapforum.org/DTD/wml_1.1.xml">
- * http://www.wapforum.org/DTD/wml_1.1.xml</a></p>
+ * <a href="https://www.wapforum.org/DTD/wml_1.1.xml">https://www.wapforum.org/DTD/wml_1.1.xml</a>
  *
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
-
+@Deprecated
 public interface WMLPrevElement extends WMLElement {
 }

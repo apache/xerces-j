@@ -28,10 +28,6 @@ import org.apache.xerces.xs.ItemPSVI;
  */
 public class BasicTest extends BaseTest {
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(BasicTest.class);
-    }
-    
     protected String getXMLDocument() {
         return "base.xml";
     }

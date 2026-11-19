@@ -90,6 +90,7 @@ import org.xml.sax.SAXNotSupportedException;
  * <p>
  * This component requires the following features and properties from the
  * component manager that uses it:
+ * </p>
  * <ul>
  *  <li>http://xml.org/sax/features/allow-dtd-events-after-endDTD</li>
  *  <li>http://apache.org/xml/properties/internal/error-reporter</li>
@@ -99,7 +100,7 @@ import org.xml.sax.SAXNotSupportedException;
  * <ul>
  *  <li>http://apache.org/xml/properties/input-buffer-size</li>
  * </ul>
- * 
+ * <p>
  * Furthermore, the <code>NamespaceContext</code> used in the pipeline is required
  * to be an instance of <code>XIncludeNamespaceSupport</code>.
  * </p>
@@ -126,41 +127,41 @@ public class XIncludeHandler
     public final static String XPOINTER = "xpointer";
 
     public final static String XINCLUDE_NS_URI =
-        "http://www.w3.org/2001/XInclude".intern();
-    public final static String XINCLUDE_INCLUDE = "include".intern();
-    public final static String XINCLUDE_FALLBACK = "fallback".intern();
+        "http://www.w3.org/2001/XInclude";
+    public final static String XINCLUDE_INCLUDE = "include";
+    public final static String XINCLUDE_FALLBACK = "fallback";
 
-    public final static String XINCLUDE_PARSE_XML = "xml".intern();
-    public final static String XINCLUDE_PARSE_TEXT = "text".intern();
+    public final static String XINCLUDE_PARSE_XML = "xml";
+    public final static String XINCLUDE_PARSE_TEXT = "text";
 
-    public final static String XINCLUDE_ATTR_HREF = "href".intern();
-    public final static String XINCLUDE_ATTR_PARSE = "parse".intern();
-    public final static String XINCLUDE_ATTR_ENCODING = "encoding".intern();
-    public final static String XINCLUDE_ATTR_ACCEPT = "accept".intern();
-    public final static String XINCLUDE_ATTR_ACCEPT_LANGUAGE = "accept-language".intern();
+    public final static String XINCLUDE_ATTR_HREF = "href";
+    public final static String XINCLUDE_ATTR_PARSE = "parse";
+    public final static String XINCLUDE_ATTR_ENCODING = "encoding";
+    public final static String XINCLUDE_ATTR_ACCEPT = "accept";
+    public final static String XINCLUDE_ATTR_ACCEPT_LANGUAGE = "accept-language";
 
     // Top Level Information Items have [included] property in infoset
-    public final static String XINCLUDE_INCLUDED = "[included]".intern();
+    public final static String XINCLUDE_INCLUDED = "[included]";
 
     /** The identifier for the Augmentation that contains the current base URI */
     public final static String CURRENT_BASE_URI = "currentBaseURI";
 
     // used for adding [base URI] attributes
-    private final static String XINCLUDE_BASE = "base".intern();
+    private final static String XINCLUDE_BASE = "base";
     private final static QName XML_BASE_QNAME =
         new QName(
             XMLSymbols.PREFIX_XML,
             XINCLUDE_BASE,
-            (XMLSymbols.PREFIX_XML + ":" + XINCLUDE_BASE).intern(),
+            (XMLSymbols.PREFIX_XML + ":" + XINCLUDE_BASE),
             NamespaceContext.XML_URI);
     
     // used for adding [language] attributes
-    private final static String XINCLUDE_LANG = "lang".intern();
+    private final static String XINCLUDE_LANG = "lang";
     private final static QName XML_LANG_QNAME = 
         new QName(
             XMLSymbols.PREFIX_XML,
             XINCLUDE_LANG,
-            (XMLSymbols.PREFIX_XML + ":" + XINCLUDE_LANG).intern(),
+            (XMLSymbols.PREFIX_XML + ":" + XINCLUDE_LANG),
             NamespaceContext.XML_URI);
 
     private final static QName NEW_NS_ATTR_QNAME =
@@ -245,7 +246,7 @@ public class XIncludeHandler
         { ERROR_REPORTER, ENTITY_RESOLVER, SECURITY_MANAGER, BUFFER_SIZE };
 
     /** Property defaults. */
-    private static final Object[] PROPERTY_DEFAULTS = { null, null, null, new Integer(XMLEntityManager.DEFAULT_BUFFER_SIZE) };
+    private static final Object[] PROPERTY_DEFAULTS = { null, null, null, Integer.valueOf(XMLEntityManager.DEFAULT_BUFFER_SIZE) };
 
     // instance variables
 
@@ -610,13 +611,9 @@ public class XIncludeHandler
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
-    public void setFeature(String featureId, boolean state)
-        throws XMLConfigurationException {
+    public void setFeature(String featureId, boolean state) throws XMLConfigurationException {
         if (featureId.equals(ALLOW_UE_AND_NOTATION_EVENTS)) {
             fSendUEAndNotationEvents = state;
         }
@@ -642,16 +639,12 @@ public class XIncludeHandler
      * <strong>Note:</strong> Components should silently ignore properties
      * that do not affect the operation of the component.
      *
-     * @param propertyId The property identifier.
-     * @param value      The value of the property.
+     * @param propertyId the property identifier
+     * @param value the value of the property
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a property is not recognized or cannot be set
      */
-    public void setProperty(String propertyId, Object value)
-        throws XMLConfigurationException {
+    public void setProperty(String propertyId, Object value) throws XMLConfigurationException {
         if (propertyId.equals(SYMBOL_TABLE)) {
             fSymbolTable = (SymbolTable)value;
             if (fChildConfig != null) {
@@ -1604,7 +1597,7 @@ public class XIncludeHandler
                 if (fErrorReporter != null) fChildConfig.setProperty(ERROR_REPORTER, fErrorReporter);
                 if (fEntityResolver != null) fChildConfig.setProperty(ENTITY_RESOLVER, fEntityResolver);
                 fChildConfig.setProperty(SECURITY_MANAGER, fSecurityManager);
-                fChildConfig.setProperty(BUFFER_SIZE, new Integer(fBufferSize));
+                fChildConfig.setProperty(BUFFER_SIZE, Integer.valueOf(fBufferSize));
                 
                 // features must be copied to child configuration
                 fNeedCopyFeatures = true;

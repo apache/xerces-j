@@ -58,8 +58,13 @@ public final class StartElementImpl extends ElementImpl implements StartElement 
     private final NamespaceContext fNamespaceContext;
 
     /**
-     * @param location
-     * @param schemaType
+     * Constructor for an implementation of {@link StartElement}.
+     *
+     * @param name the qualified name
+     * @param attributes the element's attributes
+     * @param namespaces the element's namespaces
+     * @param namespaceContext the element's {@link NamespaceContext}
+     * @param location the element's {@link Location}
      */
     public StartElementImpl(final QName name, final Iterator attributes, final Iterator namespaces, final NamespaceContext namespaceContext, final Location location) {
         super(name, true, namespaces, location);

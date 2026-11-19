@@ -28,8 +28,11 @@ public class Version {
     // Data
     //
 
-    /** Version string. 
-     * @deprecated  getVersion() should be used instead.  */
+    /**
+     * Version string.
+     * @deprecated getVersion() should be used instead.
+     */
+    @Deprecated
     public static String fVersion = "@@VERSION@@";
 
     private static final String fImmutableVersion = "@@VERSION@@";

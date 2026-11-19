@@ -61,31 +61,38 @@ public final class SimpleLocator implements XMLLocator {
         this.esid = esid;
         charOffset = offset;
     }
-    
+
+    @Override
     public int getLineNumber() {
         return line;
     }
-    
+
+    @Override
     public int getColumnNumber() {
         return column;
     }
-    
+
+    @Override
     public int getCharacterOffset() {
         return charOffset;
     }
-    
+
+    @Override
     public String getPublicId() {
         return null;
     }
-    
+
+    @Override
     public String getExpandedSystemId() {
         return esid;
     }
-    
+
+    @Override
     public String getLiteralSystemId() {
         return lsid;
     }
-    
+
+    @Override
     public String getBaseSystemId() {
         return null;
     }
@@ -133,10 +140,12 @@ public final class SimpleLocator implements XMLLocator {
      * no point in having this object deal intelligently 
      * with encoding information.
      */
+    @Override
     public String getEncoding() {
         return null;
     }
-    
+
+    @Override
     public String getXMLVersion() {
         return null;
     }

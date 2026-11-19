@@ -496,18 +496,20 @@ public class SAXParserImpl extends javax.xml.parsers.SAXParser
                         throw new SAXNotSupportedException(
                                 SAXMessageFormatter.formatMessage(fConfiguration.getLocale(), "schema-already-specified", new Object[] {name}));
                     }
-                    String val = (String)getProperty(JAXP_SCHEMA_LANGUAGE);
-                    if ( val != null && W3C_XML_SCHEMA.equals(val) ) {
-                        if (!fInitProperties.containsKey(JAXP_SCHEMA_SOURCE)) {
-                            fInitProperties.put(JAXP_SCHEMA_SOURCE, super.getProperty(JAXP_SCHEMA_SOURCE));
+                    if (fSAXParser.isValidating()) {
+                        String val = (String)getProperty(JAXP_SCHEMA_LANGUAGE);
+                        if ( val != null && W3C_XML_SCHEMA.equals(val) ) {
+                            if (!fInitProperties.containsKey(JAXP_SCHEMA_SOURCE)) {
+                                fInitProperties.put(JAXP_SCHEMA_SOURCE, super.getProperty(JAXP_SCHEMA_SOURCE));
+                            }
+                            super.setProperty(name, value);
                         }
-                        super.setProperty(name, value);
-                    }
-                    else {
-                        throw new SAXNotSupportedException(
-                            SAXMessageFormatter.formatMessage(fConfiguration.getLocale(), 
-                            "jaxp-order-not-supported", 
-                            new Object[] {JAXP_SCHEMA_LANGUAGE, JAXP_SCHEMA_SOURCE}));
+                        else {
+                            throw new SAXNotSupportedException(
+                                SAXMessageFormatter.formatMessage(fConfiguration.getLocale(),
+                                "jaxp-order-not-supported",
+                                new Object[] {JAXP_SCHEMA_LANGUAGE, JAXP_SCHEMA_SOURCE}));
+                        }
                     }
                     return;
                 }

@@ -734,13 +734,4 @@ public class XSFacetAnnotationsTest extends TestCase {
                 expected,
                 trim(((XSAnnotation) annotations.item(0)).getAnnotationString()));
     }
-
-    /**
-     * 
-     * @param args
-     */
-    public static void main(String args[]) {
-        junit.textui.TestRunner.run(XSFacetAnnotationsTest.class);
-    }
-
 }

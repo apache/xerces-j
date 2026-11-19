@@ -37,10 +37,6 @@ public class RootSimpleTypeDefinitionTest extends BaseTest {
     private final static String INVALID_TYPE_ERROR = "cvc-type.3.1.3";
     private final static String MININCLUSIVE_DERIVATION_ERROR = "cvc-minInclusive-valid";
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(RootSimpleTypeDefinitionTest.class);
-    }
-    
     protected String getXMLDocument() {
         return "simpleType.xml";
     }

@@ -521,18 +521,20 @@ public class XML11EntityScanner
      * QName structure appropriately.
      * <p>
      * <strong>Note:</strong> The qualified name characters are consumed.
+     * </p>
      * <p>
      * <strong>Note:</strong> The strings used to set the values of the
      * QName structure must be symbols. The SymbolTable can be used for
      * this purpose.
+     * </p>
      *
-     * @param qname The qualified name structure to fill.
+     * @param qname the qualified name structure to fill
      *
      * @return Returns true if a qualified name appeared immediately on
-     *         the input and was scanned, false otherwise.
+     *         the input and was scanned, false otherwise
      *
-     * @throws IOException  Thrown if i/o error occurs.
-     * @throws EOFException Thrown on end of file.
+     * @throws IOException  Thrown if i/o error occurs
+     * @throws EOFException Thrown on end of file
      *
      * @see org.apache.xerces.util.SymbolTable
      * @see org.apache.xerces.util.XML11Char#isXML11Name

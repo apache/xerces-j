@@ -22,7 +22,9 @@ import org.apache.wml.WMLFieldsetElement;
  * @xerces.internal
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
+@Deprecated
 public class WMLFieldsetElementImpl extends WMLElementImpl implements WMLFieldsetElement {
     
     private static final long serialVersionUID = 6941811812235840705L;

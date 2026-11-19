@@ -86,8 +86,8 @@ class XSDSimpleTypeTraverser extends XSDAbstractTraverser {
             XSAttributeChecker gAttrCheck) {
         super(handler, gAttrCheck);
     }
-
-    //return qualified name of simpleType or empty string if error occured
+    
+    //return qualified name of simpleType or empty string if error occurred
     XSSimpleType traverseGlobal(Element elmNode,
             XSDocumentInfo schemaDoc,
             SchemaGrammar grammar) {

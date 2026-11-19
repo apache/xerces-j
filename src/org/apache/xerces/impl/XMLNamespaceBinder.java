@@ -184,20 +184,6 @@ public class XMLNamespaceBinder
     // XMLComponent methods
     //
 
-    /**
-     * Resets the component. The component can query the component manager
-     * about any features and properties that affect the operation of the
-     * component.
-     *
-     * @param componentManager The component manager.
-     *
-     * @throws SAXException Thrown by component on initialization error.
-     *                      For example, if a feature or property is
-     *                      required for the operation of the component, the
-     *                      component manager may throw a
-     *                      SAXNotRecognizedException or a
-     *                      SAXNotSupportedException.
-     */
     public void reset(XMLComponentManager componentManager)
         throws XNIException {
 
@@ -234,10 +220,7 @@ public class XMLNamespaceBinder
      * @param featureId The feature identifier.
      * @param state     The state of the feature.
      *
-     * @throws SAXNotRecognizedException The component should not throw
-     *                                   this exception.
-     * @throws SAXNotSupportedException The component should not throw
-     *                                  this exception.
+     * @throws XMLConfigurationException when a feature is not recognized or cannot be set
      */
     public void setFeature(String featureId, boolean state)
         throws XMLConfigurationException {
@@ -359,7 +342,7 @@ public class XMLNamespaceBinder
      *                 parsed from a java.io.Reader).
      * @param augs     Additional information that may include infoset augmentations
      *                 
-     * @exception XNIException Thrown by handler to signal an error.
+     * @throws XNIException if an error occurs. This should be handled by implementations of {@link org.apache.xerces.xni.XMLDocumentHandler}.
      */
     public void startGeneralEntity(String name,
                                    XMLResourceIdentifier identifier,

@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * @author Mukul Gandhi <mukulg@apache.org>
+ * @author <a href="mailto:mukulg@apache.org">Mukul Gandhi</a>
  * @version $Id$
  */
 public class XercesAbstractTestCase extends TestCase implements ErrorHandler {

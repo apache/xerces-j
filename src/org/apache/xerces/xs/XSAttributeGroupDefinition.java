@@ -21,25 +21,33 @@ package org.apache.xerces.xs;
  * This interface represents the Attribute Group Definition schema component.
  */
 public interface XSAttributeGroupDefinition extends XSObject {
+
     /**
-     * A set of [attribute uses] if it exists, otherwise an empty 
-     * <code>XSObjectList</code>. 
+     * A set of [attribute uses] if it exists, otherwise an empty <code>XSObjectList</code>.
+     *
+     * @return a list of attribute uses if it exists, otherwise an empty <code>XSObjectList</code>
      */
     public XSObjectList getAttributeUses();
 
     /**
-     * A [wildcard] if it exists, otherwise <code>null</code>. 
+     * A [wildcard] if it exists, otherwise <code>null</code>.
+     *
+     * @return a wildcard if it exists, otherwise <code>null</code>
      */
     public XSWildcard getAttributeWildcard();
 
     /**
      * An annotation if it exists, otherwise <code>null</code>. If not null
      * then the first [annotation] from the sequence of annotations.
+     *
+     * @return an annotation if it exists, otherwise <code>null</code>
      */
     public XSAnnotation getAnnotation();
 
     /**
      * A sequence of [annotations] or an empty <code>XSObjectList</code>.
+     *
+     * @return a sequence of annotations or an empty <code>XSObjectList</code>
      */
     public XSObjectList getAnnotations();    
 }

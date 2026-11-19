@@ -73,10 +73,10 @@ public class DatatypeException extends Exception {
     }
     
     /**
-     * Overrides this method to get the formatted&localized error message.
-     * 
+     * Overrides this method to get the formatted&amp;localized error message.
+     *
      * REVISIT: the system locale is used to load the property file.
-     *          do we want to allow the appilcation to specify a
+     *          do we want to allow the application to specify a
      *          different locale?
      */
     public String getMessage() {

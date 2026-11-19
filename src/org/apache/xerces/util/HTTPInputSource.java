@@ -59,15 +59,14 @@ public final class HTTPInputSource extends XMLInputSource {
      * identifiers, leaving resolution of the entity and opening of
      * the input stream up to the caller.
      *
-     * @param publicId     The public identifier, if known.
-     * @param systemId     The system identifier. This value should
+     * @param publicId     the public identifier, if known
+     * @param systemId     the system identifier. This value should
      *                     always be set, if possible, and can be
      *                     relative or absolute. If the system identifier
      *                     is relative, then the base system identifier
-     *                     should be set.
-     * @param baseSystemId The base system identifier. This value should
-     *                     always be set to the fully expanded URI of the
-     *                     base system identifier, if possible.
+     *                     should also be set.
+     * @param baseSystemId the base system identifier. This value should
+     *                     always be an absolute base URI applicable to the system identifier.
      */
     public HTTPInputSource(String publicId, String systemId, String baseSystemId) {
         super(publicId, systemId, baseSystemId);
@@ -87,15 +86,14 @@ public final class HTTPInputSource extends XMLInputSource {
     /**
      * Constructs an input source from a byte stream.
      *
-     * @param publicId     The public identifier, if known.
-     * @param systemId     The system identifier. This value should
+     * @param publicId     the public identifier, if known
+     * @param systemId     the system identifier. This value should
      *                     always be set, if possible, and can be
      *                     relative or absolute. If the system identifier
      *                     is relative, then the base system identifier
-     *                     should be set.
-     * @param baseSystemId The base system identifier. This value should
-     *                     always be set to the fully expanded URI of the
-     *                     base system identifier, if possible.
+     *                     should also be set.
+     * @param baseSystemId the base system identifier. This value should
+     *                     always be an absolute base URI applicable to the system identifier.
      * @param byteStream   The byte stream.
      * @param encoding     The encoding of the byte stream, if known.
      */
@@ -107,18 +105,17 @@ public final class HTTPInputSource extends XMLInputSource {
     /**
      * Constructs an input source from a character stream.
      *
-     * @param publicId     The public identifier, if known.
-     * @param systemId     The system identifier. This value should
+     * @param publicId     the public identifier, if known
+     * @param systemId     the system identifier. This value should
      *                     always be set, if possible, and can be
      *                     relative or absolute. If the system identifier
      *                     is relative, then the base system identifier
-     *                     should be set.
-     * @param baseSystemId The base system identifier. This value should
-     *                     always be set to the fully expanded URI of the
-     *                     base system identifier, if possible.
-     * @param charStream   The character stream.
-     * @param encoding     The original encoding of the byte stream
-     *                     used by the reader, if known.
+     *                     should also be set.
+     * @param baseSystemId the base system identifier. This value should
+     *                     always be an absolute base URI applicable to the system identifier.
+     * @param charStream   the character stream
+     * @param encoding     the original encoding of the byte stream
+     *                     used by the reader, if known
      */
     public HTTPInputSource(String publicId, String systemId,
             String baseSystemId, Reader charStream, String encoding) {

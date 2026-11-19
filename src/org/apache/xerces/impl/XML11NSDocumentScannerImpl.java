@@ -86,10 +86,12 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
     
     /** 
      * Saw spaces after element name or between attributes.
-     * 
+     *
+     * <p>
      * This is reserved for the case where scanning of a start element spans
      * several methods, as is the case when scanning the start of a root element 
      * where a DTD external subset may be read after scanning the element name.
+     * </p>
      */
     private boolean fSawSpace;
 
@@ -107,12 +109,10 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
      * Scans a start element. This method will handle the binding of
      * namespace information and notifying the handler of the start
      * of the element.
-     * <p>
      * <pre>
      * [44] EmptyElemTag ::= '&lt;' Name (S Attribute)* S? '/>'
      * [40] STag ::= '&lt;' Name (S Attribute)* S? '>'
      * </pre>
-     * <p>
      * <strong>Note:</strong> This method assumes that the leading
      * '&lt;' character has been consumed.
      * <p>
@@ -120,10 +120,11 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
      * fAttributes variables. The contents of these variables will be
      * destroyed. The caller should copy important information out of
      * these variables before calling this method.
+     * </p>
      *
-     * @return True if element is empty. (i.e. It matches
-     *          production [44].
+     * @return true if element is empty. (i.e. It matches production [44])
      */
+    @Override
     protected boolean scanStartElement() throws IOException, XNIException {
         if (DEBUG_CONTENT_SCANNING)
             System.out.println(">>> scanStartElementNS()");
@@ -322,6 +323,7 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
      * 
      * @see #scanStartElement()
      */
+    @Override
     protected void scanStartElementName ()
         throws IOException, XNIException {
         // Note: namespace processing is on by default
@@ -335,8 +337,9 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
      * Scans the remainder of a start or empty tag after the element name.
      * 
      * @see #scanStartElement
-     * @return True if element is empty.
-     */    
+     * @return true if element is empty
+     */
+    @Override
     protected boolean scanStartElementAfterName()
         throws IOException, XNIException {
 
@@ -530,11 +533,9 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
 
     /**
      * Scans an attribute.
-     * <p>
      * <pre>
      * [41] Attribute ::= Name Eq AttValue
      * </pre>
-     * <p>
      * <strong>Note:</strong> This method assumes that the next
      * character on the stream is the first character of the attribute
      * name.
@@ -542,8 +543,9 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
      * <strong>Note:</strong> This method uses the fAttributeQName and
      * fQName variables. The contents of these variables will be
      * destroyed.
+     * </p>
      *
-     * @param attributes The attributes list for the scanned attribute.
+     * @param attributes the attributes list for the scanned attribute
      */
     protected void scanAttribute(XMLAttributesImpl attributes)
         throws IOException, XNIException {
@@ -692,18 +694,17 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
 
     /**
      * Scans an end element.
-     * <p>
      * <pre>
      * [42] ETag ::= '&lt;/' Name S? '>'
      * </pre>
-     * <p>
-     * <strong>Note:</strong> This method uses the fElementQName variable.
+     * <p><strong>Note:</strong> This method uses the fElementQName variable.
      * The contents of this variable will be destroyed. The caller should
      * copy the needed information out of this variable before calling
-     * this method.
+     * this method.</p>
      *
-     * @return The element depth.
+     * @return the element depth
      */
+    @Override
     protected int scanEndElement() throws IOException, XNIException {
         if (DEBUG_CONTENT_SCANNING)
             System.out.println(">>> scanEndElement()");
@@ -759,6 +760,7 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
 
     } // scanEndElement():int
 
+    @Override
     public void reset(XMLComponentManager componentManager)
         throws XMLConfigurationException {
 
@@ -768,6 +770,7 @@ public class XML11NSDocumentScannerImpl extends XML11DocumentScannerImpl {
     }
 
     /** Creates a content dispatcher. */
+    @Override
     protected Dispatcher createContentDispatcher() {
         return new NS11ContentDispatcher();
     } // createContentDispatcher():Dispatcher

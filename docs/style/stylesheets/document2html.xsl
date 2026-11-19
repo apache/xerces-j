@@ -2,9 +2,8 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:param name="stylebook.project"/>
-  <xsl:param name="copyright"/>
-  <xsl:param name="id"/>
+  <xsl:param name="sourceFilePath"/>
+  <xsl:param name="id" select="substring-before($sourceFilePath, '.')"/>
 
   <xsl:template match="/">
     <xsl:apply-templates/>
@@ -33,14 +32,18 @@
           <tr>
             <xsl:choose>
                <xsl:when test="$id = 'index'">
-                  <!-- revisit : get the value 'Xerces2 Java XML Parser' from file entities.ent -->
                   <td align="center" bgcolor="#0086b2" colspan="4" height="35" valign="middle" width="456">
-                    <font color="#f8fefd" face="arial,helvetica,sanserif" size="+2">Xerces2 Java XML Parser Readme</font>
+                    <font color="#f8fefd" face="arial,helvetica,sans-serif" size="+2">Xerces2 Java XML Parser Readme</font>
                   </td>
                </xsl:when>
                <xsl:otherwise>
                   <td width="456" height="35" valign="top" align="left" colspan="4" bgcolor="#0086b2">
-                    <img src="graphics/{$id}-header.jpg" width="456" height="35" hspace="0" vspace="0" border="0" alt="{s1/@title}"/>
+                    <!-- TODO this is inaccessible. we shouldn't use an img here at all; just text -->
+                    <img src="graphics/{$id}-header.jpg" width="456" height="35" hspace="0" vspace="0" border="0">
+                      <xsl:attribute name="alt">
+                        <xsl:value-of select="/s1/@title"/>
+                      </xsl:attribute>
+                    </img>
                   </td>
                </xsl:otherwise>
             </xsl:choose>
@@ -49,22 +52,15 @@
             <td width="168" height="20" valign="top" align="left">
               <img width="168" height="20" src="resources/bottom.gif" hspace="0" vspace="0" border="0"/></td>
             <td width="96" height="20" valign="top" align="left">
-              <a href="http://xml.apache.org/" onMouseOver="rolloverOn('xml');" onMouseOut="rolloverOff('xml');" target="new">
-                <img alt="http://xml.apache.org/" width="96" height="20" src="resources/button-xml-lo.gif"
-                     name="xml" hspace="0" vspace="0" border="0"
-                     onLoad="rolloverLoad('xml','resources/button-xml-hi.gif','resources/button-xml-lo.gif');"/>
-              </a>
-            </td>
-            <td width="96" height="20" valign="top" align="left">
-              <a href="http://www.apache.org/" onMouseOver="rolloverOn('asf');" onMouseOut="rolloverOff('asf');" target="new">
-                <img alt="http://www.apache.org/" width="96" height="20" src="resources/button-asf-lo.gif"
+              <a href="https://www.apache.org/" onMouseOver="rolloverOn('asf');" onMouseOut="rolloverOff('asf');" target="new">
+                <img alt="https://www.apache.org/" width="96" height="20" src="resources/button-asf-lo.gif"
                      name="asf" hspace="0" vspace="0" border="0"
                      onLoad="rolloverLoad('asf','resources/button-asf-hi.gif','resources/button-asf-lo.gif');"/>
               </a>
             </td>
             <td width="96" height="20" valign="top" align="left">
-              <a href="http://www.w3.org/" onMouseOver="rolloverOn('w3c');" onMouseOut="rolloverOff('w3c');" target="new">
-                <img alt="http://www.w3.org/" width="96" height="20" src="resources/button-w3c-lo.gif"
+              <a href="https://www.w3.org/" onMouseOver="rolloverOn('w3c');" onMouseOut="rolloverOff('w3c');" target="new">
+                <img alt="https://www.w3.org/" width="96" height="20" src="resources/button-w3c-lo.gif"
                      name="w3c" hspace="0" vspace="0" border="0"
                      onLoad="rolloverLoad('w3c','resources/button-w3c-hi.gif','resources/button-w3c-lo.gif');"/>
               </a>
@@ -77,7 +73,7 @@
             <!-- THE SIDE BAR -->
             <td width="120" valign="top" align="left">
               <img width="120" height="14" src="resources/join.gif" hspace="0" vspace="0" border="0"/><br/>
-                <xsl:apply-templates select="document($stylebook.project)"/>
+                <xsl:apply-templates select="document('../../docs-book.xml')"/>
               <img width="120" height="14" src="resources/close.gif" hspace="0" vspace="0" border="0"/><br/>
             </td>
             <!-- THE CONTENT PANEL -->
@@ -92,7 +88,7 @@
           <tr><td bgcolor="#0086b2"><img src="images/dot.gif" width="1" height="1"/></td></tr>
           <tr>
             <td align="center"><font size="-1" color="#0086b2"><i>
-              Copyright &#169; <xsl:value-of select="$copyright"/>.
+              Copyright &#169; <a href="https://www.apache.org/licenses/">The Apache Software Foundation</a>.
               All Rights Reserved.
             </i></font></td>
           </tr>
@@ -110,12 +106,21 @@
 
   <xsl:template match="document|faqs|releases|settings">
     <xsl:if test="@id=$id">
-      <img src="graphics/{@id}-label-1.jpg" width="120" height="12" hspace="0" vspace="0" border="0" alt="{@label}"/>
+      <!-- TODO inaccessible; don't use images for text -->
+      <img src="graphics/{@id}-label-1.jpg" width="120" height="12" hspace="0" vspace="0" border="0">
+        <xsl:attribute name="alt">
+          <xsl:value-of select="@label"/>
+        </xsl:attribute>
+      </img>
     </xsl:if>
     <xsl:if test="@id!=$id">
       <a href="{@id}.html" onMouseOver="rolloverOn('side-{@id}');" onMouseOut="rolloverOff('side-{@id}');">
         <img onLoad="rolloverLoad('side-{@id}','graphics/{@id}-label-2.jpg','graphics/{@id}-label-3.jpg');"
-             name="side-{@id}" src="graphics/{@id}-label-3.jpg" width="120" height="12" hspace="0" vspace="0" border="0" alt="{@label}"/>
+             name="side-{@id}" src="graphics/{@id}-label-3.jpg" width="120" height="12" hspace="0" vspace="0" border="0">
+          <xsl:attribute name="alt">
+            <xsl:value-of select="@label"/>
+          </xsl:attribute>
+        </img>
       </a>
     </xsl:if>
     <br/>
@@ -125,7 +130,11 @@
     <xsl:variable name="extid" select="concat('ext-',position())"/>
     <a href="{@href}" onMouseOver="rolloverOn('side-{$extid}');" onMouseOut="rolloverOff('side-{$extid}');">
       <img onLoad="rolloverLoad('side-{$extid}','graphics/{$extid}-label-2.jpg','graphics/{$extid}-label-3.jpg');"
-           name="side-{$extid}" src="graphics/{$extid}-label-3.jpg" width="120" height="12" hspace="0" vspace="0" border="0" alt="{@label}"/>
+           name="side-{$extid}" src="graphics/{$extid}-label-3.jpg" width="120" height="12" hspace="0" vspace="0" border="0">
+          <xsl:attribute name="alt">
+            <xsl:value-of select="@label"/>
+          </xsl:attribute>
+        </img>
     </a>
     <br/>
   </xsl:template>
@@ -151,7 +160,7 @@
             <tr>
               <td bgcolor="#039acc" width="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
               <td bgcolor="#0086b2"  width="492">
-                <font size="+1" face="arial,helvetica,sanserif" color="#ffffff">
+                <font size="+1" face="arial,helvetica,sans-serif" color="#ffffff">
                   <img src="resources/void.gif" width="2" height="2" vspace="0" hspace="0" border="0"/>
                   <b><xsl:value-of select="@title"/></b>
                 </font>
@@ -169,7 +178,7 @@
       <tr>
         <td width="10">&#160;</td>
         <td width="484">
-          <font face="arial,helvetica,sanserif" color="#000000">
+          <font face="arial,helvetica,sans-serif" color="#000000">
             <xsl:apply-templates/>
           </font>
         </td>
@@ -191,7 +200,7 @@
           <tr>
             <td bgcolor="#039acc" width="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
             <td bgcolor="#0086b2"  width="482">
-              <font face="arial,helvetica,sanserif" color="#ffffff">
+              <font face="arial,helvetica,sans-serif" color="#ffffff">
                 <img src="resources/void.gif" width="2" height="2" vspace="0" hspace="0" border="0"/>
                 <b><xsl:value-of select="@title"/></b>
               </font>
@@ -209,7 +218,7 @@
       <tr>
         <td width="10">&#160;</td>
         <td width="474">
-          <font size="-1" face="arial,helvetica,sanserif" color="#000000">
+          <font size="-1" face="arial,helvetica,sans-serif" color="#000000">
             <xsl:apply-templates/>
           </font>
         </td>
@@ -231,7 +240,7 @@
           <tr>
             <td bgcolor="#039acc" width="1"><img src="resources/void.gif" width="1" height="1" vspace="0" hspace="0" border="0"/></td>
             <td bgcolor="#0086b2"  width="472">
-              <font size="-1" face="arial,helvetica,sanserif" color="#ffffff">
+              <font size="-1" face="arial,helvetica,sans-serif" color="#ffffff">
                 <img src="resources/void.gif" width="2" height="2" vspace="0" hspace="0" border="0"/>
                 <b><xsl:value-of select="@title"/></b>
               </font>
@@ -249,7 +258,7 @@
       <tr>
         <td width="10">&#160;</td>
         <td width="464">
-          <font size="-1" face="arial,helvetica,sanserif" color="#000000">
+          <font size="-1" face="arial,helvetica,sans-serif" color="#000000">
             <xsl:apply-templates/>
           </font>
         </td>
@@ -272,7 +281,7 @@
           <img src="resources/note.gif" width="20" height="24" vspace="0" hspace="0" border="0" alt="Note:"/>
         </td>
         <td valign="top">
-          <font size="-1" face="arial,helvetica,sanserif" color="#000000">
+          <font size="-1" face="arial,helvetica,sans-serif" color="#000000">
             <i>
               <xsl:apply-templates/>
             </i>
@@ -348,7 +357,7 @@
 
   <xsl:template match="th">
     <td bgcolor="#039acc" colspan="{@colspan}" rowspan="{@rowspan}" valign="center" align="center">
-      <font color="#ffffff" size="-1" face="arial,helvetica,sanserif">
+      <font color="#ffffff" size="-1" face="arial,helvetica,sans-serif">
         <b><xsl:apply-templates/></b>&#160;
       </font>
     </td>
@@ -356,7 +365,7 @@
 
   <xsl:template match="td">
     <td bgcolor="#a0ddf0" colspan="{@colspan}" rowspan="{@rowspan}" valign="top" align="{@align}">
-      <font color="#000000" size="-1" face="arial,helvetica,sanserif">
+      <font color="#000000" size="-1" face="arial,helvetica,sans-serif">
         <xsl:apply-templates/>&#160;
       </font>
     </td>
@@ -447,7 +456,7 @@
 
   <xsl:template match="resource-ref">
     <xsl:variable name="resourceFile"
-          select="document($stylebook.project)/book/resources/@source"/>
+          select="document('../../docs-book.xml')/book/resources/@source"/>
     <xsl:variable name="xref" select="@idref"/>
     <xsl:variable name="href"
           select="document($resourceFile)/resources/resource[@id=$xref]/@location"/>
@@ -458,7 +467,7 @@
 
   <xsl:template match="human-resource-ref">
     <xsl:variable name="resourceFile"
-          select="document($stylebook.project)/book/resources/@source"/>
+          select="document('../../docs-book.xml')/book/resources/@source"/>
     <xsl:variable name="ref"  select="@idref"/>
     <xsl:variable name="mailto"
           select="document($resourceFile)/resources/human-resource[@id=$ref]/@mailto"/>
@@ -473,12 +482,4 @@
     <xsl:copy-of select="." />
   </xsl:template>
 
-<!-- copy
-
-  <xsl:template match="@*|node()">
-    <xsl:copy>
-      <xsl:apply-templates select="@*|node()"/>
-    </xsl:copy>
-  </xsl:template>
--->
 </xsl:stylesheet>

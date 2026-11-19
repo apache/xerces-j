@@ -18,7 +18,7 @@
 <!DOCTYPE book SYSTEM 'dtd/book.dtd'>
 <book title='&ParserName; Documentation' 
       copyright='1999-2022 The Apache Software Foundation'>
- <external label='Home' href='http://xerces.apache.org/'/>
+ <external label='Home' href='https://xerces.apache.org/'/>
  <separator/>
  <document label='Readme' title='&ParserNameLong; Readme'
            id='index' source='readme.xml'/>
@@ -26,10 +26,12 @@
            id='charter' source='charter.xml'/>
  <releases label='Release Info' title='Release Information'
            id='releases' source='releases.xml'/>
+ <document label='Security' title='Security'
+           id='security' source='security.xml'/>
  <separator/>
  <document label='Installation' title='Installation Instructions'
            id='install' source='install.xml'/>
- <external label='Download' href='http://xerces.apache.org/mirrors.cgi'/>
+ <external label='Download' href='https://xerces.apache.org/mirrors.cgi'/>
  <hidden  title='Download' id='download' source='download.xml'/>
  <document label='Bug-Reporting' title='Reporting Bugs'
            id='jira' source='bugzilla.xml'/>
@@ -101,8 +103,8 @@
  <document label='Source Repository' title='Source Repository'
            id='source-repository'  source='source-repository.xml'/>
  <external label='User Mail Archive'
-           href='http://mail-archives.apache.org/mod_mbox/xerces-j-users/'/>
+           href='https://mail-archives.apache.org/mod_mbox/xerces-j-users/'/>
  <external label='Dev Mail Archive'
-           href='http://mail-archives.apache.org/mod_mbox/xerces-j-dev/'/>
+           href='https://mail-archives.apache.org/mod_mbox/xerces-j-dev/'/>
 
 </book>

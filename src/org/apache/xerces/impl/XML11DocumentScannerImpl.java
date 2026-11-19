@@ -135,22 +135,23 @@ public class XML11DocumentScannerImpl
     /**
      * Scans an attribute value and normalizes whitespace converting all
      * whitespace characters to space characters.
-     * 
+     * <pre>
+     * {@code
      * [10] AttValue ::= '"' ([^<&"] | Reference)* '"' | "'" ([^<&'] | Reference)* "'"
+     * }
+     * </pre>
+     * <p><strong>Note:</strong> This method uses fStringBuffer2, anything in it at the time
+     * of calling is lost.</p>
      *
-     * @param value The XMLString to fill in with the value.
-     * @param nonNormalizedValue The XMLString to fill in with the 
-     *                           non-normalized value.
-     * @param atName The name of the attribute being parsed (for error msgs).
+     * @param value the XMLString to fill in with the value
+     * @param nonNormalizedValue the XMLString to fill in with the non-normalized value
+     * @param atName the name of the attribute being parsed (for error msgs)
      * @param checkEntities true if undeclared entities should be reported as VC violation,  
      *                      false if undeclared entities should be reported as WFC violation.
-     * @param eleName The name of element to which this attribute belongs.
+     * @param eleName the name of element to which this attribute belongs
      *
      * @return true if the non-normalized and normalized value are the same
-     * 
-     * <strong>Note:</strong> This method uses fStringBuffer2, anything in it
-     * at the time of calling is lost.
-     **/
+     */
     protected boolean scanAttributeValue(XMLString value, 
                                       XMLString nonNormalizedValue,
                                       String atName,

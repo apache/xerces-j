@@ -32,8 +32,21 @@ import java.util.StringTokenizer;
  * @author <a href="mailto:Scott_Boag/CAM/Lotus@lotus.com">Scott Boag</a>
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  */
+@Deprecated
 public abstract class SerializerFactory {
-    
+
+    /**
+     * The system property for registering additional implementations of SerializerFactory.
+     * <p>
+     *     Multiple factories can be registered by using a delimiter between the values. Any of the following are supported:
+     * </p>
+     * <ul>
+     *     <li><i>a single space</i></li>
+     *     <li><strong>;</strong> semicolon</li>
+     *     <li><strong>,</strong> comma</li>
+     *     <li><strong>:</strong> colon</li>
+     * </ul>
+     */
     public static final String FactoriesProperty = "org.apache.xml.serialize.factories";
 
     private static Hashtable  _factories = new Hashtable();
@@ -74,8 +87,16 @@ public abstract class SerializerFactory {
 
 
     /**
-     * Register a serializer factory, keyed by the given
-     * method string.
+     * Register a serializer factory, keyed by the given method string.
+     * <p>Xerces registers default serializer factories for</p>
+     * <ul>
+     *     <li>{@link Method#XML}</li>
+     *     <li>{@link Method#HTML}</li>
+     *     <li>{@link Method#XHTML}</li>
+     *     <li>{@link Method#TEXT}</li>
+     * </ul>
+     *
+     * @param factory the serializer factory to be registered
      */
     public static void registerSerializerFactory( SerializerFactory factory )
     {
@@ -89,8 +110,18 @@ public abstract class SerializerFactory {
 
 
     /**
-     * Register a serializer factory, keyed by the given
-     * method string.
+     * Retrieve a serializer factory, keyed by the given method string.
+     * <p>Xerces registers default serializer factories for</p>
+     * <ul>
+     *     <li>{@link Method#XML}</li>
+     *     <li>{@link Method#HTML}</li>
+     *     <li>{@link Method#XHTML}</li>
+     *     <li>{@link Method#TEXT}</li>
+     * </ul>
+     *
+     * @param method the method string to retrieve the SerializerFactory by
+     * @return the serializer factory registered with the given method string
+     * @see Method
      */
     public static SerializerFactory getSerializerFactory( String method )
     {
@@ -104,6 +135,8 @@ public abstract class SerializerFactory {
      * a properties file by knowing only the class name. This method is
      * protected, it is only required by this class but must be implemented
      * in derived classes.
+     *
+     * @return the method supported by this factory
      */
     protected abstract String getSupportedMethod();
 
@@ -113,6 +146,9 @@ public abstract class SerializerFactory {
      * If this method is used to create the serializer, the {@link
      * Serializer#setOutputByteStream} or {@link Serializer#setOutputCharStream}
      * methods must be called before serializing a document.
+     *
+     * @param format the output format to use
+     * @return a new serializer for the given output format
      */
     public abstract Serializer makeSerializer(OutputFormat format);
 
@@ -121,18 +157,23 @@ public abstract class SerializerFactory {
      * Create a new serializer, based on the {@link OutputFormat} and
      * using the writer as the output character stream.  If this
      * method is used, the encoding property will be ignored.
+     *
+     * @param writer an output char stream that will be written to
+     * @param format the output format to use
+     * @return a new serializer for the given output format
      */
     public abstract Serializer makeSerializer( Writer writer,
                                                OutputFormat format );
 
 
     /**
-     * Create a new serializer, based on the {@link OutputFormat} and
-     * using the output byte stream and the encoding specified in the
-     * output format.
+     * Create a new serializer, based on the {@link OutputFormat} and using the
+     * output stream and the encoding specified in the output format.
      *
-     * @throws UnsupportedEncodingException The specified encoding is
-     *   not supported
+     * @param output an output stream that will be written to
+     * @param format the output format to use
+     * @return a new serializer for the given output format
+     * @throws UnsupportedEncodingException if the specified encoding is not supported
      */
     public abstract Serializer makeSerializer( OutputStream output,
                                                OutputFormat format )

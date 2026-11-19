@@ -20,9 +20,11 @@ package org.apache.xerces.stax.events;
 import java.io.IOException;
 import java.io.Writer;
 
+import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.NotationDeclaration;
+import javax.xml.stream.events.StartElement;
 
 /**
  * @xerces.internal
@@ -39,9 +41,13 @@ public final class NotationDeclarationImpl extends XMLEventImpl implements
     private final String fName;
 
     /**
-     * @param eventType
-     * @param location
-     * @param schemaType
+     * Constructor for an implementation of {@link NotationDeclaration}.
+     *
+     * @param name the name
+     * @param publicId the public identifier for the notation declaration
+     * @param systemId the system identifier for the notation declaration
+     * @param location the location object for the notation declaration
+     * @see Location
      */
     public NotationDeclarationImpl(final String name, final String publicId, final String systemId, final Location location) {
         super(NOTATION_DECLARATION, location);

@@ -43,11 +43,9 @@ import org.apache.xerces.impl.dv.ValidationContext;
      * Checks that "content" string is valid NOTATION value.
      * If invalid a Datatype validation exception is thrown.
      * 
-     * @param content       the string value that needs to be validated
-     * @param context       the validation context
-     * @throws InvalidDatatypeException if the content is
-     *         invalid according to the rules for the validators
-     * @see InvalidDatatypeValueException
+     * @param content the string value that needs to be validated
+     * @param context the validation context
+     * @throws InvalidDatatypeValueException if the content is invalid according to the rules for the validators
      */
     public void validate(String content, ValidationContext context) throws InvalidDatatypeValueException {
     }

@@ -453,8 +453,8 @@ jar xf &ParserName;-tools.&parserversion;.zip</source>
     downloaded is official, "signatures" are provided for all 6
     Xerces packages produced in each release.  A signature is
     produced with cryptographic software (such as <jump
-    href="http://www.pgp.com">PGP</jump> or <jump
-    href="http://www.gnupg.org">GNUPG</jump>).  The cryptographic
+    href="https://www.pgp.com">PGP</jump> or <jump
+    href="https://www.gnupg.org">GNUPG</jump>).  The cryptographic
     software is used to apply an algorithm that uses the secret
     "key" of a Xerces committer to generate a unique file from
     each Xerces distribution.  The Xerces committer then makes a

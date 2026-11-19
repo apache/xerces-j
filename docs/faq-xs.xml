@@ -81,13 +81,13 @@ v.validate(instanceDocument);
     <q>How does the XML Schema processor treat entities and CDATA sections?</q>
     <a> 
       <p>According to the XML Infoset the infoset items contributing to the 
-	<jump href='http://www.w3.org/TR/xml-infoset/#infoitem.character'>[character
+	<jump href='https://www.w3.org/TR/xml-infoset/#infoitem.character'>[character
 	  information item]</jump> are: characters in the document, whether literally, as
 	a character reference, or within a CDATA section, or within Entity
 	Reference. The XML Schema specification 
 	"requires as a precondition for assessment
 	an information set as defined in [XML-Infoset]" 
-	<jump href='http://www.w3.org/TR/xmlschema-1/#infoset'>(Appendix D)</jump> and thus Xerces might attempt to normalize data in an entity
+	<jump href='https://www.w3.org/TR/xmlschema-1/#infoset'>(Appendix D)</jump> and thus Xerces might attempt to normalize data in an entity
 	reference or CDATA section.  To preserve character data within entity references and 
 	CDATA sections, 
 	turn off http://apache.org/xml/features/validation/schema/normalized-value feature.
@@ -98,8 +98,8 @@ v.validate(instanceDocument);
   	<q>How an XPath 2.0 engine is used for XML Schema 1.1 assertions and CTAs?</q>
   	<a>
   	   <p>XML Schema 1.1 assertions and CTAs require an XPath processor during evaluation. For XSD 1.1 assertions,
-  	   full <jump href="http://www.w3.org/TR/xpath20">XPath 2.0</jump> support is required. For XSD 1.1 CTAs the XSD schema engines can
-  	   provide full XPath 2.0 support, or they can implement a <jump href="http://www.w3.org/TR/xmlschema11-1/#coss-ta">smaller XPath subset</jump>
+  	   full <jump href="https://www.w3.org/TR/xpath20">XPath 2.0</jump> support is required. For XSD 1.1 CTAs the XSD schema engines can
+  	   provide full XPath 2.0 support, or they can implement a <jump href="https://www.w3.org/TR/xmlschema11-1/#coss-ta">smaller XPath subset</jump>
   	   as defined by the XSD 1.1 language. For CTAs Xerces uses the XSD 1.1 CTA XPath subset language by default, but can be made to use the 
   	   full XPath 2.0 support by setting the value of Xerces feature <code>http://apache.org/xml/features/validation/cta-full-xpath-checking</code> to 'true'.
   	   The native CTA XPath processor in Xerces-J was written for efficiency, so you will likely get better performance if your
@@ -148,14 +148,14 @@ v.validate(instanceDocument);
     <q>Does Xerces provide access to the post schema validation infoset (PSVI)?</q>
     <a>
       <p>
-	Xerces implements the <jump href="http://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/">XML Schema API</jump> specification that defines an API for accessing and querying the post schema validation infoset (PSVI) as defined in <jump href='http://www.w3.org/TR/xmlschema-1/#PSVI_contributions'>
+	Xerces implements the <jump href="https://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/">XML Schema API</jump> specification that defines an API for accessing and querying the post schema validation infoset (PSVI) as defined in <jump href='https://www.w3.org/TR/xmlschema-1/#PSVI_contributions'>
 	  Contributions to the post-schema-validation infoset (Appendix C.2)</jump>. 
           This API also defines interfaces for loading XML schema documents. 
       </p>
       <p>For more information please refer to the 
          <link idref='api' anchor='xml-schema-api-documentation'>interfaces</link>.
       </p>
-<note>The Xerces 2.6.2 release fixes a documentation bug in the <jump href="http://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/">XML Schema API</jump>. In particular in the XSModel interface the order of the parameters in getTypeDefinition, getNotationDeclaration, getModelGroupDefinition, getElementDeclaration, getAttributeDeclaration, getAttributeGroup methods have been changed from (String namespace, String name) to (String name, String namespace). 
+<note>The Xerces 2.6.2 release fixes a documentation bug in the <jump href="https://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/">XML Schema API</jump>. In particular in the XSModel interface the order of the parameters in getTypeDefinition, getNotationDeclaration, getModelGroupDefinition, getElementDeclaration, getAttributeDeclaration, getAttributeGroup methods have been changed from (String namespace, String name) to (String name, String namespace). 
 </note>
     </a>
   </faq>
@@ -166,7 +166,7 @@ v.validate(instanceDocument);
       <p>
         The PSVI interfaces which used to be part of the <code>org.apache.xerces.xni.psvi</code>
         and <code>org.apache.xerces.impl.xs.psvi</code> packages were modified and have been moved
-        into the <jump href="http://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/">XML Schema API</jump>.
+        into the <jump href="https://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/">XML Schema API</jump>.
       </p>
     </a>
   </faq>
@@ -193,7 +193,7 @@ public void startElement(QName element, XMLAttributes attributes,
       <p>The above code shows how to retrieve PSVI information after
 	elements/attributes are assessed. The other kind of information PSVI
 	offers is the property
-	<jump href="http://www.w3.org/TR/xmlschema-1/#e-schema_information">[schema information]</jump>.
+	<jump href="https://www.w3.org/TR/xmlschema-1/#e-schema_information">[schema information]</jump>.
 	This property exposes all schema components in the schema that are used for
 	assessment. These components and the schema itself are represented by
 	interfaces in the <code>org.apache.xerces.xs</code> package.</p>
@@ -299,11 +299,11 @@ PSVIProvider psviProvider = (PSVIProvider)reader;</source>
   <q>Can I parse and query XML Schema components in memory?</q>
   <a>
    <p>
-       Yes, the <jump href="http://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/">XML Schema API</jump>
+       Yes, the <jump href="https://www.w3.org/Submission/2004/SUBM-xmlschema-api-20040309/">XML Schema API</jump>
        specification defines an interface called <code>XSLoader</code> which provides methods 
        for loading XML Schema documents into an <code>XSModel</code>. The <code>XSImplementation</code>
        interface provides a method to create an <code>XSLoader</code> using the 
-       <jump href="http://www.w3.org/TR/2003/CR-DOM-Level-3-Core-20031107/core.html#Bootstrap">
+       <jump href="https://www.w3.org/TR/2003/CR-DOM-Level-3-Core-20031107/core.html#Bootstrap">
        DOM Level 3 Bootstraping mechanism</jump>. An application can get a reference to 
        an <code>XSImplementation</code> using the <code>getDOMImplementation</code> method 
        on the <code>DOMImplementationRegistry</code> object with the feature string "XS-Loader".

@@ -30,7 +30,7 @@ import org.apache.xerces.xni.parser.XMLConfigurationException;
  * configuration with the standard set of parser components. 
  * The standard set of parser components include those needed
  * to parse and validate with DTD's, and those needed for XML
- * Schema.</p>
+ * Schema.
  * <p>
  * In addition to the features and properties recognized by the base
  * parser configuration, this class recognizes these additional 

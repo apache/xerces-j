@@ -22,12 +22,13 @@ package org.apache.xerces.xs;
  * circumstances, i.e., when an operation is impossible to perform (either 
  * for logical reasons, because data is lost, or because the implementation 
  * has become unstable).
- * <p>Implementations should raise other exceptions under other circumstances. 
+ * <p>Implementations should raise other exceptions under other circumstances.</p>
  * <p>Some languages and object systems do not support the concept of 
  * exceptions. For such systems, error conditions may be indicated using 
  * native error reporting mechanisms. For some bindings, for example, 
  * methods may return error codes similar to those listed in the 
  * corresponding method descriptions.
+ * </p>
  */
 public class XSException extends RuntimeException {
 

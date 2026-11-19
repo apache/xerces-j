@@ -1665,7 +1665,7 @@ public class XSAttributeChecker {
             }
         }
 
-        attrValues[ATTIDX_FROMDEFAULT] = new Long(fromDefault);
+        attrValues[ATTIDX_FROMDEFAULT] = Long.valueOf(fromDefault);
         //attrValues[ATTIDX_OTHERVALUES] = otherValues;
 
         // Check that minOccurs isn't greater than maxOccurs.

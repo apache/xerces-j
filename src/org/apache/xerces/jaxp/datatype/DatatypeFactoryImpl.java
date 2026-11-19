@@ -20,6 +20,7 @@ package org.apache.xerces.jaxp.datatype;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
@@ -95,6 +96,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * @throws UnsupportedOperationException If implementation cannot support requested values.
      * @throws NullPointerException if <code>lexicalRepresentation</code> is <code>null</code>.
      */
+    @Override
     public Duration newDuration(final String lexicalRepresentation) {
 
         return new DurationImpl(lexicalRepresentation);
@@ -135,6 +137,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * 
      * @return New <code>Duration</code> representing <code>durationInMilliseconds</code>.
      */
+    @Override
     public Duration newDuration(final long durationInMilliseconds) {
 
         return new DurationImpl(durationInMilliseconds);
@@ -167,6 +170,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * @see #newDuration(boolean isPositive, BigInteger years, BigInteger months, BigInteger days,
      *   BigInteger hours, BigInteger minutes, BigDecimal seconds)
      */
+    @Override
     public Duration newDuration(
             final boolean isPositive,
             final BigInteger years,
@@ -195,6 +199,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * @return New <code>XMLGregorianCalendar</code> with all date/time datatype fields set to
      *   {@link DatatypeConstants#FIELD_UNDEFINED} or null.
      */
+    @Override
     public XMLGregorianCalendar newXMLGregorianCalendar() {
 
         return new XMLGregorianCalendarImpl();
@@ -225,6 +230,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * @throws IllegalArgumentException If the <code>lexicalRepresentation</code> is not a valid <code>XMLGregorianCalendar</code>.
      * @throws NullPointerException If <code>lexicalRepresentation</code> is <code>null</code>.
      */
+    @Override
     public XMLGregorianCalendar newXMLGregorianCalendar(final String lexicalRepresentation) {
 
         return new XMLGregorianCalendarImpl(lexicalRepresentation);
@@ -233,12 +239,11 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
     /**
      * <p>Create an <code>XMLGregorianCalendar</code> from a {@link GregorianCalendar}.</p> 
      *
-     * <table border="2" rules="all" cellpadding="2">
+     * <table border="1" rules="all" cellpadding="2">
      *   <thead>
      *     <tr>
-     *       <th align="center" colspan="2">
-     *          Field by Field Conversion from
-     *          {@link GregorianCalendar} to an {@link XMLGregorianCalendar} 
+     *       <th style="text-align: center;" colspan="2">
+     *          Field by Field Conversion from {@link GregorianCalendar} to an {@link XMLGregorianCalendar}
      *       </th>
      *     </tr>
      *     <tr>
@@ -265,8 +270,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      *     </tr>
      *     <tr>
      *       <td>
-     *         <code>(ZONE_OFFSET + DST_OFFSET) / (60*1000)</code><br/>
-     *         <em>(in minutes)</em>
+     *         <code>(ZONE_OFFSET + DST_OFFSET) / (60*1000)</code> <em>(in minutes)</em>
      *       </td>
      *       <td>{@link XMLGregorianCalendar#setTimezone(int offset)}<sup><em>*</em></sup>
      *       </td>
@@ -277,21 +281,22 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * a <code>java.util.GregorianCalendar</code> daylight savings timezone id in the 
      * XML Schema 1.0 date/time datatype representation.</p>
      * 
-     * <p>To compute the return value's <code>TimeZone</code> field,
+     * <p>To compute the return value's <code>TimeZone</code> field:</p>
      * <ul>
-     * <li>when <code>this.getTimezone() != FIELD_UNDEFINED</code>,
-     * create a <code>java.util.TimeZone</code> with a custom timezone id 
-     * using the <code>this.getTimezone()</code>.</li>
-     * <li>else use the <code>GregorianCalendar</code> default timezone value 
-     * for the host is defined as specified by 
-     * <code>java.util.TimeZone.getDefault()</code>.</li></p>     
+     *   <li>when <code>this.getTimezone() != FIELD_UNDEFINED</code>, create a
+     *   <code>java.util.TimeZone</code> with a custom timezone id using
+     *   the <code>this.getTimezone()</code>.</li>
+     *   <li>else use the {@link GregorianCalendar} default timezone value
+     *   for the host is defined as specified by {@link TimeZone#getDefault()}.</li>
+     * </ul>
      *
-     * @param cal <code>java.util.GregorianCalendar</code> used to create <code>XMLGregorianCalendar</code>
+     * @param cal {@link GregorianCalendar} used to create <code>XMLGregorianCalendar</code>
      * 
-     * @return <code>XMLGregorianCalendar</code> created from <code>java.util.GregorianCalendar</code>
+     * @return <code>XMLGregorianCalendar</code> created from {@link GregorianCalendar}
      *  
-     * @throws NullPointerException If <code>cal</code> is <code>null</code>.
+     * @throws NullPointerException if <code>cal</code> is <code>null</code>
      */
+    @Override
     public XMLGregorianCalendar newXMLGregorianCalendar(final GregorianCalendar cal) {
 
         return new XMLGregorianCalendarImpl(cal);
@@ -323,6 +328,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      *   or if the composite values constitute an invalid <code>XMLGregorianCalendar</code> instance
      *   as determined by {@link XMLGregorianCalendar#isValid()}.
      */
+    @Override
     public XMLGregorianCalendar newXMLGregorianCalendar(
             final int year,
             final int month,
@@ -368,6 +374,7 @@ public class DatatypeFactoryImpl extends DatatypeFactory {
      * @throws NullPointerException If any parameters are <code>null</code>.
      * 
      */
+    @Override
     public XMLGregorianCalendar newXMLGregorianCalendar(
             final BigInteger year,
             final int month,

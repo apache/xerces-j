@@ -28,31 +28,36 @@ package org.apache.xerces.dom;
  * Element. Typically, the allowable values are controlled by its
  * declaration in the Document Type Definition (DTD) governing this
  * kind of document.
- * <P>
+ * <p>
  * If the attribute has not been explicitly assigned a value, but has
  * been declared in the DTD, it will exist and have that default. Only
  * if neither the document nor the DTD specifies a value will the
  * Attribute really be considered absent and have no value; in that
  * case, querying the attribute will return null.
- * <P>
+ * </p>
+ * <p>
  * Attributes may have multiple children that contain their data. (XML
  * allows attributes to contain entity references, and tokenized
  * attribute types such as NMTOKENS may have a child for each token.)
  * For convenience, the Attribute object's getValue() method returns
  * the string version of the attribute's value.
- * <P>
+ * </p>
+ * <p>
  * Attributes are not children of the Elements they belong to, in the
  * usual sense, and have no valid Parent reference. However, the spec
  * says they _do_ belong to a specific Element, and an INUSE exception
  * is to be thrown if the user attempts to explicitly share them
  * between elements.
- * <P>
+ * </p>
+ * <p>
  * Note that Elements do not permit attributes to appear to be shared
  * (see the INUSE exception), so this object's mutability is
  * officially not an issue.
- * <P>
+ * </p>
+ * <p>
  * DeferredAttrImpl inherits from AttrImpl which does not support
  * Namespaces. DeferredAttrNSImpl, which inherits from AttrNSImpl, does.
+ * </p>
  * @see DeferredAttrNSImpl
  *
  * @xerces.internal 

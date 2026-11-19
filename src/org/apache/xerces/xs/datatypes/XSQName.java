@@ -25,11 +25,15 @@ package org.apache.xerces.xs.datatypes;
 public interface XSQName {
     
     /**
+     * Returns org.apache.xerces.xni.QName class instance.
+     *
      * @return org.apache.xerces.xni.QName class instance
      */
     public org.apache.xerces.xni.QName getXNIQName();
     
     /**
+     * Returns org.apache.xerces.xni.QName class instance.
+     *
      * @return javax.xml.namespace.QName class instance
      */
     public javax.xml.namespace.QName getJAXPQName();

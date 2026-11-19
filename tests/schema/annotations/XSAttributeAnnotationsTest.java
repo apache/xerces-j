@@ -69,8 +69,8 @@ public class XSAttributeAnnotationsTest extends TestCase {
             fConfig.setParameter("validate", Boolean.TRUE);
 
         } catch (Exception e) {
-            fail("Expecting a NullPointerException");
             System.err.println("SETUP FAILED: XSAttributeAnnotationsTest");
+            fail("Expecting a NullPointerException");
         }
     }
 
@@ -251,14 +251,6 @@ public class XSAttributeAnnotationsTest extends TestCase {
         XSObjectList annotations = attr.getAnnotations();
 
         assertEquals("Synthetic Annotation Empty", 0, annotations.getLength());
-    }
-
-    /**
-     * 
-     * @param args
-     */
-    public static void main(String args[]) {
-        junit.textui.TestRunner.run(XSAttributeAnnotationsTest.class);
     }
 
 }

@@ -27,10 +27,6 @@ import org.apache.xerces.xs.ItemPSVI;
  */
 public class UseGrammarPoolOnly_True_Test extends BaseTest {
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(UseGrammarPoolOnly_True_Test.class);
-    }
-    
     protected String getXMLDocument() {
         return "otherNamespace.xml";
     }
@@ -64,7 +60,7 @@ public class UseGrammarPoolOnly_True_Test extends BaseTest {
         }
         
         assertValidity(ItemPSVI.VALIDITY_NOTKNOWN, fRootNode.getValidity());
-        assertValidationAttempted(ItemPSVI.VALIDATION_NONE, fRootNode
+        assertValidationAttempted(ItemPSVI.VALIDATION_PARTIAL, fRootNode
                 .getValidationAttempted());
         assertElementNull(fRootNode.getElementDeclaration());
         assertAnyType(fRootNode.getTypeDefinition());

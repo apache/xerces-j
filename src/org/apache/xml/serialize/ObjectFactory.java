@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+import org.apache.xerces.util.ClassLoaderUtil;
+
 /**
  * This class is duplicated for each JAXP subpackage so keep it in sync.
  * It is package private and therefore is not exposed as part of the JAXP
@@ -35,7 +37,7 @@ import java.util.Properties;
  * later, and to compile on JDK 1.2 and onward.
  * The code also runs both as part of an unbundled jar file and
  * when bundled as part of the JDK.
- * <p>
+ * </p>
  *
  * @version $Id$
  */
@@ -85,12 +87,12 @@ final class ObjectFactory {
      *
      * @return Class object of factory, never null
      *
-     * @param factoryId             Name of the factory to find, same as
+     * @param factoryId             the name of the factory to find, same as
      *                              a property name
-     * @param fallbackClassName     Implementation class name, if nothing else
-     *                              is found.  Use null to mean no fallback.
+     * @param fallbackClassName     an implementation class name, if nothing else
+     *                              is found. Use <code>null</code> to mean no fallback.
      *
-     * @exception ObjectFactory.ConfigurationError
+     * @throws ObjectFactory.ConfigurationError will be thrown if cannot create an instance
      */
     static Object createObject(String factoryId, String fallbackClassName)
         throws ConfigurationError {
@@ -109,15 +111,15 @@ final class ObjectFactory {
      *
      * @return Class object of factory, never null
      *
-     * @param factoryId             Name of the factory to find, same as
+     * @param factoryId             the name of the factory to find, same as
      *                              a property name
-     * @param propertiesFilename The filename in the $java.home/lib directory
+     * @param propertiesFilename the filename in the $java.home/lib directory
      *                           of the properties file.  If none specified,
-     *                           ${java.home}/lib/xerces.properties will be used.
-     * @param fallbackClassName     Implementation class name, if nothing else
-     *                              is found.  Use null to mean no fallback.
+     *                           ${java.home}/lib/xerces.properties will be used
+     * @param fallbackClassName     an implementation class name, if nothing else
+     *                              is found. Use <code>null</code> to mean no fallback.
      *
-     * @exception ObjectFactory.ConfigurationError
+     * @throws ObjectFactory.ConfigurationError will be thrown if cannot create an instance
      */
     static Object createObject(String factoryId,
                                       String propertiesFilename,
@@ -361,6 +363,14 @@ final class ObjectFactory {
                                       boolean doFallback)
         throws ClassNotFoundException, ConfigurationError
     {
+        // Classes that are part of the Xerces distribution must be loaded
+        // with the ClassLoader that loaded this factory. The context
+        // ClassLoader may see a different copy of Xerces, which would result
+        // in a ClassCastException when the returned instance is used.
+        if (ClassLoaderUtil.isInternalClassName(className)) {
+            cl = ObjectFactory.class.getClassLoader();
+        }
+
         //throw security exception if the calling thread is not allowed to access the package
         //restrict the access to package as specified in java.security policy
         SecurityManager security = System.getSecurityManager();

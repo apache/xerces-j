@@ -2,23 +2,17 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-  <xsl:param name="id"/>
-
-  <xsl:template match="/">
-    <xsl:apply-templates/>
-  </xsl:template>
-
-  <xsl:template match="book">
-    <group title="{faqs[attribute::id=$id]/@label}">
-      <xsl:apply-templates select="faqs[attribute::id=$id]/faq"/>
+  <xsl:template match="/book/faqs">
+    <group title="{@title}">
+      <xsl:apply-templates select="faq"/>
     </group>
   </xsl:template>
 
   <xsl:template match="faq">
-    <entry id="{@id}" title="{document(concat('sbk:/sources/',@source))/faqs/@title}">
+    <entry title="{@title}" id="{@id}">
       <xsl:apply-templates 
-           select="document(concat('sbk:/sources/',@source))/faqs/faq"
-	   mode='faqs-faq'/>
+          select="document(concat('../../', @source))"
+	      mode='faqs-faq'/>
     </entry>
   </xsl:template>
 

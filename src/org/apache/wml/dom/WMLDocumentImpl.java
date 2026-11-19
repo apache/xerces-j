@@ -30,7 +30,9 @@ import org.w3c.dom.Element;
  * @xerces.internal
  * @version $Id$
  * @author <a href="mailto:david@topware.com.tw">David Li</a>
+ * @deprecated WML (Wireless Markup Language) is obsolete. The org.apache.wml package may be removed in a future release.
  */
+@Deprecated
 public class WMLDocumentImpl extends DocumentImpl implements WMLDocument {
     
     private static final long serialVersionUID = -6582904849512384104L;

@@ -74,7 +74,7 @@ public class XSAttributeGroupAnnotationsTest extends TestCase {
     }
 
     /**
-     * This method is called before every test case method, to tears down the
+     * This method is called after every test case method, to tear down the
      * test fixture.
      */
     protected void tearDown() {
@@ -140,8 +140,8 @@ public class XSAttributeGroupAnnotationsTest extends TestCase {
      * Test #4.
      */
     public void testAnnotations() {
-        XSModel model = fSchemaLoader
-                .loadURI(getResourceURL("XSAttributeGroupAnnotationsTest02.xsd"));
+        String resourceURL = getResourceURL("XSAttributeGroupAnnotationsTest02.xsd");
+        XSModel model = fSchemaLoader.loadURI(resourceURL);
 
         XSAttributeGroupDefinition AG = model.getAttributeGroup("AG",
                 "XSAttributeGroupAnnotationsTest");
@@ -277,9 +277,5 @@ public class XSAttributeGroupAnnotationsTest extends TestCase {
             String actual = annotation.getAnnotationString();
             assertEquals(trim(expectedResult), trim(actual));
         }
-    }
-
-    public static void main(String args[]) {
-        junit.textui.TestRunner.run(XSAttributeGroupAnnotationsTest.class);
     }
 }

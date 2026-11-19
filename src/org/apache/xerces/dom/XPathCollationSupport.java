@@ -32,7 +32,7 @@ import javax.xml.transform.TransformerException;
  * 
  * Ref : https://www.w3.org/TR/xpath-functions-31/#collations
  * 
- * @author Mukul Gandhi <mukulg@apache.org>
+ * @author <a href="mailto:mukulg@apache.org">Mukul Gandhi</a>
  * 
  * @version $Id$
  *

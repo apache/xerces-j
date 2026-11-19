@@ -71,13 +71,17 @@ public class SchemaNamespaceSupport
     /**
      * This method takes a set of Strings, as stored in a
      * NamespaceSupport object, and "fools" the object into thinking
-     * that this is one unified context.  This is meant to be used in
-     * conjunction with things like local elements, whose declarations
-     * may be deeply nested but which for all practical purposes may
-     * be regarded as being one level below the global <schema>
-     * element--at least with regard to namespace declarations.
+     * that this is one unified context.
+     * <p>This is meant to be used in conjunction with things like local
+     * elements, whose declarations may be deeply nested but which for
+     * all practical purposes may be regarded as being one level below
+     * the global <code>schema</code> element--at least with regard to
+     * namespace declarations.
+     * </p>
      * It's worth noting that the context from which the strings are
      * being imported had better be using the same SymbolTable.
+     *
+     * @param namespaceDecls an array of namespace declarations
      */
     public void setEffectiveContext (String [] namespaceDecls) {
         if(namespaceDecls == null || namespaceDecls.length == 0) return;

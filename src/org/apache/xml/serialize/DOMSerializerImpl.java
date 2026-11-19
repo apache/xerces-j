@@ -58,7 +58,7 @@ import org.w3c.dom.ls.LSSerializerFilter;
 
 /**
  * EXPERIMENTAL: Implemenatation of DOM Level 3 org.w3c.ls.LSSerializer  by delegating serialization
- * calls to <CODE>XMLSerializer</CODE>.
+ * calls to <code>XMLSerializer</code>.
  * LSSerializer provides an API for serializing (writing) a DOM document out in an
  * XML document. The XML data is written to an output stream.
  * During serialization of XML data, namespace fixup is done when possible as
@@ -71,6 +71,7 @@ import org.w3c.dom.ls.LSSerializerFilter;
  * 
  * @deprecated Replaced by org.apache.xml.serializer.dom3.LSSerializerImpl in Xerces 2.9.0.
  */
+@Deprecated
 public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
 
     // TODO: When DOM Level 3 goes to REC replace method calls using
@@ -337,7 +338,7 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
     public DOMStringList getParameterNames() {
     	
      	if (fRecognizedParameters == null){
-			ArrayList parameters = new ArrayList();
+			final ArrayList<String> parameters = new ArrayList<>();
 
 			//Add DOM recognized parameters
 			//REVISIT: Would have been nice to have a list of 
@@ -447,16 +448,17 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
      *  Serialize the specified node as described above in the description of
      * <code>LSSerializer</code>. The result of serializing the node is
      * returned as a string. Writing a Document or Entity node produces a
-     * serialized form that is well formed XML. Writing other node types
+     * serialized form that is well-formed XML. Writing other node types
      * produces a fragment of text in a form that is not fully defined by
      * this document, but that should be useful to a human for debugging or
      * diagnostic purposes.
-     * @param wnode  The node to be written.
-     * @return  Returns the serialized data
-     * @exception DOMException
+     *
+     * @param wnode the node to be written
+     * @return returns the serialized data
+     * @throws DOMException
      *    DOMSTRING_SIZE_ERR: The resulting string is too long to fit in a
      *   <code>DOMString</code>.
-     * @exception LSException
+     * @throws LSException
      *    SERIALIZE_ERR: Unable to serialize the node.  DOM applications should
      *    attach a <code>DOMErrorHandler</code> using the parameter 
      *    &quot;<i>error-handler</i>&quot; to get details on error.
@@ -651,11 +653,12 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
       * "unsupported-encoding" error is raised.
       * <br> If no output is specified in the <code>LSOutput</code>, a
       * "no-output-specified" error is raised.
-      * @param node  The node to serialize.
-      * @param destination The destination for the serialized DOM.
-      * @return  Returns <code>true</code> if <code>node</code> was
-      *   successfully serialized and <code>false</code> in case the node
-      *   couldn't be serialized.
+      *
+      * @param node the node to serialize
+      * @param destination the destination for the serialized DOM
+      * @return <code>true</code> if <code>node</code> was successfully serialized
+      *    and <code>false</code> in case the node couldn't be serialized
+      * @throws LSException SERIALIZE_ERR: if unable to serialize the node
       */
     public boolean write(Node node, LSOutput destination) throws LSException{
 
@@ -795,11 +798,11 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
       * default encoding of "UTF-8" will be used.
       * <br> If the specified encoding is not supported an
       * "unsupported-encoding" error is raised.
-      * @param node  The node to serialize.
-      * @param URI The URI to write to.
-      * @return  Returns <code>true</code> if <code>node</code> was
-      *   successfully serialized and <code>false</code> in case the node
-      *   couldn't be serialized.
+      * @param node the node to serialize
+      * @param URI the URI to write to
+      * @return <code>true</code> if <code>node</code> was successfully serialized
+      *    and <code>false</code> in case the node couldn't be serialized
+      * @throws LSException SERIALIZE_ERR: if unable to serialize the node
       */
     public boolean writeToURI(Node node, String URI) throws LSException{
         if (node == null){

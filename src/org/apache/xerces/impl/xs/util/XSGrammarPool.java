@@ -18,11 +18,13 @@
 package org.apache.xerces.impl.xs.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.xs.SchemaGrammar;
 import org.apache.xerces.impl.xs.XSModelImpl;
 import org.apache.xerces.util.XMLGrammarPoolImpl;
+import org.apache.xerces.xni.grammars.Grammar;
 import org.apache.xerces.xni.grammars.XMLGrammarDescription;
 import org.apache.xerces.xs.XSModel;
 
@@ -47,7 +49,7 @@ public class XSGrammarPool extends XMLGrammarPoolImpl {
     }
     
     public XSModel toXSModel(short schemaVersion) {
-        ArrayList list = new ArrayList();
+        final List<Grammar> list = new ArrayList<>();
         for (int i = 0; i < fGrammars.length; i++) {
             for (Entry entry = fGrammars[i] ; entry != null ; entry = entry.next) {
                 if (entry.desc.getGrammarType().equals(XMLGrammarDescription.XML_SCHEMA)) {

@@ -581,11 +581,6 @@ public class NonValidatingConfiguration
     // Protected methods
     //
     
-    /** 
-     * Reset all components before parsing. 
-     *
-     * @throws XNIException Thrown if an error occurs during initialization.
-     */
     protected void reset() throws XNIException {
 
         if (fValidationManager != null)

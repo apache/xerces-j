@@ -30,7 +30,8 @@ package org.apache.xerces.xni.grammars;
  * the Grammar object. You <em>can</em> create equivalent validation
  * rules in your choice of grammar syntax but there is no guarantee that
  * the input and output will be the same.
- * 
+ * </p>
+ *
  * <p> Right now, this class is largely a shell; eventually, 
  * it will be enriched by having more expressive methods added. </p>
  * will be moved from dtd.Grammar here.
@@ -46,8 +47,9 @@ package org.apache.xerces.xni.grammars;
 public interface Grammar {
 
     /**
-     * get the <code>XMLGrammarDescription</code> associated with this
-     * object
+     * Get the <code>XMLGrammarDescription</code> associated with this object.
+     *
+     * @return the <code>XMLGrammarDescription</code> associated with this object
      */
     public XMLGrammarDescription getGrammarDescription ();
 } // interface Grammar

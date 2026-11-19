@@ -29,10 +29,6 @@ import org.xml.sax.SAXException;
  */
 public class IgnoreXSIType_C_AC_Test extends BaseTest {
     
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(IgnoreXSIType_C_AC_Test.class);
-    }
-    
     protected String getXMLDocument() {
         return "xsitype_C_AC.xml";
     }
@@ -148,7 +144,7 @@ public class IgnoreXSIType_C_AC_Test extends BaseTest {
         
         child = super.getChild(2);
         assertValidity(ItemPSVI.VALIDITY_NOTKNOWN, child.getValidity());
-        assertValidationAttempted(ItemPSVI.VALIDATION_NONE, child
+        assertValidationAttempted(ItemPSVI.VALIDATION_PARTIAL, child
                 .getValidationAttempted());
         assertElementNull(child.getElementDeclaration());
         assertAnyType(child.getTypeDefinition());

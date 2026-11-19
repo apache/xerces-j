@@ -318,8 +318,4 @@ public class XSAttributeUseAnnotationsTest extends TestCase {
                 trim(((XSAnnotation) annotations.item(0)).getAnnotationString()));
 
     }
-
-    public static void main(String args[]) {
-        junit.textui.TestRunner.run(XSAttributeUseAnnotationsTest.class);
-    }
 }

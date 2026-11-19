@@ -17,7 +17,7 @@
 package org.apache.xerces.xs.datatypes;
 
 /**
- * <p>Interface to expose the value of the 'double' datatype.</p>
+ * Interface to expose the value of the 'double' datatype.
  * 
  * @author Ankit Pasricha, IBM
  * 
@@ -26,6 +26,8 @@ package org.apache.xerces.xs.datatypes;
 public interface XSDouble {
     
     /**
+     * Returns a double value.
+     *
      * @return a double value
      */
     public double getValue();

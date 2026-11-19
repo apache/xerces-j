@@ -829,41 +829,6 @@ class DurationImpl
 					);
     	}
 
-    	// turn this Duration into a GregorianCalendar
-    	GregorianCalendar lhsCalendar = new GregorianCalendar(
-    			1970,
-				1,
-				1,
-				0,
-				0,
-				0);
-   		lhsCalendar.add(GregorianCalendar.YEAR, getYears() * getSign());
-   		lhsCalendar.add(GregorianCalendar.MONTH, getMonths() * getSign());
-   		lhsCalendar.add(GregorianCalendar.DAY_OF_YEAR, getDays() * getSign());
-   		lhsCalendar.add(GregorianCalendar.HOUR_OF_DAY, getHours() * getSign());
-   		lhsCalendar.add(GregorianCalendar.MINUTE, getMinutes() * getSign());
-   		lhsCalendar.add(GregorianCalendar.SECOND, getSeconds() * getSign());
-   		
-   		// turn compare Duration into a GregorianCalendar
-    	GregorianCalendar rhsCalendar = new GregorianCalendar(
-				1970,
-				1,
-				1,
-				0,
-				0,
-				0);
-   		rhsCalendar.add(GregorianCalendar.YEAR, rhs.getYears() * rhs.getSign());
-   		rhsCalendar.add(GregorianCalendar.MONTH, rhs.getMonths() * rhs.getSign());
-   		rhsCalendar.add(GregorianCalendar.DAY_OF_YEAR, rhs.getDays() * rhs.getSign());
-   		rhsCalendar.add(GregorianCalendar.HOUR_OF_DAY, rhs.getHours() * rhs.getSign());
-   		rhsCalendar.add(GregorianCalendar.MINUTE, rhs.getMinutes() * rhs.getSign());
-   		rhsCalendar.add(GregorianCalendar.SECOND, rhs.getSeconds() * rhs.getSign());
-   	
-   		
-   		if (lhsCalendar.equals(rhsCalendar)) {
-   			return DatatypeConstants.EQUAL;
-   		}
-
    		return compareDates(this, rhs);
     }
     

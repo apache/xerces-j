@@ -473,7 +473,7 @@ public class CoreDOMImplementationImpl
             }
             return (RevalidationHandler) (ObjectFactory
                     .newInstance(
-                        "org.apache.xerces.impl.xs.XMLSchemaValidator",
+                        "org.apache.xerces.impl.xs.XMLSchemaValidatorImpl",
                         ObjectFactory.findClassLoader(),
                         true));
         }

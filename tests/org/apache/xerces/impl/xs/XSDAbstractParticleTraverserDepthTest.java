@@ -33,18 +33,20 @@ public class XSDAbstractParticleTraverserDepthTest extends TestCase {
 
     private static final int DEPTH = 5000;
 
-    public void testDeeplyNestedSequencesDoNotOverflowStack()
-            throws Exception {
-        assertNotNull(createSchema("sequence", DEPTH));
+    public void testDeeplyNestedSequencesDoNotOverflowStack() throws Exception {
+        assertNotNull(newSchema(nestedModelGroupSchema("sequence", DEPTH)));
     }
 
-    public void testDeeplyNestedChoicesDoNotOverflowStack()
-            throws Exception {
-        assertNotNull(createSchema("choice", DEPTH));
+    public void testDeeplyNestedChoicesDoNotOverflowStack() throws Exception {
+        assertNotNull(newSchema(nestedModelGroupSchema("choice", DEPTH)));
     }
 
-    private Schema createSchema(String modelGroup, int depth)
-            throws Exception {
+    private static Schema newSchema(String xsd) throws Exception {
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        return factory.newSchema(new StreamSource(new StringReader(xsd)));
+    }
+
+    private static String nestedModelGroupSchema(String modelGroup, int depth) {
         StringBuilder schema = new StringBuilder();
         schema.append("<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>");
         schema.append("<xs:element name='root'><xs:complexType>");
@@ -56,9 +58,6 @@ public class XSDAbstractParticleTraverserDepthTest extends TestCase {
             schema.append("</xs:").append(modelGroup).append('>');
         }
         schema.append("</xs:complexType></xs:element></xs:schema>");
-        SchemaFactory factory = SchemaFactory.newInstance(
-                XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        return factory.newSchema(new StreamSource(new StringReader(
-                schema.toString())));
+        return schema.toString();
     }
 }

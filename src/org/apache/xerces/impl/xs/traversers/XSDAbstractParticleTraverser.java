@@ -251,11 +251,12 @@ abstract class XSDAbstractParticleTraverser extends XSDAbstractTraverser {
                 }
                 else {
                     Object [] args;
+                    String expected = "(annotation?, (element | group | choice | sequence | any)*)";
                     if (frame.fChoice) {
-                        args = new Object[]{"choice", "(annotation?, (element | group | choice | sequence | any)*)", childName};
+                        args = new Object[]{"choice", expected, childName};
                     }
                     else {
-                        args = new Object[]{"sequence", "(annotation?, (element | group | choice | sequence | any)*)", childName};
+                        args = new Object[]{"sequence", expected, childName};
                     }
                     reportSchemaError("s4s-elt-must-match.1", args, child);
                 }

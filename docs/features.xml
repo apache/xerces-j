@@ -475,6 +475,12 @@ catch (SAXException e) {
    <false>DOCTYPE declaration is allowed.</false>
    <default value='false'/>
    <since value='&ParserName; 2.3.0'/>
+   <note>
+    On a JAXP Validator, this feature applies to StreamSource and to SAXSource
+    when the validator creates the XMLReader. For a caller-supplied XMLReader
+    or an input already parsed into DOM or StAX, configure the parser or reader
+    that supplies the input.
+   </note>
   </feature>
 
   <feature name='http://apache.org/xml/features/standard-uri-conformant'

@@ -84,7 +84,7 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         Constants.XERCES_FEATURE_PREFIX + Constants.IDC_CHECKING_FEATURE;
     
     /** Feature identifier: disallow DOCTYPE declaration */
-    private static final String DISALLOW_DOCTYPE_DECL_FEATURE =
+    static final String DISALLOW_DOCTYPE_DECL_FEATURE =
         Constants.XERCES_FEATURE_PREFIX + Constants.DISALLOW_DOCTYPE_DECL_FEATURE;
     
     /** Feature identifier: expose schema normalized value */

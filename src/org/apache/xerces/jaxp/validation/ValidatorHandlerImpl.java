@@ -722,6 +722,10 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
                         // this is impossible, but better safe than sorry
                         throw new FactoryConfigurationError(e);
                     }
+                    String doctypeFeature = XMLSchemaValidatorComponentManager.DISALLOW_DOCTYPE_DECL_FEATURE;
+                    if (fComponentManager.getFeature(doctypeFeature)) {
+                        reader.setFeature(doctypeFeature, true);
+                    }
                 }
                 
                 // If XML names and Namespace URIs are already internalized we

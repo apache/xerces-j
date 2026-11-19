@@ -195,7 +195,10 @@ public class HTMLDocumentImpl
         while ( child != null )
         {
             next = child.getNextSibling();
-            html.appendChild( child );
+            if ( child.getNodeType() != Node.DOCUMENT_TYPE_NODE )
+            {
+                html.appendChild( child );
+            }
             child = next;
         }
         appendChild( html );

@@ -26,7 +26,6 @@ import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xerces.dom.ElementImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -168,24 +167,16 @@ public class HTMLDocumentImpl
         // HTML element must exist. Create a new element and dump the
         // entire contents of the document into it in the same order as
         // they appear now.
-        DocumentType documentType = getDoctype();
-        if ( documentType != null )
-        {
-            removeChild( documentType );
-        }
-
         html = new HTMLHtmlElementImpl( this, "HTML" );
         child = getFirstChild();
         while ( child != null )
         {
             next = child.getNextSibling();
-            html.appendChild( child );
+            if ( child.getNodeType() != Node.DOCUMENT_TYPE_NODE )
+            {
+                html.appendChild( child );
+            }
             child = next;
-        }
-
-        if ( documentType != null )
-        {
-            appendChild( documentType );
         }
         appendChild( html );
         return (HTMLElement) html;

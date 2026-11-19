@@ -112,7 +112,6 @@ Authors:
 
     <filter token="year" value="${year}"/>
     <filter token="version" value="${parser.Version}"/>
-    <filter token="date" value="${TODAY}"/>
     <filter token="log" value="true"/>
     <filter token="verbose" value="true"/>
   </target>

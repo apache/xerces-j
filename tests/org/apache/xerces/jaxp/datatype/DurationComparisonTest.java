@@ -44,7 +44,14 @@ public class DurationComparisonTest extends TestCase {
         DurationImpl rhs = new DurationImpl(right);
         assertEquals(left + " compared to " + right, expected, lhs.compare(rhs));
 
-        int reverse = expected == DatatypeConstants.LESSER ? DatatypeConstants.GREATER : expected;
+        int reverse;
+        if (expected == DatatypeConstants.LESSER) {
+            reverse = DatatypeConstants.GREATER;
+        } else if (expected == DatatypeConstants.GREATER) {
+            reverse = DatatypeConstants.LESSER;
+        } else {
+            reverse = expected;
+        }
         assertEquals(right + " compared to " + left, reverse, rhs.compare(lhs));
     }
 }

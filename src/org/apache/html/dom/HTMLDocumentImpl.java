@@ -159,29 +159,6 @@ public class HTMLDocumentImpl
         {
             if ( html instanceof HTMLHtmlElement )
             {
-                // REVISIT: [Q] Why is this code even here? In fact, the
-                //          original code is in error because it will
-                //          try to move ALL nodes to be children of the
-                //          HTML tag. This is not the intended behavior
-                //          for comments and processing instructions
-                //          outside the root element; it will throw a
-                //          hierarchy request error exception for doctype
-                //          nodes; *and* this code shouldn't even be
-                //          needed because the parser should never build
-                //          a document that contains more than a single
-                //          root element, anyway! -Ac
-                /***
-                synchronized ( html )
-                {
-                    child = getFirstChild();
-                    while ( child != null && child != html )
-                    {
-                        next = child.getNextSibling();
-                        html.appendChild( child );
-                        child = next;
-                    }
-                }
-                /***/
                 return (HTMLElement) html;
             }
             html = html.getNextSibling();
@@ -516,16 +493,6 @@ public class HTMLDocumentImpl
             }
             catch ( Exception except )
             {
-                /*
-                Throwable thrw;
-
-                if ( except instanceof java.lang.reflect.InvocationTargetException )
-                    thrw = ( (java.lang.reflect.InvocationTargetException) except ).getTargetException();
-                else
-                    thrw = except;
-                System.out.println( "Exception " + thrw.getClass().getName() );
-                System.out.println( thrw.getMessage() );
-                */
                 throw new IllegalStateException( "HTM15 Tag '" + tagName + "' associated with an Element class that failed to construct.\n" + tagName);
             }
         }

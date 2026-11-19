@@ -16,12 +16,9 @@
  */
 package org.apache.xerces.dom;
 
-import java.util.Hashtable;
-
 /** Internal class LCount tracks the number of listeners registered
-    for a given event name within a document. This allows the document
-    to avoid generating, or to discard, events for which no listeners
-    are registered.
+    for one event name. This allows a document to avoid generating, or
+    to discard, events for which no listeners are registered.
 */
 /**
  * @xerces.internal
@@ -30,18 +27,9 @@ import java.util.Hashtable;
  */
 class LCount 
 { 
-    private final Hashtable<String, LCount> counts = new Hashtable<>();
-    private int captures=0;
+    private int captures = 0;
     private int bubbles = 0;
     private int total = 0;
-
-    LCount lookup(String evtName)
-    {
-        LCount lc=counts.get(evtName);
-        if(lc==null)
-            counts.put(evtName,(lc=new LCount()));
-        return lc;	        
-    }
 
     int getCaptures()
     {
@@ -58,27 +46,25 @@ class LCount
         return total;
     }
 
-    void add(String evtName, boolean useCapture)
+    void add(boolean useCapture)
     {
-        LCount lc = lookup(evtName);
         if (useCapture) {
-            ++lc.captures;
+            ++captures;
         }
         else {
-            ++lc.bubbles;
+            ++bubbles;
         }
-        ++lc.total;
+        ++total;
     }
 
-    void remove(String evtName, boolean useCapture)
+    void remove(boolean useCapture)
     {
-        LCount lc = lookup(evtName);
         if (useCapture) {
-            --lc.captures;
+            --captures;
         }
         else {
-            --lc.bubbles;
+            --bubbles;
         }
-        --lc.total;
+        --total;
     }
 } // class LCount

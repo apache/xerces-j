@@ -46,8 +46,10 @@ class NodeListCache implements Serializable {
     /** Owner of this cache */
     ParentNode fOwner;
 
-    /** Pointer to the next object on the list,
-        only meaningful when actully stored in the free list. */
+    /** Whether the document's pool can reuse this cache. */
+    transient boolean inFreeList;
+
+    /** Pointer to the next object in the free list. */
     NodeListCache next;
 
     NodeListCache(ParentNode owner) {

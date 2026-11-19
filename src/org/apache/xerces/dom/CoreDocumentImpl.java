@@ -2382,7 +2382,9 @@ extends ParentNode implements Document  {
             return new NodeListCache(owner);
         }
         NodeListCache c = fFreeNLCache;
-        fFreeNLCache = fFreeNLCache.next;
+        fFreeNLCache = c.next;
+        c.next = null;
+        c.inFreeList = false;
         c.fChild = null;
         c.fChildIndex = -1;
         c.fLength = -1;
@@ -2391,7 +2393,6 @@ extends ParentNode implements Document  {
             c.fOwner.fNodeListCache = null;
         }
         c.fOwner = owner;
-        // c.next = null; not necessary, except for confused people...
         return c;
     }
 
@@ -2400,8 +2401,11 @@ extends ParentNode implements Document  {
      * Note: The owner node can keep using it until we reuse it
      */
     void freeNodeListCache(NodeListCache c) {
-        c.next = fFreeNLCache;
-        fFreeNLCache = c;
+        if (!c.inFreeList) {
+            c.next = fFreeNLCache;
+            c.inFreeList = true;
+            fFreeNLCache = c;
+        }
     }
 
 

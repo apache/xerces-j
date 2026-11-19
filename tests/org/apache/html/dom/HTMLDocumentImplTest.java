@@ -34,7 +34,9 @@ public class HTMLDocumentImplTest extends TestCase {
 
         Element html = document.getDocumentElement();
 
+        assertEquals(2, document.getChildNodes().getLength());
         assertSame(doctype, document.getFirstChild());
+        assertSame(doctype, document.getDoctype());
         assertSame(document, doctype.getParentNode());
         assertSame(html, doctype.getNextSibling());
         assertSame(namespacedHtml, html.getFirstChild());

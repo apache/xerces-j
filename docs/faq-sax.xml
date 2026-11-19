@@ -62,7 +62,7 @@ catch (IOException e) {
   <q>Why does the SAX parser lose some character data or why is the data split 
   into several chunks?</q>
   <a>
-  <p>If you read the <jump href='http://www.saxproject.org/apidoc/org/xml/sax/ContentHandler.html#characters(char[],%20int,%20int)'>SAX</jump> 
+  <p>If you read the <jump href='https://www.saxproject.org/apidoc/org/xml/sax/ContentHandler.html#characters(char[],%20int,%20int)'>SAX</jump> 
   documentation, you will find that SAX may deliver contiguous text as multiple calls to 
 <code>characters</code>, for reasons having to do with parser efficiency and input 
 buffering. It is the programmer's responsibility to deal with that 
@@ -81,7 +81,7 @@ event.
     <q>Why doesn't the SAX parser report ignorable whitespace for XML Schemas?</q>
     <a>
       <p>SAX is very clear that ignorableWhitespace is only called for
-         <jump href="http://www.w3.org/TR/2006/REC-xml-20060816/#sec-white-space">
+         <jump href="https://www.w3.org/TR/2006/REC-xml-20060816/#sec-white-space">
          element content whitespace</jump>, which is defined in the context of a DTD.
          The result of schema validation is the Post-Schema-Validation Infoset (PSVI). 
          Schema processors augment the base Infoset by adding new properties to 

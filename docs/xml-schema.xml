@@ -21,12 +21,12 @@
         <p>This package contains the implementations of the W3C XML 
         Schema 1.0 and 1.1 Languages, that are recommendation of the Worldwide Web Consortium.
         The XML Schema 1.0 Language is available in three parts:  
-        <jump href="http://www.w3.org/TR/XMLSchema-0">XML Schema:  Primer</jump>  and
-        <jump href="http://www.w3.org/TR/XMLSchema-1">XML Schema:  Structures</jump>  and
-        <jump href="http://www.w3.org/TR/XMLSchema-2">XML Schema:  Datatypes</jump>.        
+        <jump href="https://www.w3.org/TR/XMLSchema-0">XML Schema:  Primer</jump>  and
+        <jump href="https://www.w3.org/TR/XMLSchema-1">XML Schema:  Structures</jump>  and
+        <jump href="https://www.w3.org/TR/XMLSchema-2">XML Schema:  Datatypes</jump>.        
         The XML Schema 1.1 Language is available in two parts:
-        <jump href='http://www.w3.org/TR/xmlschema11-1/'>Structures</jump> and
-        <jump href='http://www.w3.org/TR/xmlschema11-2/'>Datatypes</jump>.        
+        <jump href='https://www.w3.org/TR/xmlschema11-1/'>Structures</jump> and
+        <jump href='https://www.w3.org/TR/xmlschema11-2/'>Datatypes</jump>.        
         In this document we discuss our interpretation of the
         specifications where it seems to us particularly likely that
         others might arrive at a different interpretation.

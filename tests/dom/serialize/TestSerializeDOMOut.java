@@ -17,14 +17,16 @@
 
 package dom.serialize;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
-import org.apache.xerces.dom.DocumentImpl;
-import org.apache.xerces.parsers.DOMParser;
-import org.w3c.dom.Document;
+import junit.framework.TestCase;
 
-import dom.Writer;
+import org.apache.xerces.dom.DocumentImpl;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 
 /**
@@ -39,7 +41,7 @@ import dom.Writer;
  */
 
 
-public class TestSerializeDOMOut
+public class TestSerializeDOMOut extends TestCase
 {          
 
     public TestSerializeDOMOut(){
@@ -63,62 +65,30 @@ public class TestSerializeDOMOut
         }
     }
 
+    public void testSerializeRoundTrip() throws Exception {
+        DocumentImpl doc = new DocumentImpl();
+        Element root = doc.createElement("root");
+        doc.appendChild(root);
+        root.setAttribute("attr", "value");
+        Text text = doc.createTextNode("hello");
+        root.appendChild(text);
 
-    public static void main (String[] argv) 
-    { 
-
-        if ( argv.length != 1 ) {
-            System.out.println("Error - Usage: java TestOut yourFile.xml" );
-            System.exit(1);
-        }
-
-        String    xmlFilename = argv[0];
-
-
+        File temp = File.createTempFile("xerces-serialize", ".ser");
+        temp.deleteOnExit();
         try {
-            DOMParser parser     = new DOMParser();
-
-            parser.parse( xmlFilename ); 
-
-            DocumentImpl doc     = (DocumentImpl) parser.getDocument();
-
-            int indexOfextension = xmlFilename.indexOf("." );
-
-
-
-            String nameOfSerializedFile = null;
-
-            if ( indexOfextension == -1 ) {
-                nameOfSerializedFile = xmlFilename +".ser" ;
-            } else {
-                nameOfSerializedFile = 
-                xmlFilename.substring(0,indexOfextension) + ".ser";
-            }
-
-            System.out.println( "Writing Serialize DOM  to file = " + nameOfSerializedFile ); 
-
-
-            FileOutputStream fileOut =  new FileOutputStream( nameOfSerializedFile );
-
-
-            TestSerializeDOMOut  tstOut = new TestSerializeDOMOut();
-
-            tstOut.serializeDOM( doc, nameOfSerializedFile );
-
-
-            System.out.println( "Reading Serialize DOM from " + nameOfSerializedFile );
-
-
-            TestSerializeDOMIn    tstIn  = new TestSerializeDOMIn();
-            doc           = tstIn.deserializeDOM( nameOfSerializedFile );
-
-            Writer prettyWriter = new Writer( false );
-            prettyWriter.setOutput(System.out, "UTF8");
-            System.out.println( "Here is the whole Document" );
-            prettyWriter.write(  doc.getDocumentElement() );
-        } catch ( Exception ex ){
-            ex.printStackTrace();
+            TestSerializeDOMOut tstOut = new TestSerializeDOMOut();
+            tstOut.serializeDOM(doc, temp.getAbsolutePath());
+            TestSerializeDOMIn tstIn = new TestSerializeDOMIn();
+            DocumentImpl result = tstIn.deserializeDOM(temp.getAbsolutePath());
+            assertNotNull("Result should not be null", result);
+            Element resultRoot = result.getDocumentElement();
+            assertNotNull("Root element should not be null", resultRoot);
+            assertEquals("root", resultRoot.getNodeName());
+            assertEquals("value", resultRoot.getAttribute("attr"));
+            assertEquals("hello", resultRoot.getFirstChild().getNodeValue());
+        } finally {
+            temp.delete();
         }
-    } 
+    }
 }
 

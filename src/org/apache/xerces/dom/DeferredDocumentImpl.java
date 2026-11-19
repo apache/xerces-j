@@ -2057,13 +2057,7 @@ public class DeferredDocumentImpl
                                element+')');
         }
 
-        // create hashtable
-        if (identifiers == null) {
-            identifiers = new java.util.Hashtable();
-        }
-
-        // save ID and its associated element
-        identifiers.put(idName, element);
+        putIdentifierWithoutSync(idName, element);
 
     } // putIdentifier0(String,Element)
 

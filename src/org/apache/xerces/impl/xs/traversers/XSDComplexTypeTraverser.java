@@ -1352,7 +1352,6 @@ class XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
     } // end of traverseComplexContent
     
     // This method merges attribute uses from the base, into the derived set.
-    // The first duplicate attribute, if any, is returned.
     // LM: may want to merge with attributeGroup processing.
     private void mergeAttributes(XSAttributeGroupDecl fromAttrGrp,
             XSAttributeGroupDecl toAttrGrp,

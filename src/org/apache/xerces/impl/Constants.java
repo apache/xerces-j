@@ -298,7 +298,7 @@ public final class Constants {
     public static final String XINCLUDE_FIXUP_BASE_URIS_FEATURE = "xinclude/fixup-base-uris";
     
     /** XInclude fixup language feature ("xinclude/fixup-language"). */
-    public static final String XINCLUDE_FIXUP_LANGUAGE_FEATURE = "xinclude/fixup-language";
+    public static final String XINCLUDE_FIXUP_LANGUAGE_FEATURE = "xinclude/fixup-language";    
     
     /**
      * Feature to ignore xsi:type attributes on elements during validation,

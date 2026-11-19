@@ -480,7 +480,7 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         setProperty(ENTITY_RESOLVER, new DOMEntityResolverWrapper(resourceResolver));
     }
     
-    public LSResourceResolver getResourceResolver() {
+    LSResourceResolver getResourceResolver() {
         return fResourceResolver;
     }
     

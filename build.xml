@@ -628,7 +628,7 @@ Authors:
         <fileset
             dir="${tools.dir}"  
             includes="**/*.txt, **/*.html, **/*.bat, **/*.jar, **/*.zip, **/*.opt"
-            excludes="**/CVS*, **/.#*, **/*.class"
+            excludes="**/CVS*, **/.#*, **/*.class, **/icu4j*"
         />
     </copy>
 
@@ -953,6 +953,12 @@ Authors:
           classname="dom.dom3.Test"
           failOnError="yes">
         <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${build.dir}/classes"/>
+    </java>
+    <echo message="Running idc.AllTests ..." />
+    <java fork="yes"
+          classname="idc.AllTests"
+          failOnError="yes">
+        <jvmarg value="-Xbootclasspath/p:${tools.dir}/${jar.apis}${path.separator}${tools.dir}/${jar.resolver}${path.separator}${tools.dir}/${jar.serializer}${path.separator}${tools.dir}/${jar.junit}${path.separator}${build.dir}/classes${path.separator}${build.dir}/tests"/>
     </java>    
   </target>
 

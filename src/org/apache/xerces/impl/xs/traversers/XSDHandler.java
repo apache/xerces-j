@@ -580,6 +580,7 @@ public class XSDHandler {
         SchemaGrammar grammar = null;
         String schemaNamespace  = null;
         short referType = desc.getContextType();
+
         // if loading using JAXP schemaSource property, or using grammar caching loadGrammar
         // the desc.targetNamespace is always null.
         // Therefore we should not attempt to find out if
@@ -995,7 +996,7 @@ public class XSDHandler {
             sg = new SchemaGrammar(currSchemaInfo.fTargetNamespace, desc.makeClone(), fSymbolTable, fSchemaVersion);
             fGrammarBucket.putGrammar(sg);
         }
-        
+
         // store the document and its location
         // REVISIT: don't expose the DOM tree
         sg.addDocument(null, (String)fDoc2SystemId.get(currSchemaInfo.fSchemaElement));
@@ -1084,7 +1085,7 @@ public class XSDHandler {
                 else if (!ins.contains(schemaNamespace)){
                     ins.addElement(schemaNamespace);
                 }
-                
+
                 fSchemaGrammarDescription.reset();
                 fSchemaGrammarDescription.setContextType(XSDDescription.CONTEXT_IMPORT);
                 fSchemaGrammarDescription.setBaseSystemId(doc2SystemId(schemaRoot));
@@ -1271,7 +1272,7 @@ public class XSDHandler {
             else {
                	newSchemaInfo = constructTrees(newSchemaRoot, schemaHint, fSchemaGrammarDescription, importCollision);
             }
-            
+
             if (localName.equals(SchemaSymbols.ELT_REDEFINE) &&
                     newSchemaInfo != null) {
                 // must record which schema we're redefining so that we can
@@ -1876,10 +1877,11 @@ public class XSDHandler {
             int declType,
             QName declToTraverse,
             Element elmNode) {
-        
+
         if (DEBUG_NODE_POOL) {
             System.out.println("TRAVERSE_GL: "+declToTraverse.toString());
         }
+
         // from the schema spec, all built-in types are present in all schemas,
         // so if the requested component is a type, and could be found in the
         // default schema grammar, we should return that type.
@@ -3732,7 +3734,7 @@ public class XSDHandler {
         fHiddenNodes.clear();
         fLastSchemaWasDuplicate = false;
     }
-    
+
     // before traversing a schema's parse tree, need to reset all traversers and
     // clear all registries
     void prepareForTraverse() {
@@ -4115,7 +4117,7 @@ public class XSDHandler {
         fParent[fLocalElemStackPos] = parent;
         fLocalElemNamespaceContext[fLocalElemStackPos++] = schemaDoc.fNamespaceSupport.getEffectiveLocalContext();
     } // end fillInLocalElemInfo(...)
-    
+
     /** This method makes sure that
      * if this component is being redefined that it lives in the
      * right schema.  It then renames the component correctly.  If it

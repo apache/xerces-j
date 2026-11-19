@@ -448,17 +448,17 @@ XSLoader, DOMConfiguration {
             Object state) throws XMLConfigurationException {                   
         fSettingsChanged = true;
         fLoaderConfig.setProperty(propertyId, state);    
-        if(propertyId.equals( JAXP_SCHEMA_SOURCE)) {
+        if (propertyId.equals(JAXP_SCHEMA_SOURCE)) {
             fJAXPSource = state;
             fJAXPProcessed = false;
         }  
-        else if(propertyId.equals( XMLGRAMMAR_POOL)) {
+        else if (propertyId.equals(XMLGRAMMAR_POOL)) {
             fGrammarPool = (XMLGrammarPool)state;
         } 
-        else if (propertyId.equals(SCHEMA_LOCATION)){
+        else if (propertyId.equals(SCHEMA_LOCATION)) {
             fExternalSchemas = (String)state;
         }
-        else if (propertyId.equals(SCHEMA_NONS_LOCATION)){
+        else if (propertyId.equals(SCHEMA_NONS_LOCATION)) {
             fExternalNoNSSchema = (String) state;
         }
         else if (propertyId.equals(LOCALE)) {
@@ -467,7 +467,7 @@ XSLoader, DOMConfiguration {
         else if (propertyId.equals(ENTITY_RESOLVER)){
             fEntityManager.setProperty(ENTITY_RESOLVER, state);
         }
-        else if (propertyId.equals(ERROR_REPORTER)){
+        else if (propertyId.equals(ERROR_REPORTER)) {
             fErrorReporter = (XMLErrorReporter)state;
             if (fErrorReporter.getMessageFormatter(XSMessageFormatter.SCHEMA_DOMAIN) == null) {
                 fErrorReporter.putMessageFormatter(XSMessageFormatter.SCHEMA_DOMAIN, new XSMessageFormatter());

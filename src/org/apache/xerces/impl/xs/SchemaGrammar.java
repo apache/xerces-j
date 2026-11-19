@@ -1563,7 +1563,7 @@ public class SchemaGrammar implements XSGrammar, XSNamespaceItem {
                 table = this.fGlobalIDConstraintDecls;
                 break;
             }
-            
+
             // for complex/simple types, create a special implementation,
             // which take specific types out of the hash table
             if (objectType == XSTypeDefinition.COMPLEX_TYPE ||

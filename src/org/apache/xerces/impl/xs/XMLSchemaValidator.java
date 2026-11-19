@@ -786,6 +786,7 @@ public abstract class XMLSchemaValidator implements XSElementDeclHelper, FieldAc
         SchemaGrammar grammar = null;
         //get the grammar from local pool...
         grammar = fGrammarBucket.getGrammar(namespace);
+        
         if (grammar == null) {
             fXSDDescription.setNamespace(namespace);
             if (fGrammarPool != null) {

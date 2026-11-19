@@ -476,10 +476,11 @@ catch (SAXException e) {
    <default value='false'/>
    <since value='&ParserName; 2.3.0'/>
    <note>
-    On a JAXP Validator, this feature applies to StreamSource and to SAXSource
-    when the validator creates the XMLReader. For a caller-supplied XMLReader
-    or an input already parsed into DOM or StAX, configure the parser or reader
-    that supplies the input.
+    A JAXP Validator applies this feature to StreamSource and SAXSource parsers.
+    A supplied SAX XMLReader must support the feature. For DOMSource, the validator
+    checks the document or the source node's owner document. For StAXSource, it
+    rejects a DTD event if the reader delivers one during validation. Configure
+    the input parser separately to prevent DTD processing before validation.
    </note>
   </feature>
 

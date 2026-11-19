@@ -19,16 +19,26 @@ package jaxp;
 
 import java.io.StringReader;
 
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.stax.StAXSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Validator;
 
 import junit.framework.TestCase;
 
+import org.apache.xerces.dom.DOMImplementationImpl;
 import org.apache.xerces.jaxp.validation.XMLSchemaFactory;
+import org.apache.xerces.parsers.SAXParser;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLFilterImpl;
 
 public class ValidatorDoctypeTest extends TestCase {
     private static final String DISALLOW_DOCTYPE = "http://apache.org/xml/features/disallow-doctype-decl";
@@ -67,6 +77,64 @@ public class ValidatorDoctypeTest extends TestCase {
 
         validator.reset();
         validator.validate(saxSource(DOCUMENT_WITH_DOCTYPE));
+    }
+
+    public void testSuppliedSaxReaderRejectsDoctypeAndRestoresSetting() throws Exception {
+        Validator validator = newValidator();
+        validator.setFeature(DISALLOW_DOCTYPE, true);
+        XMLReader reader = new SAXParser();
+        reader.setFeature(DISALLOW_DOCTYPE, false);
+
+        assertDoctypeRejected(validator, new SAXSource(reader, new InputSource(new StringReader(DOCUMENT_WITH_DOCTYPE))));
+        assertFalse(reader.getFeature(DISALLOW_DOCTYPE));
+
+        reader.setFeature(DISALLOW_DOCTYPE, true);
+        validator.validate(new SAXSource(reader, new InputSource(new StringReader(DOCUMENT))));
+        assertTrue(reader.getFeature(DISALLOW_DOCTYPE));
+    }
+
+    public void testUnsupportedSaxReaderFailsBeforeParsing() throws Exception {
+        Validator validator = newValidator();
+        validator.setFeature(DISALLOW_DOCTYPE, true);
+        XMLReader reader = new XMLFilterImpl() {
+            @Override
+            public void parse(InputSource input) {
+                fail("Reader must support DOCTYPE rejection before parsing");
+            }
+        };
+        try {
+            validator.validate(new SAXSource(reader, new InputSource(new StringReader(DOCUMENT))));
+            fail("Expected an exception for an unsupported SAX reader");
+        }
+        catch (SAXNotRecognizedException expected) {
+            // The reader does not support the feature.
+        }
+    }
+
+    public void testDomSourceRejectsDoctypeOnDocumentAndElement() throws Exception {
+        Validator validator = newValidator();
+        DOMImplementation implementation = DOMImplementationImpl.getDOMImplementation();
+        Document document = implementation.createDocument(null, "root",
+                implementation.createDocumentType("root", null, null));
+        validator.validate(new DOMSource(document));
+
+        validator.setFeature(DISALLOW_DOCTYPE, true);
+        assertDoctypeRejected(validator, new DOMSource(document));
+        assertDoctypeRejected(validator, new DOMSource(document.getDocumentElement()));
+        validator.validate(new DOMSource(implementation.createDocument(null, "root", null)));
+    }
+
+    public void testStaxSourceRejectsDeliveredDtdEvents() throws Exception {
+        Validator validator = newValidator();
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        validator.validate(new StAXSource(factory.createXMLStreamReader(new StringReader(DOCUMENT_WITH_DOCTYPE))));
+        validator.validate(new StAXSource(factory.createXMLEventReader(new StringReader(DOCUMENT_WITH_DOCTYPE))));
+
+        validator.setFeature(DISALLOW_DOCTYPE, true);
+        assertDoctypeRejected(validator, new StAXSource(factory.createXMLStreamReader(new StringReader(DOCUMENT_WITH_DOCTYPE))));
+        assertDoctypeRejected(validator, new StAXSource(factory.createXMLEventReader(new StringReader(DOCUMENT_WITH_DOCTYPE))));
+        validator.validate(new StAXSource(factory.createXMLStreamReader(new StringReader(DOCUMENT))));
+        validator.validate(new StAXSource(factory.createXMLEventReader(new StringReader(DOCUMENT))));
     }
 
     private static Validator newValidator() throws Exception {

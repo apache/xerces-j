@@ -17,7 +17,6 @@
 package dom.range;
 
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.xerces.dom.DocumentImpl;
 import org.w3c.dom.Element;
@@ -33,14 +32,7 @@ import org.w3c.dom.ranges.Range;
  * 
  * @version $Id$
  */
-public class TestCompare extends TestCase 
-{
-    /**
-     * Creates an instance of the test
-     */
-    public TestCompare(String name) {
-            super(name);
-    }
+public class TestCompare extends TestCase {
 
     /**
      * Builds a set of ranges that correspond to the range example from
@@ -216,20 +208,5 @@ public class TestCompare extends TestCase
     {
         doTestCompare( Range.END_TO_END, results_END_TO_END );
     }
-
-    /**
-     * Returns the set of all tests in this class
-     */
-    public static junit.framework.Test suite() {
-        return new TestSuite( TestCompare.class );
-    }
-
-    /**
-     * Utility for invoking the class from the command line.
-     */
-    public static void main (String[] args) {
-            junit.textui.TestRunner.run (suite());
-    }
-
 }
 

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <xs:element name="X">
+       <xs:simpleType>
+          <xs:restriction base="INT_AND_DATE">
+             <xs:enumeration value="10 2005-10-07"/>
+             <xs:enumeration value="3 2007-10-07"/>
+          </xs:restriction>
+       </xs:simpleType>
+    </xs:element>
+    
+    <xs:element name="Y">
+       <xs:simpleType>
+          <xs:restriction base="INT_AND_DATE">
+            <xs:enumeration value="10 2005-10-07"/>
+            <xs:enumeration value="7 2007-10-07"/>
+          </xs:restriction>
+       </xs:simpleType>
+    </xs:element>
+    
+    <xs:simpleType name="INT_AND_DATE">
+       <xs:list itemType="TYPE1"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="TYPE1">
+       <xs:union memberTypes="INT_TYPE xs:date"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="INT_TYPE">
+       <xs:restriction base="xs:integer">
+          <xs:assertion test="$value mod 2 = 0"/>
+       </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

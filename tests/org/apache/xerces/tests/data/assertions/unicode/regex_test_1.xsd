@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="X">
+       <xs:complexType>
+          <xs:sequence>
+             <xs:element name="a" type="xs:string" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:assert test="matches(a[1], '\p{Ll}')"/>
+          <xs:assert test="matches(a[1], '\p{IsBasicLatin}')"/>          
+          <xs:assert test="matches(a[1], '\P{IsLatin-1Supplement}')"/>
+          <xs:assert test="matches(a[1], '\P{IsArabic}')"/>
+          <xs:assert test="matches(a[2], '\p{IsLatin-1Supplement}')"/>
+          <xs:assert test="matches(a[3], '\p{Lu}')"/>
+          <xs:assert test="matches(a[4], '\p{L}')"/>
+       </xs:complexType>
+    </xs:element>
+
+</xs:schema>

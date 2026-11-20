@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <xs:element name="X">
+       <xs:simpleType>
+          <xs:restriction base="DATE_TYPE">
+             <xs:enumeration value="8767-10-17 2005-10-07"/>
+             <xs:enumeration value="8767-10-17 2007-10-07"/>
+          </xs:restriction>
+       </xs:simpleType>
+    </xs:element>
+    
+    <xs:element name="Y">
+       <xs:simpleType>
+          <xs:restriction base="DATE_TYPE">
+            <xs:enumeration value="8767-10-17 2005-10-07"/>
+            <xs:enumeration value="8767-10-17 2007-10-07"/>
+          </xs:restriction>
+       </xs:simpleType>
+    </xs:element>
+    
+    <xs:simpleType name="DATE_TYPE">
+       <xs:list itemType="TYPE1"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="TYPE1">
+       <xs:union memberTypes="DATE_TYPE1 DATE_TYPE2"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="DATE_TYPE1">
+       <xs:restriction base="xs:date">
+          <xs:assertion test="$value lt current-date()"/>
+       </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="DATE_TYPE2">
+       <xs:restriction base="xs:date">
+          <xs:assertion test="$value lt current-date()"/>
+       </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

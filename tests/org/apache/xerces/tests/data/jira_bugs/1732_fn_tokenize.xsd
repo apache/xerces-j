@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="X">
+       <xs:complexType>
+          <xs:assert test="deep-equal(tokenize('abracadabra', '(ab)|(a)'), ('', 'r', 'c', 'd', 'r', ''))"/>
+          <xs:assert test="deep-equal(tokenize('abracadabra', '(ab)|
+                                                                (a)', 'x'), ('', 'r', 'c', 'd', 'r', ''))"/>
+          <xs:assert test="deep-equal(tokenize('abracadabra', '(Ab)|
+                                                                (A)', 'xi'), ('', 'r', 'c', 'd', 'r', ''))"/>                                                                                                                                          
+          <xs:assert test="deep-equal(tokenize('The cat sat on the mat', '\s+'), ('The', 'cat', 'sat', 'on', 'the', 'mat'))"/>
+          <xs:assert test="deep-equal(tokenize('1, 15, 24, 50', ',\s*'), ('1', '15', '24', '50'))"/>
+          <xs:assert test="deep-equal(tokenize('1,15,,24,50,', ','), ('1','15','','24','50',''))"/>          
+          <xs:assert test="deep-equal(tokenize('Some unparsed &lt;br&gt; HTML &lt;BR&gt; text', '\s*&lt;br&gt;\s*', 'i'), ('Some unparsed', 'HTML', 'text'))"/>
+       </xs:complexType>
+    </xs:element>
+
+</xs:schema>

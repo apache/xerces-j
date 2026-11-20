@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <xs:element name="X">
+       <xs:simpleType>
+          <xs:list itemType="DATE_TYPE"/>
+       </xs:simpleType>
+    </xs:element>
+    
+    <xs:simpleType name="DATE_TYPE">
+       <xs:union memberTypes="DATE_TYPE1 DATE_TYPE2"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="DATE_TYPE1">
+       <xs:restriction base="xs:date">
+         <xs:assertion test="$value lt current-date()"/>
+       </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="DATE_TYPE2">
+      <xs:restriction base="xs:date">
+         <xs:assertion test="$value gt current-date()"/>
+      </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

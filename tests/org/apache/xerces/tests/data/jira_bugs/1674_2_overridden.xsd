@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://test1/"
+           elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+   <xs:complexType name="Y2">
+      <xs:sequence>
+         <xs:element name="y" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+   
+   <xs:simpleType name="y_INT">
+      <xs:restriction base="xs:integer">
+         <xs:maxInclusive value="1000"/>
+      </xs:restriction>
+   </xs:simpleType>
+           
+</xs:schema> 

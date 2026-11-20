@@ -17,12 +17,15 @@
 
 package org.apache.xerces.dom;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -646,6 +649,7 @@ public class DocumentImpl
         String type;
         EventListener listener;
         boolean useCapture;
+        transient boolean removed;
 	    
         /** NON-DOM INTERNAL: Constructor for Listener list Entry 
          * @param type event name (NOT event group!) to listen for.
@@ -693,19 +697,20 @@ public class DocumentImpl
         }
         nodeListeners.addElement(new LEntry(type, listener, useCapture));
 	    
-        // Record active listener
-        LCount lc = LCount.lookup(type);
+        countEventListener(type, useCapture);
+    } // addEventListener(NodeImpl,String,EventListener,boolean) :void
+
+    private void countEventListener(String type, boolean useCapture) {
+        LCount count = LCount.lookup(type);
         if (useCapture) {
-            ++lc.captures;
-            ++lc.total;
+            ++count.captures;
         }
         else {
-            ++lc.bubbles;
-            ++lc.total;
+            ++count.bubbles;
         }
+        ++count.total;
+    }
 
-    } // addEventListener(NodeImpl,String,EventListener,boolean) :void
-	
     /**
      * Introduced in DOM Level 2. <p> Deregister an event listener previously
      * registered with this Node.  A listener must be independently removed
@@ -735,6 +740,7 @@ public class DocumentImpl
             LEntry le = (LEntry) nodeListeners.elementAt(i);
             if (le.useCapture == useCapture && le.listener == listener && 
                 le.type.equals(type)) {
+                le.removed = true;
                 nodeListeners.removeElementAt(i);
                 // Storage management: Discard empty listener lists
                 if (nodeListeners.size() == 0)
@@ -761,7 +767,12 @@ public class DocumentImpl
         if (nodeListeners == null) {
             return;
         }
-        setEventListeners(tgt, (Vector<LEntry>) nodeListeners.clone());
+        Vector<LEntry> copies = new Vector<>(nodeListeners.size());
+        for (LEntry entry : nodeListeners) {
+            copies.add(new LEntry(entry.type, entry.listener, entry.useCapture));
+            countEventListener(entry.type, entry.useCapture);
+        }
+        setEventListeners(tgt, copies);
     }
 
     /**
@@ -879,7 +890,7 @@ public class DocumentImpl
                     for (int i = 0; i < nlsize; i++) {
                         LEntry le = (LEntry) nl.elementAt(i);
                         if (le.useCapture && le.type.equals(evt.type) &&
-                            nodeListeners.contains(le)) {
+                            !le.removed) {
                             try {
                                 le.listener.handleEvent(evt);
                             }
@@ -908,7 +919,7 @@ public class DocumentImpl
                 for (int i = 0; i < nlsize; i++) {
                     LEntry le = (LEntry) nl.elementAt(i);
                     if (!le.useCapture && le.type.equals(evt.type) &&
-                        nodeListeners.contains(le)) {
+                        !le.removed) {
                         try {
                             le.listener.handleEvent(evt);
                         }
@@ -942,7 +953,7 @@ public class DocumentImpl
                         for (int i = 0; i < nlsize; i++) {
                             LEntry le = (LEntry) nl.elementAt(i);
                             if (!le.useCapture && le.type.equals(evt.type) &&
-                                nodeListeners.contains(le)) {
+                                !le.removed) {
                                 try {
                                     le.listener.handleEvent(evt);
                                 }
@@ -1508,6 +1519,23 @@ public class DocumentImpl
      */
     void renamedElement(Element oldEl, Element newEl) {
 	// REVISIT: To be implemented!!!
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        if (eventListeners != null) {
+            // Older streams can share a listener entry between an original node and its replacement.
+            IdentityHashMap<LEntry, Boolean> seen = new IdentityHashMap<>();
+            for (Object value : eventListeners.values()) {
+                Vector<LEntry> listeners = (Vector<LEntry>) value;
+                for (int i = 0; i < listeners.size(); i++) {
+                    LEntry entry = listeners.get(i);
+                    if (seen.put(entry, Boolean.TRUE) != null) {
+                        listeners.set(i, new LEntry(entry.type, entry.listener, entry.useCapture));
+                    }
+                }
+            }
+        }
     }
 
 } // class DocumentImpl

@@ -147,6 +147,10 @@ public class XMLDTDValidator
     protected static final String VALIDATION_MANAGER =
         Constants.XERCES_PROPERTY_PREFIX + Constants.VALIDATION_MANAGER_PROPERTY;
 
+    /** Property identifier: entity manager. */
+    protected static final String ENTITY_MANAGER =
+        Constants.XERCES_PROPERTY_PREFIX + Constants.ENTITY_MANAGER_PROPERTY;
+
     // recognized features and properties
 
     /** Recognized features. */
@@ -171,11 +175,13 @@ public class XMLDTDValidator
         ERROR_REPORTER,
         GRAMMAR_POOL,
         DATATYPE_VALIDATOR_FACTORY,
-        VALIDATION_MANAGER
+        VALIDATION_MANAGER,
+        ENTITY_MANAGER
     };
 
     /** Property defaults. */
     private static final Object[] PROPERTY_DEFAULTS = {
+        null,
         null,
         null,
         null,
@@ -197,6 +203,9 @@ public class XMLDTDValidator
 
     // updated during reset
     protected ValidationManager fValidationManager = null;
+
+    /** Entity manager. */
+    protected XMLEntityManager fEntityManager = null;
     
     // validation state
     protected final ValidationState fValidationState = new ValidationState();
@@ -493,6 +502,12 @@ public class XMLDTDValidator
         fValidationManager= (ValidationManager)componentManager.getProperty(VALIDATION_MANAGER);
         fValidationManager.addValidationState(fValidationState);      
         fValidationState.setUsingNamespaces(fNamespaces);
+        try {
+            fEntityManager = (XMLEntityManager)componentManager.getProperty(ENTITY_MANAGER);
+        }
+        catch (XMLConfigurationException e) {
+            fEntityManager = null;
+        }
         
         // get needed components
         fErrorReporter = (XMLErrorReporter)componentManager.getProperty(Constants.XERCES_PROPERTY_PREFIX+Constants.ERROR_REPORTER_PROPERTY);
@@ -745,6 +760,9 @@ public class XMLDTDValidator
             // we've found a cached one;so let's make sure not to read
             // any external subset!
             fValidationManager.setCachedDTD(true);
+            if (fEntityManager != null) {
+                fEntityManager.setEntityDecls(fDTDGrammar);
+            }
         }
         fGrammarBucket.setActiveGrammar(fDTDGrammar);
 

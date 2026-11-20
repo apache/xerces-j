@@ -17,19 +17,105 @@
 
 package dom.events;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import junit.framework.TestCase;
+import org.apache.xerces.dom.DocumentImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
 public class Test extends TestCase
 {
     EventReporter sharedReporter=new EventReporter();
     
+    public void testRemovingAndAddingListenersDuringDispatch() {
+        DocumentImpl document = new DocumentImpl();
+        Element parent = document.createElement("parent");
+        Element child = document.createElement("child");
+        document.appendChild(parent);
+        parent.appendChild(child);
+
+        List<String> calls = new ArrayList<>();
+        checkListenerMutation(document, (EventTarget) child, (EventTarget) parent, true, "capture", calls);
+        checkListenerMutation(document, (EventTarget) child, (EventTarget) child, false, "target", calls);
+        checkListenerMutation(document, (EventTarget) child, (EventTarget) parent, false, "bubble", calls);
+    }
+
+    private void checkListenerMutation(DocumentImpl document, EventTarget target, final EventTarget current,
+                                       final boolean capture, final String type, final List<String> calls) {
+        final EventListener replaced = recordingListener(calls, "replaced");
+        EventListener retained = recordingListener(calls, "retained");
+        EventListener mutator = new EventListener() {
+            public void handleEvent(Event event) {
+                calls.add("mutator");
+                current.removeEventListener(type, replaced, capture);
+                current.addEventListener(type, replaced, capture);
+            }
+        };
+        current.addEventListener(type, mutator, capture);
+        current.addEventListener(type, replaced, capture);
+        current.addEventListener(type, retained, capture);
+
+        dispatch(document, target, type);
+        assertEquals(Arrays.asList("mutator", "retained"), calls);
+        calls.clear();
+
+        current.removeEventListener(type, mutator, capture);
+        dispatch(document, target, type);
+        assertEquals(Arrays.asList("retained", "replaced"), calls);
+        calls.clear();
+        current.removeEventListener(type, retained, capture);
+        current.removeEventListener(type, replaced, capture);
+    }
+
+    public void testRemovingListenerFromRenamedNodeKeepsOriginalRegistration() {
+        DocumentImpl document = new DocumentImpl();
+        Element original = document.createElement("original");
+        final List<EventTarget> calls = new ArrayList<>();
+        EventListener listener = new EventListener() {
+            public void handleEvent(Event event) {
+                calls.add(event.getCurrentTarget());
+            }
+        };
+        String type = "rename-listener-copy";
+
+        EventTarget oldTarget = (EventTarget) original;
+        oldTarget.addEventListener(type, listener, false);
+        EventTarget newTarget = (EventTarget) document.renameNode(original, "urn:test", "renamed");
+        assertNotSame(oldTarget, newTarget);
+
+        dispatch(document, newTarget, type);
+        newTarget.removeEventListener(type, listener, false);
+        dispatch(document, oldTarget, type);
+        dispatch(document, newTarget, type);
+        assertEquals(Arrays.asList(newTarget, oldTarget), calls);
+
+        oldTarget.removeEventListener(type, listener, false);
+    }
+
+    private EventListener recordingListener(final List<String> calls, final String name) {
+        return new EventListener() {
+            public void handleEvent(Event event) {
+                calls.add(name);
+            }
+        };
+    }
+
+    private void dispatch(DocumentImpl document, EventTarget target, String type) {
+        Event event = document.createEvent("Event");
+        event.initEvent(type, true, false);
+        target.dispatchEvent(event);
+    }
+
     public void testMutationEvents()
     {
         Document doc=new org.apache.xerces.dom.DocumentImpl();

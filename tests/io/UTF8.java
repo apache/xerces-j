@@ -99,6 +99,20 @@ public class UTF8 extends TestCase {
         assertEquals(-1, reader.read(buffer, lastReadOffset, bufferSize - lastReadOffset));
     }
 
+    public void testPendingLowSurrogateAtEndOfStream() throws Exception {
+        byte[] bytes = "A\uD835\uDC37".getBytes("UTF-8");
+        try (Reader reader = new UTF8Reader(new ByteArrayInputStream(bytes))) {
+            char[] buffer = new char[4];
+            assertEquals(2, reader.read(buffer, 0, 2));
+            assertEquals('A', buffer[0]);
+            assertEquals('\uD835', buffer[1]);
+
+            assertEquals(1, reader.read(buffer, 2, 2));
+            assertEquals('\uDC37', buffer[2]);
+            assertEquals(-1, reader.read(buffer, 3, 1));
+        }
+    }
+
     private void testCharByChar(Reader reader) throws Exception {
         for (int i = 0; i < 0x0080; i++) {
             assertEquals("character 0x" + Integer.toHexString(i) + " mismatch", i, reader.read());

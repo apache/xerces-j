@@ -902,7 +902,7 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
             try {
                 versionChanged = document.getClass().getMethod("isXMLVersionChanged()", new Class[] {});
                 if (versionChanged != null) {
-                  verifyNames = ((Boolean) versionChanged.invoke(document, (Object[]) null)).booleanValue();
+                    verifyNames = ((Boolean)versionChanged.invoke(document, (Object[]) null)).booleanValue();
                 }
             } catch (Exception e) {
                 //no way to test the version...

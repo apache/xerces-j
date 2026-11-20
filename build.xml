@@ -913,6 +913,29 @@ Authors:
         <formatter type="brief" usefile="false"/>
     </junit>
 
+    <!-- XSD 1.1 tests: they need the XPath 2.0 processor and its dependencies -->
+    <junit fork="yes" forkmode="once"
+           haltonfailure="no"
+           haltonerror="no"
+           failureproperty="test.failed"
+           errorproperty="test.failed"
+           showoutput="yes">
+        <classpath>
+          <path refid="test.classpath"/>
+          <pathelement location="${tools.dir}/${jar.xpath2}"/>
+          <pathelement location="${tools.dir}/${jar.cup}"/>
+          <pathelement location="${tools.dir}/${jar.charnormalizer}"/>
+        </classpath>
+        <sysproperty key="org.apache.xerces.tests.dataDir" file="${tests.dir}/org/apache/xerces/tests/data"/>
+        <batchtest fork="yes" todir="test-reports">
+          <fileset dir="${build.tests.dir}">
+             <include name="org/apache/xerces/tests/*Tests.class"/>
+             <exclude name="org/apache/xerces/tests/AllXercesXSD11Tests.class"/>
+          </fileset>
+        </batchtest>
+        <formatter type="brief" usefile="false"/>
+    </junit>
+
     <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />

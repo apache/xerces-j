@@ -17,6 +17,7 @@
 
 package org.apache.xerces.impl.xs.traversers;
 
+import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.xs.SchemaGrammar;
 import org.apache.xerces.impl.xs.SchemaSymbols;
 import org.apache.xerces.impl.xs.XSAnnotationImpl;
@@ -25,6 +26,7 @@ import org.apache.xerces.impl.xs.XSParticleDecl;
 import org.apache.xerces.impl.xs.util.XInt;
 import org.apache.xerces.impl.xs.util.XSObjectListImpl;
 import org.apache.xerces.util.DOMUtil;
+import org.apache.xerces.xs.XSModelGroup;
 import org.apache.xerces.xs.XSObject;
 import org.apache.xerces.xs.XSObjectList;
 import org.w3c.dom.Element;
@@ -51,7 +53,7 @@ abstract class XSDAbstractParticleTraverser extends XSDAbstractTraverser {
      *   id = ID
      *   maxOccurs = 1 : 1
      *   minOccurs = (0 | 1) : 1&gt;
-     *   Content: (annotation? , element*)
+     *   Content: (annotation?, (element | any | group)*)
      * &lt;/all&gt;
      **/
     XSParticleDecl traverseAll(Element allDecl,
@@ -89,14 +91,47 @@ abstract class XSDAbstractParticleTraverser extends XSDAbstractTraverser {
             // Only elements are allowed in <all>
             if (childName.equals(SchemaSymbols.ELT_ELEMENT)) {
                 particle = fSchemaHandler.fElementTraverser.traverseLocal(child, schemaDoc, grammar, PROCESSING_ALL_EL, parent);
+                if (particle != null) {
+                    fPArray.addParticle(particle);
+                }
             }
             else {
-                Object[] args = {"all", "(annotation?, element*)", DOMUtil.getLocalName(child)};
-                reportSchemaError("s4s-elt-must-match.1", args, child);
+            	// XML Schema 1.1 - allow wildcard and group
+                if (fSchemaHandler.fSchemaVersion == Constants.SCHEMA_VERSION_1_1) {
+                    if (childName.equals(SchemaSymbols.ELT_ANY)) {
+                        particle = fSchemaHandler.fWildCardTraverser.traverseAny(child, schemaDoc, grammar);
+                        if (particle != null) {
+                            fPArray.addParticle(particle);
+                        }
+                    }
+                    else if (childName.equals(SchemaSymbols.ELT_GROUP)) {
+                        // check for the constraints on minOccurs and maxOccurs attributes of xs:group particle
+                        Object[] groupAttrValues = fAttrChecker.checkAttributes(child, false, schemaDoc);
+                        XInt  groupMinAttr = (XInt)  groupAttrValues[XSAttributeChecker.ATTIDX_MINOCCURS];
+                        XInt  groupMaxAttr = (XInt)  groupAttrValues[XSAttributeChecker.ATTIDX_MAXOCCURS];                        
+                        if (!(groupMinAttr.intValue() == 1 && groupMaxAttr.intValue() == 1)) {
+                            reportSchemaError("cos-all-limited.1.3", null, child);  
+                        }
+                        
+                        particle = fSchemaHandler.fGroupTraverser.traverseLocal(child, schemaDoc, grammar);                                                
+                        if (particle != null) {
+                            expandGroupParticleForCompositorAll(particle, child); 
+                        }
+                    }
+                    else {
+                       // in XML Schema 1.1 mode, it's an error to have anything other than xs:any or xs:group at this point.
+                       // report an error.
+                       Object[] args = {"all", "(annotation?, (element | any | group)*)", DOMUtil.getLocalName(child)};
+                       reportSchemaError("s4s-elt-must-match.1", args, child);
+                    }
+                }
+                else {
+                    // in XML Schema 1.0 mode, it's an error to have anything other than xs:element at this point.
+                    // report an error.
+                    Object[] args = {"all", "(annotation?, element*)", DOMUtil.getLocalName(child)};
+                    reportSchemaError("s4s-elt-must-match.1", args, child);
+                }
             }
-            
-            if (particle != null)
-                fPArray.addParticle(particle);
         }
         
         particle = null;
@@ -133,6 +168,38 @@ abstract class XSDAbstractParticleTraverser extends XSDAbstractTraverser {
         return particle;
     }
     
+    /*
+     * Given a particle declaration (having model-group as it's term) add all-of it's leaf descendant 
+     * particles (element and wild-card declarations) to a global particle array (fPArray), by expanding
+     * the input particle (method argument) recursively.
+     */
+    private void expandGroupParticleForCompositorAll(XSParticleDecl particle, 
+                                                     Element contextElement) {
+        
+        XSModelGroupImpl group = (XSModelGroupImpl) particle.fValue;
+        if (group.getCompositor() == XSModelGroup.COMPOSITOR_ALL) {
+            XSParticleDecl[] subParticles = group.fParticles;
+            for (int partlIdx = 0; partlIdx < group.fParticleCount; partlIdx++) {
+               short particleType = subParticles[partlIdx].fType;
+               if (particleType == XSParticleDecl.PARTICLE_ELEMENT  || 
+                   particleType == XSParticleDecl.PARTICLE_WILDCARD) {
+                     fPArray.addParticle(subParticles[partlIdx]); 
+               }
+               else {
+                   // the sub particle is a model-group. call the method recursively.
+                   expandGroupParticleForCompositorAll(subParticles[partlIdx], contextElement); 
+               }
+            }
+        }
+        else {
+            String wrongCompsName = (group.getCompositor() == XSModelGroup.COMPOSITOR_SEQUENCE) ? 
+                                     "xs:"+SchemaSymbols.ELT_SEQUENCE : "xs:"+SchemaSymbols.ELT_CHOICE;
+            // it's an error to have a non-all (xs:all) compositor within "xs:all -> xs:group"
+            reportSchemaError("cos-all-limited.2-xs11", new Object[] { wrongCompsName }, contextElement);
+        }
+        
+    } // expandGroupParticleForCompositorAll
+
     /**
      * Traverse the Sequence declaration
      *

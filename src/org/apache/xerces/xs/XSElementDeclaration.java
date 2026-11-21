@@ -44,9 +44,20 @@ public interface XSElementDeclaration extends XSTerm {
      * The complex type definition for locally scoped declarations (see {@link #getScope()}),
      * otherwise <code>null</code> if no such definition exists.
      *
+     * NOTE: deprecated for XML Schema 1.1
+     *
      * @return the enclosing complex type definition or null if no such definition exists
      */
     public XSComplexTypeDefinition getEnclosingCTDefinition();
+    
+    /**
+     * XML Schema 1.1
+     *
+     * The complex type definition or model group definition for
+     * locally scoped declarations (see  <code>scope</code>), otherwise
+     * <code>null</code> if no such definition exists.
+     */
+    public XSObject getParent();
 
     /**
      * [Value constraint]: one of <code>VC_NONE, VC_DEFAULT, VC_FIXED</code>.

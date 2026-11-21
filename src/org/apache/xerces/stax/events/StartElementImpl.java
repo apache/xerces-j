@@ -43,7 +43,7 @@ import org.apache.xerces.stax.DefaultNamespaceContext;
  * @version $Id$
  */
 public final class StartElementImpl extends ElementImpl implements StartElement {
-    
+
     private static final Comparator QNAME_COMPARATOR = new Comparator() {
         public int compare(Object o1, Object o2) {
             if (o1.equals(o2)) {

@@ -123,5 +123,10 @@ public interface XSAttributeUse extends XSObject {
      *
      * @return a sequence of annotations or an empty <code>XSObjectList</code>
      */
-    public XSObjectList getAnnotations();    
+    public XSObjectList getAnnotations();
+    
+    /**
+     * Tells whether this attribute is declared inheritable.
+     */
+    public boolean getInheritable(); 
 }

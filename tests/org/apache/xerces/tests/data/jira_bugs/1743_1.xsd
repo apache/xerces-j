@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <xs:element name="color">
+       <xs:simpleType>
+          <xs:restriction base="Color">
+             <xs:enumeration value="a"/>
+             <xs:enumeration value="b"/>
+             <xs:enumeration value="c"/>
+          </xs:restriction>
+       </xs:simpleType>
+    </xs:element>
+    
+    <xs:simpleType name="Color">
+       <xs:restriction base="xs:string">
+          <xs:assertion test="matches($value, '^(red|green|blue|yellow)$')"/>
+       </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

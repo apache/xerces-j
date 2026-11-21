@@ -17,10 +17,17 @@
 
 package org.apache.xerces.impl.xs.models;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.xerces.impl.xs.SubstitutionGroupHandler;
 import org.apache.xerces.impl.xs.XMLSchemaException;
+import org.apache.xerces.impl.xs.XSConstraints;
+import org.apache.xerces.impl.xs.XSElementDecl;
+import org.apache.xerces.impl.xs.XSElementDeclHelper;
+import org.apache.xerces.impl.xs.XSOpenContentDecl;
+import org.apache.xerces.impl.xs.XSWildcardDecl;
 import org.apache.xerces.xni.QName;
 
 /**
@@ -35,7 +42,7 @@ import org.apache.xerces.xni.QName;
  * @author Lisa Martin, IBM
  * @version $Id$
  */
-public class XSEmptyCM implements XSCMValidator {
+public class XSEmptyCM implements XSCMValidator, XS11CMRestriction.XS11CM {
 
     //
     // Constants
@@ -49,6 +56,22 @@ public class XSEmptyCM implements XSCMValidator {
     //
     // Data
     //
+    private final XSOpenContentDecl fOpenContent;
+
+    //
+    // Constructors
+    //
+  
+    // Only one instance of an XSEmptyCM with no openContent will be created.
+    public XSEmptyCM() {
+        fOpenContent = null;
+    }
+
+    // This constructor will be called when the complexType is empty but
+    // contains openContent wildcard
+    public XSEmptyCM(XSOpenContentDecl openContent) {
+        fOpenContent = openContent;
+    }
 
     //
     // XSCMValidator methods
@@ -73,12 +96,18 @@ public class XSEmptyCM implements XSCMValidator {
      * @param subGroupHandler the substitution group handler
      * @return element index corresponding to the element from the Schema grammar
      */
-    public Object oneTransition (QName elementName, int[] currentState, SubstitutionGroupHandler subGroupHandler){
+    public Object oneTransition (QName elementName, int[] currentState, SubstitutionGroupHandler subGroupHandler, XSElementDeclHelper eDeclHelper){
 
         // error state
         if (currentState[0] < 0) {
             currentState[0] = XSCMValidator.SUBSEQUENT_ERROR;
             return null;
+        }
+
+        if (fOpenContent != null) {
+            if (allowExpandedName(fOpenContent.fWildcard, elementName, subGroupHandler, eDeclHelper)) {
+                return fOpenContent;
+            }
         }
 
         currentState[0] = XSCMValidator.FIRST_ERROR;
@@ -93,7 +122,6 @@ public class XSEmptyCM implements XSCMValidator {
      * @return true if the last state was a valid final state
      */
     public boolean endContentModel (int[] currentState){
-        boolean isFinal =  false;
         int state = currentState[0];
 
         // restore content model state:
@@ -111,9 +139,10 @@ public class XSEmptyCM implements XSCMValidator {
      * check whether this content violates UPA constraint.
      *
      * @param subGroupHandler the substitution group handler
+     * @param xsConstraints the XML Schema Constraint checker
      * @return true if this content model contains other or list wildcard
      */
-    public boolean checkUniqueParticleAttribution(SubstitutionGroupHandler subGroupHandler) throws XMLSchemaException {
+    public boolean checkUniqueParticleAttribution(SubstitutionGroupHandler subGroupHandler, XSConstraints xsConstraints) throws XMLSchemaException {
         return false;
     }
 
@@ -140,5 +169,47 @@ public class XSEmptyCM implements XSCMValidator {
     
     public boolean isCompactedForUPA() {
         return false;
+    }
+    
+    public XSElementDecl nextElementTransition(int[] s, int[] sn, int[] index) {
+        return null;
+    }
+    public XSWildcardDecl nextWildcardTransition(int[] s, int[] sn, int[] index) {
+        sn[0] = s[0];
+        if (fOpenContent == null) {
+            return null;
+        }
+        if (index[0] == -1) {
+            index[0] = 0;
+            return fOpenContent.fWildcard;
+        }
+        index[0] = -1;
+        return null;
+    }
+    public boolean isOpenContent(XSWildcardDecl w) {
+        return fOpenContent != null && fOpenContent.fWildcard == w;
+    }
+    public boolean allowExpandedName(XSWildcardDecl wildcard,
+            QName curElem, SubstitutionGroupHandler subGroupHandler,
+            XSElementDeclHelper eDeclHelper) {
+        if (wildcard.allowQName(curElem)) {
+            if (wildcard.fDisallowedDefined && eDeclHelper.getGlobalElementDecl(curElem) != null) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    public List getDefinedNames(SubstitutionGroupHandler subGroupHandler) {
+        return Collections.EMPTY_LIST;
+    }
+    public void optimizeStates(XS11CMRestriction.XS11CM base, int[] b, int[] d, int indexb) {
+    }
+    public XSOpenContentDecl getOpenContent() {
+        return fOpenContent;
+    }
+    
+    public XSElementDecl findMatchingElemDecl(QName elementName, SubstitutionGroupHandler subGroupHandler) {
+        return null;
     }
 } // class XSEmptyCM

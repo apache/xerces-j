@@ -17,12 +17,14 @@
 
 package org.apache.xerces.impl.xs.models;
 
+import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.dtd.models.CMNode;
 import org.apache.xerces.impl.xs.SchemaSymbols;
 import org.apache.xerces.impl.xs.XSComplexTypeDecl;
 import org.apache.xerces.impl.xs.XSDeclarationPool;
 import org.apache.xerces.impl.xs.XSElementDecl;
 import org.apache.xerces.impl.xs.XSModelGroupImpl;
+import org.apache.xerces.impl.xs.XSOpenContentDecl;
 import org.apache.xerces.impl.xs.XSParticleDecl;
 
 /**
@@ -49,6 +51,8 @@ public class CMBuilder {
     private int fParticleCount;
     //Factory to create Bin, Uni, Leaf nodes
     private final CMNodeFactory fNodeFactory;
+    // XML Schema 1.1 flag
+    private short fSchemaVersion = Constants.SCHEMA_VERSION_1_0;
 
     public CMBuilder(CMNodeFactory nodeFactory) {
         fDeclPool = null;
@@ -60,7 +64,14 @@ public class CMBuilder {
     }
 
     /**
-     * Get content model for the a given type
+     * Set XML Schema 11 flag
+     */
+    public void setSchemaVersion(short version) {
+        fSchemaVersion = version;
+    }
+
+    /**
+     * Get content model for a given type
      *
      * @param typeDecl  get content model for which complex type
      * @return          a content model validator
@@ -74,23 +85,42 @@ public class CMBuilder {
             contentType == XSComplexTypeDecl.CONTENTTYPE_EMPTY) {
             return null;
         }
+        
+        return getContentModel((XSParticleDecl)typeDecl.getParticle(), (XSOpenContentDecl)typeDecl.getOpenContent(), forUPA);
+    }
+    
+    /**
+     * Get content model for a given particle
+     *
+     * @param particle     get content model for which particle
+     * @return             a content model validator
+     */
+    public XSCMValidator getContentModel(XSParticleDecl particle) {
+        return getContentModel(particle, null, false);
+    }
+    
+    private XSCMValidator getContentModel(XSParticleDecl particle,
+            XSOpenContentDecl openContent, boolean forUPA) {
 
-        XSParticleDecl particle = (XSParticleDecl)typeDecl.getParticle();
-
-        // if the content is element only or mixed, but no particle
-        // is defined, return the empty content model
-        if (particle == null)
+        // if there is no particle, return the empty content model
+        if (particle == null) {
             return fEmptyCM;
+        }
 
         // if the content model contains "all" model group,
         // we create an "all" content model, otherwise a DFA content model
         XSCMValidator cmValidator = null;
         if (particle.fType == XSParticleDecl.PARTICLE_MODELGROUP &&
             ((XSModelGroupImpl)particle.fValue).fCompositor == XSModelGroupImpl.MODELGROUP_ALL) {
-            cmValidator = createAllCM(particle);
+            if (fSchemaVersion < Constants.SCHEMA_VERSION_1_1) {
+                cmValidator = createAllCM(particle);
+            }
+            else {
+                cmValidator = createAll11CM(particle, openContent);
+            }
         }
         else {
-            cmValidator = createDFACM(particle, forUPA);
+            cmValidator = createDFACM(particle, forUPA, openContent);
         }
 
         //now we are throught building content model and have passed sucessfully of the nodecount check
@@ -99,8 +129,14 @@ public class CMBuilder {
 
         // if the validator returned is null, it means there is nothing in
         // the content model, so we return the empty content model.
-        if (cmValidator == null)
-            cmValidator = fEmptyCM;
+        if (cmValidator == null) {
+            if (openContent == null) {
+                cmValidator = fEmptyCM;
+            }
+            else {
+                cmValidator = new XSEmptyCM(openContent);
+            }
+        }
 
         return cmValidator;
     }
@@ -113,7 +149,7 @@ public class CMBuilder {
         XSModelGroupImpl group = (XSModelGroupImpl)particle.fValue;
         // create an all content model. the parameter indicates whether
         // the <all> itself is optional
-        XSAllCM allContent = new XSAllCM(particle.fMinOccurs == 0, group.fParticleCount);
+        XSAllCM allContent = new XSAllCM(particle.fMinOccurs == 0, group.fParticleCount, fSchemaVersion);
         for (int i = 0; i < group.fParticleCount; i++) {
             // add the element decl to the all content model
             allContent.addElement((XSElementDecl)group.fParticles[i].fValue,
@@ -122,7 +158,20 @@ public class CMBuilder {
         return allContent;
     }
 
-    XSCMValidator createDFACM(XSParticleDecl particle, boolean forUPA) {
+    XSCMValidator createAll11CM(XSParticleDecl particle, XSOpenContentDecl openContent) {
+        if (particle.fMaxOccurs == 0)
+            return null;
+
+        // get the model group, and add all children of it to the content model
+        XSModelGroupImpl group = (XSModelGroupImpl)particle.fValue;
+        // create an all content model. the parameter indicates whether
+        // the <all> itself is optional
+        XS11AllCM allContent = new XS11AllCM(particle.fMinOccurs == 0,
+                group.fParticleCount, group.fParticles, openContent);
+        return allContent;
+    }
+
+    XSCMValidator createDFACM(XSParticleDecl particle, boolean forUPA, XSOpenContentDecl openContent) {
         fLeafCount = 0;
         fParticleCount = 0;
         // convert particle tree to CM tree
@@ -130,7 +179,7 @@ public class CMBuilder {
         if (node == null)
             return null;
         // build DFA content model from the CM tree
-        return new XSDFACM(node, fLeafCount);
+        return new XSDFACM(node, fLeafCount, fSchemaVersion, openContent);
     }
 
     // 1. convert particle tree to CM tree:
@@ -447,5 +496,12 @@ public class CMBuilder {
             }
         }
         return true;
+    }
+
+    // Called by XS11CMRestriction to make sure we don't use too much memory
+    // when we have to represent an "all" model group as a DFA. The parameter
+    // "occurs" is the number of distinct states in that DFA.
+    void testOccurrences(int occurs) {
+        fNodeFactory.testOccurrences(occurs);
     }
 }

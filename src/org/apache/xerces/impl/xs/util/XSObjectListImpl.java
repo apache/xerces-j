@@ -36,7 +36,7 @@ import org.apache.xerces.xs.XSObjectList;
  * @version $Id$
  */
 public class XSObjectListImpl extends AbstractList implements XSObjectList {
-    
+
     /**
      * An immutable empty list.
      */

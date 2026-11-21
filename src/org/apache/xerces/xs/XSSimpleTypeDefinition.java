@@ -66,7 +66,7 @@ public interface XSSimpleTypeDefinition extends XSTypeDefinition {
      */
     public static final short FACET_PATTERN             = 8;
     /**
-     * 4.3.5 whitespace.
+     * 4.3.6 whitespace.
      */
     public static final short FACET_WHITESPACE          = 16;
     /**
@@ -97,6 +97,26 @@ public interface XSSimpleTypeDefinition extends XSTypeDefinition {
      * 4.3.5 enumeration.
      */
     public static final short FACET_ENUMERATION         = 2048;
+    
+    /**
+     * 4.3.13 maxScale (XML Schema 1.1)
+     */
+    public static final short FACET_MAXSCALE            = 4096;         
+
+    /**
+     * 4.3.14 minScale (XML Schema 1.1)
+     */
+    public static final short FACET_MINSCALE            = 8192;
+
+    /**
+     * 4.3.15 assert (XML Schema 1.1)
+     */
+    public static final short FACET_ASSERT              = 16384;
+
+    /**
+     * 4.3.16 explicitTimeZone (XML Schema 1.1)
+     */
+    public static final short FACET_EXPLICITTIMEZONE    = -32768;
 
     /**
      * A constant defined for the 'ordered' fundamental facet: not ordered.

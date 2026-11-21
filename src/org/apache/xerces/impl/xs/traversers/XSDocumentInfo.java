@@ -20,17 +20,21 @@ package org.apache.xerces.impl.xs.traversers;
 import java.util.Stack;
 import java.util.Vector;
 
+import org.apache.xerces.impl.dv.xs.TypeValidatorHelper;
 import org.apache.xerces.impl.validation.ValidationState;
 import org.apache.xerces.impl.xs.SchemaNamespaceSupport;
 import org.apache.xerces.impl.xs.SchemaSymbols;
 import org.apache.xerces.impl.xs.XMLSchemaException;
+import org.apache.xerces.impl.xs.XSAttributeGroupDecl;
+import org.apache.xerces.impl.xs.XSOpenContentDecl;
 import org.apache.xerces.impl.xs.util.XInt;
 import org.apache.xerces.util.SymbolTable;
+import org.apache.xerces.xni.QName;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Objects of this class hold all information pecular to a
+ * Objects of this class hold all information peculiar to a
  * particular XML Schema document.  This is needed because
  * namespace bindings and other settings on the <schema/> element
  * affect the contents of that schema document alone.
@@ -59,6 +63,10 @@ class XSDocumentInfo {
 
     // targetNamespace
     String fTargetNamespace;
+    
+    // xpathDefaultNamespace
+    String fXpathDefaultNamespace;
+    boolean fXpathDefaultNamespaceIs2PoundDefault;
 
     // represents whether this is a chameleon schema (i.e., whether its TNS is natural or comes from without)
     protected boolean fIsChameleonSchema;
@@ -85,9 +93,21 @@ class XSDocumentInfo {
     // once removeAnnotations has been called.
     protected XSAnnotationInfo fAnnotations = null;
 
+    // defaultAttributes and its corresponding attribute group
+    QName fDefaultAttributes = null;
+    XSAttributeGroupDecl fDefaultAGroup = null;
+
+    // defaultOpenContent
+    XSOpenContentDecl fDefaultOpenContent = null;
+    
+    // dataype xml version
+    short fDatatypeXMLVersion;
+
     // note that the caller must ensure to call returnSchemaAttrs()
     // to avoid memory leaks!
-    XSDocumentInfo (Element schemaRoot, XSAttributeChecker attrChecker, SymbolTable symbolTable)
+    XSDocumentInfo (Element schemaRoot, XSAttributeChecker attrChecker,
+            SymbolTable symbolTable, TypeValidatorHelper typeValidatorHelper,
+            short datatypeXMLVersion)
                     throws XMLSchemaException {
         
         fSchemaElement = schemaRoot;
@@ -97,9 +117,20 @@ class XSDocumentInfo {
 
         fSymbolTable = symbolTable;
         fAttrChecker = attrChecker;
+        fDatatypeXMLVersion = datatypeXMLVersion;
 
         if (schemaRoot != null) {
             Element root = schemaRoot;
+            
+            // set namespace support
+            fValidationContext.setNamespaceSupport(fNamespaceSupport);
+            fValidationContext.setSymbolTable(symbolTable);
+            fValidationContext.setTypeValidatorHelper(typeValidatorHelper);
+            fValidationContext.setDatatypeXMLVersion(datatypeXMLVersion);
+
+            // get the target namespace
+            fTargetNamespace = attrChecker.checkTargetNamespace(root, this);
+            
             fSchemaAttrs = attrChecker.checkAttributes(root, true, this);
             // schemaAttrs == null means it's not an <xsd:schema> element
             // throw an exception, but we don't know the document systemId,
@@ -115,16 +146,19 @@ class XSDocumentInfo {
                 ((XInt)fSchemaAttrs[XSAttributeChecker.ATTIDX_BLOCKDEFAULT]).shortValue();
             fFinalDefault =
                 ((XInt)fSchemaAttrs[XSAttributeChecker.ATTIDX_FINALDEFAULT]).shortValue();
-            fTargetNamespace =
-                (String)fSchemaAttrs[XSAttributeChecker.ATTIDX_TARGETNAMESPACE];
-            if (fTargetNamespace != null)
-                fTargetNamespace = symbolTable.addSymbol(fTargetNamespace);
+            fXpathDefaultNamespace = 
+                (String)fSchemaAttrs[XSAttributeChecker.ATTIDX_XPATHDEFAULTNS];
+            fXpathDefaultNamespaceIs2PoundDefault =
+                ((Boolean) fSchemaAttrs[XSAttributeChecker.ATTIDX_XPATHDEFAULTNS_TWOPOUNDDFLT]).booleanValue();
 
             fNamespaceSupportRoot = new SchemaNamespaceSupport(fNamespaceSupport);
 
+            fDefaultAttributes = (QName) fSchemaAttrs[XSAttributeChecker.ATTIDX_DEFAULTATTRIBUTES];
+
             //set namespace support
-            fValidationContext.setNamespaceSupport(fNamespaceSupport);
-            fValidationContext.setSymbolTable(symbolTable);
+            //fValidationContext.setNamespaceSupport(fNamespaceSupport);
+            //fValidationContext.setSymbolTable(symbolTable);
+            
             // pass null as the schema document, so that the namespace
             // context is not popped.
 

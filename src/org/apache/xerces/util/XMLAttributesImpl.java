@@ -328,6 +328,7 @@ public class XMLAttributesImpl
         }
         fLength--;
     } // removeAttributeAt(int)
+    
 
     /**
      * Sets the name of the attribute at the specified index.

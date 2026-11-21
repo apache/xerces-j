@@ -38,7 +38,17 @@ public class XSFacets {
      * value of length facet.
      */
     public int length;
+    
+    /**     
+     * value of maxScale facet.
+     */
+    public int maxScale;
 
+    /**     
+     * value of minScale facet.
+     */
+    public int minScale;
+    
     /**
      * value of minLength facet.
      */
@@ -53,6 +63,11 @@ public class XSFacets {
      * value of whiteSpace facet.
      */
     public short whiteSpace;
+    
+    /**
+     * value of explicitTimezone facet.
+     */
+    public short explicitTimezone;
 
     /**
      * value of totalDigits facet.
@@ -102,7 +117,10 @@ public class XSFacets {
      */
     public String minExclusive;
     
-    
+    /*
+     * Vector containing reference to the assert facets. introduced in XML Schema 1.1
+     */
+    public Vector assertFacets;
    
     public XSAnnotation lengthAnnotation;
     public XSAnnotation minLengthAnnotation;
@@ -116,6 +134,12 @@ public class XSFacets {
     public XSAnnotation maxExclusiveAnnotation;
     public XSAnnotation minInclusiveAnnotation;
     public XSAnnotation minExclusiveAnnotation;
+    public XSAnnotation maxScaleAnnotation; //XML Schema 1.1    
+    public XSAnnotation minScaleAnnotation; //XML Schema 1.1   
+    public XSAnnotation explicitTimezoneAnnotation; //XML schema 1.1
+    
+    // the annotations of the assertions are stored in XSAssertImpl objects
+    // stored in the 'assertFacets' Vector. 
     
     public void reset(){
         lengthAnnotation = null;
@@ -130,5 +154,9 @@ public class XSFacets {
         maxExclusiveAnnotation = null;
         minInclusiveAnnotation = null;
         minExclusiveAnnotation = null;
+        assertFacets = null;
+        maxScaleAnnotation = null;//XML Schema 1.1      
+        minScaleAnnotation = null;//XML Schema 1.1  
+        explicitTimezoneAnnotation = null; //XML Schema 1.1
     }
 }

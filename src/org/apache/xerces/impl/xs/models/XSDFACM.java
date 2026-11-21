@@ -17,9 +17,12 @@
 
 package org.apache.xerces.impl.xs.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
+import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.dtd.models.CMNode;
 import org.apache.xerces.impl.dtd.models.CMStateSet;
 import org.apache.xerces.impl.xs.SchemaSymbols;
@@ -27,7 +30,9 @@ import org.apache.xerces.impl.xs.SubstitutionGroupHandler;
 import org.apache.xerces.impl.xs.XMLSchemaException;
 import org.apache.xerces.impl.xs.XSConstraints;
 import org.apache.xerces.impl.xs.XSElementDecl;
+import org.apache.xerces.impl.xs.XSElementDeclHelper;
 import org.apache.xerces.impl.xs.XSModelGroupImpl;
+import org.apache.xerces.impl.xs.XSOpenContentDecl;
 import org.apache.xerces.impl.xs.XSParticleDecl;
 import org.apache.xerces.impl.xs.XSWildcardDecl;
 import org.apache.xerces.xni.QName;
@@ -44,7 +49,7 @@ import org.apache.xerces.xni.QName;
  * @version $Id$
  */
 public class XSDFACM
-    implements XSCMValidator {
+    implements XSCMValidator, XS11CMRestriction.XS11CM {
 
     //
     // Constants
@@ -69,21 +74,9 @@ public class XSDFACM
      * actual validation.  Note tat since either XSElementDecl or XSParticleDecl object
      * can live here, we've got to use an Object.
      */
-    private Object fElemMap[] = null;
-
-    /**
-     * This is a map of whether the element map contains information
-     * related to ANY models.
-     */
-    private int fElemMapType[] = null;
-
-    /**
-     * id of the unique input symbol
-     */
-    private int fElemMapId[] = null;
-    
-    /** The element map size. */
-    private int fElemMapSize = 0;
+    private XSElementDecl fElements[];
+    private XSWildcardDecl fWildcards[];
+    private int fNumElements, fNumTotal;
 
     /**
      * This is an array of booleans, one per state (there are
@@ -137,14 +130,24 @@ public class XSDFACM
     private int fTransTable[][] = null;
     
     /**
-     * Array containing occurence information for looping states 
+     * The open content model
+     */
+    private final XSOpenContentDecl fOpenContent;
+    
+    /**
+     * The XML Schema version
+     */
+    private final short fSchemaVersion;
+
+    /**
+     * Array containing occurrence information for looping states 
      * which use counters to check minOccurs/maxOccurs.
      */
     private Occurence [] fCountingStates = null;
     static final class Occurence {
         final int minOccurs;
         final int maxOccurs;
-        final int elemIndex;
+        int elemIndex;
         public Occurence (XSCMRepeatingLeaf leaf, int elemIndex) {
             minOccurs = leaf.getMinOccurs();
             maxOccurs = leaf.getMaxOccurs();
@@ -181,11 +184,17 @@ public class XSDFACM
      * @exception RuntimeException Thrown if DFA can't be built.
      */
 
-   public XSDFACM(CMNode syntaxTree, int leafCount) {
+   public XSDFACM(CMNode syntaxTree, int leafCount, short schemaVersion, XSOpenContentDecl openContent) {
    
         // Store away our index and pools in members
         fLeafCount = leafCount;
         fIsCompactedForUPA = syntaxTree.isCompactedForUPA();
+
+        // Store the XML Schema version
+        fSchemaVersion = schemaVersion;
+
+        // Store open content
+        fOpenContent = openContent;
 
         //
         //  Create some string pool indexes that represent the names of some
@@ -247,14 +256,22 @@ public class XSDFACM
      *
      * @exception RuntimeException thrown on error
      */
-    public Object oneTransition(QName curElem, int[] state, SubstitutionGroupHandler subGroupHandler) {
+    public Object oneTransition(QName curElem, int[] state, SubstitutionGroupHandler subGroupHandler, XSElementDeclHelper eDeclHelper) {
+        Object ret = oneTransition1(curElem, state, subGroupHandler, eDeclHelper);
+        if (fOpenContent != null && ret == fOpenContent.fWildcard) {
+            ret = fOpenContent;
+        }
+        return ret;            
+    }
+    private Object oneTransition1(QName curElem, int[] state, SubstitutionGroupHandler subGroupHandler, XSElementDeclHelper eDeclHelper) {
         int curState = state[0];
 
         if(curState == XSCMValidator.FIRST_ERROR || curState == XSCMValidator.SUBSEQUENT_ERROR) {
             // there was an error last time; so just go find correct Object in fElemmMap.
             // ... after resetting state[0].
-            if(curState == XSCMValidator.FIRST_ERROR)
+            if (curState == XSCMValidator.FIRST_ERROR) {
                 state[0] = XSCMValidator.SUBSEQUENT_ERROR;
+            }
 
             return findMatchingDecl(curElem, subGroupHandler);
         }
@@ -263,20 +280,31 @@ public class XSDFACM
         int elemIndex = 0;
         Object matchingDecl = null;
 
-        for (; elemIndex < fElemMapSize; elemIndex++) {
+        for (; elemIndex < fNumElements; elemIndex++) {
             nextState = fTransTable[curState][elemIndex];
             if (nextState == -1)
                 continue;
-            int type = fElemMapType[elemIndex] ;
-            if (type == XSParticleDecl.PARTICLE_ELEMENT) {
-                matchingDecl = subGroupHandler.getMatchingElemDecl(curElem, (XSElementDecl)fElemMap[elemIndex]);
-                if (matchingDecl != null) {
-                    break;
-                }
+            matchingDecl = subGroupHandler.getMatchingElemDecl(curElem, fElements[elemIndex], fSchemaVersion);
+            if (matchingDecl != null) {
+                break;
             }
-            else if (type == XSParticleDecl.PARTICLE_WILDCARD) {
-                if (((XSWildcardDecl)fElemMap[elemIndex]).allowNamespace(curElem.uri)) {
-                    matchingDecl = fElemMap[elemIndex];
+        }
+        if (matchingDecl == null) {
+            for (; elemIndex < fNumTotal; elemIndex++) {
+                nextState = fTransTable[curState][elemIndex];
+                if (nextState == -1)
+                    continue;
+
+                // XML Schema 1.0
+                if (fSchemaVersion < Constants.SCHEMA_VERSION_1_1) {
+                    if (fWildcards[elemIndex].allowNamespace(curElem.uri)) {
+                        matchingDecl = fWildcards[elemIndex];
+                        break;
+                    }
+                }
+                // XML Schema 1.1
+                else if (allowExpandedName(fWildcards[elemIndex], curElem, subGroupHandler, eDeclHelper)) {
+                    matchingDecl = fWildcards[elemIndex];
                     break;
                 }
             }
@@ -284,128 +312,141 @@ public class XSDFACM
 
         // if we still can't find a match, set the state to first_error
         // and return null
-        if (elemIndex == fElemMapSize) {
+        if (matchingDecl == null) {
             state[1] = state[0];
             state[0] = XSCMValidator.FIRST_ERROR;
             return findMatchingDecl(curElem, subGroupHandler);
         }
+
+        state[0] = nextState;
+        if (fCountingStates == null) {
+            return matchingDecl;
+        }
+        // Interleave open content can appear anywhere, even while counting
+        if (fOpenContent != null && fOpenContent.fWildcard == matchingDecl &&
+                fOpenContent.fMode == XSOpenContentDecl.MODE_INTERLEAVE) {
+            return matchingDecl;
+        }
         
-        if (fCountingStates != null) {
-            Occurence o = fCountingStates[curState];
-            if (o != null) {
-                if (curState == nextState) {
-                    if (++state[2] > o.maxOccurs && 
+        Occurence o = fCountingStates[curState];
+        if (o != null) {
+            if (curState == nextState) {
+                if (++state[2] > o.maxOccurs && 
                         o.maxOccurs != SchemaSymbols.OCCURRENCE_UNBOUNDED) {
-                        // It's likely that we looped too many times on the current state
-                        // however it's possible that we actually matched another particle
-                        // which allows the same name.
-                        //
-                        // Consider:
-                        //
-                        // <xs:sequence>
-                        //  <xs:element name="foo" type="xs:string" minOccurs="3" maxOccurs="3"/>
-                        //  <xs:element name="foo" type="xs:string" fixed="bar"/>
-                        // </xs:sequence>
-                        //
-                        // and
-                        //
-                        // <xs:sequence>
-                        //  <xs:element name="foo" type="xs:string" minOccurs="3" maxOccurs="3"/>
-                        //  <xs:any namespace="##any" processContents="skip"/>
-                        // </xs:sequence>
-                        //
-                        // In the DFA there will be two transitions from the current state which 
-                        // allow "foo". Note that this is not a UPA violation. The ambiguity of which
-                        // transition to take is resolved by the current value of the counter. Since 
-                        // we've already seen enough instances of the first "foo" perhaps there is
-                        // another element declaration or wildcard deeper in the element map which
-                        // matches.
-                        return findMatchingDecl(curElem, state, subGroupHandler, elemIndex);
-                    }  
-                }
-                else if (state[2] < o.minOccurs) {
-                    // not enough loops on the current state.
-                    state[1] = state[0];
-                    state[0] = XSCMValidator.FIRST_ERROR;
-                    return findMatchingDecl(curElem, subGroupHandler);
-                }
-                else {
-                    // Exiting a counting state. If we're entering a new
-                    // counting state, reset the counter.
-                    o = fCountingStates[nextState];
-                    if (o != null) {
-                        state[2] = (elemIndex == o.elemIndex) ? 1 : 0;
-                    }
-                }
+                    // It's likely that we looped too many times on the current state
+                    // however it's possible that we actually matched another particle
+                    // which allows the same name.
+                    //
+                    // Consider:
+                    //
+                    // <xs:sequence>
+                    //  <xs:element name="foo" type="xs:string" minOccurs="3" maxOccurs="3"/>
+                    //  <xs:element name="foo" type="xs:string" fixed="bar"/>
+                    // </xs:sequence>
+                    //
+                    // and
+                    //
+                    // <xs:sequence>
+                    //  <xs:element name="foo" type="xs:string" minOccurs="3" maxOccurs="3"/>
+                    //  <xs:any namespace="##any" processContents="skip"/>
+                    // </xs:sequence>
+                    //
+                    // In the DFA there will be two transitions from the current state which 
+                    // allow "foo". Note that this is not a UPA violation. The ambiguity of which
+                    // transition to take is resolved by the current value of the counter. Since 
+                    // we've already seen enough instances of the first "foo" perhaps there is
+                    // another element declaration or wildcard deeper in the element map which
+                    // matches.
+                    return findMatchingDecl(curElem, state, subGroupHandler, ++elemIndex, eDeclHelper);
+                }  
+            }
+            else if (state[2] < o.minOccurs) {
+                // not enough loops on the current state.
+                state[1] = state[0];
+                state[0] = XSCMValidator.FIRST_ERROR;
+                return findMatchingDecl(curElem, subGroupHandler);
             }
             else {
+                // Exiting a counting state. If we're entering a new
+                // counting state, reset the counter.
                 o = fCountingStates[nextState];
                 if (o != null) {
-                    // Entering a new counting state. Reset the counter.
-                    // If we've already seen one instance of the looping
-                    // particle set the counter to 1, otherwise set it 
-                    // to 0.
                     state[2] = (elemIndex == o.elemIndex) ? 1 : 0;
                 }
             }
         }
+        else {
+            o = fCountingStates[nextState];
+            if (o != null) {
+                // Entering a new counting state. Reset the counter.
+                // If we've already seen one instance of the looping
+                // particle set the counter to 1, otherwise set it 
+                // to 0.
+                state[2] = (elemIndex == o.elemIndex) ? 1 : 0;
+            }
+        }
 
-        state[0] = nextState;
         return matchingDecl;
     } // oneTransition(QName, int[], SubstitutionGroupHandler):  Object
 
     Object findMatchingDecl(QName curElem, SubstitutionGroupHandler subGroupHandler) {
         Object matchingDecl = null;
 
-        for (int elemIndex = 0; elemIndex < fElemMapSize; elemIndex++) {
-            int type = fElemMapType[elemIndex] ;
-            if (type == XSParticleDecl.PARTICLE_ELEMENT) {
-                matchingDecl = subGroupHandler.getMatchingElemDecl(curElem, (XSElementDecl)fElemMap[elemIndex]);
-                if (matchingDecl != null) {
-                    return matchingDecl;
-                }
+        for (int elemIndex = 0; elemIndex < fNumElements; elemIndex++) {
+            matchingDecl = subGroupHandler.getMatchingElemDecl(curElem, fElements[elemIndex], fSchemaVersion);
+            if (matchingDecl != null) {
+                return matchingDecl;
             }
-            else if (type == XSParticleDecl.PARTICLE_WILDCARD) {
-                if(((XSWildcardDecl)fElemMap[elemIndex]).allowNamespace(curElem.uri))
-                    return fElemMap[elemIndex];
+        }
+        for (int elemIndex = fNumElements; elemIndex < fNumTotal; elemIndex++) {
+            if (fWildcards[elemIndex].allowQName(curElem)) {
+                return fWildcards[elemIndex];
             }
         }
 
         return null;
     } // findMatchingDecl(QName, SubstitutionGroupHandler): Object
     
-    Object findMatchingDecl(QName curElem, int[] state, SubstitutionGroupHandler subGroupHandler, int elemIndex) {    
+    Object findMatchingDecl(QName curElem, int[] state, SubstitutionGroupHandler subGroupHandler, int elemIndex, XSElementDeclHelper eDeclHelper) {    
         
         int curState = state[0];
         int nextState = 0;
         Object matchingDecl = null;
         
-        while (++elemIndex < fElemMapSize) {
+        for (; elemIndex < fNumElements; elemIndex++) {
             nextState = fTransTable[curState][elemIndex];
             if (nextState == -1)
                 continue;
-            int type = fElemMapType[elemIndex] ;
-            if (type == XSParticleDecl.PARTICLE_ELEMENT) {
-                matchingDecl = subGroupHandler.getMatchingElemDecl(curElem, (XSElementDecl)fElemMap[elemIndex]);
-                if (matchingDecl != null) {
-                    break;
-                }
+            matchingDecl = subGroupHandler.getMatchingElemDecl(curElem, fElements[elemIndex], fSchemaVersion);
+            if (matchingDecl != null) {
+                break;
             }
-            else if (type == XSParticleDecl.PARTICLE_WILDCARD) {
-                if (((XSWildcardDecl)fElemMap[elemIndex]).allowNamespace(curElem.uri)) {
-                    matchingDecl = fElemMap[elemIndex];
+        }
+        if (matchingDecl == null) {
+            for (; elemIndex < fNumTotal; elemIndex++) {
+                // XML Schema 1.0
+                if (fSchemaVersion < Constants.SCHEMA_VERSION_1_1) {
+                    if (fWildcards[elemIndex].allowNamespace(curElem.uri)) {
+                        matchingDecl = fWildcards[elemIndex];
+                        break;
+                    }
+                }
+                // XML Schema 1.1
+                else if (allowExpandedName(fWildcards[elemIndex], curElem, subGroupHandler, eDeclHelper)) {
+                    matchingDecl = fWildcards[elemIndex];
                     break;
                 }
             }
         }
         
-        // if we still can't find a match, set the state to FIRST_ERROR and return null
-        if (elemIndex == fElemMapSize) {
+        // if we still can't find a match, set the state to first_error
+        // and return null
+        if (matchingDecl == null) {
             state[1] = state[0];
             state[0] = XSCMValidator.FIRST_ERROR;
             return findMatchingDecl(curElem, subGroupHandler);
         }
-        
+
         // if we found a match, set the next state and reset the 
         // counter if the next state is a counting state.
         state[0] = nextState;
@@ -416,6 +457,32 @@ public class XSDFACM
         return matchingDecl;
     } // findMatchingDecl(QName, int[], SubstitutionGroupHandler, int): Object
 
+    public XSElementDecl findMatchingElemDecl(QName curElem, SubstitutionGroupHandler subGroupHandler) {
+        XSElementDecl matchingDecl = null;
+
+        for (int elemIndex = 0; elemIndex < fNumElements; elemIndex++) {
+            matchingDecl = subGroupHandler.getMatchingElemDecl(curElem, fElements[elemIndex], fSchemaVersion);
+            if (matchingDecl != null) {
+                return matchingDecl;
+            }
+        }
+
+        return null;
+    } // findMatchingDecl(QName, SubstitutionGroupHandler): Object
+    
+    public boolean allowExpandedName(XSWildcardDecl wildcard, QName curElem, SubstitutionGroupHandler subGroupHandler, XSElementDeclHelper eDeclHelper) {
+        if (wildcard.allowQName(curElem)) {
+            if (wildcard.fDisallowedSibling && findMatchingElemDecl(curElem, subGroupHandler) != null) {
+                return false;
+            }
+            if (wildcard.fDisallowedDefined && eDeclHelper.getGlobalElementDecl(curElem) != null) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    
     // This method returns the start states of the content model.
     public int[] startContentModel() {
         // [0] : the current state
@@ -550,11 +617,12 @@ public class XSDFACM
         //  input element. So we need to a zero based range of indexes that
         //  map to element types. This element map provides that mapping.
         //
-        fElemMap = new Object[fLeafCount];
-        fElemMapType = new int[fLeafCount];
-        fElemMapId = new int[fLeafCount];
-        fElemMapSize = 0;
+        Object[] fElemMap = new Object[fLeafCount];
+        int[] fElemMapType = new int[fLeafCount];
+        int[] fElemMapId = new int[fLeafCount];
+        int fElemMapSize = 0;
         Occurence [] elemOccurenceMap = null;
+        int numElem = 0;
         for (int outIndex = 0; outIndex < fLeafCount; outIndex++) {
             // optimization from Henry Zongaro:
             //fElemMap[outIndex] = new Object ();
@@ -579,6 +647,9 @@ public class XSDFACM
                 }
                 fElemMapType[fElemMapSize] = fLeafListType[outIndex];
                 fElemMapId[fElemMapSize] = id;
+                if (fElemMapType[fElemMapSize] == XSParticleDecl.PARTICLE_ELEMENT) {
+                    numElem++;
+                }
                 fElemMapSize++;
             }
         }
@@ -590,7 +661,48 @@ public class XSDFACM
                 System.err.println("interal error in DFA: last element is not EOC.");
         }
         fElemMapSize--;
+        numElem--;
 
+        fNumTotal = fElemMapSize;
+        if (fOpenContent != null) {
+            fNumTotal++;
+        }
+        
+        // Sort the element map so that elements appear before wildcards?
+        // this will simplify oneTransition(), because of weakened wc.
+        for (int ep=0, wp=fElemMapSize-1;;) {
+            while (ep <= wp && fElemMapType[ep] == XSParticleDecl.PARTICLE_ELEMENT) {
+                ep++;
+            }
+            while (wp >= ep && fElemMapType[wp] == XSParticleDecl.PARTICLE_WILDCARD) {
+                wp--;
+            }
+            if (ep < wp) {
+                Object t1 = fElemMap[ep];
+                fElemMap[ep] = fElemMap[wp];
+                fElemMap[wp] = t1;
+                int t2 = fElemMapId[ep];
+                fElemMapId[ep] = fElemMapId[wp];
+                fElemMapId[wp] = t2;
+                if (elemOccurenceMap != null) {
+                    Occurence t3 = elemOccurenceMap[ep];
+                    elemOccurenceMap[ep] = elemOccurenceMap[wp];
+                    elemOccurenceMap[wp] = t3;
+                    if (elemOccurenceMap[ep] != null) {
+                        elemOccurenceMap[ep].elemIndex = ep;
+                    }
+                    if (elemOccurenceMap[wp] != null) {
+                        elemOccurenceMap[wp].elemIndex = wp;
+                    }
+                }
+                ep++;
+                wp--;
+            }
+            else {
+                break;
+            }
+        }
+        
         /***
          * Optimization(Jan, 2001); We sort fLeafList according to
          * elemIndex which is *uniquely* associated to each leaf.
@@ -809,6 +921,8 @@ public class XSDFACM
             }
         }
 
+        fTransTableSize = curState;
+
         //
         //  And now we can say bye bye to the temp representation since we've
         //  built the DFA.
@@ -820,6 +934,43 @@ public class XSDFACM
         fFollowList = null;
         fLeafListType = null;
         fElemMapId = null;
+        
+        // If there is open content, massage the transition table
+        if (fOpenContent != null) {
+            fElemMap[fElemMapSize] = fOpenContent.fWildcard;
+            if (fOpenContent.fMode == XSOpenContentDecl.MODE_INTERLEAVE) {
+                for (int i = 0; i < fTransTableSize; i++) {
+                    fTransTable[i][fElemMapSize] = i;
+                }
+            }
+            else {
+                for (int i = 0; i < fTransTableSize; i++) {
+                    if (fFinalStateFlags[i]) {
+                        fTransTable[i][fElemMapSize] = fTransTableSize;
+                    }
+                }
+                // Seems that there is at least one empty spot.
+                fTransTable[fTransTableSize] = makeDefStateList();
+                fTransTable[fTransTableSize][fElemMapSize] = fTransTableSize;
+                fFinalStateFlags[fTransTableSize] = true;
+                fTransTableSize++;
+            }
+            fElemMapSize++;
+        }
+
+        fNumElements = numElem;
+        if (numElem > 0) {
+            fElements = new XSElementDecl[numElem];
+        }
+        if (fNumTotal > numElem) {
+            fWildcards = new XSWildcardDecl[fNumTotal];
+        }
+        for (int i = 0; i < numElem; i++) {
+            fElements[i] = (XSElementDecl)fElemMap[i];
+        }
+        for (int i = numElem; i < fNumTotal; i++) {
+            fWildcards[i] = (XSWildcardDecl)fElemMap[i];
+        }
     }
 
     /**
@@ -983,8 +1134,8 @@ public class XSDFACM
      */
     private int[] makeDefStateList()
     {
-        int[] retArray = new int[fElemMapSize];
-        for (int index = 0; index < fElemMapSize; index++)
+        int[] retArray = new int[fNumTotal];
+        for (int index = 0; index < fNumTotal; index++)
             retArray[index] = -1;
         return retArray;
     }
@@ -1030,25 +1181,28 @@ public class XSDFACM
      * check whether this content violates UPA constraint.
      *
      * @param subGroupHandler the substitution group handler
+     * @param xsConstraints the XML Schema Constraint checker
      * @return true if this content model contains other or list wildcard
      */
-    public boolean checkUniqueParticleAttribution(SubstitutionGroupHandler subGroupHandler) throws XMLSchemaException {
+    public boolean checkUniqueParticleAttribution(SubstitutionGroupHandler subGroupHandler, XSConstraints xsConstraints) throws XMLSchemaException {
+        int elemSize = fOpenContent != null ? fNumTotal - 1 : fNumTotal;
         // Unique Particle Attribution
         // store the conflict results between any two elements in fElemMap
         // 0: not compared; -1: no conflict; 1: conflict
         // initialize the conflict table (all 0 initially)
-        byte conflictTable[][] = new byte[fElemMapSize][fElemMapSize];
+        byte conflictTable[][] = new byte[elemSize][elemSize];
 
         // for each state, check whether it has overlap transitions
-        for (int i = 0; i < fTransTable.length && fTransTable[i] != null; i++) {
-            for (int j = 0; j < fElemMapSize; j++) {
-                for (int k = j+1; k < fElemMapSize; k++) {
+        for (int i = 0; i < fTransTableSize; i++) {
+            for (int j = 0; j < elemSize; j++) {
+                for (int k = j+1; k < elemSize; k++) {
                     if (fTransTable[i][j] != -1 &&
                         fTransTable[i][k] != -1) {
                         if (conflictTable[j][k] == 0) {
-                            if (XSConstraints.overlapUPA
-                                    (fElemMap[j], fElemMap[k],
-                                            subGroupHandler)) {
+                            if (xsConstraints.overlapUPA
+                                    (j < fNumElements ? (Object)fElements[j] : (Object)fWildcards[j],
+                                     k < fNumElements ? (Object)fElements[k] : (Object)fWildcards[k],
+                                     subGroupHandler)) {
                                 if (fCountingStates != null) {
                                     Occurence o = fCountingStates[i];
                                     // If "i" is a counting state and exactly one of the transitions
@@ -1073,27 +1227,26 @@ public class XSDFACM
         }
 
         // report all errors
-        for (int i = 0; i < fElemMapSize; i++) {
-            for (int j = 0; j < fElemMapSize; j++) {
+        for (int i = 0; i < elemSize; i++) {
+            for (int j = 0; j < elemSize; j++) {
                 if (conflictTable[i][j] == 1) {
                     //errors.newError("cos-nonambig", new Object[]{fElemMap[i].toString(),
                     //                                             fElemMap[j].toString()});
                     // REVISIT: do we want to report all errors? or just one?
-                    throw new XMLSchemaException("cos-nonambig", new Object[]{fElemMap[i].toString(),
-                                                                              fElemMap[j].toString()});
+                    throw new XMLSchemaException("cos-nonambig", new Object[]{
+                            i < fNumElements ? (Object)fElements[i] : (Object)fWildcards[i],
+                            j < fNumElements ? (Object)fElements[j] : (Object)fWildcards[j]});
                 }
             }
         }
 
         // if there is a other or list wildcard, we need to check this CM
         // again, if this grammar is cached.
-        for (int i = 0; i < fElemMapSize; i++) {
-            if (fElemMapType[i] == XSParticleDecl.PARTICLE_WILDCARD) {
-                XSWildcardDecl wildcard = (XSWildcardDecl)fElemMap[i];
-                if (wildcard.fType == XSWildcardDecl.NSCONSTRAINT_LIST ||
-                    wildcard.fType == XSWildcardDecl.NSCONSTRAINT_NOT) {
-                    return true;
-                }
+        for (int i = fNumElements; i < elemSize; i++) {
+            XSWildcardDecl wildcard = fWildcards[i];
+            if (wildcard.fType == XSWildcardDecl.NSCONSTRAINT_LIST ||
+                wildcard.fType == XSWildcardDecl.NSCONSTRAINT_NOT) {
+                return true;
             }
         }
 
@@ -1110,6 +1263,8 @@ public class XSDFACM
      *               either XSWildcardDecl or XSElementDecl.
      */
     public Vector whatCanGoHere(int[] state) {
+        int elemSize = fOpenContent != null ? fNumTotal - 1 : fNumTotal;
+
         int curState = state[0];
         if (curState < 0)
             curState = state[1];
@@ -1118,7 +1273,7 @@ public class XSDFACM
         int count = state[2];
 
         Vector ret = new Vector();
-        for (int elemIndex = 0; elemIndex < fElemMapSize; elemIndex++) {
+        for (int elemIndex = 0; elemIndex < elemSize; elemIndex++) {
             int nextState = fTransTable[curState][elemIndex];
             if (nextState != -1) {
                 if (o != null) {
@@ -1137,7 +1292,7 @@ public class XSDFACM
                         continue;
                     }
                 }
-                ret.addElement(fElemMap[elemIndex]);
+                ret.addElement(elemIndex < fNumElements ? (Object)fElements[elemIndex] : (Object)fWildcards[elemIndex]);
             }  
         }
         return ret;
@@ -1163,11 +1318,208 @@ public class XSDFACM
     }
     
     public String getTermName(int termId) {
-        Object term = fElemMap[termId];
+        Object term = termId < fNumElements ? (Object)fElements[termId] : (Object)fWildcards[termId];
         return (term != null) ? term.toString() : null;
     }
         
     public boolean isCompactedForUPA() {
         return fIsCompactedForUPA;
     }
+    
+    public XSElementDecl nextElementTransition(int[] s, int[] sn, int[] index) {
+        for (int idx = index[0] + 1; idx < fNumElements; idx++) {
+            if (isAllowedTransition(s, sn, idx)) {
+                index[0] = idx;
+                return fElements[idx];
+            }
+        }
+        index[0] = -1;
+        return null;
+    }
+    public XSWildcardDecl nextWildcardTransition(int[] s, int[] sn, int[] index) {
+        for (int idx = index[0] == -1 ? fNumElements : index[0] + 1; idx < fNumTotal; idx++) {
+            if (isAllowedTransition(s, sn, idx)) {
+                index[0] = idx;
+                return fWildcards[idx];
+            }
+        }
+        index[0] = -1;
+        return null;
+    }
+    private boolean isAllowedTransition(int[] s, int[] sn, int index) {
+        int n = fTransTable[s[0]][index];
+        if (n == -1) {
+            // Transition not allowed
+            return false;
+        }
+        // Record the next state
+        if (sn != null) {
+            sn[0] = n;
+        }
+
+        // If there are no counting state, the transition is allowed.
+        if (fCountingStates == null) {
+            return true;
+        }
+        
+        // If the transition is for an interleave open content, then it's
+        // always allowed, even while counting.
+        if (index == fNumTotal-1 && fOpenContent != null &&
+                fOpenContent.fMode == XSOpenContentDecl.MODE_INTERLEAVE) {
+            return true;
+        }
+        
+        // Handling of counting states
+        Occurence o = fCountingStates[s[0]];
+        if (o != null) {
+            // If the previous state is a counting state
+            if (s[0] == n) {
+                // And the transition loops back to the same state
+                if (s[2] == o.maxOccurs) {
+                    // Too many when trying to stay in this loop
+                    return false;
+                }
+                // Allowed transition. Increase the count. Don't need to do so
+                // when we've satisfied the minOccurs requirement and maxOccurs
+                // is unbounded.
+                if (sn != null) {
+                    sn[2] = s[2];
+                    if (sn[2] == 0 || sn[2] < o.minOccurs || o.maxOccurs != SchemaSymbols.OCCURRENCE_UNBOUNDED) {
+                        sn[2]++;
+                    }
+                }
+            }
+            else if (s[2] < o.minOccurs) {
+                // Exiting a counting state, but minOccurs is not satisfied.
+                return false;
+            }
+            else {
+                // Exiting a counting state. If we're entering a new
+                // counting state, reset the counter.
+                o = fCountingStates[n];
+                if (o != null && sn != null) {
+                    sn[2] = (index == o.elemIndex) ? 1 : 0;
+                }
+            }
+        }
+        else {
+            // Previous state was not counting. Check the new state.
+            o = fCountingStates[n];
+            if (o != null && sn != null) {
+                // Entering a new counting state. Reset the counter.
+                sn[2] = (index == o.elemIndex) ? 1 : 0;
+            }
+        }
+
+        return true;
+    }
+    public boolean isOpenContent(XSWildcardDecl w) {
+        return fOpenContent != null && fOpenContent.fWildcard == w;
+    }
+    public List getDefinedNames(SubstitutionGroupHandler subGroupHandler) {
+        // Add names of all known elements and their sub-group members
+        List ret = new ArrayList();
+        for (int i = 0; i < fNumElements; i++) {
+            XSElementDecl e = fElements[i];
+            ret.add(e.fTargetNamespace);
+            ret.add(e.fName);
+            if (e.fScope == XSElementDecl.SCOPE_GLOBAL) {
+                XSElementDecl[] es = subGroupHandler.getSubstitutionGroup(e, fSchemaVersion);
+                for (int j = 0; j < es.length; j++) {
+                    ret.add(es[j].fTargetNamespace);
+                    ret.add(es[j].fName);
+                }
+            }
+        }
+        return ret;
+    }
+    public void optimizeStates(XS11CMRestriction.XS11CM base, int[] b, int[] d, int indexb) {
+        // Can only optimize if the current state is a counting state.
+        if (fCountingStates == null || fCountingStates[d[0]] == null) {
+            return;
+        }
+        // Not sure whether we need this. Better to optimize only when we've
+        // seen at least one element, to be sure we are "locked in" this state.
+        if (d[2] <= 0) {
+            return;
+        }
+        // When the count is less than minOccurs, or greater than minOccurs
+        // but less than maxOccurs, then we can try to bring the count up to
+        // min/maxOccurs, if base has sufficient space.
+        int need = 0;
+        if (d[2] < fCountingStates[d[0]].minOccurs) {
+            need = fCountingStates[d[0]].minOccurs - d[2];
+        }
+        else if (d[2] > fCountingStates[d[0]].minOccurs && d[2] < fCountingStates[d[0]].maxOccurs) {
+            need = fCountingStates[d[0]].maxOccurs - d[2];
+        }
+        // Derived has no space.
+        if (need == 0) {
+            return;
+        }
+        // Different strategy for different base kind.
+        if (base instanceof XSDFACM) {
+            optimizeForDFABase((XSDFACM)base, b, d, need);
+        }
+        else if (base instanceof XS11AllCM) {
+            optimizeForAllBase((XS11AllCM)base, b, d, need, indexb);
+        }
+    }
+    private void optimizeForDFABase(XSDFACM base, int[] b, int[] d, int need) {
+        // Base must also be on a counting state
+        if (base.fCountingStates == null || base.fCountingStates[b[0]] == null) {
+            return;
+        }
+        // And have seen at least one element
+        if (b[2] <= 0) {
+            return;
+        }
+        // If base has max=unbounded, then there's enough space for "need"
+        if (base.fCountingStates[d[0]] != null) {
+            if (base.fCountingStates[d[0]].maxOccurs == SchemaSymbols.OCCURRENCE_UNBOUNDED) {
+                d[2] += need;
+                if (b[2] + need > base.fCountingStates[d[0]].minOccurs) {
+                    // Avoid setting count bigger than min if max is unbounded.
+                    // It makes no difference. Not exceeding min means fewer
+                    // distinct states, so shorter state-pairs in the list.
+                    b[2] = base.fCountingStates[d[0]].minOccurs;
+                }
+                else {
+                    b[2] += need;
+                }
+            }
+            else {
+                // If base doesn't have sufficient space, lower "need"
+                if (need > base.fCountingStates[d[0]].maxOccurs - b[2]) {
+                    need = base.fCountingStates[d[0]].maxOccurs - b[2];
+                }
+                b[2] += need;
+                d[2] += need;
+            }
+        }
+    }
+    private void optimizeForAllBase(XS11AllCM base, int[] b, int[] d, int need, int indexb) {
+        // Need to have seen an element, to be safe.
+        if (b[indexb] <= 0) {
+            return;
+        }
+        // Similar to the DFA case.
+        if (base.maxOccurs(indexb) == SchemaSymbols.OCCURRENCE_UNBOUNDED) {
+            d[2] += need;
+            if (b[indexb] + need > base.minOccurs(indexb)) {
+                b[indexb] = base.minOccurs(indexb);
+            }
+            else {
+                b[indexb] += need;
+            }
+        }
+        else {
+            if (need > base.maxOccurs(indexb) - b[indexb]) {
+                need = base.maxOccurs(indexb) - b[indexb];
+            }
+            b[indexb] += need;
+            d[2] += need;
+        }
+    }
+
 } // class DFAContentModel

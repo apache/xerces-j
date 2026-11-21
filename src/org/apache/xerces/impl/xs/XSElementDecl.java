@@ -18,6 +18,7 @@
 package org.apache.xerces.impl.xs;
 
 import org.apache.xerces.impl.dv.ValidatedInfo;
+import org.apache.xerces.impl.xs.alternative.XSTypeAlternativeImpl;
 import org.apache.xerces.impl.xs.identity.IdentityConstraint;
 import org.apache.xerces.impl.xs.util.XSNamedMapImpl;
 import org.apache.xerces.impl.xs.util.XSObjectListImpl;
@@ -29,6 +30,7 @@ import org.apache.xerces.xs.XSConstants;
 import org.apache.xerces.xs.XSElementDeclaration;
 import org.apache.xerces.xs.XSNamedMap;
 import org.apache.xerces.xs.XSNamespaceItem;
+import org.apache.xerces.xs.XSObject;
 import org.apache.xerces.xs.XSObjectList;
 import org.apache.xerces.xs.XSTypeDefinition;
 import org.apache.xerces.xs.XSValue;
@@ -60,8 +62,8 @@ public class XSElementDecl implements XSElementDeclaration {
     // misc flag of the element: nillable/abstract/fixed
     short fMiscFlags = 0;
     public short fScope = XSConstants.SCOPE_ABSENT;
-    // enclosing complex type, when the scope is local
-    XSComplexTypeDecl fEnclosingCT = null;
+    // enclosing parent, when the scope is local
+    XSObject fEnclosingParent = null;
     // block set (disallowed substitutions) of the element
     public short fBlock = XSConstants.DERIVATION_NONE;
     // final set (substitution group exclusions) of the element
@@ -70,12 +72,17 @@ public class XSElementDecl implements XSElementDeclaration {
     public XSObjectList fAnnotations = null;
     // value constraint value
     public ValidatedInfo fDefault = null;
-    // the substitution group affiliation of the element
-    public XSElementDecl fSubGroup = null;
+    // the substitution groups affiliation of the element
+    public XSElementDecl[] fSubGroup = null;
     // identity constraints
     static final int INITIAL_SIZE = 2;
     int fIDCPos = 0;
     IdentityConstraint[] fIDConstraints = new IdentityConstraint[INITIAL_SIZE];
+    
+    int fTypeAlternativePos = 0;
+    XSTypeAlternativeImpl[] fTypeAlternatives = new XSTypeAlternativeImpl[INITIAL_SIZE];
+    XSTypeAlternativeImpl fDefaultTypeDef = null;
+
     // The namespace schema information item corresponding to the target namespace 
     // of the element declaration, if it is globally declared; or null otherwise.
     private XSNamespaceItem fNamespaceItem = null;
@@ -100,9 +107,9 @@ public class XSElementDecl implements XSElementDeclaration {
     public void setIsGlobal() {
         fScope = SCOPE_GLOBAL;
     }
-    public void setIsLocal(XSComplexTypeDecl enclosingCT) {
+    public void setIsLocal(XSObject enclosingParent) {
         fScope = SCOPE_LOCAL;
-        fEnclosingCT = enclosingCT;
+        fEnclosingParent = enclosingParent;
     }
 
     public void addIDConstraint(IdentityConstraint idc) {
@@ -124,6 +131,66 @@ public class XSElementDecl implements XSElementDeclaration {
 
     static final IdentityConstraint[] resize(IdentityConstraint[] oldArray, int newSize) {
         IdentityConstraint[] newArray = new IdentityConstraint[newSize];
+        System.arraycopy(oldArray, 0, newArray, 0, Math.min(oldArray.length, newSize));
+        return newArray;
+    }
+
+    /**
+     * Checks whether there is a possibility that the type table
+     * is complete. (ie the last alternative element in the table
+     * has no test attribute)
+     */
+    public boolean isTypeTableOK() {
+        if (fTypeAlternativePos > 1) {
+            for (int i=0; i<fTypeAlternativePos-1; i++) {
+                if (fTypeAlternatives[i].getTest() == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void addTypeAlternative(XSTypeAlternativeImpl typeAlternative) {
+        if (fTypeAlternativePos == fTypeAlternatives.length) {
+            fTypeAlternatives = resize(fTypeAlternatives, fTypeAlternativePos*2);
+        }
+        fTypeAlternatives[fTypeAlternativePos++] = typeAlternative;
+    }
+
+    public XSTypeAlternativeImpl[] getTypeAlternatives() {
+        if (fTypeAlternativePos == 0) {
+            return null;
+        }
+        if (fTypeAlternativePos < fTypeAlternatives.length) {
+            fTypeAlternatives = resize(fTypeAlternatives, fTypeAlternativePos);
+        }
+        return fTypeAlternatives;
+    }
+
+    public XSTypeAlternativeImpl getDefaultTypeDefinition() {
+        return fDefaultTypeDef;
+    }
+
+    public void setDefaultTypeDefinition() {
+        if (fTypeAlternativePos == 0) {
+            //no type alternatives found on the element decl
+            fDefaultTypeDef = null;
+        }
+        else {
+            //now that we have at least one type alternative we can assign a value
+            //to the default type definition attribute
+            if (fTypeAlternatives[fTypeAlternativePos-1].getTest() == null) {
+                fDefaultTypeDef = fTypeAlternatives[fTypeAlternativePos-1];
+            }
+            else {
+                fDefaultTypeDef = new XSTypeAlternativeImpl(fName, fType, XSObjectListImpl.EMPTY_LIST);
+            }
+        }
+    }
+
+    static final XSTypeAlternativeImpl[] resize(XSTypeAlternativeImpl[] oldArray, int newSize) {
+        XSTypeAlternativeImpl[] newArray = new XSTypeAlternativeImpl[newSize];
         System.arraycopy(oldArray, 0, newArray, 0, Math.min(oldArray.length, newSize));
         return newArray;
     }
@@ -240,7 +307,17 @@ public class XSElementDecl implements XSElementDeclaration {
      * property.
      */
     public XSComplexTypeDefinition getEnclosingCTDefinition() {
-        return fEnclosingCT;
+        return (fEnclosingParent instanceof XSComplexTypeDecl) 
+                    ? (XSComplexTypeDecl)fEnclosingParent : null;
+    }
+
+    /**
+     * Locally scoped declarations are available for use only within the
+     * complex type definition or model group definition identified by the
+     * <code>scope</code> property.
+     */
+    public XSObject getParent() {
+        return fEnclosingParent;
     }
 
     /**
@@ -284,7 +361,7 @@ public class XSElementDecl implements XSElementDeclaration {
      * definition.
      */
     public XSElementDeclaration getSubstitutionGroupAffiliation() {
-        return fSubGroup;
+        return fSubGroup != null && fSubGroup.length > 0 ? fSubGroup[0] : null;
     }
 
     /**
@@ -339,6 +416,13 @@ public class XSElementDecl implements XSElementDeclaration {
         return ((fMiscFlags & ABSTRACT) != 0);
     }
 
+    public void addAnnotation(XSAnnotation annotation) {
+        if (fAnnotations == XSObjectListImpl.EMPTY_LIST) {
+            fAnnotations = new XSObjectListImpl();
+        }
+        ((XSObjectListImpl)fAnnotations).addXSObject(annotation);        
+    }    
+    
     /**
      * Optional. Annotation.
      */

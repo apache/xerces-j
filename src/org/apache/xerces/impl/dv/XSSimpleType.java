@@ -48,9 +48,22 @@ public interface XSSimpleType extends XSSimpleTypeDefinition {
     public static final short WS_REPLACE  = 1;
     /** collapse the white spaces */
     public static final short WS_COLLAPSE = 2;
-
+    
+    /**
+     * constants defined for the value of 'explicitTimezone' facet.
+     * see <a href='http://www.w3.org/TR/xmlschema11-2/#rf-explicitTimezone'> XML Schema
+     * Part 2: Datatypes </a>
+     */
+    
+    // optional the explicit timezone
+    public static final short ET_OPTIONAL = 0;
+    // required the explicit timezone
+    public static final short ET_REQUIRED = 1;
+    // prohibited the explicit timezone
+    public static final short ET_PROHIBITED = 2;  
+    
     /*
-     * Constant defined for the primitive built-in simple tpyes.
+     * Constant defined for the primitive built-in simple types.
      * see <a href='http://www.w3.org/TR/xmlschema-2/#built-in-primitive-datatypes'>
      * XML Schema Part 2: Datatypes </a>
      */
@@ -67,7 +80,7 @@ public interface XSSimpleType extends XSSimpleTypeDefinition {
     public static final short PRIMITIVE_DOUBLE        = 5;
     /** "duration" type */
     public static final short PRIMITIVE_DURATION      = 6;
-    /** "dataTime" type */
+    /** "dateTime" type */
     public static final short PRIMITIVE_DATETIME      = 7;
     /** "time" type */
     public static final short PRIMITIVE_TIME          = 8;
@@ -155,7 +168,7 @@ public interface XSSimpleType extends XSSimpleTypeDefinition {
      * @param context       the validation context
      * @throws InvalidDatatypeFacetException exception for invalid facet values
      */
-    public void applyFacets(XSFacets facets, short presentFacet, short fixedFacet, ValidationContext context)
+    public void applyFacets(XSFacets facets, int presentFacet, int fixedFacet, ValidationContext context)
         throws InvalidDatatypeFacetException;
 
     /**

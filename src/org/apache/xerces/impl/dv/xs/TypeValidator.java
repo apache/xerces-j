@@ -47,16 +47,6 @@ public abstract class TypeValidator {
     }
 
     /**
-     * Which facets are allowed for this type.
-     * <p>{@link org.apache.xerces.xs.XSSimpleTypeDefinition} defines constants for various facets</p>
-     *
-     * @return a bit-combination of allowed facets
-     *
-     * @see org.apache.xerces.xs.XSSimpleTypeDefinition
-     */
-    public abstract short getAllowedFacets();
-
-    /**
      * Converts a string to an actual value.
      * <p>For example: for number types (decimal, double, float, and types derived from them),
      * get the BigDecimal, Double, or Float objects.
@@ -204,6 +194,21 @@ public abstract class TypeValidator {
      */
     public static final int getDigit(char ch) {
         return isDigit(ch) ? ch - '0' : -1;
+    }
+    
+    //get the number of precision of the value
+    //the parameters are in compiled form (from getActualValue)
+    public int getPrecision(Object value){
+        return 0;
+    }
+
+    //whether this value has a precision. false indicate it's a special value.
+    public boolean hasPrecision(Object value){
+        return false;
+    }
+    
+    public boolean hasTimeZone(Object value){
+        return false;
     }
     
 } // interface TypeValidator

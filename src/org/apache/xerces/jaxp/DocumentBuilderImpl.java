@@ -29,7 +29,7 @@ import org.apache.xerces.dom.DOMImplementationImpl;
 import org.apache.xerces.dom.DOMMessageFormatter;
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.validation.ValidationManager;
-import org.apache.xerces.impl.xs.XMLSchemaValidator;
+import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;
 import org.apache.xerces.jaxp.validation.XSGrammarPoolContainer;
 import org.apache.xerces.parsers.DOMParser;
 import org.apache.xerces.util.SecurityManager;
@@ -93,6 +93,10 @@ public class DocumentBuilderImpl extends DocumentBuilder
     /** Property identifier: security manager. */
     private static final String SECURITY_MANAGER =
         Constants.XERCES_PROPERTY_PREFIX + Constants.SECURITY_MANAGER_PROPERTY;
+    
+    /** Property identifier: XML Schema version. */
+    private static final String XML_SCHEMA_VERSION =
+        Constants.XERCES_PROPERTY_PREFIX + Constants.XML_SCHEMA_VERSION_PROPERTY;
     
     private final DOMParser domParser;
     private final Schema grammar;
@@ -161,8 +165,12 @@ public class DocumentBuilderImpl extends DocumentBuilder
             XMLParserConfiguration config = domParser.getXMLParserConfiguration();
             XMLComponent validatorComponent = null;
             /** For Xerces grammars, use built-in schema validator. **/
-            if (grammar instanceof XSGrammarPoolContainer) {
-                validatorComponent = new XMLSchemaValidator();
+            if (grammar instanceof XSGrammarPoolContainer) {  
+                String xmlSchemaVersion = ((XSGrammarPoolContainer) grammar).getXMLSchemaVersion();
+                validatorComponent = new XMLSchemaValidatorImpl();
+                if ((Constants.W3C_XML_SCHEMA11_NS_URI).equals(xmlSchemaVersion)) {
+                    validatorComponent.setProperty(XML_SCHEMA_VERSION, Constants.W3C_XML_SCHEMA11_NS_URI);
+                }
                 fSchemaValidationManager = new ValidationManager();
                 fUnparsedEntityHandler = new UnparsedEntityHandler(fSchemaValidationManager);
                 config.setDTDHandler(fUnparsedEntityHandler);

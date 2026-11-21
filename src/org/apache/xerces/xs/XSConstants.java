@@ -79,6 +79,26 @@ public interface XSConstants {
      * The object describes enumeration and pattern facets. 
      */
     public static final short MULTIVALUE_FACET          = 14;
+    
+    /**
+     * The object describes a XML schema type alternative
+     */
+    public static final short TYPE_ALTERNATIVE          = 15;
+    
+    /**
+     * The object describes a XML Schema assertion
+     */
+    public static final short ASSERTION                 = 16;
+    
+    /**
+     * The object describes a XML Schema assertion, facet
+     */
+    public static final short ASSERTION_FACET           = 17;
+
+    /**
+     * The object describes an openContent
+     */
+    public static final short OPEN_CONTENT              = 18;
 
     // Derivation constants
     /**

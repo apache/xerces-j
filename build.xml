@@ -41,12 +41,12 @@ Authors:
 
   <!-- enable compilation under JDK 1.4 and above. -->
   <!--
-    Although, the Java component org.apache.xerces.util.XJavac
-    is designed to support Java 1.4+ (and that's ok for Java 1.7+ 
-    as well), starting with XercesJ v 2.12.2, XercesJ builds 
-    produce Java binaries that require Java language level 1.7+.
-    Please see the definitions of Ant build properties javac.source
-    and javac.target further below. 
+	Although, the Java component org.apache.xerces.util.XJavac
+	is designed to support Java 1.4+ (and that's ok for Java 1.7+ 
+	as well), starting with XercesJ v 2.12.2, XercesJ builds 
+	produce Java binaries that require Java language level 1.7+.
+	Please see the definitions of Ant build properties javac.source
+	and javac.target further below. 
   -->
   <taskdef name="xjavac" classname="org.apache.xerces.util.XJavac">
     <classpath>
@@ -66,9 +66,9 @@ Authors:
     <property name='parser.Name' value='Xerces-J'/>
     <property name='parser.name' value='xerces-j'/>
     <property name='parser.shortname' value='xerces'/>
-    <property name='parser.Version' value='2.12.3'/>
-    <property name='parser.version' value='2.12.3'/>
-    <property name='parser_version' value='2_12_3'/>
+    <property name='parser.Version' value='2.12.3-xml-schema-1.1'/>
+    <property name='parser.version' value='2.12.3-xml-schema-1.1'/>
+    <property name='parser_version' value='2_12_3-xml-schema-1.1'/>
 
     <property name='deprecatedjar.parser' value='xerces.jar'/>
     <property name='jar.apis' value='xml-apis.jar'/>
@@ -77,12 +77,15 @@ Authors:
     <property name='jar.dv' value='xercesDV.jar'/>
     <property name='jar.resolver' value='resolver.jar'/>
     <property name='jar.serializer' value='serializer.jar'/>
+    <property name='jar.charnormalizer' value='icu4j.jar'/>
+    <property name='jar.xpath2' value='org.eclipse.wst.xml.xpath2.processor_1.2.1.jar'/>
+    <property name='jar.cup' value='cupv10k-runtime.jar'/>
     
     <!-- deliberately using 4.10 since 4.11 and later require a separate hamcrest jar -->
     <property name='jar.junit' value='junit-4.10.jar'/>
     <property name='jar.ant' value='ant.jar'/>
     <property name='jar.xjavac' value='xjavac.jar'/>
-    
+
     <property name='default.parser.config.name' value='XIncludeAwareParserConfiguration'/>
     <property name='default.parser.config.qualified' value='org.apache.xerces.parsers.XIncludeAwareParserConfiguration'/>
 
@@ -287,7 +290,7 @@ Authors:
            destdir="${build.dest}"
            source="${javac.source}"
            target="${javac.target}"
-           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"
+           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${tools.dir}/${jar.charnormalizer}:${tools.dir}/${jar.xpath2}:${tools.dir}/${jar.cup}"
            debug="${debug}"
            debuglevel="${debuglevel}"
            deprecation="${deprecation}"
@@ -567,7 +570,7 @@ Authors:
                            org.apache.xerces.xpointer'
       locale='en_US'
       sourcepath='${build.src}' destdir='${build.dir}/docs/javadocs/xerces2'
-      classpath='${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}'
+      classpath='${tools.dir}/${jar.xpath2}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}'
       author='true' version='true'
       windowtitle='Xerces2 Implementation' 
       doctitle='Xerces2 Implementation'
@@ -583,6 +586,7 @@ Authors:
                            org.apache.xml.serialize.*'
       locale='en_US'
       sourcepath='${build.src}' destdir='${build.dir}/docs/javadocs/other'
+      classpath='${tools.dir}/${jar.xpath2}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}'
       author='true' version='true'
       windowtitle='Other Classes' doctitle='Other Classes'
       bottom='${copyright}'
@@ -638,7 +642,10 @@ Authors:
     <copy file="LICENSE" tofile="${distsrc.dir}/LICENSE"/>
     <copy file="NOTICE" tofile="${distsrc.dir}/NOTICE"/>
     <copy file="LICENSE.DOM-documentation.html" tofile="${distsrc.dir}/LICENSE.DOM-documentation.html"/>
+    <copy file="LICENSE.icu4j.html" tofile="${distsrc.dir}/LICENSE.icu4j.html"/>
     <copy file="LICENSE.DOM-software.html" tofile="${distsrc.dir}/LICENSE.DOM-software.html"/>
+    <copy file="LICENSE.cupv10k-runtime.txt" tofile="${distsrc.dir}/LICENSE.cupv10k-runtime.txt"/>
+    <copy file="LICENSE.org.eclipse.wst.xml.xpath2.processor_1.2.1.html" tofile="${distsrc.dir}/LICENSE.org.eclipse.wst.xml.xpath2.processor_1.2.1.html"/>
     <copy file="README.md" tofile="${distsrc.dir}/README.md"/>
     <copy file="build.xml" tofile="${distsrc.dir}/build.xml"/>
     <copy file="${basedir}/build.sh" tofile="${distsrc.dir}/build.sh" />
@@ -729,6 +736,9 @@ Authors:
     <copy file="NOTICE" tofile="${distsrc.dir}/NOTICE"/>
     <copy file="LICENSE.DOM-documentation.html" tofile="${distsrc.dir}/LICENSE.DOM-documentation.html"/>
     <copy file="LICENSE.DOM-software.html" tofile="${distsrc.dir}/LICENSE.DOM-software.html"/>
+    <copy file="LICENSE.icu4j.html" tofile="${distsrc.dir}/LICENSE.icu4j.html"/>
+    <copy file="LICENSE.cupv10k-runtime.txt" tofile="${distsrc.dir}/LICENSE.cupv10k-runtime.txt"/>
+    <copy file="LICENSE.org.eclipse.wst.xml.xpath2.processor_1.2.1.html" tofile="${distsrc.dir}/LICENSE.org.eclipse.wst.xml.xpath2.processor_1.2.1.html"/>
     <copy file="README.md" tofile="${distbin.dir}/README.md"/>
 
     <copy file="${build.dir}/${jar.samples}" tofile="${distbin.dir}/${jar.samples}"/>
@@ -754,6 +764,12 @@ Authors:
     <copy file="${tools.dir}/${jar.resolver}" tofile="${distbin.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
     <copy file="${tools.dir}/${jar.serializer}" tofile="${distbin.dir}/${jar.serializer}"/>
+    <!-- include the ICU4J character normalizer -->
+    <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${distbin.dir}/${jar.charnormalizer}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${distbin.dir}/${jar.xpath2}"/>
+    <!-- include the Java Cup Runtime -->
+    <copy file="${tools.dir}/${jar.cup}" tofile="${distbin.dir}/${jar.cup}"/>
 
     <zip zipfile="${build.dir}/${parser.Name}-bin.${parser.version}.zip" 
          basedir="${build.dir}"
@@ -780,6 +796,12 @@ Authors:
     <copy file="${tools.dir}/${jar.resolver}" tofile="${distbin.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
     <copy file="${tools.dir}/${jar.serializer}" tofile="${distbin.dir}/${jar.serializer}"/>
+    <!-- include the ICU4J character normalizer -->
+    <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${distbin.dir}/${jar.charnormalizer}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${distbin.dir}/${jar.xpath2}"/>
+    <!-- include the Java Cup Runtime -->
+    <copy file="${tools.dir}/${jar.cup}" tofile="${distbin.dir}/${jar.cup}"/>
 
     <zip zipfile="${build.dir}/deprecated${parser.Name}-bin.${parser.version}.zip" 
          basedir="${build.dir}"
@@ -894,6 +916,29 @@ Authors:
         <formatter type="brief" usefile="false"/>
     </junit>
 
+    <!-- XSD 1.1 tests: they need the XPath 2.0 processor and its dependencies -->
+    <junit fork="yes" forkmode="once"
+           haltonfailure="no"
+           haltonerror="no"
+           failureproperty="test.failed"
+           errorproperty="test.failed"
+           showoutput="yes">
+        <classpath>
+          <path refid="test.classpath"/>
+          <pathelement location="${tools.dir}/${jar.xpath2}"/>
+          <pathelement location="${tools.dir}/${jar.cup}"/>
+          <pathelement location="${tools.dir}/${jar.charnormalizer}"/>
+        </classpath>
+        <sysproperty key="org.apache.xerces.tests.dataDir" file="${tests.dir}/org/apache/xerces/tests/data"/>
+        <batchtest fork="yes" todir="test-reports">
+          <fileset dir="${build.tests.dir}">
+             <include name="org/apache/xerces/tests/*Tests.class"/>
+             <exclude name="org/apache/xerces/tests/AllXercesXSD11Tests.class"/>
+          </fileset>
+        </batchtest>
+        <formatter type="brief" usefile="false"/>
+    </junit>
+
     <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
@@ -971,6 +1016,12 @@ Authors:
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
     <copy file="${tools.dir}/${jar.serializer}" tofile="${build.dir}/${jar.serializer}"/>
+    <!-- include the ICU4J character normalizer -->
+    <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${build.dir}/${jar.charnormalizer}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${build.dir}/${jar.xpath2}"/>
+    <!-- include the Java Cup Runtime -->
+    <copy file="${tools.dir}/${jar.cup}" tofile="${build.dir}/${jar.cup}"/>
   </target>
 
   <!-- =================================================================== -->
@@ -983,6 +1034,12 @@ Authors:
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
     <copy file="${tools.dir}/${jar.serializer}" tofile="${build.dir}/${jar.serializer}"/>
+    <!-- include the ICU4J character normalizer -->
+    <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${build.dir}/${jar.charnormalizer}"/>
+    <!-- include the XPath 2.0 processor -->
+    <copy file="${tools.dir}/${jar.xpath2}" tofile="${build.dir}/${jar.xpath2}"/>
+    <!-- include the Java Cup Runtime -->
+    <copy file="${tools.dir}/${jar.cup}" tofile="${build.dir}/${jar.cup}"/>
   </target>
 
   <!-- =================================================================== -->
@@ -1209,7 +1266,7 @@ Authors:
 
     <!-- HACK: Remove references to schema validation support from org.apache.xerces.jaxp -->
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserImpl.java" 
-             token="import org.apache.xerces.impl.xs.XMLSchemaValidator;" value=""/>
+             token="import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;" value=""/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserImpl.java" 
              token="import org.apache.xerces.jaxp.validation.XSGrammarPoolContainer;" value=""/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserImpl.java" 
@@ -1221,7 +1278,9 @@ Authors:
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserImpl.java" 
              token="(grammar instanceof XSGrammarPoolContainer)" value="(grammar != null)"/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserImpl.java" 
-             token="new XMLSchemaValidator();" value="null;"/>
+             token="new XMLSchemaValidatorImpl();" value="null;"/>
+    <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserImpl.java" 
+             token="((XSGrammarPoolContainer) grammar).getXMLSchemaVersion();" value="null;"/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserImpl.java" 
              token="new UnparsedEntityHandler(fSchemaValidationManager);" value="null;"/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/SAXParserImpl.java" 
@@ -1234,7 +1293,7 @@ Authors:
              token="fSAXParser.fUnparsedEntityHandler.reset();" value=""/>
 
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
-             token="import org.apache.xerces.impl.xs.XMLSchemaValidator;" value=""/>
+             token="import org.apache.xerces.impl.xs.XMLSchemaValidatorImpl;" value=""/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
              token="import org.apache.xerces.jaxp.validation.XSGrammarPoolContainer;" value=""/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
@@ -1246,7 +1305,9 @@ Authors:
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
              token="(grammar instanceof XSGrammarPoolContainer)" value="(grammar != null)"/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
-             token="new XMLSchemaValidator();" value="null;"/>
+             token="new XMLSchemaValidatorImpl();" value="null;"/>
+    <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
+             token="((XSGrammarPoolContainer) grammar).getXMLSchemaVersion();" value="null;"/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
              token="new UnparsedEntityHandler(fSchemaValidationManager);" value="null;"/>
     <replace file="${build.dir}/src/org/apache/xerces/jaxp/DocumentBuilderImpl.java" 
@@ -1312,6 +1373,8 @@ Authors:
     <copy file="${tools.dir}/${jar.resolver}" tofile="${build.dir}/${jar.resolver}"/>
     <!-- include the Xalan Serializer -->
     <copy file="${tools.dir}/${jar.serializer}" tofile="${build.dir}/${jar.serializer}"/>
+    <!-- include the ICU4J character normalizer -->
+    <copy file="${tools.dir}/${jar.charnormalizer}" tofile="${build.dir}/${jar.charnormalizer}"/>
   </target>
 
   <!-- =================================================================== -->
@@ -1491,7 +1554,7 @@ Authors:
                destdir="${build.dest}"
                source="${javac.source}"
                target="${javac.target}"
-               classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}"
+	           classpath="${build.dir}/classes:${tools.dir}/${jar.apis}:${tools.dir}/${jar.resolver}:${tools.dir}/${jar.serializer}:${tools.dir}/${jar.xpath2}"
                debug="${debug}"
                debuglevel="${debuglevel}"
                deprecation="${deprecation}"

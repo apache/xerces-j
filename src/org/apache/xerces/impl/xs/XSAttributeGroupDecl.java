@@ -18,6 +18,7 @@
 package org.apache.xerces.impl.xs;
 
 import org.apache.xerces.impl.dv.ValidatedInfo;
+import org.apache.xerces.impl.dv.xs.EqualityHelper;
 import org.apache.xerces.impl.xs.util.XSObjectListImpl;
 import org.apache.xerces.xs.XSAnnotation;
 import org.apache.xerces.xs.XSAttributeGroupDefinition;
@@ -72,6 +73,33 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
         // if this attribute use is prohibited, then don't check whether it's
         // of type ID
         if (attrUse.fUse != SchemaSymbols.USE_PROHIBITED) {
+            if (attrUse.fAttrDecl.fType.isIDType()) {
+                // if there is already an attribute use of type ID,
+                // return its name (and don't add it to the list, to avoid
+                // interruption to instance validation.
+                if (fIDAttrName == null)
+                    fIDAttrName = attrUse.fAttrDecl.fName;
+                else
+                    return fIDAttrName;
+            }
+        }
+
+        if (fAttrUseNum == fAttributeUses.length) {
+            fAttributeUses = resize(fAttributeUses, fAttrUseNum*2);
+        }
+        fAttributeUses[fAttrUseNum++] = attrUse;
+
+        return null;
+    }
+
+    public String addAttributeUse(XSAttributeUseImpl attrUse, boolean allowMultipleIds) {
+
+        // if this attribute use is prohibited, then don't check whether it's
+        // of type ID
+        //
+        // XML Schema 1.1 allows multiple attributes of type ID, so no need to set
+        // fIDAttrName
+        if (attrUse.fUse != SchemaSymbols.USE_PROHIBITED && !allowMultipleIds) {
             if (attrUse.fAttrDecl.fType.isIDType()) {
                 // if there is already an attribute use of type ID,
                 // return its name (and don't add it to the list, to avoid
@@ -166,7 +194,7 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
      * @param typeName the name of the type containing this attribute group, used for error reporting purposes
      * @param baseGroup the XSAttributeGroupDecl that is the base we are checking against
      */
-    public Object[] validRestrictionOf(String typeName, XSAttributeGroupDecl baseGroup) {
+    public Object[] validRestrictionOf(String typeName, XSAttributeGroupDecl baseGroup, XSConstraints xsConstraints) {
 
         Object[] errorArgs = null;
         XSAttributeUseImpl attrUse = null;
@@ -203,14 +231,13 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
                 //
                 // derivation-ok-restriction.  Constraint 2.1.1
                 //
-                if (! XSConstraints.checkSimpleDerivationOk(attrDecl.fType,
+                if (! xsConstraints.checkSimpleDerivationOk(attrDecl.fType,
                                                             baseAttrDecl.fType,
                                                             baseAttrDecl.fType.getFinal()) ) {
 					errorArgs = new Object[]{typeName, attrDecl.fName, attrDecl.fType.getName(),
 						                     baseAttrDecl.fType.getName(), "derivation-ok-restriction.2.1.2"};
 					return errorArgs;
                 }
-
 
                 //
                 // derivation-ok-restriction.  Constraint 2.1.3
@@ -228,11 +255,12 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
 						return errorArgs;
                     } else {
                         // check the values are the same.
-                        ValidatedInfo baseFixedValue=(baseAttrUse.fDefault!=null ?
+                        final ValidatedInfo baseFixedValue=(baseAttrUse.fDefault!=null ?
                                                       baseAttrUse.fDefault: baseAttrDecl.fDefault);
-                        ValidatedInfo thisFixedValue=(attrUse.fDefault!=null ?
+                        final ValidatedInfo thisFixedValue=(attrUse.fDefault!=null ?
                                                       attrUse.fDefault: attrDecl.fDefault);
-                        if (!baseFixedValue.actualValue.equals(thisFixedValue.actualValue)) {
+
+                        if (!EqualityHelper.isEqual(baseFixedValue, thisFixedValue, xsConstraints.getSchemaVersion())) {
 							errorArgs = new Object[]{typeName, attrDecl.fName, thisFixedValue.stringValue(),
 													 baseFixedValue.stringValue(), "derivation-ok-restriction.2.1.3.b"};
 							return errorArgs;
@@ -240,6 +268,11 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
 
                     }
 
+                }
+                
+                if (baseAttrUse.getInheritable() != attrUse.getInheritable()) {
+                    errorArgs = new Object[]{typeName, attrDecl.fName, "cos-content-act-restrict.5.3"};
+                    return errorArgs;  
                 }
             } else {
                 // No matching attribute in base - there should be a matching wildcard
@@ -292,7 +325,7 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
 				errorArgs = new Object[]{typeName, "derivation-ok-restriction.4.1"};
 				return errorArgs;
             }
-            if (! fAttributeWC.isSubsetOf(baseGroup.fAttributeWC)) {
+            if (! xsConstraints.isSubsetOf(fAttributeWC, baseGroup.fAttributeWC)) {
 				errorArgs = new Object[]{typeName, "derivation-ok-restriction.4.2"};
 				return errorArgs;
             }

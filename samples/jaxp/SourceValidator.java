@@ -87,6 +87,18 @@ public class SourceValidator implements ErrorHandler {
     /** Generate synthetic schema annotations feature id (http://apache.org/xml/features/generate-synthetic-annotations). */
     protected static final String GENERATE_SYNTHETIC_ANNOTATIONS_ID = "http://apache.org/xml/features/generate-synthetic-annotations";
     
+    /** XSD 1.1 CTA full XPath 2.0 checking feature id (http://apache.org/xml/features/validation/cta-full-xpath-checking). */
+    protected static final String XS11_CTA_FULL_XPATH_CHECKING_ID = "http://apache.org/xml/features/validation/cta-full-xpath-checking";
+    
+    /** SAX namespace prefixes feature id (http://xml.org/sax/features/namespace-prefixes). */
+    protected static final String SAX_NAMESPACE_PREFIXES_FEATURE_ID = "http://xml.org/sax/features/namespace-prefixes";
+    
+    /** SAX namespace xmlns URIs feature id (http://xml.org/sax/features/xmlns-uris). */
+    protected static final String SAX_XMLNS_URIS_FEATURE_ID = "http://xml.org/sax/features/xmlns-uris";
+    
+    /** XSD 1.1 assert comments and PI checking feature id (http://apache.org/xml/features/validation/assert-comments-and-pi-checking). */
+    protected static final String XS11_ASSERT_COMMENT_PI_CHECKING_ID = "http://apache.org/xml/features/validation/assert-comments-and-pi-checking";
+    
     // property ids
     
     /** StAX support for reporting line and column numbers property id (javax.xml.stream.isSupportingLocationCoordinates). */
@@ -96,6 +108,9 @@ public class SourceValidator implements ErrorHandler {
     
     /** Default schema language (http://www.w3.org/2001/XMLSchema). */
     protected static final String DEFAULT_SCHEMA_LANGUAGE = XMLConstants.W3C_XML_SCHEMA_NS_URI;
+    
+    /** XSD 1.1 schema language (http://www.w3.org/XML/XMLSchema/v1.1). */
+    protected static final String XSD11_SCHEMA_LANGUAGE = "http://www.w3.org/XML/XMLSchema/v1.1";
     
     /** Default repetition (1). */
     protected static final int DEFAULT_REPETITION = 1;
@@ -114,6 +129,18 @@ public class SourceValidator implements ErrorHandler {
     
     /** Default generate synthetic schema annotations (false). */
     protected static final boolean DEFAULT_GENERATE_SYNTHETIC_ANNOTATIONS = false;
+    
+    /** Default sax namespace prefixes (true). */
+    protected static final boolean DEFAULT_SAX_NAMESPACE_PREFIXES = true;
+    
+    /** Default sax xmlns uris (true). */
+    protected static final boolean DEFAULT_SAX_XMLNS_URIS = true;
+    
+    /** Default XSD 1.1 CTA full XPath 2.0 checking (false). */
+    protected static final boolean DEFAULT_XS11_CTA_XPATH_FULL_CHECKING = false;
+    
+    /** Default XSD 1.1 assert comments and PI checking (false). */
+    protected static final boolean DEFAULT_XS11_ASSERT_COMMENT_PI_CHECKING = false;
     
     /** Default memory usage report (false). */
     protected static final boolean DEFAULT_MEMORY_USAGE = false;
@@ -306,6 +333,10 @@ public class SourceValidator implements ErrorHandler {
         boolean honourAllSchemaLocations = DEFAULT_HONOUR_ALL_SCHEMA_LOCATIONS;
         boolean validateAnnotations = DEFAULT_VALIDATE_ANNOTATIONS;
         boolean generateSyntheticAnnotations = DEFAULT_GENERATE_SYNTHETIC_ANNOTATIONS;
+        boolean saxNamespacePrefixes = DEFAULT_SAX_NAMESPACE_PREFIXES;
+        boolean saxXmlnsUris = DEFAULT_SAX_XMLNS_URIS;
+        boolean xs11CtaFullxpathchecking = DEFAULT_XS11_CTA_XPATH_FULL_CHECKING;
+        boolean xs11AssertCommentsAndPIchecking = DEFAULT_XS11_ASSERT_COMMENT_PI_CHECKING;
         boolean memoryUsage = DEFAULT_MEMORY_USAGE;
         
         // process arguments
@@ -322,6 +353,10 @@ public class SourceValidator implements ErrorHandler {
                         schemaLanguage = argv[i];
                     }
                     continue;
+                }
+                if (option.equals("xsd11")) {
+                   schemaLanguage = XSD11_SCHEMA_LANGUAGE;
+                   continue;
                 }
                 if (option.equals("x")) {
                     if (++i == argv.length) {
@@ -391,6 +426,14 @@ public class SourceValidator implements ErrorHandler {
                     generateSyntheticAnnotations = option.equals("ga");
                     continue;
                 }
+                if (option.equalsIgnoreCase("fx")) {
+                    xs11CtaFullxpathchecking = option.equals("fx");
+                    continue;
+                }
+                if (option.equalsIgnoreCase("acp")) {
+                    xs11AssertCommentsAndPIchecking = option.equals("acp");
+                    continue;
+                }
                 if (option.equalsIgnoreCase("m")) {
                     memoryUsage = option.equals("m");
                     continue;
@@ -449,6 +492,18 @@ public class SourceValidator implements ErrorHandler {
                 System.err.println("warning: SchemaFactory does not support feature ("+GENERATE_SYNTHETIC_ANNOTATIONS_ID+")");
             }
             
+            if (XSD11_SCHEMA_LANGUAGE.equals(schemaLanguage)) {
+                try {
+                    factory.setFeature(XS11_CTA_FULL_XPATH_CHECKING_ID, xs11CtaFullxpathchecking);
+                }
+                catch (SAXNotRecognizedException e) {
+                    System.err.println("warning: SchemaFactory does not recognize feature ("+XS11_CTA_FULL_XPATH_CHECKING_ID+")");
+                }
+                catch (SAXNotSupportedException e) {
+                    System.err.println("warning: SchemaFactory does not support feature ("+XS11_CTA_FULL_XPATH_CHECKING_ID+")");
+                }
+            }
+            
             // Build Schema from sources
             Schema schema;
             if (schemas != null && schemas.size() > 0) {
@@ -503,14 +558,40 @@ public class SourceValidator implements ErrorHandler {
             catch (SAXNotSupportedException e) {
                 System.err.println("warning: Validator does not support feature ("+GENERATE_SYNTHETIC_ANNOTATIONS_ID+")");
             }
-
+            
+            if (XSD11_SCHEMA_LANGUAGE.equals(schemaLanguage)) {
+                try {
+                    validator.setFeature(XS11_CTA_FULL_XPATH_CHECKING_ID, xs11CtaFullxpathchecking);
+                }
+                catch (SAXNotRecognizedException e) {
+                    System.err.println("warning: Validator does not recognize feature ("+XS11_CTA_FULL_XPATH_CHECKING_ID+")");
+                }
+                catch (SAXNotSupportedException e) {
+                    System.err.println("warning: Validator does not support feature ("+XS11_CTA_FULL_XPATH_CHECKING_ID+")");
+                }
+            }
+            
+            if (XSD11_SCHEMA_LANGUAGE.equals(schemaLanguage)) {
+                try {
+                    validator.setFeature(XS11_ASSERT_COMMENT_PI_CHECKING_ID, xs11AssertCommentsAndPIchecking);
+                }
+                catch (SAXNotRecognizedException e) {
+                    System.err.println("warning: Validator does not recognize feature ("+XS11_ASSERT_COMMENT_PI_CHECKING_ID+")");
+                }
+                catch (SAXNotSupportedException e) {
+                    System.err.println("warning: Validator does not support feature ("+XS11_ASSERT_COMMENT_PI_CHECKING_ID+")");
+                }
+            }
+            
             // Validate instance documents
             if (instances != null && instances.size() > 0) {
                 final int length = instances.size();
                 if (validationSource.equals("sax")) {
                     // SAXSource
                     XMLReader reader = XMLReaderFactory.createXMLReader();
-                    reader.setErrorHandler(sourceValidator);
+                    reader.setFeature(SAX_NAMESPACE_PREFIXES_FEATURE_ID, saxNamespacePrefixes);
+                    reader.setFeature(SAX_XMLNS_URIS_FEATURE_ID, saxXmlnsUris);
+                    reader.setErrorHandler(sourceValidator);                    
                     for (int j = 0; j < length; ++j) {
                         String systemId = (String) instances.elementAt(j);
                         SAXSource source = new SAXSource(reader, new InputSource(systemId));
@@ -585,32 +666,43 @@ public class SourceValidator implements ErrorHandler {
         System.err.println("  -a uri ...  Provide a list of schema documents");
         System.err.println("  -i uri ...  Provide a list of instance documents to validate");
         System.err.println("  -vs source  Select validation source (sax|dom|stax|stream)");
-        System.err.println("  -f  | -F    Turn on/off Schema full checking.");
+        System.err.println("  -f   | -F   Turn on/off Schema full checking.");
         System.err.println("              NOTE: Not supported by all schema factories and validators.");
-        System.err.println("  -hs | -HS   Turn on/off honouring of all schema locations.");
+        System.err.println("  -hs  | -HS  Turn on/off honouring of all schema locations.");
         System.err.println("              NOTE: Not supported by all schema factories and validators.");
-        System.err.println("  -va | -VA   Turn on/off validation of schema annotations.");
+        System.err.println("  -va  | -VA  Turn on/off validation of schema annotations.");
         System.err.println("              NOTE: Not supported by all schema factories and validators.");
-        System.err.println("  -ga | -GA   Turn on/off generation of synthetic schema annotations.");
+        System.err.println("  -ga  | -GA  Turn on/off generation of synthetic schema annotations.");
         System.err.println("              NOTE: Not supported by all schema factories and validators.");
-        System.err.println("  -m  | -M    Turn on/off memory usage report");
+        System.err.println("  -m   | -M   Turn on/off memory usage report");
+        System.err.println("  -xsd11      Turn on/off XSD 1.1 support.");
+        System.err.println("  -fx         Turn on/off full XPath 2.0 checks with CTA when working");
+        System.err.println("              with XSD 1.1.");
+        System.err.println("  -acp        Turn on/off assert comments and PI processing when working");
+        System.err.println("              with XSD 1.1.");
         System.err.println("  -h          This help screen.");
         
         System.err.println();
         System.err.println("defaults:");
-        System.err.println("  Schema language:                 " + DEFAULT_SCHEMA_LANGUAGE);
-        System.err.println("  Repetition:                      " + DEFAULT_REPETITION);
-        System.err.println("  Validation source:               " + DEFAULT_VALIDATION_SOURCE);
-        System.err.print("  Schema full checking:            ");
+        System.err.println("  Schema language:                    " + DEFAULT_SCHEMA_LANGUAGE);
+        System.err.println("  Repetition:                         " + DEFAULT_REPETITION);
+        System.err.println("  Validation source:                  " + DEFAULT_VALIDATION_SOURCE);
+        System.err.print("  Schema full checking:               ");
         System.err.println(DEFAULT_SCHEMA_FULL_CHECKING ? "on" : "off");
-        System.err.print("  Honour all schema locations:     ");
+        System.err.print("  Honour all schema locations:        ");
         System.err.println(DEFAULT_HONOUR_ALL_SCHEMA_LOCATIONS ? "on" : "off");
-        System.err.print("  Validate annotations:            ");
+        System.err.print("  Validate annotations:               ");
         System.err.println(DEFAULT_VALIDATE_ANNOTATIONS ? "on" : "off");
-        System.err.print("  Generate synthetic annotations:  ");
+        System.err.print("  Generate synthetic annotations:     ");
         System.err.println(DEFAULT_GENERATE_SYNTHETIC_ANNOTATIONS ? "on" : "off");
-        System.err.print("  Memory:                          ");
+        System.err.print("  Memory:                             ");
         System.err.println(DEFAULT_MEMORY_USAGE ? "on" : "off");
+        System.err.print("  XSD 1.1 [-xsd11 option]:            ");
+        System.err.println("off");
+        System.err.print("  CTA XPath 2.0:                      ");
+        System.err.println(DEFAULT_XS11_CTA_XPATH_FULL_CHECKING ? "on" : "off");
+        System.err.print("  Assert comments and PI processing:  ");
+        System.err.println(DEFAULT_XS11_ASSERT_COMMENT_PI_CHECKING ? "on" : "off");
         
         System.err.println();
         System.err.println("notes:");

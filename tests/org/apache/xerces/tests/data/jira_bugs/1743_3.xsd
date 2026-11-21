@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+    <xs:element name="X">
+       <xs:simpleType>
+          <xs:restriction base="ListType1">
+             <xs:enumeration value="2 4 6"/>
+             <xs:enumeration value="2 7 4"/>
+             <xs:enumeration value="2 4 6"/>
+          </xs:restriction>
+       </xs:simpleType>
+    </xs:element>
+    
+    <xs:simpleType name="ListType1">
+       <xs:list itemType="INT_TYPE"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="INT_TYPE">
+       <xs:restriction base="xs:integer">
+         <xs:assertion test="$value mod 2 = 0"/>
+       </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

@@ -17,6 +17,8 @@
 
 package org.apache.xerces.xs;
 
+import java.util.Vector;
+
 import org.apache.xerces.xs.datatypes.ObjectList;
 
 /**
@@ -43,5 +45,10 @@ public interface XSMultiValueFacet extends XSObject {
      * A sequence of [annotations] or an empty <code>XSObjectList</code>.
      */
     public XSObjectList getAnnotations();
+    
+    /*
+     * Added for XML Schema 1.1, assertions
+     */
+    public Vector getAsserts();
 
 }

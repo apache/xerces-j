@@ -747,6 +747,9 @@ public class XMLEntityManager
             //if (systemId != null)
             xmlInputSource = new XMLInputSource(publicId, literalSystemId, baseSystemId);
         }
+        else if (xmlInputSource.getSystemId() == null) {
+            xmlInputSource.setSystemId(expandedSystemId);
+        }
 
         if (DEBUG_RESOLVER) {
             System.err.println("XMLEntityManager.resolveEntity(" + publicId + ")");

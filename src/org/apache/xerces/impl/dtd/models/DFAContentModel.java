@@ -17,6 +17,7 @@
 
 package org.apache.xerces.impl.dtd.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.xerces.impl.dtd.XMLContentSpec;
@@ -746,100 +747,85 @@ public class DFAContentModel
      *
      * @exception CMException Thrown if follow list cannot be calculated.
      */
-    private void calcFollowList(CMNode nodeCur) 
+    private void calcFollowList(CMNode root)
     {
-        // Recurse as required
-        if (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_CHOICE)
-        {
-            // Recurse only
-            calcFollowList(((CMBinOp)nodeCur).getLeft());
-            calcFollowList(((CMBinOp)nodeCur).getRight());
-        }
-         else if (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_SEQ)
-        {
-            // Recurse first
-            calcFollowList(((CMBinOp)nodeCur).getLeft());
-            calcFollowList(((CMBinOp)nodeCur).getRight());
-
-            //
-            //  Now handle our level. We use our left child's last pos
-            //  set and our right child's first pos set, so go ahead and
-            //  get them ahead of time.
-            //
-            final CMStateSet last  = ((CMBinOp)nodeCur).getLeft().lastPos();
-            final CMStateSet first = ((CMBinOp)nodeCur).getRight().firstPos();
-
-            //
-            //  Now, for every position which is in our left child's last set
-            //  add all of the states in our right child's first set to the
-            //  follow set for that position.
-            //
-            for (int index = 0; index < fLeafCount; index++)
-            {
-                if (last.getBit(index))
-                    fFollowList[index].union(first);
+        //
+        //  Traverse the tree iteratively and process the nodes in post-order.
+        //  This avoids exhausting the Java stack for deeply nested content
+        //  models and makes sure the cached position sets of the children are
+        //  available before they are needed by their parent.
+        //
+        final ArrayList<CMNode> stack = new ArrayList<CMNode>();
+        final ArrayList<CMNode> postOrder = new ArrayList<CMNode>();
+        stack.add(root);
+        while (!stack.isEmpty()) {
+            final CMNode nodeCur = stack.remove(stack.size() - 1);
+            postOrder.add(nodeCur);
+            final int type = nodeCur.type();
+            if (type == XMLContentSpec.CONTENTSPECNODE_CHOICE
+                || type == XMLContentSpec.CONTENTSPECNODE_SEQ) {
+                stack.add(((CMBinOp)nodeCur).getRight());
+                stack.add(((CMBinOp)nodeCur).getLeft());
+            }
+            else if (type == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_MORE
+                  || type == XMLContentSpec.CONTENTSPECNODE_ONE_OR_MORE
+                  || type == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_ONE) {
+                stack.add(((CMUniOp)nodeCur).getChild());
             }
         }
-         /***
-         else if (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_MORE)
-        {
-            // Recurse first
-            calcFollowList(((CMUniOp)nodeCur).getChild());
 
-            //
-            //  Now handle our level. We use our own first and last position
-            //  sets, so get them up front.
-            //
-            final CMStateSet first = nodeCur.firstPos();
-            final CMStateSet last  = nodeCur.lastPos();
+        for (int i = postOrder.size() - 1; i >= 0; i--) {
+            final CMNode nodeCur = postOrder.get(i);
+            final int type = nodeCur.type();
 
-            //
-            //  For every position which is in our last position set, add all
-            //  of our first position states to the follow set for that
-            //  position.
-            //
-            for (int index = 0; index < fLeafCount; index++)
+            //  Calculate the cached values from the children upwards.
+            nodeCur.isNullable();
+            nodeCur.firstPos();
+            nodeCur.lastPos();
+
+            if (type == XMLContentSpec.CONTENTSPECNODE_SEQ)
             {
-                if (last.getBit(index))
-                    fFollowList[index].union(first);
+                //
+                //  Now handle our level. We use our left child's last pos
+                //  set and our right child's first pos set, so go ahead and
+                //  get them ahead of time.
+                //
+                final CMStateSet last  = ((CMBinOp)nodeCur).getLeft().lastPos();
+                final CMStateSet first = ((CMBinOp)nodeCur).getRight().firstPos();
+
+                //
+                //  Now, for every position which is in our left child's last set
+                //  add all of the states in our right child's first set to the
+                //  follow set for that position.
+                //
+                for (int index = 0; index < fLeafCount; index++)
+                {
+                    if (last.getBit(index))
+                        fFollowList[index].union(first);
+                }
+            }
+            else if (type == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_MORE
+                  || type == XMLContentSpec.CONTENTSPECNODE_ONE_OR_MORE)
+            {
+                //
+                //  Now handle our level. We use our own first and last position
+                //  sets, so get them up front.
+                //
+                final CMStateSet first = nodeCur.firstPos();
+                final CMStateSet last  = nodeCur.lastPos();
+
+                //
+                //  For every position which is in our last position set, add all
+                //  of our first position states to the follow set for that
+                //  position.
+                //
+                for (int index = 0; index < fLeafCount; index++)
+                {
+                    if (last.getBit(index))
+                        fFollowList[index].union(first);
+                }
             }
         }
-         else if ((nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ONE_OR_MORE)
-              ||  (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_ONE))
-        {
-            throw new RuntimeException("ImplementationMessages.VAL_NIICM");
-        }
-        /***/
-         else if (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_MORE
-	    || nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ONE_OR_MORE)
-        {
-            // Recurse first
-            calcFollowList(((CMUniOp)nodeCur).getChild());
-
-            //
-            //  Now handle our level. We use our own first and last position
-            //  sets, so get them up front.
-            //
-            final CMStateSet first = nodeCur.firstPos();
-            final CMStateSet last  = nodeCur.lastPos();
-
-            //
-            //  For every position which is in our last position set, add all
-            //  of our first position states to the follow set for that
-            //  position.
-            //
-            for (int index = 0; index < fLeafCount; index++)
-            {
-                if (last.getBit(index))
-                    fFollowList[index].union(first);
-            }
-        }
-       
-        else if (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_ONE) {
-            // Recurse only
-            calcFollowList(((CMUniOp)nodeCur).getChild());
-        }
-         /***/
     }
 
     /**
@@ -931,49 +917,56 @@ public class DFAContentModel
     }
 
     /** Post tree build initialization. */
-    private int postTreeBuildInit(CMNode nodeCur, int curIndex) 
+    private int postTreeBuildInit(CMNode root, int curIndex)
     {
-        // Set the maximum states on this node
-        nodeCur.setMaxStates(fLeafCount);
+        final ArrayList<CMNode> stack = new ArrayList<CMNode>();
+        stack.add(root);
+        while (!stack.isEmpty()) {
+            final CMNode nodeCur = stack.remove(stack.size() - 1);
 
-        // Recurse as required
-        if ((nodeCur.type() & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY ||
-            (nodeCur.type() & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY_LOCAL ||
-            (nodeCur.type() & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY_OTHER) {
-            // REVISIT: Don't waste these structures.
-            QName qname = new QName(null, null, null, ((CMAny)nodeCur).getURI());
-            fLeafList[curIndex] = new CMLeaf(qname, ((CMAny)nodeCur).getPosition());
-            fLeafListType[curIndex] = nodeCur.type();
-            curIndex++;
-        }
-        else if ((nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_CHOICE)
-        ||  (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_SEQ))
-        {
-            curIndex = postTreeBuildInit(((CMBinOp)nodeCur).getLeft(), curIndex);
-            curIndex = postTreeBuildInit(((CMBinOp)nodeCur).getRight(), curIndex);
-        }
-         else if (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_MORE
-	     || nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ONE_OR_MORE
-	     || nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_ONE)
-        {
-            curIndex = postTreeBuildInit(((CMUniOp)nodeCur).getChild(), curIndex);
-        }
-         else if (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_LEAF)
-        {
-            //
-            //  Put this node in the leaf list at the current index if its
-            //  a non-epsilon leaf.
-            //
-             final QName node = ((CMLeaf)nodeCur).getElement();
-            if (node.localpart != fEpsilonString) {
-                fLeafList[curIndex] = (CMLeaf)nodeCur;
-                fLeafListType[curIndex] = XMLContentSpec.CONTENTSPECNODE_LEAF;
+            // Set the maximum states on this node
+            nodeCur.setMaxStates(fLeafCount);
+
+            if ((nodeCur.type() & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY ||
+                (nodeCur.type() & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY_LOCAL ||
+                (nodeCur.type() & 0x0f) == XMLContentSpec.CONTENTSPECNODE_ANY_OTHER) {
+                // REVISIT: Don't waste these structures.
+                QName qname = new QName(null, null, null, ((CMAny)nodeCur).getURI());
+                fLeafList[curIndex] = new CMLeaf(qname, ((CMAny)nodeCur).getPosition());
+                fLeafListType[curIndex] = nodeCur.type();
                 curIndex++;
             }
-        }
-         else
-        {
-            throw new RuntimeException("ImplementationMessages.VAL_NIICM: type="+nodeCur.type());
+            else if ((nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_CHOICE)
+            ||  (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_SEQ))
+            {
+                //  Push the children in reverse order so they are visited
+                //  from left to right.
+                stack.add(((CMBinOp)nodeCur).getRight());
+                stack.add(((CMBinOp)nodeCur).getLeft());
+            }
+            else if (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_MORE
+                 || nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ONE_OR_MORE
+                 || nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_ZERO_OR_ONE)
+            {
+                stack.add(((CMUniOp)nodeCur).getChild());
+            }
+            else if (nodeCur.type() == XMLContentSpec.CONTENTSPECNODE_LEAF)
+            {
+                //
+                //  Put this node in the leaf list at the current index if its
+                //  a non-epsilon leaf.
+                //
+                final QName node = ((CMLeaf)nodeCur).getElement();
+                if (node.localpart != fEpsilonString) {
+                    fLeafList[curIndex] = (CMLeaf)nodeCur;
+                    fLeafListType[curIndex] = XMLContentSpec.CONTENTSPECNODE_LEAF;
+                    curIndex++;
+                }
+            }
+            else
+            {
+                throw new RuntimeException("ImplementationMessages.VAL_NIICM: type="+nodeCur.type());
+            }
         }
         return curIndex;
     }

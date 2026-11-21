@@ -871,9 +871,7 @@ Authors:
              <include name="schema/config/RootTypeDefinitionTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
-             <!-- This test is failing. Fix it.
-              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
-             -->
+             <include name="schema/config/UnparsedEntityCheckingTest.class"/>
              <include name="xinclude/MalformedXPointerTest.class"/>
              <include name="xinclude/Test.class"/>
              <include name="xinclude/XIncludeCycleTest.class"/>

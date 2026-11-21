@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 /**
  * Tests {@link DateDV}.
  */
-public class TestDateDV extends TestCase {
+public class DateDVTest extends TestCase {
 
     public void testCanonicalValue() throws Exception {
         assertCanonicalValue("2003-12-31Z", "2003-12-31Z");

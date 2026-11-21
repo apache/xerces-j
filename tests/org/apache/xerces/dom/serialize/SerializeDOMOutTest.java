@@ -15,17 +15,16 @@
  * limitations under the License.
  */
 
-package dom.serialize;
+package org.apache.xerces.dom.serialize;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import junit.framework.TestCase;
 
 import org.apache.xerces.dom.DocumentImpl;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
@@ -38,53 +37,58 @@ import org.w3c.dom.Text;
  * 
  * @author Jeffrey Rodriguez
  * @version $Id$
- * @see                      TestSerializeDOMIn
+ * @see                      SerializeDOMOutTest
  */
-public class TestSerializeDOMIn extends TestCase {
 
-    public TestSerializeDOMIn() {
+
+public class SerializeDOMOutTest extends TestCase
+{          
+
+    public SerializeDOMOutTest(){
     }
 
-
-    /**
-     * Serializes Java DOM Object 
+      /**
+     * Deserializes Java DOM Object 
      * 
      * @param nameSerializeFile
      * @return 
      */
-    public DocumentImpl deserializeDOM( String nameSerializedFile ){
-        ObjectInputStream in   = null;
-        DocumentImpl      doc  = null;
+    public void serializeDOM( Document doc, String nameSerializedFile ){
         try {
+            ObjectOutputStream out               =
+                              new ObjectOutputStream( new FileOutputStream( nameSerializedFile ) );
+            out.writeObject(doc);
+            out.close();
 
-            FileInputStream fileIn = new FileInputStream( nameSerializedFile );
-            in                     = new ObjectInputStream(fileIn);
-            doc                    = (DocumentImpl) in.readObject();//Deserialize object
         } catch ( Exception ex ) {
             ex.printStackTrace();
         }
-        return doc;
     }
 
-
-    public void testDeserialize() throws Exception {
+    public void testSerializeRoundTrip() throws Exception {
         DocumentImpl doc = new DocumentImpl();
         Element root = doc.createElement("root");
         doc.appendChild(root);
-        Text text = doc.createTextNode("test");
+        root.setAttribute("attr", "value");
+        Text text = doc.createTextNode("hello");
         root.appendChild(text);
+
         File temp = File.createTempFile("xerces-serialize", ".ser");
         temp.deleteOnExit();
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(temp));
-            out.writeObject(doc);
-            out.close();
-            TestSerializeDOMIn tst = new TestSerializeDOMIn();
-            DocumentImpl result = tst.deserializeDOM(temp.getAbsolutePath());
-            assertNotNull("Deserialized document should not be null", result);
-            assertEquals("root element", "root", result.getDocumentElement().getNodeName());
+            SerializeDOMOutTest tstOut = new SerializeDOMOutTest();
+            tstOut.serializeDOM(doc, temp.getAbsolutePath());
+            SerializeDOMInTest tstIn = new SerializeDOMInTest();
+            DocumentImpl result = tstIn.deserializeDOM(temp.getAbsolutePath());
+            assertNotNull("Result should not be null", result);
+            Element resultRoot = result.getDocumentElement();
+            assertNotNull("Root element should not be null", resultRoot);
+            assertEquals("root", resultRoot.getNodeName());
+            assertEquals("value", resultRoot.getAttribute("attr"));
+            assertEquals("hello", resultRoot.getFirstChild().getNodeValue());
         } finally {
             temp.delete();
         }
     }
 }
+

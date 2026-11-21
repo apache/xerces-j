@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package idc;
+package org.apache.xerces.impl.xs.identity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +31,9 @@ import util.XercesAbstractTestCase;
  * @author <a href="mailto:mukulg@apache.org">Mukul Gandhi</a>
  * @version $Id$
  */
-public class IDConstraintTests extends XercesAbstractTestCase {
+public class IDConstraintTest extends XercesAbstractTestCase {
     
-    public IDConstraintTests(String name) {
+    public IDConstraintTest(String name) {
         super(name);
     }
     

@@ -34,7 +34,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * handler mode, multiple prefixes bound to the same namespace URI must all be
  * serialized. Otherwise the output is not namespace well-formed.
  */
-public class TestDuplicateNamespaceDeclarations extends TestCase {
+public class DuplicateNamespaceDeclarationsTest extends TestCase {
 
     private static final String XMLNS_URI = "http://www.w3.org/2000/xmlns/";
     private static final String URL_URI = "http://url";

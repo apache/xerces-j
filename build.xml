@@ -870,6 +870,7 @@ Authors:
              <include name="schema/config/RootSimpleTypeDefinitionTest.class"/>
              <include name="schema/config/RootTypeDefinitionTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
+             <include name="schema/config/ProhibitedAttributeExtensionTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <!-- This test is failing. Fix it.
               <include name="schema/config/UnparsedEntityCheckingTest.class"/>

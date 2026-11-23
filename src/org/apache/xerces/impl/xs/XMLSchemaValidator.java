@@ -3778,14 +3778,10 @@ public class XMLSchemaValidator
 
         // appends the contents of one ValueStore to those of us.
         public void append(ValueStoreBase newVal) {
-            // Appended values do not carry their type metadata. Keep the original lookup for merged stores.
-            if (!newVal.fValues.isEmpty()) {
-                fHasAppendedValues = true;
-                fTupleIndex = null;
-                fTupleLinks = null;
-            }
             for (int i = 0; i < newVal.fValues.size(); i++) {
                 fValues.addElement(newVal.fValues.elementAt(i));
+                addValueType(newVal.getValueTypeAt(i));
+                addItemValueType(newVal.getItemValueTypeAt(i));
             }
         } // append(ValueStoreBase)
 

@@ -3723,6 +3723,11 @@ public class XMLSchemaValidator
         private int fItemValueTypesLength = 0;
         private ShortList fItemValueType = null;
 
+        // Maps a tuple hash to the latest tuple number. The stack links hash collisions.
+        private Map<Integer, Integer> fTupleIndex;
+        private IntStack fTupleLinks;
+        private boolean fHasAppendedValues;
+
         /** buffer for error messages */
         final StringBuffer fTempBuffer = new StringBuffer();
 
@@ -3757,6 +3762,11 @@ public class XMLSchemaValidator
             fUseItemValueTypeVector = false;
             fItemValueTypesLength = 0;
             fItemValueType = null;
+            fHasAppendedValues = false;
+            if (fTupleIndex != null) {
+                fTupleIndex.clear();
+                fTupleLinks.clear();
+            }
             fValues.setSize(0);
             if (fValueTypes != null) {
                 fValueTypes.clear();
@@ -3768,6 +3778,12 @@ public class XMLSchemaValidator
 
         // appends the contents of one ValueStore to those of us.
         public void append(ValueStoreBase newVal) {
+            // Appended values do not carry their type metadata. Keep the original lookup for merged stores.
+            if (!newVal.fValues.isEmpty()) {
+                fHasAppendedValues = true;
+                fTupleIndex = null;
+                fTupleLinks = null;
+            }
             for (int i = 0; i < newVal.fValues.size(); i++) {
                 fValues.addElement(newVal.fValues.elementAt(i));
             }
@@ -3896,34 +3912,80 @@ public class XMLSchemaValidator
          * Returns true if this value store contains the locally scoped value stores
          */
         public boolean contains() {
-            // REVISIT: we can improve performance by using hash codes, instead of
-            // traversing global vector that could be quite large.
-            int next = 0;
             final int size = fValues.size();
-            LOOP : for (int i = 0; i < size; i = next) {
-                next = i + fFieldCount;
-                for (int j = 0; j < fFieldCount; j++) {
-                    Object value1 = fLocalValues[j];
-                    Object value2 = fValues.elementAt(i);
-                    short valueType1 = fLocalValueTypes[j];
-                    short valueType2 = getValueTypeAt(i);
-                    if (value1 == null || value2 == null || valueType1 != valueType2 || !(value1.equals(value2))) {
-                        continue LOOP;
-                    }
-                    else if(valueType1 == XSConstants.LIST_DT || valueType1 == XSConstants.LISTOFUNION_DT) {
-                        ShortList list1 = fLocalItemValueTypes[j];
-                        ShortList list2 = getItemValueTypeAt(i);
-                        if(list1 == null || list2 == null || !list1.equals(list2))
-                            continue LOOP;
-                    }
-                    i++;
-                }
-                // found it
-                return true;
+            if (size == 0) {
+                return false;
             }
-            // didn't find it
+            if (fHasAppendedValues) {
+                for (int i = 0; i < size; i += fFieldCount) {
+                    if (matchesLocalTuple(i)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            if (fTupleIndex == null) {
+                fTupleIndex = new HashMap<>();
+                fTupleLinks = new IntStack();
+            }
+            for (int tuple = fTupleLinks.size(); tuple < size / fFieldCount; tuple++) {
+                int offset = tuple * fFieldCount;
+                int hash = 1;
+                for (int j = 0; j < fFieldCount; j++) {
+                    hash = 31 * hash + fieldHash(fValues.elementAt(offset + j), getValueTypeAt(offset + j));
+                }
+                Integer previous = fTupleIndex.put(hash, tuple);
+                fTupleLinks.push(previous == null ? -1 : previous);
+            }
+
+            int hash = 1;
+            for (int j = 0; j < fFieldCount; j++) {
+                hash = 31 * hash + fieldHash(fLocalValues[j], fLocalValueTypes[j]);
+            }
+            Integer latest = fTupleIndex.get(hash);
+            for (int tuple = latest == null ? -1 : latest; tuple >= 0; tuple = fTupleLinks.elementAt(tuple)) {
+                if (matchesLocalTuple(tuple * fFieldCount)) {
+                    return true;
+                }
+            }
             return false;
         } // contains():boolean
+
+        private boolean matchesLocalTuple(int offset) {
+            for (int j = 0; j < fFieldCount; j++) {
+                Object local = fLocalValues[j];
+                Object stored = fValues.elementAt(offset + j);
+                short type = fLocalValueTypes[j];
+                if (local == null || stored == null || type != getValueTypeAt(offset + j) || !local.equals(stored)) {
+                    return false;
+                }
+                if (type == XSConstants.LIST_DT || type == XSConstants.LISTOFUNION_DT) {
+                    ShortList items = fLocalItemValueTypes[j];
+                    ShortList storedItems = getItemValueTypeAt(offset + j);
+                    if (items == null || storedItems == null || !items.equals(storedItems)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private int fieldHash(Object value, short type) {
+            // Use value hashes only for datatypes with a hash consistent with schema value equality.
+            switch (type) {
+                case XSConstants.STRING_DT:
+                case XSConstants.BOOLEAN_DT:
+                case XSConstants.DECIMAL_DT:
+                case XSConstants.FLOAT_DT:
+                case XSConstants.DOUBLE_DT:
+                case XSConstants.HEXBINARY_DT:
+                case XSConstants.BASE64BINARY_DT:
+                    return 31 * type + (value == null ? 0 : value.hashCode());
+                default:
+                    return 31 * type;
+            }
+        }
 
         /**
          * Returns -1 if this value store contains the specified

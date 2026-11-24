@@ -26,7 +26,7 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class SAXSerializationIOExceptionTest extends TestCase {
+public class BaseMarkupSerializerTest extends TestCase {
 
     public void testEndDocumentReportsIndentingWriterFailure() throws Exception {
         final IOException failure = new IOException("Simulated output failure");

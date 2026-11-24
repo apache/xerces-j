@@ -246,7 +246,7 @@ public class NodeIteratorImpl implements NodeIterator {
         
         // check if the removed node is an _ancestor_ of the 
         // reference node
-        for (Node n = fCurrentNode; n != fRoot; n = n.getParentNode()) {
+        for (Node n = fCurrentNode; n != fRoot && n != null; n = n.getParentNode()) {
             if (node == n) return n;
         }
         return null;

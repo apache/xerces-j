@@ -849,6 +849,7 @@ Authors:
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
              <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
+             <include name="org/apache/xml/serialize/SAXSerializationIOExceptionTest.class"/>
              <include name="org/apache/xml/serialize/TestCDATASerialization.class"/>
              <include name="org/apache/xml/serialize/TestDuplicateNamespaceDeclarations.class"/>
              <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>

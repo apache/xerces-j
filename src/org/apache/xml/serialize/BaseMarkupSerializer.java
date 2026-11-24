@@ -784,6 +784,9 @@ public abstract class BaseMarkupSerializer
         serializePreRoot();
         // Flush the output, this is necessary for fStrBuffered output.
         _printer.flush();
+        IOException failure = _printer.getException();
+        if ( failure != null )
+            throw failure;
         } catch ( IOException except ) {
             throw new SAXException( except );
     }

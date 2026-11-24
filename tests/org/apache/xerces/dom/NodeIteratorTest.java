@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 import org.w3c.dom.Element;
 import org.w3c.dom.traversal.NodeFilter;
 
-public class NodeIteratorDetachedCurrentTest extends TestCase {
+public class NodeIteratorTest extends TestCase {
 
     public void testDetachedCurrentNodeIsNotAnAncestor() throws Exception {
         DocumentImpl document = new DocumentImpl();

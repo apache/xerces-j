@@ -508,7 +508,14 @@ public class DOMNormalizer implements XMLDocumentHandler {
                 } else {
                     if (fDocument.errorChecking && ((fConfiguration.features & DOMConfigurationImpl.WELLFORMED) != 0) && 
                         fDocument.isXMLVersionChanged()){
-                            CoreDocumentImpl.isXMLName(node.getNodeName() , fDocument.isXML11Version());                    
+                        if (!CoreDocumentImpl.isXMLName(node.getNodeName() , fDocument.isXML11Version())) {
+                            String msg = DOMMessageFormatter.formatMessage(
+                                    DOMMessageFormatter.DOM_DOMAIN,
+                                    "wf-invalid-character-in-node-name",
+                                    new Object[]{"Entity", node.getNodeName()});
+                            reportDOMError(fErrorHandler, fError, fLocator, msg, DOMError.SEVERITY_ERROR,
+                                    "wf-invalid-character-in-node-name");
+                        }
                     }
                     // REVISIT: traverse entity reference and send appropriate calls to the validator
                     // (no normalization should be performed for the children).

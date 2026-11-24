@@ -823,6 +823,7 @@ Authors:
         <batchtest fork="yes" todir="test-reports">
           <fileset dir="${build.tests.dir}">
              <include name="dom/DTest.class"/>
+             <include name="dom/dom3/InvalidEntityReferenceNameTest.class"/>
              <include name="dom/dom3/Test.class"/>
              <include name="dom/events/Test.class"/>
              <include name="dom/ids/Test.class"/>

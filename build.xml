@@ -799,6 +799,9 @@ Authors:
   <target name="test" depends="tests">
     <property name="test.reports.dir" location="${build.dir}/test-reports"/>
     <mkdir dir="${test.reports.dir}"/>
+    <delete>
+      <fileset dir="${test.reports.dir}" includes="TEST-*.txt"/>
+    </delete>
     <path id="run.classpath">
         <pathelement location="${tools.dir}/${jar.apis}"/>
         <pathelement location="${tools.dir}/${jar.resolver}"/>
@@ -814,7 +817,7 @@ Authors:
 
     <junit fork="yes" forkmode="once"
            haltonfailure="no" 
-           haltonerror="yes" 
+           haltonerror="no"
            failureproperty="test.failed" 
            errorproperty="test.failed"
            printsummary="off" showoutput="false">
@@ -885,7 +888,7 @@ Authors:
 
     <junit fork="yes"
            haltonfailure="no"
-           haltonerror="yes"
+           haltonerror="no"
            failureproperty="test.failed"
            errorproperty="test.failed"
            printsummary="off" showoutput="false">
@@ -894,73 +897,88 @@ Authors:
         <formatter type="brief"/>
     </junit>
 
-    <fail if="test.failed" message="JUnit tests failed. See ${test.reports.dir} for details."/>
+    <concat xmlns:if="ant:if" if:set="test.failed">
+      <fileset dir="${test.reports.dir}" includes="TEST-*.txt">
+        <containsregexp expression="^Tests run:.*(Failures|Errors): [1-9]"/>
+      </fileset>
+    </concat>
+    <fail if="test.failed" message="JUnit tests failed."/>
+
+    <macrodef name="run-smoke-test">
+      <attribute name="classname"/>
+      <attribute name="classpathref"/>
+      <attribute name="output"/>
+      <element name="arguments" implicit="true"/>
+      <sequential>
+        <local name="smoke.exit"/>
+        <local name="smoke.failed"/>
+        <java fork="yes" classname="@{classname}" classpathref="@{classpathref}"
+              output="@{output}" logError="yes" resultproperty="smoke.exit">
+          <arguments/>
+        </java>
+        <condition property="smoke.failed">
+          <not><equals arg1="${smoke.exit}" arg2="0"/></not>
+        </condition>
+        <concat xmlns:if="ant:if" if:set="smoke.failed">
+          <fileset file="@{output}"/>
+        </concat>
+        <fail if="smoke.failed" message="@{classname} failed with exit code ${smoke.exit}."/>
+      </sequential>
+    </macrodef>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
     <echo message="Running sax.Counter ..." />
-    <java fork="yes"
+    <run-smoke-test
           classname="sax.Counter"
           output="${test.reports.dir}/sax-counter.log"
-          logError="yes"
-          classpathref="run.classpath"
-          failOnError="yes">
+          classpathref="run.classpath">
        <arg value="${data.dir}/personal.xml"/>
-    </java>
+    </run-smoke-test>
     <echo message="Running sax.Writer ..." />
-    <java fork="yes"
+    <run-smoke-test
           classname="sax.Writer"
           output="${test.reports.dir}/sax-writer.log"
-          logError="yes"
-          classpathref="run.classpath"
-          failOnError="yes">
+          classpathref="run.classpath">
        <arg value="${data.dir}/personal.xml"/>
-    </java>
+    </run-smoke-test>
     <echo message="Running dom.Counter ..." />
-    <java fork="yes"
+    <run-smoke-test
           classname="dom.Counter"
           output="${test.reports.dir}/dom-counter.log"
-          logError="yes"
-          classpathref="run.classpath"
-          failOnError="yes">
+          classpathref="run.classpath">
         <arg value="${data.dir}/personal.xml"/>
-    </java>
+    </run-smoke-test>
     <echo message="Running dom.Writer ..." />
-    <java fork="yes"
+    <run-smoke-test
           classname="dom.Writer"
           output="${test.reports.dir}/dom-writer.log"
-          logError="yes"
-          classpathref="run.classpath"
-          failOnError="yes">
+          classpathref="run.classpath">
         <arg value="${data.dir}/personal.xml"/>
-    </java>
+    </run-smoke-test>
     <!-- TODO These should be run using the junit tasks, not java -->
     <echo message="Running thread.Test dom" />
-    <java fork="yes"
+    <run-smoke-test
           classname="thread.Test"
           output="${test.reports.dir}/thread-dom.log"
-          logError="yes"
-          classpathref="test.classpath"
-          failOnError="yes">
+          classpathref="test.classpath">
         <arg value="-dom"/>
         <arg value="-threads"/>
         <arg value="20"/>
         <arg value="-time"/>
         <arg value="10"/>
         <arg value="${data.dir}/personal-schema.xml"/>
-    </java>
+    </run-smoke-test>
     <echo message="Running thread.Test sax" />
-    <java fork="yes"
+    <run-smoke-test
           classname="thread.Test"
           output="${test.reports.dir}/thread-sax.log"
-          logError="yes"
-          classpathref="test.classpath"
-          failOnError="yes">
+          classpathref="test.classpath">
         <arg value="-threads"/>
         <arg value="20"/>
         <arg value="-time"/>
         <arg value="10"/>
         <arg value="${data.dir}/personal-schema.xml"/>
-    </java>
+    </run-smoke-test>
 <!--  
      TODO fix this test
      [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.

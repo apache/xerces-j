@@ -1003,7 +1003,14 @@ public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {
         case Node.ENTITY_REFERENCE_NODE: {
             // only if entity is preserved in the tree
             if (verifyNames && (features & ENTITIES) != 0){
-                CoreDocumentImpl.isXMLName(node.getNodeName() , xml11Version);
+                if (!CoreDocumentImpl.isXMLName(node.getNodeName() , xml11Version)){
+                    String msg = DOMMessageFormatter.formatMessage(
+                            DOMMessageFormatter.DOM_DOMAIN,
+                            "wf-invalid-character-in-node-name",
+                            new Object[]{"Entity", node.getNodeName()});
+                    DOMNormalizer.reportDOMError(fErrorHandler, fError, fLocator, msg, DOMError.SEVERITY_FATAL_ERROR,
+                            "wf-invalid-character-in-node-name");
+                }
             }
             break;
             

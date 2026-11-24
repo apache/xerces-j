@@ -832,6 +832,7 @@ Authors:
              <include name="dom/registry/Test.class"/>
              <include name="dom/rename/Test.class"/>
              <include name="dom/serialization/Test.class"/>
+             <include name="dom/serialize/InvalidEntityReferenceNameSerializationTest.class"/>
              <include name="dom/serialize/TestDocumentTypeSerialization.class"/>
              <include name="dom/serialize/TestNS.class"/>
              <include name="dom/serialize/TestPreRootSerialization.class"/>

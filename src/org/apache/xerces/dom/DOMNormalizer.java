@@ -350,14 +350,11 @@ public class DOMNormalizer implements XMLDocumentHandler {
                     // normalize attribute values
                     // remove default attributes
                     namespaceFixUp(elem, attributes);
-                    
+                    if (attributes == null) {
+                        attributes = (elem.hasAttributes()) ? (AttributeMap) elem.getAttributes() : null;
+                    }
+
                     if ((fConfiguration.features & DOMConfigurationImpl.NSDECL) == 0) {
-                        // Namespace declarations may have been added by namespace fix-up. Need
-                        // to fetch the AttributeMap again if it contained no attributes prior
-                        // to namespace fix-up.
-                        if (attributes == null) {
-                            attributes = (elem.hasAttributes()) ? (AttributeMap) elem.getAttributes() : null;
-                        }
                         if (attributes != null) {
                             for (int i = 0; i < attributes.getLength(); ++i) {
                                 Attr att = (Attr)attributes.getItem(i);

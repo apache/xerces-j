@@ -15,14 +15,10 @@
  * limitations under the License.
  */
 
-package dom.dom3;
+package org.apache.xerces.dom;
 
 import junit.framework.TestCase;
 
-import org.apache.xerces.dom.DOMConfigurationImpl;
-import org.apache.xerces.dom.DOMNormalizer;
-import org.apache.xerces.dom.DocumentImpl;
-import org.apache.xerces.dom.ElementImpl;
 import org.apache.xerces.impl.RevalidationHandler;
 import org.apache.xerces.impl.xs.opti.DefaultXMLDocumentHandler;
 import org.apache.xerces.util.SymbolTable;

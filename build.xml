@@ -823,7 +823,6 @@ Authors:
         <batchtest fork="yes" todir="test-reports">
           <fileset dir="${build.tests.dir}">
              <include name="dom/DTest.class"/>
-             <include name="dom/dom3/NamespaceFixUpAttributesTest.class"/>
              <include name="dom/dom3/Test.class"/>
              <include name="dom/events/Test.class"/>
              <include name="dom/ids/Test.class"/>
@@ -848,6 +847,7 @@ Authors:
              <include name="jaxp/JAXPSpecTest.class"/>
              <include name="jaxp/PropertyTest.class"/>
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
+             <include name="org/apache/xerces/dom/NamespaceFixUpAttributesTest.class"/>
              <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
              <include name="org/apache/xml/serialize/TestCDATASerialization.class"/>

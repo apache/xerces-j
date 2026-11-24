@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dom.serialize;
+package org.apache.xml.serialize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,6 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.apache.xerces.dom.DocumentImpl;
-import org.apache.xml.serialize.DOMSerializerImpl;
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMErrorHandler;
 import org.w3c.dom.Element;

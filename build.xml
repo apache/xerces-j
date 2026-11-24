@@ -797,6 +797,8 @@ Authors:
   </target>
 
   <target name="test" depends="tests">
+    <property name="test.reports.dir" location="${build.dir}/test-reports"/>
+    <mkdir dir="${test.reports.dir}"/>
     <path id="run.classpath">
         <pathelement location="${tools.dir}/${jar.apis}"/>
         <pathelement location="${tools.dir}/${jar.resolver}"/>
@@ -804,23 +806,21 @@ Authors:
         <pathelement location="${tools.dir}/${jar.junit}"/>
         <pathelement location="${build.dir}/classes"/>
     </path>
-    <pathconvert property="run.classpath.string" refid="run.classpath" pathsep="${path.separator}"/>
     <path id="test.classpath">
       <pathelement location="${build.tests.dir}"/>
       <path refid="run.classpath"/>
       <pathelement location="${build.dir}/tests"/>
     </path>
-    <pathconvert property="test.classpath.string" refid="test.classpath" pathsep="${path.separator}"/>
 
     <junit fork="yes" forkmode="once"
            haltonfailure="no" 
            haltonerror="yes" 
            failureproperty="test.failed" 
            errorproperty="test.failed"
-           showoutput="yes">
+           printsummary="off" showoutput="false">
         <classpath refid="test.classpath"/>
         
-        <batchtest fork="yes" todir="test-reports">
+        <batchtest fork="yes" todir="${test.reports.dir}">
           <fileset dir="${build.tests.dir}">
              <include name="dom/DTest.class"/>
              <include name="dom/dom3/Test.class"/>
@@ -880,7 +880,7 @@ Authors:
              <include name="xinclude/XPointerIncludeCycleTest.class"/>
             </fileset>
           </batchtest>
-       <formatter type="brief" usefile="false"/>
+       <formatter type="brief"/>
      </junit>
 
     <junit fork="yes"
@@ -888,19 +888,20 @@ Authors:
            haltonerror="yes"
            failureproperty="test.failed"
            errorproperty="test.failed"
-           showoutput="yes">
+           printsummary="off" showoutput="false">
         <classpath refid="test.classpath"/>
-        <test name="schema.config.SurrogatePairLengthTest" todir="test-reports"/>
-        <formatter type="brief" usefile="false"/>
+        <test name="schema.config.SurrogatePairLengthTest" todir="${test.reports.dir}"/>
+        <formatter type="brief"/>
     </junit>
 
-    <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
+    <fail if="test.failed" message="JUnit tests failed. See ${test.reports.dir} for details."/>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
-    <echo message="Using classpath='${run.classpath.string}'" />
     <echo message="Running sax.Counter ..." />
     <java fork="yes"
           classname="sax.Counter"
+          output="${test.reports.dir}/sax-counter.log"
+          logError="yes"
           classpathref="run.classpath"
           failOnError="yes">
        <arg value="${data.dir}/personal.xml"/>
@@ -908,6 +909,8 @@ Authors:
     <echo message="Running sax.Writer ..." />
     <java fork="yes"
           classname="sax.Writer"
+          output="${test.reports.dir}/sax-writer.log"
+          logError="yes"
           classpathref="run.classpath"
           failOnError="yes">
        <arg value="${data.dir}/personal.xml"/>
@@ -915,6 +918,8 @@ Authors:
     <echo message="Running dom.Counter ..." />
     <java fork="yes"
           classname="dom.Counter"
+          output="${test.reports.dir}/dom-counter.log"
+          logError="yes"
           classpathref="run.classpath"
           failOnError="yes">
         <arg value="${data.dir}/personal.xml"/>
@@ -922,15 +927,18 @@ Authors:
     <echo message="Running dom.Writer ..." />
     <java fork="yes"
           classname="dom.Writer"
+          output="${test.reports.dir}/dom-writer.log"
+          logError="yes"
           classpathref="run.classpath"
           failOnError="yes">
         <arg value="${data.dir}/personal.xml"/>
     </java>
     <!-- TODO These should be run using the junit tasks, not java -->
     <echo message="Running thread.Test dom" />
-    <echo message="Using classpath='${test.classpath.string}'" />
     <java fork="yes"
           classname="thread.Test"
+          output="${test.reports.dir}/thread-dom.log"
+          logError="yes"
           classpathref="test.classpath"
           failOnError="yes">
         <arg value="-dom"/>
@@ -943,6 +951,8 @@ Authors:
     <echo message="Running thread.Test sax" />
     <java fork="yes"
           classname="thread.Test"
+          output="${test.reports.dir}/thread-sax.log"
+          logError="yes"
           classpathref="test.classpath"
           failOnError="yes">
         <arg value="-threads"/>

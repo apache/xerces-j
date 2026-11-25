@@ -36,7 +36,7 @@ import org.xml.sax.XMLReader;
  * 
  * @version $Id$
  */
-public class JAXP12Tests extends TestCase implements JAXPConstants {
+public class JAXP12Test extends TestCase implements JAXPConstants {
     protected DocumentBuilderFactory dbf;
     protected DocumentBuilder db;
     protected DocumentBuilder dbn;
@@ -46,7 +46,7 @@ public class JAXP12Tests extends TestCase implements JAXPConstants {
     SAXParser spn;
     SAXParser spnv;
 
-    public JAXP12Tests(String name) {
+    public JAXP12Test(String name) {
         super(name);
     }
 

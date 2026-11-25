@@ -2364,7 +2364,8 @@ public class XMLEntityManager
     public void setEntityDecls(DTDGrammar grammar) {
         final XMLEntityDecl entityDecl = new XMLEntityDecl();
         int index = 0;
-        while (grammar.getEntityDecl(index++, entityDecl)) {
+while (grammar.getEntityDecl(index++, entityDecl)) {
+            entityDecl.name = fSymbolTable.addSymbol(entityDecl.name);
             boolean saveInExternalSubset = fInExternalSubset;
             fInExternalSubset = entityDecl.inExternal;
             if (entityDecl.systemId != null) {

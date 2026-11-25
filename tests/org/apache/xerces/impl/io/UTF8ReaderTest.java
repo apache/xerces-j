@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package io;
+package org.apache.xerces.impl.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import junit.framework.TestCase;
-import org.apache.xerces.impl.io.UTF8Reader;
 
 /**
  * This program tests the customized UTF-8 reader for the parser,
@@ -38,7 +37,7 @@ import org.apache.xerces.impl.io.UTF8Reader;
  *
  * @version $Id$
  */
-public class UTF8 extends TestCase {
+public class UTF8ReaderTest extends TestCase {
 
     public void testJavaUTF8CharByChar() throws Exception {
         InputStream stream = new UTF8Producer();
@@ -341,4 +340,4 @@ public class UTF8 extends TestCase {
 
     } // class UTF8Producer
 
-} // class UTF8
+} // class UTF8ReaderTest

@@ -461,6 +461,11 @@ public abstract class BaseMarkupSerializer
         reset();
         prepare();
         serializeNode( frag );
+        ElementState state = getElementState();
+        if ( state.inCData ) {
+            _printer.printText( "]]>" );
+            state.inCData = false;
+        }
         cleanup();
         _printer.flush();
         if ( _printer.getException() != null )

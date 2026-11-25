@@ -21,9 +21,7 @@ import org.apache.xerces.impl.dv.InvalidDatatypeValueException;
 import org.apache.xerces.impl.dv.ValidationContext;
 
 /**
- * Represent the schema type "anyAtomicType"
- * 
- * @xerces.experimental
+ * Represent the schema type "anyAtomicType".
  *
  * @author Ankit Pasricha, IBM
  * 

@@ -34,6 +34,18 @@ public class CachedDTDEntityTest extends TestCase {
         "<?xml version=\"1.0\"?><!DOCTYPE root SYSTEM \"root.dtd\"><root>&sample;</root>";
 
     public void testInternalEntityResolvedWithCachedDTD() throws Exception {
+        assertEntityValues(XML, "123", XML, "123");
+    }
+
+    public void testDocumentInternalSubsetTakesPrecedence() throws Exception {
+        String xmlWithInternalSubset =
+            "<!DOCTYPE root SYSTEM \"root.dtd\" [<!ENTITY sample \"local\">]><root>&sample;</root>";
+        assertEntityValues(XML, "123", xmlWithInternalSubset, "local");
+        assertEntityValues(xmlWithInternalSubset, "local", XML, "123");
+    }
+
+    private void assertEntityValues(String firstXml, String firstValue,
+            String secondXml, String secondValue) throws Exception {
         SAXParser parser = new SAXParser();
         parser.setFeature("http://xml.org/sax/features/validation", true);
         parser.setProperty("http://apache.org/xml/properties/internal/grammar-pool",
@@ -55,11 +67,11 @@ public class CachedDTDEntityTest extends TestCase {
             }
         });
 
-        parser.parse(new InputSource(new StringReader(XML)));
-        assertEquals("123", text.toString());
+        parser.parse(new InputSource(new StringReader(firstXml)));
+        assertEquals(firstValue, text.toString());
 
         text.setLength(0);
-        parser.parse(new InputSource(new StringReader(XML)));
-        assertEquals("123", text.toString());
+        parser.parse(new InputSource(new StringReader(secondXml)));
+        assertEquals(secondValue, text.toString());
     }
 }

@@ -790,7 +790,7 @@ public class XMLEntityManager
 
         // should we skip external entities?
         boolean external = entity.isExternal();
-        if (external && (fValidationManager == null || !fValidationManager.isCachedDTD())) {
+        if (external) {
             boolean unparsed = entity.isUnparsed();
             boolean parameter = entityName.startsWith("%");
             boolean general = !parameter;
@@ -2364,7 +2364,7 @@ public class XMLEntityManager
     public void setEntityDecls(DTDGrammar grammar) {
         final XMLEntityDecl entityDecl = new XMLEntityDecl();
         int index = 0;
-while (grammar.getEntityDecl(index++, entityDecl)) {
+        while (grammar.getEntityDecl(index++, entityDecl)) {
             entityDecl.name = fSymbolTable.addSymbol(entityDecl.name);
             boolean saveInExternalSubset = fInExternalSubset;
             fInExternalSubset = entityDecl.inExternal;
@@ -2383,7 +2383,7 @@ while (grammar.getEntityDecl(index++, entityDecl)) {
                 }
             }
             else {
-                addInternalEntity(entityDecl.name, entityDecl.value);
+                addInternalEntity(entityDecl.name, entityDecl.value, entityDecl.paramEntityRefs);
             }
             fInExternalSubset = saveInExternalSubset;
         }

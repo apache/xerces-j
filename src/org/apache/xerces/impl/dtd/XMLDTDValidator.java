@@ -734,8 +734,12 @@ public class XMLDTDValidator
         } catch (java.io.IOException e) {
         }
         XMLDTDDescription grammarDesc = new XMLDTDDescription(publicId, systemId, fDocLocation.getExpandedSystemId(), eid, rootElement);
-        fDTDGrammar = fGrammarBucket.getGrammar(grammarDesc);
-        if(fDTDGrammar == null) {
+        // The internal subset belongs to this document and takes precedence over
+        // external declarations. A grammar keyed by external ID cannot represent it.
+        boolean hasInternalSubset = augs != null
+                && Boolean.TRUE.equals(augs.getItem(Constants.DTD_INTERNAL_SUBSET));
+        fDTDGrammar = hasInternalSubset ? null : fGrammarBucket.getGrammar(grammarDesc);
+        if (!hasInternalSubset && fDTDGrammar == null) {
             // give grammar pool a chance...
             //
             // Do not bother checking the pool if no public or system identifier was provided. 
@@ -756,6 +760,7 @@ public class XMLDTDValidator
             else {
                 fDTDGrammar = new BalancedDTDGrammar(fSymbolTable, grammarDesc);
             }
+            fDTDGrammar.setHasInternalSubset(hasInternalSubset);
         } else {
             // we've found a cached one;so let's make sure not to read
             // any external subset!

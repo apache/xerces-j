@@ -81,8 +81,6 @@ import org.w3c.dom.Text;
  * present in the tree. The PSVI information is not exposed, normalized data (including element
  * default content is not available).
  * </p>
- *
- * @xerces.experimental
  * 
  * @author Elena Litani, IBM
  * @author Neeraj Bajaj, Sun Microsystems, inc.

@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 /**
  * Tests serialization of ignorable whitespace in element content.
  */
-public class TestIgnorableWhitespaceSerialization extends TestCase {
+public class IgnorableWhitespaceSerializationTest extends TestCase {
 
     public void testIgnorableWhitespaceIsPreservedWhenNotIndenting() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dom.range;
+package org.apache.xerces.dom.range;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -33,12 +33,12 @@ import org.w3c.dom.ranges.Range;
  * 
  * @version $Id$
  */
-public class TestCompare extends TestCase 
+public class RangeComparisonTest extends TestCase
 {
     /**
      * Creates an instance of the test
      */
-    public TestCompare(String name) {
+    public RangeComparisonTest(String name) {
             super(name);
     }
 
@@ -221,7 +221,7 @@ public class TestCompare extends TestCase
      * Returns the set of all tests in this class
      */
     public static junit.framework.Test suite() {
-        return new TestSuite( TestCompare.class );
+        return new TestSuite( RangeComparisonTest.class );
     }
 
     /**

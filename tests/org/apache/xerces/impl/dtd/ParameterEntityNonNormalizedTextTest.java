@@ -27,7 +27,6 @@ import org.apache.xerces.impl.xs.opti.DefaultXMLDocumentHandler;
 import org.apache.xerces.xni.Augmentations;
 import org.apache.xerces.xni.XMLString;
 import org.apache.xerces.xni.parser.XMLInputSource;
-import org.apache.xerces.impl.dtd.XMLDTDLoader;
 
 public class ParameterEntityNonNormalizedTextTest extends TestCase {
 
@@ -56,6 +55,27 @@ public class ParameterEntityNonNormalizedTextTest extends TestCase {
         assertEquals("AONEBONEC", ((EntityDecl) decls.get("%pe2")).text);
         assertEquals("A%pe1;B%pe1;C",
                 ((EntityDecl) decls.get("%pe2")).nonNormalizedText);
+    }
+
+    public void testNonNormalizedTextPreservesOnlyDirectReferences() throws Exception {
+        String dtd = "<!ELEMENT foo EMPTY>"
+                + "<!ENTITY % pe1 \"&#38;#x41;&amp;\">"
+                + "<!ENTITY % pe2 \"%pe1;&#x42;&lt;\">";
+        EntityDecl declaration = (EntityDecl) parseInternalEntityDecls(dtd).get("%pe2");
+
+        assertEquals("A&amp;B&lt;", declaration.text);
+        assertEquals("%pe1;&#x42;&lt;", declaration.nonNormalizedText);
+    }
+
+    public void testNonNormalizedTextPreservesOnlyDirectSupplementaryCharacters() throws Exception {
+        String supplementary = "\uD83D\uDE00";
+        String dtd = "<!ELEMENT foo EMPTY>"
+                + "<!ENTITY % pe1 \"" + supplementary + "\">"
+                + "<!ENTITY % pe2 \"%pe1;" + supplementary + "\">";
+        EntityDecl declaration = (EntityDecl) parseInternalEntityDecls(dtd).get("%pe2");
+
+        assertEquals(supplementary + supplementary, declaration.text);
+        assertEquals("%pe1;" + supplementary, declaration.nonNormalizedText);
     }
 
     private Map parseInternalEntityDecls(String dtd) throws Exception {

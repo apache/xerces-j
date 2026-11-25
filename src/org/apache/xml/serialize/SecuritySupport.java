@@ -24,8 +24,6 @@ import java.io.InputStream;
 /**
  * This class is duplicated for each subpackage so keep it in sync.
  * It is package private and therefore is not exposed as part of any API.
- *
- * @xerces.internal
  */
 final class SecuritySupport {
 

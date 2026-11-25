@@ -21,9 +21,15 @@
   <release version='&ParserName; 2.12.3'>
    <desc>
     <p>
-      This Xerces-J release is a bug fix release, with fixes for few bugs that 
-      were present in Xerces-J 2.12.2, and also includes a few other minor 
-      enhancements.      
+      This Xerces-J release is a bug fix release.
+      It particularly focuses on hardening Xerces against untrusted input.
+      It closes multiple paths by which a document could cause a stack overflow
+      or an infinite loop in the parser.
+      The code has been upgraded to require Java 1.7 or later, and
+      some constructs that are unavailable or caused problems in JDKs 17 through 25
+      have been removed.
+      In addition, this release fixes assorted bugs in various parts of Xerces including
+      serialization and schema validation.
     </p>
    </desc>
    <changes>                          

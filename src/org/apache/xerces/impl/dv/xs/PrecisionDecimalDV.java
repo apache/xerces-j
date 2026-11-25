@@ -23,8 +23,6 @@ import org.apache.xerces.impl.dv.ValidationContext;
 /**
  * Validator for <precisionDecimal> datatype (W3C Schema 1.1)
  * 
- * @xerces.experimental
- * 
  * @author Ankit Pasricha, IBM
  * 
  * @version $Id$

@@ -2121,7 +2121,9 @@ extends ParentNode implements Document  {
             IdentifierReference reference;
             while ((reference = (IdentifierReference) staleIdentifiers.poll()) != null) {
                 // The same name may have been registered again since this reference was created.
-                identifiers.remove(reference.name, reference);
+                if (identifiers.get(reference.name) == reference) {
+                    identifiers.remove(reference.name);
+                }
             }
         }
     }

@@ -18,7 +18,9 @@
 package jaxp;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -56,31 +58,47 @@ public class JAXPSecureProcessingTest extends TestCase {
     private static final String MAX_PARAMETER_ENTITY_SIZE_LIMIT_PROPERTY_NAME = "jdk.xml.maxParameterEntitySizeLimit";
     private static final String RESOLVE_EXTERNAL_ENTITIES_PROPERTY_NAME = "jdk.xml.resolveExternalEntities";
     
-    private static final Locale DEFAULT_LOCALE = Locale.getDefault();
+    private final Map<String, String> originalProperties = new HashMap<String, String>();
+    private Locale originalLocale;
     
     protected void setUp() throws Exception {
         super.setUp();
-        System.setProperty("javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
-        System.setProperty("javax.xml.parsers.DocumentBuilderFactory", "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl");
-        System.setProperty("javax.xml.validation.SchemaFactory:" + XMLConstants.W3C_XML_SCHEMA_NS_URI, 
+        originalLocale = Locale.getDefault();
+        setTestProperty("javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
+        setTestProperty("javax.xml.parsers.DocumentBuilderFactory", "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl");
+        setTestProperty("javax.xml.validation.SchemaFactory:" + XMLConstants.W3C_XML_SCHEMA_NS_URI,
                 "org.apache.xerces.jaxp.validation.XMLSchemaFactory");
-        System.setProperty("org.apache.xerces.xni.parser.XMLParserConfiguration", 
+        setTestProperty("org.apache.xerces.xni.parser.XMLParserConfiguration",
                 "org.apache.xerces.parsers.SecureProcessingConfiguration");
-        System.setProperty(ENTITY_EXPANSION_LIMIT_PROPERTY_NAME, "0");
-        System.setProperty(MAX_OCCUR_LIMIT_PROPERTY_NAME, "0");
-        System.setProperty(TOTAL_ENTITY_SIZE_LIMIT_PROPERTY_NAME, "0");
-        System.setProperty(MAX_GENERAL_ENTITY_SIZE_LIMIT_PROPERTY_NAME, "0");
-        System.setProperty(MAX_PARAMETER_ENTITY_SIZE_LIMIT_PROPERTY_NAME, "0");
-        System.setProperty(RESOLVE_EXTERNAL_ENTITIES_PROPERTY_NAME, "true");
+        setTestProperty(ENTITY_EXPANSION_LIMIT_PROPERTY_NAME, "0");
+        setTestProperty(MAX_OCCUR_LIMIT_PROPERTY_NAME, "0");
+        setTestProperty(TOTAL_ENTITY_SIZE_LIMIT_PROPERTY_NAME, "0");
+        setTestProperty(MAX_GENERAL_ENTITY_SIZE_LIMIT_PROPERTY_NAME, "0");
+        setTestProperty(MAX_PARAMETER_ENTITY_SIZE_LIMIT_PROPERTY_NAME, "0");
+        setTestProperty(RESOLVE_EXTERNAL_ENTITIES_PROPERTY_NAME, "true");
         // English Locale required for the exception message assertions to match the correct number format
         Locale.setDefault(Locale.ENGLISH);
     }
-    
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        Locale.setDefault(DEFAULT_LOCALE);
+
+    private void setTestProperty(String name, String value) {
+        originalProperties.put(name, System.setProperty(name, value));
     }
-    
+
+    protected void tearDown() throws Exception {
+        try {
+            for (Map.Entry<String, String> property : originalProperties.entrySet()) {
+                if (property.getValue() == null) {
+                    System.clearProperty(property.getKey());
+                } else {
+                    System.setProperty(property.getKey(), property.getValue());
+                }
+            }
+            Locale.setDefault(originalLocale);
+        } finally {
+            super.tearDown();
+        }
+    }
+
     public void testSAXEntityExpansionLimitSG() throws Exception {
         System.setProperty(ENTITY_EXPANSION_LIMIT_PROPERTY_NAME, "10000");
         XMLReader reader = newSecureXMLReader();

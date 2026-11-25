@@ -853,6 +853,7 @@ Authors:
              <include name="org/apache/xml/serialize/TestDuplicateNamespaceDeclarations.class"/>
              <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>
              <include name="org/apache/xml/serialize/TestIgnorableWhitespaceSerialization.class"/>
+             <include name="org/apache/xml/serialize/XMLSerializerTest.class"/>
              <include name="org/apache/xerces/util/ContextClassLoaderTest.class"/>
              <include name="org/apache/xerces/xinclude/XIncludeDepthTest.class"/>
              <include name="schema/Test.class"/>                   

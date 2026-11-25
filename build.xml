@@ -823,6 +823,8 @@ Authors:
         <batchtest fork="yes" todir="test-reports">
           <fileset dir="${build.tests.dir}" includes="**/*Test.class">
             <exclude name="**/*$*"/>
+            <!-- This suite changes system properties in the shared test JVM. -->
+            <exclude name="jaxp/JAXPSecureProcessingTest.class"/>
             <exclude name="schema/config/BaseTest.class"/>
             <!-- Run separately below. -->
             <exclude name="schema/config/SurrogatePairLengthTest.class"/>

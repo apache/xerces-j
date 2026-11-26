@@ -25,7 +25,7 @@
       It particularly focuses on hardening Xerces against untrusted input.
       It closes multiple paths by which a document could cause a stack overflow
       or an infinite loop in the parser.
-      The code has been upgraded to require Java 1.7 or later, and
+      Xerces continues to require Java 7 or later, and
       some constructs that are unavailable or caused problems in JDKs 17 through 25
       have been removed.
       In addition, this release fixes assorted bugs in various parts of Xerces including
@@ -37,7 +37,8 @@
         <note>
       	   Improved few error messages that're produced, when parsing XML documents with 
       	   Xerces-J's XML document parsers.
-     	</note>
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1798'>XERCESJ-1798</jump>).
+        </note>
      	<submitter name='Michael Glavassevich, Mukul Gandhi'/>
      </fix>
      <fix>
@@ -46,7 +47,8 @@
       	   conflict with the value space of simpleType's base type xs:assertion at an XML Schema
       	   document level. Prior to this release, Xerces-J didn't implement this XML Schema
       	   constraint.
-     	</note>
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1743'>XERCESJ-1743</jump>).
+        </note>
      	<submitter name='Sandy Gao, Mukul Gandhi'/>
      </fix>
      <fix>
@@ -54,6 +56,7 @@
           Fixed an XML Schema 1.1 &lt;assert&gt; evaluation bug, that has dependency on Xerces-J bundled 
           Java ICU (International Components for Unicode) library. To fix this bug, a newer version of Java 
           ICU library has been provided, with this Xerces-J release.
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1752'>XERCESJ-1752</jump>).
         </note>
         <submitter name='Yitzhak Khabinsky, Ivan Pedruzzi, Mukul Gandhi'/>
      </fix>
@@ -63,20 +66,23 @@
           and the same XML Schema validation (i.e, having same XML input and XML Schema documents) runs various 
           times in a sequence, schema validations except the first one result in an incorrect XML Schema 
           validation outcome. This Xerces-J release, fixes this bug. 
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1754'>XERCESJ-1754</jump>).
         </note>
         <submitter name='Radu Coravu, Mukul Gandhi'/>
      </fix>
      <fix>
        <note>
          Fixed Xerces-J's Ant build target 'compile-schema11' for XML Schema 1.1 implementation.
-       </note>
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1761'>XERCESJ-1761</jump>).
+        </note>
        <submitter name='Xerces-J team'/>
      </fix>
      <fix>
         <note>
       	   Deleted the Java interface org.w3c.dom.html.HTMLDOMImplementation from 
       	   Xerces-J codebase, since this interface is present within Java 1.7+.
-     	</note>
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1689'>XERCESJ-1689</jump>).
+        </note>
      	<submitter name='Xerces-J team'/>
      </fix>
      <fix>
@@ -84,7 +90,8 @@
       	   Implemented a fix to XML Schema 1.1 xs:assert implementation by having
       	   base-uri available on XML xs:assert subtrees, so that XPath 2.0 fn:base-uri
       	   function can be used with XML Schema xs:assert instruction.
-     	</note>
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1765'>XERCESJ-1765</jump>).
+        </note>
      	<submitter name='Mukul Gandhi'/>
      </fix>     
      <add>
@@ -92,7 +99,8 @@
       	   As per W3C XML Schema recommendation, the XML Schema simpleType definition's
       	   'final' attribute can have value 'extension'. This Xerces-J release, provides 
       	   this implementation enhancement.
-     	</note>
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1741'>XERCESJ-1741</jump>).
+        </note>
      	<submitter name='Mukul Gandhi'/>
      </add>
      <add>
@@ -101,9 +109,208 @@
       	   variety list having itemType union &lt;assertion&gt; facet hasn't been working 
       	   correctly for few use-cases. This Xerces-J release, provides this implementation 
       	   enhancement.
-     	</note>
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1744'>XERCESJ-1744</jump>).
+        </note>
      	<submitter name='Mukul Gandhi'/>
-     </add>     
+     </add>
+     <fix>
+        <note>
+          Honor the disallow-doctype-decl feature in JAXP XML Schema validation for SAX, stream, DOM, and StAX sources
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1758'>XERCESJ-1758</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Prevent stack overflows when processing cyclic XInclude and XPointer references, deeply nested XIncludes, and deeply nested DTD content models
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1694'>XERCESJ-1694</jump>,
+          <jump href='https://github.com/apache/xerces-j/pull/155'>#155</jump>,
+          <jump href='https://github.com/apache/xerces-j/pull/152'>#152</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Reject malformed XPointer expressions with invalid characters or unbalanced parentheses. This prevents some invalid expressions from stalling the parser
+          (<jump href='https://github.com/apache/xerces-j/pull/118'>#118</jump>,
+          <jump href='https://github.com/apache/xerces-j/pull/149'>#149</jump>,
+          <jump href='https://github.com/apache/xerces-j/pull/151'>#151</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Avoid a UTF-8 reader buffer overflow when a read starts with a buffered surrogate
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1655'>XERCESJ-1655</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Load built-in Xerces providers with the Xerces class loader to avoid class conflicts when the thread context class loader sees a different copy of Xerces
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-814'>XERCESJ-814</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Ignore the JAXP schemaSource property when SAX parser validation is disabled
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-934'>XERCESJ-934</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Fix thread-safety issues in grammar pools, schema component initialization, annotation serialization, the regular expression token registry, and catalog resolver settings
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1806'>XERCESJ-1806</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1634'>XERCESJ-1634</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1663'>XERCESJ-1663</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Preserve ID attributes and lookup by ID when cloning DOM documents
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1597'>XERCESJ-1597</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Keep cached DOM node lists valid when attributes other than name change
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1630'>XERCESJ-1630</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Handle nodes without children when copying with DOMUtil.copyInto
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1289'>XERCESJ-1289</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Close open CDATA sections when serializing a DOM DocumentFragment
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1216'>XERCESJ-1216</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Preserve comments and processing instructions that precede the document type declaration. Serialize document type declarations even when they have neither an internal nor an external subset
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-150'>XERCESJ-150</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1718'>XERCESJ-1718</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Preserve repeated namespace declarations and retain ignorable whitespace when serializing SAX events with indentation disabled
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-793'>XERCESJ-793</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-764'>XERCESJ-764</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Write explicit closing tags for empty non-void XHTML elements, including iframe
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1602'>XERCESJ-1602</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Preserve URI port strings, including numeric ports outside the 0–65535 range
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-697'>XERCESJ-697</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Compare XMLGregorianCalendar instances from different implementations without a ClassCastException
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1620'>XERCESJ-1620</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Preserve recoverable time zones in the canonical representation of xs:date values
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1588'>XERCESJ-1588</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Report the applicable simple type and omit redundant diagnostics when a simple-typed element contains child elements
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1746'>XERCESJ-1746</jump>).
+        </note>
+     </fix>
+     <add>
+        <note>
+          Add isEqualNodeWithQName to support DOM node comparisons for XPath 3.1 fn:deep-equal
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1762'>XERCESJ-1762</jump>).
+        </note>
+     </add>
+     <fix>
+        <note>
+          Make DTDGrammar implement XMLContentSpec.Provider
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-617'>XERCESJ-617</jump>).
+        </note>
+     </fix>
+     <update>
+        <note>
+          Remove redundant String.intern() calls on literals
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1453'>XERCESJ-1453</jump>).
+        </note>
+     </update>
+     <update>
+        <note>
+          Improve compatibility with Java 24 and later by removing Security Manager checks from the affected components
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1797'>XERCESJ-1797</jump>).
+        </note>
+     </update>
+     <add>
+        <note>
+          Declare org.apache.xerces as the automatic module name of xercesImpl.jar
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1763'>XERCESJ-1763</jump>).
+        </note>
+     </add>
+     <update>
+        <note>
+          Deprecate direct construction of DOMImplementationImpl and CoreDOMImplementationImpl in favor of their singleton accessors, and add missing annotations to deprecated APIs
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-339'>XERCESJ-339</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1784'>XERCESJ-1784</jump>).
+        </note>
+     </update>
+     <update>
+        <note>
+          Deprecate the org.apache.wml package
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1785'>XERCESJ-1785</jump>).
+        </note>
+     </update>
+     <fix>
+        <note>
+          Replace Apache Stylebook with Ant XSLT tasks so the documentation builds on newer JDKs. Remove the obsolete Xerces binary from the build tools
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1776'>XERCESJ-1776</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1769'>XERCESJ-1769</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1790'>XERCESJ-1790</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Compile test classes separately from production classes, and correct and re-enable passing schema configuration tests in the Ant build
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1800'>XERCESJ-1800</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1774'>XERCESJ-1774</jump>).
+        </note>
+     </fix>
+     <update>
+        <note>
+          Run converted tests through Ant’s JUnit task and make their failures fail the build
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1773'>XERCESJ-1773</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1796'>XERCESJ-1796</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1770'>XERCESJ-1770</jump>).
+        </note>
+     </update>
+     <update>
+        <note>
+          Enable line and source debugging information by default in the Ant build
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1753'>XERCESJ-1753</jump>).
+        </note>
+     </update>
+     <update>
+        <note>
+          Fix Javadoc warnings, clarify the base system identifier and HTML boolean attribute handling, and update documentation and bug-reporting links
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1781'>XERCESJ-1781</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-70'>XERCESJ-70</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-731'>XERCESJ-731</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1810'>XERCESJ-1810</jump>,
+          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1793'>XERCESJ-1793</jump>).
+        </note>
+     </update>
    </changes>
   </release>
   <release version='&ParserName; 2.12.2'>

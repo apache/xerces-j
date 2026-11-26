@@ -79,8 +79,8 @@ import org.w3c.dom.Text;
  * <p>
  * NOTE: There is an initial support for DOM revalidation with XML Schema as a grammar.
  * Read-only replacement content of retained entity references is checked without
- * applying validator augmentations to those nodes. The PSVI information is not exposed, normalized data (including element
- * default content is not available).
+ * applying validator augmentations to those nodes. The PSVI information is not exposed. 
+ * Normalized data (including element default content) is not available.
  * </p>
  * 
  * @author Elena Litani, IBM

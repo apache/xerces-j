@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package jaxp;
+package org.apache.xerces.jaxp.validation;
 
 import java.io.StringReader;
 
@@ -25,7 +25,6 @@ import javax.xml.validation.Validator;
 
 import junit.framework.TestCase;
 
-import org.apache.xerces.jaxp.validation.XMLSchemaFactory;
 import org.apache.xerces.parsers.SAXParser;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;

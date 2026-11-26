@@ -835,7 +835,6 @@ Authors:
              <include name="jaxp/JAXPSpecTest.class"/>
              <include name="jaxp/PropertyTest.class"/>
              <include name="jaxp/ValidatorDoctypeTest.class"/>
-             <include name="jaxp/ValidatorNamespaceTest.class"/>
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
              <include name="org/apache/xerces/dom/range/RangeComparisonTest.class"/>
              <include name="org/apache/xerces/dom/serialize/DocumentTypeSerializationTest.class"/>
@@ -850,6 +849,7 @@ Authors:
              <include name="org/apache/xerces/impl/io/UTF8ReaderTest.class"/>
              <include name="org/apache/xerces/impl/xs/identity/IDConstraintTest.class"/>
              <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
+             <include name="org/apache/xerces/jaxp/validation/ValidatorNamespaceTest.class"/>
              <include name="org/apache/xerces/util/ContextClassLoaderTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
              <include name="org/apache/xerces/xinclude/XIncludeDepthTest.class"/>

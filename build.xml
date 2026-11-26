@@ -903,12 +903,6 @@ Authors:
         <arg value="10"/>
         <arg value="${data.dir}/personal-schema.xml"/>
     </java>
-<!--  
-     TODO fix this test
-     [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
-     [java] org.xml.sax.SAXNotRecognizedException: Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
--->
-
   </target>
 
   <target name="ci-test" depends="test">

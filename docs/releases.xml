@@ -35,7 +35,7 @@
    <changes>                          
      <fix>
         <note>
-      	   Improved few error messages that're produced, when parsing XML documents with 
+      	   Improved error messages that are produced when parsing XML documents with 
       	   Xerces-J's XML document parsers.
           (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1798'>XERCESJ-1798</jump>).
         </note>
@@ -272,32 +272,9 @@
           (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1785'>XERCESJ-1785</jump>).
         </note>
      </update>
-     <fix>
-        <note>
-          Replace Apache Stylebook with Ant XSLT tasks so the documentation builds on newer JDKs. Remove the obsolete Xerces binary from the build tools
-          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1776'>XERCESJ-1776</jump>,
-          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1769'>XERCESJ-1769</jump>,
-          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1790'>XERCESJ-1790</jump>).
-        </note>
-     </fix>
-     <fix>
-        <note>
-          Compile test classes separately from production classes, and correct and re-enable passing schema configuration tests in the Ant build
-          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1800'>XERCESJ-1800</jump>,
-          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1774'>XERCESJ-1774</jump>).
-        </note>
-     </fix>
      <update>
         <note>
-          Run converted tests through Ant’s JUnit task and make their failures fail the build
-          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1773'>XERCESJ-1773</jump>,
-          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1796'>XERCESJ-1796</jump>,
-          <jump href='https://issues.apache.org/jira/browse/XERCESJ-1770'>XERCESJ-1770</jump>).
-        </note>
-     </update>
-     <update>
-        <note>
-          Enable line and source debugging information by default in the Ant build
+          Enable line and source debugging information by default
           (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1753'>XERCESJ-1753</jump>).
         </note>
      </update>

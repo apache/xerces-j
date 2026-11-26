@@ -23,7 +23,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import junit.framework.TestCase;
 
-public class GMonthCalendarTest extends TestCase {
+public class XMLGregorianCalendarTest extends TestCase {
     private final DatatypeFactory factory = new DatatypeFactoryImpl();
 
     public void testParsesUtcMonth() {

@@ -58,6 +58,17 @@ public class HTMLDOMImplementationImpl
     }
 
 
+    @Override
+    public boolean hasFeature(String feature, String version)
+    {
+        if (("HTML".equalsIgnoreCase(feature) || "+HTML".equalsIgnoreCase(feature))
+                && (version == null || version.length() == 0 || "1.0".equals(version))) {
+            return true;
+        }
+        return super.hasFeature(feature, version);
+    }
+
+
     /**
      * Create a new HTML document of the specified <code>TITLE</code> text.
      *

@@ -25,7 +25,7 @@
       It particularly focuses on hardening Xerces against untrusted input.
       It closes multiple paths by which a document could cause a stack overflow
       or an infinite loop in the parser.
-      Xerces continues to require Java 7 or later, and
+      The code has been updated to assume Java 1.7 or later, and
       some constructs that are unavailable or caused problems in JDKs 17 through 25
       have been removed.
       In addition, this release fixes assorted bugs in various parts of Xerces including

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dom.serialize;
+package org.apache.xerces.dom.serialize;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,7 +45,7 @@ import org.w3c.dom.ls.LSSerializer;
  * @author Elena Litani, IBM
  * @version $Id$
  */
-public class TestXmlns extends TestCase implements DOMErrorHandler{
+public class XmlnsSerializationTest extends TestCase implements DOMErrorHandler{
 
       public void testXmlnsSerialization() throws Exception {
             // Create a document.

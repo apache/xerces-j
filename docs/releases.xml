@@ -35,7 +35,7 @@
 	  reject documents that were processed or validated in earlier versions.
 	  Before reporting a bug because Xerces 2.12.3 rejects a document that
 	  2.12.2 accepted, please check carefully what Xerces is telling you against the relevant specs.
-	  In many cases, it is the earlier versions of Xerces that wewre incorrect.
+	  In many cases, it is the earlier versions of Xerces that are incorrect.
     </p>
    </desc>
    <changes>                          

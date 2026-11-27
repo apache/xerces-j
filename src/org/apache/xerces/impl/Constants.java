@@ -456,6 +456,9 @@ public final class Constants {
      * declaration and was expanded.
      */
     public final static String ENTITY_SKIPPED = "ENTITY_SKIPPED";
+
+    public static final String DTD_INTERNAL_SUBSET = "DTD_INTERNAL_SUBSET";
+    public static final String PARAMETER_ENTITY_REFERENCE_COUNT = "PARAMETER_ENTITY_REFERENCE_COUNT";
     
     /**
      * Boolean indicating whether a character is a probable white space

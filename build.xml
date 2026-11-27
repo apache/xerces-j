@@ -848,6 +848,7 @@ Authors:
              <include name="org/apache/xerces/dom/serialize/SerializeDOMOutTest.class"/>
              <include name="org/apache/xerces/dom/serialize/XmlnsSerializationTest.class"/>
              <include name="org/apache/xerces/dom/treewalker/TreeWalkerFirstChildTest.class"/>
+             <include name="org/apache/xerces/impl/dtd/CachedDTDEntityTest.class"/>
              <include name="org/apache/xerces/impl/dv/xs/DateDVTest.class"/>
              <include name="org/apache/xerces/impl/io/UTF16ReaderTest.class"/>
              <include name="org/apache/xerces/impl/io/UTF8ReaderTest.class"/>

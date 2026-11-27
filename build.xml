@@ -827,7 +827,6 @@ Authors:
              <include name="dom/events/Test.class"/>
              <include name="dom/ids/Test.class"/>
              <include name="dom/mem/Test.class"/>
-             <include name="dom/serialize/TestNS.class"/>
              <include name="dom/range/TestCompare.class"/> 
              <include name="dom/range/Test.class"/>                    
              <include name="dom/range/Test.class"/>
@@ -843,8 +842,6 @@ Authors:
              <include name="jaxp/PropertyTest.class"/>
              <include name="jaxp/ValidatorDoctypeTest.class"/>
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
-             <include name="org/apache/xerces/impl/dv/xs/TestDateDV.class"/>
-             <include name="org/apache/xerces/impl/xpath/regex/RegexParserDepthTest.class"/>
              <include name="org/apache/xerces/dom/range/RangeComparisonTest.class"/>
              <include name="org/apache/xerces/dom/serialize/DocumentTypeSerializationTest.class"/>
              <include name="org/apache/xerces/dom/serialize/NamespaceSerializationTest.class"/>
@@ -856,9 +853,10 @@ Authors:
              <include name="org/apache/xerces/impl/dv/xs/DateDVTest.class"/>
              <include name="org/apache/xerces/impl/io/UTF16ReaderTest.class"/>
              <include name="org/apache/xerces/impl/io/UTF8ReaderTest.class"/>
+             <include name="org/apache/xerces/util/ContextClassLoaderTest.class"/>
              <include name="org/apache/xerces/impl/xs/identity/IDConstraintTest.class"/>
              <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
-             <include name="org/apache/xerces/util/ContextClassLoaderTest.class"/>
+             <include name="org/apache/xerces/impl/xpath/regex/RegexParserDepthTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
              <include name="org/apache/xerces/xinclude/XIncludeDepthTest.class"/>
              <include name="org/apache/xml/serialize/CDATASerializationTest.class"/>

@@ -37,6 +37,54 @@ public class Test extends TestCase
 {
     EventReporter sharedReporter=new EventReporter();
     
+    public void testRemovingDetachedSubtreeDoesNotNotifyDocumentRemoval() {
+        assertDocumentRemovalTargets(false);
+    }
+
+    public void testRemovingAttachedSubtreeNotifiesEachNode() {
+        assertDocumentRemovalTargets(true);
+    }
+
+    private void assertDocumentRemovalTargets(boolean attached) {
+        Document document = new DocumentImpl();
+        Element parent = document.createElement("parent");
+        Element child = document.createElement("child");
+        Element descendant = document.createElement("descendant");
+        if (attached) {
+            document.appendChild(parent);
+        }
+        parent.appendChild(child);
+        child.appendChild(descendant);
+
+        final List<EventTarget> documentRemovalTargets = new ArrayList<>();
+        EventListener documentRemovalListener = new EventListener() {
+            public void handleEvent(Event event) {
+                documentRemovalTargets.add(event.getTarget());
+            }
+        };
+        ((EventTarget) child).addEventListener("DOMNodeRemovedFromDocument", documentRemovalListener, false);
+        ((EventTarget) descendant).addEventListener("DOMNodeRemovedFromDocument", documentRemovalListener, false);
+        final List<EventTarget> removalTargets = new ArrayList<>();
+        ((EventTarget) child).addEventListener("DOMNodeRemoved",
+                new EventListener() {
+                    public void handleEvent(Event event) {
+                        removalTargets.add(event.getTarget());
+                    }
+                }, false);
+
+        parent.removeChild(child);
+
+        assertEquals(Arrays.asList(child), removalTargets);
+        if (attached) {
+            assertEquals(2, documentRemovalTargets.size());
+            assertTrue(documentRemovalTargets.contains(child));
+            assertTrue(documentRemovalTargets.contains(descendant));
+        }
+        else {
+            assertTrue(documentRemovalTargets.isEmpty());
+        }
+    }
+
     public void testRemovingAndAddingListenersDuringDispatch() {
         DocumentImpl document = new DocumentImpl();
         Element parent = document.createElement("parent");

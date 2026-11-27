@@ -1384,23 +1384,18 @@ public class DocumentImpl
         lc = LCount.lookup(
                          MutationEventImpl.DOM_NODE_REMOVED_FROM_DOCUMENT);
         if (lc.total > 0) {
-            NodeImpl eventAncestor = this;
-            if(savedEnclosingAttr != null)
-                eventAncestor = (NodeImpl)
-                    savedEnclosingAttr.node.getOwnerElement();
-            if (eventAncestor != null) { // Might have been orphan Attr
-                for (NodeImpl p = eventAncestor.parentNode();
-                     p != null; p = p.parentNode()) {
-                    eventAncestor = p; // Last non-null ancestor
-                }
-                if (eventAncestor.getNodeType() == Node.DOCUMENT_NODE){
+            // Follow the actual parent chain, including an attribute's owner.
+            for (NodeImpl ancestor = node; ancestor != null; ) {
+                if (ancestor.getNodeType() == Node.DOCUMENT_NODE) {
                     MutationEventImpl me = new MutationEventImpl();
-                    me.initMutationEvent(
-                          MutationEventImpl.DOM_NODE_REMOVED_FROM_DOCUMENT,
-                                         false, false, null,
-                                         null, null, null, (short) 0);
+                    me.initMutationEvent(MutationEventImpl.DOM_NODE_REMOVED_FROM_DOCUMENT,
+                                         false, false, null, null, null, null, (short) 0);
                     dispatchEventToSubtree(oldChild, me);
+                    break;
                 }
+                ancestor = ancestor.getNodeType() == Node.ATTRIBUTE_NODE
+                        ? (NodeImpl) ((AttrImpl) ancestor).getOwnerElement()
+                        : ancestor.parentNode();
             }
         }
         // End mutation preprocessing

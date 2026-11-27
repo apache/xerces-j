@@ -25,6 +25,7 @@ import org.apache.xerces.impl.dtd.XMLDTDDescription;
 import org.apache.xerces.impl.io.MalformedByteSequenceException;
 import org.apache.xerces.impl.msg.XMLMessageFormatter;
 import org.apache.xerces.impl.validation.ValidationManager;
+import org.apache.xerces.util.AugmentationsImpl;
 import org.apache.xerces.util.NamespaceSupport;
 import org.apache.xerces.util.XMLChar;
 import org.apache.xerces.util.XMLStringBuffer;
@@ -563,11 +564,16 @@ public class XMLDocumentScannerImpl
             //       subset) is parsed correctly but SAX2 requires that
             //       it knows the root element name and public and system
             //       identifier for the startDTD call. -Ac
+            Augmentations augs = null;
+            if (fEntityScanner.peekChar() == '[') {
+                augs = new AugmentationsImpl();
+                augs.putItem(Constants.DTD_INTERNAL_SUBSET, Boolean.TRUE);
+            }
             if (fExternalSubsetSource == null) {
-                fDocumentHandler.doctypeDecl(fDoctypeName, fDoctypePublicId, fDoctypeSystemId, null);
+                fDocumentHandler.doctypeDecl(fDoctypeName, fDoctypePublicId, fDoctypeSystemId, augs);
             }
             else {
-                fDocumentHandler.doctypeDecl(fDoctypeName, fExternalSubsetSource.getPublicId(), fExternalSubsetSource.getSystemId(), null);
+                fDocumentHandler.doctypeDecl(fDoctypeName, fExternalSubsetSource.getPublicId(), fExternalSubsetSource.getSystemId(), augs);
             }
         }
 

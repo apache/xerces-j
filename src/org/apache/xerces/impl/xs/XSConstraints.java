@@ -1149,7 +1149,17 @@ public class XSConstraints {
     private static void checkIDConstraintRestriction(XSElementDecl derivedElemDecl,
             XSElementDecl baseElemDecl)
         throws XMLSchemaException {
-        // TODO
+        // The restriction must refer to the same identity-constraint components.
+        derivedConstraints:
+        for (int i = 0; i < derivedElemDecl.fIDCPos; i++) {
+            for (int j = 0; j < baseElemDecl.fIDCPos; j++) {
+                if (derivedElemDecl.fIDConstraints[i] == baseElemDecl.fIDConstraints[j]) {
+                    continue derivedConstraints;
+                }
+            }
+            throw new XMLSchemaException("rcase-NameAndTypeOK.5",
+                    new Object[]{derivedElemDecl.fName});
+        }
     } // checkIDConstraintRestriction
 
 

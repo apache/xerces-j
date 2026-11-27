@@ -32,7 +32,16 @@ import org.apache.xerces.xni.parser.XMLDocumentSource;
 public class NamespaceFixUpAttributesTest extends TestCase {
 
     public void testNamespaceDeclarationIsPassedToValidator() {
+        assertNamespaceDeclarationIsPassedToValidator(true);
+    }
+
+    public void testNamespaceDeclarationIsPassedToValidatorBeforeRemoval() {
+        assertNamespaceDeclarationIsPassedToValidator(false);
+    }
+
+    private void assertNamespaceDeclarationIsPassedToValidator(boolean keepDeclarations) {
         DocumentImpl document = new DocumentImpl();
+        document.getDomConfig().setParameter("namespace-declarations", Boolean.valueOf(keepDeclarations));
         ElementImpl root = (ElementImpl) document.createElementNS("urn:test", "p:root");
         document.appendChild(root);
         CapturingRevalidationHandler validator = new CapturingRevalidationHandler();
@@ -42,6 +51,7 @@ public class NamespaceFixUpAttributesTest extends TestCase {
         assertEquals(1, validator.attributeCount);
         assertEquals("xmlns:p", validator.attributeName);
         assertEquals("urn:test", validator.attributeValue);
+        assertEquals(keepDeclarations, root.hasAttribute("xmlns:p"));
     }
 
     private static class TestNormalizer extends DOMNormalizer {

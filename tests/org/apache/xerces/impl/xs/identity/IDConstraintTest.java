@@ -17,12 +17,15 @@
 
 package org.apache.xerces.impl.xs.identity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
+
+import org.xml.sax.SAXException;
 
 import util.FailureMesgFragments;
 import util.XercesAbstractTestCase;
@@ -37,532 +40,397 @@ public class IDConstraintTest extends XercesAbstractTestCase {
         super(name);
     }
     
-    public void testIDConstraint1() {
+    public void testIDConstraint1() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_1_valid_1.xml";
-        String schemapath = "tests/idc/idc_1.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_1.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint2() {        
+    public void testIDConstraint2() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_1_invalid_1.xml";
-        String schemapath = "tests/idc/idc_1.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 3);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
-            expectedMsgList.add(mesgFragments);
-            mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [nffg1] found for identity constraint \"nffgName_key\" of element \"root\"");
-            expectedMsgList.add(mesgFragments);
-            mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
-            expectedMsgList.add(mesgFragments);
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_1.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 3);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
+        expectedMsgList.add(mesgFragments);
+        mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [nffg1] found for identity constraint \"nffgName_key\" of element \"root\"");
+        expectedMsgList.add(mesgFragments);
+        mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint3() {        
+    public void testIDConstraint3() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_1_invalid_2.xml";
-        String schemapath = "tests/idc/idc_1.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 3);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node1] found for identity constraint \"nodeName_key\" of element \"nffg\"");
-            expectedMsgList.add(mesgFragments);
-            mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
-            expectedMsgList.add(mesgFragments);
-            mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
-            expectedMsgList.add(mesgFragments);
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));                        
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_1.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 3);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node1] found for identity constraint \"nodeName_key\" of element \"nffg\"");
+        expectedMsgList.add(mesgFragments);
+        mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
+        expectedMsgList.add(mesgFragments);
+        mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint4() {        
+    public void testIDConstraint4() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_1_invalid_3.xml";
-        String schemapath = "tests/idc/idc_1.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 4);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node1] found for identity constraint \"nodeName_key\" of element \"nffg\"");
-            expectedMsgList.add(mesgFragments);
-            mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
-            expectedMsgList.add(mesgFragments);
-            mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node2] found for identity constraint \"nodeName_key\" of element \"nffg\"");
-            expectedMsgList.add(mesgFragments);
-            mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
-            expectedMsgList.add(mesgFragments);
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_1.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 4);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node1] found for identity constraint \"nodeName_key\" of element \"nffg\"");
+        expectedMsgList.add(mesgFragments);
+        mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'destNodeRef_key' with value 'node2' not found for identity constraint of element 'nffg'");
+        expectedMsgList.add(mesgFragments);
+        mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [node2] found for identity constraint \"nodeName_key\" of element \"nffg\"");
+        expectedMsgList.add(mesgFragments);
+        mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'srcNodeRef_key' with value 'node1' not found for identity constraint of element 'nffg'");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint5() {
+    public void testIDConstraint5() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_2_valid_1.xml";
-        String schemapath = "tests/idc/idc_2.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_2.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint6() {
+    public void testIDConstraint6() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_2_valid_2.xml";
-        String schemapath = "tests/idc/idc_2.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_2.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint7() {        
+    public void testIDConstraint7() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_2_invalid_1.xml";
-        String schemapath = "tests/idc/idc_2.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.1: Duplicate unique value [3] found for identity constraint \"unique_1\" of element \"root\"");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_2.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.1: Duplicate unique value [3] found for identity constraint \"unique_1\" of element \"root\"");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint8() {        
+    public void testIDConstraint8() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_2_invalid_2.xml";
-        String schemapath = "tests/idc/idc_2.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.1: Duplicate unique value [3] found for identity constraint \"unique_1\" of element \"root\"");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_2.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.1: Duplicate unique value [3] found for identity constraint \"unique_1\" of element \"root\"");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint9() {
+    public void testIDConstraint9() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_3_valid_1.xml";
-        String schemapath = "tests/idc/idc_3.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_3.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint10() {        
+    public void testIDConstraint10() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_3_invalid_1.xml";
-        String schemapath = "tests/idc/idc_3.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [3] found for identity constraint \"key_1\" of element \"root\"");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_3.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [3] found for identity constraint \"key_1\" of element \"root\"");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint11() {        
+    public void testIDConstraint11() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_3_invalid_2.xml";
-        String schemapath = "tests/idc/idc_3.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.1.a: Element \"root\" has no value for the key \"key_1\"");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_3.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.1.a: Element \"root\" has no value for the key \"key_1\"");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint12() {
+    public void testIDConstraint12() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_4_valid_1.xml";
-        String schemapath = "tests/idc/idc_4.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_4.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint13() {
+    public void testIDConstraint13() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_4_valid_2.xml";
-        String schemapath = "tests/idc/idc_4.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_4.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint14() {        
+    public void testIDConstraint14() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_4_invalid_1.xml";
-        String schemapath = "tests/idc/idc_4.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.1: Duplicate unique value [3] found for identity constraint \"unique_1\" of element \"root\"");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_4.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.1: Duplicate unique value [3] found for identity constraint \"unique_1\" of element \"root\"");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint15() {        
+    public void testIDConstraint15() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_4_invalid_2.xml";
-        String schemapath = "tests/idc/idc_4.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.1: Duplicate unique value [3] found for identity constraint \"unique_1\" of element \"root\"");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_4.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.1: Duplicate unique value [3] found for identity constraint \"unique_1\" of element \"root\"");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint16() {
+    public void testIDConstraint16() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_5_valid_1.xml";
-        String schemapath = "tests/idc/idc_5.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_5.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint17() {        
+    public void testIDConstraint17() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_5_invalid_1.xml";
-        String schemapath = "tests/idc/idc_5.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [3] found for identity constraint \"key_1\" of element \"root\"");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_5.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [3] found for identity constraint \"key_1\" of element \"root\"");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint18() {        
+    public void testIDConstraint18() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_5_invalid_2.xml";
-        String schemapath = "tests/idc/idc_5.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.1.a: Element \"root\" has no value for the key \"key_1\"");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_5.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.1.a: Element \"root\" has no value for the key \"key_1\"");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint19() {
+    public void testIDConstraint19() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_6_valid_1.xml";
-        String schemapath = "tests/idc/idc_6.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_6.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint20() {        
+    public void testIDConstraint20() throws SAXException, IOException {
         String xmlfile = "tests/idc/idc_6_invalid_1.xml";
-        String schemapath = "tests/idc/idc_6.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [7] found for identity constraint \"key_1\" of element \"X\"");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/idc_6.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.2.2: Duplicate key value [7] found for identity constraint \"key_1\" of element \"X\"");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint21() {
+    public void testIDConstraint21() throws SAXException, IOException {
         String xmlfile = "tests/idc/valid_1_1515.xml";
-        String schemapath = "tests/idc/jira_1515.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/jira_1515.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint22() {
+    public void testIDConstraint22() throws SAXException, IOException {
         String xmlfile = "tests/idc/valid_2_1515.xml";
-        String schemapath = "tests/idc/jira_1515.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/jira_1515.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint23() {        
+    public void testIDConstraint23() throws SAXException, IOException {
         String xmlfile = "tests/idc/invalid_1_1515.xml";
-        String schemapath = "tests/idc/jira_1515.xsd";   
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("Identity Constraint error: the keyref identity constraint \"keyref\" refers to a key or unique that is out of scope");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/jira_1515.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("Identity Constraint error: the keyref identity constraint \"keyref\" refers to a key or unique that is out of scope");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint24() {
+    public void testIDConstraint24() throws SAXException, IOException {
         String xmlfile = "tests/idc/jira_1585.xml";
-        String schemapath = "tests/idc/jira_1585.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/jira_1585.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint25() {        
+    public void testIDConstraint25() throws SAXException, IOException {
         String xmlfile = "tests/idc/jira_1594.xml";
-        String schemapath = "tests/idc/jira_1594.xsd";   
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'keyref' with value '1' not found for identity constraint of element 'personnel'");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/jira_1594.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'keyref' with value '1' not found for identity constraint of element 'personnel'");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
     
-    public void testIDConstraint26() {
+    public void testIDConstraint26() throws SAXException, IOException {
         String xmlfile = "tests/idc/jira_1714_valid.xml";
-        String schemapath = "tests/idc/jira_1714.xsd";    
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertNull(fErrSysId);
-            assertNull(fFatErrSysId);
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/jira_1714.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertNull(fErrSysId);
+        assertNull(fFatErrSysId);
     }
     
-    public void testIDConstraint27() {        
+    public void testIDConstraint27() throws SAXException, IOException {
         String xmlfile = "tests/idc/jira_1714_invalid.xml";
-        String schemapath = "tests/idc/jira_1714.xsd";   
-        try {
-            Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
-            Validator v = s.newValidator();
-            v.setErrorHandler(this);
-            v.validate(new StreamSource(xmlfile));
-            assertTrue(failureList.size() == 1);
-            // test expected error messages
-            List expectedMsgList = new ArrayList();
-            FailureMesgFragments mesgFragments = new FailureMesgFragments();
-            mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'Collectiontype_defined' with value 'object1' not found for identity constraint of element 'Root'");
-            expectedMsgList.add(mesgFragments);            
-            assertTrue(areErrorMessagesConsistent(expectedMsgList));            
-        } catch(Exception ex) {
-           ex.printStackTrace();
-           assertTrue(false);
-        }
+        String schemapath = "tests/idc/jira_1714.xsd";
+        Schema s = fSchemaFactory.newSchema(new StreamSource(schemapath));
+        Validator v = s.newValidator();
+        v.setErrorHandler(this);
+        v.validate(new StreamSource(xmlfile));
+        assertTrue(failureList.size() == 1);
+        // test expected error messages
+        List expectedMsgList = new ArrayList();
+        FailureMesgFragments mesgFragments = new FailureMesgFragments();
+        mesgFragments.setMessageFragment("cvc-identity-constraint.4.3: Key 'Collectiontype_defined' with value 'object1' not found for identity constraint of element 'Root'");
+        expectedMsgList.add(mesgFragments);
+        assertTrue(areErrorMessagesConsistent(expectedMsgList));
     }
 
 }

@@ -24,7 +24,7 @@ import org.w3c.dom.Text;
 import org.w3c.dom.ranges.Range;
 
 /**
- * This class validate the implementation of DOM Ranges.
+ * This class validates the implementation of DOM Ranges.
  * We include in this test suite examples from the DOM Spec.
  *
  * @author Lynn Monson

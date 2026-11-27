@@ -874,9 +874,7 @@ Authors:
              <include name="schema/config/IgnoreXSIType_C_C_Test.class"/>
              <include name="schema/config/RootSimpleTypeDefinitionTest.class"/>
              <include name="schema/config/RootTypeDefinitionTest.class"/>
-             <!-- This test is failing. Fix it.
-              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
-             -->
+             <include name="schema/config/UnparsedEntityCheckingTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/Test.class"/>

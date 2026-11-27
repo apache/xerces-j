@@ -294,6 +294,60 @@
           <jump href='https://issues.apache.org/jira/browse/XERCESJ-1793'>XERCESJ-1793</jump>).
         </note>
      </update>
+     <fix>
+        <note>
+          Restore entity declarations from cached DTDs while honoring external-entity settings
+          and preserving the precedence of declarations in the current document's internal subset
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1205'>XERCESJ-1205</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Check the replacement content of retained DOM entity references for well-formedness
+          and pass it to the active DTD or XML Schema validator
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1236'>XERCESJ-1236</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Parse and format XMLGregorianCalendar gMonth values in the XML Schema 1.0 Second Edition
+          form, including UTC values such as --07Z. Continue accepting first-edition input
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1342'>XERCESJ-1342</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Match schema element local names and namespace URIs by value so validation accepts
+          equivalent name strings supplied by SAX filters
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1824'>XERCESJ-1824</jump>).
+        </note>
+     </fix>
+     <fix>
+        <note>
+          Remove manifest sections for XML API packages that xercesImpl.jar no longer bundles
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1676'>XERCESJ-1676</jump>).
+        </note>
+     </fix>
+     <update>
+        <note>
+          Reduce Ant console output for passing tests and keep failure diagnostics visible
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1812'>XERCESJ-1812</jump>).
+        </note>
+     </update>
+     <update>
+        <note>
+          Re-enable UnparsedEntityCheckingTest in the Ant test suite
+          (<jump href='https://github.com/apache/xerces-j/pull/194'>#194</jump>).
+        </note>
+     </update>
+     <update>
+        <note>
+          Remove the redundant @xerces.internal tag from the serializer's package-private
+          SecuritySupport class
+          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1814'>XERCESJ-1814</jump>,
+          <jump href='https://github.com/apache/xerces-j/pull/210'>#210</jump>).
+        </note>
+     </update>
    </changes>
   </release>
   <release version='&ParserName; 2.12.2'>

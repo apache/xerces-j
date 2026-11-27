@@ -823,7 +823,7 @@ Authors:
            printsummary="off" showoutput="false">
         <classpath refid="test.classpath"/>
         
-        <batchtest fork="yes" todir="test-reports">
+        <batchtest fork="yes" todir="${test.reports.dir}">
           <fileset dir="${build.tests.dir}" includes="**/*Test.class">
             <exclude name="**/*$*"/>
             <!-- This suite changes system properties in the shared test JVM. -->

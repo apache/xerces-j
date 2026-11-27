@@ -22,12 +22,17 @@ import java.util.Vector;
 
 import junit.framework.TestCase;
 
+import org.apache.xerces.impl.xs.SchemaGrammar;
+import org.apache.xerces.impl.xs.XMLSchemaLoader;
 import org.apache.xerces.parsers.XMLGrammarPreparser;
 import org.apache.xerces.util.XMLGrammarPoolImpl;
 import org.apache.xerces.xni.grammars.XMLGrammarDescription;
 import org.apache.xerces.xni.parser.XMLErrorHandler;
 import org.apache.xerces.xni.parser.XMLInputSource;
 import org.apache.xerces.xni.parser.XMLParseException;
+import org.apache.xerces.xs.XSAttributeUse;
+import org.apache.xerces.xs.XSComplexTypeDefinition;
+import org.apache.xerces.xs.XSObjectList;
 
 public class ProhibitedAttributeExtensionTest extends TestCase {
 
@@ -56,6 +61,35 @@ public class ProhibitedAttributeExtensionTest extends TestCase {
                 + "</xs:schema>";
         Vector keys = parseSchema(xsd);
         assertTrue(keys.toString(), keys.contains("cos-ct-extends.1.5"));
+    }
+
+    public void testSimpleContentExtensionCannotRestoreProhibitedAttribute() throws Exception {
+        String schema = "<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>"
+                + "<xs:complexType name='Base'><xs:simpleContent><xs:extension base='xs:string'>"
+                + "<xs:attribute name='removed'/></xs:extension></xs:simpleContent></xs:complexType>"
+                + "<xs:complexType name='Restricted'><xs:simpleContent><xs:restriction base='Base'>"
+                + "<xs:attribute name='removed' use='prohibited'/>"
+                + "</xs:restriction></xs:simpleContent></xs:complexType>"
+                + "<xs:complexType name='Extended'><xs:simpleContent><xs:extension base='Restricted'>"
+                + "<xs:attribute name='removed'/></xs:extension></xs:simpleContent></xs:complexType>"
+                + "</xs:schema>";
+        Vector keys = parseSchema(schema);
+        assertTrue(keys.toString(), keys.contains("cos-ct-extends.1.5"));
+    }
+
+    public void testExtendedTypeExposesLocalAndInheritedAttributeUses() throws Exception {
+        String schema = "<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>"
+                + "<xs:complexType name='Base'><xs:attribute name='inherited'/></xs:complexType>"
+                + "<xs:complexType name='Extended'><xs:complexContent><xs:extension base='Base'>"
+                + "<xs:attribute name='local'/></xs:extension></xs:complexContent></xs:complexType>"
+                + "</xs:schema>";
+        SchemaGrammar grammar = (SchemaGrammar) new XMLSchemaLoader().loadGrammar(
+                new XMLInputSource(null, "test.xsd", null, new StringReader(schema), "UTF-8"));
+        XSComplexTypeDefinition extended = (XSComplexTypeDefinition) grammar.getGlobalTypeDecl("Extended");
+        XSObjectList attributeUses = extended.getAttributeUses();
+        assertEquals(2, attributeUses.getLength());
+        assertEquals("local", ((XSAttributeUse) attributeUses.item(0)).getAttrDeclaration().getName());
+        assertEquals("inherited", ((XSAttributeUse) attributeUses.item(1)).getAttrDeclaration().getName());
     }
 
     private Vector parseSchema(String xsd) throws Exception {

@@ -364,13 +364,13 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
         }
     }
 
-    public boolean isProhibited(String namespace, String name) {
+    public String getProhibitedAttributeName(XSAttributeGroupDecl derivedGroup) {
         for (int i = 0; i < fProhibitedCount; i++) {
-            if (fProhibitedNamespaces[i] == namespace && fProhibitedNames[i] == name) {
-                return true;
+            if (derivedGroup.getAttributeUseNoProhibited(fProhibitedNamespaces[i], fProhibitedNames[i]) != null) {
+                return fProhibitedNames[i];
             }
         }
-        return false;
+        return null;
     }
 
     // reset the attribute group declaration

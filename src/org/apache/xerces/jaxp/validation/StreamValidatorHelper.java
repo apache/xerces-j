@@ -137,6 +137,13 @@ final class StreamValidatorHelper implements ValidatorHelper {
                 config.setProperty(SECURITY_MANAGER, fComponentManager.getProperty(SECURITY_MANAGER));
             }
             
+            // Another source type may have consumed the component manager's settings change.
+            String doctypeFeature = XMLSchemaValidatorComponentManager.DISALLOW_DOCTYPE_DECL_FEATURE;
+            boolean disallowDoctype = fComponentManager.getFeature(doctypeFeature);
+            if (config.getFeature(doctypeFeature) != disallowDoctype) {
+                config.setFeature(doctypeFeature, disallowDoctype);
+            }
+
             // prepare for parse
             fComponentManager.reset();
             

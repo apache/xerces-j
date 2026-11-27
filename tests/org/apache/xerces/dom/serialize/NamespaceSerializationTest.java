@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dom.serialize;
+package org.apache.xerces.dom.serialize;
 
 import java.io.ByteArrayOutputStream;
 
@@ -38,7 +38,7 @@ import org.w3c.dom.ls.LSSerializer;
  * @author Elena Litani, IBM
  * @version $Id$
  */
-public class TestNS extends TestCase {
+public class NamespaceSerializationTest extends TestCase {
 
     public void testNamespaceSerialization() throws Exception {
         DocumentImpl doc = new DocumentImpl();

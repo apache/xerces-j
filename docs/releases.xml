@@ -328,26 +328,6 @@
           (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1676'>XERCESJ-1676</jump>).
         </note>
      </fix>
-     <update>
-        <note>
-          Reduce Ant console output for passing tests and keep failure diagnostics visible
-          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1812'>XERCESJ-1812</jump>).
-        </note>
-     </update>
-     <update>
-        <note>
-          Re-enable UnparsedEntityCheckingTest in the Ant test suite
-          (<jump href='https://github.com/apache/xerces-j/pull/194'>#194</jump>).
-        </note>
-     </update>
-     <update>
-        <note>
-          Remove the redundant @xerces.internal tag from the serializer's package-private
-          SecuritySupport class
-          (<jump href='https://issues.apache.org/jira/browse/XERCESJ-1814'>XERCESJ-1814</jump>,
-          <jump href='https://github.com/apache/xerces-j/pull/210'>#210</jump>).
-        </note>
-     </update>
    </changes>
   </release>
   <release version='&ParserName; 2.12.2'>

@@ -1906,7 +1906,7 @@ public abstract class BaseMarkupSerializer
                 Enumeration keys = prefixes.keys();
                 while (keys.hasMoreElements()) {
                     String prefix = (String) keys.nextElement();
-                    if (prefix.length() > 0 && seen.add(prefix) && namespaceURI.equals(prefixes.get(prefix))) {
+                    if (!prefix.isEmpty() && seen.add(prefix) && namespaceURI.equals(prefixes.get(prefix))) {
                         return prefix;
                     }
                 }

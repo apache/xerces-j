@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dom.serialize;
+package org.apache.xerces.dom.serialize;
 
 import junit.framework.TestCase;
 
@@ -28,7 +28,7 @@ import org.w3c.dom.ls.LSSerializer;
 /**
  * Tests document type serialization with the built-in DOM Level 3 serializer.
  */
-public class TestDocumentTypeSerialization extends TestCase {
+public class DocumentTypeSerializationTest extends TestCase {
 
     private DOMImplementation implementation;
     private LSSerializer serializer;

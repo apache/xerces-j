@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dom.serialize;
+package org.apache.xerces.dom.serialize;
 
 import java.io.ByteArrayOutputStream;
 
@@ -32,7 +32,7 @@ import org.w3c.dom.DocumentType;
  * Tests serialization of comments and processing instructions which
  * appear before the document type declaration.
  */
-public class TestPreRootSerialization extends TestCase {
+public class PreRootSerializationTest extends TestCase {
 
     public void testProcessingInstructionBeforeDoctypeSAX() throws Exception {
         String output = serializeWithSAX(false);

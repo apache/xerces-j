@@ -697,9 +697,13 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
                 setContentHandler(ch);
             }
             
-            XMLReader reader = null;
+            XMLReader suppliedReader = saxSource.getXMLReader();
+            XMLReader reader = suppliedReader;
+            String doctypeFeature = XMLSchemaValidatorComponentManager.DISALLOW_DOCTYPE_DECL_FEATURE;
+            boolean restoreDoctypeFeature = false;
+            boolean readerConnected = false;
+            Throwable failure = null;
             try {
-                reader = saxSource.getXMLReader();
                 if (reader == null) {
                     // create one now
                     SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -723,6 +727,11 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
                         throw new FactoryConfigurationError(e);
                     }
                 }
+                if (fComponentManager.getFeature(doctypeFeature)
+                        && (suppliedReader == null || !suppliedReader.getFeature(doctypeFeature))) {
+                    reader.setFeature(doctypeFeature, true);
+                    restoreDoctypeFeature = suppliedReader != null;
+                }
                 
                 // If XML names and Namespace URIs are already internalized we
                 // can avoid running them through the SymbolTable.
@@ -736,6 +745,7 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
                 }
                 
                 ErrorHandler errorHandler = fComponentManager.getErrorHandler();
+                readerConnected = true;
                 reader.setErrorHandler(errorHandler != null ? errorHandler : DraconianErrorHandler.getInstance());
                 reader.setEntityResolver(fResolutionForwarder);
                 fResolutionForwarder.setEntityResolver(fComponentManager.getResourceResolver());
@@ -749,12 +759,16 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
                 
                 InputSource is = saxSource.getInputSource();
                 reader.parse(is);
-            } 
+            }
+            catch (SAXException | IOException | RuntimeException | Error e) {
+                failure = e;
+                throw e;
+            }
             finally {
                 // Release the reference to user's ContentHandler ASAP
                 setContentHandler(null);
                 // Disconnect the validator and other objects from the XMLReader
-                if (reader != null) {
+                if (readerConnected) {
                     try {
                         reader.setContentHandler(null);
                         reader.setDTDHandler(null);
@@ -765,6 +779,17 @@ final class ValidatorHandlerImpl extends ValidatorHandler implements
                     }
                     // Ignore the exception if the lexical handler cannot be unset.
                     catch (Exception exc) {}
+                }
+                if (restoreDoctypeFeature) {
+                    try {
+                        suppliedReader.setFeature(doctypeFeature, false);
+                    }
+                    catch (SAXException e) {
+                        if (failure == null) {
+                            throw e;
+                        }
+                        failure.addSuppressed(e);
+                    }
                 }
             }
             return;

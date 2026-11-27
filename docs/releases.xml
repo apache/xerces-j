@@ -27,9 +27,15 @@
       or an infinite loop in the parser.
       The code has been updated to assume Java 1.7 or later, and
       some constructs that are unavailable or caused problems in JDKs 17 through 25
-      have been removed.
+      have been removed.</p>
+
+	<p>
       In addition, this release fixes assorted bugs in various parts of Xerces including
-      serialization and schema validation.
+      serialization and schema validation. Some of those fixes are likely to 
+	  reject documents that were processed or validated in earlier versions.
+	  Before reporting a bug because Xerces 2.12.3 rejects a document that
+	  2.12.2 accepted, please check carefully what Xerces is telling you against the relevant specs.
+	  In many cases, it is the earlier versions of Xerces that wewre incorrect.
     </p>
    </desc>
    <changes>                          

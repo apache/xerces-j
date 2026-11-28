@@ -890,6 +890,7 @@ Authors:
              <include name="xinclude/Test.class"/>
              <include name="xinclude/XIncludeCycleTest.class"/>
              <include name="xinclude/XPointerIncludeCycleTest.class"/>
+             <include name="org/apache/xerces/parsers/ContinueAfterFatalErrorLoopTest.class"/>
             </fileset>
           </batchtest>
        <formatter type="brief"/>

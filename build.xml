@@ -79,8 +79,7 @@ Authors:
     <property name='jar.serializer' value='serializer.jar'/>
     
     <!-- deliberately using 4.10 since 4.11 and later require a separate hamcrest jar -->
-    <property name='jar.junit' value='junit-4.13.2.jar'/>
-    <property name='jar.hamcrest' value='hamcrest-core-1.3.jar'/>
+    <property name='jar.junit' value='junit-4.10.jar'/>
     <property name='jar.ant' value='ant.jar'/>
     <property name='jar.xjavac' value='xjavac.jar'/>
     
@@ -376,7 +375,7 @@ Authors:
            destdir="${build.tests.dir}"
            source="${javac.source}"
            target="${javac.target}"
-           classpath="${tools.dir}/${jar.junit}:${tools.dir}/${jar.hamcrest}:${tools.dir}/${jar.apis}:${build.dir}/classes"
+           classpath="${tools.dir}/${jar.junit}:${tools.dir}/${jar.apis}:${build.dir}/classes"
            debug="${debug}"
            debuglevel="${debuglevel}"
            includeAntRuntime="false"
@@ -808,11 +807,9 @@ Authors:
         <pathelement location="${tools.dir}/${jar.resolver}"/>
         <pathelement location="${tools.dir}/${jar.serializer}"/>
         <pathelement location="${tools.dir}/${jar.junit}"/>
-        <pathelement location="${tools.dir}/${jar.hamcrest}"/>
         <pathelement location="${build.dir}/classes"/>
     </path>
     <path id="test.classpath">
-      <pathelement location="${tools.dir}/ant-junit4.jar"/>
       <pathelement location="${build.tests.dir}"/>
       <path refid="run.classpath"/>
       <pathelement location="${build.dir}/tests"/>

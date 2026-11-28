@@ -44,6 +44,8 @@ import org.apache.xerces.impl.io.UTF16Reader;
 import org.apache.xerces.impl.io.UTF8Reader;
 import org.apache.xerces.impl.msg.XMLMessageFormatter;
 import org.apache.xerces.impl.validation.ValidationManager;
+import org.apache.xerces.impl.dtd.DTDGrammar;
+import org.apache.xerces.impl.dtd.XMLEntityDecl;
 import org.apache.xerces.util.AugmentationsImpl;
 import org.apache.xerces.util.EncodingMap;
 import org.apache.xerces.util.HTTPInputSource;
@@ -788,7 +790,7 @@ public class XMLEntityManager
 
         // should we skip external entities?
         boolean external = entity.isExternal();
-        if (external && (fValidationManager == null || !fValidationManager.isCachedDTD())) {
+        if (external) {
             boolean unparsed = entity.isUnparsed();
             boolean parameter = entityName.startsWith("%");
             boolean general = !parameter;
@@ -2358,6 +2360,34 @@ public class XMLEntityManager
     Hashtable getDeclaredEntities() {
         return fEntities;
     } // getDeclaredEntities():Hashtable
+
+    public void setEntityDecls(DTDGrammar grammar) {
+        final XMLEntityDecl entityDecl = new XMLEntityDecl();
+        int index = 0;
+        while (grammar.getEntityDecl(index++, entityDecl)) {
+            entityDecl.name = fSymbolTable.addSymbol(entityDecl.name);
+            boolean saveInExternalSubset = fInExternalSubset;
+            fInExternalSubset = entityDecl.inExternal;
+            if (entityDecl.systemId != null) {
+                if (entityDecl.notation != null) {
+                    addUnparsedEntity(entityDecl.name, entityDecl.publicId, entityDecl.systemId,
+                            entityDecl.baseSystemId, entityDecl.notation);
+                }
+                else {
+                    try {
+                        addExternalEntity(entityDecl.name, entityDecl.publicId, entityDecl.systemId,
+                                entityDecl.baseSystemId);
+                    }
+                    catch (IOException e) {
+                    }
+                }
+            }
+            else {
+                addInternalEntity(entityDecl.name, entityDecl.value, entityDecl.paramEntityRefs);
+            }
+            fInExternalSubset = saveInExternalSubset;
+        }
+    } // setEntityDecls(DTDGrammar)
 
     /** Prints the contents of the buffer. */
     static final void print(ScannedEntity currentEntity) {

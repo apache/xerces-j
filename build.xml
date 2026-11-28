@@ -505,7 +505,7 @@ Authors:
   <!-- =================================================================== -->
   <target name="javadocs" depends="prepare-src">
 
-    <condition property="additional.param" value=" -taglet org.apache.xerces.util.ExperimentalTaglet -taglet org.apache.xerces.util.InternalTaglet -tagletpath ${tools.dir}/bin/xerces2taglets.jar">
+    <condition property="additional.param" value=" -taglet org.apache.xerces.util.InternalTaglet -tagletpath ${tools.dir}/bin/xerces2taglets.jar">
       <available classname="com.sun.tools.doclets.Taglet"/>
     </condition>
 
@@ -847,14 +847,9 @@ Authors:
              <include name="jaxp/JAXPSpecTest.class"/>
              <include name="jaxp/PropertyTest.class"/>
              <include name="jaxp/ValidatorDoctypeTest.class"/>
+             <include name="org/apache/html/dom/HTMLFormElementTest.class"/>  
+             <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>                 
              <include name="org/apache/xerces/dom/DOMNormalizerTest.class"/>
-             <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
-             <include name="org/apache/xerces/impl/dv/xs/TestDateDV.class"/>
-             <include name="org/apache/xerces/jaxp/datatype/DurationTest.class"/>
-             <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
-             <include name="org/apache/xerces/util/ContextClassLoaderTest.class"/>
-             <include name="org/apache/xerces/util/URITest.class"/>
-             <include name="org/apache/xerces/xinclude/XIncludeDepthTest.class"/>                   
              <include name="org/apache/xerces/dom/range/RangeComparisonTest.class"/>
              <include name="org/apache/xerces/dom/serialize/DocumentTypeSerializationTest.class"/>
              <include name="org/apache/xerces/dom/serialize/NamespaceSerializationTest.class"/>
@@ -870,21 +865,23 @@ Authors:
              <include name="org/apache/xerces/impl/xpath/regex/RegexParserDepthTest.class"/>
              <include name="org/apache/xerces/impl/xs/XSDAbstractParticleTraverserDepthTest.class"/>
              <include name="org/apache/xerces/impl/xs/identity/IDConstraintTest.class"/>
+             <include name="org/apache/xerces/jaxp/datatype/DurationTest.class"/>
              <include name="org/apache/xerces/jaxp/datatype/XMLGregorianCalendarTest.class"/>
              <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
              <include name="org/apache/xerces/jaxp/validation/ValidatorNamespaceTest.class"/>
-             <include name="org/apache/xerces/util/URITest.class"/>
+             <include name="org/apache/xerces/parsers/CDATABufferingTest.class"/>
              <include name="org/apache/xerces/util/ContextClassLoaderTest.class"/>
+             <include name="org/apache/xerces/util/URITest.class"/>
              <include name="org/apache/xerces/xinclude/XIncludeDepthTest.class"/>
              <include name="org/apache/xml/serialize/TestCDATASerialization.class"/>
              <include name="org/apache/xml/serialize/TestDuplicateNamespaceDeclarations.class"/>
              <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>
              <include name="org/apache/xml/serialize/TestIgnorableWhitespaceSerialization.class"/>
-             <include name="org/apache/xml/serialize/XMLSerializerTest.class"/>
              <include name="org/apache/xml/serialize/CDATASerializationTest.class"/>
              <include name="org/apache/xml/serialize/DuplicateNamespaceDeclarationsTest.class"/>
              <include name="org/apache/xml/serialize/HTMLSerializerTest.class"/>
              <include name="org/apache/xml/serialize/IgnorableWhitespaceSerializationTest.class"/>
+             <include name="org/apache/xml/serialize/XMLSerializerTest.class"/>
              <include name="schema/Test.class"/>
              <include name="schema/annotations/*Test.class"/>
              <include name="schema/config/BasicTest.class"/>                    

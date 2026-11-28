@@ -180,8 +180,13 @@ final class DOMValidatorHelper implements ValidatorHelper, EntityState {
                 fXMLLocator.setExpandedSystemId(systemId);
                 fErrorReporter.setDocumentLocator(fXMLLocator);
                 try {
+                    Document document = node.getNodeType() == Node.DOCUMENT_NODE ? (Document) node : node.getOwnerDocument();
+                    if (node.getNodeType() == Node.DOCUMENT_TYPE_NODE
+                            || (document != null && document.getDoctype() != null)) {
+                        fComponentManager.checkDoctype(fXMLLocator);
+                    }
                     // regardless of what type of node this is, fire start and end document events
-                    setupEntityMap((node.getNodeType() == Node.DOCUMENT_NODE) ? (Document) node : node.getOwnerDocument());
+                    setupEntityMap(document);
                     setupDOMResultHandler(domSource, domResult);
                     fSchemaValidator.startDocument(fXMLLocator, null, fDOMNamespaceContext, null);
                     validate(node);

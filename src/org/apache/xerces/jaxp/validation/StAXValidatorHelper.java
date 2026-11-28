@@ -415,6 +415,7 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
                             }
                             break;
                         case XMLStreamConstants.DTD:
+                            fComponentManager.checkDoctype(fStAXLocationWrapper);
                             processEntityDeclarations((List) reader.getProperty("javax.xml.stream.entities"));
                             break;
                     }
@@ -569,6 +570,8 @@ final class StAXValidatorHelper implements ValidatorHelper, EntityState {
                             }
                             break;
                         case XMLStreamConstants.DTD:
+                            fStAXLocationWrapper.setLocation(fCurrentEvent.getLocation());
+                            fComponentManager.checkDoctype(fStAXLocationWrapper);
                             DTD dtd = (DTD) fCurrentEvent;
                             processEntityDeclarations(dtd.getEntities());
                             if (fStAXValidatorHandler != null) {

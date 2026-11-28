@@ -53,6 +53,9 @@ public class XMLEntityDecl {
     /** Value. */
     public String value;
 
+    /** Number of parameter entity references expanded in the replacement text. */
+    public int paramEntityRefs;
+
     //
     // Methods
     //
@@ -97,6 +100,7 @@ public class XMLEntityDecl {
         this.value        = value;
         this.isPE         = isPE;
         this.inExternal   = inExternal;
+        this.paramEntityRefs = 0;
     } // setValues(String,String,String,String,String,boolean,boolean)
 
     /**
@@ -111,6 +115,7 @@ public class XMLEntityDecl {
        this.value        = null;
        this.isPE         = false;
        this.inExternal   = false;
+       this.paramEntityRefs = 0;
 
     } // clear
 

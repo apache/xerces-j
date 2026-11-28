@@ -18,6 +18,7 @@
 package org.apache.xerces.impl.xs;
 
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.Vector;
 
 import org.apache.xerces.xni.QName;
@@ -52,8 +53,9 @@ public class SubstitutionGroupHandler {
     // 3.9.4 Element Sequence Locally Valid (Particle) 2.3.3
     // check whether one element decl matches an element with the given qname
     public XSElementDecl getMatchingElemDecl(QName element, XSElementDecl exemplar) {
-        if (element.localpart == exemplar.fName &&
-            element.uri == exemplar.fTargetNamespace) {
+        // SAX filters can supply equal name strings from outside the symbol table.
+        if (Objects.equals(exemplar.fName, element.localpart)
+                && Objects.equals(exemplar.fTargetNamespace, element.uri)) {
             return exemplar;
         }
 

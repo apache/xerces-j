@@ -20,6 +20,7 @@ package org.apache.xerces.impl;
 import java.io.IOException;
 
 import org.apache.xerces.impl.msg.XMLMessageFormatter;
+import org.apache.xerces.util.AugmentationsImpl;
 import org.apache.xerces.util.SymbolTable;
 import org.apache.xerces.util.XMLChar;
 import org.apache.xerces.util.XMLStringBuffer;
@@ -1552,7 +1553,12 @@ public class XMLDTDScannerImpl
         else {
             fEntityManager.addInternalEntity(name, fStringBuffer.toString(), paramEntityRefs);
             if (fDTDHandler != null) {
-                fDTDHandler.internalEntityDecl(name, fStringBuffer, fStringBuffer2, null); 
+                Augmentations augs = null;
+                if (paramEntityRefs != 0) {
+                    augs = new AugmentationsImpl();
+                    augs.putItem(Constants.PARAMETER_ENTITY_REFERENCE_COUNT, Integer.valueOf(paramEntityRefs));
+                }
+                fDTDHandler.internalEntityDecl(name, fStringBuffer, fStringBuffer2, augs);
             }
         }
         fReportEntity = true;

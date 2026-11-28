@@ -307,7 +307,7 @@ public final class UTF8Reader
             // perform read operation
             count = fInputStream.read(fBuffer, 0, length);
             if (count == -1) {
-                return -1;
+                return surrogateOffset > 0 ? surrogateOffset : -1;
             }
             count += out - offset;
         }

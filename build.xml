@@ -830,8 +830,6 @@ Authors:
              <include name="dom/events/Test.class"/>
              <include name="dom/ids/Test.class"/>
              <include name="dom/mem/Test.class"/>
-             <include name="dom/range/TestCompare.class"/> 
-             <include name="dom/range/Test.class"/>                    
              <include name="dom/range/Test.class"/>
              <include name="dom/registry/Test.class"/>
              <include name="dom/rename/Test.class"/>

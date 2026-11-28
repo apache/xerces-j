@@ -1181,8 +1181,8 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
                     fCurrentNode.appendChild (fCurrentCDATASection);
                     fCurrentNode = fCurrentCDATASection;
                 }
-                if (text.length > 0) {
-                    fStringBuffer.append (text.ch, text.offset, text.length);
+                if (!text.isEmpty()) {
+                    fStringBuffer.append(text.ch, text.offset, text.length);
                 }
             }
             else if (!fInDTD) {

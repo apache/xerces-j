@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 
+import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.dtd.models.CMAny;
 import org.apache.xerces.impl.dtd.models.CMBinOp;
 import org.apache.xerces.impl.dtd.models.CMLeaf;
@@ -196,6 +197,16 @@ public class DTDGrammar
     private String[][] fEntityNotation = new String[INITIAL_CHUNK_COUNT][];
     private byte[][] fEntityIsPE = new byte[INITIAL_CHUNK_COUNT][];
     private byte[][] fEntityInExternal = new byte[INITIAL_CHUNK_COUNT][];
+    private int[][] fEntityParamEntityRefs = new int[INITIAL_CHUNK_COUNT][];
+    private boolean fHasInternalSubset;
+
+    void setHasInternalSubset(boolean hasInternalSubset) {
+        fHasInternalSubset = hasInternalSubset;
+    }
+
+    boolean hasInternalSubset() {
+        return fHasInternalSubset;
+    }
 
     // notations
 
@@ -688,6 +699,12 @@ public class DTDGrammar
             XMLEntityDecl  entityDecl = new XMLEntityDecl();
             entityDecl.setValues(name,null,null, null, null,
                                  text.toString(), isPE, inExternal);
+            if (augs != null) {
+                Integer count = (Integer) augs.getItem(Constants.PARAMETER_ENTITY_REFERENCE_COUNT);
+                if (count != null) {
+                    entityDecl.paramEntityRefs = count.intValue();
+                }
+            }
 
             setEntityDecl(entityIndex, entityDecl);
         }
@@ -1380,6 +1397,7 @@ public class DTDGrammar
                              fEntityValue[chunk][index],
                              fEntityIsPE[chunk][index] == 0 ? false : true ,
                              fEntityInExternal[chunk][index] == 0 ? false : true );
+        entityDecl.paramEntityRefs = fEntityParamEntityRefs[chunk][index];
 
         return true;
     } // getEntityDecl
@@ -1912,6 +1930,8 @@ public class DTDGrammar
        fEntityNotation[chunk][index] = entityDecl.notation;
        fEntityIsPE[chunk][index] = entityDecl.isPE ? (byte)1 : (byte)0;
        fEntityInExternal[chunk][index] = entityDecl.inExternal ? (byte)1 : (byte)0;
+
+       fEntityParamEntityRefs[chunk][index] = entityDecl.paramEntityRefs;
 
        fEntityIndexMap.put(entityDecl.name, entityDeclIndex);
    }
@@ -2506,6 +2526,7 @@ public class DTDGrammar
             fEntityNotation = resize(fEntityNotation, fEntityNotation.length * 2);
             fEntityIsPE = resize(fEntityIsPE, fEntityIsPE.length * 2);
             fEntityInExternal = resize(fEntityInExternal, fEntityInExternal.length * 2);
+            fEntityParamEntityRefs = resize(fEntityParamEntityRefs, fEntityParamEntityRefs.length * 2);
         }
         else if (fEntityName[chunk] != null) {
             return;
@@ -2519,6 +2540,7 @@ public class DTDGrammar
         fEntityNotation[chunk] = new String[CHUNK_SIZE];
         fEntityIsPE[chunk] = new byte[CHUNK_SIZE];
         fEntityInExternal[chunk] = new byte[CHUNK_SIZE];
+        fEntityParamEntityRefs[chunk] = new int[CHUNK_SIZE];
         return;
     }
       

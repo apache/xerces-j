@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dom.treewalker;
+package org.apache.xerces.dom.treewalker;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
@@ -43,7 +43,7 @@ import org.w3c.dom.traversal.TreeWalker;
  * @author Christian Geuer-Pollmann <geuer-pollmann@nue.et-inf.uni-siegen.de>
  * @version $Id$
  */
-public class TestFirstChild extends TestCase {
+public class TreeWalkerFirstChildTest extends TestCase {
 
     public void testTreeWalkerFirstChild() throws Exception {
         Document doc = getNodeSet1();

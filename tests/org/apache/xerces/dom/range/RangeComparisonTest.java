@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dom.range;
+package org.apache.xerces.dom.range;
 
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.xerces.dom.DocumentImpl;
 import org.w3c.dom.Element;
@@ -25,22 +24,15 @@ import org.w3c.dom.Text;
 import org.w3c.dom.ranges.Range;
 
 /**
- * This class is used to validate that the implementation of DOM Ranges
- * is functionally correct.  We include in this test suite examples 
- * from the DOM Spec.
+ * This class validates the implementation of DOM Ranges.
+ * We include in this test suite examples from the DOM Spec.
  *
  * @author Lynn Monson
  * 
  * @version $Id$
  */
-public class TestCompare extends TestCase 
+public class RangeComparisonTest extends TestCase
 {
-    /**
-     * Creates an instance of the test
-     */
-    public TestCompare(String name) {
-            super(name);
-    }
 
     /**
      * Builds a set of ranges that correspond to the range example from
@@ -216,20 +208,5 @@ public class TestCompare extends TestCase
     {
         doTestCompare( Range.END_TO_END, results_END_TO_END );
     }
-
-    /**
-     * Returns the set of all tests in this class
-     */
-    public static junit.framework.Test suite() {
-        return new TestSuite( TestCompare.class );
-    }
-
-    /**
-     * Utility for invoking the class from the command line.
-     */
-    public static void main (String[] args) {
-            junit.textui.TestRunner.run (suite());
-    }
-
 }
 

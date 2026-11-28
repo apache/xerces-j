@@ -26,8 +26,10 @@ import org.w3c.dom.html.HTMLAppletElement;
 import org.w3c.dom.html.HTMLAreaElement;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLFieldSetElement;
 import org.w3c.dom.html.HTMLFormElement;
 import org.w3c.dom.html.HTMLImageElement;
+import org.w3c.dom.html.HTMLLabelElement;
 import org.w3c.dom.html.HTMLObjectElement;
 import org.w3c.dom.html.HTMLOptionElement;
 import org.w3c.dom.html.HTMLTableCellElement;
@@ -420,8 +422,10 @@ class HTMLCollectionImpl
                             elem.getAttribute( "classid" ).startsWith( "java:" ) ) );
                 break;
             case ELEMENT:
-                // All form elements implement HTMLFormControl for easy identification.
-                match = ( elem instanceof HTMLFormControl );
+                // Fieldsets and labels can contain controls and must be traversed.
+                match = elem instanceof HTMLFormControl
+                        && !(elem instanceof HTMLFieldSetElement)
+                        && !(elem instanceof HTMLLabelElement);
                 break;
             case LINK:
                 // Any <A> element, and any <AREA> elements with an 'href' attribute.

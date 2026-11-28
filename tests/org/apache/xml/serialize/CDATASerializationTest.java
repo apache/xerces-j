@@ -28,7 +28,7 @@ import org.w3c.dom.DocumentFragment;
 /**
  * Tests serialization of CDATA sections at the end of a document fragment.
  */
-public class TestCDATASerialization extends TestCase {
+public class CDATASerializationTest extends TestCase {
 
     public void testCDATAAtEndOfDocumentFragmentIsClosed() throws Exception {
         Document document = new DocumentImpl();

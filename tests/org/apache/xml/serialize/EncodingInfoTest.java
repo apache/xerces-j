@@ -17,15 +17,22 @@
 
 package org.apache.xml.serialize;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 @SuppressWarnings("deprecation")
-public class EncodingInfoTest extends TestCase {
+public class EncodingInfoTest {
 
+    @Test
     public void testGetIANAName() {
         EncodingInfo info = new EncodingInfo("UTF-8", "UTF8", 0xffff);
         assertEquals("UTF-8", info.getIANAName());
@@ -34,6 +41,7 @@ public class EncodingInfoTest extends TestCase {
         assertEquals("WINDOWS-1252", alias.getIANAName());
     }
 
+    @Test
     public void testIsPrintableUsesLastPrintable() {
         EncodingInfo info = new EncodingInfo("UTF-8", "UTF8", 0x7f);
         assertTrue(info.isPrintable('\u007f'));
@@ -41,6 +49,7 @@ public class EncodingInfoTest extends TestCase {
         assertTrue(info.isPrintable('\u4e2d'));
     }
 
+    @Test
     public void testIsPrintableUsesCharsetEncoder() {
         EncodingInfo ascii = new EncodingInfo("US-ASCII", "ASCII", 0x7f);
         assertTrue(ascii.isPrintable('A'));
@@ -52,11 +61,13 @@ public class EncodingInfoTest extends TestCase {
         assertFalse(latin1.isPrintable('\u4e2d'));
     }
 
+    @Test
     public void testIsPrintableWithUnknownEncoding() {
         EncodingInfo info = new EncodingInfo("X-NOT-A-CHARSET", "X", 0x7f);
         assertFalse(info.isPrintable('\u00e9'));
     }
 
+    @Test
     public void testGetWriterUsesJavaEncoding() throws Exception {
         EncodingInfo info = new EncodingInfo("US-ASCII", "ASCII", 0x7f);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -66,6 +77,7 @@ public class EncodingInfoTest extends TestCase {
         assertEquals("abc", new String(out.toByteArray(), "US-ASCII"));
     }
 
+    @Test
     public void testGetWriterFallsBackToUtf8() throws Exception {
         EncodingInfo info = new EncodingInfo("X-NOT-A-CHARSET", "X", 0x7f);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -75,12 +87,14 @@ public class EncodingInfoTest extends TestCase {
         assertEquals("\u00e9", new String(out.toByteArray(), "UTF-8"));
     }
 
+    @Test
     public void testTestJavaEncodingName() throws Exception {
         EncodingInfo.testJavaEncodingName("UTF-8");
-        try {
-            EncodingInfo.testJavaEncodingName("X-NOT-A-CHARSET");
-            fail("Unknown Java encoding name should not be recognized");
-        } catch (UnsupportedEncodingException expected) {
-        }
+        assertThrows(UnsupportedEncodingException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws UnsupportedEncodingException {
+                EncodingInfo.testJavaEncodingName("X-NOT-A-CHARSET");
+            }
+        });
     }
 }

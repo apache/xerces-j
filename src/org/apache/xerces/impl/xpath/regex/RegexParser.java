@@ -317,10 +317,8 @@ class RegexParser {
      *          | '\w' | '\W' | '\d' | '\D' | '\s' | '\S' | category-block 
      */
     Token parseRegex() throws ParseException {
-        //
         //  Parse groups with an explicit stack rather than by recursing, so
         //  that deeply nested parentheses cannot exhaust the Java stack.
-        //
         final ArrayList<RegexFrame> frames = new ArrayList<RegexFrame>();
         frames.add(new RegexFrame());
 

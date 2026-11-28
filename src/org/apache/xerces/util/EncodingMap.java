@@ -651,6 +651,7 @@ public class EncodingMap {
         // add Java to IANA encoding mappings
         //fJava2IANAMap.put("8859_1",    "US-ASCII"); // ?
         fJava2IANAMap.put("ISO8859_1",    "ISO-8859-1");
+        fJava2IANAMap.put("LATIN1", "ISO-8859-1");
         fJava2IANAMap.put("ISO8859_2",    "ISO-8859-2");
         fJava2IANAMap.put("ISO8859_3",    "ISO-8859-3");
         fJava2IANAMap.put("ISO8859_4",    "ISO-8859-4");
@@ -661,6 +662,7 @@ public class EncodingMap {
         fJava2IANAMap.put("ISO8859_9",    "ISO-8859-9");
         fJava2IANAMap.put("ISO8859_13",    "ISO-8859-13");
         fJava2IANAMap.put("ISO8859_15",    "ISO-8859-15");
+        fJava2IANAMap.put("ISO-8859-15", "ISO-8859-15");
         fJava2IANAMap.put("ISO8859_15_FDIS",    "ISO-8859-15");
         fJava2IANAMap.put("BIG5",      "BIG5");
         fJava2IANAMap.put("CP037",     "EBCDIC-CP-US");
@@ -709,15 +711,22 @@ public class EncodingMap {
         fJava2IANAMap.put("SJIS",      "SHIFT_JIS");
         fJava2IANAMap.put("MS932",      "WINDOWS-31J");
         fJava2IANAMap.put("UTF8",      "UTF-8");
+        fJava2IANAMap.put("UTF-8", "UTF-8");
         fJava2IANAMap.put("UNICODEBIG",   "UTF-16BE");
         fJava2IANAMap.put("UNICODELITTLE",   "UTF-16LE");
+        fJava2IANAMap.put("UNICODEBIGUNMARKED", "UTF-16BE");
+        fJava2IANAMap.put("UNICODELITTLEUNMARKED", "UTF-16LE");
+        fJava2IANAMap.put("UTF_16LE", "UTF-16LE");
         fJava2IANAMap.put("JIS0201",  "X0201");
         fJava2IANAMap.put("JIS0208",  "X0208");
         fJava2IANAMap.put("JIS0212",  "ISO-IR-159");
 
         fJava2IANAMap.put("ASCII",      "US-ASCII");
+        fJava2IANAMap.put("US-ASCII", "US-ASCII");
         fJava2IANAMap.put("CP1047",     "IBM1047");
+        fJava2IANAMap.put("IBM1047", "IBM1047");
         fJava2IANAMap.put("CP1140",     "IBM01140");
+        fJava2IANAMap.put("IBM01140", "IBM01140");
         fJava2IANAMap.put("CP1141",     "IBM01141");
         fJava2IANAMap.put("CP1142",     "IBM01142");
         fJava2IANAMap.put("CP1143",     "IBM01143");
@@ -730,6 +739,7 @@ public class EncodingMap {
         fJava2IANAMap.put("CP1250",     "WINDOWS-1250");
         fJava2IANAMap.put("CP1251",     "WINDOWS-1251");
         fJava2IANAMap.put("CP1252",     "WINDOWS-1252");
+        fJava2IANAMap.put("WINDOWS-1252", "WINDOWS-1252");
         fJava2IANAMap.put("CP1253",     "WINDOWS-1253");
         fJava2IANAMap.put("CP1254",     "WINDOWS-1254");
         fJava2IANAMap.put("CP1255",     "WINDOWS-1255");
@@ -738,6 +748,8 @@ public class EncodingMap {
         fJava2IANAMap.put("CP1258",     "WINDOWS-1258");
         fJava2IANAMap.put("TIS620",     "TIS-620");
         fJava2IANAMap.put("UTF-16",     "UTF-16");
+        fJava2IANAMap.put("UNICODE", "UTF-16");
+        fJava2IANAMap.put("UTF_16", "UTF-16");
 
     } // <clinit>()
 

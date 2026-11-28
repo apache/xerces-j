@@ -62,6 +62,27 @@ public class EncodingMapTest extends TestCase {
         }
     }
 
+    public void testJavaCharsetNamesAndAliases() {
+        String[][] mappings = {
+            {"Unicode", "UTF-16"},
+            {"UTF_16", "UTF-16"},
+            {"UnicodeBigUnmarked", "UTF-16BE"},
+            {"UnicodeLittleUnmarked", "UTF-16LE"},
+            {"UTF_16LE", "UTF-16LE"},
+            {"Latin1", "ISO-8859-1"},
+            {"UTF-8", "UTF-8"},
+            {"US-ASCII", "US-ASCII"},
+            {"ISO-8859-15", "ISO-8859-15"},
+            {"windows-1252", "WINDOWS-1252"},
+            {"IBM1047", "IBM1047"},
+            {"IBM01140", "IBM01140"}
+        };
+        for (String[] mapping : mappings) {
+            String javaName = mapping[0];
+            assertEquals(javaName, mapping[1], EncodingMap.getJava2IANAMapping(javaName));
+        }
+    }
+
     public void testGetJava2IANAMapping() {
         assertEquals("US-ASCII", EncodingMap.getJava2IANAMapping("ASCII"));
         assertEquals("IBM1047", EncodingMap.getJava2IANAMapping("Cp1047"));

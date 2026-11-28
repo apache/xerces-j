@@ -56,6 +56,11 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
 
     // optional annotation
     public XSObjectList fAnnotations;
+
+    // prohibited attributes from restriction (preserved for extension checks)
+    String[] fProhibitedNamespaces = null;
+    String[] fProhibitedNames = null;
+    int fProhibitedCount = 0;
     
     protected volatile XSObjectListImpl fAttrUses = null;
     
@@ -121,7 +126,19 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
     }
 
     public void removeProhibitedAttrs() {
+        removeProhibitedAttrs(true);
+    }
+
+    public void removeProhibitedAttrs(boolean recordProhibited) {
         if (fAttrUseNum == 0) return;
+        if (recordProhibited) {
+            for (int i = 0; i < fAttrUseNum; i++) {
+                if (fAttributeUses[i].fUse == SchemaSymbols.USE_PROHIBITED) {
+                    addProhibitedAttr(fAttributeUses[i].fAttrDecl.fTargetNamespace,
+                            fAttributeUses[i].fAttrDecl.fName);
+                }
+            }
+        }
         // Remove all prohibited attributes.
         int count = 0;
         XSAttributeUseImpl[] uses = new XSAttributeUseImpl[fAttrUseNum];
@@ -313,6 +330,47 @@ public class XSAttributeGroupDecl implements XSAttributeGroupDefinition {
         XSAttributeUseImpl[] newArray = new XSAttributeUseImpl[newSize];
         System.arraycopy(oldArray, 0, newArray, 0, Math.min(oldArray.length, newSize));
         return newArray;
+    }
+
+    public void addProhibitedAttr(String namespace, String name) {
+        for (int i = 0; i < fProhibitedCount; i++) {
+            if (fProhibitedNamespaces[i] == namespace && fProhibitedNames[i] == name) {
+                return;
+            }
+        }
+        if (fProhibitedNamespaces == null) {
+            fProhibitedNamespaces = new String[INITIAL_SIZE];
+            fProhibitedNames = new String[INITIAL_SIZE];
+        }
+        else if (fProhibitedCount == fProhibitedNamespaces.length) {
+            String[] newNamespaces = new String[fProhibitedCount * 2];
+            String[] newNames = new String[fProhibitedCount * 2];
+            System.arraycopy(fProhibitedNamespaces, 0, newNamespaces, 0, fProhibitedCount);
+            System.arraycopy(fProhibitedNames, 0, newNames, 0, fProhibitedCount);
+            fProhibitedNamespaces = newNamespaces;
+            fProhibitedNames = newNames;
+        }
+        fProhibitedNamespaces[fProhibitedCount] = namespace;
+        fProhibitedNames[fProhibitedCount] = name;
+        fProhibitedCount++;
+    }
+
+    public void addProhibitedAttrs(XSAttributeGroupDecl baseGroup) {
+        if (baseGroup == null || baseGroup.fProhibitedCount == 0) {
+            return;
+        }
+        for (int i = 0; i < baseGroup.fProhibitedCount; i++) {
+            addProhibitedAttr(baseGroup.fProhibitedNamespaces[i], baseGroup.fProhibitedNames[i]);
+        }
+    }
+
+    public String getProhibitedAttributeName(XSAttributeGroupDecl derivedGroup) {
+        for (int i = 0; i < fProhibitedCount; i++) {
+            if (derivedGroup.getAttributeUseNoProhibited(fProhibitedNamespaces[i], fProhibitedNames[i]) != null) {
+                return fProhibitedNames[i];
+            }
+        }
+        return null;
     }
 
     // reset the attribute group declaration

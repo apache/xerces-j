@@ -624,6 +624,7 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
                 fAttrChecker.returnAttrArray(derivationTypeAttrValues, schemaDoc);
                 throw e;
             }
+            fAttrGrp.addProhibitedAttrs(baseComplexType.getAttrGrp());
             // Prohibited uses must be removed after merge for RESTRICTION
             fAttrGrp.removeProhibitedAttrs();
             
@@ -663,8 +664,8 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
                             new Object[]{fName,DOMUtil.getLocalName(node)},
                             node);
                 }
-                // Remove prohibited uses.   Should be done prior to any merge.
-                fAttrGrp.removeProhibitedAttrs();
+                // Remove prohibited uses before merging attributes for extension.
+                fAttrGrp.removeProhibitedAttrs(false);
             }
             
             if (baseComplexType != null) {
@@ -870,6 +871,7 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
                 fAttrChecker.returnAttrArray(derivationTypeAttrValues, schemaDoc);
                 throw e;
             }
+            fAttrGrp.addProhibitedAttrs(baseType.getAttrGrp());
             // Remove prohibited uses.   Must be done after merge for RESTRICTION.
             fAttrGrp.removeProhibitedAttrs();
             
@@ -941,8 +943,8 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
                 fParticle = particle;
             }
             
-            // Remove prohibited uses.   Must be done before merge for EXTENSION.
-            fAttrGrp.removeProhibitedAttrs();
+            // Remove prohibited uses before merging attributes for extension.
+            fAttrGrp.removeProhibitedAttrs(false);
             try {
                 mergeAttributes(baseType.getAttrGrp(), fAttrGrp, fName, true, complexContent);
             } catch (ComplexTypeRecoverableError e) {
@@ -969,6 +971,15 @@ class  XSDComplexTypeTraverser extends XSDAbstractParticleTraverser {
             Element elem)
     throws ComplexTypeRecoverableError {
         
+        if (extension) {
+            String prohibitedName = fromAttrGrp.getProhibitedAttributeName(toAttrGrp);
+            if (prohibitedName != null) {
+                throw new ComplexTypeRecoverableError("cos-ct-extends.1.5",
+                        new Object[]{typeName, prohibitedName}, elem);
+            }
+            toAttrGrp.addProhibitedAttrs(fromAttrGrp);
+        }
+
         XSObjectList attrUseS = fromAttrGrp.getAttributeUses();
         XSAttributeUseImpl oneAttrUse = null;
         int attrCount = attrUseS.getLength();

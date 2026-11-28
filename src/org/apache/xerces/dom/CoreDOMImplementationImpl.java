@@ -418,6 +418,10 @@ public class CoreDOMImplementationImpl
     /**
      * DOM Level 3 LS CR - Experimental.
      * Create a new <code>LSSerializer</code> object.
+     * Xerces uses Xalan's {@code org.apache.xml.serializer.dom3.LSSerializerImpl}
+     * if it can load and instantiate it. Otherwise, it falls back to
+     * {@link DOMSerializerImpl}.
+     *
      * @return The newly created <code>LSSerializer</code> object.
      * <p ><b>Note:</b>    By default, the newly created
      * <code>LSSerializer</code> has no <code>DOMErrorHandler</code>,

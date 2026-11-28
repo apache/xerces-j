@@ -17,6 +17,7 @@
 
 package org.apache.xerces.util;
 
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 
 import junit.framework.TestCase;
@@ -40,6 +41,24 @@ public class EncodingMapTest extends TestCase {
             String ianaName = EncodingMap.getJava2IANAMapping(javaName);
             assertNotNull("No IANA to Java mapping for " + ianaName + " used by " + javaName,
                     EncodingMap.getIANA2JavaMapping(ianaName));
+        }
+    }
+
+    public void testISO885915AliasRoundTrip() {
+        String javaName = EncodingMap.getIANA2JavaMapping("iso_8859-15");
+        assertNotNull(javaName);
+        assertEquals(Charset.forName("ISO-8859-15"), Charset.forName(javaName));
+        assertEquals("ISO-8859-15", EncodingMap.getJava2IANAMapping(javaName));
+    }
+
+    public void testJavaAliasesRoundTripToEquivalentCharsets() {
+        String[] aliases = {"ASCII", "ISO8859_15_FDIS", "Cp1140", "Cp1252"};
+        for (String alias : aliases) {
+            String ianaName = EncodingMap.getJava2IANAMapping(alias);
+            assertNotNull(alias, ianaName);
+            String javaName = EncodingMap.getIANA2JavaMapping(ianaName);
+            assertNotNull(ianaName, javaName);
+            assertEquals(alias, Charset.forName(alias), Charset.forName(javaName));
         }
     }
 

@@ -71,15 +71,6 @@ public class Encodings {
             return eInfo;
         }
         String javaEncodingName = EncodingMap.getIANA2JavaMapping(encoding);
-        String ianaEncodingName = encoding;
-        if (javaEncodingName == null) {
-            // IANA charset names are case-insensitive.
-            String upperCaseEncoding = encoding.toUpperCase(Locale.ENGLISH);
-            javaEncodingName = EncodingMap.getIANA2JavaMapping(upperCaseEncoding);
-            if (javaEncodingName != null) {
-                ianaEncodingName = upperCaseEncoding;
-            }
-        }
         if (javaEncodingName == null) {
             // see if the encoding passed in is a Java encoding name.
             if (allowJavaNames) {
@@ -104,6 +95,11 @@ public class Encodings {
         }
         if ((eInfo = (EncodingInfo)_encodings.get(javaEncodingName)) != null)
             return eInfo;
+        String ianaEncodingName = EncodingMap.getJava2IANAMapping(javaEncodingName);
+        if (ianaEncodingName == null ||
+                !javaEncodingName.equalsIgnoreCase(EncodingMap.getIANA2JavaMapping(ianaEncodingName))) {
+            ianaEncodingName = encoding.toUpperCase(Locale.ROOT);
+        }
         // have to create one...
         // is it known to be unicode-compliant?
         int i=0;

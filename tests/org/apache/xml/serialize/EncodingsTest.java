@@ -76,6 +76,17 @@ public class EncodingsTest extends TestCase {
         assertFalse(windows1252.isPrintable('\u4e2d'));
     }
 
+    public void testJavaEncodingNamesAreCaseInsensitive() throws Exception {
+        assertEquals("WINDOWS-1252", Encodings.getEncodingInfo("CP1252", true).getIANAName());
+        assertEquals("WINDOWS-1252", Encodings.getEncodingInfo("cp1252", true).getIANAName());
+        assertEquals("IBM01140", Encodings.getEncodingInfo("CP1140", true).getIANAName());
+        assertEquals("UTF-16LE", Encodings.getEncodingInfo("unicodelittle", true).getIANAName());
+    }
+
+    public void testISO885915AliasUsesPreferredIANAName() throws Exception {
+        assertEquals("ISO-8859-15", Encodings.getEncodingInfo("iso_8859-15", false).getIANAName());
+    }
+
     public void testEncodingInfoIsCached() throws Exception {
         assertSame(Encodings.getEncodingInfo("US-ASCII", false),
                 Encodings.getEncodingInfo("US-ASCII", false));

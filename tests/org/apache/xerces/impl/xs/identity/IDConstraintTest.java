@@ -18,6 +18,7 @@
 package org.apache.xerces.impl.xs.identity;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
 
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import util.FailureMesgFragments;
 import util.XercesAbstractTestCase;
@@ -40,6 +42,36 @@ public class IDConstraintTest extends XercesAbstractTestCase {
         super(name);
     }
     
+    public void testIndexedDuplicateTuples() throws Exception {
+        checkDuplicateTuple("key", "cvc-identity-constraint.4.2.2");
+        checkDuplicateTuple("unique", "cvc-identity-constraint.4.1");
+    }
+
+    private void checkDuplicateTuple(String constraint, String errorCode) throws Exception {
+        String schema = "<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>"
+                + "<xs:element name='root'><xs:complexType><xs:sequence>"
+                + "<xs:element name='row' maxOccurs='unbounded'><xs:complexType>"
+                + "<xs:attribute name='label' type='xs:string'/>"
+                + "<xs:attribute name='number' type='xs:decimal'/>"
+                + "</xs:complexType></xs:element></xs:sequence></xs:complexType>"
+                + "<xs:" + constraint + " name='pair'><xs:selector xpath='row'/>"
+                + "<xs:field xpath='@label'/><xs:field xpath='@number'/>"
+                + "</xs:" + constraint + "></xs:element></xs:schema>";
+        Validator validator = fSchemaFactory.newSchema(new StreamSource(new StringReader(schema))).newValidator();
+        // Aa and BB have the same Java string hash.
+        String rows = "<row label='Aa' number='1'/><row label='BB' number='1'/>"
+                + "<row label='Aa' number='2'/>";
+        validator.validate(new StreamSource(new StringReader("<root>" + rows + "</root>")));
+        try {
+            validator.validate(new StreamSource(new StringReader(
+                    "<root>" + rows + "<row label='Aa' number='1.00'/></root>")));
+            fail("Expected " + errorCode);
+        }
+        catch (SAXParseException expected) {
+            assertTrue(expected.getMessage(), expected.getMessage().startsWith(errorCode + ":"));
+        }
+    }
+
     public void testIDConstraint1() throws SAXException, IOException {
         String xmlFile = "tests/idc/idc_1_valid_1.xml";
         String schemaPath = "tests/idc/idc_1.xsd";

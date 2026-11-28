@@ -230,6 +230,10 @@ public class DecimalDV extends TypeValidator {
             return intDigits == oval.intDigits && fracDigits == oval.fracDigits &&
                    ivalue.equals(oval.ivalue) && fvalue.equals(oval.fvalue);
         }
+        public int hashCode() {
+            return sign == 0 ? 0 : 31 * (31 * sign + ivalue.hashCode()) + fvalue.hashCode();
+        }
+
         public int compareTo(XDecimal val) {
             if (sign != val.sign)
                 return sign > val.sign ? 1 : -1;

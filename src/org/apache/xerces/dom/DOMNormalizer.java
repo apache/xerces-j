@@ -31,6 +31,7 @@ import org.apache.xerces.util.AugmentationsImpl;
 import org.apache.xerces.util.NamespaceSupport;
 import org.apache.xerces.util.SymbolTable;
 import org.apache.xerces.util.XML11Char;
+import org.apache.xerces.util.XMLAttributesImpl;
 import org.apache.xerces.util.XMLChar;
 import org.apache.xerces.util.XMLSymbols;
 import org.apache.xerces.xni.Augmentations;
@@ -77,12 +78,10 @@ import org.w3c.dom.Text;
  * are normalized.
  * <p>
  * NOTE: There is an initial support for DOM revalidation with XML Schema as a grammar.
- * The tree might not be validated correctly if entityReferences, CDATA sections are
- * present in the tree. The PSVI information is not exposed, normalized data (including element
- * default content is not available).
+ * Read-only replacement content of retained entity references is checked without
+ * applying validator augmentations to those nodes. The PSVI information is not exposed. 
+ * Normalized data (including element default content) is not available.
  * </p>
- *
- * @xerces.experimental
  * 
  * @author Elena Litani, IBM
  * @author Neeraj Bajaj, Sun Microsystems, inc.
@@ -505,20 +504,21 @@ public class DOMNormalizer implements XMLDocumentHandler {
                         return prevSibling;  // Don't advance                          
                     }
                     return next;
-                } else {
-                    if (fDocument.errorChecking && ((fConfiguration.features & DOMConfigurationImpl.WELLFORMED) != 0) && 
-                        fDocument.isXMLVersionChanged()){
-                        if (!CoreDocumentImpl.isXMLName(node.getNodeName() , fDocument.isXML11Version())) {
-                            String msg = DOMMessageFormatter.formatMessage(
-                                    DOMMessageFormatter.DOM_DOMAIN,
-                                    "wf-invalid-character-in-node-name",
-                                    new Object[]{"Entity", node.getNodeName()});
-                            reportDOMError(fErrorHandler, fError, fLocator, msg, DOMError.SEVERITY_ERROR,
-                                    "wf-invalid-character-in-node-name");
-                        }
+                }
+                boolean checkWellFormed = fDocument.errorChecking
+                        && (fConfiguration.features & DOMConfigurationImpl.WELLFORMED) != 0;
+                if (fValidationHandler != null) {
+                    // Validator callbacks can write defaults and normalized values into the DOM.
+                    fValidationHandler.setDocumentHandler(null);
+                    try {
+                        checkRetainedNode(node, checkWellFormed);
                     }
-                    // REVISIT: traverse entity reference and send appropriate calls to the validator
-                    // (no normalization should be performed for the children).
+                    finally {
+                        fValidationHandler.setDocumentHandler(this);
+                    }
+                }
+                else if (checkWellFormed) {
+                    checkRetainedNode(node, true);
                 }
                 break;
             }
@@ -697,6 +697,134 @@ public class DOMNormalizer implements XMLDocumentHandler {
         }//end of switch
         return null;
     }//normalizeNode
+
+    /** Check read-only entity replacement content without normalizing its nodes. */
+    private void checkRetainedNode(Node node, boolean checkWellFormed) {
+        fLocator.fRelatedNode = node;
+        fConfiguration.fErrorHandlerWrapper.fCurrentNode = node;
+        boolean xml11 = fDocument.isXML11Version();
+
+        switch (node.getNodeType()) {
+        case Node.ENTITY_REFERENCE_NODE:
+            if (checkWellFormed && fDocument.isXMLVersionChanged()) {
+                checkRetainedName(node, "EntityReference", false);
+            }
+            if (fValidationHandler != null) {
+                fValidationHandler.startGeneralEntity(node.getNodeName(), null, null, null);
+            }
+            checkRetainedChildren(node, checkWellFormed);
+            if (fValidationHandler != null) {
+                fValidationHandler.endGeneralEntity(node.getNodeName(), null);
+            }
+            break;
+        case Node.ELEMENT_NODE:
+            checkRetainedElement(node, checkWellFormed);
+            break;
+        case Node.CDATA_SECTION_NODE:
+        case Node.TEXT_NODE:
+            String value = node.getNodeValue();
+            boolean cdata = node.getNodeType() == Node.CDATA_SECTION_NODE
+                    && (fConfiguration.features & DOMConfigurationImpl.CDATA) != 0;
+            if (checkWellFormed) {
+                if (cdata && (fConfiguration.features & DOMConfigurationImpl.SPLITCDATA) == 0) {
+                    isCDataWF(fErrorHandler, fError, fLocator, value, xml11);
+                }
+                else {
+                    isXMLCharWF(fErrorHandler, fError, fLocator, value, xml11);
+                }
+            }
+            if (fValidationHandler != null) {
+                if (cdata) {
+                    fValidationHandler.startCDATA(null);
+                }
+                fValidationHandler.characterData(value, null);
+                if (cdata) {
+                    fValidationHandler.endCDATA(null);
+                }
+            }
+            break;
+        case Node.COMMENT_NODE:
+            if (checkWellFormed) {
+                isCommentWF(fErrorHandler, fError, fLocator, node.getNodeValue(), xml11);
+            }
+            if (fValidationHandler != null) {
+                fValidationHandler.comment(EMPTY_STRING, null);
+            }
+            break;
+        case Node.PROCESSING_INSTRUCTION_NODE:
+            // The ordinary PI path only checks well-formedness and reports the event.
+            normalizeNode(node);
+            break;
+        }
+    }
+
+    private void checkRetainedChildren(Node node, boolean checkWellFormed) {
+        for (Node child = node.getFirstChild(); child != null; child = child.getNextSibling()) {
+            checkRetainedNode(child, checkWellFormed);
+        }
+        fLocator.fRelatedNode = node;
+        fConfiguration.fErrorHandlerWrapper.fCurrentNode = node;
+    }
+
+    private void checkRetainedElement(Node element, boolean checkWellFormed) {
+        boolean checkNames = checkWellFormed && fDocument.isXMLVersionChanged();
+        if (checkNames) {
+            checkRetainedName(element, "Element", fNamespaceValidation);
+        }
+
+        // The validator may add defaults to this list without changing the DOM.
+        XMLAttributesImpl validatorAttributes = fValidationHandler != null ? new XMLAttributesImpl() : null;
+        NamedNodeMap attributes = element.getAttributes();
+        fNamespaceContext.pushContext();
+        try {
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Attr attr = (Attr) attributes.item(i);
+                String value = attr.getValue();
+                if (checkWellFormed) {
+                    fLocator.fRelatedNode = attr;
+                    isAttrValueWF(fErrorHandler, fError, fLocator, attributes, attr, value, fDocument.isXML11Version());
+                    if (checkNames) {
+                        checkRetainedName(attr, "Attr", fNamespaceValidation);
+                    }
+                }
+                if (validatorAttributes != null) {
+                    updateQName(attr, fAttrQName);
+                    validatorAttributes.addAttributeNS(fAttrQName, XMLSymbols.fCDATASymbol, value);
+                    validatorAttributes.setSpecified(i, attr.getSpecified());
+                    if (fAttrQName.uri == NamespaceContext.XMLNS_URI) {
+                        String prefix = fAttrQName.prefix == XMLSymbols.PREFIX_XMLNS
+                                ? fAttrQName.localpart : XMLSymbols.EMPTY_STRING;
+                        fNamespaceContext.declarePrefix(prefix, value.length() == 0 ? null : fSymbolTable.addSymbol(value));
+                    }
+                }
+            }
+            fLocator.fRelatedNode = element;
+            if (fValidationHandler != null) {
+                updateQName(element, fQName);
+                fValidationHandler.startElement(fQName, validatorAttributes, null);
+            }
+            checkRetainedChildren(element, checkWellFormed);
+            if (fValidationHandler != null) {
+                updateQName(element, fQName);
+                fValidationHandler.endElement(fQName, null);
+            }
+        }
+        finally {
+            fNamespaceContext.popContext();
+        }
+    }
+
+    private void checkRetainedName(Node node, String kind, boolean qualified) {
+        boolean valid = qualified
+                ? CoreDocumentImpl.isValidQName(node.getPrefix(), node.getLocalName(), fDocument.isXML11Version())
+                : CoreDocumentImpl.isXMLName(node.getNodeName(), fDocument.isXML11Version());
+        if (!valid) {
+            String key = "wf-invalid-character-in-node-name";
+            String message = DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN,
+                    key, new Object[]{kind, node.getNodeName()});
+            reportDOMError(fErrorHandler, fError, fLocator, message, DOMError.SEVERITY_ERROR, key);
+        }
+    }
 
     private void processDTD(String xmlVersion, String schemaLocation) {
         

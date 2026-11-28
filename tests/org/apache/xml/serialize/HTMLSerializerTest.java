@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 /**
  * Tests HTML and XHTML serialization of empty non-void elements.
  */
-public class TestHTMLSerializer extends TestCase {
+public class HTMLSerializerTest extends TestCase {
 
     public void testIframeIsExplicitlyClosedInHTML() throws Exception {
         String output = serialize(false);

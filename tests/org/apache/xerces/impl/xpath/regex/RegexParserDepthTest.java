@@ -33,6 +33,15 @@ public class RegexParserDepthTest extends TestCase {
         new RegularExpression(pattern, "X");
     }
 
+    public void testNestedParenthesesMatchLiteral() {
+        // Matching also invokes the recursive regex compiler.
+        String pattern = createPattern(100);
+        assertTrue("Default regex mode should match the nested literal",
+                new RegularExpression(pattern).matches("a"));
+        assertTrue("XML Schema regex mode should match the nested literal",
+                new RegularExpression(pattern, "X").matches("a"));
+    }
+
     private String createPattern(int depth) {
         StringBuilder pattern = new StringBuilder(depth * 2 + 1);
         for (int i = 0; i < depth; i++) {

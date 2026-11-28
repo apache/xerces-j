@@ -17,6 +17,9 @@
 
 package org.apache.xerces.jaxp.datatype;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -62,6 +65,37 @@ public class XMLGregorianCalendarTest extends TestCase {
                 // Expected.
             }
         }
+    }
+
+    public void testHashCodeDistinguishesDatesAcrossMonths() {
+        Set<Integer> hashes = new HashSet<Integer>();
+        int[] leapYearMonthLengths = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        for (int month = 1; month <= leapYearMonthLengths.length; month++) {
+            for (int day = 1; day <= leapYearMonthLengths[month - 1]; day++) {
+                hashes.add(factory.newXMLGregorianCalendarDate(2024, month, day, 0).hashCode());
+            }
+        }
+        assertEquals(366, hashes.size());
+    }
+
+    public void testHashCodeDistinguishesMinutesFromSeconds() {
+        XMLGregorianCalendar thirtyOneSeconds = factory.newXMLGregorianCalendar("2024-01-01T00:00:31Z");
+        XMLGregorianCalendar oneMinute = factory.newXMLGregorianCalendar("2024-01-01T00:01:00Z");
+        assertTrue("One minute and 31 seconds should have distinct hashes",
+                thirtyOneSeconds.hashCode() != oneMinute.hashCode());
+    }
+
+    public void testEqualCalendarsHaveEqualHashes() {
+        assertEqualHashes("2026-01-02T00:30:00+01:00", "2026-01-01T23:30:00Z");
+        assertEqualHashes("2026-01-01T23:30:00Z", "2026-01-01T23:30:00.000Z");
+        assertEqualHashes("--07", "--07--");
+    }
+
+    private void assertEqualHashes(String firstValue, String secondValue) {
+        XMLGregorianCalendar first = factory.newXMLGregorianCalendar(firstValue);
+        XMLGregorianCalendar second = factory.newXMLGregorianCalendar(secondValue);
+        assertEquals(first, second);
+        assertEquals(first.hashCode(), second.hashCode());
     }
 
     private void assertMonthFormat(String input, String expected) {

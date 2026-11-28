@@ -69,12 +69,13 @@ public class XMLGregorianCalendarTest extends TestCase {
 
     public void testHashCodeDistinguishesDatesAcrossMonths() {
         Set<Integer> hashes = new HashSet<Integer>();
-        for (int month = 1; month <= 12; month++) {
-            for (int day = 1; day <= 28; day++) {
-                hashes.add(factory.newXMLGregorianCalendarDate(2026, month, day, 0).hashCode());
+        int[] leapYearMonthLengths = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        for (int month = 1; month <= leapYearMonthLengths.length; month++) {
+            for (int day = 1; day <= leapYearMonthLengths[month - 1]; day++) {
+                hashes.add(factory.newXMLGregorianCalendarDate(2024, month, day, 0).hashCode());
             }
         }
-        assertEquals(336, hashes.size());
+        assertEquals(366, hashes.size());
     }
 
     public void testEqualCalendarsHaveEqualHashes() {

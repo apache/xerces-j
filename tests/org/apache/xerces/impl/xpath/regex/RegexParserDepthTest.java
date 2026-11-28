@@ -29,15 +29,11 @@ public class RegexParserDepthTest extends TestCase {
     public void testDeeplyNestedParenthesesDoNotOverflowStack()
             throws Exception {
         String pattern = createPattern(DEPTH);
-        new RegularExpression(pattern);
-        new RegularExpression(pattern, "X");
-    }
-
-    public void testNestedParenthesesMatchLiteral() {
-        // Matching also invokes the recursive regex compiler.
-        String pattern = createPattern(100);
+        Match match = new Match();
         assertTrue("Default regex mode should match the nested literal",
-                new RegularExpression(pattern).matches("a"));
+                new RegularExpression(pattern).matches("a", match));
+        assertEquals("a", match.getCapturedText(1));
+        assertEquals("a", match.getCapturedText(DEPTH));
         assertTrue("XML Schema regex mode should match the nested literal",
                 new RegularExpression(pattern, "X").matches("a"));
     }

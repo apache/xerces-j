@@ -159,6 +159,9 @@ public class ElementImpl
         }
         if (attributes == null) {
             attributes = new AttributeMap(this, null);
+            if (isReadOnly()) {
+                attributes.setReadOnly(true, true);
+            }
         }
         return attributes;
 

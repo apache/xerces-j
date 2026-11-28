@@ -505,7 +505,7 @@ Authors:
   <!-- =================================================================== -->
   <target name="javadocs" depends="prepare-src">
 
-    <condition property="additional.param" value=" -taglet org.apache.xerces.util.ExperimentalTaglet -taglet org.apache.xerces.util.InternalTaglet -tagletpath ${tools.dir}/bin/xerces2taglets.jar">
+    <condition property="additional.param" value=" -taglet org.apache.xerces.util.InternalTaglet -tagletpath ${tools.dir}/bin/xerces2taglets.jar">
       <available classname="com.sun.tools.doclets.Taglet"/>
     </condition>
 

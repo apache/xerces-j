@@ -26,26 +26,13 @@ package org.apache.xerces.dom;
 import org.w3c.dom.NamedNodeMap;
 
 /**
- * Elements represent most of the "markup" and structure of the
- * document.  They contain both the data for the element itself
- * (element name and attributes), and any contained nodes, including
- * document text (as children).
- * <p>
- * Elements may have Attributes associated with them; the API for this is
- * defined in Node, but the function is implemented here. In general, XML
- * applications should retrive Attributes as Nodes, since they may contain
- * entity references and hence be a fairly complex sub-tree. HTML users will
- * be dealing with simple string values, and convenience methods are provided
- * to work in terms of Strings.
- * </p>
- * <p>
- * DeferredElementImpl inherits from ElementImpl which does not support
- * Namespaces. DeferredElementNSImpl, which inherits from ElementNSImpl, does.
- * </p>
+ * An element without namespace support whose data and children are loaded
+ * on demand from its deferred document.
+ *
+ * @see DeferredNode
  * @see DeferredElementNSImpl
  *
  * @xerces.internal
- *
  * @version $Id$
  * @since  PR-DOM-Level-1-19980818.
  */

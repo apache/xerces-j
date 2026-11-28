@@ -20,7 +20,12 @@ package org.apache.xerces.dom;
 import org.w3c.dom.Node;
 
 /** 
- * An interface for deferred node object.
+ * A DOM node backed by a table entry in a {@link DeferredDocumentImpl}.
+ *
+ * <p>When deferred node expansion is enabled, Xerces parses the XML into
+ * compact tables in the document. It creates DOM node objects and populates
+ * their data and child lists as needed when applications access the tree.
+ * The XML has already been parsed when the DOM is returned to the caller.</p>
  * 
  * @xerces.internal
  *
@@ -35,7 +40,7 @@ public interface DeferredNode extends Node {
     // DeferredNode methods
     //
 
-    /** Returns the node index. */
+    /** Returns the index that identifies this node in the deferred document. */
     public int getNodeIndex();
 
 } // interface DeferredNode

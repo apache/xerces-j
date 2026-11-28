@@ -25,15 +25,16 @@
 package org.apache.xerces.dom;
 
 /**
- * DeferredAttrNSImpl is to AttrNSImpl, what DeferredAttrImpl is to
- * AttrImpl. 
- * 
+ * A namespace-aware attribute whose data and value are loaded on demand
+ * from its deferred document.
+ *
+ * @see DeferredNode
+ * @see DeferredAttrImpl
+ *
  * @xerces.internal
- * 
  * @author Andy Clark, IBM
  * @author Arnaud  Le Hors, IBM
  * @version $Id$
- * @see DeferredAttrImpl
  */
 public final class DeferredAttrNSImpl
     extends AttrNSImpl

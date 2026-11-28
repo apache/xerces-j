@@ -31,12 +31,13 @@ import org.apache.xerces.xs.XSTypeDefinition;
 import org.w3c.dom.NamedNodeMap;
 
 /**
- * DeferredElementNSImpl is to ElementNSImpl, what DeferredElementImpl is to
- * ElementImpl. 
- * 
- * @xerces.internal
- * 
+ * A namespace-aware element whose data and children are loaded on demand
+ * from its deferred document.
+ *
+ * @see DeferredNode
  * @see DeferredElementImpl
+ *
+ * @xerces.internal
  */
 public class DeferredElementNSImpl
     extends ElementNSImpl

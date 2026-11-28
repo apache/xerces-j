@@ -1173,7 +1173,7 @@ extends ParentNode implements Document  {
         copyEventListeners(el, nel);
         
         // remove user data from old node
-        Hashtable data = removeUserDataTable(el);
+        Hashtable data = userData == null ? null : (Hashtable) userData.remove(el);
         
         // remove old node from parent if any
         Node parent = el.getParentNode();
@@ -1191,16 +1191,21 @@ extends ParentNode implements Document  {
         // move specified attributes to new node
         nel.moveSpecifiedAttributes(el);
         
-        // attach user data to new node
-        setUserDataTable(nel, data);
-        
-        // and fire user data NODE_RENAMED event
-        callUserDataHandlers(el, nel,
-                UserDataHandler.NODE_RENAMED);
-        
         // insert new node where old one was
         if (parent != null) {
             parent.insertBefore(nel, nextSib);
+        }
+
+        // attach user data to the replacement after insertion, then notify its handlers
+        if (data != null) {
+            Hashtable replacementData = nel.getUserDataRecord();
+            if (replacementData == null) {
+                setUserDataTable(nel, data);
+            } else {
+                // Insertion listeners can attach their own user data.
+                replacementData.putAll(data);
+            }
+            callUserDataHandlers(el, nel, UserDataHandler.NODE_RENAMED, data);
         }
         return nel;
     }

@@ -1706,13 +1706,13 @@ class XMLGregorianCalendarImpl
             calendar = normalizeToTimezone(this, timezone);
         }
 
-        // Weight fields by position to avoid the systematic collisions of a plain sum.
+        // Use a multiplier larger than any month-through-second field, including leap seconds.
         int hash = calendar.getYear();
-        hash = 31 * hash + calendar.getMonth();
-        hash = 31 * hash + calendar.getDay();
-        hash = 31 * hash + calendar.getHour();
-        hash = 31 * hash + calendar.getMinute();
-        return 31 * hash + calendar.getSecond();
+        hash = 71 * hash + calendar.getMonth();
+        hash = 71 * hash + calendar.getDay();
+        hash = 71 * hash + calendar.getHour();
+        hash = 71 * hash + calendar.getMinute();
+        return 71 * hash + calendar.getSecond();
     }
     
     

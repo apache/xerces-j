@@ -78,6 +78,13 @@ public class XMLGregorianCalendarTest extends TestCase {
         assertEquals(366, hashes.size());
     }
 
+    public void testHashCodeDistinguishesMinutesFromSeconds() {
+        XMLGregorianCalendar thirtyOneSeconds = factory.newXMLGregorianCalendar("2024-01-01T00:00:31Z");
+        XMLGregorianCalendar oneMinute = factory.newXMLGregorianCalendar("2024-01-01T00:01:00Z");
+        assertTrue("One minute and 31 seconds should have distinct hashes",
+                thirtyOneSeconds.hashCode() != oneMinute.hashCode());
+    }
+
     public void testEqualCalendarsHaveEqualHashes() {
         assertEqualHashes("2026-01-02T00:30:00+01:00", "2026-01-01T23:30:00Z");
         assertEqualHashes("2026-01-01T23:30:00Z", "2026-01-01T23:30:00.000Z");

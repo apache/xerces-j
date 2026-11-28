@@ -249,6 +249,14 @@ class Token implements java.io.Serializable {
         return this.type == Token.DOT ? "." : "";
     }
 
+    private Token skipParentheses() {
+        Token token = this;
+        while (token.type == PAREN) {
+            token = token.getChild(0);
+        }
+        return token;
+    }
+
     /**
      * How many characters are needed?
      */
@@ -287,8 +295,10 @@ class Token implements java.io.Serializable {
           case NRANGE:
             return 1;
 
-          case INDEPENDENT:
           case PAREN:
+            return skipParentheses().getMinLength();
+
+          case INDEPENDENT:
           case MODIFIERGROUP:
             return this.getChild(0).getMinLength();
 
@@ -354,8 +364,10 @@ class Token implements java.io.Serializable {
           case NRANGE:
             return 2;
 
-          case INDEPENDENT:
           case PAREN:
+            return skipParentheses().getMaxLength();
+
+          case INDEPENDENT:
           case MODIFIERGROUP:
             return this.getChild(0).getMaxLength();
 
@@ -449,8 +461,10 @@ class Token implements java.io.Serializable {
             result.mergeRanges(Token.complementRanges(this));
             return FC_TERMINAL;
 
-          case INDEPENDENT:
           case PAREN:
+            return skipParentheses().analyzeFirstCharacter(result, options);
+
+          case INDEPENDENT:
             return this.getChild(0).analyzeFirstCharacter(result, options);
 
           case MODIFIERGROUP:
@@ -559,8 +573,11 @@ class Token implements java.io.Serializable {
             container.options = options;
             return;
 
-          case INDEPENDENT:
           case PAREN:
+            skipParentheses().findFixedString(container, options);
+            return;
+
+          case INDEPENDENT:
             this.getChild(0).findFixedString(container, options);
             return;
 

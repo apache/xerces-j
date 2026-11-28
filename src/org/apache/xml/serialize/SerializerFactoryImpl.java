@@ -102,7 +102,9 @@ final class SerializerFactoryImpl
         }  else if ( _method.equals( Method.XHTML ) ) {
             return new XHTMLSerializer( format );
         }  else if ( _method.equals( Method.TEXT ) ) {
-            return new TextSerializer();
+            TextSerializer serializer = new TextSerializer();
+            serializer.setOutputFormat( format );
+            return serializer;
         } else {
             String msg = DOMMessageFormatter.formatMessage(DOMMessageFormatter.SERIALIZER_DOMAIN, "MethodNotSupported", new Object[]{_method});
             throw new IllegalStateException(msg);

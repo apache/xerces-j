@@ -866,10 +866,7 @@ Authors:
              <include name="org/apache/xerces/util/ContextClassLoaderTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
              <include name="org/apache/xerces/xinclude/XIncludeDepthTest.class"/>
-             <include name="org/apache/xml/serialize/TestCDATASerialization.class"/>
-             <include name="org/apache/xml/serialize/TestDuplicateNamespaceDeclarations.class"/>
-             <include name="org/apache/xml/serialize/TestHTMLSerializer.class"/>
-             <include name="org/apache/xml/serialize/TestIgnorableWhitespaceSerialization.class"/>
+             <include name="org/apache/xml/serialize/BaseMarkupSerializerTest.class"/>
              <include name="org/apache/xml/serialize/CDATASerializationTest.class"/>
              <include name="org/apache/xml/serialize/DuplicateNamespaceDeclarationsTest.class"/>
              <include name="org/apache/xml/serialize/HTMLSerializerTest.class"/>

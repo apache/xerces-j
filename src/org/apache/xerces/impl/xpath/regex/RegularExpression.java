@@ -541,19 +541,29 @@ public class RegularExpression implements java.io.Serializable {
             ret.next = next;
             break;
 
-        case Token.PAREN:
-            if (tok.getParenNumber() == 0) {
-                ret = compile(tok.getChild(0), next, reverse);
-            } else if (reverse) {
-                next = Op.createCapture(tok.getParenNumber(), next);
-                next = compile(tok.getChild(0), next, reverse);
-                ret = Op.createCapture(-tok.getParenNumber(), next);
-            } else {
-                next = Op.createCapture(-tok.getParenNumber(), next);
-                next = compile(tok.getChild(0), next, reverse);
-                ret = Op.createCapture(tok.getParenNumber(), next);
+        case Token.PAREN: {
+            // Build the closing captures on descent and the opening captures in reverse order.
+            IntStack captures = null;
+            do {
+                int group = tok.getParenNumber();
+                if (group != 0) {
+                    if (captures == null) {
+                        captures = new IntStack();
+                    }
+                    captures.push(group);
+                    next = Op.createCapture(reverse ? group : -group, next);
+                }
+                tok = tok.getChild(0);
+            } while (tok.type == Token.PAREN);
+            ret = compile(tok, next, reverse);
+            if (captures != null) {
+                while (captures.size() != 0) {
+                    int group = captures.pop();
+                    ret = Op.createCapture(reverse ? -group : group, ret);
+                }
             }
             break;
+        }
 
         case Token.LOOKAHEAD:
             ret = Op.createLook(Op.LOOKAHEAD, next, compile(tok.getChild(0), null, false));

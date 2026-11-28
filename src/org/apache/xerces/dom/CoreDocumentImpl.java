@@ -20,6 +20,8 @@ package org.apache.xerces.dom;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -136,8 +138,18 @@ extends ParentNode implements Document  {
     /** Table for user data attached to this document nodes. */
     protected Map userData;  // serialized as Hashtable
 
-    /** Identifiers. */
+    /** Identifier names mapped to weak element references. Serialized with element values. */
     protected Hashtable identifiers;
+    private transient ReferenceQueue<Element> staleIdentifiers;
+
+    private static final class IdentifierReference extends WeakReference<Element> {
+        final String name;
+
+        IdentifierReference(String name, Element element, ReferenceQueue<Element> queue) {
+            super(element, queue);
+            this.name = name;
+        }
+    }
 
     // DOM Level 3: normalizeDocument
     transient DOMNormalizer domNormalizer = null;
@@ -2062,6 +2074,7 @@ extends ParentNode implements Document  {
     protected final void clearIdentifiers(){
         if (identifiers != null){
             identifiers.clear();
+            staleIdentifiers = null;
         }
     }
 
@@ -2088,13 +2101,36 @@ extends ParentNode implements Document  {
             synchronizeData();
         }
 
+        putIdentifierWithoutSync(idName, element);
+    }
+
+    // Deferred documents use this while materializing nodes, without synchronizing the entire ID table.
+    final void putIdentifierWithoutSync(String idName, Element element) {
         if (identifiers == null) {
             identifiers = new Hashtable();
         }
+        if (staleIdentifiers == null) {
+            staleIdentifiers = new ReferenceQueue<Element>();
+        }
+        purgeStaleIdentifiers();
+        identifiers.put(idName, new IdentifierReference(idName, element, staleIdentifiers));
+    }
 
-        identifiers.put(idName, element);
+    private void purgeStaleIdentifiers() {
+        if (staleIdentifiers != null) {
+            IdentifierReference reference;
+            while ((reference = (IdentifierReference) staleIdentifiers.poll()) != null) {
+                // The same name may have been registered again since this reference was created.
+                if (identifiers.get(reference.name) == reference) {
+                    identifiers.remove(reference.name);
+                }
+            }
+        }
+    }
 
-    } // putIdentifier(String,Element)
+    private static Element identifierElement(Object value) {
+        return value instanceof IdentifierReference ? ((IdentifierReference) value).get() : (Element) value;
+    }
 
     /**
      * Returns a previously registered element with the specified
@@ -2115,7 +2151,8 @@ extends ParentNode implements Document  {
         if (identifiers == null) {
             return null;
         }
-        Element elem = (Element) identifiers.get(idName);
+        purgeStaleIdentifiers();
+        Element elem = identifierElement(identifiers.get(idName));
         if (elem != null) {
             // check that the element is in the tree
             Node parent = elem.getParentNode();
@@ -2148,6 +2185,7 @@ extends ParentNode implements Document  {
             return;
         }
 
+        purgeStaleIdentifiers();
         identifiers.remove(idName);
 
     } // removeIdentifier(String)
@@ -2163,6 +2201,7 @@ extends ParentNode implements Document  {
             identifiers = new Hashtable();
         }
 
+        purgeStaleIdentifiers();
         return identifiers.keys();
 
     } // getIdentifiers():Enumeration
@@ -2867,8 +2906,8 @@ extends ParentNode implements Document  {
     
     /**
      * The serialized forms of the user data and node table
-     * maps are Hashtables. Convert them into WeakHashMaps 
-     * on load.
+     * maps are Hashtables. Convert them into WeakHashMaps and
+     * restore weak identifier values on load.
      */
     private void readObject(ObjectInputStream in)
         throws IOException, ClassNotFoundException {
@@ -2879,23 +2918,43 @@ extends ParentNode implements Document  {
         if (nodeTable != null) {
             nodeTable = new WeakHashMap(nodeTable);
         }
+        if (identifiers != null) {
+            Hashtable serializedIdentifiers = identifiers;
+            identifiers = new Hashtable();
+            for (Iterator it = serializedIdentifiers.entrySet().iterator(); it.hasNext();) {
+                Map.Entry entry = (Map.Entry) it.next();
+                putIdentifierWithoutSync((String) entry.getKey(), (Element) entry.getValue());
+            }
+        }
     }
     
     /**
      * To allow DOM trees serialized by newer versions of Xerces
      * to be read by older versions briefly move the user data
-     * and node table into Hashtables.
+     * and node table into Hashtables and store ID elements directly.
      */
     private void writeObject(ObjectOutputStream out) throws IOException {
         // Keep references to the original objects for restoration after serialization
         final Map oldUserData = this.userData;
         final Map oldNodeTable = this.nodeTable;
+        final Hashtable oldIdentifiers = identifiers;
         try {
             if (oldUserData != null) {
                 this.userData = new Hashtable(oldUserData);
             }
             if (oldNodeTable != null) {
                 nodeTable = new Hashtable(oldNodeTable);
+            }
+            if (oldIdentifiers != null) {
+                Hashtable serializedIdentifiers = new Hashtable();
+                for (Iterator it = oldIdentifiers.entrySet().iterator(); it.hasNext();) {
+                    Map.Entry entry = (Map.Entry) it.next();
+                    Element element = identifierElement(entry.getValue());
+                    if (element != null) {
+                        serializedIdentifiers.put(entry.getKey(), element);
+                    }
+                }
+                identifiers = serializedIdentifiers;
             }
             out.defaultWriteObject();
         }
@@ -2904,6 +2963,7 @@ extends ParentNode implements Document  {
         finally {
             this.userData = oldUserData;
             this.nodeTable = oldNodeTable;
+            identifiers = oldIdentifiers;
         }
     }
 

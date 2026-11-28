@@ -1128,7 +1128,11 @@ public class AttrImpl
             }
 
             if (hasStringValue()) {
-                return;
+                if (!readOnly) {
+                    return;
+                }
+                // Materialize the text so a deep lock applies to it immediately.
+                makeChildNode();
             }
             // Recursively set kids
             for (ChildNode mykid = (ChildNode) value;

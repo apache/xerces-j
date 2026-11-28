@@ -400,27 +400,15 @@ class XMLGregorianCalendarImpl
                 // Fix 4971612: invalid SCCS macro substitution in data string
                 format = "---%D" + "%z";
             } 
-            else if (lexRepLength == 4 || (lexRepLength >= 6 && (lexRep.charAt(4) == '+' || (lexRep.charAt(4) == '-' && (lexRep.charAt(5) == '-' || lexRepLength == 10))))) {
-                // GMonth
-                // Fix 4971612: invalid SCCS macro substitution in data string
+            else if (lexRep.startsWith("--", 4)) {
+                // Accept the first-edition gMonth form for compatibility.
                 format = "--%M--%z";
-                Parser p = new Parser(format, lexRep);
-                try {
-                    p.parse();
-                    // check for validity
-                    if (!isValid()) {
-                        throw new IllegalArgumentException(
-                                DatatypeMessageFormatter.formatMessage(null,"InvalidXGCRepresentation", new Object[]{lexicalRepresentation})
-                                //"\"" + lexicalRepresentation + "\" is not a valid representation of an XML Gregorian Calendar value."
-                        );
-                    }
-                    save();
-                    return;
-                }
-                catch(IllegalArgumentException e) {
-                    format = "--%M%z";
-                }
-            } 
+            }
+            else if (lexRepLength == 4
+                    || (lexRepLength == 5 && lexRep.charAt(4) == 'Z')
+                    || (lexRepLength == 10 && (lexRep.charAt(4) == '+' || lexRep.charAt(4) == '-'))) {
+                format = "--%M%z";
+            }
             else {
                 // GMonthDay or invalid lexicalRepresentation
                 format = "--%M-%D" + "%z";
@@ -1745,6 +1733,8 @@ class XMLGregorianCalendarImpl
      * Except for the noted lexical/canonical representation mismatches
      * listed in <a href="http://www.w3.org/2001/05/xmlschema-errata#e2-45">
      * XML Schema 1.0 errata, Section 3.2.7.2</a>.
+     * The first-edition <code>gMonth</code> form with trailing hyphens is also
+     * accepted, and formats as the second-edition form.
      * 
      * <p>Returns a non-null valid XMLGregorianCalendar object that holds the value
      * indicated by the lexicalRepresentation parameter.</p>
@@ -1794,7 +1784,7 @@ class XMLGregorianCalendarImpl
             formatString = "%h:%m:%s"+ "%z";
         } 
         else if (typekind == DatatypeConstants.GMONTH) {
-            formatString = "--%M--%z";
+            formatString = "--%M%z";
         } 
         else if (typekind == DatatypeConstants.GDAY) {
             // Fix 4971612: invalid SCCS macro substitution in data string

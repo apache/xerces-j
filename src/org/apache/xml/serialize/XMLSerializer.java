@@ -313,18 +313,10 @@ extends BaseMarkupSerializer {
 
                     name = attrs.getQName( i );
                     if (name != null && name.length() == 0) {
-                        String prefix;
-                        String attrURI;
-
                         name = attrs.getLocalName( i );
-                        attrURI = attrs.getURI( i );
-                        if (( attrURI != null && attrURI.length() != 0 ) &&
-                            ( namespaceURI == null || namespaceURI.length() == 0 ||
-                              ! attrURI.equals( namespaceURI ) )) {
-                            prefix = getPrefix( attrURI );
-                            if (prefix != null && prefix.length() > 0)
-                                name = prefix + ":" + name;
-                        }
+                        String attrURI = attrs.getURI( i );
+                        if (attrURI != null && attrURI.length() != 0)
+                            name = getAttributePrefix(attrURI) + ":" + name;
                     }
 
                     value = attrs.getValue( i );

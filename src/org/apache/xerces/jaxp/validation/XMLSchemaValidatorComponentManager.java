@@ -27,6 +27,7 @@ import javax.xml.XMLConstants;
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.impl.XMLEntityManager;
 import org.apache.xerces.impl.XMLErrorReporter;
+import org.apache.xerces.impl.msg.XMLMessageFormatter;
 import org.apache.xerces.impl.validation.ValidationManager;
 import org.apache.xerces.impl.xs.XMLSchemaValidator;
 import org.apache.xerces.impl.xs.XSMessageFormatter;
@@ -37,10 +38,12 @@ import org.apache.xerces.util.ParserConfigurationSettings;
 import org.apache.xerces.util.SecurityManager;
 import org.apache.xerces.util.SymbolTable;
 import org.apache.xerces.xni.NamespaceContext;
+import org.apache.xerces.xni.XMLLocator;
 import org.apache.xerces.xni.XNIException;
 import org.apache.xerces.xni.parser.XMLComponent;
 import org.apache.xerces.xni.parser.XMLComponentManager;
 import org.apache.xerces.xni.parser.XMLConfigurationException;
+import org.apache.xerces.xni.parser.XMLParseException;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.ErrorHandler;
 
@@ -84,7 +87,7 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         Constants.XERCES_FEATURE_PREFIX + Constants.IDC_CHECKING_FEATURE;
     
     /** Feature identifier: disallow DOCTYPE declaration */
-    private static final String DISALLOW_DOCTYPE_DECL_FEATURE =
+    static final String DISALLOW_DOCTYPE_DECL_FEATURE =
         Constants.XERCES_FEATURE_PREFIX + Constants.DISALLOW_DOCTYPE_DECL_FEATURE;
     
     /** Feature identifier: expose schema normalized value */
@@ -438,6 +441,17 @@ final class XMLSchemaValidatorComponentManager extends ParserConfigurationSettin
         fConfigUpdated = false;
     }
     
+    void checkDoctype(XMLLocator locator) {
+        if (getFeature(DISALLOW_DOCTYPE_DECL_FEATURE)) {
+            if (fErrorReporter.getMessageFormatter(XMLMessageFormatter.XML_DOMAIN) == null) {
+                fErrorReporter.putMessageFormatter(XMLMessageFormatter.XML_DOMAIN, new XMLMessageFormatter());
+            }
+            String message = fErrorReporter.reportError(locator, XMLMessageFormatter.XML_DOMAIN,
+                    "DoctypeNotAllowed", null, XMLErrorReporter.SEVERITY_FATAL_ERROR);
+            throw new XMLParseException(locator, message);
+        }
+    }
+
     void setErrorHandler(ErrorHandler errorHandler) {
         fErrorHandler = errorHandler;
         setProperty(ERROR_HANDLER, (errorHandler != null) ? new ErrorHandlerWrapper(errorHandler) : 

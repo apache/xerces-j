@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+import org.apache.xerces.util.ClassLoaderUtil;
+
 /**
  * This class is duplicated for each JAXP subpackage so keep it in sync.
  * It is package private and therefore is not exposed as part of the JAXP
@@ -364,6 +366,14 @@ final class ObjectFactory {
                                       boolean doFallback)
         throws ClassNotFoundException, ConfigurationError
     {
+        // Classes that are part of the Xerces distribution must be loaded
+        // with the ClassLoader that loaded this factory. The context
+        // ClassLoader may see a different copy of Xerces, which would result
+        // in a ClassCastException when the returned instance is used.
+        if (ClassLoaderUtil.isInternalClassName(className)) {
+            cl = ObjectFactory.class.getClassLoader();
+        }
+
         //throw security exception if the calling thread is not allowed to access the package
         //restrict the access to package as specified in java.security policy
         SecurityManager security = System.getSecurityManager();

@@ -69,7 +69,11 @@ import org.w3c.dom.ls.LSSerializerFilter;
  * @author Arun Yadav, Sun Microsystems
  * @version $Id$
  * 
- * @deprecated Replaced by org.apache.xml.serializer.dom3.LSSerializerImpl in Xerces 2.9.0.
+ * @deprecated Obtain an {@link LSSerializer} through
+ *     {@link org.w3c.dom.ls.DOMImplementationLS#createLSSerializer()}.
+ *     Since Xerces 2.9.0, the factory has preferred Xalan's
+ *     {@code org.apache.xml.serializer.dom3.LSSerializerImpl} and uses this
+ *     class as a fallback if it cannot load or instantiate that implementation.
  */
 @Deprecated
 public class DOMSerializerImpl implements LSSerializer, DOMConfiguration {

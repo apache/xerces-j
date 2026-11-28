@@ -852,9 +852,9 @@ Authors:
              <include name="org/apache/xerces/impl/dv/xs/DateDVTest.class"/>
              <include name="org/apache/xerces/impl/io/UTF16ReaderTest.class"/>
              <include name="org/apache/xerces/impl/io/UTF8ReaderTest.class"/>
+             <include name="org/apache/xerces/impl/xpath/regex/RegexParserDepthTest.class"/>
              <include name="org/apache/xerces/impl/xs/identity/IDConstraintTest.class"/>
              <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
-             <include name="org/apache/xerces/impl/xpath/regex/RegexParserDepthTest.class"/>
              <include name="org/apache/xerces/util/ContextClassLoaderTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
              <include name="org/apache/xerces/xinclude/XIncludeDepthTest.class"/>

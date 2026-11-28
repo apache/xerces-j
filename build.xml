@@ -844,8 +844,8 @@ Authors:
              <include name="org/apache/html/dom/HTMLFormElementTest.class"/>
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
              <include name="org/apache/xerces/dom/DOMNormalizerTest.class"/>
-             <include name="org/apache/xerces/dom/range/RangeComparisonTest.class"/>
              <include name="org/apache/xerces/dom/ReadOnlyDOMTest.class"/>
+             <include name="org/apache/xerces/dom/range/RangeComparisonTest.class"/>
              <include name="org/apache/xerces/dom/serialize/DocumentTypeSerializationTest.class"/>
              <include name="org/apache/xerces/dom/serialize/NamespaceSerializationTest.class"/>
              <include name="org/apache/xerces/dom/serialize/PreRootSerializationTest.class"/>

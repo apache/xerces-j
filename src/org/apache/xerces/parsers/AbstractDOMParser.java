@@ -1177,13 +1177,12 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
             }
             if (fInCDATASection && fCreateCDATANodes) {
                 if (fCurrentCDATASection == null) {
-                    fCurrentCDATASection =
-                    fDocument.createCDATASection (text.toString ());
+                    fCurrentCDATASection = fDocument.createCDATASection("");
                     fCurrentNode.appendChild (fCurrentCDATASection);
                     fCurrentNode = fCurrentCDATASection;
                 }
-                else {
-                    fCurrentCDATASection.appendData (text.toString ());
+                if (text.length > 0) {
+                    fStringBuffer.append(text.ch, text.offset, text.length);
                 }
             }
             else if (!fInDTD) {
@@ -1449,6 +1448,11 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
             }
 
             if (fCurrentCDATASection !=null) {
+
+                if (fStringBuffer.length () > 0) {
+                    fCurrentCDATASection.setData (fStringBuffer.toString ());
+                    fStringBuffer.setLength (0);
+                }
 
                 if (fDOMFilter !=null && !fInEntityRef &&
                 (fDOMFilter.getWhatToShow () & NodeFilter.SHOW_CDATA_SECTION)!= 0) {

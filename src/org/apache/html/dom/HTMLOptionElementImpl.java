@@ -39,15 +39,13 @@ public class HTMLOptionElementImpl
 
     public boolean getDefaultSelected()
     {
-        // ! NOT FULLY IMPLEMENTED !
-        return getBinary( "default-selected" );
+        return getBinary( "selected" );
     }
     
     
     public void setDefaultSelected( boolean defaultSelected )
     {
-        // ! NOT FULLY IMPLEMENTED !
-        setAttribute( "default-selected", defaultSelected );
+        setAttribute( "selected", defaultSelected );
     }
 
   

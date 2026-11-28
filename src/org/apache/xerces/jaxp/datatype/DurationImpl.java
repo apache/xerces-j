@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -1356,30 +1357,6 @@ class DurationImpl
         return getCalendarTimeInMillis(cal) - startInstant.getTime();
     }
     
-//    /**
-//     * Returns an equivalent but "normalized" duration value.
-//     * 
-//     * Intuitively, the normalization moves YEARS into
-//     * MONTHS (by x12) and moves DAYS, HOURS, and MINUTES fields
-//     * into SECONDS (by x86400, x3600, and x60 respectively.)
-//     * 
-//     * 
-//     * Formally, this method satisfies the following conditions:
-//     * <ul>
-//     *  <li>x.normalize().equals(x)
-//     *  <li>!x.normalize().isSet(Duration.YEARS)
-//     *  <li>!x.normalize().isSet(Duration.DAYS)
-//     *  <li>!x.normalize().isSet(Duration.HOURS)
-//     *  <li>!x.normalize().isSet(Duration.MINUTES)
-//     * </ul>
-//     * 
-//     * @return
-//     *      always return a non-null valid value. 
-//     */
-//    public Duration normalize() {
-//        return null;
-//    }
-    
     /**
      * <p>Converts the years and months fields into the days field
      * by using a specific time instant as the reference point.</p>
@@ -1674,6 +1651,7 @@ class DurationImpl
         // align sign
         alignSigns(buf, 0, 2); // Y,M
         alignSigns(buf, 2, 6); // D,h,m,s
+        buf[5] = removeTrailingZeros(buf[5]);
         
         // make sure that the sign bit is consistent across all 6 fields.
         int s = 0;
@@ -1703,6 +1681,21 @@ class DurationImpl
              && rhs.getField(DatatypeConstants.SECONDS) == null) ? null : sanitize(buf[5], s));
     }
     
+    /**
+     * Returns the given value without trailing fractional zeros. The scale of
+     * the returned value is never negative.
+     */
+    private static BigDecimal removeTrailingZeros(BigDecimal value) {
+        if (value.signum() == 0) {
+            return ZERO;
+        }
+        BigDecimal normalized = value.stripTrailingZeros();
+        if (normalized.scale() < 0) {
+            normalized = normalized.setScale(0);
+        }
+        return normalized;
+    }
+
     private static void alignSigns(BigDecimal[] buf, int start, int end) {
         // align sign
         boolean touched;
@@ -1720,7 +1713,8 @@ class DurationImpl
                     BigDecimal borrow =
                         buf[i].abs().divide(
                             FACTORS[i - 1],
-                            BigDecimal.ROUND_UP);
+                            0,
+                            RoundingMode.UP);
                     if (buf[i].signum() > 0) {
                         borrow = borrow.negate();
                     }

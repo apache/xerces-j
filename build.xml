@@ -830,6 +830,12 @@ Authors:
              <include name="dom/events/Test.class"/>
              <include name="dom/ids/Test.class"/>
              <include name="dom/mem/Test.class"/>
+             <include name="dom/range/Test.class"/>                    
+             <include name="dom/range/TestCompare.class"/>  
+             <include name="dom/registry/Test.class"/>                 
+             <include name="dom/rename/Test.class"/>
+             <include name="dom/serialization/Test.class"/>
+             <include name="dom/serialize/TestXmlns.class"/>
              <include name="dom/range/Test.class"/>
              <include name="dom/registry/Test.class"/>
              <include name="dom/rename/Test.class"/>
@@ -841,8 +847,8 @@ Authors:
              <include name="jaxp/JAXPSpecTest.class"/>
              <include name="jaxp/PropertyTest.class"/>
              <include name="jaxp/ValidatorDoctypeTest.class"/>
-             <include name="org/apache/html/dom/HTMLFormElementTest.class"/>
-             <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
+             <include name="org/apache/html/dom/HTMLFormElementTest.class"/>  
+             <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>                 
              <include name="org/apache/xerces/dom/DOMNormalizerTest.class"/>
              <include name="org/apache/xerces/dom/range/RangeComparisonTest.class"/>
              <include name="org/apache/xerces/dom/serialize/DocumentTypeSerializationTest.class"/>
@@ -859,6 +865,7 @@ Authors:
              <include name="org/apache/xerces/impl/xpath/regex/RegexParserDepthTest.class"/>
              <include name="org/apache/xerces/impl/xs/XSDAbstractParticleTraverserDepthTest.class"/>
              <include name="org/apache/xerces/impl/xs/identity/IDConstraintTest.class"/>
+             <include name="org/apache/xerces/jaxp/datatype/DurationTest.class"/>
              <include name="org/apache/xerces/jaxp/datatype/XMLGregorianCalendarTest.class"/>
              <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
              <include name="org/apache/xerces/jaxp/validation/ValidatorNamespaceTest.class"/>
@@ -877,8 +884,8 @@ Authors:
              <include name="org/apache/xml/serialize/XMLSerializerTest.class"/>
              <include name="schema/Test.class"/>
              <include name="schema/annotations/*Test.class"/>
-             <include name="schema/config/BasicTest.class"/>
-             <include name="schema/config/FeaturePropagationTest.class"/>
+             <include name="schema/config/BasicTest.class"/>                    
+             <include name="schema/config/FeaturePropagationTest.class"/> 
              <include name="schema/config/FixedAttrTest.class"/>
              <include name="schema/config/IdentityConstraintCheckingTest.class"/>
              <include name="schema/config/IdIdrefCheckingTest.class"/>

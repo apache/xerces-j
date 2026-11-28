@@ -1272,8 +1272,9 @@ public class XMLDTDProcessor
         // save grammar
         if(fDTDGrammar != null) {
             fDTDGrammar.endDTD(augs);
-            if(fGrammarPool != null)
+            if (fGrammarPool != null && !fDTDGrammar.hasInternalSubset()) {
                 fGrammarPool.cacheGrammars(XMLGrammarDescription.XML_DTD, new Grammar[] {fDTDGrammar});
+            }
         }
         if (fValidation) {
             DTDGrammar grammar = (fDTDGrammar != null? fDTDGrammar: fGrammarBucket.getActiveGrammar());

@@ -45,13 +45,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Set;
 import java.util.Vector;
 
 import org.apache.xerces.dom.DOMErrorImpl;
 import org.apache.xerces.dom.DOMLocatorImpl;
 import org.apache.xerces.dom.DOMMessageFormatter;
 import org.apache.xerces.util.XMLChar;
+import org.apache.xerces.xni.NamespaceContext;
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMErrorHandler;
 import org.w3c.dom.Document;
@@ -1886,6 +1889,37 @@ public abstract class BaseMarkupSerializer
             }
         }
         return null;
+    }
+
+    /**
+     * Returns a nonempty prefix for a namespaced SAX attribute, declaring one if needed.
+     */
+    final String getAttributePrefix(String namespaceURI) throws SAXException {
+        if (NamespaceContext.XML_URI.equals(namespaceURI)) {
+            return "xml";
+        }
+
+        Set<String> seen = new HashSet<String>();
+        for (int i = _elementStateCount + 1; i > 0; i--) {
+            Hashtable prefixes = i > _elementStateCount ? _prefixes : _elementStates[i].prefixes;
+            if (prefixes != null) {
+                Enumeration keys = prefixes.keys();
+                while (keys.hasMoreElements()) {
+                    String prefix = (String) keys.nextElement();
+                    if (!prefix.isEmpty() && seen.add(prefix) && namespaceURI.equals(prefixes.get(prefix))) {
+                        return prefix;
+                    }
+                }
+            }
+        }
+
+        int index = 1;
+        String prefix;
+        do {
+            prefix = "NS" + index++;
+        } while (seen.contains(prefix));
+        startPrefixMapping(prefix, namespaceURI);
+        return prefix;
     }
 
     /**

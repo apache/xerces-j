@@ -1598,15 +1598,22 @@ public class XMLDTDScannerImpl
             fStringBuffer2.clear();
             do {
                 fStringBuffer.append(fString);
-                fStringBuffer2.append(fString);
+                if (entityDepth == fEntityDepth) {
+                    fStringBuffer2.append(fString);
+                }
                 if (fEntityScanner.skipChar('&')) {
+                    XMLStringBuffer nonNormalized = entityDepth == fEntityDepth ? fStringBuffer2 : null;
                     if (fEntityScanner.skipChar('#')) {
-                        fStringBuffer2.append("&#");
-                        scanCharReferenceValue(fStringBuffer, fStringBuffer2);
+                        if (nonNormalized != null) {
+                            nonNormalized.append("&#");
+                        }
+                        scanCharReferenceValue(fStringBuffer, nonNormalized);
                     }
                     else {
                         fStringBuffer.append('&');
-                        fStringBuffer2.append('&');
+                        if (nonNormalized != null) {
+                            nonNormalized.append('&');
+                        }
                         String eName = fEntityScanner.scanName();
                         if (eName == null) {
                             reportFatalError("NameRequiredInReference",
@@ -1614,7 +1621,9 @@ public class XMLDTDScannerImpl
                         }
                         else {
                             fStringBuffer.append(eName);
-                            fStringBuffer2.append(eName);
+                            if (nonNormalized != null) {
+                                nonNormalized.append(eName);
+                            }
                         }
                         if (!fEntityScanner.skipChar(';')) {
                             reportFatalError("SemicolonRequiredInReference",
@@ -1622,13 +1631,17 @@ public class XMLDTDScannerImpl
                         }
                         else {
                             fStringBuffer.append(';');
-                            fStringBuffer2.append(';');
+                            if (nonNormalized != null) {
+                                nonNormalized.append(';');
+                            }
                         }
                     }
                 }
                 else if (fEntityScanner.skipChar('%')) {
                     while (true) {
-                        fStringBuffer2.append('%');
+                        if (entityDepth == fEntityDepth) {
+                            fStringBuffer2.append('%');
+                        }
                         String peName = fEntityScanner.scanName();
                         if (peName == null) {
                             reportFatalError("NameRequiredInPEReference",
@@ -1643,14 +1656,14 @@ public class XMLDTDScannerImpl
                                 reportFatalError("PEReferenceWithinMarkup",
                                                  new Object[]{peName});
                             }
-                            fStringBuffer2.append(peName);
-                            fStringBuffer2.append(';');
+                            if (entityDepth == fEntityDepth) {
+                                fStringBuffer2.append(peName);
+                                fStringBuffer2.append(';');
+                            }
                         }
                         final String pNameWithPct = startPE(peName, true);
                         paramEntityRefs += (fEntityManager.getParamEntityRefCount(pNameWithPct) + 1);
                         // REVISIT: [Q] Why do we skip spaces here? -Ac
-                        // REVISIT: This will make returning the non-
-                        //          normalized value harder. -Ac
                         fEntityScanner.skipSpaces();
                         if (!fEntityScanner.skipChar('%'))
                             break;
@@ -1659,7 +1672,10 @@ public class XMLDTDScannerImpl
                 else {
                     int c = fEntityScanner.peekChar();
                     if (XMLChar.isHighSurrogate(c)) {
-                        scanSurrogates(fStringBuffer2);
+                        int offset = fStringBuffer.length;
+                        if (scanSurrogates(fStringBuffer) && entityDepth == fEntityDepth) {
+                            fStringBuffer2.append(fStringBuffer.ch, offset, fStringBuffer.length - offset);
+                        }
                     }
                     else if (isInvalidLiteral(c)) {
                         reportFatalError("InvalidCharInLiteral",
@@ -1671,13 +1687,17 @@ public class XMLDTDScannerImpl
                     // simply append the character to our buffer
                     else if (c != quote || entityDepth != fEntityDepth) {
                         fStringBuffer.append((char)c);
-                        fStringBuffer2.append((char)c);
+                        if (entityDepth == fEntityDepth) {
+                            fStringBuffer2.append((char)c);
+                        }
                         fEntityScanner.scanChar();
                     }
                 }
             } while (fEntityScanner.scanLiteral(quote, fString) != quote);
             fStringBuffer.append(fString);
-            fStringBuffer2.append(fString);
+            if (entityDepth == fEntityDepth) {
+                fStringBuffer2.append(fString);
+            }
             literal = fStringBuffer;
             literal2 = fStringBuffer2;
         }

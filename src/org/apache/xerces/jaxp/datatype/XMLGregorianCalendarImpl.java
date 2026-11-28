@@ -1697,23 +1697,22 @@ class XMLGregorianCalendarImpl
      * 
      * @return hash code of this object.
      */
+    @Override
     public int hashCode() {
-
-        // Following two dates compare to EQUALS since in different timezones.
-        // 2000-01-15T12:00:00-05:00 == 2000-01-15T13:00:00-04:00 	
-        //
-        // Must ensure both instances generate same hashcode by normalizing 
-        // this to UTC timezone.
+        // Equal calendars can use different timezone offsets. Hash them in UTC.
         int timezone = getTimezone();
-        if (timezone == DatatypeConstants.FIELD_UNDEFINED) {
-            timezone = 0;
+        XMLGregorianCalendar calendar = this;
+        if (timezone != 0 && timezone != DatatypeConstants.FIELD_UNDEFINED) {
+            calendar = normalizeToTimezone(this, timezone);
         }
-        XMLGregorianCalendar gc = this;
-        if (timezone != 0) {
-            gc = normalizeToTimezone(this, getTimezone());
-        }
-        return gc.getYear() + gc.getMonth() + gc.getDay() + 
-        gc.getHour() + gc.getMinute() + gc.getSecond();
+
+        // Weight fields by position to avoid the systematic collisions of a plain sum.
+        int hash = calendar.getYear();
+        hash = 31 * hash + calendar.getMonth();
+        hash = 31 * hash + calendar.getDay();
+        hash = 31 * hash + calendar.getHour();
+        hash = 31 * hash + calendar.getMinute();
+        return 31 * hash + calendar.getSecond();
     }
     
     

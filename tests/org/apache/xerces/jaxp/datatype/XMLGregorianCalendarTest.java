@@ -17,6 +17,9 @@
 
 package org.apache.xerces.jaxp.datatype;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -62,6 +65,29 @@ public class XMLGregorianCalendarTest extends TestCase {
                 // Expected.
             }
         }
+    }
+
+    public void testHashCodeDistinguishesDatesAcrossMonths() {
+        Set<Integer> hashes = new HashSet<Integer>();
+        for (int month = 1; month <= 12; month++) {
+            for (int day = 1; day <= 28; day++) {
+                hashes.add(factory.newXMLGregorianCalendarDate(2026, month, day, 0).hashCode());
+            }
+        }
+        assertEquals(336, hashes.size());
+    }
+
+    public void testEqualCalendarsHaveEqualHashes() {
+        assertEqualHashes("2026-01-02T00:30:00+01:00", "2026-01-01T23:30:00Z");
+        assertEqualHashes("2026-01-01T23:30:00Z", "2026-01-01T23:30:00.000Z");
+        assertEqualHashes("--07", "--07--");
+    }
+
+    private void assertEqualHashes(String firstValue, String secondValue) {
+        XMLGregorianCalendar first = factory.newXMLGregorianCalendar(firstValue);
+        XMLGregorianCalendar second = factory.newXMLGregorianCalendar(secondValue);
+        assertEquals(first, second);
+        assertEquals(first.hashCode(), second.hashCode());
     }
 
     private void assertMonthFormat(String input, String expected) {

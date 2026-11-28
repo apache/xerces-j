@@ -19,12 +19,17 @@ package dom.rename;
 
 import junit.framework.TestCase;
 
+import org.apache.xerces.dom.DocumentImpl;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 
 import dom.ParserWrapper;
 
@@ -92,6 +97,48 @@ public class Test extends TestCase implements UserDataHandler {
                               DEFAULT_DEFERRED_DOM);
         }
         document = parser.parse("tests/dom/rename/input.xml");
+    }
+
+    public void testReplacementElementReceivesUserDataAfterInsertion() {
+        Document renameDocument = new DocumentImpl();
+        final Element parent = renameDocument.createElement("parent");
+        final Element original = renameDocument.createElement("original");
+        Element sibling = renameDocument.createElement("sibling");
+        renameDocument.appendChild(parent);
+        parent.appendChild(original);
+        parent.appendChild(sibling);
+
+        final String key = "user-data";
+        final Object value = new Object();
+        final Node[] inserted = new Node[1];
+        final Node[] notified = new Node[1];
+        ((EventTarget) original).addEventListener("DOMNodeInserted", new EventListener() {
+            public void handleEvent(Event event) {
+                Node replacement = (Node) event.getTarget();
+                assertNull(replacement.getUserData(key));
+                assertNull(original.getUserData(key));
+                replacement.setUserData("insertion-data", value, null);
+                inserted[0] = replacement;
+            }
+        }, false);
+        original.setUserData(key, value, new UserDataHandler() {
+            public void handle(short operation, String dataKey, Object data, Node source, Node destination) {
+                assertEquals(UserDataHandler.NODE_RENAMED, operation);
+                assertEquals(key, dataKey);
+                assertSame(value, data);
+                assertSame(original, source);
+                assertSame(parent, destination.getParentNode());
+                assertSame(value, destination.getUserData(key));
+                notified[0] = destination;
+            }
+        });
+
+        Node replacement = renameDocument.renameNode(original, "urn:test", "t:renamed");
+        assertNotSame(original, replacement);
+        assertSame(replacement, inserted[0]);
+        assertSame(replacement, notified[0]);
+        assertSame(sibling, replacement.getNextSibling());
+        assertSame(value, replacement.getUserData("insertion-data"));
     }
 
     public void testRename() {

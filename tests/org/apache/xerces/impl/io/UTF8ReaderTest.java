@@ -54,6 +54,37 @@ public class UTF8ReaderTest extends TestCase {
         reader.close();
     }
 
+    public void testPendingLowSurrogateAtEndOfStream() throws IOException {
+        byte[] bytes = "\uD866\uDF05".getBytes("UTF-8");
+        try (Reader reader = new UTF8Reader(new ByteArrayInputStream(bytes))) {
+            char[] buffer = {'!', '!', '!'};
+            assertEquals(1, reader.read(buffer, 1, 1));
+            assertEquals('\uD866', buffer[1]);
+            assertEquals('!', buffer[0]);
+            assertEquals('!', buffer[2]);
+            assertEquals(0, reader.read(buffer, 1, 0));
+            assertEquals('\uD866', buffer[1]);
+            assertEquals(1, reader.read(buffer, 1, 2));
+            assertEquals('\uDF05', buffer[1]);
+            assertEquals('!', buffer[2]);
+            assertEquals(-1, reader.read(buffer, 1, 2));
+        }
+    }
+
+    public void testConsecutiveSupplementaryCharactersAcrossReads() throws IOException {
+        String expected = "\uD866\uDF05\uD866\uDF05";
+        try (Reader reader = new UTF8Reader(new ByteArrayInputStream(expected.getBytes("UTF-8")))) {
+            char[] buffer = new char[1];
+            StringBuilder decoded = new StringBuilder();
+            for (int i = 0; i < expected.length(); i++) {
+                assertEquals(1, reader.read(buffer));
+                decoded.append(buffer[0]);
+            }
+            assertEquals(-1, reader.read(buffer));
+            assertEquals(expected, decoded.toString());
+        }
+    }
+
     public void testCustomUTF8CharByChar() throws Exception {
         InputStream stream = new UTF8Producer();
         Reader reader = new UTF8Reader(stream);

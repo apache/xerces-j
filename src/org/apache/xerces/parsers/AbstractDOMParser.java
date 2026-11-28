@@ -1177,7 +1177,7 @@ public class AbstractDOMParser extends AbstractXMLDocumentParser {
             }
             if (fInCDATASection && fCreateCDATANodes) {
                 if (fCurrentCDATASection == null) {
-                    fCurrentCDATASection = fDocument.createCDATASection ("");
+                    fCurrentCDATASection = fDocument.createCDATASection("");
                     fCurrentNode.appendChild (fCurrentCDATASection);
                     fCurrentNode = fCurrentCDATASection;
                 }

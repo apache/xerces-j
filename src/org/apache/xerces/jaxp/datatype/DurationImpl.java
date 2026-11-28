@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -1713,7 +1714,7 @@ class DurationImpl
                         buf[i].abs().divide(
                             FACTORS[i - 1],
                             0,
-                            BigDecimal.ROUND_UP);
+                            RoundingMode.UP);
                     if (buf[i].signum() > 0) {
                         borrow = borrow.negate();
                     }

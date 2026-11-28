@@ -285,6 +285,9 @@ public final class UTF8Reader
      * @exception  IOException  If an I/O error occurs
      */
     public int read(char ch[], int offset, int length) throws IOException {
+        if (length == 0) {
+            return 0;
+        }
 
         // read bytes
         int out = offset;
@@ -302,12 +305,15 @@ public final class UTF8Reader
                 fSurrogate = -1;
                 surrogateOffset++;
                 length--;
+                if (length == 0) {
+                    return 1;
+                }
             }
 
             // perform read operation
             count = fInputStream.read(fBuffer, 0, length);
             if (count == -1) {
-                return -1;
+                return surrogateOffset == 0 ? -1 : surrogateOffset;
             }
             count += out - offset;
         }
@@ -326,6 +332,7 @@ public final class UTF8Reader
 
         // convert bytes to characters
         final int total = count - surrogateOffset;
+        final int end = offset + length + surrogateOffset;
         int in;
         byte byte1;
         final byte byte0 = 0;
@@ -549,7 +556,8 @@ public final class UTF8Reader
 
                 // set characters
                 ch[out++] = (char)hs;
-                if ((count -= 2) <= length) {
+                count -= 2;
+                if (out < end) {
                     ch[out++] = (char)ls;
                 }
                 // reached the end of the char buffer; save low surrogate for the next read

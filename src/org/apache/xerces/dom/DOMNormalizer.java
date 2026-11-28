@@ -349,26 +349,10 @@ public class DOMNormalizer implements XMLDocumentHandler {
                     // normalize attribute values
                     // remove default attributes
                     namespaceFixUp(elem, attributes);
-                    
-                    if ((fConfiguration.features & DOMConfigurationImpl.NSDECL) == 0) {
-                        // Namespace declarations may have been added by namespace fix-up. Need
-                        // to fetch the AttributeMap again if it contained no attributes prior
-                        // to namespace fix-up.
-                        if (attributes == null) {
-                            attributes = (elem.hasAttributes()) ? (AttributeMap) elem.getAttributes() : null;
-                        }
-                        if (attributes != null) {
-                            for (int i = 0; i < attributes.getLength(); ++i) {
-                                Attr att = (Attr)attributes.getItem(i);
-                                if (XMLSymbols.PREFIX_XMLNS.equals(att.getPrefix()) ||
-                                        XMLSymbols.PREFIX_XMLNS.equals(att.getName())) {
-                                    elem.removeAttributeNode(att);
-                                    --i;
-                                }
-                            }
-                        }
-                    }  
-                    
+                    if (attributes == null) {
+                        attributes = (elem.hasAttributes()) ? (AttributeMap) elem.getAttributes() : null;
+                    }
+
                 } else {
                     if ( attributes!=null ) {
                         for ( int i=0; i<attributes.getLength(); ++i ) {
@@ -411,6 +395,21 @@ public class DOMNormalizer implements XMLDocumentHandler {
                     fCurrentNode = node;
                     // call re-validation handler
                     fValidationHandler.startElement(fQName, fAttrProxy, null);
+                }
+
+                // Keep namespace declarations available through the validator's startElement call.
+                if ((fConfiguration.features & DOMConfigurationImpl.NAMESPACES) != 0
+                        && (fConfiguration.features & DOMConfigurationImpl.NSDECL) == 0
+                        && elem.hasAttributes()) {
+                    AttributeMap currentAttributes = (AttributeMap) elem.getAttributes();
+                    for (int i = 0; i < currentAttributes.getLength(); i++) {
+                        Attr attr = (Attr) currentAttributes.getItem(i);
+                        if (XMLSymbols.PREFIX_XMLNS.equals(attr.getPrefix())
+                                || XMLSymbols.PREFIX_XMLNS.equals(attr.getName())) {
+                            elem.removeAttributeNode(attr);
+                            i--;
+                        }
+                    }
                 }
 
                 // normalize children

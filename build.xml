@@ -797,6 +797,11 @@ Authors:
   </target>
 
   <target name="test" depends="tests">
+    <property name="test.reports.dir" location="${build.dir}/test-reports"/>
+    <mkdir dir="${test.reports.dir}"/>
+    <delete>
+      <fileset dir="${test.reports.dir}" includes="TEST-*.txt"/>
+    </delete>
     <path id="run.classpath">
         <pathelement location="${tools.dir}/${jar.apis}"/>
         <pathelement location="${tools.dir}/${jar.resolver}"/>
@@ -804,23 +809,21 @@ Authors:
         <pathelement location="${tools.dir}/${jar.junit}"/>
         <pathelement location="${build.dir}/classes"/>
     </path>
-    <pathconvert property="run.classpath.string" refid="run.classpath" pathsep="${path.separator}"/>
     <path id="test.classpath">
       <pathelement location="${build.tests.dir}"/>
       <path refid="run.classpath"/>
       <pathelement location="${build.dir}/tests"/>
     </path>
-    <pathconvert property="test.classpath.string" refid="test.classpath" pathsep="${path.separator}"/>
 
     <junit fork="yes" forkmode="once"
            haltonfailure="no" 
-           haltonerror="yes" 
+           haltonerror="no"
            failureproperty="test.failed" 
            errorproperty="test.failed"
-           showoutput="yes">
+           printsummary="off" showoutput="false">
         <classpath refid="test.classpath"/>
         
-        <batchtest fork="yes" todir="test-reports">
+        <batchtest fork="yes" todir="${test.reports.dir}">
           <fileset dir="${build.tests.dir}">
              <include name="dom/dom3/Test.class"/>
              <include name="dom/DTest.class"/>
@@ -835,6 +838,7 @@ Authors:
              <include name="jaxp/JAXPSpecTest.class"/>
              <include name="jaxp/PropertyTest.class"/>
              <include name="jaxp/ValidatorDoctypeTest.class"/>
+             <include name="org/apache/xerces/dom/DOMNormalizerTest.class"/>
              <include name="org/apache/xerces/dom/DeepNodeListTest.class"/>
              <include name="org/apache/xerces/dom/range/RangeComparisonTest.class"/>
              <include name="org/apache/xerces/dom/serialize/DocumentTypeSerializationTest.class"/>
@@ -844,15 +848,20 @@ Authors:
              <include name="org/apache/xerces/dom/serialize/SerializeDOMOutTest.class"/>
              <include name="org/apache/xerces/dom/serialize/XmlnsSerializationTest.class"/>
              <include name="org/apache/xerces/dom/treewalker/TreeWalkerFirstChildTest.class"/>
+             <include name="org/apache/xerces/impl/dtd/CachedDTDEntityTest.class"/>
              <include name="org/apache/xerces/impl/dv/xs/DateDVTest.class"/>
              <include name="org/apache/xerces/impl/io/UTF16ReaderTest.class"/>
              <include name="org/apache/xerces/impl/io/UTF8ReaderTest.class"/>
-             <include name="org/apache/xerces/impl/xs/identity/IDConstraintTest.class"/>
+             <include name="org/apache/xerces/impl/xs/XSDAbstractParticleTraverserDepthTest.class"/>
              <include name="org/apache/xerces/impl/xs/identity/IdentityConstraintRestrictionTest.class"/>
+             <include name="org/apache/xerces/impl/xs/identity/IDConstraintTest.class"/>
+             <include name="org/apache/xerces/jaxp/datatype/XMLGregorianCalendarTest.class"/>
              <include name="org/apache/xerces/jaxp/validation/SoftReferenceGrammarPoolTest.class"/>
+             <include name="org/apache/xerces/jaxp/validation/ValidatorNamespaceTest.class"/>
              <include name="org/apache/xerces/util/ContextClassLoaderTest.class"/>
              <include name="org/apache/xerces/util/URITest.class"/>
              <include name="org/apache/xerces/xinclude/XIncludeDepthTest.class"/>
+             <include name="org/apache/xml/serialize/XMLSerializerTest.class"/>
              <include name="org/apache/xml/serialize/CDATASerializationTest.class"/>
              <include name="org/apache/xml/serialize/DuplicateNamespaceDeclarationsTest.class"/>
              <include name="org/apache/xml/serialize/HTMLSerializerTest.class"/>
@@ -870,9 +879,7 @@ Authors:
              <include name="schema/config/IgnoreXSIType_C_C_Test.class"/>
              <include name="schema/config/RootSimpleTypeDefinitionTest.class"/>
              <include name="schema/config/RootTypeDefinitionTest.class"/>
-             <!-- This test is failing. Fix it.
-              <include name="schema/config/UnparsedEntityCheckingTest.class"/>
-             -->
+             <include name="schema/config/UnparsedEntityCheckingTest.class"/>
              <include name="schema/config/UseGrammarPoolOnly_False_Test.class"/>
              <include name="schema/config/UseGrammarPoolOnly_True_Test.class"/>
              <include name="schema/Test.class"/>
@@ -882,77 +889,102 @@ Authors:
              <include name="xinclude/XPointerIncludeCycleTest.class"/>
             </fileset>
           </batchtest>
-       <formatter type="brief" usefile="false"/>
+       <formatter type="brief"/>
      </junit>
 
     <junit fork="yes"
            haltonfailure="no"
-           haltonerror="yes"
+           haltonerror="no"
            failureproperty="test.failed"
            errorproperty="test.failed"
-           showoutput="yes">
+           printsummary="off" showoutput="false">
         <classpath refid="test.classpath"/>
-        <test name="schema.config.SurrogatePairLengthTest" todir="test-reports"/>
-        <formatter type="brief" usefile="false"/>
+        <test name="schema.config.SurrogatePairLengthTest" todir="${test.reports.dir}"/>
+        <formatter type="brief"/>
     </junit>
 
-    <fail if="test.failed" message="JUnit tests failed! Check the output above."/>
+    <concat xmlns:if="ant:if" if:set="test.failed">
+      <fileset dir="${test.reports.dir}" includes="TEST-*.txt">
+        <containsregexp expression="^Tests run:.*(Failures|Errors): [1-9]"/>
+      </fileset>
+    </concat>
+    <fail if="test.failed" message="JUnit tests failed."/>
+
+    <macrodef name="run-smoke-test">
+      <attribute name="classname"/>
+      <attribute name="classpathref"/>
+      <attribute name="output"/>
+      <element name="arguments" implicit="true"/>
+      <sequential>
+        <local name="smoke.exit"/>
+        <local name="smoke.failed"/>
+        <java fork="yes" classname="@{classname}" classpathref="@{classpathref}"
+              output="@{output}" logError="yes" resultproperty="smoke.exit">
+          <arguments/>
+        </java>
+        <condition property="smoke.failed">
+          <not><equals arg1="${smoke.exit}" arg2="0"/></not>
+        </condition>
+        <concat xmlns:if="ant:if" if:set="smoke.failed">
+          <fileset file="@{output}"/>
+        </concat>
+        <fail if="smoke.failed" message="@{classname} failed with exit code ${smoke.exit}."/>
+      </sequential>
+    </macrodef>
 
     <echo message="Performing sanity test for ${parser.Name} ${parser.Version} ..." />
-    <echo message="Using classpath='${run.classpath.string}'" />
     <echo message="Running sax.Counter ..." />
-    <java fork="yes"
+    <run-smoke-test
           classname="sax.Counter"
-          classpathref="run.classpath"
-          failOnError="yes">
+          output="${test.reports.dir}/sax-counter.log"
+          classpathref="run.classpath">
        <arg value="${data.dir}/personal.xml"/>
-    </java>
+    </run-smoke-test>
     <echo message="Running sax.Writer ..." />
-    <java fork="yes"
+    <run-smoke-test
           classname="sax.Writer"
-          classpathref="run.classpath"
-          failOnError="yes">
+          output="${test.reports.dir}/sax-writer.log"
+          classpathref="run.classpath">
        <arg value="${data.dir}/personal.xml"/>
-    </java>
+    </run-smoke-test>
     <echo message="Running dom.Counter ..." />
-    <java fork="yes"
+    <run-smoke-test
           classname="dom.Counter"
-          classpathref="run.classpath"
-          failOnError="yes">
+          output="${test.reports.dir}/dom-counter.log"
+          classpathref="run.classpath">
         <arg value="${data.dir}/personal.xml"/>
-    </java>
+    </run-smoke-test>
     <echo message="Running dom.Writer ..." />
-    <java fork="yes"
+    <run-smoke-test
           classname="dom.Writer"
-          classpathref="run.classpath"
-          failOnError="yes">
+          output="${test.reports.dir}/dom-writer.log"
+          classpathref="run.classpath">
         <arg value="${data.dir}/personal.xml"/>
-    </java>
+    </run-smoke-test>
     <!-- TODO These should be run using the junit tasks, not java -->
     <echo message="Running thread.Test dom" />
-    <echo message="Using classpath='${test.classpath.string}'" />
-    <java fork="yes"
+    <run-smoke-test
           classname="thread.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
+          output="${test.reports.dir}/thread-dom.log"
+          classpathref="test.classpath">
         <arg value="-dom"/>
         <arg value="-threads"/>
         <arg value="20"/>
         <arg value="-time"/>
         <arg value="10"/>
         <arg value="${data.dir}/personal-schema.xml"/>
-    </java>
+    </run-smoke-test>
     <echo message="Running thread.Test sax" />
-    <java fork="yes"
+    <run-smoke-test
           classname="thread.Test"
-          classpathref="test.classpath"
-          failOnError="yes">
+          output="${test.reports.dir}/thread-sax.log"
+          classpathref="test.classpath">
         <arg value="-threads"/>
         <arg value="20"/>
         <arg value="-time"/>
         <arg value="10"/>
         <arg value="${data.dir}/personal-schema.xml"/>
-    </java>
+    </run-smoke-test>
 <!--  
      TODO fix this test
      [java] error: Error occurred - Feature 'http://apache.org/xml/features/validation/schema' is not recognized.
